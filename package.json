@@ -1,0 +1,18 @@
+{
+  "name": "super-duper-eureka",
+  "type": "module",
+  "private": true,
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "test": "bun run --parallel --workspaces --no-exit-on-error test",
+    "lint": "bun run --parallel --workspaces --no-exit-on-error lint",
+    "format": "bun run --parallel --workspaces --no-exit-on-error format",
+    "build": "bun run --parallel --workspaces --no-exit-on-error build"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
