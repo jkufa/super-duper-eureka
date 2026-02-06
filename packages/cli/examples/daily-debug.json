@@ -1,0 +1,40 @@
+{
+  "currentBalance": 25000,
+  "timeHorizonYears": 3,
+  "startDate": "2026-02-01T00:00:00.000Z",
+  "interest": {
+    "annualRate": 0.04,
+    "variance": 0.0,
+    "compounding": "daily"
+  },
+  "salary": {
+    "annualBase": 90000,
+    "annualRaiseRate": 0.02
+  },
+  "contributions": [
+    {
+      "id": "auto-invest",
+      "name": "Auto Invest",
+      "enabled": true,
+      "type": "flat",
+      "amount": 200,
+      "timing": {
+        "frequency": "monthly",
+        "day": 15
+      }
+    },
+    {
+      "id": "bonus",
+      "name": "Annual Bonus",
+      "enabled": true,
+      "type": "flat",
+      "amount": 3000,
+      "timing": {
+        "frequency": "annual",
+        "month": 11,
+        "day": 15,
+        "placement": "start"
+      }
+    }
+  ]
+}

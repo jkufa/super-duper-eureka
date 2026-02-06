@@ -1,0 +1,32 @@
+{
+  "currentBalance": 50000,
+  "timeHorizonYears": 1,
+  "startDate": "2026-02-01T00:00:00.000Z",
+  "interest": {
+    "annualRate": 0.05,
+    "compounding": "daily"
+  },
+  "salary": {
+    "annualBase": 60000
+  },
+  "contributions": [
+    {
+      "id": "monthly-day-31",
+      "type": "flat",
+      "amount": 100,
+      "timing": { "frequency": "monthly", "day": 31 }
+    },
+    {
+      "id": "annual-day-30",
+      "type": "flat",
+      "amount": 1200,
+      "timing": { "frequency": "annual", "month": 1, "day": 30 }
+    },
+    {
+      "id": "one-time-day-40",
+      "type": "flat",
+      "amount": 5000,
+      "timing": { "frequency": "oneTime", "on": { "year": 0, "month": 1, "day": 40 } }
+    }
+  ]
+}

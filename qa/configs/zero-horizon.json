@@ -1,0 +1,12 @@
+{
+  "currentBalance": 12345,
+  "timeHorizonYears": 0,
+  "interest": {
+    "annualRate": 0.07,
+    "compounding": "monthly"
+  },
+  "salary": {
+    "annualBase": 80000
+  },
+  "contributions": []
+}

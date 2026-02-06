@@ -1,0 +1,41 @@
+{
+  "currentBalance": 100000,
+  "timeHorizonYears": 2,
+  "startDate": "2026-01-01T00:00:00.000Z",
+  "interest": {
+    "annualRate": 0.06,
+    "variance": 0.02,
+    "compounding": "monthly"
+  },
+  "salary": {
+    "annualBase": 120000,
+    "annualRaiseRate": 0.03
+  },
+  "contributions": [
+    {
+      "id": "monthly-flat-start",
+      "type": "flat",
+      "amount": 500,
+      "timing": { "frequency": "monthly", "placement": "start" }
+    },
+    {
+      "id": "annual-flat-end",
+      "type": "flat",
+      "amount": 2000,
+      "timing": { "frequency": "annual", "month": 11, "placement": "end" }
+    },
+    {
+      "id": "one-time-mid",
+      "type": "flat",
+      "amount": 10000,
+      "timing": { "frequency": "oneTime", "on": { "year": 0, "month": 5 } }
+    },
+    {
+      "id": "salary-percent-monthly",
+      "type": "salaryPercent",
+      "amount": 5,
+      "salaryBasis": "monthly",
+      "timing": { "frequency": "monthly", "placement": "end" }
+    }
+  ]
+}

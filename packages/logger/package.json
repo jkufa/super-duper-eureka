@@ -1,0 +1,16 @@
+{
+  "name": "@retirement/logger",
+  "module": "src/index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "echo 'no tests'",
+    "lint": "eslint",
+    "format": "eslint --fix",
+    "build": "tsc --build"
+  },
+  "peerDependencies": {
+    "typescript": "^5.9.3"
+  }
+}
+  
