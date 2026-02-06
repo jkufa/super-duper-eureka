@@ -1,4 +1,4 @@
-# @retirement-calculator
+# @retirement/calculator
 
 To install dependencies:
 

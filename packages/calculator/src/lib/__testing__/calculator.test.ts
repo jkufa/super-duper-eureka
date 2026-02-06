@@ -35,7 +35,7 @@ const axes = {
   variance: [0, 0.02],
 };
 
-type Case = {
+interface Case {
   compounding: Compounding;
   frequency: Frequency;
   placement: Placement;
@@ -48,7 +48,7 @@ type Case = {
   raise: number;
   annualRate: number;
   variance: number;
-};
+}
 
 const defaultCase: Case = {
   compounding: axes.compounding[0],
@@ -76,11 +76,9 @@ const buildPairwiseCases = () => {
       const [axisB, valuesB] = axisEntries[j];
       for (const valueA of valuesA) {
         for (const valueB of valuesB) {
-          const next: Case = {
-            ...defaultCase,
-            [axisA]: valueA,
-            [axisB]: valueB,
-          } as Case;
+          const next: Case = { ...defaultCase };
+          setCaseValue(next, axisA, valueA);
+          setCaseValue(next, axisB, valueB);
           cases.set(JSON.stringify(next), next);
         }
       }
@@ -136,7 +134,7 @@ const shouldContribute = (testCase: Case) => {
   return true;
 };
 
-describe('codex calculator', () => {
+describe('calculator', () => {
   describe('pairwise coverage', () => {
     const cases = buildPairwiseCases();
 
@@ -146,14 +144,14 @@ describe('codex calculator', () => {
         `frequency=${testCase.frequency}`,
         `placement=${testCase.placement}`,
         `day=${testCase.day}`,
-        `startMonth=${testCase.startMonth}`,
+        `startMonth=${String(testCase.startMonth)}`,
         `yearRange=${testCase.yearRange}`,
-        `enabled=${testCase.enabled}`,
+        `enabled=${String(testCase.enabled)}`,
         `type=${testCase.contributionType}`,
         `salaryBasis=${testCase.salaryBasis}`,
-        `raise=${testCase.raise}`,
-        `annualRate=${testCase.annualRate}`,
-        `variance=${testCase.variance}`,
+        `raise=${String(testCase.raise)}`,
+        `annualRate=${String(testCase.annualRate)}`,
+        `variance=${String(testCase.variance)}`,
       ].join(' ');
 
       it(`covers pairwise permutations (${label})`, () => {
@@ -629,3 +627,7 @@ describe('codex calculator', () => {
     });
   });
 });
+
+function setCaseValue<K extends keyof Case>(target: Case, key: K, value: Case[K]) {
+  target[key] = value;
+}

@@ -2,6 +2,7 @@ import type {
   AnnualProjection,
   ContributionRule,
   ContributionTiming,
+  ContributionType,
   MonthlyProjection,
   Projection,
   ProjectionByVariance,
@@ -29,6 +30,56 @@ export function calculateRetirement(config: RetirementConfig): ProjectionByVaria
 }
 
 export function calculateProjection(config: RetirementConfig, annualRate: number): Projection {
+  return runProjection(config, annualRate).projection;
+}
+
+export interface ProjectionStep {
+  stepIndex: number;
+  yearIndex: number;
+  monthIndex: number;
+  balanceStart: number;
+  balanceEnd: number;
+  interestEarned: number;
+  contributionsThisStep: number;
+  totalContributions: number;
+  totalInterest: number;
+  contributionsStart: number;
+  contributionsEnd: number;
+  contributionsByDay: Record<number, number>;
+  salary: number;
+  compounding: 'monthly' | 'daily';
+  annualRate: number;
+  daysInMonth: number;
+  daysInYear: number;
+  activeContributions: ContributionDetail[];
+}
+
+export interface ProjectionStepSummary {
+  totalSteps: number;
+  totalContributions: number;
+  totalInterest: number;
+  finalBalance: number;
+}
+
+export interface ProjectionRun {
+  projection: Projection;
+  steps: ProjectionStep[];
+  summary: ProjectionStepSummary;
+}
+
+export function calculateProjectionWithSteps(
+  config: RetirementConfig,
+  annualRate: number,
+  options?: { includeContributionDetails?: boolean },
+): ProjectionRun {
+  return runProjection(config, annualRate, options);
+}
+
+function runProjection(
+  config: RetirementConfig,
+  annualRate: number,
+  options?: { includeContributionDetails?: boolean },
+): ProjectionRun {
   const startDate = normalizeStartDate(config.startDate);
   const totalMonths = config.timeHorizonYears * MONTHS_PER_YEAR;
   const compounding = config.interest.compounding ?? 'monthly';
@@ -37,6 +88,7 @@ export function calculateProjection(config: RetirementConfig, annualRate: number
   let totalContributions = 0;
   let totalInterest = 0;
 
+  const steps: ProjectionStep[] = [];
   const monthlyProjections: MonthlyProjection[] = [];
   const yearlyProjections: AnnualProjection[] = [];
 
@@ -53,7 +105,12 @@ export function calculateProjection(config: RetirementConfig, annualRate: number
       salary,
       compounding,
       monthStart,
+      includeDetails: options?.includeContributionDetails ?? true,
     });
+
+    const balanceStart = runningBalance;
+    let stepInterest = 0;
+    let stepContributions = 0;
 
     if (compounding === 'daily') {
       const { balance, contributions, interest } = applyDailyCompounding({
@@ -62,6 +119,8 @@ export function calculateProjection(config: RetirementConfig, annualRate: number
         contributions: monthContributions,
         monthStart,
       });
+      stepInterest = interest;
+      stepContributions = contributions;
       runningBalance = balance;
       totalContributions += contributions;
       totalInterest += interest;
@@ -73,10 +132,33 @@ export function calculateProjection(config: RetirementConfig, annualRate: number
         contributions: monthContributions,
         monthStart,
       });
+      stepInterest = interest;
+      stepContributions = contributions;
       runningBalance = balance;
       totalContributions += contributions;
       totalInterest += interest;
     }
+
+    steps.push({
+      stepIndex: monthOffset,
+      yearIndex,
+      monthIndex,
+      balanceStart,
+      balanceEnd: runningBalance,
+      interestEarned: stepInterest,
+      contributionsThisStep: stepContributions,
+      totalContributions,
+      totalInterest,
+      contributionsStart: monthContributions.start,
+      contributionsEnd: monthContributions.end,
+      contributionsByDay: { ...monthContributions.byDay },
+      salary,
+      compounding,
+      annualRate,
+      daysInMonth: getDaysInMonth(monthStart),
+      daysInYear: getDaysInYear(monthStart),
+      activeContributions: monthContributions.details ?? [],
+    });
 
     monthlyProjections.push({
       month: monthIndex,
@@ -98,12 +180,23 @@ export function calculateProjection(config: RetirementConfig, annualRate: number
     }
   }
 
-  return {
+  const projection = {
     finalBalance: runningBalance,
     totalContributions,
     totalGrowth: runningBalance - config.currentBalance,
     yearlyProjections,
     monthlyProjections,
+  };
+
+  return {
+    projection,
+    steps,
+    summary: {
+      totalSteps: steps.length,
+      totalContributions,
+      totalInterest,
+      finalBalance: runningBalance,
+    },
   };
 }
 
@@ -115,20 +208,30 @@ interface ResolveMonthlyContributionsParams {
   salary: number;
   compounding: 'monthly' | 'daily';
   monthStart: Date;
+  includeDetails?: boolean;
 }
 
 interface MonthlyContributionBucket {
   start: number;
   end: number;
   byDay: Record<number, number>;
+  details?: ContributionDetail[];
+}
+
+interface ContributionDetail {
+  id: string;
+  type: ContributionType;
+  amount: number;
+  timing: ContributionTiming;
 }
 
 function resolveMonthlyContributions(params: ResolveMonthlyContributionsParams): MonthlyContributionBucket {
-  const { rules, yearIndex, monthIndex, timeHorizonYears, salary, compounding, monthStart } = params;
+  const { rules, yearIndex, monthIndex, timeHorizonYears, salary, compounding, monthStart, includeDetails } = params;
   const bucket: MonthlyContributionBucket = {
     start: 0,
     end: 0,
     byDay: {},
+    details: includeDetails ? [] : undefined,
   };
 
   for (const rule of rules) {
@@ -136,6 +239,15 @@ function resolveMonthlyContributions(params: ResolveMonthlyContributionsParams):
 
     const amount = resolveContributionAmount(rule, salary);
     if (amount === 0) continue;
+
+    if (bucket.details) {
+      bucket.details.push({
+        id: rule.id,
+        type: rule.type,
+        amount,
+        timing: rule.timing,
+      });
+    }
 
     const day = resolveContributionDay(rule.timing, compounding, monthStart);
     if (day === 'start') {
@@ -199,7 +311,7 @@ function resolveContributionAmount(rule: ContributionRule, salary: number) {
     if (rule.timing.frequency === 'monthly') {
       return (annualSalary / 12) * (rule.amount / 100);
     }
-    throw new Error(`salaryBasis \"perContribution\" is not supported for oneTime contributions (id: ${rule.id}).`);
+    throw new Error(`salaryBasis "perContribution" is not supported for oneTime contributions (id: ${rule.id}).`);
   }
 
   return rule.amount;

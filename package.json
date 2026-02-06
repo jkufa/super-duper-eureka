@@ -4,6 +4,7 @@
   "private": true,
   "workspaces": ["packages/*"],
   "scripts": {
+    "retirement-calc": "bun run packages/cli/src/index.ts",
     "test": "bun run --parallel --workspaces --no-exit-on-error test",
     "lint": "bun run --parallel --workspaces --no-exit-on-error lint",
     "format": "bun run --parallel --workspaces --no-exit-on-error format",

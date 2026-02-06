@@ -1,0 +1,44 @@
+{
+  "currentBalance": 120000,
+  "timeHorizonYears": 10,
+  "startDate": "2026-01-01T00:00:00.000Z",
+  "interest": {
+    "annualRate": 0.06,
+    "variance": 0.015,
+    "compounding": "monthly"
+  },
+  "salary": {
+    "annualBase": 130000,
+    "annualRaiseRate": 0.0
+  },
+  "contributions": [
+    {
+      "id": "one-time",
+      "name": "One-Time",
+      "enabled": true,
+      "type": "flat",
+      "amount": 10000,
+      "timing": {
+        "frequency": "oneTime",
+        "on": {
+          "year": 0,
+          "month": 6,
+          "day": 1
+        }
+      }
+    },
+    {
+      "id": "annual-match",
+      "name": "Annual Match",
+      "enabled": true,
+      "type": "salaryPercent",
+      "amount": 2,
+      "salaryBasis": "annual",
+      "timing": {
+        "frequency": "annual",
+        "month": 0,
+        "placement": "end"
+      }
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "currentBalance": 75000,
+  "timeHorizonYears": 20,
+  "startDate": "2026-01-01T00:00:00.000Z",
+  "interest": {
+    "annualRate": 0.05,
+    "variance": 0.01,
+    "compounding": "monthly"
+  },
+  "salary": {
+    "annualBase": 110000,
+    "annualRaiseRate": 0.03
+  },
+  "contributions": [
+    {
+      "id": "401k",
+      "name": "401k",
+      "enabled": true,
+      "type": "salaryPercent",
+      "amount": 6,
+      "salaryBasis": "perContribution",
+      "timing": {
+        "frequency": "monthly",
+        "placement": "start"
+      },
+      "yearRange": {
+        "start": 0,
+        "end": 20
+      }
+    },
+    {
+      "id": "roth",
+      "name": "Roth IRA",
+      "enabled": true,
+      "type": "flat",
+      "amount": 500,
+      "timing": {
+        "frequency": "monthly",
+        "placement": "end"
+      }
+    }
+  ]
+}
