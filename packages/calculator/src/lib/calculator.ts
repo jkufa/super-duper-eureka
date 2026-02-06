@@ -80,6 +80,10 @@ function runProjection(
   annualRate: number,
   options?: { includeContributionDetails?: boolean },
 ): ProjectionRun {
+  if (!Number.isFinite(config.timeHorizonYears) || config.timeHorizonYears < 0) {
+    throw new Error(`timeHorizonYears must be 0 or greater (received ${String(config.timeHorizonYears)}).`);
+  }
+
   const startDate = normalizeStartDate(config.startDate);
   const totalMonths = config.timeHorizonYears * MONTHS_PER_YEAR;
   const compounding = config.interest.compounding ?? 'monthly';
@@ -183,7 +187,7 @@ function runProjection(
   const projection = {
     finalBalance: runningBalance,
     totalContributions,
-    totalGrowth: runningBalance - config.currentBalance,
+    totalGrowth: totalInterest,
     yearlyProjections,
     monthlyProjections,
   };

@@ -190,7 +190,7 @@ describe('calculator', () => {
         expect(Number.isFinite(result.finalBalance)).toBe(true);
 
         if (testCase.annualRate === 0 && testCase.variance === 0) {
-          expect(result.totalGrowth).toBeCloseTo(result.totalContributions, 6);
+          expect(result.totalGrowth).toBeCloseTo(0, 6);
         }
 
         if (shouldContribute(testCase)) {
@@ -225,6 +225,14 @@ describe('calculator', () => {
 
       expect(result.finalBalance).toBeCloseTo(expectedBalance, 2);
       resetTimers();
+    });
+
+    it('throws when timeHorizonYears is negative', () => {
+      const config = makeConfig({ timeHorizonYears: -1 });
+
+      expect(() => calculateProjection(config, config.interest.annualRate)).toThrow(
+        'timeHorizonYears must be 0 or greater (received -1).',
+      );
     });
 
     it('respects JS month indexing for one-time contributions', () => {

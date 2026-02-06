@@ -1,0 +1,21 @@
+{
+  "currentBalance": 1000,
+  "timeHorizonYears": 1,
+  "startDate": "2026-01-01T00:00:00.000Z",
+  "interest": {
+    "annualRate": 0.03,
+    "compounding": "monthly"
+  },
+  "salary": {
+    "annualBase": 50000
+  },
+  "contributions": [
+    {
+      "id": "per-contrib-onetime",
+      "type": "salaryPercent",
+      "amount": 10,
+      "salaryBasis": "perContribution",
+      "timing": { "frequency": "oneTime", "on": { "year": 0, "month": 0 } }
+    }
+  ]
+}
