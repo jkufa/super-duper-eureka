@@ -6,7 +6,7 @@ import { stdin as input, stdout as output } from 'node:process';
 import {
   buildBaseContext,
   buildRunWideEvent,
-  buildStepWideEvent,
+  buildStepWideEventInput,
   calculateProjection,
   calculateProjectionWithSteps,
   createWideEventLogger,
@@ -85,7 +85,7 @@ for (const step of projectionRun.steps) {
     continue;
   }
 
-  const event = buildStepWideEvent(config, step, baseContext);
+  const event = buildStepWideEventInput(config, step, baseContext);
   logger.info(event);
 
   if (interactive && rl) {

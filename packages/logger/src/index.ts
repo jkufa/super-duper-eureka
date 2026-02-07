@@ -6,6 +6,11 @@ export interface WideEventBase {
   instance_id?: string;
   commit_hash?: string;
   runtime?: string;
+  browser_name?: string;
+  browser_version?: string;
+  user_agent?: string;
+  platform?: string;
+  language?: string;
   request_id?: string;
   session_id?: string;
   run_id?: string;
@@ -103,7 +108,6 @@ interface NavigatorLike {
   userAgent?: string;
   platform?: string;
   language?: string;
-  languages?: readonly string[];
   userAgentData?: NavigatorUADataLike;
 }
 
@@ -123,8 +127,6 @@ function getBrowserEnvironmentContext(): Partial<WideEventBase> {
   const runtime = browserName
     ? (browserVersion ? `browser ${browserName} ${browserVersion}` : `browser ${browserName}`)
     : 'browser';
-  const timezone = getTimezone();
-
   return {
     environment: 'browser',
     runtime,
@@ -133,8 +135,6 @@ function getBrowserEnvironmentContext(): Partial<WideEventBase> {
     user_agent: userAgent,
     platform: uaData?.platform ?? nav?.platform,
     language: nav?.language,
-    languages: nav?.languages,
-    timezone,
   };
 }
 
@@ -153,15 +153,6 @@ function getNodeProcess(): NodeProcessLike | undefined {
 function getNavigator(): NavigatorLike | undefined {
   if (typeof navigator === 'undefined') return undefined;
   return navigator as unknown as NavigatorLike;
-}
-
-function getTimezone(): string | undefined {
-  try {
-    return Intl.DateTimeFormat().resolvedOptions().timeZone;
-  }
-  catch {
-    return undefined;
-  }
 }
 
 function pickBrowserBrand(

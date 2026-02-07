@@ -1,10 +1,10 @@
 import type { ProjectionRun, ProjectionStep } from './calculator';
 import { calculateProjectionWithSteps } from './calculator';
 import type { RetirementConfig } from './types';
-import { createWideEventLogger, getDefaultEnvironmentContext, type WideEvent, type WideEventBase, type WideEventInput, type WideEventLogger } from '@retirement/logger';
+import { getDefaultEnvironmentContext, type WideEvent, type WideEventBase, type WideEventInput, type WideEventLogger } from '@retirement/logger';
 
 export interface DebugSessionOptions {
-  logger?: WideEventLogger;
+  logger: WideEventLogger;
   baseContext?: Partial<WideEventBase>;
   emitSteps?: boolean;
   includeContributionDetails?: boolean;
@@ -12,17 +12,17 @@ export interface DebugSessionOptions {
 
 export interface DebugSessionResult extends ProjectionRun { events: WideEvent[] }
 
-export function runDebugSession(config: RetirementConfig, options?: DebugSessionOptions): DebugSessionResult {
-  const baseContext = buildBaseContext(options?.baseContext);
-  const logger = options?.logger ?? createWideEventLogger({ base: baseContext });
-  const emitSteps = options?.emitSteps ?? true;
+export function runDebugSession(config: RetirementConfig, options: DebugSessionOptions): DebugSessionResult {
+  const baseContext = buildBaseContext(options.baseContext);
+  const logger = options.logger;
+  const emitSteps = options.emitSteps ?? true;
 
   const startedAt = Date.now();
   let projectionRun: ProjectionRun | undefined;
   const events: WideEvent[] = [];
 
   try {
-    projectionRun = calculateProjectionWithSteps(config, config.interest.annualRate, { includeContributionDetails: options?.includeContributionDetails ?? true });
+    projectionRun = calculateProjectionWithSteps(config, config.interest.annualRate, { includeContributionDetails: options.includeContributionDetails ?? true });
 
     if (emitSteps) {
       for (const step of projectionRun.steps) {
@@ -45,7 +45,7 @@ export function runDebugSession(config: RetirementConfig, options?: DebugSession
       outcome: 'error',
       error,
     });
-    events.push(logger.error(runEvent, 'error'));
+    events.push(logger.error(runEvent));
     throw error;
   }
 }

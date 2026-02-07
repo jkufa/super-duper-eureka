@@ -1,6 +1,5 @@
 import type { Handle } from '@sveltejs/kit';
 import { logger } from '$lib/server/logger';
-import { getDefaultEnvironmentContext } from '@retirement/logger';
 
 export const handle: Handle = async ({ event, resolve }) => {
   const start = Date.now();
@@ -9,7 +8,6 @@ export const handle: Handle = async ({ event, resolve }) => {
   event.locals.requestId = requestId;
   event.locals.logContext = {
     request_id: requestId,
-    ...getDefaultEnvironmentContext(),
   };
 
   let statusCode = 500;
@@ -29,16 +27,16 @@ export const handle: Handle = async ({ event, resolve }) => {
     throw error;
   }
   finally {
-    logger.info({
-      event_type: 'http_request',
-      request_id: requestId,
-      method: event.request.method,
-      path: event.url.pathname,
-      status_code: statusCode,
-      outcome,
-      duration_ms: Date.now() - start,
-      ...event.locals.logContext,
-      ...(errorContext ? { error: errorContext } : {}),
-    });
+    // logger.info({
+    //   event_type: 'http_request',
+    //   request_id: requestId,
+    //   method: event.request.method,
+    //   path: event.url.pathname,
+    //   status_code: statusCode,
+    //   outcome,
+    //   duration_ms: Date.now() - start,
+    //   ...event.locals.logContext,
+    //   ...(errorContext ? { error: errorContext } : {}),
+    // });
   }
 };

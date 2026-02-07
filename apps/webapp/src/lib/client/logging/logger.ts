@@ -2,7 +2,7 @@ import { createWideEventLogger, getDefaultEnvironmentContext } from '@retirement
 
 export const logger = createWideEventLogger({
   base: {
-    service_name: 'retirement-webapp-client',
+    service_name: 'retirement-webapp',
     service_version: '0.0.1',
     ...getDefaultEnvironmentContext(),
   },

@@ -281,7 +281,11 @@ function pickTiming<T extends string>(
       }
     }
   }
-  return options[0] ?? options[options.length - 1] ?? options[0];
+  const timing = options[0] ?? options[options.length - 1] ?? options[0];
+  if (!timing) {
+    throw new Error('No timing selected');
+  }
+  return timing;
 }
 
 function sampleTriangular(rng: SeededRandom, min: number, mode: number, max: number): number {
