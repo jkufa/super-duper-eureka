@@ -6,7 +6,12 @@
 </script>
 
 <script lang="ts">
-  let { class: className, ref = $bindable(null), children, ...restProps }: CardContentProps = $props();
+  let {
+    class: className,
+    ref = $bindable(null),
+    children,
+    ...restProps
+  }: CardContentProps = $props();
 </script>
 
 <div bind:this={ref} data-slot="card-content" class={cn('p-4 pt-0', className)} {...restProps}>

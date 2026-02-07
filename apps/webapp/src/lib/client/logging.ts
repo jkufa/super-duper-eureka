@@ -36,20 +36,36 @@ function createClientLoggingContext(initialContext: SharedContext = {}): ClientL
   };
 
   return {
-    info: (event) => { emit('info', event); },
-    error: (event) => { emit('error', event); },
-    setSharedContext: (context) => { sharedContext.set({ ...context }); },
-    mergeSharedContext: (context) => { sharedContext.update(current => ({ ...current, ...context })); },
-    clearSharedContext: () => { sharedContext.set({}); },
+    info: (event) => {
+      emit('info', event);
+    },
+    error: (event) => {
+      emit('error', event);
+    },
+    setSharedContext: (context) => {
+      sharedContext.set({ ...context });
+    },
+    mergeSharedContext: (context) => {
+      sharedContext.update(current => ({ ...current, ...context }));
+    },
+    clearSharedContext: () => {
+      sharedContext.set({});
+    },
     getSharedContext: () => get(sharedContext),
     withScope: scope => ({
-      info: (event) => { emit('info', { ...scope, ...event }); },
-      error: (event) => { emit('error', { ...scope, ...event }); },
+      info: (event) => {
+        emit('info', { ...scope, ...event });
+      },
+      error: (event) => {
+        emit('error', { ...scope, ...event });
+      },
     }),
   };
 }
 
-export function provideClientLoggingContext(initialContext: SharedContext = {}): ClientLoggingContext {
+export function provideClientLoggingContext(
+  initialContext: SharedContext = {},
+): ClientLoggingContext {
   const context = createClientLoggingContext(initialContext);
   setContext(LOGGING_CONTEXT_KEY, context);
   return context;

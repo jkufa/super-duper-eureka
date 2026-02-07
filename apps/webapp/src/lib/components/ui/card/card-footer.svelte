@@ -6,9 +6,19 @@
 </script>
 
 <script lang="ts">
-  let { class: className, ref = $bindable(null), children, ...restProps }: CardFooterProps = $props();
+  let {
+    class: className,
+    ref = $bindable(null),
+    children,
+    ...restProps
+  }: CardFooterProps = $props();
 </script>
 
-<div bind:this={ref} data-slot="card-footer" class={cn('flex items-center p-4 pt-0', className)} {...restProps}>
+<div
+  bind:this={ref}
+  data-slot="card-footer"
+  class={cn('flex items-center p-4 pt-0', className)}
+  {...restProps}
+>
   {@render children?.()}
 </div>
