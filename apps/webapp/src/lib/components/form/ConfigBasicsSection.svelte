@@ -1,11 +1,15 @@
 <script lang="ts">
-  import * as Form from '$lib/components/ui/form';
-  import { Input } from '$lib/components/ui/input';
   import type { SuperForm } from 'sveltekit-superforms/client';
   import type { RetirementConfigFormValues } from '$lib/forms/retirement-config-form';
+  import ConfigNumericField from './ConfigNumericField.svelte';
 
-  let { form }: { form: SuperForm<RetirementConfigFormValues> } = $props();
-  const formData = form.form;
+  let {
+    form,
+    onCommit
+  }: {
+    form: SuperForm<RetirementConfigFormValues>;
+    onCommit?: () => void;
+  } = $props();
 </script>
 
 <section class="space-y-4">
@@ -13,47 +17,24 @@
     <h2 class="text-sm font-medium">Current Investments</h2>
   </div>
 
-  <Form.Field {form} name="currentBalance">
-    {#snippet children({ constraints })}
-      <Form.Control>
-        {#snippet children({ props })}
-          <div class="relative">
-            <span class="text-muted-foreground pointer-events-none absolute inset-y-0 left-3 flex items-center text-sm">
-              $
-            </span>
-            <Input
-              {...props}
-              {...constraints}
-              bind:value={$formData.currentBalance}
-              class="pl-7"
-              type="number"
-              min="0"
-              step="1000"
-            />
-          </div>
-        {/snippet}
-      </Form.Control>
-      <Form.FieldErrors />
-    {/snippet}
-  </Form.Field>
+  <ConfigNumericField
+    {form}
+    name="currentBalance"
+    label="Current Balance"
+    prefix="$"
+    kind="number"
+    inputmode="decimal"
+    emptyFallback="0"
+    {onCommit}
+  />
 
-  <Form.Field {form} name="yearsToRetirement">
-    {#snippet children({ constraints })}
-      <Form.Control>
-        {#snippet children({ props })}
-          <Form.Label>Years to Retirement</Form.Label>
-          <Input
-            {...props}
-            {...constraints}
-            bind:value={$formData.yearsToRetirement}
-            type="number"
-            min="1"
-            max="80"
-            step="1"
-          />
-        {/snippet}
-      </Form.Control>
-      <Form.FieldErrors />
-    {/snippet}
-  </Form.Field>
+  <ConfigNumericField
+    {form}
+    name="yearsToRetirement"
+    label="Years to Retirement"
+    kind="int"
+    inputmode="numeric"
+    emptyFallback="1"
+    {onCommit}
+  />
 </section>

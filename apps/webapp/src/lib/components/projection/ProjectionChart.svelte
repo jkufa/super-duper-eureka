@@ -1,5 +1,5 @@
 <script lang="ts">
-  import NumberFlow, { NumberFlowGroup } from '@number-flow/svelte';
+  import { NumberFlowGroup } from '@number-flow/svelte';
   import type { ProjectionRun } from '@retirement/calculator';
   import { Area, AreaChart, ChartClipPath } from 'layerchart';
   import { curveNatural } from 'd3-shape';
@@ -7,6 +7,7 @@
   import { cubicInOut } from 'svelte/easing';
 
   import { formatCompactNumber, formatCurrency } from '$lib/formatters';
+  import ProjectionKpiMetric from '$lib/components/projection/ProjectionKpiMetric.svelte';
   import * as Chart from '$lib/components/ui/chart';
 
   const chartConfig = {
@@ -15,6 +16,29 @@
       color: 'var(--color-chart-1)'
     }
   } satisfies Chart.ChartConfig;
+  const chartSeries = [
+    {
+      key: 'balance',
+      label: 'Portfolio Value',
+      color: chartConfig.balance.color
+    }
+  ];
+  const areaChartProps = {
+    area: {
+      curve: curveNatural,
+      line: {
+        class: 'stroke-(--color-balance) [stroke-width:2.5]'
+      },
+      'fill-opacity': 0.35,
+      motion: 'tween'
+    },
+    xAxis: {
+      ticks: 5
+    },
+    yAxis: {
+      format: (value: number) => formatCompactNumber(value)
+    }
+  } as const;
 
   let { run, startYear }: { run: ProjectionRun; startYear: number } = $props();
 
@@ -43,6 +67,15 @@
       balance: point.balance
     }));
   });
+  const metrics = $derived([
+    { label: 'Final Portfolio Value', value: finalBalanceValue },
+    { label: 'Total Contributed', value: totalContributionsValue },
+    {
+      label: 'Total Growth',
+      value: totalGrowthValue,
+      valueClass: "text-growth before:content-['+']"
+    }
+  ]);
 </script>
 
 <div class="space-y-4">
@@ -51,49 +84,15 @@
   </div>
 
   <NumberFlowGroup>
-    <dl class="flex flex-wrap justify-between gap-4">
-      <div class="space-y-1">
-        <dt class="text-xs font-medium text-muted-foreground">Final Portfolio Value</dt>
-        <dd>
-          <NumberFlow
-            willChange
-            value={finalBalanceValue}
-            animated={isHydrated}
-            respectMotionPreference={false}
-            locales="en-US"
-            format={{ style: 'currency', currency: 'USD', maximumFractionDigits: 0 }}
-            class="text-2xl font-semibold tabular-nums"
-          />
-        </dd>
-      </div>
-
-      <div class="space-y-1">
-        <dt class="text-xs font-medium text-muted-foreground">Total Contributed</dt>
-        <dd>
-          <NumberFlow
-            willChange
-            value={totalContributionsValue}
-            animated={isHydrated}
-            locales="en-US"
-            format={{ style: 'currency', currency: 'USD', maximumFractionDigits: 0 }}
-            class="text-2xl font-semibold tabular-nums"
-          />
-        </dd>
-      </div>
-
-      <div class="space-y-1 pt-4">
-        <dt class="text-xs font-medium text-muted-foreground">Total Growth</dt>
-        <dd>
-          <NumberFlow
-            willChange
-            value={totalGrowthValue}
-            animated={isHydrated}
-            locales="en-US"
-            format={{ style: 'currency', currency: 'USD', maximumFractionDigits: 0 }}
-            class="text-2xl font-semibold text-growth tabular-nums"
-          />
-        </dd>
-      </div>
+    <dl class="flex flex-wrap gap-8">
+      {#each metrics as metric (metric.label)}
+        <ProjectionKpiMetric
+          label={metric.label}
+          value={metric.value}
+          animated={isHydrated}
+          valueClass={metric.valueClass ?? ''}
+        />
+      {/each}
     </dl>
   </NumberFlowGroup>
 
@@ -102,29 +101,8 @@
       <AreaChart
         data={chartData}
         x="label"
-        series={[
-          {
-            key: 'balance',
-            label: 'Portfolio Value',
-            color: chartConfig.balance.color
-          }
-        ]}
-        props={{
-          area: {
-            curve: curveNatural,
-            line: {
-              class: 'stroke-(--color-balance) [stroke-width:2.5]'
-            },
-            'fill-opacity': 0.35,
-            motion: 'tween'
-          },
-          xAxis: {
-            ticks: 5
-          },
-          yAxis: {
-            format: (value: number) => formatCompactNumber(value)
-          }
-        }}
+        series={chartSeries}
+        props={areaChartProps}
       >
         {#snippet marks({ series, getAreaProps })}
           <defs>

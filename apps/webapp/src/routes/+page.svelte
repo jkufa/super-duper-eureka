@@ -4,7 +4,11 @@
   import { ProjectionChart, ProjectionTable } from '$lib/components/projection';
   import RootForm from '$lib/components/RootForm.svelte';
   import Nav from '$lib/components/Nav.svelte';
-  import { retirementConfigFormSchema } from '$lib/forms/retirement-config-form';
+  import {
+    applyRetirementConfigFormValues,
+    retirementConfigFormSchema,
+    type RetirementConfigFormValues
+  } from '$lib/forms/retirement-config-form';
   import { calculateProjectionWithSteps } from '@retirement/calculator';
   import { zod4Client } from 'sveltekit-superforms/adapters';
   import { superForm } from 'sveltekit-superforms/client';
@@ -15,9 +19,17 @@
   const configForm = superForm(data.configForm, {
     validators: zod4Client(retirementConfigFormSchema)
   });
+  const formData = configForm.form;
+  let committedValues = $state<RetirementConfigFormValues>(structuredClone($formData));
+
+  function commitFormValues() {
+    committedValues = structuredClone($formData);
+  }
+
+  const liveConfig = $derived(applyRetirementConfigFormValues(data.config, committedValues));
 
   const run = $derived(
-    calculateProjectionWithSteps(data.config, data.config.interest.annualRate, {
+    calculateProjectionWithSteps(liveConfig, liveConfig.interest.annualRate, {
       includeContributionDetails: true
     })
   );
@@ -30,7 +42,7 @@
 </script>
 
 <Nav />
-<main class="m-4 mx-auto grid max-w-7xl grid-cols-(--grid-cols-main) gap-8">
+<main class="m-4 mx-auto mt-16 grid max-w-7xl grid-cols-(--grid-cols-main) gap-8">
   <div class="space-y-16 px-4">
     <Card.Root>
       <Card.Content class="p-6">
@@ -43,12 +55,12 @@
     </div>
   </div>
   <aside class="w-full max-w-88 px-4">
-    <RootForm form={configForm} />
+    <RootForm form={configForm} onCommit={commitFormValues} />
   </aside>
 </main>
 
 <Debugger
-  config={{ ...data.config, mockSeed: data.mock?.seed ?? undefined }}
+  config={{ ...liveConfig, mockSeed: data.mock?.seed ?? undefined }}
   {run}
   requestId={data.requestId}
   logContext={data.logContext}

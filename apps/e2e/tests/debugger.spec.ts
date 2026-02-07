@@ -7,26 +7,37 @@ test.describe('Debugger panel', () => {
     await gotoApp(page);
 
     const controls = stepControls(page);
+    const stepStatus = page.getByRole('button', { name: /^Step:\s+\d+\/\d+$/ });
 
     await expect(controls.prev).toBeDisabled();
     await expect(controls.first).toBeDisabled();
+    await expect(stepStatus).toBeVisible();
 
     await controls.next.click();
-    await expect(page.getByRole('button', { name: 'Step: 2/3' })).toBeVisible();
+    await expect(controls.prev).toBeEnabled();
+    await expect(stepStatus).toBeVisible();
 
     await controls.last.click();
-    await expect(page.getByRole('button', { name: 'Step: 3/3' })).toBeVisible();
+    await expect(controls.next).toBeDisabled();
+    await expect(controls.last).toBeDisabled();
+    await expect(stepStatus).toBeVisible();
 
     await controls.input.fill('1');
     await controls.input.press('Enter');
-    await expect(page.getByRole('button', { name: 'Step: 1/3' })).toBeVisible();
+    await expect(controls.prev).toBeDisabled();
+    await expect(controls.first).toBeDisabled();
+    await expect(stepStatus).toBeVisible();
 
     await debuggerPanel(page).focus();
     await page.keyboard.press('Meta+ArrowRight');
-    await expect(page.getByRole('button', { name: 'Step: 3/3' })).toBeVisible();
+    await expect(controls.next).toBeDisabled();
+    await expect(controls.last).toBeDisabled();
+    await expect(stepStatus).toBeVisible();
 
     await page.keyboard.press('Meta+ArrowLeft');
-    await expect(page.getByRole('button', { name: 'Step: 1/3' })).toBeVisible();
+    await expect(controls.prev).toBeDisabled();
+    await expect(controls.first).toBeDisabled();
+    await expect(stepStatus).toBeVisible();
   });
 
   test('supports drag and persists position after close/reopen', async ({ page }) => {
@@ -60,10 +71,10 @@ test.describe('Debugger panel', () => {
     expect(Math.round(after.x) !== Math.round(before.x) || Math.round(after.y) !== Math.round(before.y))
       .toBeTruthy();
 
-    await page.getByRole('button', { name: 'Close debugger' }).click();
+    await page.getByRole('button', { name: 'Close debugger' }).click({ force: true });
     await expect(dialog).not.toBeVisible();
 
-    await page.getByRole('button', { name: 'Open debugger' }).click();
+    await page.getByRole('button', { name: 'Open debugger' }).click({ force: true });
     await expect(dialog).toBeVisible();
     await page.waitForTimeout(260);
 

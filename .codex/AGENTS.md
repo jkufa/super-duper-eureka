@@ -83,3 +83,14 @@ Webapp-specific agent guidance lives in `apps/webapp/.codex/AGENTS.md`.
   - `E2E_SKIP_WEBSERVER=1 E2E_BASE_URL=http://127.0.0.1:4173 bun run e2e:debugger`
 - For custom startup behavior, set:
   - `E2E_WEBSERVER_COMMAND="<your command>" bun run e2e:debugger`
+
+## Validation Default (Webapp)
+
+For changes under `apps/webapp`, run this sequence before handing back:
+
+1. `bun run --filter webapp check`
+2. `bun run --filter webapp lint`
+3. If `lint` reports formatting issues, run `bun run --filter webapp format`
+4. Re-run:
+   - `bun run --filter webapp check`
+   - `bun run --filter webapp lint`

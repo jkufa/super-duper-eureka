@@ -6,7 +6,13 @@
   import ConfigSalarySection from '$lib/components/form/ConfigSalarySection.svelte';
   import ConfigContributionSection from '$lib/components/form/ConfigContributionSection.svelte';
 
-  let { form }: { form: SuperForm<RetirementConfigFormValues> } = $props();
+  let {
+    form,
+    onCommit
+  }: {
+    form: SuperForm<RetirementConfigFormValues>;
+    onCommit?: () => void;
+  } = $props();
 </script>
 
 <section class="w-full max-w-88 space-y-5">
@@ -15,10 +21,14 @@
     <p class="text-sm text-muted-foreground">Adjust parameters for your retirement calculation</p>
   </header>
 
-  <form class="space-y-4" method="POST" onsubmit={(event) => event.preventDefault()}>
-    <ConfigBasicsSection {form} />
-    <ConfigGrowthSection {form} />
-    <ConfigSalarySection {form} />
-    <ConfigContributionSection {form} />
+  <form
+    class="space-y-4"
+    method="POST"
+    onsubmit={(event) => event.preventDefault()}
+  >
+    <ConfigBasicsSection {form} {onCommit} />
+    <ConfigGrowthSection {form} {onCommit} />
+    <ConfigSalarySection {form} {onCommit} />
+    <ConfigContributionSection {form} {onCommit} />
   </form>
 </section>

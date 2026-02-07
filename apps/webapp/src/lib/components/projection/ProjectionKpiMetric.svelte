@@ -15,7 +15,7 @@
   } = $props();
 </script>
 
-<div class="space-y-1">
+<div>
   <dt class="text-xs font-medium text-muted-foreground">{label}</dt>
   <dd>
     <NumberFlow

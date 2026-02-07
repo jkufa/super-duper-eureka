@@ -7,6 +7,7 @@ export function debuggerPanel(page: Page): Locator {
 export async function gotoApp(page: Page) {
   await page.goto('/');
   await page.waitForLoadState('networkidle');
+  await page.getByRole('button', { name: 'Open debugger' }).click({ force: true });
   await expect(debuggerPanel(page)).toBeVisible();
 }
 

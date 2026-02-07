@@ -6,7 +6,16 @@
 
   let { run }: { run: ProjectionRun } = $props();
 
-  const rows = $derived(run.projection.yearlyProjections);
+  const rows = $derived.by(() => {
+    return run.projection.yearlyProjections.map((row, index, allRows) => {
+      const previousContributions = index === 0 ? 0 : allRows[index - 1].contributions;
+      return {
+        ...row,
+        yearContribution: row.contributions - previousContributions
+      };
+    });
+  });
+
   const horizonYears = $derived(rows.length);
 </script>
 
@@ -18,6 +27,8 @@
     >
       <Table.Row class="border-none">
         <Table.Head class="left-0 h-14 border-b">Year</Table.Head>
+        <Table.Head class="h-14 border-b text-right">Salary</Table.Head>
+        <Table.Head class="h-14 border-b text-right">Annual Contribution</Table.Head>
         <Table.Head class="h-14 border-b text-right">Portfolio Value</Table.Head>
         <Table.Head class="h-14 border-b text-right">Total Contributed</Table.Head>
         <Table.Head class="h-14 border-b text-right">Total Growth</Table.Head>
@@ -50,6 +61,12 @@
                 style={`width: ${progressPercent}%;`}
               ></div>
             </div>
+          </Table.Cell>
+          <Table.Cell class="text-right font-mono tabular-nums">
+            {formatCurrency(row.salary)}
+          </Table.Cell>
+          <Table.Cell class="text-right font-mono tabular-nums">
+            {formatCurrency(row.yearContribution)}
           </Table.Cell>
           <Table.Cell class="text-right font-mono tabular-nums">
             {formatCurrency(row.balance)}
