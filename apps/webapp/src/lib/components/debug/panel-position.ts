@@ -23,6 +23,8 @@ export function clampPanelPosition(
 ): PanelPosition {
   const minX = gutter;
   const minY = gutter;
+  // const minX = panel.width + gutter * 2 <= viewport.width ? gutter : 0;
+  // const minY = panel.height + gutter * 2 <= viewport.height ? gutter : 0;
   const maxX = Math.max(minX, viewport.width - panel.width - gutter);
   const maxY = Math.max(minY, viewport.height - panel.height - gutter);
 

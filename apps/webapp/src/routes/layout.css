@@ -112,7 +112,7 @@
 
   --debugger-panel-edge: 16px;
   --debugger-panel-max-height: calc(100vh - var(--debugger-panel-edge));
-  --debugger-panel-width: clamp(16rem, 100vw, 30rem);
+  --debugger-panel-width: clamp(16rem, calc(100vw - (var(--debugger-panel-edge) * 2)), 30rem);
 }
 
 @layer base {

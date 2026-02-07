@@ -20,7 +20,7 @@ export default defineConfig(
   ...stylistic,
   ...css,
   {
-    files: ['**/*.svelte', '**/*.svelte.ts', '**/*.svelte.js'],
+    files: ['**/*.svelte'],
     extends: [prettier],
   },
   ...svelte,

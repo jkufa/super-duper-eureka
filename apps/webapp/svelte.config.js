@@ -12,10 +12,8 @@ const config = {
     // See https://svelte.dev/docs/kit/adapters for more information about adapters.
     adapter: adapter(),
     alias: {
-      '@retirement/calculator/types': path.resolve(
-        rootDir,
-        '../../packages/calculator/src/lib/types.ts',
-      ),
+      '@retirement/calculator': path.resolve(rootDir, '../../packages/calculator/src/index.ts'),
+      '@retirement/calculator/types': path.resolve(rootDir, '../../packages/calculator/src/lib/types.ts'),
       '@retirement/logger': path.resolve(rootDir, '../../packages/logger/src/index.ts'),
     },
   },

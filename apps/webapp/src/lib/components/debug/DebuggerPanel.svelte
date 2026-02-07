@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { browser } from '$app/environment';
   import { GripVertical, X } from '@lucide/svelte';
   import { onMount } from 'svelte';
   import { fade, fly } from 'svelte/transition';
@@ -49,7 +50,12 @@
   let panelWidth = $state(0);
   let panelHeight = $state(0);
 
-  let position = $state<PanelPosition>({ x: 16, y: 80 });
+  function resolveInitialPosition(storage: string, fallback: PanelPosition): PanelPosition {
+    if (!browser) return fallback;
+    return parseStoredPosition(localStorage.getItem(storage), fallback);
+  }
+
+  let position = $state<PanelPosition>(resolveInitialPosition(storageKey, initialPosition));
   let isDragging = $state(false);
   let dragStart = $state<DragStart | null>(null);
   let openItems = $state<DebugSectionId[]>(['step']);
@@ -79,15 +85,20 @@
   }
 
   function persistPosition(next: PanelPosition) {
+    if (!browser) return;
     localStorage.setItem(storageKey, JSON.stringify(next));
   }
 
   function reconcilePosition(persist = false) {
     const next = clampPosition(position);
-    if (next.x === position.x && next.y === position.y) return;
+    const changed = next.x !== position.x || next.y !== position.y;
 
-    position = next;
-    if (persist) persistPosition(next);
+    if (changed) {
+      position = next;
+    }
+    if (persist) {
+      persistPosition(changed ? next : position);
+    }
   }
 
   function handlePointerDown(event: PointerEvent) {
@@ -147,8 +158,6 @@
   }
 
   onMount(() => {
-    position = parseStoredPosition(localStorage.getItem(storageKey), initialPosition);
-
     requestAnimationFrame(() => {
       reconcilePosition();
     });

@@ -7,3 +7,9 @@ bun.lockb
 
 # Miscellaneous
 /static/
+
+# Ignore all TS/JS files, we're using stylistic
+**/*.ts
+**/*.js
+**/*.mjs
+**/*.mts

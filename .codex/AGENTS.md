@@ -72,67 +72,14 @@ The logger is a standalone module for UI reuse:
 
 As you work on the project, always add md files to `.codex/notes/` explaining the problem and your solution. You can reference these notes in your future work.
 
-## Webapp
+Webapp-specific agent guidance lives in `apps/webapp/.codex/AGENTS.md`.
 
-When using tailwind in the webapp, favor the built in tailwind variables over custom values.
-ex:
+## E2E (Agents)
 
-```html
-<!-- Avoid -->
-<div class="max-w-[320px]"></div> 
-<!-- Prefer -->
- <div class="max-w-80"></div>
- ```
-
- If you need to use a custom value, create a custom tailwind variant in `src/routes/layout.css`:
-
- ```css
- @theme inline {
-  /* Add a comment to explain the purpose of the variable */
-  --max-w-for-arbitrary-thing: 12.4242rem;
-
-  /* or */
-  --debugger-panel-width: clamp((var(--spacing-64)), 100vw, var(--spacing-120));
- }
- ```
-
- Then use the custom variant in your component:
-
- ```html
- <div class="max-w-for-arbitrary-thing"></div>
- <!-- you don't need to use var() in the custom variant -->
- <div class="w-(--debugger-panel-width)"></div>
- ```
-
-For shadcn components in the webapp, use namespace imports and namespaced components:
-
-```ts
-import * as Card from '$lib/components/ui/card';
-import * as Button from '$lib/components/ui/button';
-import * as Accordion from '$lib/components/ui/accordion';
-import * as Tooltip from '$lib/components/ui/tooltip';
-```
-
-```svelte
-<Card.Root>
-  <Card.Header />
-  <Card.Content />
-  <Card.Footer />
-</Card.Root>
-
-<Button.Root>Save</Button.Root>
-
-<Accordion.Root type="multiple">
-  <Accordion.Item value="example">
-    <Accordion.Trigger>Example</Accordion.Trigger>
-    <Accordion.Content>...</Accordion.Content>
-  </Accordion.Item>
-</Accordion.Root>
-
-<Tooltip.Provider>
-  <Tooltip.Root>
-    <Tooltip.Trigger>Hover</Tooltip.Trigger>
-    <Tooltip.Content>Hint</Tooltip.Content>
-  </Tooltip.Root>
-</Tooltip.Provider>
-```
+- Preferred command: `bun run e2e:debugger` (or `bun run e2e` for full suite).
+- e2e web server startup requires a Node runtime compatible with current Vite/SvelteKit.
+  - Current requirement: Node `20.19+` or `22.12+`.
+- If local Node is not compatible, start webapp externally and run e2e with:
+  - `E2E_SKIP_WEBSERVER=1 E2E_BASE_URL=http://127.0.0.1:4173 bun run e2e:debugger`
+- For custom startup behavior, set:
+  - `E2E_WEBSERVER_COMMAND="<your command>" bun run e2e:debugger`

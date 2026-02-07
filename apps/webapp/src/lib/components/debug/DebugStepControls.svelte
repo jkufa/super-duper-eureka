@@ -16,15 +16,11 @@
     onStepChange?: (nextIndex: number) => void;
   } = $props();
 
-  let stepInput = $state('1');
+  let stepInput = $derived(`${stepIndex + 1}`);
 
   const hasSteps = $derived(stepCount > 0);
   const canStepBack = $derived(hasSteps && stepIndex > 0);
   const canStepForward = $derived(hasSteps && stepIndex < stepCount - 1);
-
-  $effect(() => {
-    stepInput = String(stepIndex + 1);
-  });
 
   function goTo(nextIndex: number) {
     if (!hasSteps) return;
@@ -42,12 +38,12 @@
 
     const parsed = Number.parseInt(stepInput, 10);
     if (!Number.isFinite(parsed)) {
-      stepInput = String(stepIndex + 1);
+      stepInput = `${stepIndex + 1}`;
       return;
     }
 
     const clampedOneBased = Math.min(Math.max(1, parsed), stepCount);
-    stepInput = String(clampedOneBased);
+    stepInput = `${clampedOneBased}`;
     goTo(clampedOneBased - 1);
   }
 
@@ -59,7 +55,7 @@
     }
 
     if (event.key === 'Escape') {
-      stepInput = String(stepIndex + 1);
+      stepInput = `${stepIndex + 1}`;
       (event.currentTarget as HTMLInputElement | null)?.blur();
     }
   }
@@ -123,7 +119,7 @@
       type="text"
       inputmode="numeric"
       pattern="[0-9]*"
-      class="h-9 flex-6 px-2 text-center"
+      class="h-9 flex-4 px-2 text-center"
       bind:value={stepInput}
       onkeydown={handleStepInputKeydown}
       onblur={commitStepInput}

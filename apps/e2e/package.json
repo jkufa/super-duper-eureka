@@ -5,6 +5,10 @@
   "private": true,
   "scripts": {
     "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:debugger": "playwright test tests/debugger.spec.ts",
+    "test:debugger:headed": "playwright test tests/debugger.spec.ts --headed",
     "lint": "eslint",
     "format": "eslint --fix"
   },
