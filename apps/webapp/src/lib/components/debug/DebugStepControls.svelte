@@ -3,6 +3,7 @@
   import * as Input from '$lib/components/ui/input';
   import * as Tooltip from '$lib/components/ui/tooltip';
   import * as Kbd from '$lib/components/ui/kbd';
+  import { ChevronRight, ChevronLeft, ChevronsLeft, ChevronsRight } from '@lucide/svelte';
 
   let {
     stepIndex,
@@ -77,7 +78,7 @@
             onclick={() => goTo(0)}
             aria-label="Jump to first step"
           >
-            &laquo;
+            <ChevronsLeft class="size-4" />
           </Button.Root>
         {/snippet}
       </Tooltip.Trigger>
@@ -104,7 +105,7 @@
             onclick={() => goTo(stepIndex - 1)}
             aria-label="Step backward"
           >
-            &lsaquo;
+            <ChevronLeft class="size-4" />
           </Button.Root>
         {/snippet}
       </Tooltip.Trigger>
@@ -135,11 +136,12 @@
           <Button.Root
             {...props}
             class="h-9 flex-1"
+            variant="secondary"
             disabled={!canStepForward}
             onclick={() => goTo(stepIndex + 1)}
             aria-label="Step forward"
           >
-            &rsaquo;
+            <ChevronRight class="size-4" />
           </Button.Root>
         {/snippet}
       </Tooltip.Trigger>
@@ -157,11 +159,12 @@
           <Button.Root
             {...props}
             class="h-9 flex-1"
+            variant="secondary"
             disabled={!canStepForward}
             onclick={() => goTo(stepCount - 1)}
             aria-label="Jump to last step"
           >
-            &raquo;
+            <ChevronsRight class="size-4" />
           </Button.Root>
         {/snippet}
       </Tooltip.Trigger>

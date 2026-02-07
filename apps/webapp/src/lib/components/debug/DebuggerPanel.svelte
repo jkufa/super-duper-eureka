@@ -178,7 +178,7 @@
   bind:clientHeight={panelHeight}
   role="dialog"
   aria-label="Debugger"
-  class="fixed top-0 left-0 z-50"
+  class="fixed top-0 left-0 z-50 focus-visible:outline-none"
   style={`transform: translate3d(${position.x}px, ${position.y}px, 0); transition: ${isDragging ? 'none' : 'transform 220ms cubic-bezier(0.22, 1, 0.36, 1)'};`}
   tabindex={-1}
   onkeydown={handlePanelKeydown}
@@ -225,7 +225,7 @@
       </div>
     </Card.Header>
 
-    <Card.Content class="min-h-0 flex-1 overflow-auto px-4 pt-0">
+    <Card.Content class="min-h-0 flex-1 overflow-auto px-4 py-0">
       <Accordion.Root type="multiple" bind:value={openItems}>
         <Accordion.Item value="event-details">
           <Accordion.Trigger class="py-3 text-sm font-medium">Event details</Accordion.Trigger>
