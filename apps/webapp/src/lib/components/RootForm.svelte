@@ -21,11 +21,7 @@
     <p class="text-sm text-muted-foreground">Adjust parameters for your retirement calculation</p>
   </header>
 
-  <form
-    class="space-y-4"
-    method="POST"
-    onsubmit={(event) => event.preventDefault()}
-  >
+  <form class="space-y-4" method="POST" onsubmit={(event) => event.preventDefault()}>
     <ConfigBasicsSection {form} {onCommit} />
     <ConfigGrowthSection {form} {onCommit} />
     <ConfigSalarySection {form} {onCommit} />

@@ -16,6 +16,7 @@ const gitignorePath = path.resolve(import.meta.dirname, '.gitignore');
 
 export default defineConfig(
   includeIgnoreFile(gitignorePath),
+  { ignores: ['src/routes/layout.css'] },
   ...base,
   ...stylistic,
   ...css,
@@ -43,4 +44,5 @@ export default defineConfig(
       },
     },
   },
+  { files: ['src/lib/components/ui/button/button.svelte'], rules: { 'svelte/no-navigation-without-resolve': 'off' } },
 );

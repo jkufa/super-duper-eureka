@@ -13,30 +13,30 @@ ex:
 
 ```html
 <!-- Avoid -->
-<div class="max-w-[320px]"></div> 
+<div class="max-w-[320px]"></div>
 <!-- Prefer -->
- <div class="max-w-80"></div>
- ```
+<div class="max-w-80"></div>
+```
 
- If you need to use a custom value, create a custom tailwind variant in `src/routes/layout.css`:
+If you need to use a custom value, create a custom tailwind variant in `src/routes/layout.css`:
 
- ```css
- @theme inline {
+```css
+@theme inline {
   /* Add a comment to explain the purpose of the variable */
   --max-w-for-arbitrary-thing: 12.4242rem;
 
   /* or */
   --debugger-panel-width: clamp((var(--spacing-64)), 100vw, var(--spacing-120));
- }
- ```
+}
+```
 
- Then use the custom variant in your component:
+Then use the custom variant in your component:
 
- ```html
- <div class="max-w-for-arbitrary-thing"></div>
- <!-- you don't need to use var() in the custom variant -->
- <div class="w-(--debugger-panel-width)"></div>
- ```
+```html
+<div class="max-w-for-arbitrary-thing"></div>
+<!-- you don't need to use var() in the custom variant -->
+<div class="w-(--debugger-panel-width)"></div>
+```
 
 ## shadcn components
 

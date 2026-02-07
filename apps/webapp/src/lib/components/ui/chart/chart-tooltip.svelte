@@ -5,8 +5,7 @@
   import { getTooltipContext, Tooltip as TooltipPrimitive } from 'layerchart';
   import type { Snippet } from 'svelte';
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function defaultFormatter(value: any, _payload: TooltipPayload[]) {
+  function defaultFormatter(value: unknown) {
     return `${value}`;
   }
 
@@ -32,10 +31,11 @@
     nameKey?: string;
     labelKey?: string;
     hideIndicator?: boolean;
-    valueFormatter?: (value: any) => string;
+    // eslint-disable-next-line no-unused-vars
+    valueFormatter?: (...args: [unknown]) => string;
     labelClassName?: string;
-    labelFormatter?: // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ((value: any, payload: TooltipPayload[]) => string | number | Snippet) | null;
+    // eslint-disable-next-line no-unused-vars
+    labelFormatter?: ((...args: [unknown, TooltipPayload[]]) => string | number | Snippet) | null;
     formatter?: Snippet<
       [
         {

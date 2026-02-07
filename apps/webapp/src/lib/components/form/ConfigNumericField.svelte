@@ -56,9 +56,7 @@
   });
 
   function parseDisplayValue(raw: string) {
-    const parsed = kind === 'int'
-      ? Number.parseInt(raw, 10)
-      : Number.parseFloat(raw);
+    const parsed = kind === 'int' ? Number.parseInt(raw, 10) : Number.parseFloat(raw);
 
     if (!Number.isFinite(parsed)) {
       const fallback = Number.parseFloat(emptyFallback);

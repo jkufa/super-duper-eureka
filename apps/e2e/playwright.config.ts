@@ -2,9 +2,9 @@ import { defineConfig, devices } from '@playwright/test';
 
 const baseURL = process.env.E2E_BASE_URL ?? 'http://127.0.0.1:4173';
 const skipWebServer = process.env.E2E_SKIP_WEBSERVER === '1';
-const webServerCommand =
-  process.env.E2E_WEBSERVER_COMMAND ??
-  'cd ../webapp && bun run dev -- --host 127.0.0.1 --port 4173 --strictPort';
+const webServerCommand
+  = process.env.E2E_WEBSERVER_COMMAND
+    ?? 'cd ../webapp && bun run dev -- --host 127.0.0.1 --port 4173 --strictPort';
 
 export default defineConfig({
   testDir: './tests',

@@ -98,12 +98,7 @@
 
   <div class="translate-x-2">
     <Chart.Container config={chartConfig}>
-      <AreaChart
-        data={chartData}
-        x="label"
-        series={chartSeries}
-        props={areaChartProps}
-      >
+      <AreaChart data={chartData} x="label" series={chartSeries} props={areaChartProps}>
         {#snippet marks({ series, getAreaProps })}
           <defs>
             <linearGradient id="fillBalance" x1="0" y1="0" x2="0" y2="1">
