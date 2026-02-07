@@ -9,7 +9,7 @@
     "lint": "bun run --parallel --filter '*' lint",
     "format": "bun run --parallel --filter '*' format",
     "build": "bun run --parallel --filter '*' build",
-    "dev": "bun run --parallel --filter '*' dev",
+    "dev": "bun run  --elide-lines 0 --parallel --filter '*' dev",
     "e2e": "bun run --filter e2e test",
     "e2e:debugger": "bun run --filter e2e test:debugger",
     "e2e:ui": "bun run --filter e2e test:ui"
