@@ -42,7 +42,7 @@
 </script>
 
 <Nav />
-<main class="m-4 mx-auto mt-16 grid max-w-7xl grid-cols-(--grid-cols-main) gap-8">
+<main class="mx-auto mt-16 mb-4 grid max-w-7xl grid-cols-(--grid-cols-main) gap-8 px-4">
   <div class="space-y-16 px-4">
     <Card.Root>
       <Card.Content class="p-6">
