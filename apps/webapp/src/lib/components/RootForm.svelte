@@ -9,10 +9,10 @@
   let { form }: { form: SuperForm<RetirementConfigFormValues> } = $props();
 </script>
 
-<section class="w-full max-w-[22rem] space-y-5">
+<section class="w-full max-w-88 space-y-5">
   <header class="space-y-1">
     <h2 class="text-2xl font-semibold">Retirement Configuration</h2>
-    <p class="text-muted-foreground text-sm">Adjust parameters for your retirement calculation</p>
+    <p class="text-sm text-muted-foreground">Adjust parameters for your retirement calculation</p>
   </header>
 
   <form class="space-y-4" method="POST" onsubmit={(event) => event.preventDefault()}>

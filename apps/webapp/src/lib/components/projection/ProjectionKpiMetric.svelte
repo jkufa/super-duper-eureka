@@ -1,5 +1,6 @@
 <script lang="ts">
   import NumberFlow from '@number-flow/svelte';
+  import { currencyFormatOptions } from '$lib/formatters';
 
   let {
     label,
@@ -23,7 +24,7 @@
       {animated}
       respectMotionPreference={true}
       locales="en-US"
-      format={{ style: 'currency', currency: 'USD', maximumFractionDigits: 0 }}
+      format={currencyFormatOptions}
       class={`text-2xl font-semibold tabular-nums ${valueClass}`}
     />
   </dd>

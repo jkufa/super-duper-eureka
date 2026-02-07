@@ -6,12 +6,8 @@
   import { onMount } from 'svelte';
   import { cubicInOut } from 'svelte/easing';
 
+  import { formatCompactNumber, formatCurrency } from '$lib/formatters';
   import * as Chart from '$lib/components/ui/chart';
-
-  const compactFormatter = new Intl.NumberFormat('en-US', {
-    notation: 'compact',
-    maximumFractionDigits: 1
-  });
 
   const chartConfig = {
     balance: {
@@ -85,7 +81,7 @@
         </dd>
       </div>
 
-      <div class="space-y-1">
+      <div class="space-y-1 pt-4">
         <dt class="text-xs font-medium text-muted-foreground">Total Growth</dt>
         <dd>
           <NumberFlow
@@ -126,7 +122,7 @@
             ticks: 5
           },
           yAxis: {
-            format: (value: number) => compactFormatter.format(value)
+            format: (value: number) => formatCompactNumber(value)
           }
         }}
       >
@@ -150,7 +146,10 @@
         {/snippet}
 
         {#snippet tooltip()}
-          <Chart.Tooltip indicator="line" />
+          <Chart.Tooltip
+            indicator="line"
+            valueFormatter={(value: number) => formatCurrency(value)}
+          />
         {/snippet}
       </AreaChart>
     </Chart.Container>

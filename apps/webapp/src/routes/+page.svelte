@@ -31,7 +31,7 @@
 
 <Nav />
 <main class="m-4 mx-auto grid max-w-7xl grid-cols-(--grid-cols-main) gap-8">
-  <div class="space-y-16">
+  <div class="space-y-16 px-4">
     <Card.Root>
       <Card.Content class="p-6">
         <ProjectionChart {run} startYear={projectionStartYear} />
@@ -42,7 +42,7 @@
       <ProjectionTable {run} />
     </div>
   </div>
-  <aside class="w-full max-w-88">
+  <aside class="w-full max-w-88 px-4">
     <RootForm form={configForm} />
   </aside>
 </main>

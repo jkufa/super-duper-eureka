@@ -1,13 +1,8 @@
 <script lang="ts">
   import type { ProjectionRun } from '@retirement/calculator';
 
+  import { formatCurrency } from '$lib/formatters';
   import * as Table from '$lib/components/ui/table';
-
-  const currencyFormatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    maximumFractionDigits: 0
-  });
 
   let { run }: { run: ProjectionRun } = $props();
 
@@ -57,13 +52,13 @@
             </div>
           </Table.Cell>
           <Table.Cell class="text-right font-mono tabular-nums">
-            {currencyFormatter.format(row.balance)}
+            {formatCurrency(row.balance)}
           </Table.Cell>
           <Table.Cell class="text-right font-mono tabular-nums">
-            {currencyFormatter.format(row.contributions)}
+            {formatCurrency(row.contributions)}
           </Table.Cell>
           <Table.Cell class="text-right font-mono text-growth tabular-nums">
-            +{currencyFormatter.format(row.interest)}
+            +{formatCurrency(row.interest)}
           </Table.Cell>
         </Table.Row>
       {/each}
