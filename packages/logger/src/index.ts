@@ -11,9 +11,24 @@ export interface WideEventBase {
   run_id?: string;
 }
 
+export type LogLevel = 'info' | 'error';
 export interface WideEvent extends WideEventBase {
   timestamp: string;
-  level: 'info' | 'error';
+  level: LogLevel;
+  event_type: string;
+  outcome?: 'success' | 'error';
+  duration_ms?: number;
+  error?: {
+    message: string;
+    type?: string;
+  };
+  [key: string]: unknown;
+}
+
+export interface WideEventInput {
+  request_id?: string;
+  session_id?: string;
+  run_id?: string;
   event_type: string;
   outcome?: 'success' | 'error';
   duration_ms?: number;
@@ -25,8 +40,8 @@ export interface WideEvent extends WideEventBase {
 }
 
 export interface WideEventLogger {
-  info: (event: Omit<WideEvent, 'level' | 'timestamp'>) => void;
-  error: (event: Omit<WideEvent, 'level' | 'timestamp'>) => void;
+  info: (event: WideEventInput) => void;
+  error: (event: WideEventInput) => void;
 }
 
 export interface LoggerOptions {
@@ -70,10 +85,7 @@ export function createWideEventLogger(options: LoggerOptions): WideEventLogger {
 export function getDefaultEnvironmentContext() {
   const nodeProcess = getNodeProcess();
   if (!nodeProcess) {
-    return {
-      environment: 'browser',
-      runtime: 'browser',
-    };
+    return getBrowserEnvironmentContext();
   }
 
   return {
@@ -82,6 +94,41 @@ export function getDefaultEnvironmentContext() {
     instance_id: nodeProcess.env.INSTANCE_ID,
     commit_hash: nodeProcess.env.COMMIT_SHA ?? nodeProcess.env.GIT_SHA,
     runtime: `node ${nodeProcess.versions.node}`,
+  };
+}
+
+interface NavigatorLike {
+  userAgent?: string;
+  platform?: string;
+  language?: string;
+  languages?: readonly string[];
+}
+
+interface WindowLike {
+  innerWidth?: number;
+  innerHeight?: number;
+}
+
+function getBrowserEnvironmentContext() {
+  const nav = getNavigator();
+  const win = getWindow();
+  const userAgent = nav?.userAgent;
+  const browser = parseBrowser(userAgent);
+  const timezone = getTimezone();
+
+  return {
+    environment: 'browser',
+    runtime: browser.version ? `browser ${browser.name} ${browser.version}` : `browser ${browser.name}`,
+    browser_name: browser.name,
+    browser_version: browser.version,
+    user_agent: userAgent,
+    platform: nav?.platform,
+    language: nav?.language,
+    languages: nav?.languages,
+    timezone,
+    viewport: (win?.innerWidth && win?.innerHeight)
+      ? `${win.innerWidth}x${win.innerHeight}`
+      : undefined,
   };
 }
 
@@ -95,6 +142,45 @@ interface NodeProcessLike {
 function getNodeProcess(): NodeProcessLike | undefined {
   if (typeof process === 'undefined') return undefined;
   return process as unknown as NodeProcessLike;
+}
+
+function getNavigator(): NavigatorLike | undefined {
+  if (typeof navigator === 'undefined') return undefined;
+  return navigator as unknown as NavigatorLike;
+}
+
+function getWindow(): WindowLike | undefined {
+  if (typeof window === 'undefined') return undefined;
+  return window as unknown as WindowLike;
+}
+
+function getTimezone(): string | undefined {
+  try {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone;
+  }
+  catch {
+    return undefined;
+  }
+}
+
+function parseBrowser(userAgent?: string): { name: string; version?: string } {
+  if (!userAgent) return { name: 'unknown' };
+
+  const rules: Array<{ name: string; regex: RegExp }> = [
+    { name: 'Edge', regex: /Edg\/([\d.]+)/ },
+    { name: 'Chrome', regex: /Chrome\/([\d.]+)/ },
+    { name: 'Firefox', regex: /Firefox\/([\d.]+)/ },
+    { name: 'Safari', regex: /Version\/([\d.]+).*Safari/ },
+  ];
+
+  for (const rule of rules) {
+    const match = userAgent.match(rule.regex);
+    if (match) {
+      return { name: rule.name, version: match[1] };
+    }
+  }
+
+  return { name: 'unknown' };
 }
 
 function getDefaultSink() {

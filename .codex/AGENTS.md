@@ -67,3 +67,7 @@ The logger is a standalone module for UI reuse:
 
 - Package: `@retirement/logger`
 - Entry: `packages/logger/src/index.ts`
+
+## Notes
+
+As you solve problems, add md files to `.codex/notes/` explaining the problem and your solution. You can reference these notes in your future solutions.
