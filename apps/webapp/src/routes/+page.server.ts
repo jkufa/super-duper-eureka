@@ -2,8 +2,14 @@ import type { PageServerLoad } from './$types';
 import type { RetirementConfig } from '@retirement/calculator/types';
 import { createRandomSeed, generateRandomRetirementConfig } from '@retirement/calculator';
 import { MOCK_REAL_DATA } from '$env/static/private';
+import { superValidate } from 'sveltekit-superforms';
+import { zod4 } from 'sveltekit-superforms/adapters';
+import {
+  retirementConfigFormSchema,
+  toRetirementConfigFormDefaults,
+} from '$lib/forms/retirement-config-form';
 
-export const load: PageServerLoad = ({ locals }) => {
+export const load: PageServerLoad = async ({ locals }) => {
   const mockRealData = MOCK_REAL_DATA === 'true';
   const seed = mockRealData ? createRandomSeed() : null;
 
@@ -43,8 +49,11 @@ export const load: PageServerLoad = ({ locals }) => {
     mock_seed: seed ?? undefined,
   };
 
+  const configForm = await superValidate(zod4(retirementConfigFormSchema), { defaults: toRetirementConfigFormDefaults(config) });
+
   return {
     config,
+    configForm,
     mock: {
       enabled: mockRealData,
       seed,

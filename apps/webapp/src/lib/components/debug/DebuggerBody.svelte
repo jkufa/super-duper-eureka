@@ -21,7 +21,7 @@
 
   const { logger, base } = getLoggingContext();
 
-  let open = $state(true);
+  let open = $state(false);
   let stepIndex = $state(0);
 
   const debugData = $derived.by(() => {
@@ -35,10 +35,16 @@
 
     const projectionRun = run;
     const logFeature = typeof logContext?.feature === 'string' ? logContext.feature : undefined;
-    const projectionYears = typeof logContext?.projection_years === 'number' ? logContext.projection_years : undefined;
-    const contributionRuleCount = typeof logContext?.contribution_rule_count === 'number' ? logContext.contribution_rule_count : undefined;
-    const mockRealData = typeof logContext?.mock_real_data === 'boolean' ? logContext.mock_real_data : undefined;
-    const mockSeed = typeof logContext?.mock_seed === 'number' ? logContext.mock_seed : config.mockSeed;
+    const projectionYears =
+      typeof logContext?.projection_years === 'number' ? logContext.projection_years : undefined;
+    const contributionRuleCount =
+      typeof logContext?.contribution_rule_count === 'number'
+        ? logContext.contribution_rule_count
+        : undefined;
+    const mockRealData =
+      typeof logContext?.mock_real_data === 'boolean' ? logContext.mock_real_data : undefined;
+    const mockSeed =
+      typeof logContext?.mock_seed === 'number' ? logContext.mock_seed : config.mockSeed;
 
     const contextualFields = {
       feature: logFeature,

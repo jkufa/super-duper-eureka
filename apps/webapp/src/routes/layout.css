@@ -24,7 +24,7 @@
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-1: oklch(64% 0.211015 134.1);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
@@ -71,6 +71,8 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+
 }
 
 @theme inline {
@@ -110,9 +112,13 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
+  --grid-cols-main: 1fr auto;
+
   --debugger-panel-edge: 16px;
   --debugger-panel-max-height: calc(100vh - var(--debugger-panel-edge));
   --debugger-panel-width: clamp(16rem, calc(100vw - (var(--debugger-panel-edge) * 2)), 30rem);
+
+  --color-growth: oklch(52.6% 0.168672 134);
 }
 
 @layer base {
