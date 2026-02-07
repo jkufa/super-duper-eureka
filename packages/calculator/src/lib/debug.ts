@@ -1,7 +1,7 @@
 import type { ProjectionRun, ProjectionStep } from './calculator';
 import { calculateProjectionWithSteps } from './calculator';
 import type { RetirementConfig } from './types';
-import { createWideEventLogger, getDefaultEnvironmentContext, type WideEvent, type WideEventBase, type WideEventLogger } from '@retirement/logger';
+import { createWideEventLogger, getDefaultEnvironmentContext, type WideEvent, type WideEventBase, type WideEventInput, type WideEventLogger } from '@retirement/logger';
 
 export interface DebugSessionOptions {
   logger?: WideEventLogger;
@@ -26,9 +26,8 @@ export function runDebugSession(config: RetirementConfig, options?: DebugSession
 
     if (emitSteps) {
       for (const step of projectionRun.steps) {
-        const event = buildStepWideEvent(config, step, baseContext);
-        events.push(event);
-        logger.info(stripMeta(event));
+        const event = buildStepWideEventInput(config, step, baseContext);
+        events.push(logger.info(event));
       }
     }
 
@@ -36,8 +35,7 @@ export function runDebugSession(config: RetirementConfig, options?: DebugSession
       durationMs: Date.now() - startedAt,
       outcome: 'success',
     });
-    events.push(runEvent);
-    logger.info(stripMeta(runEvent));
+    events.push(logger.info(runEvent));
 
     return { ...projectionRun, events };
   }
@@ -47,13 +45,16 @@ export function runDebugSession(config: RetirementConfig, options?: DebugSession
       outcome: 'error',
       error,
     });
-    events.push(runEvent);
-    logger.error(stripMeta(runEvent));
+    events.push(logger.error(runEvent, 'error'));
     throw error;
   }
 }
 
-export function buildStepWideEvent(config: RetirementConfig, step: ProjectionStep, base: WideEventBase): WideEvent {
+export function buildStepWideEventInput(
+  config: RetirementConfig,
+  step: ProjectionStep,
+  base: WideEventBase,
+): WideEventInput {
   return {
     ...base,
     event_type: 'retirement_calc_step',
@@ -87,7 +88,7 @@ export function buildRunWideEvent(
   run: ProjectionRun,
   base: WideEventBase,
   meta: { durationMs: number; outcome: 'success' | 'error'; error?: unknown },
-): WideEvent {
+) {
   return {
     ...base,
     event_type: 'retirement_calc_run',
@@ -136,13 +137,6 @@ function randomId() {
     return globalThis.crypto.randomUUID();
   }
   return `run_${Math.random().toString(36).slice(2, 10)}${Date.now().toString(36)}`;
-}
-
-function stripMeta(event: WideEvent): Omit<WideEvent, 'timestamp' | 'level'> {
-  const rest = { ...event };
-  delete rest.timestamp;
-  delete rest.level;
-  return rest;
 }
 
 function emptyRun(): ProjectionRun {

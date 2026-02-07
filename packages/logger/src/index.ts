@@ -40,8 +40,8 @@ export interface WideEventInput {
 }
 
 export interface WideEventLogger {
-  info: (event: WideEventInput) => void;
-  error: (event: WideEventInput) => void;
+  info: (event: WideEventInput) => WideEvent;
+  error: (event: WideEventInput) => WideEvent;
 }
 
 export interface LoggerOptions {
@@ -69,6 +69,7 @@ export function createWideEventLogger(options: LoggerOptions): WideEventLogger {
         level: 'info',
       };
       sink.info(JSON.stringify(payload, null, indent));
+      return payload;
     },
     error: (event) => {
       const payload: WideEvent = {
@@ -78,11 +79,12 @@ export function createWideEventLogger(options: LoggerOptions): WideEventLogger {
         level: 'error',
       };
       sink.error(JSON.stringify(payload, null, indent));
+      return payload;
     },
   };
 }
 
-export function getDefaultEnvironmentContext() {
+export function getDefaultEnvironmentContext(): Partial<WideEventBase> {
   const nodeProcess = getNodeProcess();
   if (!nodeProcess) {
     return getBrowserEnvironmentContext();
@@ -102,33 +104,37 @@ interface NavigatorLike {
   platform?: string;
   language?: string;
   languages?: readonly string[];
+  userAgentData?: NavigatorUADataLike;
 }
 
-interface WindowLike {
-  innerWidth?: number;
-  innerHeight?: number;
+interface NavigatorUADataLike {
+  brands?: readonly { brand: string; version: string }[];
+  platform?: string;
+  mobile?: boolean;
 }
 
-function getBrowserEnvironmentContext() {
+function getBrowserEnvironmentContext(): Partial<WideEventBase> {
   const nav = getNavigator();
-  const win = getWindow();
   const userAgent = nav?.userAgent;
-  const browser = parseBrowser(userAgent);
+  const uaData = nav?.userAgentData;
+  const brand = pickBrowserBrand(uaData?.brands);
+  const browserName = brand?.brand;
+  const browserVersion = brand?.version;
+  const runtime = browserName
+    ? (browserVersion ? `browser ${browserName} ${browserVersion}` : `browser ${browserName}`)
+    : 'browser';
   const timezone = getTimezone();
 
   return {
     environment: 'browser',
-    runtime: browser.version ? `browser ${browser.name} ${browser.version}` : `browser ${browser.name}`,
-    browser_name: browser.name,
-    browser_version: browser.version,
+    runtime,
+    browser_name: browserName,
+    browser_version: browserVersion,
     user_agent: userAgent,
-    platform: nav?.platform,
+    platform: uaData?.platform ?? nav?.platform,
     language: nav?.language,
     languages: nav?.languages,
     timezone,
-    viewport: (win?.innerWidth && win?.innerHeight)
-      ? `${win.innerWidth}x${win.innerHeight}`
-      : undefined,
   };
 }
 
@@ -149,11 +155,6 @@ function getNavigator(): NavigatorLike | undefined {
   return navigator as unknown as NavigatorLike;
 }
 
-function getWindow(): WindowLike | undefined {
-  if (typeof window === 'undefined') return undefined;
-  return window as unknown as WindowLike;
-}
-
 function getTimezone(): string | undefined {
   try {
     return Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -163,24 +164,17 @@ function getTimezone(): string | undefined {
   }
 }
 
-function parseBrowser(userAgent?: string): { name: string; version?: string } {
-  if (!userAgent) return { name: 'unknown' };
-
-  const rules: Array<{ name: string; regex: RegExp }> = [
-    { name: 'Edge', regex: /Edg\/([\d.]+)/ },
-    { name: 'Chrome', regex: /Chrome\/([\d.]+)/ },
-    { name: 'Firefox', regex: /Firefox\/([\d.]+)/ },
-    { name: 'Safari', regex: /Version\/([\d.]+).*Safari/ },
-  ];
-
-  for (const rule of rules) {
-    const match = userAgent.match(rule.regex);
-    if (match) {
-      return { name: rule.name, version: match[1] };
+function pickBrowserBrand(
+  brands?: readonly { brand: string; version: string }[],
+): { brand: string; version: string } | undefined {
+  if (!brands) return undefined;
+  for (const entry of brands) {
+    const brand = entry.brand.trim();
+    if (brand && brand.toLowerCase() !== 'not.a/brand') {
+      return entry;
     }
   }
-
-  return { name: 'unknown' };
+  return brands[0];
 }
 
 function getDefaultSink() {
