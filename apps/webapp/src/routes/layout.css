@@ -37,6 +37,7 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --growth: oklch(57.57% 0.16519 135.126);
 }
 
 .dark {
@@ -58,7 +59,7 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-1: oklch(68.846% 0.19849 135.241);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
@@ -71,6 +72,10 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  --growth: oklch(71.344% 0.20027 134.727);
+  --chart-variance-above: oklch(42.519% 0.07603 131.616);
+  --chart-variance-below: oklch(72.123% 0.02825 0.08 / 0.5);
 }
 
 @theme inline {
@@ -116,7 +121,9 @@
   --debugger-panel-max-height: calc(100vh - var(--debugger-panel-edge));
   --debugger-panel-width: clamp(16rem, calc(100vw - (var(--debugger-panel-edge) * 2)), 30rem);
 
-  --color-growth: oklch(52.6% 0.168672 134);
+  --color-growth: var(--growth);
+  --color-chart-variance-above: var(--chart-variance-above);
+  --color-chart-variance-below: var(--chart-variance-below);
 }
 
 @layer base {

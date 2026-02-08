@@ -9,7 +9,7 @@
     retirementConfigFormSchema,
     type RetirementConfigFormValues
   } from '$lib/forms/retirement-config-form';
-  import { calculateProjectionWithSteps } from '@retirement/calculator';
+  import { calculateProjectionWithSteps, calculateRetirement } from '@retirement/calculator';
   import { zod4Client } from 'sveltekit-superforms/adapters';
   import { superForm } from 'sveltekit-superforms/client';
   import type { PageData } from './$types';
@@ -33,6 +33,10 @@
       includeContributionDetails: true
     })
   );
+  const projectionByVariance = $derived(calculateRetirement(liveConfig));
+  const showVariance = $derived(
+    typeof liveConfig.interest.variance === 'number' && liveConfig.interest.variance !== 0
+  );
 
   const projectionStartYear = $derived.by(() => {
     if (!data.config.startDate) return new Date().getFullYear();
@@ -46,7 +50,12 @@
   <div class="space-y-16 px-4">
     <Card.Root>
       <Card.Content class="p-6">
-        <ProjectionChart {run} startYear={projectionStartYear} />
+        <ProjectionChart
+          {run}
+          startYear={projectionStartYear}
+          projectionByVariance={projectionByVariance}
+          showVariance={showVariance}
+        />
       </Card.Content>
     </Card.Root>
 

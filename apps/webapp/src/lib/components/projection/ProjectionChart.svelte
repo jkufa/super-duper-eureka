@@ -1,6 +1,6 @@
 <script lang="ts">
   import { NumberFlowGroup } from '@number-flow/svelte';
-  import type { ProjectionRun } from '@retirement/calculator';
+  import type { ProjectionByVariance, ProjectionRun } from '@retirement/calculator';
   import { Area, AreaChart, ChartClipPath } from 'layerchart';
   import { curveNatural } from 'd3-shape';
   import { onMount } from 'svelte';
@@ -14,33 +14,28 @@
     balance: {
       label: 'Portfolio Value',
       color: 'var(--color-chart-1)'
+    },
+    positive: {
+      label: 'Variance Above',
+      color: 'var(--color-chart-variance-above)'
+    },
+    negative: {
+      label: 'Variance Below',
+      color: 'var(--color-chart-variance-below)'
     }
   } satisfies Chart.ChartConfig;
-  const chartSeries = [
-    {
-      key: 'balance',
-      label: 'Portfolio Value',
-      color: chartConfig.balance.color
-    }
-  ];
-  const areaChartProps = {
-    area: {
-      curve: curveNatural,
-      line: {
-        class: 'stroke-(--color-balance) [stroke-width:2.5]'
-      },
-      'fill-opacity': 0.35,
-      motion: 'tween'
-    },
-    xAxis: {
-      ticks: 5
-    },
-    yAxis: {
-      format: (value: number) => formatCompactNumber(value)
-    }
-  } as const;
 
-  let { run, startYear }: { run: ProjectionRun; startYear: number } = $props();
+  let {
+    run,
+    startYear,
+    projectionByVariance,
+    showVariance = false
+  }: {
+    run: ProjectionRun;
+    startYear: number;
+    projectionByVariance: ProjectionByVariance;
+    showVariance?: boolean;
+  } = $props();
 
   const summary = $derived(run.projection);
   let isHydrated = $state(false);
@@ -62,10 +57,60 @@
   });
 
   const chartData = $derived.by(() => {
-    return run.projection.yearlyProjections.map((point, index) => ({
-      label: `${startYear + index}`,
-      balance: point.balance
-    }));
+    return run.projection.yearlyProjections.map((point, index) => {
+      const positivePoint = projectionByVariance.positive.yearlyProjections[index];
+      const negativePoint = projectionByVariance.negative.yearlyProjections[index];
+
+      return {
+        label: `${startYear + index}`,
+        balance: point.balance,
+        positive: showVariance ? positivePoint?.balance : undefined,
+        negative: showVariance ? negativePoint?.balance : undefined
+      };
+    });
+  });
+  const chartSeries = $derived.by(() => {
+    const baseSeries = [
+      {
+        key: 'balance',
+        label: chartConfig.balance.label,
+        color: chartConfig.balance.color
+      }
+    ];
+
+    if (!showVariance) return baseSeries;
+
+    return [
+      {
+        key: 'positive',
+        label: chartConfig.positive.label,
+        color: chartConfig.positive.color
+      },
+      ...baseSeries,
+      {
+        key: 'negative',
+        label: chartConfig.negative.label,
+        color: chartConfig.negative.color
+      }
+    ];
+  });
+  const areaChartProps = $derived.by(() => {
+    return {
+      area: {
+        curve: curveNatural,
+        line: {
+          class: 'stroke-(--color-balance) [stroke-width:2.5]'
+        },
+        'fill-opacity': 0.35,
+        motion: 'tween'
+      },
+      xAxis: {
+        ticks: 5
+      },
+      yAxis: {
+        format: (value: number) => formatCompactNumber(value)
+      }
+    } as const;
   });
   const metrics = $derived([
     { label: 'Final Portfolio Value', value: finalBalanceValue },
@@ -113,7 +158,19 @@
             }}
           >
             {#each series as s, i (s.key)}
-              <Area {...getAreaProps(s, i)} fill="url(#fillBalance)" />
+              <Area
+                {...getAreaProps(s, i)}
+                fill={s.key === 'balance' ? 'url(#fillBalance)' : 'transparent'}
+                line={s.key === 'balance'
+                  ? { class: 'stroke-(--color-balance) [stroke-width:2.5]' }
+                  : s.key === 'positive'
+                    ? {
+                        class: 'stroke-(--color-positive) [stroke-width:1.5] [stroke-dasharray:6_4]'
+                      }
+                    : {
+                        class: 'stroke-(--color-negative) [stroke-width:1.5] [stroke-dasharray:6_4]'
+                      }}
+              />
             {/each}
           </ChartClipPath>
         {/snippet}
@@ -121,7 +178,8 @@
         {#snippet tooltip()}
           <Chart.Tooltip
             indicator="line"
-            valueFormatter={(value: number) => formatCurrency(value)}
+            valueFormatter={(value: unknown) =>
+              formatCurrency(typeof value === 'number' ? value : Number(value ?? 0))}
           />
         {/snippet}
       </AreaChart>
