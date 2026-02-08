@@ -21,11 +21,6 @@
 </script>
 
 <section class="w-full max-w-88 space-y-5">
-  <header class="space-y-1">
-    <h2 class="text-2xl font-semibold">Retirement Configuration</h2>
-    <p class="text-sm text-muted-foreground">Adjust parameters for your retirement calculation</p>
-  </header>
-
   <form class="space-y-4" method="POST" use:enhance onsubmit={(event) => event.preventDefault()}>
     <ConfigBasicsSection {form} {onCommit} />
     <ConfigGrowthSection {form} {onCommit} />
