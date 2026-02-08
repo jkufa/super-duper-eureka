@@ -12,8 +12,7 @@
     | 'annualReturnPct'
     | 'variancePct'
     | 'baseSalary'
-    | 'annualRaisePct'
-    | 'monthlyContribution';
+    | 'annualRaisePct';
 
   let {
     form,

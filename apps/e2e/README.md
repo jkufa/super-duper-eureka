@@ -65,3 +65,10 @@ E2E_WEBSERVER_COMMAND="cd ../webapp && bun run dev -- --host 127.0.0.1 --port 41
 - `playwright.config.ts`: shared infra (webServer/baseURL/projects/reporter)
 - `tests/helpers/`: reusable page/test helpers
 - `tests/debugger.spec.ts`: baseline debugger UX validations
+
+## Known flakes
+
+- Mobile debugger viewport assertion (`tests/debugger.spec.ts`, "keeps panel inside mobile viewport"):
+  - We have seen intermittent failures when asserting overlay bounds via Playwright `boundingBox()` on mobile.
+  - The panel is `position: fixed`, and `boundingBox()` can behave like page-coordinate math under scroll, producing negative `y` values even when the panel is visibly in viewport.
+  - Preferred pattern: evaluate `getBoundingClientRect()` in-page and assert against `window.innerWidth` / `window.innerHeight`.

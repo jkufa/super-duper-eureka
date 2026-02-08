@@ -115,7 +115,9 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  --grid-cols-main: 1fr auto;
+  --grid-cols-main: minmax(0,1.75fr) minmax(22rem,1fr);
+  --main-cols-inner-padding: clamp(1rem, 10%, 5rem);
+  --breakpoint-table-fit: 79rem; /* 1264px */
 
   --debugger-panel-edge: 16px;
   --debugger-panel-max-height: calc(100vh - var(--debugger-panel-edge));

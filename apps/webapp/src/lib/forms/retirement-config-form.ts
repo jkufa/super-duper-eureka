@@ -9,7 +9,12 @@ export const retirementConfigFormSchema = z.object({
   compounding: z.enum(['monthly', 'daily']),
   baseSalary: z.coerce.number().min(0),
   annualRaisePct: z.coerce.number().min(0).max(50),
-  monthlyContribution: z.coerce.number().min(0),
+  contributionVariables: z.array(
+    z.object({
+      id: z.string(),
+      amount: z.coerce.number().min(0),
+    }),
+  ),
 });
 
 export type RetirementConfigFormValues = z.infer<typeof retirementConfigFormSchema>;
@@ -20,10 +25,6 @@ const toNumberOr = (value: unknown, fallback: number) =>
   typeof value === 'number' && Number.isFinite(value) ? value : fallback;
 
 export function toRetirementConfigFormDefaults(config: RetirementConfig): RetirementConfigFormValues {
-  const monthlyContribution
-    = config.contributions.find(rule => rule.timing.frequency === 'monthly' && rule.type === 'flat')
-      ?.amount ?? 0;
-
   return {
     currentBalance: config.currentBalance,
     annualReturnPct: toPercent(config.interest.annualRate),
@@ -32,7 +33,10 @@ export function toRetirementConfigFormDefaults(config: RetirementConfig): Retire
     compounding: config.interest.compounding ?? 'monthly',
     baseSalary: config.salary.annualBase,
     annualRaisePct: toPercent(config.salary.annualRaiseRate),
-    monthlyContribution,
+    contributionVariables: config.contributions.map((rule) => ({
+      id: rule.id,
+      amount: rule.amount,
+    })),
   };
 }
 
@@ -40,10 +44,13 @@ export function applyRetirementConfigFormValues(
   baseConfig: RetirementConfig,
   values: RetirementConfigFormValues,
 ): RetirementConfig {
-  const nextContribution = toNumberOr(values.monthlyContribution, 0);
+  const contributionAmountById = new Map(
+    values.contributionVariables.map((item) => [item.id, toNumberOr(item.amount, 0)]),
+  );
   const nextContributions = baseConfig.contributions.map((rule) => {
-    if (rule.timing.frequency === 'monthly' && rule.type === 'flat') {
-      return { ...rule, amount: nextContribution };
+    const nextAmount = contributionAmountById.get(rule.id);
+    if (typeof nextAmount === 'number') {
+      return { ...rule, amount: nextAmount };
     }
     return rule;
   });

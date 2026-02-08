@@ -21,6 +21,7 @@
   import type { DebugSectionId, PanelPosition } from './types';
 
   const PANEL_GUTTER = 8;
+  const DEFAULT_PANEL_SIZE = { width: 520, height: 560 } as const;
 
   let {
     stepIndex = 0,
@@ -52,7 +53,13 @@
 
   function resolveInitialPosition(storage: string, fallback: PanelPosition): PanelPosition {
     if (!browser) return fallback;
-    return parseStoredPosition(localStorage.getItem(storage), fallback);
+    const parsed = parseStoredPosition(localStorage.getItem(storage), fallback);
+    return clampPanelPosition(
+      parsed,
+      DEFAULT_PANEL_SIZE,
+      { width: window.innerWidth, height: window.innerHeight },
+      PANEL_GUTTER
+    );
   }
 
   let position = $state<PanelPosition>(resolveInitialPosition(storageKey, initialPosition));

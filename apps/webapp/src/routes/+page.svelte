@@ -17,7 +17,8 @@
   let { data }: { data: PageData } = $props();
 
   const configForm = superForm(data.configForm, {
-    validators: zod4Client(retirementConfigFormSchema)
+    validators: zod4Client(retirementConfigFormSchema),
+    dataType: 'json'
   });
   const formData = configForm.form;
   let committedValues = $state<RetirementConfigFormValues>(structuredClone($formData));
@@ -45,28 +46,39 @@
   });
 </script>
 
-<Nav />
-<main class="mx-auto mt-16 mb-4 grid max-w-7xl grid-cols-(--grid-cols-main) gap-8 px-4">
-  <div class="space-y-16 px-4">
-    <Card.Root>
-      <Card.Content class="p-6">
-        <ProjectionChart
-          {run}
-          startYear={projectionStartYear}
-          projectionByVariance={projectionByVariance}
-          showVariance={showVariance}
-        />
-      </Card.Content>
-    </Card.Root>
+<div class="flex flex-col table-fit:h-dvh">
+  <Nav />
 
-    <div class="px-2">
-      <ProjectionTable {run} />
-    </div>
-  </div>
-  <aside class="w-full max-w-88 px-4">
-    <RootForm form={configForm} onCommit={commitFormValues} />
-  </aside>
-</main>
+  <main class="mb-4 grid min-h-0 flex-1 table-fit:grid-cols-(--grid-cols-main)">
+    <section
+      class="min-h-0 space-y-16 overflow-y-auto ps-8 pe-(--main-cols-inner-padding) pt-6 pb-10"
+    >
+      <Card.Root class="ms-auto max-w-5xl">
+        <Card.Content class="p-6">
+          <ProjectionChart
+            {run}
+            startYear={projectionStartYear}
+            {projectionByVariance}
+            {showVariance}
+          />
+        </Card.Content>
+      </Card.Root>
+
+      <div class="ms-auto max-w-5xl px-2">
+        <ProjectionTable {run} />
+      </div>
+    </section>
+
+    <aside class="min-h-0 overflow-y-auto ps-(--main-cols-inner-padding) pe-8 pt-6 pb-10">
+      <RootForm
+        form={configForm}
+        enhance={configForm.enhance}
+        contributions={data.config.contributions}
+        onCommit={commitFormValues}
+      />
+    </aside>
+  </main>
+</div>
 
 <Debugger
   config={{ ...liveConfig, mockSeed: data.mock?.seed ?? undefined }}

@@ -23,7 +23,7 @@
   <h3 class="text-xl font-medium">Table View</h3>
   <Table.Root>
     <Table.Header
-      class="sticky top-0 z-10 bg-background after:absolute after:bottom-0 after:w-full after:border-b after:border-border"
+      class="sticky -top-6 z-10 bg-background after:absolute after:bottom-0 after:w-full after:border-b after:border-border"
     >
       <Table.Row class="border-none">
         <Table.Head class="left-0 h-14 border-b">Year</Table.Head>

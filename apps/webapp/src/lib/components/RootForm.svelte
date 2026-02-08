@@ -1,4 +1,5 @@
 <script lang="ts">
+  import type { RetirementConfig } from '@retirement/calculator/types';
   import type { SuperForm } from 'sveltekit-superforms/client';
   import type { RetirementConfigFormValues } from '$lib/forms/retirement-config-form';
   import ConfigBasicsSection from '$lib/components/form/ConfigBasicsSection.svelte';
@@ -8,9 +9,13 @@
 
   let {
     form,
+    enhance,
+    contributions,
     onCommit
   }: {
     form: SuperForm<RetirementConfigFormValues>;
+    enhance: SuperForm<RetirementConfigFormValues>['enhance'];
+    contributions: RetirementConfig['contributions'];
     onCommit?: () => void;
   } = $props();
 </script>
@@ -21,10 +26,10 @@
     <p class="text-sm text-muted-foreground">Adjust parameters for your retirement calculation</p>
   </header>
 
-  <form class="space-y-4" method="POST" onsubmit={(event) => event.preventDefault()}>
+  <form class="space-y-4" method="POST" use:enhance onsubmit={(event) => event.preventDefault()}>
     <ConfigBasicsSection {form} {onCommit} />
     <ConfigGrowthSection {form} {onCommit} />
     <ConfigSalarySection {form} {onCommit} />
-    <ConfigContributionSection {form} {onCommit} />
+    <ConfigContributionSection {form} {onCommit} {contributions} />
   </form>
 </section>
