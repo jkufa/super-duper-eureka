@@ -13,10 +13,6 @@
 </script>
 
 <section class="space-y-4">
-  <div class="space-y-1">
-    <h2 class="text-sm font-medium">Current Investments</h2>
-  </div>
-
   <ConfigNumericField
     {form}
     name="currentBalance"
