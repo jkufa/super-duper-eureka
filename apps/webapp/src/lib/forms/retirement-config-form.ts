@@ -15,6 +15,27 @@ export const retirementConfigFormSchema = z.object({
       amount: z.coerce.number().min(0),
     }),
   ),
+  customVariables: z.array(
+    z.object({
+      id: z.string(),
+      name: z.string().min(1),
+      type: z.enum(['flat', 'salaryPercent']),
+      amount: z.coerce.number().min(0),
+      frequency: z.enum(['monthly', 'annual']),
+      placement: z.enum(['start', 'end']),
+      yearStart: z.coerce.number().int().min(0).max(80),
+      yearEnd: z.coerce.number().int().min(0).max(80),
+    }),
+  ),
+  customVariableDraft: z.object({
+    name: z.string(),
+    type: z.enum(['flat', 'salaryPercent']),
+    amount: z.coerce.number().min(0),
+    frequency: z.enum(['monthly', 'annual']),
+    placement: z.enum(['start', 'end']),
+    yearStart: z.coerce.number().int().min(0).max(80),
+    yearEnd: z.coerce.number().int().min(0).max(80),
+  }),
 });
 
 export type RetirementConfigFormValues = z.infer<typeof retirementConfigFormSchema>;
@@ -37,6 +58,16 @@ export function toRetirementConfigFormDefaults(config: RetirementConfig): Retire
       id: rule.id,
       amount: rule.amount,
     })),
+    customVariables: [],
+    customVariableDraft: {
+      name: '',
+      type: 'flat',
+      amount: 0,
+      frequency: 'monthly',
+      placement: 'end',
+      yearStart: 0,
+      yearEnd: config.timeHorizonYears,
+    },
   };
 }
 
@@ -55,6 +86,26 @@ export function applyRetirementConfigFormValues(
     return rule;
   });
 
+  const nextCustomContributions = values.customVariables.map((item) => {
+    const yearStart = Math.max(0, Math.trunc(toNumberOr(item.yearStart, 0)));
+    const yearEnd = Math.max(yearStart, Math.trunc(toNumberOr(item.yearEnd, baseConfig.timeHorizonYears)));
+
+    return {
+      id: item.id,
+      name: item.name,
+      type: item.type,
+      amount: toNumberOr(item.amount, 0),
+      timing:
+        item.frequency === 'annual'
+          ? ({ frequency: 'annual' as const, month: 0, placement: item.placement })
+          : ({ frequency: 'monthly' as const, placement: item.placement }),
+      yearRange: {
+        start: yearStart,
+        end: yearEnd,
+      },
+    };
+  });
+
   return {
     ...baseConfig,
     currentBalance: toNumberOr(values.currentBalance, baseConfig.currentBalance),
@@ -70,6 +121,6 @@ export function applyRetirementConfigFormValues(
       annualBase: toNumberOr(values.baseSalary, baseConfig.salary.annualBase),
       annualRaiseRate: toDecimalRate(toNumberOr(values.annualRaisePct, (baseConfig.salary.annualRaiseRate ?? 0) * 100)),
     },
-    contributions: nextContributions,
+    contributions: [...nextContributions, ...nextCustomContributions],
   };
 }

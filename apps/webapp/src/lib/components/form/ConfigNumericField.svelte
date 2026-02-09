@@ -12,7 +12,12 @@
     | 'annualReturnPct'
     | 'variancePct'
     | 'baseSalary'
-    | 'annualRaisePct';
+    | 'annualRaisePct'
+    | `contributionVariables[${number}].amount`
+    | `customVariables[${number}].amount`
+    | 'customVariableDraft.amount'
+    | 'customVariableDraft.yearStart'
+    | 'customVariableDraft.yearEnd';
 
   let {
     form,
@@ -21,6 +26,7 @@
     kind = 'number',
     prefix,
     suffix,
+    id,
     inputmode = 'decimal',
     emptyFallback = '0',
     onCommit
@@ -31,6 +37,7 @@
     kind?: NumericFieldKind;
     prefix?: string;
     suffix?: string;
+    id?: string;
     inputmode?: 'decimal' | 'numeric';
     emptyFallback?: string;
     onCommit?: () => void;
@@ -146,6 +153,7 @@
           <Input
             {...props}
             {...constraints}
+            id={id ?? props.id}
             value={displayValue}
             class={inputPaddingClass}
             type="number"

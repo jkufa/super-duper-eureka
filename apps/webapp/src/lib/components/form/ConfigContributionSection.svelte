@@ -1,8 +1,10 @@
 <script lang="ts">
   import type { RetirementConfig } from '@retirement/calculator/types';
-  import { Input } from '$lib/components/ui/input';
   import type { SuperForm } from 'sveltekit-superforms/client';
   import type { RetirementConfigFormValues } from '$lib/forms/retirement-config-form';
+  import * as Button from '$lib/components/ui/button';
+  import ConfigNumericField from './ConfigNumericField.svelte';
+  import ConfigCustomVariableForm from './ConfigCustomVariableForm.svelte';
 
   let {
     form,
@@ -15,29 +17,56 @@
   } = $props();
 
   const formData = form.form;
+  let editingFieldKey = $state<string | null>(null);
 
   const fields = $derived(
-    contributions.map((contribution, index) => ({
-      index,
-      label: contribution.name ?? contribution.id,
-      emptyFallback: '0',
-      prefix: contribution.type === 'flat' ? '$' : undefined,
-      suffix: contribution.type === 'salaryPercent' ? '%' : undefined
-    }))
+    [
+      ...contributions.map((contribution, index) => ({
+        key: `base-${index}`,
+        source: 'base' as const,
+        index,
+        id: contribution.id,
+        contribution,
+        name: `contributionVariables[${index}].amount` as const,
+        label: contribution.name ?? contribution.id,
+        emptyFallback: '0',
+        prefix: contribution.type === 'flat' ? '$' : undefined,
+        suffix: contribution.type === 'salaryPercent' ? '%' : undefined
+      })),
+      ...$formData.customVariables.map((contribution, index) => ({
+        key: `custom-${index}`,
+        source: 'custom' as const,
+        index,
+        id: contribution.id,
+        contribution,
+        name: `customVariables[${index}].amount` as const,
+        label: contribution.name,
+        emptyFallback: '0',
+        prefix: contribution.type === 'flat' ? '$' : undefined,
+        suffix: contribution.type === 'salaryPercent' ? '%' : undefined
+      }))
+    ]
   );
 
-  function normalizeEmptyValue(index: number, emptyFallback: string) {
-    const current = $formData.contributionVariables[index]?.amount;
-    const nextValue = Number.isFinite(current) ? current : Number.parseFloat(emptyFallback);
-    if (!Number.isFinite(nextValue)) return;
+  function toEditableVariable(field: (typeof fields)[number]) {
+    if (field.source === 'custom') {
+      return $formData.customVariables[field.index];
+    }
 
-    const next = $formData.contributionVariables.slice();
-    next[index] = {
-      ...next[index],
-      amount: nextValue
+    const baseAmount = $formData.contributionVariables[field.index]?.amount ?? field.contribution.amount ?? 0;
+    const timing = field.contribution.timing;
+    const frequency = timing.frequency === 'annual' ? 'annual' : 'monthly';
+    const placement = timing.frequency === 'oneTime' ? 'start' : (timing.placement ?? 'start');
+    return {
+      id: field.id,
+      name: field.contribution.name ?? field.contribution.id,
+      type: field.contribution.type,
+      amount: baseAmount,
+      frequency,
+      placement,
+      yearStart: field.contribution.yearRange?.start ?? 0,
+      yearEnd: field.contribution.yearRange?.end ?? $formData.yearsToRetirement
     };
-    $formData.contributionVariables = next;
-    onCommit?.();
   }
 </script>
 
@@ -45,48 +74,114 @@
   {#if fields.length === 0}
     <p class="text-sm text-muted-foreground">No contribution rules configured.</p>
   {:else}
-    {#each fields as field (field.index)}
-      <div class="space-y-2">
-        <label class="text-sm leading-none font-medium" for={`contribution-${field.index}`}
-          >{field.label}</label
-        >
-        <div class="relative">
-          {#if field.prefix}
-            <span
-              class="pointer-events-none absolute inset-y-0 left-3 flex items-center text-sm text-muted-foreground"
-            >
-              {field.prefix}
-            </span>
-          {/if}
-          <Input
-            id={`contribution-${field.index}`}
-            type="number"
-            min="0"
-            step="any"
-            inputmode="decimal"
-            value={$formData.contributionVariables[field.index]?.amount ?? 0}
-            class={field.prefix ? 'pl-7' : field.suffix ? 'pr-7' : ''}
-            oninput={(event) => {
-              const target = event.currentTarget as HTMLInputElement;
-              const parsed = Number.parseFloat(target.value);
-              const next = $formData.contributionVariables.slice();
-              next[field.index] = {
-                ...next[field.index],
-                amount: Number.isFinite(parsed) ? parsed : 0
+    {#each fields as field (field.key)}
+      {#if editingFieldKey === field.key}
+        <ConfigCustomVariableForm
+          {form}
+          mode="edit"
+          variable={toEditableVariable(field)}
+          onSaveVariable={(nextVariable) => {
+            if (field.source === 'custom') {
+              const next = $formData.customVariables.slice();
+              next[field.index] = nextVariable;
+              $formData.customVariables = next;
+            } else {
+              const nextBase = $formData.contributionVariables.slice();
+              nextBase[field.index] = {
+                ...nextBase[field.index],
+                amount: 0
               };
-              $formData.contributionVariables = next;
-            }}
-            onblur={() => normalizeEmptyValue(field.index, field.emptyFallback)}
+              $formData.contributionVariables = nextBase;
+
+              const nextCustom = $formData.customVariables.slice();
+              const existingIndex = nextCustom.findIndex((item) => item.id === nextVariable.id);
+              if (existingIndex === -1) {
+                nextCustom.push(nextVariable);
+              } else {
+                nextCustom[existingIndex] = nextVariable;
+              }
+              $formData.customVariables = nextCustom;
+            }
+            editingFieldKey = null;
+            onCommit?.();
+          }}
+          onDeleteVariable={() => {
+            if (field.source === 'custom') {
+              const next = $formData.customVariables.slice();
+              next.splice(field.index, 1);
+              $formData.customVariables = next;
+            } else {
+              const nextBase = $formData.contributionVariables.slice();
+              nextBase[field.index] = {
+                ...nextBase[field.index],
+                amount: 0
+              };
+              $formData.contributionVariables = nextBase;
+            }
+            editingFieldKey = null;
+            onCommit?.();
+          }}
+          onCancel={() => {
+            editingFieldKey = null;
+          }}
+        />
+      {:else}
+        <div class="group relative space-y-2">
+          <ConfigNumericField
+            {form}
+            name={field.name}
+            label={field.label}
+            prefix={field.prefix}
+            suffix={field.suffix}
+            kind="number"
+            inputmode="decimal"
+            emptyFallback={field.emptyFallback}
+            {onCommit}
           />
-          {#if field.suffix}
-            <span
-              class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-sm text-muted-foreground"
+
+          <div
+            class="mt-1 flex justify-end gap-2 opacity-100 transition-opacity md:absolute md:top-7 md:left-full md:mt-0 md:ml-2 md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100"
+          >
+            <Button.Root
+              type="button"
+              variant="ghost"
+              size="sm"
+              class="h-7 px-2 text-xs"
+              onclick={() => {
+                editingFieldKey = field.key;
+              }}
             >
-              {field.suffix}
-            </span>
-          {/if}
+              Edit
+            </Button.Root>
+            <Button.Root
+              type="button"
+              variant="ghost"
+              size="sm"
+              class="h-7 px-2 text-xs text-destructive"
+              onclick={() => {
+                if (field.source === 'custom') {
+                  const next = $formData.customVariables.slice();
+                  next.splice(field.index, 1);
+                  $formData.customVariables = next;
+                } else {
+                  const nextBase = $formData.contributionVariables.slice();
+                  nextBase[field.index] = {
+                    ...nextBase[field.index],
+                    amount: 0
+                  };
+                  $formData.contributionVariables = nextBase;
+                }
+                if (editingFieldKey === field.key) {
+                  editingFieldKey = null;
+                }
+                onCommit?.();
+              }}
+            >
+              Delete
+            </Button.Root>
+          </div>
         </div>
-      </div>
+      {/if}
     {/each}
   {/if}
 </section>
