@@ -59,12 +59,20 @@ export type ContributionTiming
     | ContributionTimingAnnual;
 
 export type SalaryBasis = 'annual' | 'monthly' | 'biweekly' | 'weekly' | 'daily' | 'perContribution';
+export interface ContributionGrowth {
+  type: 'percent' | 'flat';
+  /** Percent points if type='percent'; currency/absolute units if type='flat'. */
+  amount: number;
+  cadence: 'annual' | 'monthly';
+}
+
 export interface ContributionRule {
   id: string;
   name?: string;
   enabled?: boolean;
   type: ContributionType;
   amount: number;
+  growth?: ContributionGrowth;
   /** Only applies to salaryPercent contributions. Default: 'annual'. */
   salaryBasis?: SalaryBasis;
   timing: ContributionTiming;

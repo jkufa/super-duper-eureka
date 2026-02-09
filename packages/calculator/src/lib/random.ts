@@ -104,23 +104,25 @@ export function generateRandomRetirementConfig(
 }
 
 function buildContributionRules(rng: SeededRandom, annualBase: number): ContributionRule[] {
-  const employee401k = sampleTriangularClamped(rng, RANGE.contributions.employee401k);
+  const minIncludedRules = 4;
+
+  const employee401k = roundPercent(sampleTriangularClamped(rng, RANGE.contributions.employee401k));
   const match401k = employee401k > 0
-    ? clampFloat(
+    ? roundPercent(clampFloat(
         sampleTriangular(rng, RANGE.contributions.match401k.low, RANGE.contributions.match401k.mode, RANGE.contributions.match401k.high),
         RANGE.contributions.match401k.min,
         Math.min(RANGE.contributions.match401k.max, Math.max(0, employee401k * 0.75)),
-      )
+      ))
     : 0;
 
-  const roth401k = clampFloat(
+  const roth401k = roundPercent(clampFloat(
     sampleTriangular(rng, RANGE.contributions.roth401k.low, RANGE.contributions.roth401k.mode, RANGE.contributions.roth401k.high),
     RANGE.contributions.roth401k.min,
     Math.min(RANGE.contributions.roth401k.max, Math.max(0, 20 - employee401k)),
-  );
+  ));
 
-  const bonusPercent = sampleTriangularClamped(rng, RANGE.contributions.bonusPercent);
-  const esppPercent = sampleTriangularClamped(rng, RANGE.contributions.esppPercent);
+  const bonusPercent = roundPercent(sampleTriangularClamped(rng, RANGE.contributions.bonusPercent));
+  const esppPercent = roundPercent(sampleTriangularClamped(rng, RANGE.contributions.esppPercent));
 
   const hsaEmployeeMonthly = sampleTriangularRounded(rng, RANGE.contributions.hsaEmployeeMonthly, 1);
   const hsaEmployerMonthly = sampleTriangularRounded(rng, RANGE.contributions.hsaEmployerMonthly, 1);
@@ -146,97 +148,140 @@ function buildContributionRules(rng: SeededRandom, annualBase: number): Contribu
   const hsaEmployerTiming = pickTiming(rng, ['monthly', 'annual'], [0.6, 0.4]);
   const cryptoTiming = pickTiming(rng, ['monthly', 'annual'], [0.65, 0.35]);
 
-  return [
-    makeRule(rng, {
+  const ruleTemplates: ContributionRule[] = [
+    {
       id: '401k-employee',
       name: '401(k) employee contribution',
       type: 'salaryPercent',
       amount: employee401k,
       salaryBasis: 'monthly',
       timing: monthlyTiming('start'),
-    }),
-    makeRule(rng, {
+    },
+    {
       id: '401k-match',
       name: '401(k) employer match',
       type: 'salaryPercent',
       amount: match401k,
       salaryBasis: 'monthly',
       timing: monthlyTiming('start'),
-    }),
-    makeRule(rng, {
+    },
+    {
       id: '401k-roth',
       name: 'Roth 401(k) contribution',
       type: 'salaryPercent',
       amount: roth401k,
       salaryBasis: 'monthly',
       timing: monthlyTiming('start'),
-    }),
-    makeRule(rng, {
+    },
+    {
       id: 'hsa-employee',
       name: 'HSA employee contribution',
       type: 'flat',
       amount: hsaEmployeeTiming === 'monthly' ? hsaEmployeeMonthly : hsaEmployeeMonthly * 12,
       timing: hsaEmployeeTiming === 'monthly' ? monthlyTiming('end') : annualTiming(rng),
-    }),
-    makeRule(rng, {
+    },
+    {
       id: 'hsa-employer',
       name: 'HSA employer contribution',
       type: 'flat',
       amount: hsaEmployerTiming === 'monthly' ? hsaEmployerMonthly : hsaEmployerMonthly * 12,
       timing: hsaEmployerTiming === 'monthly' ? monthlyTiming('start') : annualTiming(rng),
-    }),
-    makeRule(rng, {
+    },
+    {
       id: 'ira',
       name: 'IRA contribution',
       type: 'flat',
       amount: iraAnnual,
       timing: annualTiming(rng),
-    }),
-    makeRule(rng, {
+    },
+    {
       id: 'brokerage',
       name: 'Brokerage auto-invest',
       type: 'flat',
       amount: brokerageMonthly,
       timing: monthlyTiming('end'),
-    }),
-    makeRule(rng, {
+    },
+    {
       id: 'espp',
       name: 'ESPP contribution',
       type: 'salaryPercent',
       amount: esppPercent,
       salaryBasis: 'monthly',
       timing: monthlyTiming('start'),
-    }),
-    makeRule(rng, {
+    },
+    {
       id: 'annual-bonus',
       name: 'Annual bonus contribution',
       type: 'salaryPercent',
       amount: bonusPercent,
       salaryBasis: 'annual',
       timing: bonusTiming,
-    }),
-    makeRule(rng, {
+    },
+    {
       id: 'rsu-vesting',
       name: 'RSU vesting proceeds',
       type: 'flat',
       amount: rsuAnnual,
       timing: rsuTiming,
-    }),
-    makeRule(rng, {
+    },
+    {
       id: 'college-529',
       name: '529 contribution',
       type: 'flat',
       amount: collegeMonthly,
       timing: monthlyTiming('end'),
-    }),
-    makeRule(rng, {
+    },
+    {
       id: 'crypto',
       name: 'Crypto allocation',
       type: 'flat',
       amount: cryptoTiming === 'monthly' ? cryptoMonthly : cryptoMonthly * 12,
       timing: cryptoTiming === 'monthly' ? monthlyTiming('end') : annualTiming(rng),
-    }),
+    },
   ];
+
+  const orderedRuleIds = ruleTemplates.map(rule => rule.id);
+  const selectedRuleIds = new Set<string>();
+
+  const selectRandom = (id: string, chance: number) => {
+    if (rng() < chance) selectedRuleIds.add(id);
+  };
+  const hasSelected = (id: string) => selectedRuleIds.has(id);
+  const byId = (id: string) => ruleTemplates.find(rule => rule.id === id);
+
+  if (employee401k > 0) selectRandom('401k-employee', 0.8);
+  if (match401k > 0 && hasSelected('401k-employee')) selectRandom('401k-match', 0.75);
+  if (roth401k > 0) selectRandom('401k-roth', 0.65);
+  if (hsaEmployeeMonthly > 0) selectRandom('hsa-employee', 0.55);
+  if (hsaEmployerMonthly > 0) selectRandom('hsa-employer', 0.5);
+  if (iraAnnual > 0) selectRandom('ira', 0.6);
+  if (brokerageMonthly > 0) selectRandom('brokerage', 0.65);
+  if (esppPercent > 0) selectRandom('espp', 0.45);
+  if (bonusPercent > 0) selectRandom('annual-bonus', 0.5);
+  if (rsuAnnual > 0) selectRandom('rsu-vesting', 0.4);
+  if (collegeMonthly > 0) selectRandom('college-529', 0.45);
+  if (cryptoMonthly > 0) selectRandom('crypto', 0.35);
+
+  const fallbackPool = orderedRuleIds.filter((id) => {
+    if (selectedRuleIds.has(id)) return false;
+    const candidate = byId(id);
+    return candidate ? hasMeaningfulAmount(candidate) : false;
+  });
+
+  while (selectedRuleIds.size < minIncludedRules && fallbackPool.length > 0) {
+    const index = clampInt(Math.floor(rng() * fallbackPool.length), 0, fallbackPool.length - 1);
+    const fallbackId = fallbackPool.splice(index, 1)[0];
+    if (fallbackId) selectedRuleIds.add(fallbackId);
+  }
+
+  if (selectedRuleIds.size === 0) {
+    const fallbackId = orderedRuleIds[clampInt(Math.floor(rng() * orderedRuleIds.length), 0, orderedRuleIds.length - 1)];
+    if (fallbackId) selectedRuleIds.add(fallbackId);
+  }
+
+  return ruleTemplates
+    .filter(rule => selectedRuleIds.has(rule.id))
+    .map(rule => makeRule(rng, rule));
 }
 
 function makeRule(rng: SeededRandom, rule: ContributionRule): ContributionRule {
@@ -248,6 +293,11 @@ function makeRule(rng: SeededRandom, rule: ContributionRule): ContributionRule {
   }
   const enabled = rng() < 0.85;
   return { ...rule, enabled };
+}
+
+function hasMeaningfulAmount(rule: ContributionRule): boolean {
+  if (rule.type === 'salaryPercent') return rule.amount > 0;
+  return rule.amount >= 1;
 }
 
 function monthlyTiming(placement: 'start' | 'end'): ContributionTiming {
@@ -338,6 +388,10 @@ function clampInt(value: number, min: number, max: number): number {
 
 function roundTo(value: number, step: number): number {
   return Math.round(value / step) * step;
+}
+
+function roundPercent(value: number): number {
+  return Math.round(value * 100) / 100;
 }
 
 function roundToRange(

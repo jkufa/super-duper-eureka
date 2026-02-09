@@ -1,0 +1,50 @@
+{
+  "currentBalance": 50000,
+  "timeHorizonYears": 5,
+  "startDate": "2026-01-01T00:00:00.000Z",
+  "interest": {
+    "annualRate": 0.05,
+    "variance": 0.01,
+    "compounding": "monthly"
+  },
+  "salary": {
+    "annualBase": 120000,
+    "annualRaiseRate": 0.02
+  },
+  "contributions": [
+    {
+      "id": "bonus",
+      "name": "Annual Bonus",
+      "enabled": true,
+      "type": "flat",
+      "amount": 2000,
+      "growth": {
+        "type": "percent",
+        "amount": 5,
+        "cadence": "annual"
+      },
+      "timing": {
+        "frequency": "annual",
+        "month": 11,
+        "placement": "start"
+      }
+    },
+    {
+      "id": "espp",
+      "name": "ESPP",
+      "enabled": true,
+      "type": "salaryPercent",
+      "amount": 4,
+      "salaryBasis": "monthly",
+      "growth": {
+        "type": "flat",
+        "amount": 0.05,
+        "cadence": "monthly"
+      },
+      "timing": {
+        "frequency": "monthly",
+        "placement": "end"
+      }
+    }
+  ]
+}
