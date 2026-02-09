@@ -44,6 +44,52 @@ describe('random config generation', () => {
 
     resetTimers();
   });
+
+  it('randomizes which contribution rules are included across seeds', () => {
+    setSystemTime('2026-01-01T00:00:00.000Z');
+
+    const contributionSets = new Set<string>();
+    let sawSubset = false;
+    for (let seed = 1; seed <= 100; seed += 1) {
+      const config = generateRandomRetirementConfig(seed);
+      const sortedIds = config.contributions.map(rule => rule.id).sort();
+      contributionSets.add(sortedIds.join(','));
+      if (config.contributions.length < 12) {
+        sawSubset = true;
+      }
+    }
+
+    expect(sawSubset).toBe(true);
+    expect(contributionSets.size).toBeGreaterThan(1);
+
+    resetTimers();
+  });
+
+  it('rounds salaryPercent contribution amounts to 2 decimals', () => {
+    setSystemTime('2026-01-01T00:00:00.000Z');
+
+    for (let seed = 1; seed <= 100; seed += 1) {
+      const config = generateRandomRetirementConfig(seed);
+      for (const rule of config.contributions) {
+        if (rule.type !== 'salaryPercent') continue;
+        expect(rule.amount).toBeCloseTo(Number(rule.amount.toFixed(2)), 12);
+      }
+    }
+
+    resetTimers();
+  });
+
+  it('applies expected rounding for seed 918326173 percent contributions', () => {
+    setSystemTime('2026-01-01T00:00:00.000Z');
+
+    const config = generateRandomRetirementConfig(918326173);
+    const employee401k = config.contributions.find((rule) => rule.id === '401k-employee');
+
+    expect(employee401k?.type).toBe('salaryPercent');
+    expect(employee401k?.amount).toBe(11.96);
+
+    resetTimers();
+  });
 });
 
 describe('seed utilities', () => {

@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { calculateProjection, calculateRetirement } from '../calculator';
+import { calculateProjection, calculateProjectionWithSteps, calculateRetirement } from '../calculator';
 import { makeConfig, makeContribution } from '../factories';
 
 const setSystemTime = (isoDate: string) => {
@@ -437,6 +437,207 @@ describe('calculator', () => {
       const yearTwo = 110000 * 0.1;
 
       expect(result.totalContributions).toBeCloseTo(yearOne + yearTwo, 6);
+
+      resetTimers();
+    });
+  });
+
+  describe('contribution growth', () => {
+    it('keeps baseline behavior when growth is omitted', () => {
+      setSystemTime('2026-01-01T00:00:00.000Z');
+
+      const config = makeConfig({
+        currentBalance: 0,
+        timeHorizonYears: 1,
+        interest: { annualRate: 0, compounding: 'monthly' },
+        contributions: [
+          makeContribution({
+            id: 'baseline',
+            type: 'flat',
+            amount: 100,
+            timing: { frequency: 'monthly', placement: 'start' },
+          }),
+        ],
+      });
+
+      const result = calculateProjection(config, config.interest.annualRate);
+      expect(result.totalContributions).toBeCloseTo(1200, 6);
+
+      resetTimers();
+    });
+
+    it('applies annual percent growth for flat annual contributions', () => {
+      setSystemTime('2026-01-01T00:00:00.000Z');
+
+      const config = makeConfig({
+        currentBalance: 0,
+        timeHorizonYears: 3,
+        interest: { annualRate: 0, compounding: 'monthly' },
+        contributions: [
+          makeContribution({
+            id: 'annual-percent',
+            type: 'flat',
+            amount: 100,
+            growth: { type: 'percent', amount: 10, cadence: 'annual' },
+            timing: { frequency: 'annual', month: 0, placement: 'start' },
+          }),
+        ],
+      });
+
+      const result = calculateProjection(config, config.interest.annualRate);
+      expect(result.totalContributions).toBeCloseTo(100 + 110 + 121, 6);
+
+      resetTimers();
+    });
+
+    it('applies monthly percent growth for flat monthly contributions', () => {
+      setSystemTime('2026-01-01T00:00:00.000Z');
+
+      const config = makeConfig({
+        currentBalance: 0,
+        timeHorizonYears: 1,
+        interest: { annualRate: 0, compounding: 'monthly' },
+        contributions: [
+          makeContribution({
+            id: 'monthly-percent',
+            type: 'flat',
+            amount: 100,
+            growth: { type: 'percent', amount: 10, cadence: 'monthly' },
+            timing: { frequency: 'monthly', placement: 'start' },
+          }),
+        ],
+      });
+
+      const expected = Array.from({ length: 12 }, (_, index) => 100 * (1.1 ** index))
+        .reduce((total, value) => total + value, 0);
+      const result = calculateProjection(config, config.interest.annualRate);
+      expect(result.totalContributions).toBeCloseTo(expected, 6);
+
+      resetTimers();
+    });
+
+    it('applies annual flat growth for flat annual contributions', () => {
+      setSystemTime('2026-01-01T00:00:00.000Z');
+
+      const config = makeConfig({
+        currentBalance: 0,
+        timeHorizonYears: 3,
+        interest: { annualRate: 0, compounding: 'monthly' },
+        contributions: [
+          makeContribution({
+            id: 'annual-flat',
+            type: 'flat',
+            amount: 100,
+            growth: { type: 'flat', amount: 20, cadence: 'annual' },
+            timing: { frequency: 'annual', month: 0, placement: 'start' },
+          }),
+        ],
+      });
+
+      const result = calculateProjection(config, config.interest.annualRate);
+      expect(result.totalContributions).toBeCloseTo(100 + 120 + 140, 6);
+
+      resetTimers();
+    });
+
+    it('applies monthly flat growth for flat monthly contributions', () => {
+      setSystemTime('2026-01-01T00:00:00.000Z');
+
+      const config = makeConfig({
+        currentBalance: 0,
+        timeHorizonYears: 1,
+        interest: { annualRate: 0, compounding: 'monthly' },
+        contributions: [
+          makeContribution({
+            id: 'monthly-flat',
+            type: 'flat',
+            amount: 100,
+            growth: { type: 'flat', amount: 20, cadence: 'monthly' },
+            timing: { frequency: 'monthly', placement: 'start' },
+          }),
+        ],
+      });
+
+      const result = calculateProjection(config, config.interest.annualRate);
+      expect(result.totalContributions).toBeCloseTo(2520, 6);
+
+      resetTimers();
+    });
+
+    it('anchors growth at projection start while honoring yearRange', () => {
+      setSystemTime('2026-01-01T00:00:00.000Z');
+
+      const config = makeConfig({
+        currentBalance: 0,
+        timeHorizonYears: 4,
+        interest: { annualRate: 0, compounding: 'monthly' },
+        contributions: [
+          makeContribution({
+            id: 'range-growth',
+            type: 'flat',
+            amount: 100,
+            growth: { type: 'flat', amount: 20, cadence: 'annual' },
+            timing: { frequency: 'annual', month: 0, placement: 'start' },
+            yearRange: { start: 2, end: 3 },
+          }),
+        ],
+      });
+
+      const result = calculateProjection(config, config.interest.annualRate);
+      expect(result.totalContributions).toBeCloseTo(140 + 160, 6);
+
+      resetTimers();
+    });
+
+    it('applies growth to salaryPercent rules using the effective percent', () => {
+      setSystemTime('2026-01-01T00:00:00.000Z');
+
+      const config = makeConfig({
+        currentBalance: 0,
+        timeHorizonYears: 2,
+        interest: { annualRate: 0, compounding: 'monthly' },
+        salary: { annualBase: 120000, annualRaiseRate: 0 },
+        contributions: [
+          makeContribution({
+            id: 'salary-growth',
+            type: 'salaryPercent',
+            amount: 10,
+            growth: { type: 'flat', amount: 2, cadence: 'annual' },
+            salaryBasis: 'monthly',
+            timing: { frequency: 'monthly', placement: 'start' },
+          }),
+        ],
+      });
+
+      const run = calculateProjectionWithSteps(config, config.interest.annualRate, { includeContributionDetails: true });
+      expect(run.steps[0]?.contributionsThisStep).toBeCloseTo(1000, 6);
+      expect(run.steps[12]?.contributionsThisStep).toBeCloseTo(1200, 6);
+      expect(run.projection.totalContributions).toBeCloseTo((1000 * 12) + (1200 * 12), 6);
+
+      resetTimers();
+    });
+
+    it('rejects negative growth amounts', () => {
+      setSystemTime('2026-01-01T00:00:00.000Z');
+
+      const config = makeConfig({
+        currentBalance: 0,
+        timeHorizonYears: 1,
+        interest: { annualRate: 0, compounding: 'monthly' },
+        contributions: [
+          makeContribution({
+            id: 'invalid-growth',
+            type: 'flat',
+            amount: 100,
+            growth: { type: 'percent', amount: -1, cadence: 'annual' },
+            timing: { frequency: 'monthly', placement: 'start' },
+          }),
+        ],
+      });
+
+      expect(() => calculateProjection(config, config.interest.annualRate)).toThrow(
+        'growth.amount must be 0 or greater for contribution "invalid-growth".',
+      );
 
       resetTimers();
     });
