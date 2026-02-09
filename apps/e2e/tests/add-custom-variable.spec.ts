@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 import {
   addCustomVariableButton,
   customVariableAccordionTrigger,
@@ -8,6 +8,14 @@ import {
   gotoApp,
   openCustomVariablesAccordion,
 } from './helpers/custom-variable';
+
+function customVariableSection(page: Page) {
+  return page.getByRole('heading', { name: 'Add custom variable' }).locator('xpath=ancestor::section[1]');
+}
+
+function customVariableGrowthSection(page: Page) {
+  return page.getByText('Growth (optional)').first().locator('xpath=ancestor::div[contains(@class,"rounded-md")][1]');
+}
 
 test.describe('Add custom variable form', () => {
   test('stays visible even when Custom Variables accordion is collapsed', async ({ page }) => {
@@ -84,5 +92,47 @@ test.describe('Add custom variable form', () => {
     const editedRow = page.locator('div.group').filter({ has: page.getByText(updatedName) }).first();
     await expect(editedRow).toBeVisible();
     await expect(editedRow.locator('input[type="number"]').first()).toHaveValue('22');
+  });
+
+  test('shows and hides optional growth controls', async ({ page }) => {
+    await gotoApp(page);
+
+    const growthSection = customVariableGrowthSection(page);
+    await expect(page.getByText('Growth (optional)').first()).toBeVisible();
+    const growthToggle = page.getByRole('button', { name: 'Disabled' }).first();
+
+    await expect(growthToggle).toBeVisible();
+    await expect(page.locator('input[name="customVariableDraft.growthAmount"]')).toHaveCount(0);
+
+    await growthToggle.click();
+    await expect(page.getByRole('button', { name: 'Enabled' }).first()).toBeVisible();
+    await expect(page.locator('input[name="customVariableDraft.growthAmount"]')).toBeVisible();
+    await expect(page.getByRole('radio', { name: 'Amount $' })).toHaveCount(2);
+    await expect(growthSection.getByRole('radio', { name: 'Annually' })).toBeVisible();
+  });
+
+  test('keeps Raise by icon and input padding aligned when switching growth type', async ({ page }) => {
+    await gotoApp(page);
+
+    const growthSection = customVariableGrowthSection(page);
+    await page.getByRole('button', { name: 'Disabled' }).first().click();
+
+    const growthAmountInput = page.locator('input[name="customVariableDraft.growthAmount"]');
+    await expect(growthAmountInput).toBeVisible();
+
+    const growthInputWrapper = growthAmountInput.locator('xpath=ancestor::div[contains(@class,"relative")]').first();
+    await expect(growthInputWrapper.locator('span.right-3')).toHaveText('%');
+
+    await page.getByRole('radio', { name: 'Amount $' }).nth(1).click();
+    await growthAmountInput.fill('123');
+
+    await expect(growthInputWrapper.locator('span.left-3')).toHaveText('$');
+    await expect(growthInputWrapper.locator('span.right-3')).toHaveCount(0);
+    await expect(growthAmountInput).toHaveClass(/pl-7/);
+
+    const paddingLeftPx = await growthAmountInput.evaluate((node) =>
+      Number.parseFloat(window.getComputedStyle(node).paddingLeft),
+    );
+    expect(paddingLeftPx).toBeGreaterThan(20);
   });
 });

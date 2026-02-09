@@ -50,12 +50,19 @@
 
   function toEditableVariable(field: (typeof fields)[number]) {
     if (field.source === 'custom') {
-      return $formData.customVariables[field.index];
+      const variable = $formData.customVariables[field.index];
+      return {
+        ...variable,
+        growthEnabled: variable.growthEnabled ?? false,
+        growthType: variable.growthType ?? 'percent',
+        growthAmount: variable.growthAmount ?? 0,
+        growthCadence: variable.growthCadence ?? 'annual'
+      };
     }
 
     const baseAmount = $formData.contributionVariables[field.index]?.amount ?? field.contribution.amount ?? 0;
     const timing = field.contribution.timing;
-    const frequency = timing.frequency === 'annual' ? 'annual' : 'monthly';
+    const frequency: 'annual' | 'monthly' = timing.frequency === 'annual' ? 'annual' : 'monthly';
     const placement = timing.frequency === 'oneTime' ? 'start' : (timing.placement ?? 'start');
     return {
       id: field.id,
@@ -65,7 +72,11 @@
       frequency,
       placement,
       yearStart: field.contribution.yearRange?.start ?? 0,
-      yearEnd: field.contribution.yearRange?.end ?? $formData.yearsToRetirement
+      yearEnd: field.contribution.yearRange?.end ?? $formData.yearsToRetirement,
+      growthEnabled: Boolean(field.contribution.growth),
+      growthType: field.contribution.growth?.type ?? 'percent',
+      growthAmount: field.contribution.growth?.amount ?? 0,
+      growthCadence: field.contribution.growth?.cadence ?? 'annual'
     };
   }
 </script>

@@ -15,9 +15,11 @@
     | 'annualRaisePct'
     | `contributionVariables[${number}].amount`
     | `customVariables[${number}].amount`
+    | `customVariables[${number}].growthAmount`
     | 'customVariableDraft.amount'
     | 'customVariableDraft.yearStart'
-    | 'customVariableDraft.yearEnd';
+    | 'customVariableDraft.yearEnd'
+    | 'customVariableDraft.growthAmount';
 
   let {
     form,
@@ -48,7 +50,7 @@
   let isFocused = $state(false);
   let pendingStepSource = $state<'wheel' | 'keyboard' | 'spinner' | null>(null);
 
-  const inputPaddingClass = prefix ? 'pl-7' : suffix ? 'pr-7' : '';
+  const inputPaddingClass = $derived(prefix ? 'pl-7' : suffix ? 'pr-7' : '');
 
   $effect(() => {
     if (isFocused) return;

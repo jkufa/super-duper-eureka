@@ -25,6 +25,10 @@ export const retirementConfigFormSchema = z.object({
       placement: z.enum(['start', 'end']),
       yearStart: z.coerce.number().int().min(0).max(80),
       yearEnd: z.coerce.number().int().min(0).max(80),
+      growthEnabled: z.boolean(),
+      growthType: z.enum(['percent', 'flat']),
+      growthAmount: z.coerce.number().min(0),
+      growthCadence: z.enum(['annual', 'monthly']),
     }),
   ),
   customVariableDraft: z.object({
@@ -35,6 +39,10 @@ export const retirementConfigFormSchema = z.object({
     placement: z.enum(['start', 'end']),
     yearStart: z.coerce.number().int().min(0).max(80),
     yearEnd: z.coerce.number().int().min(0).max(80),
+    growthEnabled: z.boolean(),
+    growthType: z.enum(['percent', 'flat']),
+    growthAmount: z.coerce.number().min(0),
+    growthCadence: z.enum(['annual', 'monthly']),
   }),
 });
 
@@ -67,6 +75,10 @@ export function toRetirementConfigFormDefaults(config: RetirementConfig): Retire
       placement: 'end',
       yearStart: 0,
       yearEnd: config.timeHorizonYears,
+      growthEnabled: false,
+      growthType: 'percent',
+      growthAmount: 0,
+      growthCadence: 'annual',
     },
   };
 }
@@ -95,6 +107,14 @@ export function applyRetirementConfigFormValues(
       name: item.name,
       type: item.type,
       amount: toNumberOr(item.amount, 0),
+      growth:
+        item.growthEnabled
+          ? {
+              type: item.growthType,
+              amount: toNumberOr(item.growthAmount, 0),
+              cadence: item.growthCadence,
+            }
+          : undefined,
       timing:
         item.frequency === 'annual'
           ? ({ frequency: 'annual' as const, month: 0, placement: item.placement })
