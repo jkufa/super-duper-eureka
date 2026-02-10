@@ -1,8 +1,29 @@
 # Config Form Refactor + Domain Utils Spec
 
-Status: Draft
+Status: In Progress
 Owner: Webapp / Calculator
 Date: 2026-02-10
+
+Progress:
+- Completed (2026-02-10): Track 2 step 1-3 slice for shared custom-variable validation and normalization utilities, including webapp integration into `ConfigCustomVariableForm.svelte`.
+- Completed (2026-02-10): Track 1 partial UI parity slice in `ConfigCustomVariableForm.svelte`:
+  - unified edit amount + growth amount with shared numeric-field rendering snippet,
+  - normalized primary label treatment in create/edit blocks,
+  - added timing parse fallback to structured values when natural text is blank.
+  - Validation:
+    - `bun run --filter @retirement/calculator test` passed.
+    - `bun run --filter e2e test tests/add-custom-variable.spec.ts --project=chromium` passed.
+    - `bun run --filter e2e test tests/custom-variable-hybrid-mode.spec.ts` passed on chromium (mobile cases skipped in current run config).
+    - `bun run --filter e2e test tests/update-custom-variable.spec.ts` currently fails in this branch because selectors expect controls no longer present in the in-flight hybrid edit UI (`Annual`, `At start`, explicit year-range inputs).
+- Completed (2026-02-10): Track 1 component extraction slice:
+  - extracted `CustomVariableCoreFields.svelte`,
+  - extracted `CustomVariableTimingFields.svelte`,
+  - extracted `CustomVariableGrowthFields.svelte`,
+  - rewired `ConfigCustomVariableForm.svelte` to compose these pieces while keeping IDs and interaction behavior stable.
+  - Validation:
+    - `bun run --filter @retirement/calculator test` passed.
+    - `bun run --filter e2e test tests/add-custom-variable.spec.ts --project=chromium` passed.
+    - `bun run --filter e2e test tests/custom-variable-hybrid-mode.spec.ts` passed on chromium (mobile cases skipped in current run config).
 
 ## Scope
 This spec covers two implementation tracks:
