@@ -23,8 +23,8 @@ test.describe('Custom variable hybrid timing mode', () => {
     await expect(createForm.getByRole('spinbutton', { name: 'Start year' })).toHaveCount(0);
     await expect(createForm.getByRole('spinbutton', { name: 'End year' })).toHaveCount(0);
     await timingInput.blur();
-    await expect(createForm.getByRole('spinbutton', { name: 'Start year' })).toBeVisible();
-    await expect(createForm.getByRole('spinbutton', { name: 'End year' })).toBeVisible();
+    await expect(createForm.getByRole('spinbutton', { name: 'Start year' })).toHaveCount(0);
+    await expect(createForm.getByRole('spinbutton', { name: 'End year' })).toHaveCount(0);
     await expect(createForm.getByRole('spinbutton', { name: 'Day' })).toHaveCount(0);
     await expect(createForm.getByRole('spinbutton', { name: 'Month' })).toHaveCount(0);
     await expect(createForm.getByRole('spinbutton', { name: 'Day of month' })).toHaveCount(0);
@@ -33,8 +33,8 @@ test.describe('Custom variable hybrid timing mode', () => {
     await page.waitForTimeout(500);
 
     await expect(createForm.getByText('Parsed as one-time')).toBeVisible();
-    await expect(createForm.getByRole('spinbutton', { name: 'Start year' })).toBeVisible();
-    await expect(createForm.getByRole('spinbutton', { name: 'End year' })).toBeVisible();
+    await expect(createForm.getByRole('spinbutton', { name: 'Start year' })).toHaveCount(0);
+    await expect(createForm.getByRole('spinbutton', { name: 'End year' })).toHaveCount(0);
     await timingInput.blur();
     await expect(createForm.getByRole('spinbutton', { name: 'Year', exact: true })).toHaveCount(0);
     await expect(createForm.getByRole('spinbutton', { name: 'Start year' })).toHaveCount(0);
@@ -66,26 +66,25 @@ test.describe('Custom variable hybrid timing mode', () => {
     await page.locator(`[data-calendar-day][data-value="${currentYear}-12-21"]`).click();
 
     const selectedValue = await timingInput.inputValue();
-    const expectedMessage = `Parsed as one-time on ${selectedValue}.`;
+    const expectedMessage = `Parsed as one-time on ${selectedValue}. Applies once in ${currentYear}.`;
     await expect(createForm.getByText(expectedMessage)).toBeVisible();
 
     await page.waitForTimeout(600);
     await expect(createForm.getByText(expectedMessage)).toBeVisible();
   });
 
-  test('calendar picker respects start/end year bounds', async ({ page }) => {
+  test('range modifiers parse and summarize without manual year inputs', async ({ page }) => {
     await gotoApp(page);
     const createForm = page.getByRole('heading', { name: 'Add custom variable' }).locator('xpath=ancestor::section[1]');
     const timingInput = createForm.locator('#custom-variable-timing-natural');
 
-    await timingInput.fill('every feb 13');
+    await timingInput.fill('every 15th for 10 years starting in 2028');
     await timingInput.blur();
 
-    await createForm.getByRole('spinbutton', { name: 'Start year' }).fill('1');
-    await createForm.getByRole('spinbutton', { name: 'End year' }).fill('1');
-
-    await createForm.locator('#custom-variable-timing-natural-date-picker').click();
-    await expect(page.locator('[data-calendar-day]:not([data-outside-month]):not([data-disabled])')).toHaveCount(0);
+    await expect(createForm.getByText('Parsed as monthly on day 15.')).toBeVisible();
+    await expect(createForm.getByText('Applies in years')).toBeVisible();
+    await expect(createForm.getByRole('spinbutton', { name: 'Start year' })).toHaveCount(0);
+    await expect(createForm.getByRole('spinbutton', { name: 'End year' })).toHaveCount(0);
   });
 
   test('edit form infers frequency from timing phrase and hides old controls', async ({ page }) => {
@@ -112,8 +111,8 @@ test.describe('Custom variable hybrid timing mode', () => {
     await expect(editor.locator('#edit-custom-variable-timing-month')).toHaveCount(0);
     await expect(editor.locator('#edit-custom-variable-timing-year')).toHaveCount(0);
 
-    await expect(editor.locator('#edit-custom-variable-year-start')).toBeVisible();
-    await expect(editor.locator('#edit-custom-variable-year-end')).toBeVisible();
+    await expect(editor.locator('#edit-custom-variable-year-start')).toHaveCount(0);
+    await expect(editor.locator('#edit-custom-variable-year-end')).toHaveCount(0);
 
     await timingInput.fill('on 1/2/2027');
     await page.waitForTimeout(500);

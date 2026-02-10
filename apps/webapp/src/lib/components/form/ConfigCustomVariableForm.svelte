@@ -1,11 +1,14 @@
 <script lang="ts">
   import { Plus } from '@lucide/svelte';
-  import { parseDate } from 'chrono-node';
   import { CalendarDate, getLocalTimeZone, type DateValue } from '@internationalized/date';
   import * as Form from '$lib/components/ui/form';
   import type { SuperForm } from 'sveltekit-superforms/client';
   import { fieldProxy } from 'sveltekit-superforms/client';
   import type { RetirementConfigFormValues } from '$lib/forms/retirement-config-form';
+  import {
+    parseCustomVariableTimingText,
+    TIMING_PARSE_ERROR_MESSAGE,
+  } from '$lib/forms/frequency-nlp';
   import { Input } from '$lib/components/ui/input';
   import * as Button from '$lib/components/ui/button';
   import * as Toggle from '$lib/components/ui/toggle';
@@ -15,33 +18,6 @@
 
   type Mode = 'create' | 'edit';
   type CustomVariable = RetirementConfigFormValues['customVariables'][number];
-
-  const MONTH_LOOKUP: Record<string, number> = {
-    january: 1,
-    jan: 1,
-    february: 2,
-    feb: 2,
-    march: 3,
-    mar: 3,
-    april: 4,
-    apr: 4,
-    may: 5,
-    june: 6,
-    jun: 6,
-    july: 7,
-    jul: 7,
-    august: 8,
-    aug: 8,
-    september: 9,
-    sept: 9,
-    sep: 9,
-    october: 10,
-    oct: 10,
-    november: 11,
-    nov: 11,
-    december: 12,
-    dec: 12,
-  };
 
   let {
     form,
@@ -94,12 +70,10 @@
 
   let submitError = $state<string | null>(null);
   let draftTimingInfo = $state<string | null>(null);
-  let draftShowYearRange = $state(false);
   let editTimingInfo = $state<string | null>(null);
   let draftParseDebounceTimer = $state<ReturnType<typeof setTimeout> | null>(null);
   let editParseDebounceTimer = $state<ReturnType<typeof setTimeout> | null>(null);
   const TIMING_PARSE_DEBOUNCE_MS = 400;
-  const TIMING_PARSE_ERROR_MESSAGE = 'Unable to parse that contribution frequency. Try "every 15th", "every Feb 13", or "on 1/2/2027".';
 
   $effect(() => {
     if (mode !== 'edit' || !variable) {
@@ -250,56 +224,11 @@
   }
 
   function parseTimingText(input: string) {
-    const normalized = input.trim().toLowerCase();
-    if (!normalized) return null;
-
-    const monthlyMatch = normalized.match(/^(?:every|on)\s+(?:the\s+)?(\d{1,2})(?:st|nd|rd|th)?(?:\s+of\s+every\s+month)?$/);
-    if (monthlyMatch) {
-      const day = Number.parseInt(monthlyMatch[1], 10);
-      if (day >= 1 && day <= 31) {
-        return {
-          frequency: 'monthly' as const,
-          day,
-          month: 1,
-          year: currentYear,
-          summary: `Parsed as monthly on day ${String(day)}.`
-        };
-      }
-    }
-
-    const annualMatch = normalized.match(/^(?:every|on)\s+([a-z]+)\s+(\d{1,2})(?:st|nd|rd|th)?$/);
-    if (annualMatch) {
-      const monthToken = annualMatch[1];
-      const month = MONTH_LOOKUP[monthToken];
-      const day = Number.parseInt(annualMatch[2], 10);
-      if (month && day >= 1 && day <= 31) {
-        return {
-          frequency: 'annual' as const,
-          day,
-          month,
-          year: currentYear,
-          summary: `Parsed as annual on ${monthToken} ${String(day)}.`
-        };
-      }
-    }
-
-    const parsed = parseDate(input);
-    if (parsed) {
-      const formatted = parsed.toLocaleDateString('en-US', {
-        day: '2-digit',
-        month: 'long',
-        year: 'numeric'
-      });
-      return {
-        frequency: 'oneTime' as const,
-        day: parsed.getDate(),
-        month: parsed.getMonth() + 1,
-        year: parsed.getFullYear(),
-        summary: `Parsed as one-time on ${formatted}.`
-      };
-    }
-
-    return null;
+    return parseCustomVariableTimingText(input, {
+      referenceDate: now,
+      projectionStartYear: currentYear,
+      horizonYears: $formData.yearsToRetirement,
+    });
   }
 
   function applyParsedTiming(
@@ -323,12 +252,16 @@
       $formData.customVariableDraft.timingDay = parsed.day;
       $formData.customVariableDraft.timingMonth = parsed.month;
       $formData.customVariableDraft.timingYear = parsed.year;
+      $formData.customVariableDraft.yearStart = parsed.yearStart;
+      $formData.customVariableDraft.yearEnd = parsed.yearEnd;
       draftTimingInfo = parsed.summary;
     } else {
       editFrequency = parsed.frequency;
       editTimingDay = parsed.day;
       editTimingMonth = parsed.month;
       editTimingYear = parsed.year;
+      editYearStart = parsed.yearStart;
+      editYearEnd = parsed.yearEnd;
       editTimingInfo = parsed.summary;
     }
   }
@@ -481,7 +414,6 @@
     $draftGrowthCadence = 'annual';
     submitError = null;
     draftTimingInfo = null;
-    draftShowYearRange = false;
     onCommit?.();
   }
 
@@ -559,7 +491,7 @@
           <Calendar29
             id="custom-variable-timing-natural"
             value={$draftTimingNaturalText}
-            placeholder="every 15th, every Feb 13, on 1/2/2027"
+            placeholder="every 15th, every Feb 13, on 1/2/2027, every 15th for 10 years starting in 2028"
             showCalendar={true}
             inputProps={props}
             selectedDate={draftSelectedCalendarDate}
@@ -573,21 +505,20 @@
               const trimmed = $draftTimingNaturalText.trim();
               if (trimmed.length === 0) {
                 draftTimingInfo = null;
-                draftShowYearRange = false;
                 return;
               }
               flushTimingParse('draft', $draftTimingNaturalText);
-              const parsed = parseTimingText($draftTimingNaturalText);
-              draftShowYearRange = Boolean(parsed && parsed.frequency !== 'oneTime');
             }}
             onPickDate={(value) => {
               $draftFrequency = 'oneTime';
               $formData.customVariableDraft.timingYear = value.year;
               $formData.customVariableDraft.timingMonth = value.month;
               $formData.customVariableDraft.timingDay = value.day;
+              const oneTimeYearOffset = Math.max(0, value.year - currentYear);
+              $formData.customVariableDraft.yearStart = oneTimeYearOffset;
+              $formData.customVariableDraft.yearEnd = oneTimeYearOffset;
               $draftTimingNaturalText = formatDate(value);
-              draftTimingInfo = `Parsed as one-time on ${formatDate(value)}.`;
-              draftShowYearRange = false;
+              draftTimingInfo = `Parsed as one-time on ${formatDate(value)}. Applies once in ${String(value.year)}.`;
             }}
           />
         {/snippet}
@@ -606,7 +537,7 @@
       <Calendar29
         id="edit-custom-variable-timing-natural"
         value={editTimingNaturalText}
-        placeholder="every 15th, every Feb 13, on 1/2/2027"
+        placeholder="every 15th, every Feb 13, on 1/2/2027, every 15th for 10 years starting in 2028"
         showCalendar={true}
         selectedDate={editSelectedCalendarDate}
         minDate={editCalendarMinDate}
@@ -627,8 +558,11 @@
           editTimingYear = value.year;
           editTimingMonth = value.month;
           editTimingDay = value.day;
+          const oneTimeYearOffset = Math.max(0, value.year - currentYear);
+          editYearStart = oneTimeYearOffset;
+          editYearEnd = oneTimeYearOffset;
           editTimingNaturalText = formatDate(value);
-          editTimingInfo = `Parsed as one-time on ${formatDate(value)}.`;
+          editTimingInfo = `Parsed as one-time on ${formatDate(value)}. Applies once in ${String(value.year)}.`;
         }}
       />
     </div>
@@ -807,27 +741,6 @@
 
     {@render timingFieldsCreate()}
 
-    {#if draftShowYearRange}
-      <div class="grid grid-cols-2 gap-3">
-        <ConfigNumericField
-          {form}
-          name="customVariableDraft.yearStart"
-          label="Start year"
-          kind="int"
-          inputmode="numeric"
-          emptyFallback="0"
-        />
-        <ConfigNumericField
-          {form}
-          name="customVariableDraft.yearEnd"
-          label="End year"
-          kind="int"
-          inputmode="numeric"
-          emptyFallback={$formData.yearsToRetirement.toString()}
-        />
-      </div>
-    {/if}
-
     {@render draftGrowthSection()}
   {:else}
     <div class="space-y-1.5">
@@ -886,45 +799,6 @@
     </div>
 
     {@render timingFieldsEdit()}
-
-    {#if editFrequency !== 'oneTime'}
-      <div class="grid grid-cols-2 gap-3">
-        <div class="space-y-1.5">
-          <label class="text-xs font-medium leading-7 text-muted-foreground" for="edit-custom-variable-year-start"
-            >Start year</label
-          >
-          <Input
-            id="edit-custom-variable-year-start"
-            type="number"
-            min="0"
-            step="1"
-            inputmode="numeric"
-            value={editYearStart}
-            oninput={(event) => {
-              const parsed = Number.parseInt((event.currentTarget as HTMLInputElement).value, 10);
-              editYearStart = Number.isFinite(parsed) ? parsed : 0;
-            }}
-          />
-        </div>
-        <div class="space-y-1.5">
-          <label class="text-xs font-medium leading-7 text-muted-foreground" for="edit-custom-variable-year-end"
-            >End year</label
-          >
-          <Input
-            id="edit-custom-variable-year-end"
-            type="number"
-            min="0"
-            step="1"
-            inputmode="numeric"
-            value={editYearEnd}
-            oninput={(event) => {
-              const parsed = Number.parseInt((event.currentTarget as HTMLInputElement).value, 10);
-              editYearEnd = Number.isFinite(parsed) ? parsed : 0;
-            }}
-          />
-        </div>
-      </div>
-    {/if}
 
     {@render editGrowthSection()}
   {/if}
