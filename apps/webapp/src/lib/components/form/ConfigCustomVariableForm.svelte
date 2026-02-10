@@ -4,15 +4,17 @@
   import type { SuperForm } from 'sveltekit-superforms/client';
   import { fieldProxy } from 'sveltekit-superforms/client';
   import type { RetirementConfigFormValues } from '$lib/forms/retirement-config-form';
-  import {
-    parseCustomVariableTimingText,
-    TIMING_PARSE_ERROR_MESSAGE,
-  } from '$lib/forms/frequency-nlp';
-  import { normalizeCustomVariableInput, validateCustomVariableInput } from '@retirement/calculator';
+  import { TIMING_PARSE_ERROR_MESSAGE } from '$lib/forms/frequency-nlp';
   import * as Button from '$lib/components/ui/button';
   import CustomVariableCoreFields from './CustomVariableCoreFields.svelte';
   import CustomVariableTimingFields from './CustomVariableTimingFields.svelte';
   import CustomVariableGrowthFields from './CustomVariableGrowthFields.svelte';
+  import {
+    parseCustomVariableTiming,
+    resolveParsedTimingOrStructured,
+    toCustomVariableId,
+    validateAndNormalizeCustomVariableInput,
+  } from './custom-variable-editor-model';
 
   type Mode = 'create' | 'edit';
   type CustomVariable = RetirementConfigFormValues['customVariables'][number];
@@ -179,53 +181,12 @@
     });
   }
 
-  function toCustomId(name: string) {
-    const slug = name
-      .trim()
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-+|-+$/g, '');
-    const token = Math.random().toString(36).slice(2, 8);
-    return `custom-${slug || 'variable'}-${token}`;
-  }
-
   function parseTimingText(input: string) {
-    return parseCustomVariableTimingText(input, {
+    return parseCustomVariableTiming(input, {
       referenceDate: now,
       projectionStartYear: currentYear,
       horizonYears: $formData.yearsToRetirement,
     });
-  }
-
-  function toFiniteNumber(value: unknown, fallback: number) {
-    const parsed = Number(value);
-    return Number.isFinite(parsed) ? parsed : fallback;
-  }
-
-  function parseTimingTextOrUseStructured(
-    input: string,
-    fallback: {
-      frequency: CustomVariable['frequency'];
-      day: number;
-      month: number;
-      year: number;
-      yearStart: number;
-      yearEnd: number;
-    },
-  ) {
-    const parsed = parseTimingText(input);
-    if (parsed) return parsed;
-    if (input.trim().length > 0) return null;
-
-    return {
-      ...fallback,
-      day: toFiniteNumber(fallback.day, 1),
-      month: toFiniteNumber(fallback.month, 1),
-      year: toFiniteNumber(fallback.year, currentYear),
-      yearStart: toFiniteNumber(fallback.yearStart, 0),
-      yearEnd: toFiniteNumber(fallback.yearEnd, Math.max(0, $formData.yearsToRetirement)),
-      summary: '',
-    };
   }
 
   function applyParsedTiming(
@@ -342,66 +303,52 @@
       return;
     }
 
-    const parsedTiming = parseTimingTextOrUseStructured(timingNaturalText, {
-      frequency: $draftFrequency,
-      day: $formData.customVariableDraft.timingDay,
-      month: $formData.customVariableDraft.timingMonth,
-      year: $formData.customVariableDraft.timingYear,
-      yearStart: $formData.customVariableDraft.yearStart,
-      yearEnd: $formData.customVariableDraft.yearEnd,
-    });
+    const parsedTiming = resolveParsedTimingOrStructured(
+      timingNaturalText,
+      {
+        frequency: $draftFrequency,
+        day: $formData.customVariableDraft.timingDay,
+        month: $formData.customVariableDraft.timingMonth,
+        year: $formData.customVariableDraft.timingYear,
+        yearStart: $formData.customVariableDraft.yearStart,
+        yearEnd: $formData.customVariableDraft.yearEnd,
+      },
+      {
+        referenceDate: now,
+        projectionStartYear: currentYear,
+        horizonYears: $formData.yearsToRetirement,
+      },
+    );
 
     if (!parsedTiming) {
       submitError = TIMING_PARSE_ERROR_MESSAGE;
       return;
     }
 
-    const validationError = validateCustomVariableInput(
-      {
-        name: trimmedName,
-        amount: parsedAmount,
-        yearStart: parsedTiming.yearStart,
-        yearEnd: parsedTiming.yearEnd,
-        growthEnabled,
-        growthAmount,
-      },
-      {
-        frequency: parsedTiming.frequency,
-        day: parsedTiming.day,
-        month: parsedTiming.month,
-        year: parsedTiming.year,
-      },
-    );
-    if (validationError) {
-      submitError = validationError;
-      return;
-    }
-
-    const normalized = normalizeCustomVariableInput(
+    const { error, normalized } = validateAndNormalizeCustomVariableInput(
       {
         name: trimmedName,
         type: contributionType,
         amount: parsedAmount,
         placement,
         timingNaturalText,
-        yearStart: parsedTiming.yearStart,
-        yearEnd: parsedTiming.yearEnd,
+        yearStart,
+        yearEnd,
         growthEnabled,
         growthType,
         growthAmount,
-        growthCadence
-      },
-      {
-        frequency: parsedTiming.frequency,
-        day: parsedTiming.day,
-        month: parsedTiming.month,
-        year: parsedTiming.year,
+        growthCadence,
+        parsedTiming,
       },
     );
+    if (error || !normalized) {
+      submitError = error;
+      return;
+    }
 
     const next = $formData.customVariables.slice();
     next.push({
-      id: toCustomId(trimmedName),
+      id: toCustomVariableId(trimmedName),
       ...normalized,
       timingInputMode: 'hybrid',
     });
@@ -439,62 +386,48 @@
       return;
     }
 
-    const parsedTiming = parseTimingTextOrUseStructured(editTimingNaturalText, {
-      frequency: editFrequency,
-      day: editTimingDay,
-      month: editTimingMonth,
-      year: editTimingYear,
-      yearStart: editYearStart,
-      yearEnd: editYearEnd,
-    });
+    const parsedTiming = resolveParsedTimingOrStructured(
+      editTimingNaturalText,
+      {
+        frequency: editFrequency,
+        day: editTimingDay,
+        month: editTimingMonth,
+        year: editTimingYear,
+        yearStart: editYearStart,
+        yearEnd: editYearEnd,
+      },
+      {
+        referenceDate: now,
+        projectionStartYear: currentYear,
+        horizonYears: $formData.yearsToRetirement,
+      },
+    );
 
     if (!parsedTiming) {
       submitError = TIMING_PARSE_ERROR_MESSAGE;
       return;
     }
 
-    const validationError = validateCustomVariableInput(
-      {
-        name: editName,
-        amount: editAmount,
-        yearStart: parsedTiming.yearStart,
-        yearEnd: parsedTiming.yearEnd,
-        growthEnabled: editGrowthEnabled,
-        growthAmount: editGrowthAmount,
-      },
-      {
-        frequency: parsedTiming.frequency,
-        day: parsedTiming.day,
-        month: parsedTiming.month,
-        year: parsedTiming.year,
-      },
-    );
-    if (validationError) {
-      submitError = validationError;
-      return;
-    }
-
-    const normalized = normalizeCustomVariableInput(
+    const { error, normalized } = validateAndNormalizeCustomVariableInput(
       {
         name: editName,
         type: editType,
         amount: editAmount,
         placement: editPlacement,
         timingNaturalText: editTimingNaturalText,
-        yearStart: parsedTiming.yearStart,
-        yearEnd: parsedTiming.yearEnd,
+        yearStart: editYearStart,
+        yearEnd: editYearEnd,
         growthEnabled: editGrowthEnabled,
         growthType: editGrowthType,
         growthAmount: editGrowthAmount,
-        growthCadence: editGrowthCadence
-      },
-      {
-        frequency: parsedTiming.frequency,
-        day: parsedTiming.day,
-        month: parsedTiming.month,
-        year: parsedTiming.year,
+        growthCadence: editGrowthCadence,
+        parsedTiming,
       },
     );
+    if (error || !normalized) {
+      submitError = error;
+      return;
+    }
 
     onSaveVariable?.({
       id: variable.id,

@@ -24,6 +24,14 @@ Progress:
     - `bun run --filter @retirement/calculator test` passed.
     - `bun run --filter e2e test tests/add-custom-variable.spec.ts --project=chromium` passed.
     - `bun run --filter e2e test tests/custom-variable-hybrid-mode.spec.ts` passed on chromium (mobile cases skipped in current run config).
+- Completed (2026-02-10): Track 1 editor-model extraction slice:
+  - extracted `custom-variable-editor-model.ts` for id generation, timing fallback resolution, and validate/normalize composition,
+  - rewired `ConfigCustomVariableForm.svelte` submit paths to use model helpers,
+  - reduced container size from 568 lines to 501 lines.
+  - Validation:
+    - `bun run --filter @retirement/calculator test` passed.
+    - `bun run --filter e2e test tests/add-custom-variable.spec.ts --project=chromium` passed.
+    - `bun run --filter e2e test tests/custom-variable-hybrid-mode.spec.ts` passed on chromium (mobile cases skipped in current run config).
 
 ## Scope
 This spec covers two implementation tracks:
