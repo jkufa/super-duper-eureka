@@ -2,7 +2,6 @@
   import type { RetirementConfig } from '@retirement/calculator/types';
   import type { SuperForm } from 'sveltekit-superforms/client';
   import type { RetirementConfigFormValues } from '$lib/forms/retirement-config-form';
-  import * as Button from '$lib/components/ui/button';
   import ConfigNumericField from './ConfigNumericField.svelte';
   import ConfigCustomVariableForm from './ConfigCustomVariableForm.svelte';
 
@@ -49,10 +48,17 @@
   );
 
   function toEditableVariable(field: (typeof fields)[number]) {
+    const now = new Date();
+    const currentYear = now.getFullYear();
     if (field.source === 'custom') {
       const variable = $formData.customVariables[field.index];
       return {
         ...variable,
+        timingInputMode: variable.timingInputMode ?? 'hybrid',
+        timingNaturalText: variable.timingNaturalText ?? '',
+        timingDay: variable.timingDay ?? 1,
+        timingMonth: variable.timingMonth ?? 1,
+        timingYear: variable.timingYear ?? currentYear,
         growthEnabled: variable.growthEnabled ?? false,
         growthType: variable.growthType ?? 'percent',
         growthAmount: variable.growthAmount ?? 0,
@@ -62,8 +68,16 @@
 
     const baseAmount = $formData.contributionVariables[field.index]?.amount ?? field.contribution.amount ?? 0;
     const timing = field.contribution.timing;
-    const frequency: 'annual' | 'monthly' = timing.frequency === 'annual' ? 'annual' : 'monthly';
+    const frequency: 'annual' | 'monthly' | 'oneTime' = timing.frequency;
     const placement = timing.frequency === 'oneTime' ? 'start' : (timing.placement ?? 'start');
+    const timingDay = timing.frequency === 'oneTime' ? (timing.on.day ?? 1) : (timing.day ?? 1);
+    const timingMonth
+      = timing.frequency === 'annual'
+        ? timing.month + 1
+        : timing.frequency === 'oneTime'
+          ? timing.on.month + 1
+          : 1;
+    const timingYear = timing.frequency === 'oneTime' ? currentYear + timing.on.year : currentYear;
     return {
       id: field.id,
       name: field.contribution.name ?? field.contribution.id,
@@ -71,6 +85,11 @@
       amount: baseAmount,
       frequency,
       placement,
+      timingInputMode: 'hybrid' as const,
+      timingNaturalText: '',
+      timingDay,
+      timingMonth,
+      timingYear,
       yearStart: field.contribution.yearRange?.start ?? 0,
       yearEnd: field.contribution.yearRange?.end ?? $formData.yearsToRetirement,
       growthEnabled: Boolean(field.contribution.growth),
@@ -82,6 +101,9 @@
 </script>
 
 <section class="space-y-4">
+  <p class="text-xs text-muted-foreground">
+    Built-in variables in this section are currently testing fixtures.
+  </p>
   {#if fields.length === 0}
     <p class="text-sm text-muted-foreground">No contribution rules configured.</p>
   {:else}
@@ -137,7 +159,7 @@
           }}
         />
       {:else}
-        <div class="group relative space-y-2">
+        <div class="group space-y-2">
           <ConfigNumericField
             {form}
             name={field.name}
@@ -147,50 +169,12 @@
             kind="number"
             inputmode="decimal"
             emptyFallback={field.emptyFallback}
+            labelActionText="Edit"
+            onLabelAction={() => {
+              editingFieldKey = field.key;
+            }}
             {onCommit}
           />
-
-          <div
-            class="mt-1 flex justify-end gap-2 opacity-100 transition-opacity md:absolute md:top-7 md:left-full md:mt-0 md:ml-2 md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100"
-          >
-            <Button.Root
-              type="button"
-              variant="ghost"
-              size="sm"
-              class="h-7 px-2 text-xs"
-              onclick={() => {
-                editingFieldKey = field.key;
-              }}
-            >
-              Edit
-            </Button.Root>
-            <Button.Root
-              type="button"
-              variant="ghost"
-              size="sm"
-              class="h-7 px-2 text-xs text-destructive"
-              onclick={() => {
-                if (field.source === 'custom') {
-                  const next = $formData.customVariables.slice();
-                  next.splice(field.index, 1);
-                  $formData.customVariables = next;
-                } else {
-                  const nextBase = $formData.contributionVariables.slice();
-                  nextBase[field.index] = {
-                    ...nextBase[field.index],
-                    amount: 0
-                  };
-                  $formData.contributionVariables = nextBase;
-                }
-                if (editingFieldKey === field.key) {
-                  editingFieldKey = null;
-                }
-                onCommit?.();
-              }}
-            >
-              Delete
-            </Button.Root>
-          </div>
         </div>
       {/if}
     {/each}

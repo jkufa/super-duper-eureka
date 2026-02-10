@@ -1,6 +1,8 @@
 <script lang="ts">
+  import Pencil from '@lucide/svelte/icons/pencil';
   import * as Form from '$lib/components/ui/form';
   import { Input } from '$lib/components/ui/input';
+  import * as Button from '$lib/components/ui/button';
   import { fieldProxy } from 'sveltekit-superforms/client';
   import type { SuperForm } from 'sveltekit-superforms/client';
   import type { RetirementConfigFormValues } from '$lib/forms/retirement-config-form';
@@ -17,6 +19,9 @@
     | `customVariables[${number}].amount`
     | `customVariables[${number}].growthAmount`
     | 'customVariableDraft.amount'
+    | 'customVariableDraft.timingDay'
+    | 'customVariableDraft.timingMonth'
+    | 'customVariableDraft.timingYear'
     | 'customVariableDraft.yearStart'
     | 'customVariableDraft.yearEnd'
     | 'customVariableDraft.growthAmount';
@@ -31,7 +36,9 @@
     id,
     inputmode = 'decimal',
     emptyFallback = '0',
-    onCommit
+    onCommit,
+    labelActionText,
+    onLabelAction
   }: {
     form: SuperForm<RetirementConfigFormValues>;
     name: NumericFieldName;
@@ -43,6 +50,8 @@
     inputmode?: 'decimal' | 'numeric';
     emptyFallback?: string;
     onCommit?: () => void;
+    labelActionText?: string;
+    onLabelAction?: () => void;
   } = $props();
 
   const valueStore = fieldProxy(form, name);
@@ -143,7 +152,21 @@
   {#snippet children({ constraints })}
     <Form.Control>
       {#snippet children({ props })}
-        <Form.Label>{label}</Form.Label>
+        <div class="flex items-center justify-between gap-2">
+          <Form.Label class="leading-7">{label}</Form.Label>
+          {#if labelActionText && onLabelAction}
+            <Button.Root
+              type="button"
+              variant="ghost"
+              size="sm"
+              class="h-7 px-2 text-xs opacity-100 transition-opacity md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100"
+              onclick={onLabelAction}
+            >
+              <Pencil class="size-3.5" />
+              {labelActionText}
+            </Button.Root>
+          {/if}
+        </div>
         <div class="relative">
           {#if prefix}
             <span
