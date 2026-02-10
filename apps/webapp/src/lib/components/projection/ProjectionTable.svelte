@@ -20,7 +20,7 @@
 </script>
 
 <div class="space-y-2">
-  <h3 class="text-xl font-medium">Table View</h3>
+  <h2 class="text-xl font-semibold tracking-tight">Projection Table</h2>
   <Table.Root>
     <Table.Header
       class="sticky -top-6 z-10 bg-background after:absolute after:bottom-0 after:w-full after:border-b after:border-border"

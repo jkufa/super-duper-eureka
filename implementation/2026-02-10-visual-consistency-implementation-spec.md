@@ -49,6 +49,8 @@ Scope: implementation guidance for the 5 prioritized inconsistencies
 
 ## 3) Standardize contribution “Edit” action discoverability across breakpoints
 
+Status: Completed (2026-02-10)
+
 ### Why
 - Desktop hides the edit action until hover/focus while mobile shows it immediately.
 - A core action should not change discoverability model by viewport.
@@ -65,6 +67,9 @@ Scope: implementation guidance for the 5 prioritized inconsistencies
 - Keyboard and pointer interaction behavior is unchanged functionally.
 
 ## 4) Align projection section containers (chart/table)
+
+Status: Cancelled (2026-02-10)  
+Reason: Chart/table container differences are intentional and should be preserved.
 
 ### Why
 - Chart content appears in a card shell while table content is plain.
@@ -84,6 +89,8 @@ Scope: implementation guidance for the 5 prioritized inconsistencies
 - No regression to table sticky header behavior.
 
 ## 5) Normalize projection heading tier and debugger copy-button tokens
+
+Status: Completed (2026-02-10)
 
 ### Why
 - Projection headings use mixed semantic/typographic tiers (`h2 semibold` vs `h3 medium`) for same-level sections.

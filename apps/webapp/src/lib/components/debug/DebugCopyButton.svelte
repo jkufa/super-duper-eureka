@@ -4,7 +4,7 @@
 
   let {
     value,
-    label = 'Copy JSON',
+    label = 'Copy',
     copiedLabel = 'Copied',
     variant = 'ghost',
     size = 'sm',

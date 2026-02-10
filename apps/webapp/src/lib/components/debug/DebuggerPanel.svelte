@@ -227,7 +227,7 @@
           copiedLabel="Copied"
           variant="ghost"
           size="sm"
-          class="h-8 px-2 text-xs text-muted-foreground"
+          class="h-8 px-2.5 text-xs text-muted-foreground"
         />
         <Button.Root
           variant="ghost"
