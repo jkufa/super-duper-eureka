@@ -40,6 +40,14 @@ Progress:
     - `bun run --filter @retirement/calculator test` passed.
     - `bun run --filter e2e test tests/add-custom-variable.spec.ts --project=chromium` passed.
     - `bun run --filter e2e test tests/custom-variable-hybrid-mode.spec.ts` passed on chromium (mobile cases skipped in current run config).
+- Completed (2026-02-10): Track 1 discriminated props contract slice:
+  - refactored `ConfigCustomVariableForm.svelte` props to a create/edit discriminated union,
+  - edit-only callbacks (`onSaveVariable`, `onDeleteVariable`, `onCancel`) are now required in edit mode and no longer optional at runtime call sites.
+  - Validation:
+    - `bun run --filter @retirement/calculator test` passed.
+    - `bun run --filter e2e test tests/add-custom-variable.spec.ts --project=chromium` passed.
+    - `bun run --filter e2e test tests/custom-variable-hybrid-mode.spec.ts` passed on chromium (mobile cases skipped in current run config).
+    - `bun run --filter webapp check` passed (0 errors, warnings unchanged).
 
 ## Scope
 This spec covers two implementation tracks:

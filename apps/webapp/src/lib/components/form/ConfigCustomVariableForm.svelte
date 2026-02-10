@@ -26,24 +26,26 @@
 
   type Mode = 'create' | 'edit';
   type CustomVariable = RetirementConfigFormValues['customVariables'][number];
-
-  let {
-    form,
-    onCommit,
-    mode = 'create',
-    variable,
-    onSaveVariable,
-    onDeleteVariable,
-    onCancel
-  }: {
+  type SharedProps = {
     form: SuperForm<RetirementConfigFormValues>;
     onCommit?: () => void;
-    mode?: Mode;
-    variable?: CustomVariable;
-    onSaveVariable?: (variable: CustomVariable) => void;
-    onDeleteVariable?: () => void;
-    onCancel?: () => void;
-  } = $props();
+  };
+  type CreateEditorProps = SharedProps & {
+    mode?: 'create';
+  };
+  type EditEditorProps = SharedProps & {
+    mode: 'edit';
+    variable: CustomVariable;
+    onSaveVariable: (variable: CustomVariable) => void;
+    onDeleteVariable: () => void;
+    onCancel: () => void;
+  };
+  type ConfigCustomVariableFormProps = CreateEditorProps | EditEditorProps;
+
+  let props: ConfigCustomVariableFormProps = $props();
+  const form = props.form;
+  const onCommit = props.onCommit;
+  const mode: Mode = props.mode ?? 'create';
 
   const formData = form.form;
   const draftName = fieldProxy(form, 'customVariableDraft.name');
@@ -81,11 +83,17 @@
   let editTimingInfo = $state<string | null>(null);
   const TIMING_PARSE_DEBOUNCE_MS = 400;
 
+  function getEditProps() {
+    return mode === 'edit' ? (props as EditEditorProps) : null;
+  }
+
   $effect(() => {
-    if (mode !== 'edit' || !variable) {
+    const editProps = getEditProps();
+    if (!editProps) {
       loadedEditVariableId = null;
       return;
     }
+    const variable = editProps.variable;
     if (loadedEditVariableId === variable.id) return;
 
     const nextEditState = toEditCustomVariableState(variable);
@@ -337,7 +345,10 @@
   }
 
   function saveCustomVariable() {
-    if (!variable) return;
+    const editProps = getEditProps();
+    if (!editProps) return;
+
+    const variable = editProps.variable;
     if (!editName.trim()) {
       submitError = 'Variable name is required.';
       return;
@@ -390,12 +401,24 @@
       return;
     }
 
-    onSaveVariable?.({
+    editProps.onSaveVariable({
       id: variable.id,
       ...normalized,
       timingInputMode: 'hybrid',
     });
     submitError = null;
+  }
+
+  function deleteCustomVariable() {
+    const editProps = getEditProps();
+    if (!editProps) return;
+    editProps.onDeleteVariable();
+  }
+
+  function cancelEditCustomVariable() {
+    const editProps = getEditProps();
+    if (!editProps) return;
+    editProps.onCancel();
   }
 </script>
 
@@ -454,8 +477,8 @@
     </Button.Root>
   {:else}
     <div class="mt-2 flex flex-wrap gap-2">
-      <Button.Root type="button" variant="outline" class="flex-1" onclick={onDeleteVariable}>Delete</Button.Root>
-      <Button.Root type="button" variant="outline" class="flex-1" onclick={onCancel}>Cancel</Button.Root>
+      <Button.Root type="button" variant="outline" class="flex-1" onclick={deleteCustomVariable}>Delete</Button.Root>
+      <Button.Root type="button" variant="outline" class="flex-1" onclick={cancelEditCustomVariable}>Cancel</Button.Root>
       <Button.Root type="button" class="flex-1" onclick={saveCustomVariable}>Save changes</Button.Root>
     </div>
   {/if}
