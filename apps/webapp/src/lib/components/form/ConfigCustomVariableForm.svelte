@@ -9,23 +9,43 @@
   import CustomVariableCoreFields from './CustomVariableCoreFields.svelte';
   import CustomVariableTimingFields from './CustomVariableTimingFields.svelte';
   import CustomVariableGrowthFields from './CustomVariableGrowthFields.svelte';
+  import { parseCustomVariableTiming } from './custom-variable-editor-model';
   import {
-    parseCustomVariableTiming,
-    resolveParsedTimingOrStructured,
-    toCustomVariableId,
-    validateAndNormalizeCustomVariableInput,
-  } from './custom-variable-editor-model';
+    buildCreatedCustomVariable,
+    buildSavedCustomVariable
+  } from './custom-variable-editor-actions';
   import {
     formatCustomVariableDate,
     toCalendarBounds,
     toDraftResetState,
     toEditCustomVariableState,
-    toParsedCalendarDate,
+    toParsedCalendarDate
   } from './custom-variable-editor-state';
-  import { createTimingParseController, type TimingTarget } from './custom-variable-timing-controller';
+  import {
+    createTimingParseController,
+    type TimingTarget
+  } from './custom-variable-timing-controller';
 
   type Mode = 'create' | 'edit';
   type CustomVariable = RetirementConfigFormValues['customVariables'][number];
+  type EditCustomVariableFormState = {
+    name: string;
+    type: CustomVariable['type'];
+    amount: number;
+    frequency: CustomVariable['frequency'];
+    placement: CustomVariable['placement'];
+    timingNaturalText: string;
+    timingDay: number;
+    timingMonth: number;
+    timingYear: number;
+    yearStart: number;
+    yearEnd: number;
+    growthEnabled: boolean;
+    growthType: CustomVariable['growthType'];
+    growthAmount: number;
+    growthCadence: CustomVariable['growthCadence'];
+    loadedVariableId: string | null;
+  };
   type SharedProps = {
     form: SuperForm<RetirementConfigFormValues>;
     onCommit?: () => void;
@@ -61,22 +81,24 @@
   const now = new Date();
   const currentYear = now.getFullYear();
 
-  let editName = $state('');
-  let editType = $state<CustomVariable['type']>('flat');
-  let editAmount = $state(0);
-  let editFrequency = $state<CustomVariable['frequency']>('monthly');
-  let editPlacement = $state<CustomVariable['placement']>('end');
-  let editTimingNaturalText = $state('');
-  let editTimingDay = $state(1);
-  let editTimingMonth = $state(1);
-  let editTimingYear = $state(currentYear);
-  let editYearStart = $state(0);
-  let editYearEnd = $state(1);
-  let editGrowthEnabled = $state(false);
-  let editGrowthType = $state<CustomVariable['growthType']>('percent');
-  let editGrowthAmount = $state(0);
-  let editGrowthCadence = $state<CustomVariable['growthCadence']>('annual');
-  let loadedEditVariableId = $state<string | null>(null);
+  let edit = $state<EditCustomVariableFormState>({
+    name: '',
+    type: 'flat',
+    amount: 0,
+    frequency: 'monthly',
+    placement: 'end',
+    timingNaturalText: '',
+    timingDay: 1,
+    timingMonth: 1,
+    timingYear: currentYear,
+    yearStart: 0,
+    yearEnd: 1,
+    growthEnabled: false,
+    growthType: 'percent',
+    growthAmount: 0,
+    growthCadence: 'annual',
+    loadedVariableId: null
+  });
 
   let submitError = $state<string | null>(null);
   let draftTimingInfo = $state<string | null>(null);
@@ -90,29 +112,18 @@
   $effect(() => {
     const editProps = getEditProps();
     if (!editProps) {
-      loadedEditVariableId = null;
+      edit.loadedVariableId = null;
       return;
     }
     const variable = editProps.variable;
-    if (loadedEditVariableId === variable.id) return;
+    if (edit.loadedVariableId === variable.id) return;
 
     const nextEditState = toEditCustomVariableState(variable);
-    editName = nextEditState.name;
-    editType = nextEditState.type;
-    editAmount = nextEditState.amount;
-    editFrequency = nextEditState.frequency;
-    editPlacement = nextEditState.placement;
-    editTimingNaturalText = nextEditState.timingNaturalText;
-    editTimingDay = nextEditState.timingDay;
-    editTimingMonth = nextEditState.timingMonth;
-    editTimingYear = nextEditState.timingYear;
-    editYearStart = nextEditState.yearStart;
-    editYearEnd = nextEditState.yearEnd;
-    editGrowthEnabled = nextEditState.growthEnabled;
-    editGrowthType = nextEditState.growthType;
-    editGrowthAmount = nextEditState.growthAmount;
-    editGrowthCadence = nextEditState.growthCadence;
-    loadedEditVariableId = variable.id;
+    edit = {
+      ...edit,
+      ...nextEditState,
+      loadedVariableId: variable.id
+    };
     editTimingInfo = null;
     submitError = null;
   });
@@ -127,12 +138,12 @@
     return toParsedCalendarDate(
       $formData.customVariableDraft.timingYear,
       $formData.customVariableDraft.timingMonth,
-      $formData.customVariableDraft.timingDay,
+      $formData.customVariableDraft.timingDay
     );
   });
 
   const parsedEditCalendarDate = $derived.by(() => {
-    return toParsedCalendarDate(editTimingYear, editTimingMonth, editTimingDay);
+    return toParsedCalendarDate(edit.timingYear, edit.timingMonth, edit.timingDay);
   });
 
   const draftSelectedCalendarDate = $derived.by(() => {
@@ -141,7 +152,7 @@
   });
 
   const editSelectedCalendarDate = $derived.by(() => {
-    if (editFrequency !== 'oneTime') return undefined;
+    if (edit.frequency !== 'oneTime') return undefined;
     return parsedEditCalendarDate;
   });
 
@@ -152,7 +163,7 @@
       isOneTime: $draftFrequency === 'oneTime',
       horizonYears: $formData.yearsToRetirement,
       now,
-      currentYear,
+      currentYear
     }).minDate;
   });
 
@@ -163,29 +174,29 @@
       isOneTime: $draftFrequency === 'oneTime',
       horizonYears: $formData.yearsToRetirement,
       now,
-      currentYear,
+      currentYear
     }).maxDate;
   });
 
   const editCalendarMinDate = $derived.by(() => {
     return toCalendarBounds({
-      yearStart: editYearStart,
-      yearEndRaw: editYearEnd,
-      isOneTime: editFrequency === 'oneTime',
+      yearStart: edit.yearStart,
+      yearEndRaw: edit.yearEnd,
+      isOneTime: edit.frequency === 'oneTime',
       horizonYears: $formData.yearsToRetirement,
       now,
-      currentYear,
+      currentYear
     }).minDate;
   });
 
   const editCalendarMaxDate = $derived.by(() => {
     return toCalendarBounds({
-      yearStart: editYearStart,
-      yearEndRaw: editYearEnd,
-      isOneTime: editFrequency === 'oneTime',
+      yearStart: edit.yearStart,
+      yearEndRaw: edit.yearEnd,
+      isOneTime: edit.frequency === 'oneTime',
       horizonYears: $formData.yearsToRetirement,
       now,
-      currentYear,
+      currentYear
     }).maxDate;
   });
 
@@ -193,7 +204,7 @@
     return parseCustomVariableTiming(input, {
       referenceDate: now,
       projectionStartYear: currentYear,
-      horizonYears: $formData.yearsToRetirement,
+      horizonYears: $formData.yearsToRetirement
     });
   }
 
@@ -207,12 +218,12 @@
       $formData.customVariableDraft.yearEnd = parsed.yearEnd;
       draftTimingInfo = parsed.summary;
     } else {
-      editFrequency = parsed.frequency;
-      editTimingDay = parsed.day;
-      editTimingMonth = parsed.month;
-      editTimingYear = parsed.year;
-      editYearStart = parsed.yearStart;
-      editYearEnd = parsed.yearEnd;
+      edit.frequency = parsed.frequency;
+      edit.timingDay = parsed.day;
+      edit.timingMonth = parsed.month;
+      edit.timingYear = parsed.year;
+      edit.yearStart = parsed.yearStart;
+      edit.yearEnd = parsed.yearEnd;
       editTimingInfo = parsed.summary;
     }
   }
@@ -234,7 +245,7 @@
       } else {
         editTimingInfo = null;
       }
-    },
+    }
   });
 
   function scheduleTimingParse(target: TimingTarget, text: string) {
@@ -250,76 +261,37 @@
   });
 
   function addCustomVariable() {
-    const trimmedName = ($draftName ?? '').trim();
-    const parsedAmount = $formData.customVariableDraft.amount;
-    const contributionType = $draftType;
-    const placement = $draftPlacement;
-    const timingNaturalText = $draftTimingNaturalText;
-    const yearStart = $formData.customVariableDraft.yearStart;
-    const yearEnd = $formData.customVariableDraft.yearEnd;
-    const growthEnabled = $draftGrowthEnabled;
-    const growthType = $draftGrowthType;
-    const growthAmount = $formData.customVariableDraft.growthAmount;
-    const growthCadence = $draftGrowthCadence;
-
-    if (!trimmedName) {
-      submitError = 'Variable name is required.';
-      return;
-    }
-    if (!Number.isFinite(parsedAmount) || parsedAmount < 0) {
-      submitError = 'Amount must be 0 or greater.';
-      return;
-    }
-
-    const parsedTiming = resolveParsedTimingOrStructured(
-      timingNaturalText,
-      {
+    const result = buildCreatedCustomVariable({
+      name: $draftName ?? '',
+      type: $draftType,
+      amount: $formData.customVariableDraft.amount,
+      placement: $draftPlacement,
+      timingNaturalText: $draftTimingNaturalText,
+      timing: {
         frequency: $draftFrequency,
         day: $formData.customVariableDraft.timingDay,
         month: $formData.customVariableDraft.timingMonth,
         year: $formData.customVariableDraft.timingYear,
         yearStart: $formData.customVariableDraft.yearStart,
-        yearEnd: $formData.customVariableDraft.yearEnd,
+        yearEnd: $formData.customVariableDraft.yearEnd
       },
-      {
-        referenceDate: now,
-        projectionStartYear: currentYear,
-        horizonYears: $formData.yearsToRetirement,
+      growth: {
+        enabled: $draftGrowthEnabled,
+        type: $draftGrowthType,
+        amount: $formData.customVariableDraft.growthAmount,
+        cadence: $draftGrowthCadence
       },
-    );
-
-    if (!parsedTiming) {
-      submitError = TIMING_PARSE_ERROR_MESSAGE;
-      return;
-    }
-
-    const { error, normalized } = validateAndNormalizeCustomVariableInput(
-      {
-        name: trimmedName,
-        type: contributionType,
-        amount: parsedAmount,
-        placement,
-        timingNaturalText,
-        yearStart,
-        yearEnd,
-        growthEnabled,
-        growthType,
-        growthAmount,
-        growthCadence,
-        parsedTiming,
-      },
-    );
-    if (error || !normalized) {
-      submitError = error;
+      currentYear,
+      horizonYears: $formData.yearsToRetirement,
+      referenceDate: now
+    });
+    if (result.error || !result.variable) {
+      submitError = result.error;
       return;
     }
 
     const next = $formData.customVariables.slice();
-    next.push({
-      id: toCustomVariableId(trimmedName),
-      ...normalized,
-      timingInputMode: 'hybrid',
-    });
+    next.push(result.variable);
     $formData.customVariables = next;
 
     $draftName = '';
@@ -348,64 +320,37 @@
     const editProps = getEditProps();
     if (!editProps) return;
 
-    const variable = editProps.variable;
-    if (!editName.trim()) {
-      submitError = 'Variable name is required.';
-      return;
-    }
-    if (!Number.isFinite(editAmount) || editAmount < 0) {
-      submitError = 'Amount must be 0 or greater.';
-      return;
-    }
-
-    const parsedTiming = resolveParsedTimingOrStructured(
-      editTimingNaturalText,
-      {
-        frequency: editFrequency,
-        day: editTimingDay,
-        month: editTimingMonth,
-        year: editTimingYear,
-        yearStart: editYearStart,
-        yearEnd: editYearEnd,
+    const result = buildSavedCustomVariable({
+      id: editProps.variable.id,
+      name: edit.name,
+      type: edit.type,
+      amount: edit.amount,
+      placement: edit.placement,
+      timingNaturalText: edit.timingNaturalText,
+      timing: {
+        frequency: edit.frequency,
+        day: edit.timingDay,
+        month: edit.timingMonth,
+        year: edit.timingYear,
+        yearStart: edit.yearStart,
+        yearEnd: edit.yearEnd
       },
-      {
-        referenceDate: now,
-        projectionStartYear: currentYear,
-        horizonYears: $formData.yearsToRetirement,
+      growth: {
+        enabled: edit.growthEnabled,
+        type: edit.growthType,
+        amount: edit.growthAmount,
+        cadence: edit.growthCadence
       },
-    );
-
-    if (!parsedTiming) {
-      submitError = TIMING_PARSE_ERROR_MESSAGE;
-      return;
-    }
-
-    const { error, normalized } = validateAndNormalizeCustomVariableInput(
-      {
-        name: editName,
-        type: editType,
-        amount: editAmount,
-        placement: editPlacement,
-        timingNaturalText: editTimingNaturalText,
-        yearStart: editYearStart,
-        yearEnd: editYearEnd,
-        growthEnabled: editGrowthEnabled,
-        growthType: editGrowthType,
-        growthAmount: editGrowthAmount,
-        growthCadence: editGrowthCadence,
-        parsedTiming,
-      },
-    );
-    if (error || !normalized) {
-      submitError = error;
-      return;
-    }
-
-    editProps.onSaveVariable({
-      id: variable.id,
-      ...normalized,
-      timingInputMode: 'hybrid',
+      currentYear,
+      horizonYears: $formData.yearsToRetirement,
+      referenceDate: now
     });
+    if (result.error || !result.variable) {
+      submitError = result.error;
+      return;
+    }
+
+    editProps.onSaveVariable(result.variable);
     submitError = null;
   }
 
@@ -423,14 +368,16 @@
 </script>
 
 <section class="w-full space-y-3 rounded-xl border border-dashed border-border px-4 py-4">
-  <h3 class="text-sm font-semibold">{mode === 'edit' ? 'Edit custom variable' : 'Add custom variable'}</h3>
+  <h3 class="text-sm font-semibold">
+    {mode === 'edit' ? 'Edit custom variable' : 'Add custom variable'}
+  </h3>
 
   <CustomVariableCoreFields
     {form}
     {mode}
-    bind:editName
-    bind:editType
-    bind:editAmount
+    bind:editName={edit.name}
+    bind:editType={edit.type}
+    bind:editAmount={edit.amount}
   />
 
   <CustomVariableTimingFields
@@ -445,13 +392,13 @@
     {editCalendarMaxDate}
     bind:draftTimingInfo
     bind:editTimingInfo
-    bind:editTimingNaturalText
-    bind:editFrequency
-    bind:editTimingDay
-    bind:editTimingMonth
-    bind:editTimingYear
-    bind:editYearStart
-    bind:editYearEnd
+    bind:editTimingNaturalText={edit.timingNaturalText}
+    bind:editFrequency={edit.frequency}
+    bind:editTimingDay={edit.timingDay}
+    bind:editTimingMonth={edit.timingMonth}
+    bind:editTimingYear={edit.timingYear}
+    bind:editYearStart={edit.yearStart}
+    bind:editYearEnd={edit.yearEnd}
     {scheduleTimingParse}
     {flushTimingParse}
     formatDate={formatCustomVariableDate}
@@ -460,10 +407,10 @@
   <CustomVariableGrowthFields
     {form}
     {mode}
-    bind:editGrowthEnabled
-    bind:editGrowthType
-    bind:editGrowthAmount
-    bind:editGrowthCadence
+    bind:editGrowthEnabled={edit.growthEnabled}
+    bind:editGrowthType={edit.growthType}
+    bind:editGrowthAmount={edit.growthAmount}
+    bind:editGrowthCadence={edit.growthCadence}
   />
 
   {#if submitError}
@@ -477,9 +424,15 @@
     </Button.Root>
   {:else}
     <div class="mt-2 flex flex-wrap gap-2">
-      <Button.Root type="button" variant="outline" class="flex-1" onclick={deleteCustomVariable}>Delete</Button.Root>
-      <Button.Root type="button" variant="outline" class="flex-1" onclick={cancelEditCustomVariable}>Cancel</Button.Root>
-      <Button.Root type="button" class="flex-1" onclick={saveCustomVariable}>Save changes</Button.Root>
+      <Button.Root type="button" variant="outline" class="flex-1" onclick={deleteCustomVariable}
+        >Delete</Button.Root
+      >
+      <Button.Root type="button" variant="outline" class="flex-1" onclick={cancelEditCustomVariable}
+        >Cancel</Button.Root
+      >
+      <Button.Root type="button" class="flex-1" onclick={saveCustomVariable}
+        >Save changes</Button.Root
+      >
     </div>
   {/if}
 </section>

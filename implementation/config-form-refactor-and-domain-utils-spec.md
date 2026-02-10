@@ -5,6 +5,16 @@ Owner: Webapp / Calculator
 Date: 2026-02-10
 
 Progress:
+- Completed (2026-02-10): Track 1 submit-pipeline + edit-state consolidation slice:
+  - extracted create/save submit assembly into `custom-variable-editor-actions.ts`,
+  - rewired `ConfigCustomVariableForm.svelte` to call shared action builders for add/save flows,
+  - consolidated edit-mode fields into a single `$state` object (`edit`) and rebound child component bindings to object properties,
+  - added focused unit coverage in `custom-variable-editor-actions.test.ts`.
+  - Validation:
+    - `bunx vitest run src/lib/components/form/custom-variable-editor-actions.test.ts` (from `apps/webapp`) passed.
+    - `bun run --filter @retirement/calculator test` passed.
+    - `bun run --filter e2e test tests/add-custom-variable.spec.ts --project=chromium` passed.
+    - `bun run --filter e2e test tests/custom-variable-hybrid-mode.spec.ts --project=chromium` passed.
 - Completed (2026-02-10): Track 2 step 1-3 slice for shared custom-variable validation and normalization utilities, including webapp integration into `ConfigCustomVariableForm.svelte`.
 - Completed (2026-02-10): Track 1 partial UI parity slice in `ConfigCustomVariableForm.svelte`:
   - unified edit amount + growth amount with shared numeric-field rendering snippet,
