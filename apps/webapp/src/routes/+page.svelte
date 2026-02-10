@@ -64,7 +64,7 @@
 
   <main class="mx-4 mb-4 grid min-h-0 flex-1 table-fit:mx-0 table-fit:grid-cols-(--grid-cols-main)">
     <section
-      class="min-h-0 space-y-16 overflow-y-auto pt-6 pb-10 table-fit:ps-8 table-fit:pe-(--main-cols-inner-padding)"
+      class="min-h-0 space-y-16 overflow-y-auto pt-32 pb-10 table-fit:ps-8 table-fit:pe-(--main-cols-inner-padding)"
     >
       <Card.Root class="ms-auto max-w-5xl">
         <Card.Content class="p-6">
@@ -83,7 +83,7 @@
     </section>
 
     <aside
-      class="hidden min-h-0 overflow-y-auto pt-6 pb-10 table-fit:block table-fit:ps-(--main-cols-inner-padding) table-fit:pe-8"
+      class="hidden min-h-0 overflow-y-auto pt-32 pb-10 table-fit:block table-fit:ps-(--main-cols-inner-padding) table-fit:pe-8"
     >
       <header class="mb-4 space-y-1">
         <h2 class="text-2xl font-semibold">Retirement Configuration</h2>
