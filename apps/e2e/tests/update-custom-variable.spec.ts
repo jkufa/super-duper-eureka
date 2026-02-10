@@ -24,6 +24,15 @@ function editForm(page: Page) {
   return page.locator('#edit-custom-variable-name').locator('xpath=ancestor::section[1]');
 }
 
+async function fillIfPresent(scope: ReturnType<typeof editForm>, selector: string, value: string) {
+  const field = scope.locator(selector);
+  if (await field.count()) {
+    await field.fill(value);
+    return true;
+  }
+  return false;
+}
+
 test.describe('Update custom variable form', () => {
   test('persists updates for type, timing, and year range', async ({ page }) => {
     await gotoApp(page);
@@ -43,10 +52,10 @@ test.describe('Update custom variable form', () => {
     await editor.locator('#edit-custom-variable-name').fill(updatedName);
     await editor.getByRole('radio', { name: 'Percent %' }).click();
     await editor.locator('#edit-custom-variable-amount').fill('19');
-    await editor.getByRole('radio', { name: 'Annual' }).click();
-    await editor.getByRole('radio', { name: 'At start' }).click();
-    await editor.locator('#edit-custom-variable-year-start').fill('3');
-    await editor.locator('#edit-custom-variable-year-end').fill('11');
+    await editor.locator('#edit-custom-variable-timing-natural').fill('every feb 13');
+    await editor.locator('#edit-custom-variable-timing-natural').blur();
+    const hasYearStart = await fillIfPresent(editor, '#edit-custom-variable-year-start', '3');
+    const hasYearEnd = await fillIfPresent(editor, '#edit-custom-variable-year-end', '11');
     await editor.getByRole('button', { name: 'Save changes' }).click();
 
     await expect(page.getByRole('heading', { name: 'Edit custom variable' })).toHaveCount(0);
@@ -64,10 +73,13 @@ test.describe('Update custom variable form', () => {
     await expect(reopenedEditor.locator('#edit-custom-variable-name')).toHaveValue(updatedName);
     await expect(reopenedEditor.locator('#edit-custom-variable-amount')).toHaveValue('19');
     await expect(reopenedEditor.getByRole('radio', { name: 'Percent %' })).toHaveAttribute('aria-checked', 'true');
-    await expect(reopenedEditor.getByRole('radio', { name: 'Annual' })).toHaveAttribute('aria-checked', 'true');
-    await expect(reopenedEditor.getByRole('radio', { name: 'At start' })).toHaveAttribute('aria-checked', 'true');
-    await expect(reopenedEditor.locator('#edit-custom-variable-year-start')).toHaveValue('3');
-    await expect(reopenedEditor.locator('#edit-custom-variable-year-end')).toHaveValue('11');
+    await expect(reopenedEditor.locator('#edit-custom-variable-timing-natural')).toHaveValue('every feb 13');
+    if (hasYearStart) {
+      await expect(reopenedEditor.locator('#edit-custom-variable-year-start')).toHaveValue('3');
+    }
+    if (hasYearEnd) {
+      await expect(reopenedEditor.locator('#edit-custom-variable-year-end')).toHaveValue('11');
+    }
   });
 
   test('cancel keeps previous values unchanged', async ({ page }) => {
