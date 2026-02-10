@@ -159,7 +159,7 @@
               type="button"
               variant="ghost"
               size="sm"
-              class="h-7 px-2 text-xs opacity-100 transition-opacity md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100"
+              class="h-7 px-2 text-xs text-muted-foreground transition-colors hover:text-foreground focus-visible:text-foreground"
               onclick={onLabelAction}
             >
               <Pencil class="size-3.5" />
