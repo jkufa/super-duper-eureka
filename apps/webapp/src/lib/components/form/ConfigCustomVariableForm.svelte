@@ -1,8 +1,8 @@
 <script lang="ts">
   import { Plus } from '@lucide/svelte';
-  import { CalendarDate, getLocalTimeZone, type DateValue } from '@internationalized/date';
   import type { SuperForm } from 'sveltekit-superforms/client';
   import { fieldProxy } from 'sveltekit-superforms/client';
+  import type { ParsedCustomVariableTiming } from '$lib/forms/frequency-nlp';
   import type { RetirementConfigFormValues } from '$lib/forms/retirement-config-form';
   import { TIMING_PARSE_ERROR_MESSAGE } from '$lib/forms/frequency-nlp';
   import * as Button from '$lib/components/ui/button';
@@ -15,6 +15,14 @@
     toCustomVariableId,
     validateAndNormalizeCustomVariableInput,
   } from './custom-variable-editor-model';
+  import {
+    formatCustomVariableDate,
+    toCalendarBounds,
+    toDraftResetState,
+    toEditCustomVariableState,
+    toParsedCalendarDate,
+  } from './custom-variable-editor-state';
+  import { createTimingParseController, type TimingTarget } from './custom-variable-timing-controller';
 
   type Mode = 'create' | 'edit';
   type CustomVariable = RetirementConfigFormValues['customVariables'][number];
@@ -71,8 +79,6 @@
   let submitError = $state<string | null>(null);
   let draftTimingInfo = $state<string | null>(null);
   let editTimingInfo = $state<string | null>(null);
-  let draftParseDebounceTimer = $state<ReturnType<typeof setTimeout> | null>(null);
-  let editParseDebounceTimer = $state<ReturnType<typeof setTimeout> | null>(null);
   const TIMING_PARSE_DEBOUNCE_MS = 400;
 
   $effect(() => {
@@ -82,21 +88,22 @@
     }
     if (loadedEditVariableId === variable.id) return;
 
-    editName = variable.name;
-    editType = variable.type;
-    editAmount = variable.amount;
-    editFrequency = variable.frequency;
-    editPlacement = variable.placement;
-    editTimingNaturalText = variable.timingNaturalText;
-    editTimingDay = variable.timingDay;
-    editTimingMonth = variable.timingMonth;
-    editTimingYear = variable.timingYear;
-    editYearStart = variable.yearStart;
-    editYearEnd = variable.yearEnd;
-    editGrowthEnabled = variable.growthEnabled;
-    editGrowthType = variable.growthType;
-    editGrowthAmount = variable.growthAmount;
-    editGrowthCadence = variable.growthCadence;
+    const nextEditState = toEditCustomVariableState(variable);
+    editName = nextEditState.name;
+    editType = nextEditState.type;
+    editAmount = nextEditState.amount;
+    editFrequency = nextEditState.frequency;
+    editPlacement = nextEditState.placement;
+    editTimingNaturalText = nextEditState.timingNaturalText;
+    editTimingDay = nextEditState.timingDay;
+    editTimingMonth = nextEditState.timingMonth;
+    editTimingYear = nextEditState.timingYear;
+    editYearStart = nextEditState.yearStart;
+    editYearEnd = nextEditState.yearEnd;
+    editGrowthEnabled = nextEditState.growthEnabled;
+    editGrowthType = nextEditState.growthType;
+    editGrowthAmount = nextEditState.growthAmount;
+    editGrowthCadence = nextEditState.growthCadence;
     loadedEditVariableId = variable.id;
     editTimingInfo = null;
     submitError = null;
@@ -109,18 +116,15 @@
   });
 
   const parsedDraftCalendarDate = $derived.by(() => {
-    const year = $formData.customVariableDraft.timingYear;
-    const month = $formData.customVariableDraft.timingMonth;
-    const day = $formData.customVariableDraft.timingDay;
-    if (!Number.isFinite(year) || !Number.isFinite(month) || !Number.isFinite(day)) return undefined;
-    return new CalendarDate(Math.trunc(year), Math.trunc(month), Math.trunc(day));
+    return toParsedCalendarDate(
+      $formData.customVariableDraft.timingYear,
+      $formData.customVariableDraft.timingMonth,
+      $formData.customVariableDraft.timingDay,
+    );
   });
 
   const parsedEditCalendarDate = $derived.by(() => {
-    if (!Number.isFinite(editTimingYear) || !Number.isFinite(editTimingMonth) || !Number.isFinite(editTimingDay)) {
-      return undefined;
-    }
-    return new CalendarDate(Math.trunc(editTimingYear), Math.trunc(editTimingMonth), Math.trunc(editTimingDay));
+    return toParsedCalendarDate(editTimingYear, editTimingMonth, editTimingDay);
   });
 
   const draftSelectedCalendarDate = $derived.by(() => {
@@ -133,53 +137,49 @@
     return parsedEditCalendarDate;
   });
 
-  function toYearOffset(value: unknown, fallback = 0) {
-    const parsed = Number(value);
-    if (!Number.isFinite(parsed)) return Math.max(0, Math.trunc(fallback));
-    return Math.max(0, Math.trunc(parsed));
-  }
-
-  function toStartBoundDate(yearOffset: unknown) {
-    const startOffset = toYearOffset(yearOffset);
-    if (startOffset === 0) {
-      return new CalendarDate(now.getFullYear(), now.getMonth() + 1, now.getDate());
-    }
-    return new CalendarDate(currentYear + startOffset, 1, 1);
-  }
-
-  function toEndBoundDate(yearOffset: unknown, fallback = 0) {
-    const endOffset = toYearOffset(yearOffset, fallback);
-    return new CalendarDate(currentYear + endOffset, 12, 31);
-  }
-
-  const draftCalendarMinDate = $derived.by(() => toStartBoundDate($formData.customVariableDraft.yearStart));
+  const draftCalendarMinDate = $derived.by(() => {
+    return toCalendarBounds({
+      yearStart: $formData.customVariableDraft.yearStart,
+      yearEndRaw: $formData.customVariableDraft.yearEnd,
+      isOneTime: $draftFrequency === 'oneTime',
+      horizonYears: $formData.yearsToRetirement,
+      now,
+      currentYear,
+    }).minDate;
+  });
 
   const draftCalendarMaxDate = $derived.by(() => {
-    const startOffset = toYearOffset($formData.customVariableDraft.yearStart);
-    const endOffsetRaw = $draftFrequency === 'oneTime'
-      ? $formData.yearsToRetirement
-      : $formData.customVariableDraft.yearEnd;
-    const endOffset = Math.max(startOffset, toYearOffset(endOffsetRaw, startOffset));
-    return toEndBoundDate(endOffset, startOffset);
+    return toCalendarBounds({
+      yearStart: $formData.customVariableDraft.yearStart,
+      yearEndRaw: $formData.customVariableDraft.yearEnd,
+      isOneTime: $draftFrequency === 'oneTime',
+      horizonYears: $formData.yearsToRetirement,
+      now,
+      currentYear,
+    }).maxDate;
   });
 
-  const editCalendarMinDate = $derived.by(() => toStartBoundDate(editYearStart));
+  const editCalendarMinDate = $derived.by(() => {
+    return toCalendarBounds({
+      yearStart: editYearStart,
+      yearEndRaw: editYearEnd,
+      isOneTime: editFrequency === 'oneTime',
+      horizonYears: $formData.yearsToRetirement,
+      now,
+      currentYear,
+    }).minDate;
+  });
 
   const editCalendarMaxDate = $derived.by(() => {
-    const startOffset = toYearOffset(editYearStart);
-    const endOffsetRaw = editFrequency === 'oneTime' ? $formData.yearsToRetirement : editYearEnd;
-    const endOffset = Math.max(startOffset, toYearOffset(endOffsetRaw, startOffset));
-    return toEndBoundDate(endOffset, startOffset);
+    return toCalendarBounds({
+      yearStart: editYearStart,
+      yearEndRaw: editYearEnd,
+      isOneTime: editFrequency === 'oneTime',
+      horizonYears: $formData.yearsToRetirement,
+      now,
+      currentYear,
+    }).maxDate;
   });
-
-  function formatDate(date: DateValue | undefined) {
-    if (!date) return '';
-    return date.toDate(getLocalTimeZone()).toLocaleDateString('en-US', {
-      day: '2-digit',
-      month: 'long',
-      year: 'numeric'
-    });
-  }
 
   function parseTimingText(input: string) {
     return parseCustomVariableTiming(input, {
@@ -189,22 +189,7 @@
     });
   }
 
-  function applyParsedTiming(
-    target: 'draft' | 'edit',
-    text: string,
-    options?: { silentOnFailure?: boolean },
-  ) {
-    const parsed = parseTimingText(text);
-    if (!parsed) {
-      if (options?.silentOnFailure) return;
-      if (target === 'draft') {
-        draftTimingInfo = TIMING_PARSE_ERROR_MESSAGE;
-      } else {
-        editTimingInfo = TIMING_PARSE_ERROR_MESSAGE;
-      }
-      return;
-    }
-
+  function applyParsedTiming(target: TimingTarget, parsed: ParsedCustomVariableTiming) {
     if (target === 'draft') {
       $draftFrequency = parsed.frequency;
       $formData.customVariableDraft.timingDay = parsed.day;
@@ -224,61 +209,36 @@
     }
   }
 
-  function scheduleTimingParse(target: 'draft' | 'edit', text: string) {
-    const trimmed = text.trim();
-
-    if (target === 'draft') {
-      if (draftParseDebounceTimer) {
-        clearTimeout(draftParseDebounceTimer);
-        draftParseDebounceTimer = null;
+  const timingParseController = createTimingParseController({
+    debounceMs: TIMING_PARSE_DEBOUNCE_MS,
+    parse: parseTimingText,
+    onParsed: applyParsedTiming,
+    onParseError: (target) => {
+      if (target === 'draft') {
+        draftTimingInfo = TIMING_PARSE_ERROR_MESSAGE;
+      } else {
+        editTimingInfo = TIMING_PARSE_ERROR_MESSAGE;
       }
-      if (trimmed.length < 4) {
+    },
+    onInfoClear: (target) => {
+      if (target === 'draft') {
         draftTimingInfo = null;
-        return;
+      } else {
+        editTimingInfo = null;
       }
-      draftParseDebounceTimer = setTimeout(() => {
-        applyParsedTiming('draft', text, { silentOnFailure: true });
-        draftParseDebounceTimer = null;
-      }, TIMING_PARSE_DEBOUNCE_MS);
-      return;
-    }
+    },
+  });
 
-    if (editParseDebounceTimer) {
-      clearTimeout(editParseDebounceTimer);
-      editParseDebounceTimer = null;
-    }
-    if (trimmed.length < 4) {
-      editTimingInfo = null;
-      return;
-    }
-    editParseDebounceTimer = setTimeout(() => {
-      applyParsedTiming('edit', text, { silentOnFailure: true });
-      editParseDebounceTimer = null;
-    }, TIMING_PARSE_DEBOUNCE_MS);
+  function scheduleTimingParse(target: TimingTarget, text: string) {
+    timingParseController.schedule(target, text);
   }
 
-  function flushTimingParse(target: 'draft' | 'edit', text: string) {
-    if (target === 'draft') {
-      if (draftParseDebounceTimer) {
-        clearTimeout(draftParseDebounceTimer);
-        draftParseDebounceTimer = null;
-      }
-      applyParsedTiming('draft', text);
-      return;
-    }
-
-    if (editParseDebounceTimer) {
-      clearTimeout(editParseDebounceTimer);
-      editParseDebounceTimer = null;
-    }
-    applyParsedTiming('edit', text);
+  function flushTimingParse(target: TimingTarget, text: string) {
+    timingParseController.flush(target, text);
   }
 
   $effect(() => {
-    return () => {
-      if (draftParseDebounceTimer) clearTimeout(draftParseDebounceTimer);
-      if (editParseDebounceTimer) clearTimeout(editParseDebounceTimer);
-    };
+    return () => timingParseController.cleanup();
   });
 
   function addCustomVariable() {
@@ -355,21 +315,22 @@
     $formData.customVariables = next;
 
     $draftName = '';
-    $formData.customVariableDraft.amount = 0;
-    $draftType = 'flat';
-    $draftFrequency = 'monthly';
-    $draftPlacement = 'end';
-    $draftTimingInputMode = 'hybrid';
-    $draftTimingNaturalText = '';
-    $formData.customVariableDraft.timingDay = 1;
-    $formData.customVariableDraft.timingMonth = 1;
-    $formData.customVariableDraft.timingYear = currentYear;
-    $formData.customVariableDraft.yearStart = 0;
-    $formData.customVariableDraft.yearEnd = $formData.yearsToRetirement;
-    $draftGrowthEnabled = false;
-    $draftGrowthType = 'percent';
-    $formData.customVariableDraft.growthAmount = 0;
-    $draftGrowthCadence = 'annual';
+    const draftReset = toDraftResetState(currentYear, $formData.yearsToRetirement);
+    $formData.customVariableDraft.amount = draftReset.amount;
+    $draftType = draftReset.type;
+    $draftFrequency = draftReset.frequency;
+    $draftPlacement = draftReset.placement;
+    $draftTimingInputMode = draftReset.timingInputMode;
+    $draftTimingNaturalText = draftReset.timingNaturalText;
+    $formData.customVariableDraft.timingDay = draftReset.timingDay;
+    $formData.customVariableDraft.timingMonth = draftReset.timingMonth;
+    $formData.customVariableDraft.timingYear = draftReset.timingYear;
+    $formData.customVariableDraft.yearStart = draftReset.yearStart;
+    $formData.customVariableDraft.yearEnd = draftReset.yearEnd;
+    $draftGrowthEnabled = draftReset.growthEnabled;
+    $draftGrowthType = draftReset.growthType;
+    $formData.customVariableDraft.growthAmount = draftReset.growthAmount;
+    $draftGrowthCadence = draftReset.growthCadence;
     submitError = null;
     draftTimingInfo = null;
     onCommit?.();
@@ -470,7 +431,7 @@
     bind:editYearEnd
     {scheduleTimingParse}
     {flushTimingParse}
-    {formatDate}
+    formatDate={formatCustomVariableDate}
   />
 
   <CustomVariableGrowthFields

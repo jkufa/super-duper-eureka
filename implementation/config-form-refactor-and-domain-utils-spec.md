@@ -32,6 +32,14 @@ Progress:
     - `bun run --filter @retirement/calculator test` passed.
     - `bun run --filter e2e test tests/add-custom-variable.spec.ts --project=chromium` passed.
     - `bun run --filter e2e test tests/custom-variable-hybrid-mode.spec.ts` passed on chromium (mobile cases skipped in current run config).
+- Completed (2026-02-10): Track 1 state/controller extraction slice:
+  - extracted `custom-variable-editor-state.ts` for edit-state hydration, draft-reset defaults, date formatting, parsed calendar dates, and calendar bounds,
+  - extracted `custom-variable-timing-controller.ts` for debounced parse scheduling/flush/cleanup logic,
+  - rewired `ConfigCustomVariableForm.svelte` to use these modules while preserving behavior and selectors.
+  - Validation:
+    - `bun run --filter @retirement/calculator test` passed.
+    - `bun run --filter e2e test tests/add-custom-variable.spec.ts --project=chromium` passed.
+    - `bun run --filter e2e test tests/custom-variable-hybrid-mode.spec.ts` passed on chromium (mobile cases skipped in current run config).
 
 ## Scope
 This spec covers two implementation tracks:
