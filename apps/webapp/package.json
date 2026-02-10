@@ -28,6 +28,7 @@
     "@tailwindcss/vite": "^4.1.18",
     "@types/node": "^22",
     "bits-ui": "^2.14.4",
+    "chrono-node": "^2.9.0",
     "clsx": "^2.1.1",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
