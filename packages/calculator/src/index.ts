@@ -4,4 +4,5 @@ export * from './lib/factories';
 export * from './lib/debug';
 export * from './lib/random';
 export * from './lib/utils/custom-variable-timing';
+export * from './lib/utils/custom-variable';
 export * from '@retirement/logger';
