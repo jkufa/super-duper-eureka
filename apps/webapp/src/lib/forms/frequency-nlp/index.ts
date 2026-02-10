@@ -1,4 +1,5 @@
 import { parseDate } from 'chrono-node';
+import { isValidAnnualMonthDay } from '@retirement/calculator';
 
 export type CustomVariableFrequency = 'monthly' | 'annual' | 'oneTime';
 
@@ -147,7 +148,7 @@ function parseRecurringTiming(input: string, referenceYear: number) {
     const month = MONTH_LOOKUP[monthToken];
     const day = Number.parseInt(match[2], 10);
 
-    if (month && day >= 1 && day <= 31) {
+    if (month && isValidAnnualMonthDay(month, day)) {
       return {
         frequency: 'annual' as const,
         day,

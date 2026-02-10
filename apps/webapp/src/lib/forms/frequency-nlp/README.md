@@ -7,6 +7,7 @@ Current scope (v1):
 - Annual cadence (`every feb 13`, `annually on september 30`)
 - One-time date parsing via `chrono-node` (`on 1/2/2027`)
 - Range modifiers (`for N years`, `starting in YYYY`, `beginning in YYYY`, `from YYYY`, `until YYYY`)
+- Annual month/day validity is checked via shared calculator utility (`@retirement/calculator`).
 
 ## Future v2 (not implemented)
 

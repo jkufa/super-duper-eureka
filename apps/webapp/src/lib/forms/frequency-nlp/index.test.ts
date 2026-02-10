@@ -179,6 +179,7 @@ describe('parseCustomVariableTimingText', () => {
     expect(parse('for 10 years')).toBeNull();
     expect(parse('until 2030')).toBeNull();
     expect(parse('every banana')).toBeNull();
+    expect(parse('every feb 30')).toBeNull();
     expect(parse('every 45th')).toBeNull();
   });
 
