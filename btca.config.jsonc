@@ -9,8 +9,20 @@
     },
     {
       "type": "git",
+      "name": "svelte",
+      "url": "https://github.com/sveltejs/svelte",
+      "branch": "main"
+    },
+    {
+      "type": "git",
       "name": "kit",
       "url": "https://github.com/sveltejs/kit",
+      "branch": "main"
+    },
+    {
+      "type": "git",
+      "name": "superforms",
+      "url": "https://github.com/ciscoheat/sveltekit-superforms",
       "branch": "main"
     }
   ],
