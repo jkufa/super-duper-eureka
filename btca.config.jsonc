@@ -6,6 +6,12 @@
       "name": "chrono",
       "url": "https://github.com/wanasit/chrono",
       "branch": "main"
+    },
+    {
+      "type": "git",
+      "name": "kit",
+      "url": "https://github.com/sveltejs/kit",
+      "branch": "main"
     }
   ],
   "model": "claude-haiku-4-5",

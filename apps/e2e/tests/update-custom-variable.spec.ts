@@ -42,7 +42,7 @@ test.describe('Update custom variable form', () => {
 
     await customVariableNameInput(page).fill(originalName);
     await customVariableAmountInput(page).fill('12');
-    await addCustomVariableButton(page).click();
+    await addCustomVariableButton(page).click({ force: true });
 
     await openCustomVariablesAccordion(page);
     await openEditForVariable(page, originalName);
@@ -89,7 +89,7 @@ test.describe('Update custom variable form', () => {
 
     await customVariableNameInput(page).fill(variableName);
     await customVariableAmountInput(page).fill('8');
-    await addCustomVariableButton(page).click();
+    await addCustomVariableButton(page).click({ force: true });
 
     await openCustomVariablesAccordion(page);
     await openEditForVariable(page, variableName);

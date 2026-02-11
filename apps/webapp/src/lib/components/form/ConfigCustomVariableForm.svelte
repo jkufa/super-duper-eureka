@@ -6,46 +6,24 @@
   import type { RetirementConfigFormValues } from '$lib/forms/retirement-config-form';
   import { TIMING_PARSE_ERROR_MESSAGE } from '$lib/forms/frequency-nlp';
   import * as Button from '$lib/components/ui/button';
+  import * as Accordion from '$lib/components/ui/accordion';
   import CustomVariableCoreFields from './CustomVariableCoreFields.svelte';
   import CustomVariableTimingFields from './CustomVariableTimingFields.svelte';
   import CustomVariableGrowthFields from './CustomVariableGrowthFields.svelte';
   import { parseCustomVariableTiming } from './custom-variable-editor-model';
-  import {
-    buildCreatedCustomVariable,
-    buildSavedCustomVariable
-  } from './custom-variable-editor-actions';
+  import { buildCreatedCustomVariable, buildSavedCustomVariable } from './custom-variable-editor-actions';
   import {
     formatCustomVariableDate,
     toCalendarBounds,
     toDraftResetState,
-    toEditCustomVariableState,
+    toCustomVariableDraftState,
     toParsedCalendarDate
   } from './custom-variable-editor-state';
-  import {
-    createTimingParseController,
-    type TimingTarget
-  } from './custom-variable-timing-controller';
+  import { createTimingParseController, type TimingTarget } from './custom-variable-timing-controller';
 
   type Mode = 'create' | 'edit';
+  type DraftPath = 'customVariableDraft' | 'customVariableEditDraft';
   type CustomVariable = RetirementConfigFormValues['customVariables'][number];
-  type EditCustomVariableFormState = {
-    name: string;
-    type: CustomVariable['type'];
-    amount: number;
-    frequency: CustomVariable['frequency'];
-    placement: CustomVariable['placement'];
-    timingNaturalText: string;
-    timingDay: number;
-    timingMonth: number;
-    timingYear: number;
-    yearStart: number;
-    yearEnd: number;
-    growthEnabled: boolean;
-    growthType: CustomVariable['growthType'];
-    growthAmount: number;
-    growthCadence: CustomVariable['growthCadence'];
-    loadedVariableId: string | null;
-  };
   type SharedProps = {
     form: SuperForm<RetirementConfigFormValues>;
     onCommit?: () => void;
@@ -68,38 +46,22 @@
   const mode: Mode = props.mode ?? 'create';
 
   const formData = form.form;
-  const draftName = fieldProxy(form, 'customVariableDraft.name');
-  const draftType = fieldProxy(form, 'customVariableDraft.type');
   const draftFrequency = fieldProxy(form, 'customVariableDraft.frequency');
   const draftPlacement = fieldProxy(form, 'customVariableDraft.placement');
   const draftTimingInputMode = fieldProxy(form, 'customVariableDraft.timingInputMode');
   const draftTimingNaturalText = fieldProxy(form, 'customVariableDraft.timingNaturalText');
-  const draftGrowthEnabled = fieldProxy(form, 'customVariableDraft.growthEnabled');
-  const draftGrowthType = fieldProxy(form, 'customVariableDraft.growthType');
-  const draftGrowthCadence = fieldProxy(form, 'customVariableDraft.growthCadence');
+  const draftType = fieldProxy(form, 'customVariableDraft.type');
+
+  const editDraftFrequency = fieldProxy(form, 'customVariableEditDraft.frequency');
+  const editDraftPlacement = fieldProxy(form, 'customVariableEditDraft.placement');
+  const editDraftTimingInputMode = fieldProxy(form, 'customVariableEditDraft.timingInputMode');
+  const editDraftTimingNaturalText = fieldProxy(form, 'customVariableEditDraft.timingNaturalText');
+  const editDraftType = fieldProxy(form, 'customVariableEditDraft.type');
 
   const now = new Date();
   const currentYear = now.getFullYear();
 
-  let edit = $state<EditCustomVariableFormState>({
-    name: '',
-    type: 'flat',
-    amount: 0,
-    frequency: 'monthly',
-    placement: 'end',
-    timingNaturalText: '',
-    timingDay: 1,
-    timingMonth: 1,
-    timingYear: currentYear,
-    yearStart: 0,
-    yearEnd: 1,
-    growthEnabled: false,
-    growthType: 'percent',
-    growthAmount: 0,
-    growthCadence: 'annual',
-    loadedVariableId: null
-  });
-
+  let loadedEditVariableId = $state<string | null>(null);
   let submitError = $state<string | null>(null);
   let draftTimingInfo = $state<string | null>(null);
   let editTimingInfo = $state<string | null>(null);
@@ -112,18 +74,13 @@
   $effect(() => {
     const editProps = getEditProps();
     if (!editProps) {
-      edit.loadedVariableId = null;
+      loadedEditVariableId = null;
       return;
     }
     const variable = editProps.variable;
-    if (edit.loadedVariableId === variable.id) return;
-
-    const nextEditState = toEditCustomVariableState(variable);
-    edit = {
-      ...edit,
-      ...nextEditState,
-      loadedVariableId: variable.id
-    };
+    if (loadedEditVariableId === variable.id) return;
+    $formData.customVariableEditDraft = toCustomVariableDraftState(variable);
+    loadedEditVariableId = variable.id;
     editTimingInfo = null;
     submitError = null;
   });
@@ -131,6 +88,9 @@
   $effect(() => {
     if ($draftTimingInputMode !== 'hybrid') {
       $draftTimingInputMode = 'hybrid';
+    }
+    if ($editDraftTimingInputMode !== 'hybrid') {
+      $editDraftTimingInputMode = 'hybrid';
     }
   });
 
@@ -143,7 +103,11 @@
   });
 
   const parsedEditCalendarDate = $derived.by(() => {
-    return toParsedCalendarDate(edit.timingYear, edit.timingMonth, edit.timingDay);
+    return toParsedCalendarDate(
+      $formData.customVariableEditDraft.timingYear,
+      $formData.customVariableEditDraft.timingMonth,
+      $formData.customVariableEditDraft.timingDay
+    );
   });
 
   const draftSelectedCalendarDate = $derived.by(() => {
@@ -152,7 +116,7 @@
   });
 
   const editSelectedCalendarDate = $derived.by(() => {
-    if (edit.frequency !== 'oneTime') return undefined;
+    if ($editDraftFrequency !== 'oneTime') return undefined;
     return parsedEditCalendarDate;
   });
 
@@ -180,9 +144,9 @@
 
   const editCalendarMinDate = $derived.by(() => {
     return toCalendarBounds({
-      yearStart: edit.yearStart,
-      yearEndRaw: edit.yearEnd,
-      isOneTime: edit.frequency === 'oneTime',
+      yearStart: $formData.customVariableEditDraft.yearStart,
+      yearEndRaw: $formData.customVariableEditDraft.yearEnd,
+      isOneTime: $editDraftFrequency === 'oneTime',
       horizonYears: $formData.yearsToRetirement,
       now,
       currentYear
@@ -191,9 +155,9 @@
 
   const editCalendarMaxDate = $derived.by(() => {
     return toCalendarBounds({
-      yearStart: edit.yearStart,
-      yearEndRaw: edit.yearEnd,
-      isOneTime: edit.frequency === 'oneTime',
+      yearStart: $formData.customVariableEditDraft.yearStart,
+      yearEndRaw: $formData.customVariableEditDraft.yearEnd,
+      isOneTime: $editDraftFrequency === 'oneTime',
       horizonYears: $formData.yearsToRetirement,
       now,
       currentYear
@@ -217,15 +181,16 @@
       $formData.customVariableDraft.yearStart = parsed.yearStart;
       $formData.customVariableDraft.yearEnd = parsed.yearEnd;
       draftTimingInfo = parsed.summary;
-    } else {
-      edit.frequency = parsed.frequency;
-      edit.timingDay = parsed.day;
-      edit.timingMonth = parsed.month;
-      edit.timingYear = parsed.year;
-      edit.yearStart = parsed.yearStart;
-      edit.yearEnd = parsed.yearEnd;
-      editTimingInfo = parsed.summary;
+      return;
     }
+
+    $editDraftFrequency = parsed.frequency;
+    $formData.customVariableEditDraft.timingDay = parsed.day;
+    $formData.customVariableEditDraft.timingMonth = parsed.month;
+    $formData.customVariableEditDraft.timingYear = parsed.year;
+    $formData.customVariableEditDraft.yearStart = parsed.yearStart;
+    $formData.customVariableEditDraft.yearEnd = parsed.yearEnd;
+    editTimingInfo = parsed.summary;
   }
 
   const timingParseController = createTimingParseController({
@@ -262,7 +227,7 @@
 
   function addCustomVariable() {
     const result = buildCreatedCustomVariable({
-      name: $draftName ?? '',
+      name: $formData.customVariableDraft.name,
       type: $draftType,
       amount: $formData.customVariableDraft.amount,
       placement: $draftPlacement,
@@ -276,10 +241,10 @@
         yearEnd: $formData.customVariableDraft.yearEnd
       },
       growth: {
-        enabled: $draftGrowthEnabled,
-        type: $draftGrowthType,
+        enabled: $formData.customVariableDraft.growthAmount > 0,
+        type: $formData.customVariableDraft.growthType,
         amount: $formData.customVariableDraft.growthAmount,
-        cadence: $draftGrowthCadence
+        cadence: $formData.customVariableDraft.growthCadence
       },
       currentYear,
       horizonYears: $formData.yearsToRetirement,
@@ -290,27 +255,9 @@
       return;
     }
 
-    const next = $formData.customVariables.slice();
-    next.push(result.variable);
-    $formData.customVariables = next;
-
-    $draftName = '';
+    $formData.customVariables = [...$formData.customVariables, result.variable];
     const draftReset = toDraftResetState(currentYear, $formData.yearsToRetirement);
-    $formData.customVariableDraft.amount = draftReset.amount;
-    $draftType = draftReset.type;
-    $draftFrequency = draftReset.frequency;
-    $draftPlacement = draftReset.placement;
-    $draftTimingInputMode = draftReset.timingInputMode;
-    $draftTimingNaturalText = draftReset.timingNaturalText;
-    $formData.customVariableDraft.timingDay = draftReset.timingDay;
-    $formData.customVariableDraft.timingMonth = draftReset.timingMonth;
-    $formData.customVariableDraft.timingYear = draftReset.timingYear;
-    $formData.customVariableDraft.yearStart = draftReset.yearStart;
-    $formData.customVariableDraft.yearEnd = draftReset.yearEnd;
-    $draftGrowthEnabled = draftReset.growthEnabled;
-    $draftGrowthType = draftReset.growthType;
-    $formData.customVariableDraft.growthAmount = draftReset.growthAmount;
-    $draftGrowthCadence = draftReset.growthCadence;
+    $formData.customVariableDraft = draftReset;
     submitError = null;
     draftTimingInfo = null;
     onCommit?.();
@@ -322,24 +269,24 @@
 
     const result = buildSavedCustomVariable({
       id: editProps.variable.id,
-      name: edit.name,
-      type: edit.type,
-      amount: edit.amount,
-      placement: edit.placement,
-      timingNaturalText: edit.timingNaturalText,
+      name: $formData.customVariableEditDraft.name,
+      type: $editDraftType,
+      amount: $formData.customVariableEditDraft.amount,
+      placement: $editDraftPlacement,
+      timingNaturalText: $editDraftTimingNaturalText,
       timing: {
-        frequency: edit.frequency,
-        day: edit.timingDay,
-        month: edit.timingMonth,
-        year: edit.timingYear,
-        yearStart: edit.yearStart,
-        yearEnd: edit.yearEnd
+        frequency: $editDraftFrequency,
+        day: $formData.customVariableEditDraft.timingDay,
+        month: $formData.customVariableEditDraft.timingMonth,
+        year: $formData.customVariableEditDraft.timingYear,
+        yearStart: $formData.customVariableEditDraft.yearStart,
+        yearEnd: $formData.customVariableEditDraft.yearEnd
       },
       growth: {
-        enabled: edit.growthEnabled,
-        type: edit.growthType,
-        amount: edit.growthAmount,
-        cadence: edit.growthCadence
+        enabled: $formData.customVariableEditDraft.growthAmount > 0,
+        type: $formData.customVariableEditDraft.growthType,
+        amount: $formData.customVariableEditDraft.growthAmount,
+        cadence: $formData.customVariableEditDraft.growthCadence
       },
       currentYear,
       horizonYears: $formData.yearsToRetirement,
@@ -374,44 +321,54 @@
 
   <CustomVariableCoreFields
     {form}
-    {mode}
-    bind:editName={edit.name}
-    bind:editType={edit.type}
-    bind:editAmount={edit.amount}
+    draftPath={mode === 'edit' ? 'customVariableEditDraft' : 'customVariableDraft'}
+    inputIdPrefix={mode === 'edit' ? 'edit-custom-variable' : 'custom-variable'}
   />
 
-  <CustomVariableTimingFields
-    {form}
-    {mode}
-    {currentYear}
-    {draftSelectedCalendarDate}
-    {draftCalendarMinDate}
-    {draftCalendarMaxDate}
-    {editSelectedCalendarDate}
-    {editCalendarMinDate}
-    {editCalendarMaxDate}
-    bind:draftTimingInfo
-    bind:editTimingInfo
-    bind:editTimingNaturalText={edit.timingNaturalText}
-    bind:editFrequency={edit.frequency}
-    bind:editTimingDay={edit.timingDay}
-    bind:editTimingMonth={edit.timingMonth}
-    bind:editTimingYear={edit.timingYear}
-    bind:editYearStart={edit.yearStart}
-    bind:editYearEnd={edit.yearEnd}
-    {scheduleTimingParse}
-    {flushTimingParse}
-    formatDate={formatCustomVariableDate}
-  />
+  {#if mode === 'create'}
+    <CustomVariableTimingFields
+      {form}
+      draftPath="customVariableDraft"
+      inputIdPrefix="custom-variable"
+      parseTarget="draft"
+      {currentYear}
+      selectedCalendarDate={draftSelectedCalendarDate}
+      calendarMinDate={draftCalendarMinDate}
+      calendarMaxDate={draftCalendarMaxDate}
+      bind:timingInfo={draftTimingInfo}
+      {scheduleTimingParse}
+      {flushTimingParse}
+      formatDate={formatCustomVariableDate}
+    />
+  {:else}
+    <CustomVariableTimingFields
+      {form}
+      draftPath="customVariableEditDraft"
+      inputIdPrefix="edit-custom-variable"
+      parseTarget="edit"
+      {currentYear}
+      selectedCalendarDate={editSelectedCalendarDate}
+      calendarMinDate={editCalendarMinDate}
+      calendarMaxDate={editCalendarMaxDate}
+      bind:timingInfo={editTimingInfo}
+      {scheduleTimingParse}
+      {flushTimingParse}
+      formatDate={formatCustomVariableDate}
+    />
+  {/if}
 
-  <CustomVariableGrowthFields
-    {form}
-    {mode}
-    bind:editGrowthEnabled={edit.growthEnabled}
-    bind:editGrowthType={edit.growthType}
-    bind:editGrowthAmount={edit.growthAmount}
-    bind:editGrowthCadence={edit.growthCadence}
-  />
+  <Accordion.Root type="single">
+    <Accordion.Item value="growth">
+      <Accordion.Trigger class="py-3 text-sm font-medium">Growth (optional)</Accordion.Trigger>
+      <Accordion.Content class="py-4">
+        <CustomVariableGrowthFields
+          {form}
+          draftPath={mode === 'edit' ? 'customVariableEditDraft' : 'customVariableDraft'}
+          inputIdPrefix={mode === 'edit' ? 'edit-custom-variable' : 'custom-variable'}
+        />
+      </Accordion.Content>
+    </Accordion.Item>
+  </Accordion.Root>
 
   {#if submitError}
     <p class="text-xs text-destructive">{submitError}</p>
@@ -430,9 +387,7 @@
       <Button.Root type="button" variant="outline" class="flex-1" onclick={cancelEditCustomVariable}
         >Cancel</Button.Root
       >
-      <Button.Root type="button" class="flex-1" onclick={saveCustomVariable}
-        >Save changes</Button.Root
-      >
+      <Button.Root type="button" class="flex-1" onclick={saveCustomVariable}>Save changes</Button.Root>
     </div>
   {/if}
 </section>

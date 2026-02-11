@@ -10,19 +10,27 @@ export function customVariableAccordionTrigger(page: Page): Locator {
 }
 
 export function customVariableForm(page: Page): Locator {
-  return page.getByRole('heading', { name: 'Add custom variable' }).first();
+  return page.locator('h3:has-text("Add custom variable"):visible').first();
+}
+
+function activeCustomVariableSection(page: Page): Locator {
+  return customVariableNameInput(page).locator('xpath=ancestor::section[1]').first();
 }
 
 export function customVariableNameInput(page: Page): Locator {
-  return page.locator('#custom-variable-name').first();
+  return page
+    .locator('[role="dialog"] #custom-variable-name:visible, #custom-variable-name:visible')
+    .first();
 }
 
 export function customVariableAmountInput(page: Page): Locator {
-  return page.locator('#custom-variable-amount').first();
+  return page
+    .locator('[role="dialog"] #custom-variable-amount:visible, #custom-variable-amount:visible')
+    .first();
 }
 
 export function addCustomVariableButton(page: Page): Locator {
-  return page.getByRole('button', { name: 'Add new variable' }).first();
+  return activeCustomVariableSection(page).getByRole('button', { name: 'Add new variable' });
 }
 
 export async function openCustomVariablesAccordion(page: Page) {

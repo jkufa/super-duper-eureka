@@ -55,7 +55,7 @@ describe('custom-variable-editor-actions', () => {
       ...baseInput,
       id: 'custom-existing-id',
       name: 'Updated Bonus',
-      type: 'percent',
+      type: 'salaryPercent',
       amount: 2.5,
       placement: 'start',
       timingNaturalText: '',

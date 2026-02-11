@@ -2,42 +2,9 @@ import { CalendarDate, getLocalTimeZone, type DateValue } from '@internationaliz
 import type { RetirementConfigFormValues } from '$lib/forms/retirement-config-form';
 
 type CustomVariable = RetirementConfigFormValues['customVariables'][number];
+type CustomVariableDraft = RetirementConfigFormValues['customVariableDraft'];
 
-export interface EditCustomVariableState {
-  name: string;
-  type: CustomVariable['type'];
-  amount: number;
-  frequency: CustomVariable['frequency'];
-  placement: CustomVariable['placement'];
-  timingNaturalText: string;
-  timingDay: number;
-  timingMonth: number;
-  timingYear: number;
-  yearStart: number;
-  yearEnd: number;
-  growthEnabled: boolean;
-  growthType: CustomVariable['growthType'];
-  growthAmount: number;
-  growthCadence: CustomVariable['growthCadence'];
-}
-
-export interface DraftResetState {
-  amount: number;
-  type: CustomVariable['type'];
-  frequency: CustomVariable['frequency'];
-  placement: CustomVariable['placement'];
-  timingInputMode: 'hybrid';
-  timingNaturalText: string;
-  timingDay: number;
-  timingMonth: number;
-  timingYear: number;
-  yearStart: number;
-  yearEnd: number;
-  growthEnabled: boolean;
-  growthType: CustomVariable['growthType'];
-  growthAmount: number;
-  growthCadence: CustomVariable['growthCadence'];
-}
+export type DraftResetState = CustomVariableDraft;
 
 function toYearOffset(value: unknown, fallback = 0) {
   const parsed = Number(value);
@@ -91,7 +58,7 @@ export function formatCustomVariableDate(date: DateValue | undefined) {
   });
 }
 
-export function toEditCustomVariableState(variable: CustomVariable): EditCustomVariableState {
+export function toCustomVariableDraftState(variable: CustomVariable): CustomVariableDraft {
   return {
     name: variable.name,
     type: variable.type,
@@ -108,11 +75,13 @@ export function toEditCustomVariableState(variable: CustomVariable): EditCustomV
     growthType: variable.growthType,
     growthAmount: variable.growthAmount,
     growthCadence: variable.growthCadence,
+    timingInputMode: 'hybrid',
   };
 }
 
 export function toDraftResetState(currentYear: number, horizonYears: number): DraftResetState {
   return {
+    name: '',
     amount: 0,
     type: 'flat',
     frequency: 'monthly',

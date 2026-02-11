@@ -11,6 +11,19 @@ const customVariableTimingSchema = z.object({
   timingYear: z.coerce.number().int().min(2000).max(2200),
 });
 
+const customVariableDraftSchema = z.object({
+  name: z.string(),
+  type: z.enum(['flat', 'salaryPercent']),
+  amount: z.coerce.number().min(0),
+  ...customVariableTimingSchema.shape,
+  yearStart: z.coerce.number().int().min(0).max(80),
+  yearEnd: z.coerce.number().int().min(0).max(80),
+  growthEnabled: z.boolean(),
+  growthType: z.enum(['percent', 'flat']),
+  growthAmount: z.coerce.number().min(0),
+  growthCadence: z.enum(['annual', 'monthly']),
+});
+
 export const retirementConfigFormSchema = z.object({
   currentBalance: z.coerce.number().min(0, 'Current investments must be positive'),
   annualReturnPct: z.coerce.number().min(0).max(50),
@@ -40,18 +53,8 @@ export const retirementConfigFormSchema = z.object({
       growthCadence: z.enum(['annual', 'monthly']),
     }),
   ),
-  customVariableDraft: z.object({
-    name: z.string(),
-    type: z.enum(['flat', 'salaryPercent']),
-    amount: z.coerce.number().min(0),
-    ...customVariableTimingSchema.shape,
-    yearStart: z.coerce.number().int().min(0).max(80),
-    yearEnd: z.coerce.number().int().min(0).max(80),
-    growthEnabled: z.boolean(),
-    growthType: z.enum(['percent', 'flat']),
-    growthAmount: z.coerce.number().min(0),
-    growthCadence: z.enum(['annual', 'monthly']),
-  }),
+  customVariableDraft: customVariableDraftSchema,
+  customVariableEditDraft: customVariableDraftSchema,
 });
 
 export type RetirementConfigFormValues = z.infer<typeof retirementConfigFormSchema>;
@@ -63,6 +66,25 @@ const toNumberOr = (value: unknown, fallback: number) =>
 
 export function toRetirementConfigFormDefaults(config: RetirementConfig): RetirementConfigFormValues {
   const now = new Date();
+  const customVariableDraftDefaults = {
+    name: '',
+    type: 'flat' as const,
+    amount: 0,
+    frequency: 'monthly' as const,
+    placement: 'end' as const,
+    timingInputMode: 'hybrid' as const,
+    timingNaturalText: '',
+    timingDay: 1,
+    timingMonth: 1,
+    timingYear: now.getFullYear(),
+    yearStart: 0,
+    yearEnd: config.timeHorizonYears,
+    growthEnabled: false,
+    growthType: 'percent' as const,
+    growthAmount: 0,
+    growthCadence: 'annual' as const,
+  };
+
   return {
     currentBalance: config.currentBalance,
     annualReturnPct: toPercent(config.interest.annualRate),
@@ -76,24 +98,8 @@ export function toRetirementConfigFormDefaults(config: RetirementConfig): Retire
       amount: rule.amount,
     })),
     customVariables: [],
-    customVariableDraft: {
-      name: '',
-      type: 'flat',
-      amount: 0,
-      frequency: 'monthly',
-      placement: 'end',
-      timingInputMode: 'hybrid',
-      timingNaturalText: '',
-      timingDay: 1,
-      timingMonth: 1,
-      timingYear: now.getFullYear(),
-      yearStart: 0,
-      yearEnd: config.timeHorizonYears,
-      growthEnabled: false,
-      growthType: 'percent',
-      growthAmount: 0,
-      growthCadence: 'annual',
-    },
+    customVariableDraft: { ...customVariableDraftDefaults },
+    customVariableEditDraft: { ...customVariableDraftDefaults },
   };
 }
 

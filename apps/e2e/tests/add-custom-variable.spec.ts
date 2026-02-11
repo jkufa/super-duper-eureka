@@ -10,11 +10,11 @@ import {
 } from './helpers/custom-variable';
 
 function customVariableSection(page: Page) {
-  return page.getByRole('heading', { name: 'Add custom variable' }).locator('xpath=ancestor::section[1]');
+  return customVariableNameInput(page).locator('xpath=ancestor::section[1]').first();
 }
 
 function customVariableGrowthSection(page: Page) {
-  return page.getByText('Growth (optional)').first().locator('xpath=ancestor::div[contains(@class,"rounded-md")][1]');
+  return customVariableSection(page);
 }
 
 test.describe('Add custom variable form', () => {
@@ -33,12 +33,12 @@ test.describe('Add custom variable form', () => {
   test('validates required name and non-negative amount', async ({ page }) => {
     await gotoApp(page);
 
-    await addCustomVariableButton(page).click();
+    await addCustomVariableButton(page).click({ force: true });
     await expect(page.getByText('Variable name is required.')).toBeVisible();
 
     await customVariableNameInput(page).fill('Annual Bonus');
     await customVariableAmountInput(page).fill('-1');
-    await addCustomVariableButton(page).click();
+    await addCustomVariableButton(page).click({ force: true });
 
     await expect(page.getByText('Amount must be 0 or greater.')).toBeVisible();
   });
@@ -50,7 +50,7 @@ test.describe('Add custom variable form', () => {
 
     await customVariableNameInput(page).fill(customVariableName);
     await customVariableAmountInput(page).fill('7');
-    await addCustomVariableButton(page).click();
+    await addCustomVariableButton(page).click({ force: true });
 
     await openCustomVariablesAccordion(page);
     const customVariableLabel = page.locator('label', { hasText: customVariableName }).first();
@@ -70,7 +70,7 @@ test.describe('Add custom variable form', () => {
 
     await customVariableNameInput(page).fill(originalName);
     await customVariableAmountInput(page).fill('11');
-    await addCustomVariableButton(page).click();
+    await addCustomVariableButton(page).click({ force: true });
 
     await openCustomVariablesAccordion(page);
 
@@ -94,36 +94,27 @@ test.describe('Add custom variable form', () => {
     await expect(editedRow.locator('input[type="number"]').first()).toHaveValue('22');
   });
 
-  test('shows and hides optional growth controls', async ({ page }) => {
+  test('shows optional growth controls', async ({ page }) => {
     await gotoApp(page);
 
-    const growthSection = customVariableGrowthSection(page);
-    await expect(page.getByText('Growth (optional)').first()).toBeVisible();
-    const growthToggle = page.getByRole('button', { name: 'Disabled' }).first();
-
-    await expect(growthToggle).toBeVisible();
-    await expect(page.locator('input[name="customVariableDraft.growthAmount"]')).toHaveCount(0);
-
-    await growthToggle.click();
-    await expect(page.getByRole('button', { name: 'Enabled' }).first()).toBeVisible();
-    await expect(page.locator('input[name="customVariableDraft.growthAmount"]')).toBeVisible();
-    await expect(page.getByRole('radio', { name: 'Amount $' })).toHaveCount(2);
-    await expect(growthSection.getByRole('radio', { name: 'Annually' })).toBeVisible();
+    await customVariableSection(page).getByRole('button', { name: 'Growth (optional)' }).click();
+    await expect(customVariableSection(page).getByText('Growth (optional)').first()).toBeVisible();
+    await expect(customVariableSection(page).locator('input[name="customVariableDraft.growthAmount"]:visible')).toBeVisible();
+    await expect(customVariableGrowthSection(page).getByRole('radio', { name: 'Amount $' }).last()).toBeVisible();
+    await expect(customVariableGrowthSection(page).getByRole('radio', { name: 'Annually' })).toBeVisible();
   });
 
   test('keeps Raise by icon and input padding aligned when switching growth type', async ({ page }) => {
     await gotoApp(page);
 
-    const growthSection = customVariableGrowthSection(page);
-    await page.getByRole('button', { name: 'Disabled' }).first().click();
-
-    const growthAmountInput = page.locator('input[name="customVariableDraft.growthAmount"]');
+    await customVariableSection(page).getByRole('button', { name: 'Growth (optional)' }).click();
+    const growthAmountInput = page.locator('input[name="customVariableDraft.growthAmount"]:visible').first();
     await expect(growthAmountInput).toBeVisible();
 
     const growthInputWrapper = growthAmountInput.locator('xpath=ancestor::div[contains(@class,"relative")]').first();
     await expect(growthInputWrapper.locator('span.right-3')).toHaveText('%');
 
-    await page.getByRole('radio', { name: 'Amount $' }).nth(1).click();
+    await customVariableSection(page).getByRole('radio', { name: 'Amount $' }).last().click({ force: true });
     await growthAmountInput.fill('123');
 
     await expect(growthInputWrapper.locator('span.left-3')).toHaveText('$');

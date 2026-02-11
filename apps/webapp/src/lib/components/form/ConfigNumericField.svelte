@@ -24,7 +24,14 @@
     | 'customVariableDraft.timingYear'
     | 'customVariableDraft.yearStart'
     | 'customVariableDraft.yearEnd'
-    | 'customVariableDraft.growthAmount';
+    | 'customVariableDraft.growthAmount'
+    | 'customVariableEditDraft.amount'
+    | 'customVariableEditDraft.timingDay'
+    | 'customVariableEditDraft.timingMonth'
+    | 'customVariableEditDraft.timingYear'
+    | 'customVariableEditDraft.yearStart'
+    | 'customVariableEditDraft.yearEnd'
+    | 'customVariableEditDraft.growthAmount';
 
   let {
     form,
