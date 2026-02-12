@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { RetirementConfig } from '@retirement/calculator/types';
   import type { SuperForm } from 'sveltekit-superforms/client';
   import type { RetirementConfigFormValues } from '$lib/forms/retirement-config-form';
   import ConfigBasicsSection from '$lib/components/form/ConfigBasicsSection.svelte';
@@ -12,12 +11,10 @@
   let {
     form,
     enhance,
-    contributions,
     onCommit
   }: {
     form: SuperForm<RetirementConfigFormValues>;
     enhance: SuperForm<RetirementConfigFormValues>['enhance'];
-    contributions: RetirementConfig['contributions'];
     onCommit?: () => void;
   } = $props();
 
@@ -51,7 +48,7 @@
       <Accordion.Item value="custom-variables">
         <Accordion.Trigger class="py-3 text-sm font-medium">Custom Variables</Accordion.Trigger>
         <Accordion.Content class="py-4">
-          <ConfigContributionSection {form} {onCommit} {contributions} />
+          <ConfigContributionSection {form} {onCommit} />
         </Accordion.Content>
       </Accordion.Item>
     </Accordion.Root>

@@ -17,8 +17,8 @@ export const load: PageServerLoad = async ({ locals }) => {
     = mockRealData && seed !== null
       ? generateRandomRetirementConfig(seed)
       : {
-          currentBalance: 10000,
-          timeHorizonYears: 30,
+          currentBalance: 1000,
+          timeHorizonYears: 40,
           startDate: '2026-01-01T00:00:00.000Z',
           interest: {
             annualRate: 0.06,
@@ -26,7 +26,7 @@ export const load: PageServerLoad = async ({ locals }) => {
             compounding: 'monthly',
           },
           salary: {
-            annualBase: 90000,
+            annualBase: 45000,
             annualRaiseRate: 0.03,
           },
           contributions: [
@@ -34,7 +34,7 @@ export const load: PageServerLoad = async ({ locals }) => {
               id: 'monthly-contribution',
               name: 'Monthly contribution',
               type: 'flat',
-              amount: 500,
+              amount: 100,
               timing: { frequency: 'monthly', placement: 'end' },
             },
           ],

@@ -32,12 +32,6 @@ export const retirementConfigFormSchema = z.object({
   compounding: z.enum(['monthly', 'daily']),
   baseSalary: z.coerce.number().min(0),
   annualRaisePct: z.coerce.number().min(0).max(50),
-  contributionVariables: z.array(
-    z.object({
-      id: z.string(),
-      amount: z.coerce.number().min(0),
-    }),
-  ),
   customVariables: z.array(
     z.object({
       id: z.string(),
@@ -66,6 +60,8 @@ const toNumberOr = (value: unknown, fallback: number) =>
 
 export function toRetirementConfigFormDefaults(config: RetirementConfig): RetirementConfigFormValues {
   const now = new Date();
+  const startDate = normalizeStartDate(config.startDate);
+  const startYear = startDate.getFullYear();
   const customVariableDraftDefaults = {
     name: '',
     type: 'flat' as const,
@@ -93,11 +89,75 @@ export function toRetirementConfigFormDefaults(config: RetirementConfig): Retire
     compounding: config.interest.compounding ?? 'monthly',
     baseSalary: config.salary.annualBase,
     annualRaisePct: toPercent(config.salary.annualRaiseRate),
-    contributionVariables: config.contributions.map((rule) => ({
-      id: rule.id,
-      amount: rule.amount,
-    })),
-    customVariables: [],
+    customVariables: config.contributions.map((rule) => {
+      const yearStart = rule.yearRange?.start ?? 0;
+      const yearEnd = rule.yearRange?.end ?? config.timeHorizonYears;
+
+      if (rule.timing.frequency === 'oneTime') {
+        const oneTimeYear = Math.max(0, rule.timing.on.year);
+        return {
+          id: rule.id,
+          name: rule.name ?? rule.id,
+          type: rule.type,
+          amount: rule.amount,
+          frequency: 'oneTime' as const,
+          placement: 'start' as const,
+          timingInputMode: 'hybrid' as const,
+          timingNaturalText: '',
+          timingDay: rule.timing.on.day ?? 1,
+          timingMonth: rule.timing.on.month + 1,
+          timingYear: startYear + oneTimeYear,
+          yearStart: oneTimeYear,
+          yearEnd: oneTimeYear,
+          growthEnabled: Boolean(rule.growth),
+          growthType: rule.growth?.type ?? 'percent',
+          growthAmount: rule.growth?.amount ?? 0,
+          growthCadence: rule.growth?.cadence ?? 'annual',
+        };
+      }
+
+      if (rule.timing.frequency === 'annual') {
+        return {
+          id: rule.id,
+          name: rule.name ?? rule.id,
+          type: rule.type,
+          amount: rule.amount,
+          frequency: 'annual' as const,
+          placement: rule.timing.placement ?? 'start',
+          timingInputMode: 'hybrid' as const,
+          timingNaturalText: '',
+          timingDay: rule.timing.day ?? 1,
+          timingMonth: rule.timing.month + 1,
+          timingYear: startYear,
+          yearStart,
+          yearEnd,
+          growthEnabled: Boolean(rule.growth),
+          growthType: rule.growth?.type ?? 'percent',
+          growthAmount: rule.growth?.amount ?? 0,
+          growthCadence: rule.growth?.cadence ?? 'annual',
+        };
+      }
+
+      return {
+        id: rule.id,
+        name: rule.name ?? rule.id,
+        type: rule.type,
+        amount: rule.amount,
+        frequency: 'monthly' as const,
+        placement: rule.timing.placement ?? 'start',
+        timingInputMode: 'hybrid' as const,
+        timingNaturalText: '',
+        timingDay: rule.timing.day ?? 1,
+        timingMonth: 1,
+        timingYear: startYear,
+        yearStart,
+        yearEnd,
+        growthEnabled: Boolean(rule.growth),
+        growthType: rule.growth?.type ?? 'percent',
+        growthAmount: rule.growth?.amount ?? 0,
+        growthCadence: rule.growth?.cadence ?? 'annual',
+      };
+    }),
     customVariableDraft: { ...customVariableDraftDefaults },
     customVariableEditDraft: { ...customVariableDraftDefaults },
   };
@@ -109,18 +169,7 @@ export function applyRetirementConfigFormValues(
 ): RetirementConfig {
   const startDate = normalizeStartDate(baseConfig.startDate);
   const startYear = startDate.getFullYear();
-  const contributionAmountById = new Map(
-    values.contributionVariables.map((item) => [item.id, toNumberOr(item.amount, 0)]),
-  );
-  const nextContributions = baseConfig.contributions.map((rule) => {
-    const nextAmount = contributionAmountById.get(rule.id);
-    if (typeof nextAmount === 'number') {
-      return { ...rule, amount: nextAmount };
-    }
-    return rule;
-  });
-
-  const nextCustomContributions = values.customVariables.map((item) => {
+  const nextContributions = values.customVariables.map((item) => {
     const yearStart = Math.max(0, Math.trunc(toNumberOr(item.yearStart, 0)));
     const yearEnd = Math.max(yearStart, Math.trunc(toNumberOr(item.yearEnd, baseConfig.timeHorizonYears)));
     const day = Math.max(1, Math.min(31, Math.trunc(toNumberOr(item.timingDay, 1))));
@@ -145,8 +194,8 @@ export function applyRetirementConfigFormValues(
         item.frequency === 'oneTime'
           ? ({ frequency: 'oneTime' as const, on: { year: relativeYear, month: monthIndex, day } })
           : item.frequency === 'annual'
-              ? ({ frequency: 'annual' as const, month: monthIndex, day, placement: item.placement })
-              : ({ frequency: 'monthly' as const, day, placement: item.placement }),
+            ? ({ frequency: 'annual' as const, month: monthIndex, day, placement: item.placement })
+            : ({ frequency: 'monthly' as const, day, placement: item.placement }),
       yearRange: {
         start: yearStart,
         end: yearEnd,
@@ -169,7 +218,7 @@ export function applyRetirementConfigFormValues(
       annualBase: toNumberOr(values.baseSalary, baseConfig.salary.annualBase),
       annualRaiseRate: toDecimalRate(toNumberOr(values.annualRaisePct, (baseConfig.salary.annualRaiseRate ?? 0) * 100)),
     },
-    contributions: [...nextContributions, ...nextCustomContributions],
+    contributions: nextContributions,
   };
 }
 

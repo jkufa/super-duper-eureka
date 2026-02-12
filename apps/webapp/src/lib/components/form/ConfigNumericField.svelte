@@ -15,7 +15,6 @@
     | 'variancePct'
     | 'baseSalary'
     | 'annualRaisePct'
-    | `contributionVariables[${number}].amount`
     | `customVariables[${number}].amount`
     | `customVariables[${number}].growthAmount`
     | 'customVariableDraft.amount'

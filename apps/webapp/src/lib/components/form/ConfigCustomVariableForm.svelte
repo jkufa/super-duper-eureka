@@ -11,7 +11,10 @@
   import CustomVariableTimingFields from './CustomVariableTimingFields.svelte';
   import CustomVariableGrowthFields from './CustomVariableGrowthFields.svelte';
   import { parseCustomVariableTiming } from './custom-variable-editor-model';
-  import { buildCreatedCustomVariable, buildSavedCustomVariable } from './custom-variable-editor-actions';
+  import {
+    buildCreatedCustomVariable,
+    buildSavedCustomVariable
+  } from './custom-variable-editor-actions';
   import {
     formatCustomVariableDate,
     toCalendarBounds,
@@ -19,7 +22,10 @@
     toCustomVariableDraftState,
     toParsedCalendarDate
   } from './custom-variable-editor-state';
-  import { createTimingParseController, type TimingTarget } from './custom-variable-timing-controller';
+  import {
+    createTimingParseController,
+    type TimingTarget
+  } from './custom-variable-timing-controller';
 
   type Mode = 'create' | 'edit';
   type DraftPath = 'customVariableDraft' | 'customVariableEditDraft';
@@ -381,13 +387,17 @@
     </Button.Root>
   {:else}
     <div class="mt-2 flex flex-wrap gap-2">
-      <Button.Root type="button" variant="outline" class="flex-1" onclick={deleteCustomVariable}
-        >Delete</Button.Root
-      >
       <Button.Root type="button" variant="outline" class="flex-1" onclick={cancelEditCustomVariable}
         >Cancel</Button.Root
       >
-      <Button.Root type="button" class="flex-1" onclick={saveCustomVariable}>Save changes</Button.Root>
+      <Button.Root type="button" class="flex-1" onclick={saveCustomVariable}
+        >Save changes</Button.Root
+      >
+    </div>
+    <div class="mt-4 border-t border-border pt-4">
+      <Button.Root type="button" variant="destructive" class="w-full" onclick={deleteCustomVariable}
+        >Delete</Button.Root
+      >
     </div>
   {/if}
 </section>

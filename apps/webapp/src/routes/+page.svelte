@@ -91,12 +91,7 @@
           Adjust parameters for your retirement calculation
         </p>
       </header>
-      <RootForm
-        form={configForm}
-        enhance={configForm.enhance}
-        contributions={data.config.contributions}
-        onCommit={commitFormValues}
-      />
+      <RootForm form={configForm} enhance={configForm.enhance} onCommit={commitFormValues} />
     </aside>
   </main>
 
@@ -118,18 +113,8 @@
           >
         </Drawer.Header>
 
-        <div
-          class={cn(
-            'h-full px-5 pt-4 pb-(--safe-bottom-pad-lg)',
-            activeFormDrawerSnapPoint === 1 ? 'overflow-y-auto' : 'overflow-hidden'
-          )}
-        >
-          <RootForm
-            form={configForm}
-            enhance={configForm.enhance}
-            contributions={data.config.contributions}
-            onCommit={commitFormValues}
-          />
+        <div class={cn('h-full overflow-y-auto px-5 pt-4 pb-(--safe-bottom-pad-lg)')}>
+          <RootForm form={configForm} enhance={configForm.enhance} onCommit={commitFormValues} />
         </div>
 
         <Drawer.Footer class="border-t p-4 pb-(--safe-bottom-pad-sm)" />
