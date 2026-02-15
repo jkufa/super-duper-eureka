@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Plus } from '@lucide/svelte';
+  import { Plus, Trash2 } from '@lucide/svelte';
   import type { SuperForm } from 'sveltekit-superforms/client';
   import { fieldProxy } from 'sveltekit-superforms/client';
   import type { ParsedCustomVariableTiming } from '$lib/forms/frequency-nlp';
@@ -7,6 +7,7 @@
   import { TIMING_PARSE_ERROR_MESSAGE } from '$lib/forms/frequency-nlp';
   import * as Button from '$lib/components/ui/button';
   import * as Accordion from '$lib/components/ui/accordion';
+  import * as Dialog from '$lib/components/ui/dialog';
   import CustomVariableCoreFields from './CustomVariableCoreFields.svelte';
   import CustomVariableTimingFields from './CustomVariableTimingFields.svelte';
   import CustomVariableGrowthFields from './CustomVariableGrowthFields.svelte';
@@ -32,6 +33,7 @@
   /* eslint-disable no-unused-vars */
   type ConfigCustomVariableFormProps = {
     form: SuperForm<RetirementConfigFormValues>;
+    displayName: string;
     onCommit?: () => void;
     mode?: Mode;
     variable?: CustomVariable;
@@ -43,6 +45,7 @@
 
   let {
     form,
+    displayName,
     onCommit,
     mode = 'create',
     variable,
@@ -71,6 +74,7 @@
   let submitError = $state<string | null>(null);
   let draftTimingInfo = $state<string | null>(null);
   let editTimingInfo = $state<string | null>(null);
+  let isDeleteVariableDialogOpen = $state(false);
   const TIMING_PARSE_DEBOUNCE_MS = 400;
   const PERCENT_AMOUNT_TOOLTIP =
     'Percent contributions use monthly salary for monthly frequency and \n annual salary for annual or one-time frequency.';
@@ -170,6 +174,12 @@
   const coreAmountLabelTooltip = $derived.by(() => {
     const activeType = mode === 'edit' ? $editDraftType : $draftType;
     return activeType === 'salaryPercent' ? PERCENT_AMOUNT_TOOLTIP : undefined;
+  });
+
+  const editDisplayName = $derived.by(() => {
+    return (
+      displayName || variable?.name || $formData.customVariableEditDraft.name || 'this variable'
+    );
   });
 
   function parseTimingText(input: string) {
@@ -308,8 +318,14 @@
     submitError = null;
   }
 
+  function promptDeleteCustomVariable() {
+    if (mode !== 'edit' || !onDeleteVariable) return;
+    isDeleteVariableDialogOpen = true;
+  }
+
   function deleteCustomVariable() {
     if (mode !== 'edit' || !onDeleteVariable) return;
+    isDeleteVariableDialogOpen = false;
     onDeleteVariable();
   }
 
@@ -321,7 +337,7 @@
 
 <section class="w-full space-y-3 rounded-xl border border-dashed border-border px-4 py-4">
   <h3 class="text-sm font-semibold">
-    {mode === 'edit' ? 'Edit custom variable' : 'Add custom variable'}
+    {mode === 'edit' ? `Edit ${displayName}` : `Add ${displayName}`}
   </h3>
 
   <CustomVariableCoreFields
@@ -395,9 +411,43 @@
       >
     </div>
     <div class="mt-4 border-t border-border pt-4">
-      <Button.Root type="button" variant="destructive" class="w-full" onclick={deleteCustomVariable}
-        >Delete</Button.Root
+      <Button.Root
+        type="button"
+        variant="destructive"
+        class="w-full"
+        onclick={promptDeleteCustomVariable}
       >
+        <Trash2 class="size-4" />
+        Delete variable
+      </Button.Root>
     </div>
   {/if}
 </section>
+
+{#if mode === 'edit'}
+  <Dialog.Root bind:open={isDeleteVariableDialogOpen}>
+    <Dialog.Content>
+      <Dialog.Header>
+        <Dialog.Title>Delete this variable?</Dialog.Title>
+        <Dialog.Description>
+          This will permanently delete
+          <span class="font-medium">{editDisplayName}</span>
+          and remove it from all future projections. This action can't be undone.
+        </Dialog.Description>
+      </Dialog.Header>
+      <Dialog.Footer>
+        <Button.Root
+          type="button"
+          variant="outline"
+          onclick={() => {
+            isDeleteVariableDialogOpen = false;
+          }}>Cancel</Button.Root
+        >
+        <Button.Root type="button" variant="destructive" onclick={deleteCustomVariable}>
+          <Trash2 class="size-4" />
+          Delete variable
+        </Button.Root>
+      </Dialog.Footer>
+    </Dialog.Content>
+  </Dialog.Root>
+{/if}
