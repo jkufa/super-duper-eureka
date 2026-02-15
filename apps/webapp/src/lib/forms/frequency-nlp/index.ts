@@ -26,8 +26,8 @@ interface ParsedRange {
   cleanedInput: string;
 }
 
-const TIMING_PARSE_ERROR_MESSAGE =
-  'Unable to parse that contribution frequency. Try "every 15th", "every Feb 13", "on 1/2/2027", "every 15th until 2030", or "every 15th for 10 years starting in 2028".';
+const TIMING_PARSE_ERROR_MESSAGE
+  = 'Unable to parse that contribution frequency. Try "every 15th", "every Feb 13", "on 1/2/2027", "every 15th until 2030", or "every 15th for 10 years starting in 2028".';
 
 const MONTH_LOOKUP: Record<string, number> = {
   january: 1,
@@ -85,7 +85,7 @@ function parseRangeModifiers(input: string): ParsedRange {
     }
   }
 
-  const durationMatch = cleaned.match(/\bfor\s+(\d+)\s+(?:year|years|yr|yrs)\b/i);
+  const durationMatch = /\bfor\s+(\d+)\s+(?:year|years|yr|yrs)\b/i.exec(cleaned);
   if (durationMatch) {
     const parsedDuration = Number.parseInt(durationMatch[1], 10);
     if (Number.isFinite(parsedDuration)) {
@@ -94,7 +94,7 @@ function parseRangeModifiers(input: string): ParsedRange {
     cleaned = cleaned.replace(durationMatch[0], ' ');
   }
 
-  const untilMatch = cleaned.match(/\buntil\s+(\d{4})\b/i);
+  const untilMatch = /\buntil\s+(\d{4})\b/i.exec(cleaned);
   if (untilMatch) {
     const parsedEndYear = Number.parseInt(untilMatch[1], 10);
     if (Number.isFinite(parsedEndYear)) {

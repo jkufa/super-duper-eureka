@@ -20,4 +20,3 @@ export function isValidMonthDay(month: number, day: number, year: number) {
 export function isValidAnnualMonthDay(month: number, day: number) {
   return isValidMonthDay(month, day, REFERENCE_LEAP_YEAR);
 }
-

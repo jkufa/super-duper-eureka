@@ -5,8 +5,10 @@
   import { ProjectionChart, ProjectionTable } from '$lib/components/projection';
   import RootForm from '$lib/components/RootForm.svelte';
   import Nav from '$lib/components/Nav.svelte';
+  import { initRetirementConfigContext } from '$lib/client/config/config-context.svelte';
+  import { createRetirementConfigStore } from '$lib/client/config/config-store.svelte';
   import {
-    applyRetirementConfigFormValues,
+    toRetirementConfigFormDefaults,
     retirementConfigFormSchema,
     type RetirementConfigFormValues
   } from '$lib/forms/retirement-config-form';
@@ -18,18 +20,47 @@
 
   let { data }: { data: PageData } = $props();
 
+  // svelte-ignore state_referenced_locally
   const configForm = superForm(data.configForm, {
     validators: zod4Client(retirementConfigFormSchema),
     dataType: 'json'
   });
   const formData = configForm.form;
   let committedValues = $state<RetirementConfigFormValues>(structuredClone($formData));
+  // svelte-ignore state_referenced_locally
+  let activeBaseConfig = $state(data.config);
+  let hasStorageHydrationCompleted = $state(false);
 
   function commitFormValues() {
     committedValues = structuredClone($formData);
   }
 
-  const liveConfig = $derived(applyRetirementConfigFormValues(data.config, committedValues));
+  const configContext = initRetirementConfigContext();
+
+  $effect(() => {
+    if (hasStorageHydrationCompleted) return;
+
+    const storedConfig = configContext.getStoredConfig();
+    if (!storedConfig) {
+      hasStorageHydrationCompleted = true;
+      return;
+    }
+
+    activeBaseConfig = storedConfig;
+    const storedValues = toRetirementConfigFormDefaults(storedConfig);
+    $formData = structuredClone(storedValues);
+    committedValues = structuredClone(storedValues);
+    hasStorageHydrationCompleted = true;
+  });
+
+  const liveConfig = $derived(
+    createRetirementConfigStore({
+      baseConfig: activeBaseConfig,
+      committedValues,
+      context: configContext,
+      persist: hasStorageHydrationCompleted
+    })
+  );
 
   const run = $derived(
     calculateProjectionWithSteps(liveConfig, liveConfig.interest.annualRate, {
