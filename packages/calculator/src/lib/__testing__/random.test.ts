@@ -83,7 +83,7 @@ describe('random config generation', () => {
     setSystemTime('2026-01-01T00:00:00.000Z');
 
     const config = generateRandomRetirementConfig(918326173);
-    const employee401k = config.contributions.find((rule) => rule.id === '401k-employee');
+    const employee401k = config.contributions.find(rule => rule.id === '401k-employee');
 
     expect(employee401k?.type).toBe('salaryPercent');
     expect(employee401k?.amount).toBe(11.96);
