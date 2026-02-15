@@ -1,0 +1,31 @@
+{
+  "$schema": "https://btca.dev/btca.schema.json",
+  "resources": [
+    {
+      "type": "git",
+      "name": "chrono",
+      "url": "https://github.com/wanasit/chrono",
+      "branch": "main"
+    },
+    {
+      "type": "git",
+      "name": "svelte",
+      "url": "https://github.com/sveltejs/svelte",
+      "branch": "main"
+    },
+    {
+      "type": "git",
+      "name": "kit",
+      "url": "https://github.com/sveltejs/kit",
+      "branch": "main"
+    },
+    {
+      "type": "git",
+      "name": "superforms",
+      "url": "https://github.com/ciscoheat/sveltekit-superforms",
+      "branch": "main"
+    }
+  ],
+  "model": "claude-haiku-4-5",
+  "provider": "opencode"
+}

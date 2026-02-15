@@ -1,0 +1,37 @@
+<script lang="ts">
+  import type { SuperForm } from 'sveltekit-superforms/client';
+  import type { RetirementConfigFormValues } from '$lib/forms/retirement-config-form';
+  import ConfigNumericField from './ConfigNumericField.svelte';
+
+  let {
+    form,
+    onCommit
+  }: {
+    form: SuperForm<RetirementConfigFormValues>;
+    onCommit?: () => void;
+  } = $props();
+</script>
+
+<section class="space-y-4">
+  <ConfigNumericField
+    {form}
+    name="baseSalary"
+    label="Base Salary"
+    prefix="$"
+    kind="number"
+    inputmode="decimal"
+    emptyFallback="0"
+    {onCommit}
+  />
+
+  <ConfigNumericField
+    {form}
+    name="annualRaisePct"
+    label="Raise by"
+    suffix="%"
+    kind="number"
+    inputmode="decimal"
+    emptyFallback="0"
+    {onCommit}
+  />
+</section>

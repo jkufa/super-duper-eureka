@@ -2,13 +2,17 @@
   "name": "super-duper-eureka",
   "type": "module",
   "private": true,
-  "workspaces": ["packages/*"],
+  "workspaces": ["packages/*", "apps/*"],
   "scripts": {
     "retirement-calc": "bun run packages/cli/src/index.ts",
-    "test": "bun run --parallel --workspaces --no-exit-on-error test",
-    "lint": "bun run --parallel --workspaces --no-exit-on-error lint",
-    "format": "bun run --parallel --workspaces --no-exit-on-error format",
-    "build": "bun run --parallel --workspaces --no-exit-on-error build"
+    "test": "bun run --parallel --filter '!e2e' test",
+    "lint": "bun run --parallel --filter '*' lint",
+    "format": "bun run --parallel --filter '*' format",
+    "build": "bun run --parallel --filter '*' build",
+    "dev": "bun run  --elide-lines 0 --parallel --filter '*' dev",
+    "e2e": "bun run --filter e2e test",
+    "e2e:debugger": "bun run --filter e2e test:debugger",
+    "e2e:ui": "bun run --filter e2e test:ui"
   },
   "devDependencies": {
     "@types/bun": "latest"

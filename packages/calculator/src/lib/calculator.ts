@@ -87,6 +87,7 @@ function runProjection(
   const startDate = normalizeStartDate(config.startDate);
   const totalMonths = config.timeHorizonYears * MONTHS_PER_YEAR;
   const compounding = config.interest.compounding ?? 'monthly';
+  validateContributionRules(config.contributions);
 
   let runningBalance = config.currentBalance;
   let totalContributions = 0;
@@ -241,7 +242,7 @@ function resolveMonthlyContributions(params: ResolveMonthlyContributionsParams):
   for (const rule of rules) {
     if (!isContributionActive(rule, yearIndex, monthIndex, timeHorizonYears)) continue;
 
-    const amount = resolveContributionAmount(rule, salary);
+    const amount = resolveContributionAmount(rule, salary, yearIndex, monthIndex);
     if (amount === 0) continue;
 
     if (bucket.details) {
@@ -288,37 +289,65 @@ function isContributionActive(rule: ContributionRule, yearIndex: number, monthIn
   return true;
 }
 
-function resolveContributionAmount(rule: ContributionRule, salary: number) {
+function resolveContributionAmount(rule: ContributionRule, salary: number, yearIndex: number, monthIndex: number) {
+  const effectiveAmount = resolveEffectiveRuleAmount(rule, yearIndex, monthIndex);
+
   if (rule.type === 'salaryPercent') {
     const basis = rule.salaryBasis ?? 'annual';
     const annualSalary = salary;
 
     if (basis === 'annual') {
-      return annualSalary * (rule.amount / 100);
+      return annualSalary * (effectiveAmount / 100);
     }
     if (basis === 'monthly') {
-      return (annualSalary / 12) * (rule.amount / 100);
+      return (annualSalary / 12) * (effectiveAmount / 100);
     }
     if (basis === 'biweekly') {
-      return (annualSalary / 26) * (rule.amount / 100);
+      return (annualSalary / 26) * (effectiveAmount / 100);
     }
     if (basis === 'weekly') {
-      return (annualSalary / 52) * (rule.amount / 100);
+      return (annualSalary / 52) * (effectiveAmount / 100);
     }
     if (basis === 'daily') {
-      return (annualSalary / DEFAULT_DAYS_PER_YEAR) * (rule.amount / 100);
+      return (annualSalary / DEFAULT_DAYS_PER_YEAR) * (effectiveAmount / 100);
     }
 
     if (rule.timing.frequency === 'annual') {
-      return annualSalary * (rule.amount / 100);
+      return annualSalary * (effectiveAmount / 100);
     }
     if (rule.timing.frequency === 'monthly') {
-      return (annualSalary / 12) * (rule.amount / 100);
+      return (annualSalary / 12) * (effectiveAmount / 100);
     }
     throw new Error(`salaryBasis "perContribution" is not supported for oneTime contributions (id: ${rule.id}).`);
   }
 
-  return rule.amount;
+  return effectiveAmount;
+}
+
+function resolveEffectiveRuleAmount(rule: ContributionRule, yearIndex: number, monthIndex: number) {
+  const baseAmount = rule.amount;
+  const growth = rule.growth;
+  if (!growth) return Math.max(0, baseAmount);
+
+  const growthPeriods = growth.cadence === 'annual'
+    ? yearIndex
+    : yearIndex * MONTHS_PER_YEAR + monthIndex;
+
+  if (growth.type === 'percent') {
+    const rate = growth.amount / 100;
+    return Math.max(0, baseAmount * (1 + rate) ** growthPeriods);
+  }
+
+  return Math.max(0, baseAmount + growth.amount * growthPeriods);
+}
+
+function validateContributionRules(rules: ContributionRule[]) {
+  for (const rule of rules) {
+    if (!rule.growth) continue;
+    if (!Number.isFinite(rule.growth.amount) || rule.growth.amount < 0) {
+      throw new Error(`growth.amount must be 0 or greater for contribution "${rule.id}".`);
+    }
+  }
 }
 
 function resolveContributionDay(

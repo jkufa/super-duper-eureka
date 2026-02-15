@@ -18,6 +18,7 @@ export function makeContribution(rule?: Partial<ContributionRule>): Contribution
     enabled: rule?.enabled ?? true,
     type: rule?.type ?? 'flat',
     amount: rule?.amount ?? 0,
+    growth: rule?.growth,
     salaryBasis: rule?.salaryBasis,
     timing: rule?.timing ?? { frequency: 'monthly', placement: 'start' },
     yearRange: rule?.yearRange,
