@@ -12,6 +12,8 @@ import {
 export const load: PageServerLoad = async ({ locals }) => {
   const mockRealData = MOCK_REAL_DATA === 'true';
   const seed = mockRealData ? createRandomSeed() : null;
+  const now = new Date();
+  const todayStartDate = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate())).toISOString();
 
   const config: RetirementConfig
     = mockRealData && seed !== null
@@ -19,7 +21,7 @@ export const load: PageServerLoad = async ({ locals }) => {
       : {
           currentBalance: 1000,
           timeHorizonYears: 40,
-          startDate: '2026-01-01T00:00:00.000Z',
+          startDate: todayStartDate,
           interest: {
             annualRate: 0.06,
             variance: 0.02,

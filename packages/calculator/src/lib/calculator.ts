@@ -110,6 +110,7 @@ function runProjection(
       salary,
       compounding,
       monthStart,
+      projectionStartDate: startDate,
       includeDetails: options?.includeContributionDetails ?? true,
     });
 
@@ -213,6 +214,7 @@ interface ResolveMonthlyContributionsParams {
   salary: number;
   compounding: 'monthly' | 'daily';
   monthStart: Date;
+  projectionStartDate: Date;
   includeDetails?: boolean;
 }
 
@@ -240,7 +242,9 @@ function resolveMonthlyContributions(params: ResolveMonthlyContributionsParams):
   };
 
   for (const rule of rules) {
-    if (!isContributionActive(rule, yearIndex, monthIndex, timeHorizonYears)) continue;
+    if (!isContributionActive(rule, yearIndex, monthIndex, timeHorizonYears, monthStart, params.projectionStartDate)) {
+      continue;
+    }
 
     const amount = resolveContributionAmount(rule, salary, yearIndex, monthIndex);
     if (amount === 0) continue;
@@ -269,13 +273,27 @@ function resolveMonthlyContributions(params: ResolveMonthlyContributionsParams):
   return bucket;
 }
 
-function isContributionActive(rule: ContributionRule, yearIndex: number, monthIndex: number, timeHorizonYears: number) {
+function isContributionActive(
+  rule: ContributionRule,
+  yearIndex: number,
+  monthIndex: number,
+  timeHorizonYears: number,
+  monthStart: Date,
+  projectionStartDate: Date,
+) {
   if (rule.enabled === false) return false;
 
   const timing = rule.timing;
+  const isStartMonth = monthStart.getFullYear() === projectionStartDate.getFullYear()
+    && monthStart.getMonth() === projectionStartDate.getMonth();
+  const startDay = projectionStartDate.getDate();
+  const isPastStartDay = (day: number) => clampDay(day, getDaysInMonth(monthStart)) < startDay;
 
   if (timing.frequency === 'oneTime') {
-    return timing.on.year === yearIndex && timing.on.month === monthIndex;
+    if (timing.on.year !== yearIndex || timing.on.month !== monthIndex) return false;
+    if (!isStartMonth || yearIndex !== 0) return true;
+    if (!timing.on.day) return true;
+    return !isPastStartDay(timing.on.day);
   }
 
   const rangeStart = rule.yearRange?.start ?? 0;
@@ -283,7 +301,14 @@ function isContributionActive(rule: ContributionRule, yearIndex: number, monthIn
   if (yearIndex < rangeStart || yearIndex > rangeEnd) return false;
 
   if (timing.frequency === 'annual') {
-    return timing.month === monthIndex;
+    if (timing.month !== monthIndex) return false;
+    if (!isStartMonth || yearIndex !== 0) return true;
+    if (!timing.day) return true;
+    return !isPastStartDay(timing.day);
+  }
+
+  if (isStartMonth && yearIndex === 0 && timing.day) {
+    return !isPastStartDay(timing.day);
   }
 
   return true;

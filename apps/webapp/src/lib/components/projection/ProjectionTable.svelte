@@ -4,7 +4,7 @@
   import { formatCurrency } from '$lib/formatters';
   import * as Table from '$lib/components/ui/table';
 
-  let { run }: { run: ProjectionRun } = $props();
+  let { run, startYear }: { run: ProjectionRun; startYear: number } = $props();
 
   const rows = $derived.by(() => {
     return run.projection.yearlyProjections.map((row, index, allRows) => {
@@ -38,28 +38,20 @@
     <Table.Body>
       {#each rows as row (row.year)}
         {@const yearNumber = row.year + 1}
-        {@const isMilestone =
-          yearNumber === 1 || yearNumber === horizonYears || yearNumber % 5 === 0}
+        {@const fullYear = startYear + row.year}
         {@const progressPercent = (yearNumber / horizonYears) * 100}
         <Table.Row class="group">
           <Table.Cell class="left-0">
-            <div class="flex items-center gap-2 leading-6">
-              <span class="font-mono text-xs font-medium text-muted-foreground uppercase">Year</span
-              >
-              <span class="font-semibold tabular-nums">{yearNumber}</span>
-              {#if isMilestone}
-                <span
-                  class="size-1.5 rounded-full bg-growth/70"
-                  aria-label={`Year ${yearNumber} milestone`}
-                  title={`Year ${yearNumber} milestone`}
-                ></span>
-              {/if}
-            </div>
-            <div class="mt-1.5 h-1 w-full rounded-full bg-muted">
-              <div
-                class="h-full rounded-full bg-border"
-                style={`width: ${progressPercent}%;`}
-              ></div>
+            <div class="inline-flex flex-col gap-1">
+              <div class="tabular-nums">
+                {fullYear} <span class="font-semibold text-muted-foreground">({row.year})</span>
+              </div>
+              <div class="relative h-0.5 w-full bg-muted" aria-hidden="true">
+                <div
+                  class="absolute top-1/2 h-0.5 -translate-y-1/2 bg-border"
+                  style={`width: ${progressPercent}%;`}
+                ></div>
+              </div>
             </div>
           </Table.Cell>
           <Table.Cell class="text-right font-mono tabular-nums">
