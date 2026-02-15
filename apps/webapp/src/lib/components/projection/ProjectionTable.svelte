@@ -23,7 +23,7 @@
   <h2 class="text-xl font-semibold tracking-tight">Projection Table</h2>
   <Table.Root>
     <Table.Header
-      class="sticky -top-32 z-10 bg-background after:absolute after:bottom-0 after:w-full after:border-b after:border-border"
+      class="sticky -top-24 z-10 bg-background after:absolute after:bottom-0 after:w-full after:border-b after:border-border"
     >
       <Table.Row class="border-none">
         <Table.Head class="left-0 h-14 border-b">Year</Table.Head>
