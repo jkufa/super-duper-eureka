@@ -132,8 +132,10 @@ function getArgValue(argv: string[], key: string) {
 function getArgValues(argv: string[], key: string) {
   const values: string[] = [];
   for (let i = 0; i < argv.length; i++) {
-    if (argv[i] === key && argv[i + 1]) {
-      values.push(argv[i + 1]);
+    const arg = argv[i];
+    const value = argv[i + 1];
+    if (arg === key && value !== undefined) {
+      values.push(value);
       i += 1;
     }
   }

@@ -51,18 +51,18 @@ interface Case {
 }
 
 const defaultCase: Case = {
-  compounding: axes.compounding[0],
-  frequency: axes.frequency[0],
-  placement: axes.placement[0],
-  day: axes.day[0],
-  startMonth: axes.startMonth[0],
-  yearRange: axes.yearRange[0],
-  enabled: axes.enabled[0],
-  contributionType: axes.contributionType[0],
-  salaryBasis: axes.salaryBasis[0],
-  raise: axes.raise[0],
-  annualRate: axes.annualRate[0],
-  variance: axes.variance[0],
+  compounding: axes.compounding[0]!,
+  frequency: axes.frequency[0]!,
+  placement: axes.placement[0]!,
+  day: axes.day[0]!,
+  startMonth: axes.startMonth[0]!,
+  yearRange: axes.yearRange[0]!,
+  enabled: axes.enabled[0]!,
+  contributionType: axes.contributionType[0]!,
+  salaryBasis: axes.salaryBasis[0]!,
+  raise: axes.raise[0]!,
+  annualRate: axes.annualRate[0]!,
+  variance: axes.variance[0]!,
 };
 
 const axisEntries = Object.entries(axes) as [keyof Case, Case[keyof Case][]][];
@@ -71,9 +71,9 @@ const buildPairwiseCases = () => {
   const cases = new Map<string, Case>();
 
   for (let i = 0; i < axisEntries.length; i++) {
-    const [axisA, valuesA] = axisEntries[i];
+    const [axisA, valuesA] = axisEntries[i]!;
     for (let j = i + 1; j < axisEntries.length; j++) {
-      const [axisB, valuesB] = axisEntries[j];
+      const [axisB, valuesB] = axisEntries[j]!;
       for (const valueA of valuesA) {
         for (const valueB of valuesB) {
           const next: Case = { ...defaultCase };
