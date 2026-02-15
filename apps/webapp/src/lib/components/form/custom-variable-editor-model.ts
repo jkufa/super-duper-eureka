@@ -25,9 +25,7 @@ export interface StructuredTimingFallback {
 
 export type ResolvedParsedTiming = ParsedCustomVariableTiming;
 
-interface ValidateAndNormalizeInput extends NormalizeCustomVariableInput {
-  parsedTiming: ResolvedParsedTiming;
-}
+interface ValidateAndNormalizeInput extends NormalizeCustomVariableInput { parsedTiming: ResolvedParsedTiming }
 
 function toFiniteNumber(value: unknown, fallback: number) {
   const parsed = Number(value);

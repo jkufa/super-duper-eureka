@@ -13,6 +13,7 @@
     | 'customVariableDraft.timingNaturalText'
     | 'customVariableEditDraft.timingNaturalText';
 
+  /* eslint-disable no-unused-vars */
   let {
     form,
     draftPath = 'customVariableDraft',
@@ -36,10 +37,11 @@
     calendarMinDate: DateValue;
     calendarMaxDate: DateValue;
     timingInfo?: string | null;
-    scheduleTimingParse: (target: 'draft' | 'edit', text: string) => void;
-    flushTimingParse: (target: 'draft' | 'edit', text: string) => void;
-    formatDate: (date: DateValue | undefined) => string;
+    scheduleTimingParse(target: 'draft' | 'edit', text: string): void;
+    flushTimingParse(target: 'draft' | 'edit', text: string): void;
+    formatDate(date: DateValue | undefined): string;
   } = $props();
+  /* eslint-enable no-unused-vars */
 
   const formData = form.form;
   const draftFrequency = fieldProxy(form, `${draftPath}.frequency` as FrequencyFieldPath);

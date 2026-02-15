@@ -27,7 +27,11 @@
 <div class={cn('space-y-2', className)}>
   <div class="flex items-center justify-between gap-2">
     <div class="text-xs font-medium tracking-wide text-muted-foreground uppercase">{label}</div>
-    <DebugCopyButton value={formatted} label="Copy" class="h-8 px-2.5 text-xs text-muted-foreground" />
+    <DebugCopyButton
+      value={formatted}
+      label="Copy"
+      class="h-8 px-2.5 text-xs text-muted-foreground"
+    />
   </div>
   <pre
     class={cn(

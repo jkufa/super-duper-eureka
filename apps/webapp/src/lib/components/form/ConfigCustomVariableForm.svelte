@@ -28,28 +28,28 @@
   } from './custom-variable-timing-controller';
 
   type Mode = 'create' | 'edit';
-  type DraftPath = 'customVariableDraft' | 'customVariableEditDraft';
   type CustomVariable = RetirementConfigFormValues['customVariables'][number];
-  type SharedProps = {
+  /* eslint-disable no-unused-vars */
+  type ConfigCustomVariableFormProps = {
     form: SuperForm<RetirementConfigFormValues>;
     onCommit?: () => void;
+    mode?: Mode;
+    variable?: CustomVariable;
+    onSaveVariable?(variable: CustomVariable): void;
+    onDeleteVariable?: () => void;
+    onCancel?: () => void;
   };
-  type CreateEditorProps = SharedProps & {
-    mode?: 'create';
-  };
-  type EditEditorProps = SharedProps & {
-    mode: 'edit';
-    variable: CustomVariable;
-    onSaveVariable: (variable: CustomVariable) => void;
-    onDeleteVariable: () => void;
-    onCancel: () => void;
-  };
-  type ConfigCustomVariableFormProps = CreateEditorProps | EditEditorProps;
+  /* eslint-enable no-unused-vars */
 
-  let props: ConfigCustomVariableFormProps = $props();
-  const form = props.form;
-  const onCommit = props.onCommit;
-  const mode: Mode = props.mode ?? 'create';
+  let {
+    form,
+    onCommit,
+    mode = 'create',
+    variable,
+    onSaveVariable,
+    onDeleteVariable,
+    onCancel
+  }: ConfigCustomVariableFormProps = $props();
 
   const formData = form.form;
   const draftFrequency = fieldProxy(form, 'customVariableDraft.frequency');
@@ -75,17 +75,12 @@
   const PERCENT_AMOUNT_TOOLTIP =
     'Percent contributions use monthly salary for monthly frequency and \n annual salary for annual or one-time frequency.';
 
-  function getEditProps() {
-    return mode === 'edit' ? (props as EditEditorProps) : null;
-  }
-
   $effect(() => {
-    const editProps = getEditProps();
-    if (!editProps) {
+    if (mode !== 'edit' || !variable) {
       loadedEditVariableId = null;
       return;
     }
-    const variable = editProps.variable;
+
     if (loadedEditVariableId === variable.id) return;
     $formData.customVariableEditDraft = toCustomVariableDraftState(variable);
     loadedEditVariableId = variable.id;
@@ -277,11 +272,10 @@
   }
 
   function saveCustomVariable() {
-    const editProps = getEditProps();
-    if (!editProps) return;
+    if (mode !== 'edit' || !variable || !onSaveVariable) return;
 
     const result = buildSavedCustomVariable({
-      id: editProps.variable.id,
+      id: variable.id,
       name: $formData.customVariableEditDraft.name,
       type: $editDraftType,
       amount: $formData.customVariableEditDraft.amount,
@@ -310,20 +304,18 @@
       return;
     }
 
-    editProps.onSaveVariable(result.variable);
+    onSaveVariable(result.variable);
     submitError = null;
   }
 
   function deleteCustomVariable() {
-    const editProps = getEditProps();
-    if (!editProps) return;
-    editProps.onDeleteVariable();
+    if (mode !== 'edit' || !onDeleteVariable) return;
+    onDeleteVariable();
   }
 
   function cancelEditCustomVariable() {
-    const editProps = getEditProps();
-    if (!editProps) return;
-    editProps.onCancel();
+    if (mode !== 'edit' || !onCancel) return;
+    onCancel();
   }
 </script>
 

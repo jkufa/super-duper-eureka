@@ -18,6 +18,7 @@
     });
   }
 
+  /* eslint-disable no-unused-vars */
   let {
     id,
     value = $bindable(''),
@@ -39,10 +40,11 @@
     selectedDate?: DateValue;
     minDate?: DateValue;
     maxDate?: DateValue;
-    onInputValue?: (next: string) => void;
+    onInputValue?(next: string): void;
     onBlurValue?: () => void;
-    onPickDate?: (next: DateValue) => void;
+    onPickDate?(next: DateValue): void;
   } = $props();
+  /* eslint-enable no-unused-vars */
 
   let open = $state(false);
 
@@ -72,8 +74,8 @@
     {...inputProps}
     {id}
     type="text"
-    value={value}
-    placeholder={placeholder}
+    {value}
+    {placeholder}
     class={showCalendar ? 'bg-background pe-10' : 'bg-background'}
     oninput={(event) => {
       const next = (event.currentTarget as HTMLInputElement).value;

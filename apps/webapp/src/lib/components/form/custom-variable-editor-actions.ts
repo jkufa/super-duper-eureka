@@ -59,21 +59,13 @@ export interface SaveVariableActionInput extends BaseActionInput {
   };
 }
 
-interface ActionResult {
-  error: string | null;
-}
+interface ActionResult { error: string | null }
 
-interface CreateActionSuccess extends ActionResult {
-  variable: CustomVariable;
-}
+interface CreateActionSuccess extends ActionResult { variable: CustomVariable }
 
-interface SaveActionSuccess extends ActionResult {
-  variable: CustomVariable;
-}
+interface SaveActionSuccess extends ActionResult { variable: CustomVariable }
 
-interface ActionFailure extends ActionResult {
-  variable: null;
-}
+interface ActionFailure extends ActionResult { variable: null }
 
 function resolveAndNormalize(input: {
   name: string;

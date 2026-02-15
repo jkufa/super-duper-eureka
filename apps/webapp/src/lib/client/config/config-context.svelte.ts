@@ -11,9 +11,7 @@ export interface RetirementConfigContext {
   clearStoredConfig: () => void;
 }
 
-interface RetirementConfigContextOptions {
-  storageKey?: string;
-}
+interface RetirementConfigContextOptions { storageKey?: string }
 
 export function initRetirementConfigContext(
   options?: RetirementConfigContextOptions,
@@ -34,8 +32,8 @@ export function initRetirementConfigContext(
         const raw = globalThis.localStorage.getItem(storageKey);
         if (!raw) return undefined;
 
-        const parsed = JSON.parse(raw);
-        return isRetirementConfigLike(parsed) ? (parsed as RetirementConfig) : undefined;
+        const parsed: unknown = JSON.parse(raw);
+        return isRetirementConfigLike(parsed) ? parsed : undefined;
       }
       catch {
         return undefined;
