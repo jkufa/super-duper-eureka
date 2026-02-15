@@ -47,7 +47,7 @@
   }
 </script>
 
-<section class="space-y-4">
+<section class="-mx-4 space-y-4">
   {#if fields.length === 0}
     <p class="text-sm text-muted-foreground">No contribution rules configured.</p>
   {:else}
@@ -55,6 +55,7 @@
       {#if editingFieldKey === field.key}
         <ConfigCustomVariableForm
           {form}
+          displayName={field.contribution.name}
           mode="edit"
           variable={toEditableVariable(field)}
           onSaveVariable={(nextVariable) => {
@@ -76,7 +77,7 @@
           }}
         />
       {:else}
-        <div class="group space-y-2">
+        <div class="group space-y-2 px-4">
           <ConfigNumericField
             {form}
             name={field.name}

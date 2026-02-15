@@ -54,7 +54,7 @@
     </Accordion.Root>
 
     <div class="-mx-4 mt-8 flex justify-center">
-      <ConfigCustomVariableForm {form} {onCommit} />
+      <ConfigCustomVariableForm {form} displayName="new variable" {onCommit} />
     </div>
   </form>
 </section>
