@@ -51,18 +51,18 @@ interface Case {
 }
 
 const defaultCase: Case = {
-  compounding: axes.compounding[0]!,
-  frequency: axes.frequency[0]!,
-  placement: axes.placement[0]!,
-  day: axes.day[0]!,
-  startMonth: axes.startMonth[0]!,
-  yearRange: axes.yearRange[0]!,
-  enabled: axes.enabled[0]!,
-  contributionType: axes.contributionType[0]!,
-  salaryBasis: axes.salaryBasis[0]!,
-  raise: axes.raise[0]!,
-  annualRate: axes.annualRate[0]!,
-  variance: axes.variance[0]!,
+  compounding: axes.compounding[0],
+  frequency: axes.frequency[0],
+  placement: axes.placement[0],
+  day: axes.day[0],
+  startMonth: axes.startMonth[0],
+  yearRange: axes.yearRange[0],
+  enabled: axes.enabled[0],
+  contributionType: axes.contributionType[0],
+  salaryBasis: axes.salaryBasis[0],
+  raise: axes.raise[0],
+  annualRate: axes.annualRate[0],
+  variance: axes.variance[0],
 };
 
 const axisEntries = Object.entries(axes) as [keyof Case, Case[keyof Case][]][];
@@ -71,9 +71,9 @@ const buildPairwiseCases = () => {
   const cases = new Map<string, Case>();
 
   for (let i = 0; i < axisEntries.length; i++) {
-    const [axisA, valuesA] = axisEntries[i]!;
+    const [axisA, valuesA] = axisEntries[i];
     for (let j = i + 1; j < axisEntries.length; j++) {
-      const [axisB, valuesB] = axisEntries[j]!;
+      const [axisB, valuesB] = axisEntries[j];
       for (const valueA of valuesA) {
         for (const valueB of valuesB) {
           const next: Case = { ...defaultCase };
@@ -676,6 +676,56 @@ describe('calculator', () => {
       });
       const dateResult = calculateProjection(fromDate, fromDate.interest.annualRate);
       expect(dateResult.monthlyProjections[0]?.month).toBe(5);
+
+      resetTimers();
+    });
+
+    it('skips first-month monthly day contribution when the day is already past startDate', () => {
+      setSystemTime('2026-01-01T00:00:00.000Z');
+
+      const config = makeConfig({
+        currentBalance: 0,
+        timeHorizonYears: 1,
+        startDate: new Date(2026, 0, 20),
+        interest: { annualRate: 0, compounding: 'monthly' },
+        contributions: [
+          makeContribution({
+            id: 'monthly-day',
+            type: 'flat',
+            amount: 100,
+            timing: { frequency: 'monthly', day: 16, placement: 'start' },
+          }),
+        ],
+      });
+
+      const run = calculateProjectionWithSteps(config, config.interest.annualRate);
+      expect(run.steps[0]?.contributionsThisStep).toBe(0);
+      expect(run.steps[1]?.contributionsThisStep).toBe(100);
+
+      resetTimers();
+    });
+
+    it('skips first-month daily day contribution when the day is already past startDate', () => {
+      setSystemTime('2026-01-01T00:00:00.000Z');
+
+      const config = makeConfig({
+        currentBalance: 0,
+        timeHorizonYears: 1,
+        startDate: new Date(2026, 0, 20),
+        interest: { annualRate: 0, compounding: 'daily' },
+        contributions: [
+          makeContribution({
+            id: 'daily-day',
+            type: 'flat',
+            amount: 100,
+            timing: { frequency: 'monthly', day: 16, placement: 'start' },
+          }),
+        ],
+      });
+
+      const run = calculateProjectionWithSteps(config, config.interest.annualRate);
+      expect(run.steps[0]?.contributionsThisStep).toBe(0);
+      expect(run.steps[1]?.contributionsThisStep).toBe(100);
 
       resetTimers();
     });
