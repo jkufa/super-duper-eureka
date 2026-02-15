@@ -90,21 +90,17 @@ test.describe('Debugger panel', () => {
     await gotoApp(page);
 
     const dialog = debuggerPanel(page);
-    const metrics = await dialog.evaluate((el) => {
-      const rect = el.getBoundingClientRect();
-      return {
-        x: rect.x,
-        y: rect.y,
-        width: rect.width,
-        height: rect.height,
-        viewportWidth: window.innerWidth,
-        viewportHeight: window.innerHeight,
-      };
-    });
+    const panelBounds = await dialog.boundingBox();
+    expect(panelBounds).not.toBeNull();
+    if (!panelBounds) return;
 
-    expect(metrics.x).toBeGreaterThanOrEqual(0);
-    expect(metrics.y).toBeGreaterThanOrEqual(0);
-    expect(metrics.x + metrics.width).toBeLessThanOrEqual(metrics.viewportWidth);
-    expect(metrics.y + metrics.height).toBeLessThanOrEqual(metrics.viewportHeight);
+    const viewport = page.viewportSize();
+    expect(viewport).not.toBeNull();
+    if (!viewport) return;
+
+    expect(panelBounds.x).toBeGreaterThanOrEqual(0);
+    expect(panelBounds.y).toBeGreaterThanOrEqual(0);
+    expect(panelBounds.x + panelBounds.width).toBeLessThanOrEqual(viewport.width);
+    expect(panelBounds.y + panelBounds.height).toBeLessThanOrEqual(viewport.height);
   });
 });

@@ -46,7 +46,7 @@ test.describe('Custom variable hybrid timing mode', () => {
     const createForm = page.getByRole('heading', { name: 'Add custom variable' }).locator('xpath=ancestor::section[1]');
     const today = await page.evaluate(() => {
       const now = new Date();
-      return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+      return `${String(now.getFullYear())}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
     });
 
     await createForm.locator('#custom-variable-timing-natural-date-picker').click();
@@ -59,14 +59,14 @@ test.describe('Custom variable hybrid timing mode', () => {
     const timingInput = createForm.locator('#custom-variable-timing-natural');
     const currentYear = new Date().getFullYear();
 
-    await timingInput.fill(`on 12/20/${currentYear}`);
+    await timingInput.fill(`on 12/20/${String(currentYear)}`);
     await page.waitForTimeout(500);
 
     await createForm.locator('#custom-variable-timing-natural-date-picker').click();
-    await page.locator(`[data-calendar-day][data-value="${currentYear}-12-21"]`).click();
+    await page.locator(`[data-calendar-day][data-value="${String(currentYear)}-12-21"]`).click();
 
     const selectedValue = await timingInput.inputValue();
-    const expectedMessage = `Parsed as one-time on ${selectedValue}. Applies once in ${currentYear}.`;
+    const expectedMessage = `Parsed as one-time on ${selectedValue}. Applies once in ${String(currentYear)}.`;
     await expect(createForm.getByText(expectedMessage)).toBeVisible();
 
     await page.waitForTimeout(600);

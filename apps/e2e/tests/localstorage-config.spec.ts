@@ -9,24 +9,49 @@ test.describe('Retirement config localStorage sync', () => {
 
     const yearsToRetirementInput = page.locator('input[name="yearsToRetirement"]').first();
 
-    const initialStored = await page.evaluate((storageKey) => {
-      const raw = window.localStorage.getItem(storageKey);
-      return raw ? JSON.parse(raw) : null;
+    const initialStoredYears = await page.evaluate<number | null, string>((storageKey) => {
+      const hasTimeHorizonYears = (value: unknown): value is { timeHorizonYears: number } => {
+        return (
+          typeof value === 'object'
+          && value !== null
+          && 'timeHorizonYears' in value
+          && typeof value.timeHorizonYears === 'number'
+        );
+      };
+
+      const browserGlobal = globalThis as unknown as { localStorage: { getItem: (key: string) => string | null } };
+      const raw = browserGlobal.localStorage.getItem(storageKey);
+      if (!raw) return null;
+
+      const parsed: unknown = JSON.parse(raw);
+      return hasTimeHorizonYears(parsed) ? parsed.timeHorizonYears : null;
     }, CONFIG_STORAGE_KEY);
 
-    expect(initialStored).not.toBeNull();
-    const initialYears = Number(initialStored?.timeHorizonYears ?? 0);
+    expect(initialStoredYears).not.toBeNull();
+    const initialYears = initialStoredYears ?? 0;
     const nextYears = Math.max(1, Math.min(80, initialYears === 1 ? 2 : initialYears - 1));
 
-    await yearsToRetirementInput.fill(`${nextYears}`);
+    await yearsToRetirementInput.fill(String(nextYears));
     await yearsToRetirementInput.blur();
 
     await expect.poll(async () => {
-      return await page.evaluate(
+      return await page.evaluate<number | null, string>(
         (storageKey) => {
-          const raw = window.localStorage.getItem(storageKey);
+          const hasTimeHorizonYears = (value: unknown): value is { timeHorizonYears: number } => {
+            return (
+              typeof value === 'object'
+              && value !== null
+              && 'timeHorizonYears' in value
+              && typeof value.timeHorizonYears === 'number'
+            );
+          };
+
+          const browserGlobal = globalThis as unknown as { localStorage: { getItem: (key: string) => string | null } };
+          const raw = browserGlobal.localStorage.getItem(storageKey);
           if (!raw) return null;
-          return JSON.parse(raw).timeHorizonYears ?? null;
+
+          const parsed: unknown = JSON.parse(raw);
+          return hasTimeHorizonYears(parsed) ? parsed.timeHorizonYears : null;
         },
         CONFIG_STORAGE_KEY,
       );
@@ -34,6 +59,6 @@ test.describe('Retirement config localStorage sync', () => {
 
     await page.reload();
     await page.waitForLoadState('networkidle');
-    await expect(page.locator('input[name="yearsToRetirement"]').first()).toHaveValue(`${nextYears}`);
+    await expect(page.locator('input[name="yearsToRetirement"]').first()).toHaveValue(String(nextYears));
   });
 });

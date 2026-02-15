@@ -58,6 +58,9 @@ test.describe('Add custom variable form', () => {
 
     const customVariableInputId = await customVariableLabel.getAttribute('for');
     expect(customVariableInputId).toBeTruthy();
+    if (!customVariableInputId) {
+      throw new Error('Expected custom variable input id.');
+    }
 
     await expect(page.locator(`#${customVariableInputId}`)).toHaveValue('7');
   });
@@ -121,16 +124,13 @@ test.describe('Add custom variable form', () => {
     await expect(growthInputWrapper.locator('span.right-3')).toHaveCount(0);
     await expect(growthAmountInput).toHaveClass(/pl-7/);
 
-    const paddingLeftPx = await growthAmountInput.evaluate((node) =>
-      Number.parseFloat(window.getComputedStyle(node).paddingLeft),
-    );
-    expect(paddingLeftPx).toBeGreaterThan(20);
+    await expect(growthAmountInput).toHaveCSS('padding-left', /([2-9]\d|[1-9]\d{2,})px/);
   });
 
   test('does not clear selected type when clicking the active option', async ({ page }) => {
     test.skip(
       test.info().project.name.includes('mobile'),
-      'Custom variable type toggles are out of viewport in mobile layout.'
+      'Custom variable type toggles are out of viewport in mobile layout.',
     );
 
     await gotoApp(page);

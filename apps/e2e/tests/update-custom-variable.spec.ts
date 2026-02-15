@@ -4,7 +4,7 @@ import {
   customVariableAmountInput,
   customVariableNameInput,
   gotoApp,
-  openCustomVariablesAccordion
+  openCustomVariablesAccordion,
 } from './helpers/custom-variable';
 
 function variableRow(page: Page, name: string) {
@@ -66,6 +66,9 @@ test.describe('Update custom variable form', () => {
 
     const updatedInputId = await updatedLabel.getAttribute('for');
     expect(updatedInputId).toBeTruthy();
+    if (!updatedInputId) {
+      throw new Error('Expected updated variable input id.');
+    }
     await expect(page.locator(`#${updatedInputId}`)).toHaveValue('19');
 
     await openEditForVariable(page, updatedName);
@@ -107,6 +110,9 @@ test.describe('Update custom variable form', () => {
 
     const inputId = await label.getAttribute('for');
     expect(inputId).toBeTruthy();
+    if (!inputId) {
+      throw new Error('Expected variable input id.');
+    }
     await expect(page.locator(`#${inputId}`)).toHaveValue('8');
     await expect(page.locator('label', { hasText: 'Should Not Save' })).toHaveCount(0);
   });
@@ -114,7 +120,7 @@ test.describe('Update custom variable form', () => {
   test('keeps type selected when clicking the active option in edit mode', async ({ page }) => {
     test.skip(
       test.info().project.name.includes('mobile'),
-      'Custom variable type toggles are out of viewport in mobile layout.'
+      'Custom variable type toggles are out of viewport in mobile layout.',
     );
 
     await gotoApp(page);
