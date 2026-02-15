@@ -6,6 +6,8 @@
   import type { RetirementConfig } from '@retirement/calculator/types';
   import { browser } from '$app/environment';
   import { getLoggingContext } from '$lib/client/logging/logging-context.svelte';
+  import { onMount } from 'svelte';
+  import { getDebuggerEnabledFromStorage } from '$lib/client/debugger-flag';
 
   import DebuggerPanel from './DebuggerPanel.svelte';
 
@@ -21,11 +23,16 @@
 
   const { logger, base } = getLoggingContext();
 
+  let debuggerEnabled = $state(false);
   let open = $state(false);
   let stepIndex = $state(0);
 
+  onMount(() => {
+    debuggerEnabled = getDebuggerEnabledFromStorage(localStorage);
+  });
+
   const debugData = $derived.by(() => {
-    if (!browser) {
+    if (!browser || !debuggerEnabled) {
       return {
         eventDetails: {},
         configuration: {},
@@ -101,23 +108,25 @@
   }
 </script>
 
-<div class="fixed start-4 bottom-4 z-40">
-  {#if !open}
-    <Button.Root onclick={() => (open = true)}>
-      <Bug class="size-4" />
-      Open debugger
-    </Button.Root>
-  {/if}
-</div>
+{#if debuggerEnabled}
+  <div class="fixed start-4 bottom-4 z-40">
+    {#if !open}
+      <Button.Root onclick={() => (open = true)}>
+        <Bug class="size-4" />
+        Open debugger
+      </Button.Root>
+    {/if}
+  </div>
 
-{#if open}
-  <DebuggerPanel
-    {stepIndex}
-    {stepCount}
-    eventDetails={debugData.eventDetails}
-    configuration={debugData.configuration}
-    stepPayload={activeStep}
-    onClose={() => (open = false)}
-    onStepChange={setStep}
-  />
+  {#if open}
+    <DebuggerPanel
+      {stepIndex}
+      {stepCount}
+      eventDetails={debugData.eventDetails}
+      configuration={debugData.configuration}
+      stepPayload={activeStep}
+      onClose={() => (open = false)}
+      onStepChange={setStep}
+    />
+  {/if}
 {/if}
