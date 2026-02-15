@@ -110,4 +110,36 @@ test.describe('Update custom variable form', () => {
     await expect(page.locator(`#${inputId}`)).toHaveValue('8');
     await expect(page.locator('label', { hasText: 'Should Not Save' })).toHaveCount(0);
   });
+
+  test('keeps type selected when clicking the active option in edit mode', async ({ page }) => {
+    test.skip(
+      test.info().project.name.includes('mobile'),
+      'Custom variable type toggles are out of viewport in mobile layout.'
+    );
+
+    await gotoApp(page);
+
+    const variableName = 'E2E Type Toggle Variable';
+
+    await customVariableNameInput(page).fill(variableName);
+    await customVariableAmountInput(page).fill('14');
+    await addCustomVariableButton(page).scrollIntoViewIfNeeded();
+    await addCustomVariableButton(page).click();
+
+    await openCustomVariablesAccordion(page);
+    await openEditForVariable(page, variableName);
+
+    const editor = editForm(page);
+    const amountType = editor.getByRole('radio', { name: 'Amount $' }).first();
+    const percentType = editor.getByRole('radio', { name: 'Percent %' }).first();
+    await editor.scrollIntoViewIfNeeded();
+
+    await expect(amountType).toHaveAttribute('aria-checked', 'true');
+    await expect(percentType).toHaveAttribute('aria-checked', 'false');
+
+    await amountType.click();
+
+    await expect(amountType).toHaveAttribute('aria-checked', 'true');
+    await expect(percentType).toHaveAttribute('aria-checked', 'false');
+  });
 });

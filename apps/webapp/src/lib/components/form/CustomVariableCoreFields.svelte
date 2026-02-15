@@ -11,6 +11,7 @@
   type NameFieldPath = 'customVariableDraft.name' | 'customVariableEditDraft.name';
   type TypeFieldPath = 'customVariableDraft.type' | 'customVariableEditDraft.type';
   type AmountFieldPath = 'customVariableDraft.amount' | 'customVariableEditDraft.amount';
+  type CustomVariableType = RetirementConfigFormValues['customVariables'][number]['type'];
 
   let {
     form,
@@ -27,6 +28,27 @@
   const draftName = fieldProxy(form, `${draftPath}.name` as NameFieldPath);
   const draftType = fieldProxy(form, `${draftPath}.type` as TypeFieldPath);
   const amountFieldName = `${draftPath}.amount` as AmountFieldPath;
+  let lastValidType: CustomVariableType = 'flat';
+
+  function isCustomVariableType(value: string): value is CustomVariableType {
+    return value === 'salaryPercent' || value === 'flat';
+  }
+
+  function handleTypeChange(value: string) {
+    if (isCustomVariableType(value)) {
+      $draftType = value;
+      return;
+    }
+    $draftType = lastValidType;
+  }
+
+  $effect(() => {
+    if (!isCustomVariableType($draftType)) {
+      $draftType = lastValidType;
+      return;
+    }
+    lastValidType = $draftType;
+  });
 </script>
 
 <Form.Field {form} name={`${draftPath}.name` as NameFieldPath}>
@@ -56,6 +78,7 @@
         {...props}
         type="single"
         bind:value={$draftType}
+        onValueChange={handleTypeChange}
         variant="outline"
         class="w-full"
       >

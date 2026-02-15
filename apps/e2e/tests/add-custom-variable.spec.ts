@@ -126,4 +126,26 @@ test.describe('Add custom variable form', () => {
     );
     expect(paddingLeftPx).toBeGreaterThan(20);
   });
+
+  test('does not clear selected type when clicking the active option', async ({ page }) => {
+    test.skip(
+      test.info().project.name.includes('mobile'),
+      'Custom variable type toggles are out of viewport in mobile layout.'
+    );
+
+    await gotoApp(page);
+
+    const editor = customVariableSection(page);
+    const amountType = editor.getByRole('radio', { name: 'Amount $' }).first();
+    const percentType = editor.getByRole('radio', { name: 'Percent %' }).first();
+    await editor.scrollIntoViewIfNeeded();
+
+    await expect(amountType).toHaveAttribute('aria-checked', 'true');
+    await expect(percentType).toHaveAttribute('aria-checked', 'false');
+
+    await amountType.click();
+
+    await expect(amountType).toHaveAttribute('aria-checked', 'true');
+    await expect(percentType).toHaveAttribute('aria-checked', 'false');
+  });
 });
