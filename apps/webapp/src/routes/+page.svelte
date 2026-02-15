@@ -73,8 +73,8 @@
   );
 
   const projectionStartYear = $derived.by(() => {
-    if (!data.config.startDate) return new Date().getFullYear();
-    const parsed = new Date(data.config.startDate);
+    if (!liveConfig.startDate) return new Date().getFullYear();
+    const parsed = new Date(liveConfig.startDate);
     return Number.isNaN(parsed.getTime()) ? new Date().getFullYear() : parsed.getUTCFullYear();
   });
 
@@ -109,7 +109,7 @@
       </Card.Root>
 
       <div class="ms-auto max-w-5xl px-2">
-        <ProjectionTable {run} />
+        <ProjectionTable {run} startYear={projectionStartYear} />
       </div>
     </section>
 
