@@ -1,6 +1,7 @@
 <script lang="ts">
   import Pencil from '@lucide/svelte/icons/pencil';
   import * as Form from '$lib/components/ui/form';
+  import * as Tooltip from '$lib/components/ui/tooltip';
   import { Input } from '$lib/components/ui/input';
   import * as Button from '$lib/components/ui/button';
   import { fieldProxy } from 'sveltekit-superforms/client';
@@ -44,7 +45,8 @@
     emptyFallback = '0',
     onCommit,
     labelActionText,
-    onLabelAction
+    onLabelAction,
+    labelTooltip
   }: {
     form: SuperForm<RetirementConfigFormValues>;
     name: NumericFieldName;
@@ -58,6 +60,7 @@
     onCommit?: () => void;
     labelActionText?: string;
     onLabelAction?: () => void;
+    labelTooltip?: string;
   } = $props();
 
   const valueStore = fieldProxy(form, name);
@@ -159,7 +162,27 @@
     <Form.Control>
       {#snippet children({ props })}
         <div class="flex items-center justify-between gap-2">
-          <Form.Label class="leading-7">{label}</Form.Label>
+          {#if labelTooltip}
+            <Tooltip.Provider>
+              <Tooltip.Root>
+                <Tooltip.Trigger>
+                  {#snippet child({ props: tooltipProps })}
+                    <Form.Label
+                      {...tooltipProps}
+                      class="cursor-help leading-7 underline decoration-dotted underline-offset-4"
+                    >
+                      {label}
+                    </Form.Label>
+                  {/snippet}
+                </Tooltip.Trigger>
+                <Tooltip.Content sideOffset={8} class="max-w-xs">
+                  {labelTooltip}
+                </Tooltip.Content>
+              </Tooltip.Root>
+            </Tooltip.Provider>
+          {:else}
+            <Form.Label class="leading-7">{label}</Form.Label>
+          {/if}
           {#if labelActionText && onLabelAction}
             <Button.Root
               type="button"

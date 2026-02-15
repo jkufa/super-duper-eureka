@@ -72,6 +72,8 @@
   let draftTimingInfo = $state<string | null>(null);
   let editTimingInfo = $state<string | null>(null);
   const TIMING_PARSE_DEBOUNCE_MS = 400;
+  const PERCENT_AMOUNT_TOOLTIP =
+    'Percent contributions use monthly salary for monthly frequency and \n annual salary for annual or one-time frequency.';
 
   function getEditProps() {
     return mode === 'edit' ? (props as EditEditorProps) : null;
@@ -168,6 +170,11 @@
       now,
       currentYear
     }).maxDate;
+  });
+
+  const coreAmountLabelTooltip = $derived.by(() => {
+    const activeType = mode === 'edit' ? $editDraftType : $draftType;
+    return activeType === 'salaryPercent' ? PERCENT_AMOUNT_TOOLTIP : undefined;
   });
 
   function parseTimingText(input: string) {
@@ -329,6 +336,7 @@
     {form}
     draftPath={mode === 'edit' ? 'customVariableEditDraft' : 'customVariableDraft'}
     inputIdPrefix={mode === 'edit' ? 'edit-custom-variable' : 'custom-variable'}
+    labelTooltip={coreAmountLabelTooltip}
   />
 
   {#if mode === 'create'}

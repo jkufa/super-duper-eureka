@@ -58,6 +58,14 @@ const toDecimalRate = (value: number) => value / 100;
 const toNumberOr = (value: unknown, fallback: number) =>
   typeof value === 'number' && Number.isFinite(value) ? value : fallback;
 
+function resolveSalaryBasis(
+  item: RetirementConfigFormValues['customVariables'][number],
+): 'annual' | 'monthly' | undefined {
+  if (item.type !== 'salaryPercent') return undefined;
+  if (item.frequency === 'monthly') return 'monthly';
+  return 'annual';
+}
+
 export function toRetirementConfigFormDefaults(config: RetirementConfig): RetirementConfigFormValues {
   const now = new Date();
   const startDate = normalizeStartDate(config.startDate);
@@ -182,6 +190,7 @@ export function applyRetirementConfigFormValues(
       name: item.name,
       type: item.type,
       amount: toNumberOr(item.amount, 0),
+      salaryBasis: resolveSalaryBasis(item),
       growth:
         item.growthEnabled
           ? {

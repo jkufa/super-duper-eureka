@@ -16,10 +16,12 @@
     form,
     draftPath = 'customVariableDraft',
     inputIdPrefix = 'custom-variable',
+    labelTooltip
   }: {
     form: SuperForm<RetirementConfigFormValues>;
     draftPath?: DraftPath;
     inputIdPrefix?: string;
+    labelTooltip?: string;
   } = $props();
 
   const draftName = fieldProxy(form, `${draftPath}.name` as NameFieldPath);
@@ -70,6 +72,7 @@
   name={amountFieldName}
   id={`${inputIdPrefix}-amount`}
   label={$draftType === 'salaryPercent' ? 'Amount %' : 'Amount $'}
+  {labelTooltip}
   prefix={$draftType === 'flat' ? '$' : undefined}
   suffix={$draftType === 'salaryPercent' ? '%' : undefined}
   kind="number"
