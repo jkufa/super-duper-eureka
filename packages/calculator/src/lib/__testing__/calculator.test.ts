@@ -186,7 +186,8 @@ describe('calculator', () => {
 
         const result = calculateProjection(config, config.interest.annualRate);
         expect(result.monthlyProjections).toHaveLength(config.timeHorizonYears * 12);
-        expect(result.yearlyProjections).toHaveLength(config.timeHorizonYears);
+        const calendarYears = config.timeHorizonYears + (testCase.startMonth === 0 ? 0 : 1);
+        expect(result.yearlyProjections).toHaveLength(calendarYears);
         expect(Number.isFinite(result.finalBalance)).toBe(true);
 
         if (testCase.annualRate === 0 && testCase.variance === 0) {
@@ -206,6 +207,30 @@ describe('calculator', () => {
   });
 
   describe('core behaviors', () => {
+    it('reports each calendar year including the first and last partial years', () => {
+      const config = makeConfig({
+        currentBalance: 180000,
+        timeHorizonYears: 2,
+        startDate: '2026-11-12',
+        interest: { annualRate: 0 },
+        contributions: [
+          makeContribution({
+            amount: 3000,
+            timing: { frequency: 'monthly', placement: 'end' },
+          }),
+        ],
+      });
+
+      const result = calculateProjection(config, 0);
+
+      expect(result.yearlyProjections).toMatchObject([
+        { year: 0, balance: 186000, contributions: 6000 },
+        { year: 1, balance: 222000, contributions: 42000 },
+        { year: 2, balance: 252000, contributions: 72000 },
+      ]);
+      expect(result.yearlyProjections.at(-1)?.balance).toBe(result.finalBalance);
+    });
+
     it('should calculate projections', () => {
       setSystemTime('2026-02-03T00:00:00.000Z');
 
