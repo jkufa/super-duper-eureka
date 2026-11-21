@@ -43,9 +43,8 @@ function firstYearAnnualContributionCell(page: Page) {
 }
 
 test.describe('Custom variable start-date gating', () => {
-  test('default startDate is today', async ({ page }) => {
+  test('persists today as the start date for a fresh projection', async ({ page }) => {
     await gotoApp(page);
-    await addEvery16thCustomVariable(page);
     const expectedDate = await page.evaluate(() => {
       const now = new Date();
       const year = String(now.getFullYear());
