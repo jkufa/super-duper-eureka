@@ -33,10 +33,8 @@
     nameKey?: string;
     labelKey?: string;
     hideIndicator?: boolean;
-    // eslint-disable-next-line no-unused-vars
     valueFormatter?: (...args: [unknown]) => string;
     labelClassName?: string;
-    // eslint-disable-next-line no-unused-vars
     labelFormatter?:
       | ((...args: [unknown, Array<TooltipPayload>]) => string | number | Snippet)
       | null;

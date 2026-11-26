@@ -120,19 +120,14 @@ if (rl) {
   rl.close();
 }
 
-const runEvent = buildRunWideEvent(config, projectionRun, baseContext, {
-  durationMs: Date.now() - startedAt,
-  outcome: 'success'
-});
-if (skipSpecs.length > 0) {
-  (runEvent as Record<string, unknown>).skip = {
-    spec: skipSpecs,
-    skipped_steps: skippedCount
-  };
-}
-if (interrupted) {
-  (runEvent as Record<string, unknown>).debug_interrupted = true;
-}
+const runEvent = {
+  ...buildRunWideEvent(config, projectionRun, baseContext, {
+    durationMs: Date.now() - startedAt,
+    outcome: 'success'
+  }),
+  ...(skipSpecs.length > 0 && { skip: { spec: skipSpecs, skipped_steps: skippedCount } }),
+  ...(interrupted && { debug_interrupted: true })
+};
 logger.info(runEvent);
 
 function getArgValue(argv: Array<string>, key: string) {
@@ -160,7 +155,7 @@ function firstPositional(argv: Array<string>) {
   return argv.find((arg) => !arg.startsWith('-'));
 }
 
-function parseSkipSpec(spec: string): { steps: Set<number>; nextCount: number } {
+function parseSkipSpec(spec: string) {
   const steps = new Set<number>();
   let nextCount = 0;
   if (!spec) {

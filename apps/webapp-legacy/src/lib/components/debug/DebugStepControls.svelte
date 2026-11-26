@@ -12,7 +12,6 @@
   }: {
     stepIndex: number;
     stepCount: number;
-    // eslint-disable-next-line no-unused-vars
     onStepChange?: (nextIndex: number) => void;
   } = $props();
 

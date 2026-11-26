@@ -123,34 +123,21 @@ function runProjection(
     });
 
     const balanceStart = runningBalance;
-    let stepInterest = 0;
-    let stepContributions = 0;
-
-    if (compounding === 'daily') {
-      const { balance, contributions, interest } = applyDailyCompounding({
-        balance: runningBalance,
-        annualRate,
-        contributions: monthContributions,
-        monthStart
-      });
-      stepInterest = interest;
-      stepContributions = contributions;
-      runningBalance = balance;
-      totalContributions += contributions;
-      totalInterest += interest;
-    } else {
-      const { balance, contributions, interest } = applyMonthlyCompounding({
-        balance: runningBalance,
-        annualRate,
-        contributions: monthContributions,
-        monthStart
-      });
-      stepInterest = interest;
-      stepContributions = contributions;
-      runningBalance = balance;
-      totalContributions += contributions;
-      totalInterest += interest;
-    }
+    const compoundingParams = {
+      balance: runningBalance,
+      annualRate,
+      contributions: monthContributions,
+      monthStart
+    };
+    const { balance, contributions, interest } =
+      compounding === 'daily'
+        ? applyDailyCompounding(compoundingParams)
+        : applyMonthlyCompounding(compoundingParams);
+    const stepInterest = interest;
+    const stepContributions = contributions;
+    runningBalance = balance;
+    totalContributions += contributions;
+    totalInterest += interest;
 
     steps.push({
       stepIndex: monthOffset,
@@ -510,7 +497,7 @@ function applyDailyCompounding(params: {
 }
 
 function toDailyMap(bucket: MonthlyContributionBucket, daysInMonth: number) {
-  const daily: Record<number, number> = { ...bucket.byDay };
+  const daily = { ...bucket.byDay };
   if (bucket.start) {
     daily[1] = (daily[1] ?? 0) + bucket.start;
   }

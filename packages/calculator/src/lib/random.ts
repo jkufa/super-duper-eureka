@@ -337,9 +337,9 @@ function buildContributionRules(rng: SeededRandom, annualBase: number): Array<Co
     }
   }
 
-  return ruleTemplates
-    .filter((rule) => selectedRuleIds.has(rule.id))
-    .map((rule) => makeRule(rng, rule));
+  return ruleTemplates.flatMap((rule) =>
+    selectedRuleIds.has(rule.id) ? [makeRule(rng, rule)] : []
+  );
 }
 
 function makeRule(rng: SeededRandom, rule: ContributionRule): ContributionRule {

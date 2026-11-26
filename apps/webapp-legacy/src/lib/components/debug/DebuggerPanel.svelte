@@ -38,7 +38,6 @@
     initialPosition?: PanelPosition;
     storageKey?: string;
     onClose?: () => void;
-    // eslint-disable-next-line no-unused-vars
     onStepChange?: (nextIndex: number) => void;
   } = $props();
 

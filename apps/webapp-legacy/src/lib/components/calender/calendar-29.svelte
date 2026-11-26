@@ -21,7 +21,6 @@
     });
   }
 
-  /* eslint-disable no-unused-vars */
   let {
     id,
     value = $bindable(''),
@@ -47,7 +46,6 @@
     onBlurValue?: () => void;
     onPickDate?(next: DateValue): void;
   } = $props();
-  /* eslint-enable no-unused-vars */
 
   let open = $state(false);
 

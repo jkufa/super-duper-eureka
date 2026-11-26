@@ -151,14 +151,14 @@ function getNodeProcess(): NodeProcessLike | undefined {
   if (typeof process === 'undefined') {
     return undefined;
   }
-  return process as unknown as NodeProcessLike;
+  return process;
 }
 
 function getNavigator(): NavigatorLike | undefined {
   if (typeof navigator === 'undefined') {
     return undefined;
   }
-  return navigator as unknown as NavigatorLike;
+  return navigator;
 }
 
 function pickBrowserBrand(
@@ -185,13 +185,8 @@ function getDefaultSink() {
     };
   }
 
-  const consoleLike =
-    globalThis.console === undefined
-      ? undefined
-      : (globalThis.console as unknown as {
-          log: (msg: string) => void;
-          error: (msg: string) => void;
-        });
+  const consoleLike: { log: (msg: string) => void; error: (msg: string) => void } | undefined =
+    globalThis.console;
 
   return {
     info: (payload: string) => consoleLike?.log(payload),

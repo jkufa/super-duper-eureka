@@ -76,7 +76,7 @@ const defaultCase: Case = {
   variance: axes.variance[0]
 };
 
-const axisEntries = Object.entries(axes) as Array<[keyof Case, Case[keyof Case][]]>;
+const axisEntries = Object.entries(axes) as Array<[keyof Case, Array<Case[keyof Case]>]>;
 
 const buildPairwiseCases = () => {
   const cases = new Map<string, Case>();

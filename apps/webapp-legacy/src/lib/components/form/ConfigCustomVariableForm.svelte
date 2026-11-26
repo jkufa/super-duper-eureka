@@ -28,7 +28,6 @@
 
   type Mode = 'create' | 'edit';
   type CustomVariable = RetirementConfigFormValues['customVariables'][number];
-  /* eslint-disable no-unused-vars */
   type ConfigCustomVariableFormProps = {
     form: SuperForm<RetirementConfigFormValues>;
     displayName: string;
@@ -39,7 +38,6 @@
     onDeleteVariable?: () => void;
     onCancel?: () => void;
   };
-  /* eslint-enable no-unused-vars */
 
   let {
     form,

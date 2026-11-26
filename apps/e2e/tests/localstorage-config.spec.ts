@@ -19,10 +19,7 @@ test.describe('Retirement config localStorage sync', () => {
         );
       };
 
-      const browserGlobal = globalThis as unknown as {
-        localStorage: { getItem: (key: string) => string | null };
-      };
-      const raw = browserGlobal.localStorage.getItem(storageKey);
+      const raw = localStorage.getItem(storageKey);
       if (!raw) {
         return null;
       }
@@ -50,10 +47,7 @@ test.describe('Retirement config localStorage sync', () => {
             );
           };
 
-          const browserGlobal = globalThis as unknown as {
-            localStorage: { getItem: (key: string) => string | null };
-          };
-          const raw = browserGlobal.localStorage.getItem(storageKey);
+          const raw = localStorage.getItem(storageKey);
           if (!raw) {
             return null;
           }

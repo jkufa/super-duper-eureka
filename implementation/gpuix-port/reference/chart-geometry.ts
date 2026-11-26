@@ -144,9 +144,9 @@ export function buildProjectionGeometry(input: GeometryInput): ChartGeometry {
     },
     gridY: y.ticks(4).map((value) => y(value)),
     yTicks: y.ticks(yTickCount).map((value) => ({ y: y(value), value })),
-    xTicks: columns
-      .filter((column) => column.index % xTickEvery === 0)
-      .map((column) => ({ x: column.x, label: column.label })),
+    xTicks: columns.flatMap((column) =>
+      column.index % xTickEvery === 0 ? [{ x: column.x, label: column.label }] : []
+    ),
     columns,
     step: band.step()
   };

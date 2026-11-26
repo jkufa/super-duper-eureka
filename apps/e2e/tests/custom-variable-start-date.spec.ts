@@ -64,10 +64,7 @@ test.describe('Custom variable start-date gating', () => {
     await expect
       .poll(async () => {
         return await page.evaluate((storageKey) => {
-          const browserGlobal = globalThis as unknown as {
-            localStorage: { getItem: (key: string) => string | null };
-          };
-          const raw = browserGlobal.localStorage.getItem(storageKey);
+          const raw = localStorage.getItem(storageKey);
           if (!raw) {
             return null;
           }
@@ -81,10 +78,7 @@ test.describe('Custom variable start-date gating', () => {
   test('startDate on January 20 skips January for "every 16th"', async ({ page }) => {
     await page.addInitScript(
       ({ key, config }) => {
-        const browserGlobal = globalThis as unknown as {
-          localStorage: { setItem: (storageKey: string, value: string) => void };
-        };
-        browserGlobal.localStorage.setItem(key, JSON.stringify(config));
+        localStorage.setItem(key, JSON.stringify(config));
       },
       { key: CONFIG_STORAGE_KEY, config: SEEDED_CONFIG }
     );

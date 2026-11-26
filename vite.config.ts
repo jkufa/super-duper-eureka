@@ -42,6 +42,20 @@ export default defineConfig({
         }
       },
       {
+        files: ['packages/logger/**'],
+        rules: {
+          // Wide events carry arbitrary caller fields by design; a JSON value type rejects interface-typed callers.
+          'quality/no-unsafe-dictionary-type': 'off'
+        }
+      },
+      {
+        files: ['apps/e2e/tests/**'],
+        rules: {
+          // page.evaluate callbacks are serialized into the browser, so helpers cannot be hoisted out of them.
+          'unicorn/consistent-function-scoping': 'off'
+        }
+      },
+      {
         // Legacy source is frozen apart from formatting and import rewrites, and the app is deleted at parity.
         // Each rule below would need real code changes there.
         files: ['apps/webapp-legacy/**'],
