@@ -2,6 +2,9 @@ import cloudflare from '@cloudflare/oxlint-config/vite-plus';
 import { defineConfig } from 'vite-plus';
 
 export default defineConfig({
+  test: {
+    projects: ['packages/calculator', 'apps/webapp-legacy']
+  },
   fmt: {
     useTabs: false,
     tabWidth: 2,
