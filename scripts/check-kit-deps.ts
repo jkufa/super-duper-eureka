@@ -79,9 +79,14 @@ for (const entry of readdirSync(join(root, 'apps'))) {
       continue;
     }
     const loaded = pkg ? `${pkg.name} ${pkg.version}` : 'nothing';
+    const declared = app.dependencies?.[dep] ?? app.devDependencies?.[dep];
+    const fix =
+      declared === range
+        ? `apps/${entry}/package.json already declares that range, so check the root "overrides" and reinstall.`
+        : `Add "${dep}": "${range}" to apps/${entry}/package.json.`;
     problems.push(
       `${app.name}: Kit ${kit.version} needs ${dep} ${range}, but the app's server output would ` +
-        `load ${loaded}. Add "${dep}": "${range}" to apps/${entry}/package.json.`
+        `load ${loaded}. ${fix}`
     );
   }
   process.stdout.write(`${app.name}: Kit ${kit.version}, ${found.join(', ')}\n`);
