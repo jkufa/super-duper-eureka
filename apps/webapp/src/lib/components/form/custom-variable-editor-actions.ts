@@ -22,7 +22,7 @@ export interface CreateVariableActionInput extends BaseActionInput {
   timingNaturalText: string;
   timing: {
     frequency: CustomVariable['frequency'];
-    day: number;
+    day: number | undefined;
     month: number;
     year: number;
     yearStart: number;
@@ -45,7 +45,7 @@ export interface SaveVariableActionInput extends BaseActionInput {
   timingNaturalText: string;
   timing: {
     frequency: CustomVariable['frequency'];
-    day: number;
+    day: number | undefined;
     month: number;
     year: number;
     yearStart: number;
@@ -75,7 +75,7 @@ function resolveAndNormalize(input: {
   timingNaturalText: string;
   timing: {
     frequency: CustomVariable['frequency'];
-    day: number;
+    day: number | undefined;
     month: number;
     year: number;
     yearStart: number;

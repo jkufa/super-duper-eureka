@@ -16,7 +16,7 @@ export interface TimingParseContext {
 
 export interface StructuredTimingFallback {
   frequency: ParsedCustomVariableTiming['frequency'];
-  day: number;
+  day: number | undefined;
   month: number;
   year: number;
   yearStart: number;
@@ -60,7 +60,7 @@ export function resolveParsedTimingOrStructured(
 
   return {
     ...fallback,
-    day: toFiniteNumber(fallback.day, 1),
+    day: fallback.day === undefined ? undefined : toFiniteNumber(fallback.day, 1),
     month: toFiniteNumber(fallback.month, 1),
     year: toFiniteNumber(fallback.year, context.projectionStartYear),
     yearStart: toFiniteNumber(fallback.yearStart, 0),

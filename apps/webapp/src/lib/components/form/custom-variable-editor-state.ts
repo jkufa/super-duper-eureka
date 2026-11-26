@@ -79,7 +79,7 @@ export function toCustomVariableDraftState(variable: CustomVariable): CustomVari
   };
 }
 
-export function toDraftResetState(currentYear: number, horizonYears: number): DraftResetState {
+export function toDraftResetState(today: Date, horizonYears: number): DraftResetState {
   return {
     name: '',
     amount: 0,
@@ -88,9 +88,9 @@ export function toDraftResetState(currentYear: number, horizonYears: number): Dr
     placement: 'end',
     timingInputMode: 'hybrid',
     timingNaturalText: '',
-    timingDay: 1,
-    timingMonth: 1,
-    timingYear: currentYear,
+    timingDay: undefined,
+    timingMonth: today.getMonth() + 1,
+    timingYear: today.getFullYear(),
     yearStart: 0,
     yearEnd: horizonYears,
     growthEnabled: false,

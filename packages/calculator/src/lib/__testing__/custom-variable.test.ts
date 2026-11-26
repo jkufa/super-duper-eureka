@@ -168,4 +168,24 @@ describe('custom-variable domain utils', () => {
       growthCadence: 'annual',
     });
   });
+
+  test('allows recurring timing without a day and keeps it unset', () => {
+    const input = {
+      name: 'Monthly',
+      type: 'flat' as const,
+      amount: 100,
+      placement: 'end' as const,
+      timingNaturalText: '',
+      yearStart: 0,
+      yearEnd: 10,
+      growthEnabled: false,
+      growthType: 'percent' as const,
+      growthAmount: 0,
+      growthCadence: 'annual' as const,
+    };
+    const timing = { frequency: 'monthly' as const, month: 1, year: 2026 };
+
+    expect(validateCustomVariableInput(input, timing)).toBeNull();
+    expect(normalizeCustomVariableInput(input, timing).timingDay).toBeUndefined();
+  });
 });

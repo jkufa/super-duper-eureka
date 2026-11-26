@@ -16,7 +16,8 @@ export type CustomVariableGrowthCadence = 'annual' | 'monthly';
 
 export interface ParsedCustomVariableTimingInput {
   frequency: CustomVariableFrequency;
-  day: number;
+  /** Omitted when no specific day was chosen; placement then decides start/end of month. */
+  day?: number;
   month: number;
   year: number;
 }
@@ -51,7 +52,7 @@ export interface NormalizedCustomVariableInput {
   frequency: CustomVariableFrequency;
   placement: CustomVariablePlacement;
   timingNaturalText: string;
-  timingDay: number;
+  timingDay?: number;
   timingMonth: number;
   timingYear: number;
   yearStart: number;
@@ -78,7 +79,10 @@ export function validateCustomVariableInput(
   if (!Number.isFinite(input.yearStart) || !Number.isFinite(input.yearEnd) || input.yearEnd < input.yearStart) {
     return CUSTOM_VARIABLE_VALIDATION_ERRORS.yearRangeInvalid;
   }
-  if (!Number.isFinite(parsedTiming.day) || parsedTiming.day < 1 || parsedTiming.day > 31) {
+  if (
+    parsedTiming.day !== undefined
+    && (!Number.isFinite(parsedTiming.day) || parsedTiming.day < 1 || parsedTiming.day > 31)
+  ) {
     return CUSTOM_VARIABLE_VALIDATION_ERRORS.dayInvalid;
   }
   if (
@@ -114,7 +118,7 @@ export function normalizeCustomVariableInput(
     frequency: parsedTiming.frequency,
     placement: input.placement,
     timingNaturalText: input.timingNaturalText,
-    timingDay: clampInteger(parsedTiming.day, 1, 31),
+    timingDay: parsedTiming.day === undefined ? undefined : clampInteger(parsedTiming.day, 1, 31),
     timingMonth: clampInteger(parsedTiming.month, 1, 12),
     timingYear: clampInteger(parsedTiming.year, 2000, 2200),
     yearStart: normalizedYearStart,

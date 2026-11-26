@@ -274,7 +274,7 @@
     }
 
     $formData.customVariables = [...$formData.customVariables, result.variable];
-    const draftReset = toDraftResetState(currentYear, $formData.yearsToRetirement);
+    const draftReset = toDraftResetState(now, $formData.yearsToRetirement);
     $formData.customVariableDraft = draftReset;
     submitError = null;
     draftTimingInfo = null;
