@@ -5,12 +5,20 @@
   "exports": {
     "./*.svelte": "./src/*.svelte",
     "./platform": "./src/platform.ts",
+    "./chart-paint": "./src/chart-paint.ts",
+    "./chart-geometry": "./src/chart-geometry.ts",
     "./package.json": "./package.json"
   },
   "dependencies": {
     "@retirement/calculator": "workspace:*",
+    "d3-scale": "^4.0.2",
+    "d3-shape": "^3.2.0",
     "gpuix-svelte": "0.6.0",
     "gpuix-svelte-ui": "0.6.0"
+  },
+  "devDependencies": {
+    "@types/d3-scale": "^4.0.9",
+    "@types/d3-shape": "^3.1.7"
   },
   "peerDependencies": {
     "svelte": "^5.56.0"

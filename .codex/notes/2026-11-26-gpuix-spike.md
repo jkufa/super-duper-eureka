@@ -1,6 +1,50 @@
 # gpuix spike (spec 2)
 
-Spec: `implementation/gpuix-port/02-gpuix-spike-spec.md`. Branch: `feat/gpuix-spike-wiring`, cut from `gpuix-port`.
+Spec: `implementation/gpuix-port/02-gpuix-spike-spec.md`. Branches: `feat/gpuix-spike-wiring` (Q1, merged
+into `gpuix-port`), then `feat/gpuix-spike-questions` (Q2 to Q6), cut from `gpuix-port`.
+
+## Summary
+
+| Question             | Result                  | One line                                                                                               |
+| -------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------ |
+| Q1. Workspace wiring | pass                    | Two apps plus `packages/ui` work; see Q1 below                                                         |
+| Q2. Server rendering | pass (preview deferred) | Kit 3.4.1 on adapter-vercel serves the shared card from a server load, tokens in head, no mismatch     |
+| Q3. Text input       | pass, one workaround    | Draft, blur, Enter, Up/Down, empty-to-fallback on both; GPUI fires `blur`; click-away needed a wrapper |
+| Q4. Chart            | pass, all seven rows    | No degradation needed; one paint layer per platform, the rest shared                                   |
+| Q5. Desktop plumbing | pass                    | Clipboard through `pbcopy`, JSON in `~/Library/Application Support/com.retirement.desktop`             |
+| Q6. Packaged build   | pass                    | Unsigned `Retirement Calculator.app`, 108.5 MB, launches and draws its window                          |
+
+Every desktop input in Q3 and Q4 was GPUI's own simulated input (gpuix's automation API), not OS
+events. A real OS route (CGEvent) was tried once and is denied on this machine. See "Real input" under
+Q3. Nothing in those rows was verified by a person typing or moving a mouse.
+
+## Go or no-go input
+
+Facts for the owner's call. This note makes no call.
+
+- Passed with evidence: Q1, Q2 (local adapter-vercel production build standing in for the preview),
+  Q3 on both targets, every Q4 row on both targets, Q5, Q6.
+- Degraded: nothing. No Q4 fallback was applied. No feature was dropped.
+- Workarounds kept in our code: Q3's click-away commit on GPUI (a `mousedownoutside` listener on the
+  field's wrapper that calls gpuix's `blur()`). Q5's clipboard goes through macOS `pbcopy` because
+  gpuix-svelte 0.6.0 has no clipboard API, so Windows and Linux would need their own command.
+- Unproven:
+  - Desktop input by a real user. Typing, Tab, Enter, arrows, clicks and pointer moves went through
+    GPUI's in-process simulation (`simulateKeystrokes`, `simulateMouseMove`, `simulateClick`). macOS
+    Accessibility and event posting are not granted to this session, so CGEvent input was dropped.
+  - The Vercel preview deployment (owner decision: deferred to spec 5).
+  - Chart pointer mapping after the chart's box moves without changing size (scrolling, window
+    move). `onlayout` reports size changes only (gpuix docs), and the spike's chart sits outside any
+    scroll container. Not tested.
+  - Chart behaviour on a window resize. The spike never resized the window.
+  - Running from Finder by double-click: `open` was used, which goes through LaunchServices the same
+    way, but no person clicked it.
+  - Narrow windows. Everything was checked at 1200 px wide. At 390 px on web the chart starts at
+    x=404, past the right edge, because the 380 px sidebar and the padding do not wrap. The spike
+    has no narrow layout.
+- Found in review and fixed: the Q4 tooltip was clamped at its top edge only, so at a 10% return the
+  2026 tooltip ran 12 px below the chart box on web and 7 px on GPUI and was clipped. It is now
+  clamped by its full height. See the note under the Q4 table.
 
 ## Q1. Workspace wiring
 
@@ -549,20 +593,404 @@ resolves that same Kit copy. Root-level `runed` and `sveltekit-superforms` each 
 
 ## Q2. Server rendering
 
-Not started.
+Result: pass. The Vercel preview deployment is not part of the spike (owner decision, spec 2 amended):
+a local `adapter-vercel` production build served by `vp preview` stands in for it, and the real
+preview moves to spec 5.
+
+Kit version: **3.4.1** with `@sveltejs/adapter-vercel` 7.0.5. The Kit 2.70 fallback was not needed.
+
+Code: `apps/web/src/routes/+page.server.ts` (load), `+page.svelte`, `+layout.svelte` (`theme_rule` in
+`<svelte:head>`), `apps/web/src/app.html` (the base CSS a GPUI window gives for free),
+`packages/ui/src/ScenarioCard.svelte` (kit `Card`, `TextField`, `Button`).
+
+Driver: a scratch Playwright script (headless Chromium from `apps/e2e`'s Playwright) run against the
+production build (`vp run --no-cache 'web#build'`, then `vp preview --port 4181` in `apps/web`) and
+the dev server (`vp dev --port 5181`). Not committed; what it does is shown inline.
+
+**1. A route with a `+page.server.ts` load renders a shared component that uses the kit's Button, TextField and Card: pass.**
+
+The load returns `scenario: { name: 'Server scenario', startingBalance: 250_000, source: 'the server load' }`.
+`curl -s http://127.0.0.1:4181/` (production build), grepped:
+
+```
+Loaded by the server load            (Card description)
+Scenario name                        (TextField label)
+value="Server scenario"              (TextField's input)
+Server scenario: $250,000            (shared markup)
+Add $1,000                           (Button)
+Running on web | Committed: 5% (0 commits) | Measuring…
+```
+
+**2. The server HTML contains the rendered component and the `--ui-*` tokens, using the kit's `theme_rule` in `<svelte:head>`: pass.**
+
+```
+:root{--ui-bg:#000000;--ui-panel:#111111;--ui-raised:#1c1c1c;--ui-raised-hover:#262626;--ui-border:#242424;--ui-border-strong:#404040;...
+style in head: True     (the rule's index is before </head>)
+```
+
+In the browser, `getComputedStyle(documentElement).getPropertyValue('--ui-accent')` is `#ff3e00`.
+
+**3. The page hydrates with no mismatch warning: pass.**
+
+Production build:
+
+```
+[prod] streamed: streamed-ok 2026-01-01T00:00:00.000Z
+[prod] summary before click: Server scenario: $250,000
+[prod] summary after Add click: Server scenario: $251,000      (handlers attached: hydrated)
+[prod] summary after typing name: Renamed: $251,000
+[prod] page errors: none
+[prod] console (non-debug): none
+```
+
+The console capture covers hydration warnings and page errors. Chromium also requests
+`/favicon.ico`, which returns 404 in dev and preview because the spike ships no favicon.
+
+Svelte reports hydration problems only in dev builds, so the same script ran against `vp dev`:
+`page errors: none`, `console (non-debug): none` (the other console lines were `[vite] connecting...`,
+`[vite] connected.`, the spike's own `debug` traces and the favicon 404 described above).
+
+Negative probe, to show the capture would see a warning: a temporary
+`{@html typeof window === 'undefined' ? '<b>server</b>' : '<i>client</i>'}` in `+page.svelte` gave
+
+```
+warning: [svelte] hydration_html_changed The value of an `{@html ...}` block near src/routes/+page.svelte:30:5 changed between server and client renders...
+```
+
+A server/client `{#if}` branch mismatch produced no warning (Svelte 5 repairs that silently). Probe
+reverted.
+
+Screenshot: `.codex/notes/assets/gpuix-spike/q2-web-hydrated.png` (after the click and the rename).
+
+**4. Streamed promise with a `Date` (owner addition, the path a devalue mismatch broke in Q1): pass.**
+
+The load also returns `streamed`, a top-level promise resolving after 300 ms to
+`{ when: new Date(Date.UTC(2026, 0, 1)), label: 'streamed-ok' }`. Server HTML from the production
+build:
+
+```
+Streaming…
+__sveltekit_qkfqj8.resolve(1, () => [{when:new Date(1767225600000),label:"streamed-ok"}])
+```
+
+The page then shows `streamed-ok 2026-01-01T00:00:00.000Z` (`value.when.toISOString()` ran on a real
+`Date`), with 0 page errors, in both the production build and dev.
+
+**5. A Vercel preview deployment serves it: deferred to spec 5 (owner decision).** Not attempted.
 
 ## Q3. Text input
 
-Not started.
+Result: pass on both targets, with one workaround on GPUI (click-away). All desktop input below is
+GPUI's simulated input through gpuix's automation API, not OS events (see "Real input").
+
+Code: `packages/ui/src/NumberField.svelte` and `packages/ui/src/number-field.ts`. The field keeps a
+`draft` string (`$derived` from the committed value, overwritten by typing). It never calls `bind:`.
+The handlers are spread per renderer, as the kit's `TextField` does: GPUI gets `onchange` (every
+edit, `e.value`), `onsubmit` (Enter), `onfocus`, `onblur`, `onkeydown` and a `theme` object; the DOM
+gets `oninput`, `onblur` and `onkeydown`. Keys are read through the kit's `key_of`, so both see
+`up`, `down` and `enter`. `App.svelte` shows `Committed: <value>% (<n> commits)`, which changes only
+through `oncommit`. Each handler reports to `platform.trace` (`[spike] ...` on desktop stderr, the
+browser console on the web).
+
+### What gpuix's automation API can do (gpuix-svelte 0.6.0, `@gpuix/native` 0.11.0)
+
+Read from `gpuix-svelte/lib/automation-server.js` and `@gpuix/native/dist/automation/client.{js,d.ts}`,
+then used:
+
+| Input                        | Call                                                 | Goes through                                                   | Used for   |
+| ---------------------------- | ---------------------------------------------------- | -------------------------------------------------------------- | ---------- |
+| Typing, Enter, Tab, arrows   | `keystrokes` (`Locator.fill`/`press`, or no element) | GPUI's `simulateKeystrokes` to the focused element             | Q3, Q4, Q5 |
+| Key down / up                | `keyDown`, `keyUp`                                   | `simulateKeyDown/Up`                                           | not needed |
+| Click                        | `click` / `Locator.click` / `mouse.click`            | `simulateClick` at window coordinates, GPUI's real hit testing | Q3, Q4, Q5 |
+| Pointer move with x, y       | `mouseMove` / `mouse.move({x, y})`                   | `simulateMouseMove`                                            | Q4         |
+| Mouse down / up, drag, wheel | `mouseDown`, `mouseUp`, `mouse.drag`, `scrollWheel`  | `simulate*`                                                    | not needed |
+| Focus change / blur          | `focus` (element id), `blur`                         | `focusElement`, `blur` (hands focus back to the window)        | Q3         |
+| Reads                        | `getTree`, `getAllText`, `getBounds`, `screenshot`   | the live window's tree, bounds and Metal renderer              | everywhere |
+
+It cannot read an `<input>`'s current text: the tree node for the field is
+`{"id":45,"type":"input","testId":"rate-input","bounds":{...}}` with no value. The draft is therefore
+shown by the `[spike] numberfield:draft` trace (the `change` event's `e.value`) and by screenshots.
+
+### Real input
+
+One attempt at OS-level input, against the window's real process (the `bun` child of the launcher), with
+a Swift script posting `CGEvent`s (mouse move and click over the chart, then Right arrow) to
+`.cghidEventTap`:
+
+```
+AXIsProcessTrusted: false
+CGPreflightPostEventAccess: false
+window bounds: ["Y": 109.0, "Height": 929.0, "X": 264.0, "Width": 1200.0]
+posted move+click at 825.1333333333333 537.0 and Right arrow
+[driver] readout before: 2055: $1,080,486
+[driver] readout after OS events: 2055: $1,080,486
+```
+
+macOS dropped the events (no Accessibility or event-posting permission for this session; Q1 found
+System Events via `osascript` times out too). So no Q3 or Q4 criterion was exercised by real OS input.
+What was exercised is GPUI's own input path inside the window process: GPUI's keystroke dispatch,
+focus handling and hit testing, then gpuix's event mapping and our handlers. The OS → GPUI part
+(NSEvent delivery, IME) is not covered.
+
+### Criteria
+
+Desktop log: launched with `launch({ entry: 'app.ts', bun: true, cwd: 'apps/desktop' })`, the same
+launcher as `vp run desktop#dev`. `[driver]` lines are the driver reading the window, `[spike]` lines
+the app's own traces.
+
+**1. Typing edits a draft string and does not change the committed value: pass on both** (desktop by
+simulated input).
+
+```
+[driver] Q3 start: null | Committed: 5% (0 commits)
+[spike] numberfield:draft {"type":"change","draft":"7"}
+[spike] numberfield:draft {"type":"change","draft":"7."}
+[spike] numberfield:draft {"type":"change","draft":"7.2"}
+[spike] numberfield:draft {"type":"change","draft":"7.25"}
+[driver] Q3 typed 7.25: null | Committed: 5% (0 commits)
+```
+
+`q3-desktop-typed-draft.png`: the field shows `7.25` with the caret, the line under it
+`Committed: 5% (0 commits)`. Web: `[prod] Q3 typed 7.25: 7.25 | Committed: 5% (0 commits)`.
+
+**2. Blur commits the parsed number. Enter commits too: pass on both** (desktop by simulated input).
+
+Which event gpuix fires on blur: **`blur`**, delivered to the `<input>`'s `onblur` with
+`e.type === "blur"`. It fired on Tab and on gpuix's `blur()`.
+
+```
+[spike] numberfield:keydown {"key":"tab"}
+[spike] numberfield:blur {"type":"blur"}
+[spike] numberfield:commit {"source":"blur","draft":"7.25","next":7.25}
+[driver] Q3 after tab: null | Committed: 7.25% (1 commits)
+...
+[spike] numberfield:blur {"type":"blur"}
+[spike] numberfield:commit {"source":"blur","draft":"6","next":6}
+[driver] Q3 typed 6 then automation blur(): null | Committed: 6% (3 commits)
+[spike] numberfield:commit {"source":"enter","draft":"8","next":8}
+[driver] Q3 typed 8 + enter: null | Committed: 8% (4 commits)
+```
+
+GPUI's input reports Enter as `submit`, not as a `keydown` the element sees, so the GPUI branch
+commits from `onsubmit`.
+
+Click-away on GPUI (workaround, see below): clicking plain text outside the field does not blur a
+GPUI text field, where a browser does. Before the workaround:
+
+```
+[spike] numberfield:draft {"type":"change","draft":"8"}
+[driver] Q3 typed 8: null | Committed: 7.25% (1 commits)
+[driver] Q3 after click on plain text elsewhere: null | Committed: 7.25% (1 commits)   (no blur, no commit)
+```
+
+After:
+
+```
+[spike] numberfield:mousedownoutside {"type":"mouseDownOutside"}
+[spike] numberfield:blur {"type":"blur"}
+[spike] numberfield:commit {"source":"blur","draft":"8","next":8}
+[driver] Q3 after click on plain text elsewhere: null | Committed: 8% (2 commits)
+```
+
+Web: `after Tab (blur): 7.25 | Committed: 7.25% (1 commits)`, `after Enter: 8 | Committed: 8% (2 commits)`,
+`after click elsewhere (blur): 5 | Committed: 5% (6 commits)`; the DOM fires `blur` (`{"type":"blur"}`).
+
+**3. Up and Down arrows step the value and commit: pass on both** (desktop by simulated input).
+
+The element's own `onkeydown` receives `up` and `down` on GPUI; the input's built-in arrow bindings
+did not swallow them. Step 0.5:
+
+```
+[spike] numberfield:keydown {"key":"up"}
+[spike] numberfield:step {"direction":1,"draft":"8","next":8.5}
+[driver] Q3 up: null | Committed: 8.5% (5 commits)
+[spike] numberfield:step {"direction":-1,"draft":"8.5","next":8}
+[spike] numberfield:step {"direction":-1,"draft":"8","next":7.5}
+[driver] Q3 down x2: null | Committed: 7.5% (7 commits)
+```
+
+Web: `after ArrowUp: 8.5 | Committed: 8.5% (3 commits)`, `after ArrowDown x2: 7.5 | Committed: 7.5% (5 commits)`.
+
+**4. An empty field commits its fallback value: pass on both** (desktop by simulated input). Fallback 5.
+
+```
+[spike] numberfield:draft {"type":"change","draft":""}
+[driver] Q3 emptied: null | Committed: 7.5% (7 commits)
+[spike] numberfield:commit {"source":"enter","draft":"","next":5}
+[driver] Q3 empty + enter: null | Committed: 5% (8 commits)
+[spike] numberfield:commit {"source":"blur","draft":"","next":5}
+[driver] Q3 empty + tab: null | Committed: 5% (9 commits)
+```
+
+`q3-desktop-after-commits.png`: field `5`, `Committed: 5% (9 commits)`; the Tab moved focus to the
+next field (Note), whose border shows it. Web: `emptied: "" | Committed: 7.5%`, then on blur
+`5 | Committed: 5% (6 commits)`. Not a number (`abc` + Enter) keeps the previous value on the web
+(`5 | Committed: 5% (7 commits)`).
+
+The controlled value round-trips on GPUI: after each commit the field shows the formatted committed
+value (`5` in the screenshot after the empty commit), so writing `value` back to GPUI's input works.
+
+### Workaround attempts (click-away commit on GPUI)
+
+1. `onmousedownoutside` on the `<input>` itself, calling gpuix's `blur()` when focused. No effect:
+   no `mousedownoutside` trace. GPUI's input does not report that event.
+2. The same listener on the field's wrapper `<div>` (spread only on GPUI). Works, log above. On the
+   web the wrapper gets no extra handler; the browser blurs by itself.
 
 ## Q4. Chart
 
-Not started.
+Result: every row passes on both targets. No fallback applied.
+
+Code: `packages/ui/src/chart-geometry.ts` (copied unchanged from `reference/chart-geometry.ts`, with
+`d3-scale` and `d3-shape` added to `@retirement/ui`), `packages/ui/src/ProjectionChart.svelte` (size,
+selected year, pointer and keys, marker, x labels, tooltip, all shared), `packages/ui/src/chart-paint.ts`
+(the paint layer's props and colours), and one paint layer per app passed in through
+`platform.ChartPaint`: `apps/desktop/src/ChartPaint.svelte` (GPUI `<svg source>` masks) and
+`apps/web/src/lib/ChartPaint.svelte` (one DOM `<svg>`). Data: `projection-points.ts`, 30 years from
+`@retirement/calculator` at the committed rate with ±1% variance lines.
+
+Desktop evidence is simulated input as in Q3. Pixel samples come from a scratch Python PNG decoder
+reading the screenshots (desktop captures are 2x).
+
+| Check                                 | Result                 | Evidence                                                                                                                                                                                                                                                                                                                                                                             |
+| ------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Runtime-generated SVG mask per colour | pass (desktop and web) | Five `<svg source=...>` layers generated from the geometry each render (grid, area, +1%, -1%, balance), each tinted by `style:color`. `getByTestId('chart-box').getByType('svg').count()` → `5`. All three series visible in `q4-desktop-hover-2036.png`.                                                                                                                            |
+| Dashed strokes inside a mask          | pass                   | `stroke-dasharray="6 4"` in the mask source. Columns with a green (+1%) pixel across the left 40% of the plot, device px: `off17 on11 off8 on12 off7 on12 off7 ...` (31 gaps), about 6/4 logical px along a shallow slope. Web: `on6 off4 ...` (29 gaps).                                                                                                                            |
+| Translucent fills                     | pass                   | The area layer's colour is `var(--ui-accent-wash)` = `#ff3e0029` (16% alpha). Pixel inside the area, window (983, 836): `(41, 10, 0)`; expected #ff3e00 × 0x29/255 over black = `(41, 10, 0)`. Black above the lines: `(0, 0, 0)`. Web: same `(41, 10, 0)`.                                                                                                                          |
+| Plot size                             | pass                   | `onlayout` on the chart box: `[spike] chart:layout {"x":404,"y":54.5,"width":772,"height":822.5}`, equal to automation's `getElementBounds`: `{"x":404,"y":54.5,"width":772,"height":822.5}`. Web: ResizeObserver, `{"width":772,"height":721.36}`.                                                                                                                                  |
+| Pointer to year                       | pass                   | `onmousemove`'s `e.x` is window x. Year = `columnIndexAtX(geometry, e.x - left)`, `left` from `onlayout`'s `e.x`. `mouse.move` to x = 436.5 / 685.8 / 1159.5 → `2026`, `2036`, `2055` (indexes 0, 10, 29); the trace shows the event's x, e.g. `mousemove x=685.7999877929688 ... "label":"2036"`. Web: same three years from `clientX` minus the box's `getBoundingClientRect().x`. |
+| Hover tooltip                         | pass                   | A box with absolute `left`/`top` inside the chart box, at the column's x + 12 (flipped left near the edge). Bounds per move: x 448.5 (column 436.5), 698 (685.8), 997.5 (flipped at 1159.5). `q4-desktop-hover-2036.png`, `q4-web-hover-2036.png`. `Popover` was not needed.                                                                                                         |
+| Keyboard                              | pass                   | Click at index 15 focuses the box (`tabindex="0"`, `role="slider"`) → `2041`; `right` → `2042`; `left left` → `2040`, sent with no target element, so they went to the focused box. `q4-desktop-keyboard.png`, `q4-web-keyboard.png`.                                                                                                                                                |
+
+Tooltip clamp, added after review. The first version kept only the tooltip's top edge inside the box.
+At 1200 px wide with the rate committed at 10%, the 2026 tooltip ended below the box and was clipped
+(web: y 787.73 against a box bottom of 776; GPUI: 883 against 876). The position now subtracts the
+tooltip's height, 84 px on both targets. Bounds after the fix, pointer at 5%, 50% and 97% of the box
+width, with the rate at 5% then 10%:
+
+```
+web   10%  2026  tip 692.0 to 776.0  box 54.6 to 776.0  inside
+web   10%  2040  tip 597.0 to 681.0                      inside
+web   10%  2055  tip  70.8 to 154.8                      inside
+gpui  10%  2026  tip 793   to 877    box 54.5 to 877    inside
+gpui  10%  2040  tip 678   to 762                        inside
+gpui  10%  2055  tip  75.5 to 159.5                      inside
+```
+
+The three positions at 5% are inside on both targets too. Web ran in headless Chromium against
+`vp preview`; GPUI ran through the automation API (simulated pointer moves).
+`q4-desktop-tooltip-clamped.png`.
+
+Limit (not tested): `onlayout` fires on size changes only, so if the box moved without resizing
+(inside a scrolled container), `left` would go stale. The kit's `bounds_of(node)` reads the painted
+box on demand on GPUI and is the likely fix; the web path already reads the box at each event.
 
 ## Q5. Desktop plumbing
 
-Not started.
+Result: pass. Code: `apps/desktop/src/platform.ts` (`clipboard` and `store` adapters),
+`packages/ui/src/PlumbingCard.svelte` (shown only when the platform passes both adapters; the web
+passes neither in the spike).
+
+- gpuix-svelte 0.6.0 and `@gpuix/native` 0.11.0 have no clipboard call (no match for `clipboard` in
+  their `lib`, `dist` or the native binary's strings). The window runs in Bun, so the adapter pipes
+  the text to macOS's `pbcopy` with `execFile`. Windows and Linux would need their own command.
+- App data: `~/Library/Application Support/com.retirement.desktop/spike-state.json`, named after the
+  bundle identifier the Q6 build uses. `node:fs/promises`, parsed back into `{ note, savedAt }`.
+
+Two separate processes, driven through the automation API (simulated clicks and typing):
+
+```
+clipboard before: 0 bytes
+[driver run 1] window process pid (launcher): 63417
+[driver run 1] On launch: nothing saved yet
+[driver run 1] saved {"note":"spike-q5-note","savedAt":"2026-11-26T11:44:22.630Z"}
+[driver run 1] copied "Projected at 5%: 1080486"
+--- pbpaste after run 1:
+Projected at 5%: 1080486
+--- file after run 1 (process exited):
+-rw-r--r--@ 1 jkufa  staff  71 Nov 26 06:44 /Users/jkufa/Library/Application Support/com.retirement.desktop/spike-state.json
+{
+  "note": "spike-q5-note",
+  "savedAt": "2026-11-26T11:44:22.630Z"
+}
+--- processes between runs:
+none
+--- run 2 (new process)
+[driver run 2] window process pid (launcher): 63491
+[driver run 2] On launch: {"note":"spike-q5-note","savedAt":"2026-11-26T11:44:22.630Z"}
+clipboard restored: 0 bytes
+```
+
+- Copy to clipboard: pass. Read back with `pbpaste`.
+- Write, restart, read back: pass. Run 2 is a new process (new pid, none running between); it read
+  the file at mount. Screenshots: `q5-desktop-run1-saved.png`, `q5-desktop-run2-read-back.png`.
+- Clean-up: the clipboard held no text before; `pbcopy` put back the empty string (non-text clipboard
+  content would not survive this). The app-data folder was deleted afterwards.
 
 ## Q6. Packaged build
 
-Not started.
+Result: pass. `apps/desktop/standalone.ts` (a static `render()` with `app: { name, identifier }`, as
+`gpuix-svelte/build` requires) and `apps/desktop/build.ts`, run by the new task
+`vp run desktop#package` (`bun build.ts`, uncached). It is not named `build`, so `vp run build` does
+not package the app every time. Output goes to `apps/desktop/dist`, which the root `.gitignore`
+already ignores (`git check-ignore -v` → `.gitignore:6:dist`).
+
+```
+$ vp run --no-cache desktop#package        (Bun 1.4.5)
+[gpuix-svelte/build] dist/Retirement Calculator.app (108.5 MB) — Retirement Calculator 0.0.0, com.retirement.desktop, default icon
+[gpuix-svelte/build] CODESIGN_IDENTITY not set; leaving the .app unsigned
+```
+
+Size: **108.5 MB** as the build reports it (`du -sh` 109M; the executable is 113,812,482 bytes).
+Inside the docs' 110 to 155 MB range, at its low end. Signing: `codesign -dv` shows only the linker's
+ad-hoc signature (`flags=0x20002(adhoc,linker-signed)`, `Signature=adhoc`), no identity.
+
+Launch:
+
+```
+$ open 'dist/Retirement Calculator.app'
+$ pgrep -fl retirement-calculator
+63804 .../apps/desktop/dist/Retirement Calculator.app/Contents/MacOS/retirement-calculator
+$ ps   (PPID 1: started by LaunchServices)
+63804     1 253792   00:05 .../Retirement Calculator.app/Contents/MacOS/retirement-calculator
+$ CGWindowList for pid 63804
+window 5534 owner Retirement Calculator layer 0 bounds { Height = 929; Width = 1200; X = 264; Y = 109; } onscreen 1
+$ timeout 8 '.../Contents/MacOS/retirement-calculator'    (from a shell, for the log)
+[gpuix-svelte] created native window
+[gpuix-svelte] mount complete
+[spike] chart:layout {"x":404,"y":54.5,"width":772,"height":822.5}
+```
+
+The last line is the shared chart's `onlayout` from inside the packaged binary, so the shared
+components mounted and laid out there. No screenshot: the build compiles the automation server out
+(`gpuix-svelte/lib/build.js` defines `process.env.GPUIX_AUTOMATION` as `""`), a piped `initialize`
+got no reply, and `screencapture` is denied (Q1). The app was stopped after each launch.
+
+The app was built locally; macOS's Gatekeeper prompt for downloaded unsigned apps did not apply
+(no quarantine attribute) and was not tested.
+
+## gpuix warnings across the spike (Q1 to Q6)
+
+None. Every `[gpuix-svelte]` line in every desktop run, the packaged binary included, was
+`created native window`, `mount complete` or (Q1) `remount complete`. The build printed its size line
+and `CODESIGN_IDENTITY not set; leaving the .app unsigned`, which is information, not a warning. No
+compile warnings from gpuix's `.svelte` loader for the new shared components.
+
+## Versions (Q2 to Q6)
+
+As in Q1's table, plus: d3-scale 4.0.2, d3-shape 3.2.0, @types/d3-scale 4.0.9, @types/d3-shape 3.2.0
+(in `@retirement/ui`); Playwright's Chromium from `apps/e2e` for the web runs; Swift from the
+Xcode command line tools for the CGEvent and window-list scripts.
+
+## Things a later agent needs to know (Q2 to Q6)
+
+- Desktop automation reads no input values. Trace the `change` event or show the value in the UI.
+- A gpuix text field keeps focus when the pointer goes down on non-focusable content. Forms that
+  commit on blur need the wrapper `mousedownoutside` pattern from `NumberField.svelte`.
+- GPUI's `<input>` reports Enter as `submit`, not as a `keydown` its own handler sees.
+- `launch()` resolves `app.screenshot({ path })` against the app's cwd: pass an absolute path.
+- `pkill -f 'vp dev'` leaves the Vite child running. Stop servers by the port's listener
+  (`lsof -tnP -iTCP:<port> -sTCP:LISTEN`).
+- The packaged binary has no automation server. Drive `app.ts` through `launch()` instead.
+- `vp check` rejects an explicit `unknown` binding with an initialiser and a broad `object` param;
+  `{@attach}` callbacks shared between renderers take `node: unknown`.
