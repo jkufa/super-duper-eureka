@@ -108,5 +108,13 @@
     }
   },
   "svelteOptions": { "namespace": "gpuixHTML" },
-  "include": ["app.ts", "src", "vite.config.ts", "svelte.config.js", "../../packages/ui/src"]
+  "include": [
+    "app.ts",
+    "standalone.ts",
+    "build.ts",
+    "src",
+    "vite.config.ts",
+    "svelte.config.js",
+    "../../packages/ui/src"
+  ]
 }
