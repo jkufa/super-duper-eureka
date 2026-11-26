@@ -4,7 +4,7 @@ Playwright e2e harness for the webapp, designed for repeatable use by humans and
 
 ## What this does
 
-- Starts `apps/webapp` automatically on `http://127.0.0.1:4173` (unless disabled).
+- Starts `apps/webapp-legacy` automatically on `http://127.0.0.1:4173` (unless disabled).
 - Runs chromium desktop + mobile projects.
 - Captures trace/video/screenshots on failure.
 - Provides stable debugger-specific tests under `tests/debugger.spec.ts`.
@@ -46,7 +46,7 @@ bun run test:debugger
 
 ## Reusing an already-running app server
 
-If `apps/webapp` is already running, skip Playwright webServer startup:
+If `apps/webapp-legacy` is already running, skip Playwright webServer startup:
 
 ```bash
 E2E_SKIP_WEBSERVER=1 E2E_BASE_URL=http://127.0.0.1:4173 bun run --filter e2e test
@@ -57,7 +57,7 @@ E2E_SKIP_WEBSERVER=1 E2E_BASE_URL=http://127.0.0.1:4173 bun run --filter e2e tes
 Set a custom command when local environment needs a different runtime:
 
 ```bash
-E2E_WEBSERVER_COMMAND="cd ../webapp && bun run dev -- --host 127.0.0.1 --port 4173 --strictPort" bun run --filter e2e test:debugger
+E2E_WEBSERVER_COMMAND="cd ../webapp-legacy && bun run dev -- --host 127.0.0.1 --port 4173 --strictPort" bun run --filter e2e test:debugger
 ```
 
 ## Structure

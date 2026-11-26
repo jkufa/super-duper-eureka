@@ -18,7 +18,7 @@ It includes:
 
 ## Repository Layout
 
-- `apps/webapp`: main UI application
+- `apps/webapp-legacy`: main UI application
 - `apps/e2e`: Playwright end-to-end test suite
 - `packages/calculator`: core retirement projection engine
 - `packages/cli`: command-line interface (`retirement-calc`)
@@ -80,11 +80,11 @@ bun run format
 
 ## Webapp Validation Flow
 
-For changes in `apps/webapp`, run:
+For changes in `apps/webapp-legacy`, run:
 
-1. `bun run --filter webapp check`
-2. `bun run --filter webapp lint`
-3. If formatting is required: `bun run --filter webapp format`, then re-run check + lint
+1. `bun run --filter webapp-legacy check`
+2. `bun run --filter webapp-legacy lint`
+3. If formatting is required: `bun run --filter webapp-legacy format`, then re-run check + lint
 
 ## CLI Usage
 
