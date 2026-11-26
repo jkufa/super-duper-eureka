@@ -1,0 +1,6 @@
+{
+  // Owns the lintable files that no package tsconfig includes. Without an owner here, the type
+  // checker keeps walking up past the repo looking for a tsconfig.json that includes them.
+  "extends": "./tsconfig.base.json",
+  "include": ["*.ts", "apps/webapp-legacy/vitest.config.ts", "apps/webapp-legacy/svelte.config.js"]
+}
