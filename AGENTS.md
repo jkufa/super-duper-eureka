@@ -11,35 +11,39 @@
 
 ## Build, Test, and Development Commands
 
-- `bun install`: install dependencies.
-- `bun run dev`: run workspace dev servers.
-- `bun run build`: build all workspaces.
-- `bun run test`: run non-e2e tests.
-- `bun run e2e` / `bun run e2e:debugger`: Playwright suites.
-- `bun run --filter webapp-legacy check`: Svelte diagnostics.
-- `bun run --filter @retirement/calculator test`: calculator unit tests.
-- `bun run lint` / `bun run format`: lint/format all workspaces.
+The repo runs on Vite+ (`vp`) with Bun as the package manager. Tasks are defined in `vite.config.ts` files and cached; see `run.tasks` in the root config and in each package.
+
+- `vp install`: install dependencies (runs Bun).
+- `vp run dev`: start the legacy web app's dev server.
+- `vp run build`: build every package in dependency order (same as `vp run -r build`). Unchanged packages replay from cache.
+- `vp test`: run all unit tests (calculator and legacy app). `vp run test` runs the same thing through the task cache.
+- `vp check`: format check, lint, type-aware lint and TypeScript type check for the whole repo. It does not type-check `.svelte` files.
+- `vp run webapp-legacy#check`: `svelte-kit sync` + `svelte-check` for the legacy app, which covers `.svelte` files.
+- `vp run check`: `vp check` followed by `vp run webapp-legacy#check`.
+- `vp lint` / `vp fmt`: lint or format on their own. `vp check --fix` applies fixes from both.
+- `vp run e2e` / `vp run e2e:debugger` / `vp run e2e:ui`: Playwright suites (never cached).
+- `vp run retirement-calc --config <file>`: run the CLI on the Bun runtime.
 
 ## Coding Style & Naming Conventions
 
 - Language: TypeScript + Svelte 5.
-- Formatting/linting: Prettier + ESLint. Run lint after changes; run format if lint reports formatting issues.
+- Formatting/linting: Oxfmt + Oxlint, configured in the `fmt` and `lint` blocks of the root `vite.config.ts`. Put package-specific rules in `lint.overrides` there, not in package configs. Run `vp check` after changes and `vp check --fix` if it reports formatting issues.
 - Naming: `PascalCase.svelte` for components, `*.spec.ts` for tests, `kebab-case.ts` for utility modules.
 - Prefer small composable components and shared domain utilities over duplicated form logic.
 
 ## Testing Guidelines
 
-- Unit tests: Vitest in `packages/calculator/src/lib/__testing__`.
+- Unit tests: Vitest through `vp test`, in `packages/calculator/src/lib/__testing__` and `apps/webapp-legacy/src/**/*.test.ts`. Import test APIs from `vite-plus/test`.
 - E2E tests: Playwright in `apps/e2e/tests`.
 - Add/adjust tests for behavioral changes (especially custom-variable flows and debugger/projection interactions).
 - For `apps/webapp-legacy` changes, default validation sequence:
 
-1. `bun run --filter webapp-legacy check`
-2. `bun run --filter webapp-legacy lint`
-3. if needed: `bun run --filter webapp-legacy format`, then re-run check + lint.
+1. `vp run webapp-legacy#check`
+2. `vp check`
+3. if needed: `vp check --fix`, then re-run both.
 
-- E2E note: if local Node/runtime cannot start Playwright web server, run with external server:
-  `E2E_SKIP_WEBSERVER=1 E2E_BASE_URL=http://127.0.0.1:4173 bun run e2e:debugger`
+- E2E note: if Playwright cannot start the web server itself, start it yourself with `vp -C apps/webapp-legacy dev --host 127.0.0.1 --port 4173` and run against it:
+  `E2E_SKIP_WEBSERVER=1 E2E_BASE_URL=http://127.0.0.1:4173 vp run e2e:debugger`
 
 ## Commit & Pull Request Guidelines
 
@@ -79,7 +83,7 @@ None yet. Review agents add one bullet per recurring problem, phrased as an inst
 - Add brief working notes in `.codex/notes/` for substantial problems/solutions.
 - Webapp-specific guidance may also exist in `apps/webapp-legacy/.codex/AGENTS.md`.
 - CLI examples:
-  - `bunx retirement-calc --config packages/cli/examples/basic.json`
-  - `bunx retirement-calc --config packages/cli/examples/daily-debug.json --debug`
+  - `vp run retirement-calc --config packages/cli/examples/basic.json`
+  - `vp run retirement-calc --config packages/cli/examples/daily-debug.json --debug`
 - skills:
   - use btca cli to ask questions about external codebases such as svelte, sveltekit (kit), chrono, etc.
