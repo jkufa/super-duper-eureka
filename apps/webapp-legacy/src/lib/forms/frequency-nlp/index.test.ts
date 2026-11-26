@@ -1,4 +1,4 @@
-import { describe, expect, test } from 'vitest';
+import { describe, expect, test } from 'vite-plus/test';
 import {
   parseCustomVariableTimingText,
   TIMING_PARSE_ERROR_MESSAGE,

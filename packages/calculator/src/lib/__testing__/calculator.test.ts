@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vite-plus/test';
 
 import { calculateProjection, calculateProjectionWithSteps, calculateRetirement } from '../calculator';
 import { makeConfig, makeContribution } from '../factories';

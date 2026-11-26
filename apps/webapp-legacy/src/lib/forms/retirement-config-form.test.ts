@@ -1,4 +1,4 @@
-import { describe, expect, test } from 'vitest';
+import { describe, expect, test } from 'vite-plus/test';
 import type { RetirementConfig } from '@retirement/calculator/types';
 import { calculateProjection } from '@retirement/calculator';
 import { applyRetirementConfigFormValues, toRetirementConfigFormDefaults } from './retirement-config-form';

@@ -3,7 +3,10 @@
   "type": "module",
   "private": true,
   "packageManager": "bun@1.4.5",
-  "workspaces": ["packages/*", "apps/*"],
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
   "scripts": {
     "retirement-calc": "bun run packages/cli/src/index.ts",
     "test": "bun run --parallel --filter '!e2e' test",
@@ -16,9 +19,22 @@
     "e2e:ui": "bun run --filter e2e test:ui"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "vite": "catalog:",
+    "vite-plus": "catalog:",
+    "vitest": "catalog:"
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "catalog": {
+    "vite": "npm:@voidzero-dev/vite-plus-core@8.3.8000",
+    "vitest": "5.1.0",
+    "vite-plus": "1.7.0",
+    "@vitest/coverage-v8": "5.1.0"
+  },
+  "overrides": {
+    "vite": "catalog:",
+    "vitest": "catalog:"
   }
 }

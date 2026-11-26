@@ -1,4 +1,4 @@
-import { describe, expect, test } from 'vitest';
+import { describe, expect, test } from 'vite-plus/test';
 import {
   CUSTOM_VARIABLE_VALIDATION_ERRORS,
   normalizeCustomVariableInput,

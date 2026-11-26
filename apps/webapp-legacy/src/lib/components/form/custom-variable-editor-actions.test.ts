@@ -1,4 +1,4 @@
-import { describe, expect, test, vi } from 'vitest';
+import { describe, expect, test, vi } from 'vite-plus/test';
 import { TIMING_PARSE_ERROR_MESSAGE } from '$lib/forms/frequency-nlp';
 import { buildCreatedCustomVariable, buildSavedCustomVariable } from './custom-variable-editor-actions';
 
