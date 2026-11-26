@@ -5,7 +5,7 @@ export const CUSTOM_VARIABLE_VALIDATION_ERRORS = {
   dayInvalid: 'Day must be between 1 and 31.',
   monthInvalid: 'Month must be between 1 and 12.',
   yearInvalid: 'Year must be between 2000 and 2200.',
-  growthAmountInvalid: 'Growth amount must be 0 or greater.',
+  growthAmountInvalid: 'Growth amount must be 0 or greater.'
 } as const;
 
 export type CustomVariableFrequency = 'monthly' | 'annual' | 'oneTime';
@@ -64,36 +64,44 @@ export interface NormalizedCustomVariableInput {
 }
 
 function clampInteger(value: number, min: number, max: number) {
-  if (!Number.isFinite(value)) return min;
+  if (!Number.isFinite(value)) {
+    return min;
+  }
   return Math.max(min, Math.min(max, Math.trunc(value)));
 }
 
 export function validateCustomVariableInput(
   input: ValidateCustomVariableInput,
-  parsedTiming: ParsedCustomVariableTimingInput,
+  parsedTiming: ParsedCustomVariableTimingInput
 ) {
-  if (!input.name.trim()) return CUSTOM_VARIABLE_VALIDATION_ERRORS.nameRequired;
+  if (!input.name.trim()) {
+    return CUSTOM_VARIABLE_VALIDATION_ERRORS.nameRequired;
+  }
   if (!Number.isFinite(input.amount) || input.amount < 0) {
     return CUSTOM_VARIABLE_VALIDATION_ERRORS.amountInvalid;
   }
-  if (!Number.isFinite(input.yearStart) || !Number.isFinite(input.yearEnd) || input.yearEnd < input.yearStart) {
+  if (
+    !Number.isFinite(input.yearStart) ||
+    !Number.isFinite(input.yearEnd) ||
+    input.yearEnd < input.yearStart
+  ) {
     return CUSTOM_VARIABLE_VALIDATION_ERRORS.yearRangeInvalid;
   }
   if (
-    parsedTiming.day !== undefined
-    && (!Number.isFinite(parsedTiming.day) || parsedTiming.day < 1 || parsedTiming.day > 31)
+    parsedTiming.day !== undefined &&
+    (!Number.isFinite(parsedTiming.day) || parsedTiming.day < 1 || parsedTiming.day > 31)
   ) {
     return CUSTOM_VARIABLE_VALIDATION_ERRORS.dayInvalid;
   }
   if (
-    (parsedTiming.frequency === 'annual' || parsedTiming.frequency === 'oneTime')
-    && (!Number.isFinite(parsedTiming.month) || parsedTiming.month < 1 || parsedTiming.month > 12)
+    (parsedTiming.frequency === 'annual' || parsedTiming.frequency === 'oneTime') &&
+    (!Number.isFinite(parsedTiming.month) || parsedTiming.month < 1 || parsedTiming.month > 12)
   ) {
     return CUSTOM_VARIABLE_VALIDATION_ERRORS.monthInvalid;
   }
   if (
-    parsedTiming.frequency === 'oneTime'
-    && (!Number.isFinite(parsedTiming.year) || parsedTiming.year < 2000 || parsedTiming.year > 2200)
+    parsedTiming.frequency === 'oneTime' &&
+    (!Number.isFinite(parsedTiming.year) || parsedTiming.year < 2000 || parsedTiming.year > 2200)
   ) {
     return CUSTOM_VARIABLE_VALIDATION_ERRORS.yearInvalid;
   }
@@ -106,7 +114,7 @@ export function validateCustomVariableInput(
 
 export function normalizeCustomVariableInput(
   input: NormalizeCustomVariableInput,
-  parsedTiming: ParsedCustomVariableTimingInput,
+  parsedTiming: ParsedCustomVariableTimingInput
 ): NormalizedCustomVariableInput {
   const normalizedYearStart = Math.max(0, Math.trunc(input.yearStart));
   const normalizedYearEnd = Math.max(normalizedYearStart, Math.trunc(input.yearEnd));
@@ -126,6 +134,6 @@ export function normalizeCustomVariableInput(
     growthEnabled: input.growthEnabled,
     growthType: input.growthType,
     growthAmount: Math.max(0, input.growthAmount),
-    growthCadence: input.growthCadence,
+    growthCadence: input.growthCadence
   };
 }

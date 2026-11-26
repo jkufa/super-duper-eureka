@@ -35,10 +35,10 @@ await expect(projection.row(2040)).toContainBalance(1_234_567);
 
 ### Projects
 
-| Project | Target | Port |
-|---|---|---|
+| Project                            | Target               | Port |
+| ---------------------------------- | -------------------- | ---- |
 | `legacy-chromium`, `legacy-mobile` | `apps/webapp-legacy` | 4173 |
-| `app-chromium`, `app-mobile` | `apps/web` | 4174 |
+| `app-chromium`, `app-mobile`       | `apps/web`           | 4174 |
 
 Each pair starts its own web server. The `E2E_SKIP_WEBSERVER` and `E2E_BASE_URL` overrides keep working per target.
 

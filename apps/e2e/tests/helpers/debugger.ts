@@ -1,4 +1,5 @@
-import { expect, type Locator, type Page } from '@playwright/test';
+import { expect } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
 
 export function debuggerPanel(page: Page): Locator {
   return page.getByRole('dialog', { name: 'Debugger' });
@@ -17,6 +18,6 @@ export function stepControls(page: Page) {
     prev: page.getByRole('button', { name: 'Step backward' }),
     input: page.getByRole('textbox', { name: 'Enter step number' }),
     next: page.getByRole('button', { name: 'Step forward' }),
-    last: page.getByRole('button', { name: 'Jump to last step' }),
+    last: page.getByRole('button', { name: 'Jump to last step' })
   };
 }

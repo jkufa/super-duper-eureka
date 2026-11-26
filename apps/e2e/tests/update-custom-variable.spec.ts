@@ -1,10 +1,11 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test } from '@playwright/test';
+import type { Page } from '@playwright/test';
 import {
   addCustomVariableButton,
   customVariableAmountInput,
   customVariableNameInput,
   gotoApp,
-  openCustomVariablesAccordion,
+  openCustomVariablesAccordion
 } from './helpers/custom-variable';
 
 function variableRow(page: Page, name: string) {
@@ -75,8 +76,13 @@ test.describe('Update custom variable form', () => {
     const reopenedEditor = editForm(page);
     await expect(reopenedEditor.locator('#edit-custom-variable-name')).toHaveValue(updatedName);
     await expect(reopenedEditor.locator('#edit-custom-variable-amount')).toHaveValue('19');
-    await expect(reopenedEditor.getByRole('radio', { name: 'Percent %' })).toHaveAttribute('aria-checked', 'true');
-    await expect(reopenedEditor.locator('#edit-custom-variable-timing-natural')).toHaveValue('every feb 13');
+    await expect(reopenedEditor.getByRole('radio', { name: 'Percent %' })).toHaveAttribute(
+      'aria-checked',
+      'true'
+    );
+    await expect(reopenedEditor.locator('#edit-custom-variable-timing-natural')).toHaveValue(
+      'every feb 13'
+    );
     if (hasYearStart) {
       await expect(reopenedEditor.locator('#edit-custom-variable-year-start')).toHaveValue('3');
     }
@@ -120,7 +126,7 @@ test.describe('Update custom variable form', () => {
   test('keeps type selected when clicking the active option in edit mode', async ({ page }) => {
     test.skip(
       test.info().project.name.includes('mobile'),
-      'Custom variable type toggles are out of viewport in mobile layout.',
+      'Custom variable type toggles are out of viewport in mobile layout.'
     );
 
     await gotoApp(page);

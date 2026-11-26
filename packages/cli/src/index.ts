@@ -9,9 +9,9 @@ import {
   buildStepWideEventInput,
   calculateProjection,
   calculateProjectionWithSteps,
-  createWideEventLogger,
-  type RetirementConfig,
+  createWideEventLogger
 } from '@retirement/calculator';
+import type { RetirementConfig } from '@retirement/calculator';
 
 const args = process.argv.slice(2);
 
@@ -50,10 +50,15 @@ let skippedCount = 0;
 
 for (const spec of skipSpecs) {
   const { steps, nextCount } = parseSkipSpec(spec);
-  for (const step of steps) skipSet.add(step);
-  if (nextCount > 0) skipRemaining = Math.max(skipRemaining, nextCount);
+  for (const step of steps) {
+    skipSet.add(step);
+  }
+  if (nextCount > 0) {
+    skipRemaining = Math.max(skipRemaining, nextCount);
+  }
 }
 
+// oxlint-disable-next-line typescript/no-unsafe-type-assertion -- The config file is user input and the calculator has no runtime schema to check it against.
 const config = JSON.parse(readFileSync(configPath, 'utf8')) as RetirementConfig;
 
 if (!debug) {
@@ -64,12 +69,14 @@ if (!debug) {
 
 const baseContext = buildBaseContext({
   service_name: 'retirement-cli',
-  service_version: process.env.npm_package_version,
+  service_version: process.env.npm_package_version
 });
 const logger = createWideEventLogger({ base: baseContext, pretty: !raw });
 
 const startedAt = Date.now();
-const projectionRun = calculateProjectionWithSteps(config, config.interest.annualRate, { includeContributionDetails: true });
+const projectionRun = calculateProjectionWithSteps(config, config.interest.annualRate, {
+  includeContributionDetails: true
+});
 
 const rl = interactive ? createInterface({ input, output }) : null;
 
@@ -89,7 +96,9 @@ for (const step of projectionRun.steps) {
   logger.info(event);
 
   if (interactive && rl) {
-    const answer = await rl.question('Press Enter for next step, or q to quit, or s <n|spec> to skip: ');
+    const answer = await rl.question(
+      'Press Enter for next step, or q to quit, or s <n|spec> to skip: '
+    );
     const trimmed = answer.trim().toLowerCase();
     if (trimmed === 'q') {
       interrupted = true;
@@ -98,8 +107,12 @@ for (const step of projectionRun.steps) {
     if (trimmed.startsWith('s ')) {
       const spec = trimmed.slice(2).trim();
       const { steps, nextCount } = parseSkipSpec(spec);
-      for (const stepIndex of steps) skipSet.add(stepIndex);
-      if (nextCount > 0) skipRemaining = Math.max(skipRemaining, nextCount);
+      for (const stepIndex of steps) {
+        skipSet.add(stepIndex);
+      }
+      if (nextCount > 0) {
+        skipRemaining = Math.max(skipRemaining, nextCount);
+      }
     }
   }
 }
@@ -108,29 +121,26 @@ if (rl) {
   rl.close();
 }
 
-const runEvent = buildRunWideEvent(config, projectionRun, baseContext, {
-  durationMs: Date.now() - startedAt,
-  outcome: 'success',
-});
-if (skipSpecs.length > 0) {
-  (runEvent as Record<string, unknown>).skip = {
-    spec: skipSpecs,
-    skipped_steps: skippedCount,
-  };
-}
-if (interrupted) {
-  (runEvent as Record<string, unknown>).debug_interrupted = true;
-}
+const runEvent = {
+  ...buildRunWideEvent(config, projectionRun, baseContext, {
+    durationMs: Date.now() - startedAt,
+    outcome: 'success'
+  }),
+  ...(skipSpecs.length > 0 && { skip: { spec: skipSpecs, skipped_steps: skippedCount } }),
+  ...(interrupted && { debug_interrupted: true })
+};
 logger.info(runEvent);
 
-function getArgValue(argv: string[], key: string) {
+function getArgValue(argv: Array<string>, key: string) {
   const index = argv.indexOf(key);
-  if (index === -1) return undefined;
+  if (index === -1) {
+    return undefined;
+  }
   return argv[index + 1];
 }
 
-function getArgValues(argv: string[], key: string) {
-  const values: string[] = [];
+function getArgValues(argv: Array<string>, key: string) {
+  const values: Array<string> = [];
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
     const value = argv[i + 1];
@@ -142,20 +152,27 @@ function getArgValues(argv: string[], key: string) {
   return values;
 }
 
-function firstPositional(argv: string[]) {
-  return argv.find(arg => !arg.startsWith('-'));
+function firstPositional(argv: Array<string>) {
+  return argv.find((arg) => !arg.startsWith('-'));
 }
 
-function parseSkipSpec(spec: string): { steps: Set<number>; nextCount: number } {
+function parseSkipSpec(spec: string) {
   const steps = new Set<number>();
   let nextCount = 0;
-  if (!spec) return { steps, nextCount };
+  if (!spec) {
+    return { steps, nextCount };
+  }
 
-  const tokens = spec.split(',').map(token => token.trim()).filter(Boolean);
+  const tokens = spec
+    .split(',')
+    .map((token) => token.trim())
+    .filter(Boolean);
   for (const token of tokens) {
     if (token.startsWith('next:')) {
       const count = Number(token.slice(5));
-      if (Number.isFinite(count) && count > 0) nextCount = Math.max(nextCount, count);
+      if (Number.isFinite(count) && count > 0) {
+        nextCount = Math.max(nextCount, count);
+      }
       continue;
     }
 
@@ -166,15 +183,21 @@ function parseSkipSpec(spec: string): { steps: Set<number>; nextCount: number } 
       if (Number.isFinite(start) && Number.isFinite(end)) {
         const min = Math.min(start, end);
         const max = Math.max(start, end);
-        for (let i = min; i <= max; i++) steps.add(i);
+        for (let i = min; i <= max; i++) {
+          steps.add(i);
+        }
       }
       continue;
     }
 
     const value = Number(token);
-    if (Number.isFinite(value)) steps.add(value);
+    if (Number.isFinite(value)) {
+      steps.add(value);
+    }
   }
 
-  if (!Number.isFinite(nextCount)) nextCount = 0;
+  if (!Number.isFinite(nextCount)) {
+    nextCount = 0;
+  }
   return { steps, nextCount };
 }

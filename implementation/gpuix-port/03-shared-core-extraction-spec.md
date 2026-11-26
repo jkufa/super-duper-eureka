@@ -18,15 +18,15 @@ The shared Svelte components live in a separate package, `packages/ui`, which th
 
 Move these from `apps/webapp-legacy/src/lib`, with their tests. The legacy app then imports them from the package, and nothing else in legacy changes.
 
-| From | Lines |
-|---|---|
-| `forms/retirement-config-form.ts` and its test | 249 |
-| `forms/frequency-nlp/` and its test | 259 |
-| `components/form/custom-variable-editor-actions.ts` and its test | 192 |
-| `components/form/custom-variable-editor-model.ts` | 111 |
-| `components/form/custom-variable-editor-state.ts` | 101 |
-| `components/form/custom-variable-timing-controller.ts` | 69 |
-| `formatters.ts` | 26 |
+| From                                                             | Lines |
+| ---------------------------------------------------------------- | ----- |
+| `forms/retirement-config-form.ts` and its test                   | 249   |
+| `forms/frequency-nlp/` and its test                              | 259   |
+| `components/form/custom-variable-editor-actions.ts` and its test | 192   |
+| `components/form/custom-variable-editor-model.ts`                | 111   |
+| `components/form/custom-variable-editor-state.ts`                | 101   |
+| `components/form/custom-variable-timing-controller.ts`           | 69    |
+| `formatters.ts`                                                  | 26    |
 
 `custom-variable-editor-state.ts` imports `@internationalized/date` for the calendar. The new app has no calendar. Replace its `DateValue` use with a plain `{ year, month, day }` type inside the package, and convert at the edge in the legacy calendar component.
 

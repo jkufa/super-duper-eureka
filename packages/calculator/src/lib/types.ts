@@ -53,12 +53,18 @@ export interface ContributionTimingAnnual {
   placement?: 'start' | 'end';
 }
 
-export type ContributionTiming
-  = | ContributionTimingOneTime
-    | ContributionTimingMonthly
-    | ContributionTimingAnnual;
+export type ContributionTiming =
+  | ContributionTimingOneTime
+  | ContributionTimingMonthly
+  | ContributionTimingAnnual;
 
-export type SalaryBasis = 'annual' | 'monthly' | 'biweekly' | 'weekly' | 'daily' | 'perContribution';
+export type SalaryBasis =
+  | 'annual'
+  | 'monthly'
+  | 'biweekly'
+  | 'weekly'
+  | 'daily'
+  | 'perContribution';
 export interface ContributionGrowth {
   type: 'percent' | 'flat';
   /** Percent points if type='percent'; currency/absolute units if type='flat'. */
@@ -91,7 +97,7 @@ export interface RetirementConfig {
   /** Salary assumptions, required for salaryPercent contributions */
   salary: SalaryConfig;
   /** Contribution rules */
-  contributions: ContributionRule[];
+  contributions: Array<ContributionRule>;
 }
 
 interface BaseProjection {
@@ -117,8 +123,8 @@ export interface Projection {
   finalBalance: number;
   totalContributions: number;
   totalGrowth: number;
-  yearlyProjections: AnnualProjection[];
-  monthlyProjections: MonthlyProjection[];
+  yearlyProjections: Array<AnnualProjection>;
+  monthlyProjections: Array<MonthlyProjection>;
 }
 
 export type ProjectionByVariance = Record<'baseline' | 'positive' | 'negative', Projection>;

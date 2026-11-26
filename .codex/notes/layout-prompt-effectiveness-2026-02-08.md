@@ -7,8 +7,8 @@ Date: 2026-02-08
 1. `help me fix the layout in +page.svelte. I want two columns that are independently scrollable`
 2. `Looks good; I made some tweaks to get it closer to what I want. Next step is determining the breakpoint that the columns stack. when the chart/table column is around 668px the table stops shrinking.
 
-1. Use e2e to find the exact size the table stops shrinking, get the viewport, and extrapolate that into a --breakpoint-* tailwindcss variable`
-3. `tailwind docs on theme variables: https://tailwindcss.com/docs/theme`
+3. Use e2e to find the exact size the table stops shrinking, get the viewport, and extrapolate that into a --breakpoint-* tailwindcss variable`
+4. `tailwind docs on theme variables: https://tailwindcss.com/docs/theme`
 
 ## Why These Prompts Worked Well
 

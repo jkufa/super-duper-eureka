@@ -1,4 +1,5 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test } from '@playwright/test';
+import type { Page } from '@playwright/test';
 import {
   addCustomVariableButton,
   customVariableAccordionTrigger,
@@ -6,7 +7,7 @@ import {
   customVariableForm,
   customVariableNameInput,
   gotoApp,
-  openCustomVariablesAccordion,
+  openCustomVariablesAccordion
 } from './helpers/custom-variable';
 
 function customVariableSection(page: Page) {
@@ -92,7 +93,10 @@ test.describe('Add custom variable form', () => {
     await expect(page.getByRole('heading', { name: 'Edit custom variable' })).toHaveCount(0);
     await openCustomVariablesAccordion(page);
 
-    const editedRow = page.locator('div.group').filter({ has: page.getByText(updatedName) }).first();
+    const editedRow = page
+      .locator('div.group')
+      .filter({ has: page.getByText(updatedName) })
+      .first();
     await expect(editedRow).toBeVisible();
     await expect(editedRow.locator('input[type="number"]').first()).toHaveValue('22');
   });
@@ -102,22 +106,37 @@ test.describe('Add custom variable form', () => {
 
     await customVariableSection(page).getByRole('button', { name: 'Growth (optional)' }).click();
     await expect(customVariableSection(page).getByText('Growth (optional)').first()).toBeVisible();
-    await expect(customVariableSection(page).locator('input[name="customVariableDraft.growthAmount"]:visible')).toBeVisible();
-    await expect(customVariableGrowthSection(page).getByRole('radio', { name: 'Amount $' }).last()).toBeVisible();
-    await expect(customVariableGrowthSection(page).getByRole('radio', { name: 'Annually' })).toBeVisible();
+    await expect(
+      customVariableSection(page).locator('input[name="customVariableDraft.growthAmount"]:visible')
+    ).toBeVisible();
+    await expect(
+      customVariableGrowthSection(page).getByRole('radio', { name: 'Amount $' }).last()
+    ).toBeVisible();
+    await expect(
+      customVariableGrowthSection(page).getByRole('radio', { name: 'Annually' })
+    ).toBeVisible();
   });
 
-  test('keeps Raise by icon and input padding aligned when switching growth type', async ({ page }) => {
+  test('keeps Raise by icon and input padding aligned when switching growth type', async ({
+    page
+  }) => {
     await gotoApp(page);
 
     await customVariableSection(page).getByRole('button', { name: 'Growth (optional)' }).click();
-    const growthAmountInput = page.locator('input[name="customVariableDraft.growthAmount"]:visible').first();
+    const growthAmountInput = page
+      .locator('input[name="customVariableDraft.growthAmount"]:visible')
+      .first();
     await expect(growthAmountInput).toBeVisible();
 
-    const growthInputWrapper = growthAmountInput.locator('xpath=ancestor::div[contains(@class,"relative")]').first();
+    const growthInputWrapper = growthAmountInput
+      .locator('xpath=ancestor::div[contains(@class,"relative")]')
+      .first();
     await expect(growthInputWrapper.locator('span.right-3')).toHaveText('%');
 
-    await customVariableSection(page).getByRole('radio', { name: 'Amount $' }).last().click({ force: true });
+    await customVariableSection(page)
+      .getByRole('radio', { name: 'Amount $' })
+      .last()
+      .click({ force: true });
     await growthAmountInput.fill('123');
 
     await expect(growthInputWrapper.locator('span.left-3')).toHaveText('$');
@@ -130,7 +149,7 @@ test.describe('Add custom variable form', () => {
   test('does not clear selected type when clicking the active option', async ({ page }) => {
     test.skip(
       test.info().project.name.includes('mobile'),
-      'Custom variable type toggles are out of viewport in mobile layout.',
+      'Custom variable type toggles are out of viewport in mobile layout.'
     );
 
     await gotoApp(page);

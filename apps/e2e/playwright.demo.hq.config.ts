@@ -8,12 +8,12 @@ export default {
     ...baseConfig.use,
     video: {
       mode: 'on',
-      size: { width: 1920, height: 1080 },
+      size: { width: 1920, height: 1080 }
     },
     viewport: { width: 1920, height: 1080 },
     launchOptions: {
       ...(baseConfig.use?.launchOptions ?? {}),
-      slowMo: 120,
-    },
-  },
+      slowMo: 120
+    }
+  }
 };

@@ -50,6 +50,7 @@ Do this before running the migrator, so a Vite 8 break shows up as a Vite 8 brea
 ### 5. Finish the lint and format swap
 
 - Put the `lint` and `fmt` blocks in the root `vite.config.ts`. Do not add per-package blocks.
+- The `lint` block extends [`@cloudflare/oxlint-config`](https://github.com/cloudflare/oxlint-config) through its `/vite-plus` entry, with `env` and `ignorePatterns` taken from the preset as its README shows. Pin the exact version. Fix what it reports. Turn a rule off only with a one-line reason next to it.
 - Remove ESLint, `@jkufa/eslint`, `typescript-eslint`, `@stylistic/eslint-plugin`, `eslint-config-prettier`, `@eslint/compat`, Prettier and its two plugins, every `eslint.config.js` and `.prettierrc`.
 - Turn on Oxfmt's `svelte` option. Carry over the web app's Prettier settings for the whole repo: single quotes, no trailing commas, width 100, spaces.
 - Reformat everything once in a commit that contains nothing else. The packages move from the stylistic style to Oxfmt's, so this diff touches most TS files.
@@ -65,14 +66,14 @@ Do this before running the migrator, so a Vite 8 break shows up as a Vite 8 brea
 
 Define tasks in `run.tasks` in the root `vite.config.ts` so they cache. Replace the root `package.json` scripts with `vp run` calls.
 
-| Task | Command | Notes |
-|---|---|---|
-| `build` | per package | depends on the build of workspace dependencies |
-| `test` | `vp test` | |
-| `check` | `svelte-kit sync && svelte-check` in the web app | `vp check` covers lint, format and TS, not `.svelte` types |
-| `e2e` | `playwright test` | `cache: false` |
-| `retirement-calc` | `bun run packages/cli/src/index.ts` | stays on the Bun runtime, `cache: false` |
-| `dev` | per app | `cache: false` |
+| Task              | Command                                          | Notes                                                      |
+| ----------------- | ------------------------------------------------ | ---------------------------------------------------------- |
+| `build`           | per package                                      | depends on the build of workspace dependencies             |
+| `test`            | `vp test`                                        |                                                            |
+| `check`           | `svelte-kit sync && svelte-check` in the web app | `vp check` covers lint, format and TS, not `.svelte` types |
+| `e2e`             | `playwright test`                                | `cache: false`                                             |
+| `retirement-calc` | `bun run packages/cli/src/index.ts`              | stays on the Bun runtime, `cache: false`                   |
+| `dev`             | per app                                          | `cache: false`                                             |
 
 The packages keep building with `tsc --build`. Moving them to `vp pack` is optional and not part of this spec.
 

@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vite-plus/test';
 
 import { createRandomSeed, createSeededRandom, generateRandomRetirementConfig } from '../random';
 
@@ -15,8 +15,8 @@ describe('random config generation', () => {
   it('is deterministic for a given seed', () => {
     setSystemTime('2026-01-01T00:00:00.000Z');
 
-    const configA = generateRandomRetirementConfig(123456);
-    const configB = generateRandomRetirementConfig(123456);
+    const configA = generateRandomRetirementConfig(123_456);
+    const configB = generateRandomRetirementConfig(123_456);
 
     expect(configA).toEqual(configB);
     resetTimers();
@@ -37,8 +37,8 @@ describe('random config generation', () => {
 
     const config = generateRandomRetirementConfig(7890);
 
-    expect(config.salary.annualBase).toBeGreaterThanOrEqual(25000);
-    expect(config.salary.annualBase).toBeLessThanOrEqual(250000);
+    expect(config.salary.annualBase).toBeGreaterThanOrEqual(25_000);
+    expect(config.salary.annualBase).toBeLessThanOrEqual(250_000);
     expect(config.currentBalance).toBeGreaterThanOrEqual(0);
     expect(config.currentBalance).toBeLessThanOrEqual(2_000_000);
 
@@ -52,7 +52,7 @@ describe('random config generation', () => {
     let sawSubset = false;
     for (let seed = 1; seed <= 100; seed += 1) {
       const config = generateRandomRetirementConfig(seed);
-      const sortedIds = config.contributions.map(rule => rule.id).sort();
+      const sortedIds = config.contributions.map((rule) => rule.id).sort();
       contributionSets.add(sortedIds.join(','));
       if (config.contributions.length < 12) {
         sawSubset = true;
@@ -71,7 +71,9 @@ describe('random config generation', () => {
     for (let seed = 1; seed <= 100; seed += 1) {
       const config = generateRandomRetirementConfig(seed);
       for (const rule of config.contributions) {
-        if (rule.type !== 'salaryPercent') continue;
+        if (rule.type !== 'salaryPercent') {
+          continue;
+        }
         expect(rule.amount).toBeCloseTo(Number(rule.amount.toFixed(2)), 12);
       }
     }
@@ -82,8 +84,8 @@ describe('random config generation', () => {
   it('applies expected rounding for seed 918326173 percent contributions', () => {
     setSystemTime('2026-01-01T00:00:00.000Z');
 
-    const config = generateRandomRetirementConfig(918326173);
-    const employee401k = config.contributions.find(rule => rule.id === '401k-employee');
+    const config = generateRandomRetirementConfig(918_326_173);
+    const employee401k = config.contributions.find((rule) => rule.id === '401k-employee');
 
     expect(employee401k?.type).toBe('salaryPercent');
     expect(employee401k?.amount).toBe(11.96);

@@ -9,7 +9,7 @@ export default {
     video: 'on',
     launchOptions: {
       ...(baseConfig.use?.launchOptions ?? {}),
-      slowMo: 180,
-    },
-  },
+      slowMo: 180
+    }
+  }
 };

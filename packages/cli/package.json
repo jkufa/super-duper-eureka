@@ -1,15 +1,12 @@
 {
   "name": "@retirement/cli",
-  "type": "module",
   "private": true,
   "bin": {
     "retirement-calc": "src/index.ts"
   },
+  "type": "module",
   "scripts": {
-    "test": "echo 'no tests'",
-    "lint": "eslint",
-    "format": "eslint --fix",
-    "build": "tsc --build"
+    "test": "echo 'no tests'"
   },
   "dependencies": {
     "@retirement/calculator": "workspace:*"

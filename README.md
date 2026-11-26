@@ -12,13 +12,14 @@ It includes:
 ## Tech Stack
 
 - Runtime/package manager: Bun
+- Toolchain: Vite+ (`vp`) for tasks, tests, linting (Oxlint) and formatting (Oxfmt)
 - App framework: SvelteKit + TypeScript
-- Unit testing: Vitest
+- Unit testing: Vitest, through `vp test`
 - E2E testing: Playwright
 
 ## Repository Layout
 
-- `apps/webapp`: main UI application
+- `apps/webapp-legacy`: main UI application
 - `apps/e2e`: Playwright end-to-end test suite
 - `packages/calculator`: core retirement projection engine
 - `packages/cli`: command-line interface (`retirement-calc`)
@@ -31,71 +32,71 @@ It includes:
 1. Install dependencies:
 
 ```bash
-bun install
+vp install
 ```
 
-1. Run all workspace dev processes:
+1. Start the legacy web app's dev server:
 
 ```bash
-bun run dev
+vp run dev
 ```
 
-1. Build all workspaces:
+1. Build all packages in dependency order (cached):
 
 ```bash
-bun run build
+vp run build
 ```
 
 ## Common Commands
 
-- Run non-e2e tests:
+- Run unit tests:
 
 ```bash
-bun run test
+vp test
+```
+
+- Format check, lint and type check the repo:
+
+```bash
+vp check
+```
+
+- Apply formatting and lint fixes:
+
+```bash
+vp check --fix
 ```
 
 - Run e2e tests:
 
 ```bash
-bun run e2e
+vp run e2e
 ```
 
 - Run e2e tests in debugger mode:
 
 ```bash
-bun run e2e:debugger
-```
-
-- Lint all workspaces:
-
-```bash
-bun run lint
-```
-
-- Format all workspaces:
-
-```bash
-bun run format
+vp run e2e:debugger
 ```
 
 ## Webapp Validation Flow
 
-For changes in `apps/webapp`, run:
+For changes in `apps/webapp-legacy`, run:
 
-1. `bun run --filter webapp check`
-2. `bun run --filter webapp lint`
-3. If formatting is required: `bun run --filter webapp format`, then re-run check + lint
+1. `vp run webapp-legacy#check` (`svelte-check`, covers `.svelte` files)
+2. `vp check`
+3. If formatting or lint fixes are needed: `vp check --fix`, then re-run both
 
 ## CLI Usage
 
-Run the CLI from workspace scripts:
+Run the CLI on the Bun runtime:
 
 ```bash
-bun run retirement-calc --config packages/cli/examples/basic.json
+vp run retirement-calc --config packages/cli/examples/basic.json
 ```
 
 Example with debug output:
 
 ```bash
-bun run retirement-calc --config packages/cli/examples/daily-debug.json --debug
+vp run retirement-calc --config packages/cli/examples/daily-debug.json --debug
 ```

@@ -2,9 +2,9 @@ import { defineConfig, devices } from '@playwright/test';
 
 const baseURL = process.env.E2E_BASE_URL ?? 'http://127.0.0.1:4173';
 const skipWebServer = process.env.E2E_SKIP_WEBSERVER === '1';
-const webServerCommand
-  = process.env.E2E_WEBSERVER_COMMAND
-    ?? 'cd ../webapp && bun run dev -- --host 127.0.0.1 --port 4173 --strictPort';
+const webServerCommand =
+  process.env.E2E_WEBSERVER_COMMAND ??
+  'cd ../webapp-legacy && bun run vp dev --host 127.0.0.1 --port 4173 --strictPort';
 
 export default defineConfig({
   testDir: './tests',
@@ -17,17 +17,17 @@ export default defineConfig({
     baseURL,
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
+    video: 'retain-on-failure'
   },
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { ...devices['Desktop Chrome'] }
     },
     {
       name: 'chromium-mobile',
-      use: { ...devices['Pixel 5'] },
-    },
+      use: { ...devices['Pixel 5'] }
+    }
   ],
   webServer: skipWebServer
     ? undefined
@@ -37,6 +37,6 @@ export default defineConfig({
         timeout: 120_000,
         reuseExistingServer: !process.env.CI,
         stdout: 'pipe',
-        stderr: 'pipe',
-      },
+        stderr: 'pipe'
+      }
 });

@@ -1,8 +1,8 @@
-import { describe, expect, test } from 'vitest';
+import { describe, expect, test } from 'vite-plus/test';
 import {
   CUSTOM_VARIABLE_VALIDATION_ERRORS,
   normalizeCustomVariableInput,
-  validateCustomVariableInput,
+  validateCustomVariableInput
 } from '../utils/custom-variable';
 
 describe('custom-variable domain utils', () => {
@@ -14,14 +14,14 @@ describe('custom-variable domain utils', () => {
         yearStart: 0,
         yearEnd: 10,
         growthEnabled: true,
-        growthAmount: 2,
+        growthAmount: 2
       },
       {
         frequency: 'annual',
         day: 15,
         month: 2,
-        year: 2026,
-      },
+        year: 2026
+      }
     );
 
     expect(error).toBeNull();
@@ -36,10 +36,10 @@ describe('custom-variable domain utils', () => {
           yearStart: 0,
           yearEnd: 1,
           growthEnabled: false,
-          growthAmount: 0,
+          growthAmount: 0
         },
-        { frequency: 'monthly', day: 1, month: 1, year: 2026 },
-      ),
+        { frequency: 'monthly', day: 1, month: 1, year: 2026 }
+      )
     ).toBe(CUSTOM_VARIABLE_VALIDATION_ERRORS.nameRequired);
 
     expect(
@@ -50,10 +50,10 @@ describe('custom-variable domain utils', () => {
           yearStart: 0,
           yearEnd: 1,
           growthEnabled: false,
-          growthAmount: 0,
+          growthAmount: 0
         },
-        { frequency: 'monthly', day: 1, month: 1, year: 2026 },
-      ),
+        { frequency: 'monthly', day: 1, month: 1, year: 2026 }
+      )
     ).toBe(CUSTOM_VARIABLE_VALIDATION_ERRORS.amountInvalid);
 
     expect(
@@ -64,10 +64,10 @@ describe('custom-variable domain utils', () => {
           yearStart: 3,
           yearEnd: 1,
           growthEnabled: false,
-          growthAmount: 0,
+          growthAmount: 0
         },
-        { frequency: 'monthly', day: 1, month: 1, year: 2026 },
-      ),
+        { frequency: 'monthly', day: 1, month: 1, year: 2026 }
+      )
     ).toBe(CUSTOM_VARIABLE_VALIDATION_ERRORS.yearRangeInvalid);
 
     expect(
@@ -78,10 +78,10 @@ describe('custom-variable domain utils', () => {
           yearStart: 0,
           yearEnd: 1,
           growthEnabled: false,
-          growthAmount: 0,
+          growthAmount: 0
         },
-        { frequency: 'monthly', day: 0, month: 1, year: 2026 },
-      ),
+        { frequency: 'monthly', day: 0, month: 1, year: 2026 }
+      )
     ).toBe(CUSTOM_VARIABLE_VALIDATION_ERRORS.dayInvalid);
 
     expect(
@@ -92,10 +92,10 @@ describe('custom-variable domain utils', () => {
           yearStart: 0,
           yearEnd: 1,
           growthEnabled: false,
-          growthAmount: 0,
+          growthAmount: 0
         },
-        { frequency: 'annual', day: 2, month: 13, year: 2026 },
-      ),
+        { frequency: 'annual', day: 2, month: 13, year: 2026 }
+      )
     ).toBe(CUSTOM_VARIABLE_VALIDATION_ERRORS.monthInvalid);
 
     expect(
@@ -106,10 +106,10 @@ describe('custom-variable domain utils', () => {
           yearStart: 0,
           yearEnd: 1,
           growthEnabled: false,
-          growthAmount: 0,
+          growthAmount: 0
         },
-        { frequency: 'oneTime', day: 2, month: 2, year: 3000 },
-      ),
+        { frequency: 'oneTime', day: 2, month: 2, year: 3000 }
+      )
     ).toBe(CUSTOM_VARIABLE_VALIDATION_ERRORS.yearInvalid);
 
     expect(
@@ -120,10 +120,10 @@ describe('custom-variable domain utils', () => {
           yearStart: 0,
           yearEnd: 1,
           growthEnabled: true,
-          growthAmount: -0.5,
+          growthAmount: -0.5
         },
-        { frequency: 'monthly', day: 2, month: 2, year: 2026 },
-      ),
+        { frequency: 'monthly', day: 2, month: 2, year: 2026 }
+      )
     ).toBe(CUSTOM_VARIABLE_VALIDATION_ERRORS.growthAmountInvalid);
   });
 
@@ -140,14 +140,14 @@ describe('custom-variable domain utils', () => {
         growthEnabled: true,
         growthType: 'percent',
         growthAmount: -4,
-        growthCadence: 'annual',
+        growthCadence: 'annual'
       },
       {
         frequency: 'oneTime',
         day: 40.2,
         month: 0,
-        year: 2500,
-      },
+        year: 2500
+      }
     );
 
     expect(normalized).toEqual({
@@ -165,7 +165,7 @@ describe('custom-variable domain utils', () => {
       growthEnabled: true,
       growthType: 'percent',
       growthAmount: 0,
-      growthCadence: 'annual',
+      growthCadence: 'annual'
     });
   });
 
@@ -181,7 +181,7 @@ describe('custom-variable domain utils', () => {
       growthEnabled: false,
       growthType: 'percent' as const,
       growthAmount: 0,
-      growthCadence: 'annual' as const,
+      growthCadence: 'annual' as const
     };
     const timing = { frequency: 'monthly' as const, month: 1, year: 2026 };
 

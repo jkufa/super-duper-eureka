@@ -1,3 +1,9 @@
 {
-  "extends": "../../tsconfig.base.json"
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    // page.evaluate and addInitScript callbacks run in the browser.
+    "lib": ["ESNext", "DOM"],
+    // The Playwright configs read process.env.
+    "types": ["node"]
+  }
 }

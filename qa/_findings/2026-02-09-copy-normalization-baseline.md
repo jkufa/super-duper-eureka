@@ -75,21 +75,21 @@ Use these terms consistently and avoid synonyms unless meaning is actually diffe
 
 ## 7) Findings-to-Rule Traceability
 
-| Finding ID | Issue Summary | Rule(s) That Resolve It |
-| --- | --- | --- |
-| 1 | Heading capitalization mismatch | 1 |
-| 2 | `currentBalance` named 3 ways | 2, 4 |
-| 3 | Message conflicts with `min(0)` | 4 |
-| 4 | rules vs variables terminology drift | 2, 5 |
-| 5 | Abbreviation inconsistency | 3 |
-| 6 | `Compound` vs `compounding` grammar | 2 |
-| 7 | Adjacent case style shifts | 1 |
-| 8 | Add-variable CTA mismatch | 5 |
-| 9 | Percent/amount label pattern drift | 3 |
-| 10 | Value/balance/investments drift | 2 |
-| 11 | Debugger case style mixed | 1 |
-| 12 | Copy labels fragmented | 5 |
-| 13 | Product naming tone mismatch | 6 |
+| Finding ID | Issue Summary                        | Rule(s) That Resolve It |
+| ---------- | ------------------------------------ | ----------------------- |
+| 1          | Heading capitalization mismatch      | 1                       |
+| 2          | `currentBalance` named 3 ways        | 2, 4                    |
+| 3          | Message conflicts with `min(0)`      | 4                       |
+| 4          | rules vs variables terminology drift | 2, 5                    |
+| 5          | Abbreviation inconsistency           | 3                       |
+| 6          | `Compound` vs `compounding` grammar  | 2                       |
+| 7          | Adjacent case style shifts           | 1                       |
+| 8          | Add-variable CTA mismatch            | 5                       |
+| 9          | Percent/amount label pattern drift   | 3                       |
+| 10         | Value/balance/investments drift      | 2                       |
+| 11         | Debugger case style mixed            | 1                       |
+| 12         | Copy labels fragmented               | 5                       |
+| 13         | Product naming tone mismatch         | 6                       |
 
 ## 8) Definition of Done for Chunk 1
 
