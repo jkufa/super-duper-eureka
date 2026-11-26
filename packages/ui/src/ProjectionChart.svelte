@@ -48,7 +48,12 @@
       column.x + 12 + TOOLTIP_WIDTH > geometry.width
         ? column.x - 12 - TOOLTIP_WIDTH
         : column.x + 12;
-    return { left: Math.max(0, x), top: Math.max(0, top - 20) };
+    // Rows of 16px with 2px gaps, plus 12px of padding and 2px of border, as the styles below set.
+    const rows = column.marks.length + 1;
+    const tooltipHeight = rows * 16 + (rows - 1) * 2 + 14;
+    // Keep the whole box inside the chart, which clips its overflow.
+    const y = Math.min(top - 20, geometry.height - tooltipHeight);
+    return { left: Math.max(0, x), top: Math.max(0, y) };
   });
 
   type Layout = { x?: number; y?: number; width?: number; height?: number };
