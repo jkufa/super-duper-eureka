@@ -1,0 +1,33 @@
+{
+  // The desktop type check: the entry, the window root and the shared components in packages/ui,
+  // typed as GPUI markup (gpuixHTML). `customConditions` resolves gpuix-svelte to its GPUI entry.
+  "compilerOptions": {
+    "target": "esnext",
+    "lib": ["esnext"],
+    "module": "preserve",
+    "moduleResolution": "bundler",
+    "customConditions": ["custom-renderer", "development"],
+    "types": ["bun", "gpuix-svelte/html"],
+    "strict": true,
+    "allowJs": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "skipLibCheck": true,
+    // Type everything against the Svelte build gpuix-svelte bundles, which the window runs on, and not
+    // the registry copy Bun hoists for apps/web. TypeScript takes the first path that exists: the first
+    // is gpuix-svelte installed for this app, the second gpuix-svelte hoisted to the workspace root.
+    "paths": {
+      "svelte": [
+        "./node_modules/gpuix-svelte/node_modules/svelte",
+        "../../node_modules/gpuix-svelte/node_modules/svelte"
+      ],
+      "svelte/*": [
+        "./node_modules/gpuix-svelte/node_modules/svelte/*",
+        "../../node_modules/gpuix-svelte/node_modules/svelte/*"
+      ]
+    }
+  },
+  "svelteOptions": { "namespace": "gpuixHTML" },
+  "include": ["app.ts", "src", "vite.config.ts", "svelte.config.js", "../../packages/ui/src"]
+}
