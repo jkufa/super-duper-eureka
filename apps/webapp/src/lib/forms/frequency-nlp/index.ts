@@ -11,7 +11,8 @@ export interface ParseCustomVariableTimingOptions {
 
 export interface ParsedCustomVariableTiming {
   frequency: CustomVariableFrequency;
-  day: number;
+  /** Always set by the parser; omitted only for structured input with no chosen day. */
+  day?: number;
   month: number;
   year: number;
   yearStart: number;

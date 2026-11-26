@@ -36,7 +36,6 @@
       ...variable,
       timingInputMode: variable.timingInputMode ?? 'hybrid',
       timingNaturalText: variable.timingNaturalText ?? '',
-      timingDay: variable.timingDay ?? 1,
       timingMonth: variable.timingMonth ?? 1,
       timingYear: variable.timingYear ?? currentYear,
       growthEnabled: variable.growthEnabled ?? false,

@@ -50,6 +50,36 @@
   - what changed and why, test evidence, and UI screenshots/videos where relevant.
   - linked/updated docs in `implementation/` or `qa/` when behavior or rollout status changes.
 
+## gpuix Port Migration
+
+Specs live in `implementation/gpuix-port/`. Read its `README.md` first, then the spec for the step you are on.
+
+### Branches
+
+- `gpuix-port` is the long-running integration branch for the migration. It was cut from `main`.
+- Open every migration PR against `gpuix-port`, not `main`. Stacked PRs may target the PR below them, as long as the bottom of the stack targets `gpuix-port`.
+- `gpuix-port` merges into `main` once, at cutover (step 6). Merge `main` into `gpuix-port` when it needs fixes landed on `main`.
+
+### Models
+
+- Orchestration agent: Fable 5.2.
+- Implementation agents: Opus 5.5.
+- Code review agents: GPT 6.2 Sol when the work under review is low or medium effort, GPT 6.2 Astra when it is high effort. The orchestrator states the effort level when it hands work to review.
+
+### Code Review Log
+
+- Review agents keep running notes in `implementation/gpuix-port/code-review-log.md`. Record code smells and habits the implementers show, one entry per finding.
+- Before adding an entry, search the log for the same problem. If it has happened before, add a guideline under "Lessons From Review" below so later agents stop repeating it, and mark the log entries as promoted.
+- Only PR review agents read or write the log. Orchestration and implementation agents do not open it. They get its lessons through this file.
+
+### Lessons From Review
+
+None yet. Review agents add one bullet per recurring problem, phrased as an instruction.
+
+### Finishing Work
+
+- When work is finished, end the report with 1 to 3 next steps.
+
 ## Agent Notes
 
 - Add brief working notes in `.codex/notes/` for substantial problems/solutions.

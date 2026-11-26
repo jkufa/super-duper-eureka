@@ -6,7 +6,7 @@ const customVariableTimingSchema = z.object({
   placement: z.enum(['start', 'end']),
   timingInputMode: z.enum(['structured', 'naturalLanguage', 'hybrid']),
   timingNaturalText: z.string(),
-  timingDay: z.coerce.number().int().min(1).max(31),
+  timingDay: z.coerce.number().int().min(1).max(31).optional(),
   timingMonth: z.coerce.number().int().min(1).max(12),
   timingYear: z.coerce.number().int().min(2000).max(2200),
 });
@@ -78,8 +78,8 @@ export function toRetirementConfigFormDefaults(config: RetirementConfig): Retire
     placement: 'end' as const,
     timingInputMode: 'hybrid' as const,
     timingNaturalText: '',
-    timingDay: 1,
-    timingMonth: 1,
+    timingDay: undefined,
+    timingMonth: now.getMonth() + 1,
     timingYear: now.getFullYear(),
     yearStart: 0,
     yearEnd: config.timeHorizonYears,
@@ -112,7 +112,7 @@ export function toRetirementConfigFormDefaults(config: RetirementConfig): Retire
           placement: 'start' as const,
           timingInputMode: 'hybrid' as const,
           timingNaturalText: '',
-          timingDay: rule.timing.on.day ?? 1,
+          timingDay: rule.timing.on.day,
           timingMonth: rule.timing.on.month + 1,
           timingYear: startYear + oneTimeYear,
           yearStart: oneTimeYear,
@@ -134,7 +134,7 @@ export function toRetirementConfigFormDefaults(config: RetirementConfig): Retire
           placement: rule.timing.placement ?? 'start',
           timingInputMode: 'hybrid' as const,
           timingNaturalText: '',
-          timingDay: rule.timing.day ?? 1,
+          timingDay: rule.timing.day,
           timingMonth: rule.timing.month + 1,
           timingYear: startYear,
           yearStart,
@@ -155,7 +155,7 @@ export function toRetirementConfigFormDefaults(config: RetirementConfig): Retire
         placement: rule.timing.placement ?? 'start',
         timingInputMode: 'hybrid' as const,
         timingNaturalText: '',
-        timingDay: rule.timing.day ?? 1,
+        timingDay: rule.timing.day,
         timingMonth: 1,
         timingYear: startYear,
         yearStart,
@@ -180,7 +180,10 @@ export function applyRetirementConfigFormValues(
   const nextContributions = values.customVariables.map((item) => {
     const yearStart = Math.max(0, Math.trunc(toNumberOr(item.yearStart, 0)));
     const yearEnd = Math.max(yearStart, Math.trunc(toNumberOr(item.yearEnd, baseConfig.timeHorizonYears)));
-    const day = Math.max(1, Math.min(31, Math.trunc(toNumberOr(item.timingDay, 1))));
+    // Only emit a day the user actually chose; otherwise placement drives start/end of month.
+    const day = item.timingDay === undefined
+      ? undefined
+      : Math.max(1, Math.min(31, Math.trunc(toNumberOr(item.timingDay, 1))));
     const monthIndex = Math.max(0, Math.min(11, Math.trunc(toNumberOr(item.timingMonth, 1)) - 1));
     const absoluteYear = Math.trunc(toNumberOr(item.timingYear, startYear));
     const relativeYear = Math.max(0, absoluteYear - startYear);
