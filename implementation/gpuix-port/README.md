@@ -56,6 +56,10 @@ I did not get to these in the interview. Each has the default the specs assume.
 - `IS_GPUIX` branches inside a component. Whole-file platform differences are adapters that each app passes into the shared root.
 - The upstream demo keeps apps and components in one package. Splitting them across a Bun workspace is untested upstream, and the spike's Q1 has to prove it.
 
+## Branch
+
+All migration work lands on `gpuix-port`, a long-running branch cut from `main`. PRs target it, not `main`. It merges into `main` once, at cutover.
+
 ## Layout
 
 ```

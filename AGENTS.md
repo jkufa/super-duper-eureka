@@ -54,6 +54,12 @@
 
 Specs live in `implementation/gpuix-port/`. Read its `README.md` first, then the spec for the step you are on.
 
+### Branches
+
+- `gpuix-port` is the long-running integration branch for the migration. It was cut from `main`.
+- Open every migration PR against `gpuix-port`, not `main`. Stacked PRs may target the PR below them, as long as the bottom of the stack targets `gpuix-port`.
+- `gpuix-port` merges into `main` once, at cutover (step 6). Merge `main` into `gpuix-port` when it needs fixes landed on `main`.
+
 ### Models
 
 - Orchestration agent: Fable 5.2.
