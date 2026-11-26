@@ -25,7 +25,7 @@ The repo runs on Vite+ (`vp`) with Bun as the package manager. Tasks are defined
 - `vp run web#dev` / `vp run web#build`: the new web app's dev server and build.
 - `vp run desktop#dev`: open the desktop window, hot-reloading `apps/desktop/src` and `packages/ui/src`.
 - `vp run web#check` / `vp run desktop#check`: `svelte-check` for each target, both over `packages/ui/src`.
-- `vp run check`: `vp check` followed by the `check` task of `webapp-legacy`, `web` and `desktop`.
+- `vp run check`: `vp check`, then `scripts/check-kit-deps.ts`, then the `check` task of `webapp-legacy`, `web` and `desktop`. The script fails when an app's server output would load a different copy of a Kit runtime dependency (`cookie`, `devalue`, ...) than its Kit resolves. Fix that by adding the dependency to the app with Kit's range.
 - `vp lint` / `vp fmt`: lint or format on their own. `vp check --fix` applies fixes from both.
 - `vp run e2e` / `vp run e2e:debugger` / `vp run e2e:ui`: Playwright suites (never cached).
 - `vp run retirement-calc --config <file>`: run the CLI on the Bun runtime.
