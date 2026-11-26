@@ -11,6 +11,11 @@ the evidence below is the corrected one: Svelte type resolution under criterion 
 criterion 4, markup-only components under criterion 5, the shared-module restart notice under
 criterion 6, and the broken legacy build under "Kit runtime dependencies" in "Install layout".
 
+Review round 2 found three more, also fixed: `scripts/check-kit-deps.ts` compared directories and
+crawled Kit's source (see "Kit runtime dependencies"), the desktop `svelte/*` path mapping also
+caught `svelte/package.json` (criterion 2), and the guard knew Svelte only by a directory named
+`svelte` (criterion 4).
+
 Layout: `apps/web` (package `web`), `apps/desktop` (package `desktop`), `packages/ui` (`@retirement/ui`).
 The shared root is `packages/ui/src/App.svelte`. It takes a `platform` prop, which each app builds in its own
 `platform.ts`. `packages/ui/src/BalanceSummary.svelte` imports `@retirement/calculator` and shows a 30-year
@@ -62,12 +67,23 @@ launcher with `--bun` and asks the window's own Metal renderer for a PNG:
 the app (`./node_modules/gpuix-svelte/...`) and gpuix-svelte hoisted to the root
 (`../../node_modules/gpuix-svelte/...`). TypeScript takes the first that exists.
 
-- `paths` mirrors the bundled package's `exports` types. `svelte/elements` maps to `elements.d.ts`.
-  `svelte` and every other `svelte/*` map to `types/index.d.ts`, the dts-buddy file that declares all
+- `paths` lists the bundled package's typed `exports` one by one. `svelte/elements` maps to
+  `elements.d.ts`. `svelte` and the 14 other typed subpaths (`action`, `animate`, `attachments`,
+  `compiler`, `easing`, `events`, `legacy`, `motion`, `reactivity`, `reactivity/window`, `renderer`,
+  `server`, `store`, `transition`) map to `types/index.d.ts`, the dts-buddy file that declares all
   of them. The first version mapped `svelte/*` to `svelte/*`, which only matched subpaths with a file
   at the package root. `svelte/reactivity`, `svelte/reactivity/window` and `svelte/events` have none,
   fell through to `node_modules`, and loaded the registry 5.59.2 `types/index.d.ts`. Its ambient
   `declare module 'svelte/...'` blocks then merged into the bundled ones.
+- `svelte/package.json` is not mapped. Round 1 used a `svelte/*` wildcard to `types/index.d.ts`,
+  which also caught the manifest: `import pkg from 'svelte/package.json'` in a shared `.ts` file
+  passed `web#check` and failed `desktop#check` with `File '.../gpuix-svelte/node_modules/svelte/types/index.d.ts'
+  is not a module` (TS2306). gpuix's `pin_svelte` (`lib/plugin.js`) skips string-valued exports, so
+  at runtime the manifest comes from normal resolution. Launcher probe (`gpuix-svelte --bun probe.ts`
+  in `apps/desktop`, importing a shared helper that reads the manifest):
+  `manifest from shared importer: 5.59.2 | svelte/compiler VERSION under launcher: 5.57.2`.
+  TypeScript now resolves it the same way, to the registry `package.json` at 5.59.2.
+  `svelte/internal/*` exports have no types and are left unmapped too.
 - `typeRoots` lists gpuix-svelte's own `node_modules` first. svelte-check prefixes every component with
   `/// <reference types="svelte" />`, and type references ignore `paths`. Without this they walked up
   to the registry svelte too.
@@ -76,23 +92,28 @@ the app (`./node_modules/gpuix-svelte/...`) and gpuix-svelte hoisted to the root
   typeRoots a name in `types` is looked up in typeRoots only. A reference written in a file still walks
   `node_modules`.
 
-Probe: a temporary `packages/ui/src/svelte-types-probe.ts` importing `svelte`, `svelte/reactivity`,
-`svelte/reactivity/window`, `svelte/renderer` (type `RendererConnection`, which exists in 5.59.2 and
-not in 5.57.2), `svelte/elements`, `svelte/transition`, `svelte/store`, `svelte/events` and
-`svelte/motion`. Before the fix, both layouts resolved `svelte/reactivity` to the registry copy and
-both `tsc` and svelte-check accepted `RendererConnection`.
+Probe: a temporary `packages/ui/src/svelte-types-probe.ts` importing every public subpath (`svelte`
+and the 15 above), the type `RendererConnection` from `svelte/renderer` (it exists in 5.59.2 and not
+in 5.57.2), and `svelte/package.json`. Before the round 1 fix, both layouts resolved
+`svelte/reactivity` to the registry copy and both `tsc` and svelte-check accepted
+`RendererConnection`.
 
-After, hoisted (this repo's install), `tsc -p apps/desktop/tsconfig.json --traceResolution` and
-`--listFilesOnly`:
+After the round 2 fix, hoisted (this repo's install), `tsc -p apps/desktop/tsconfig.json
+--traceResolution` and `--listFilesOnly`:
 
 ```
-svelte, svelte/attachments, events, motion, reactivity, reactivity/window, renderer, store, transition
+svelte, svelte/action, animate, attachments, compiler, easing, events, legacy, motion, reactivity,
+reactivity/window, renderer, server, store, transition
     -> node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts
 svelte/elements -> node_modules/gpuix-svelte/node_modules/svelte/elements.d.ts
-type reference 'gpuix-svelte/html' -> node_modules/gpuix-svelte/lib/html.d.ts
-svelte package files in the program: 5.57.2 elements.d.ts, 5.57.2 types/index.d.ts (nothing else)
+svelte/package.json -> node_modules/svelte/package.json (5.59.2)
+svelte package files in the program: 5.57.2 types/index.d.ts, 5.57.2 elements.d.ts,
+    5.57.2 node_modules/magic-string (from svelte/compiler), 5.59.2 package.json (nothing else)
 error TS2305: Module '"svelte/renderer"' has no exported member 'RendererConnection'.
 ```
+
+svelte-check (`desktop#check`'s command) on the same probe reports that one error and nothing for
+the manifest import.
 
 svelte-check, with a `--require` hook logging every svelte declaration file it reads:
 
@@ -106,9 +127,10 @@ ERROR "../../packages/ui/src/svelte-types-probe.ts" 4:15 "Module '"svelte/render
 
 Isolated: a scratch copy installed with `bun install --linker isolated`. `node_modules/gpuix-svelte`
 does not exist there and `apps/desktop/node_modules/gpuix-svelte` is a symlink into the `.bun` store.
-Same result, every resolution going to
+Same result, every typed subpath going to
 `node_modules/.bun/gpuix-svelte@0.6.0/node_modules/gpuix-svelte/node_modules/svelte/...` at 5.57.2,
-and the same `RendererConnection` error from both `tsc` and svelte-check.
+the manifest to `node_modules/.bun/svelte@5.59.2/node_modules/svelte/package.json`, and the same
+single `RendererConnection` error from both `tsc` and svelte-check.
 
 Limit: the two 5.59.2 reads above are svelte-check's own. It picks a Svelte with
 `require.resolve('svelte/package.json')` from the tsconfig's directory, ignoring `paths`, and adds that
@@ -166,20 +188,14 @@ per environment, the `svelte` package directories of every bundled module:
 ```
 
 The guard has two checks. `resolveId` names the importer when a bare `svelte` import resolves to the
-bundled copy. `generateBundle` reads every emitted chunk's module IDs, per environment, and fails
-when any comes from the bundled copy or when more than one `svelte` package directory is present.
-The second check was added in review: the first version only had `resolveId`, so an import of the
+bundled copy. `generateBundle` reads every emitted chunk's module IDs, per environment, finds each
+module's owning package (the nearest `package.json` with a `name`), and fails when a package named
+`svelte` has a real directory other than the one `apps/web` resolves `svelte/package.json` to. The
+second check was added in round 1: the first version only had `resolveId`, so an import of the
 bundled runtime's resolved path built without complaint, and both outputs then held both runtimes.
+Round 2 replaced its directory-name regex (`/node_modules/svelte/`) with the manifest lookup.
 
-On a clean build, with a temporary log line in `generateBundle`:
-
-```
-one-svelte [ssr] svelte dirs: node_modules/svelte
-one-svelte [client] svelte dirs: node_modules/svelte
-✔ done
-```
-
-Negative probes, each reverted afterwards:
+Negative probes, each reverted afterwards (run in scratch copies, hoisted and isolated):
 
 1. Dedupe disabled (a temporary plugin emptying `resolve.dedupe` in `config` and `configEnvironment`):
    ```
@@ -197,6 +213,20 @@ Negative probes, each reverted afterwards:
    ```
    The same probe in the isolated-linker copy fails with the `.bun/gpuix-svelte@0.6.0/...` path, and
    the clean build there passes.
+3. Svelte under another name (`bun add svelte-compat@npm:svelte@5.50.0` in `apps/web`, `tick` from
+   both `svelte` and `svelte-compat` in a `+page.svelte` click handler). Before round 2 the build
+   passed with two runtimes in separate client chunks. Now:
+   ```
+   RolldownError: [client] the web build contains Svelte other than .../node_modules/svelte:
+     .../node_modules/svelte-compat/src/internal/shared/utils.js (in _app/immutable/nodes/2.CaQ5lNyh.js)
+   ```
+   Isolated: the same error naming `.bun/svelte@5.50.0/node_modules/svelte/...` against
+   `.bun/svelte@5.59.2/node_modules/svelte`.
+
+Probes 1 (with `resolveId` short-circuited) and 2 now fail with the same new message, naming the
+bundled copy's `src/escaping.js` and `src/constants.js`, in both layouts. Limit: the check reads
+bundled modules only. A second Svelte the server build leaves external (the aliased package in
+probe 3 is external in `ssr`) is not reported there; the client check catches probe 3.
 
 The guard differs from the demo's in three ways. It finds gpuix-svelte through `@retirement/ui`'s
 resolution, not `./node_modules`, because `apps/web` does not depend on gpuix-svelte and Bun hoists
@@ -348,8 +378,8 @@ All of these are in our own code and config. Nothing in gpuix is patched.
    `packages/ui/tsconfig.json` (extends `packages/tsconfig.pkg.json`) and `allowJs` in the desktop tsconfig.
    A missing owner shows up as a hang, not an error.
 6. Kit runtime dependencies per app (review fix). See "Install layout" below.
-7. Desktop type resolution (review fix): `paths` mirroring the bundled `exports`, `typeRoots`, and
-   `src/gpuix-html.d.ts`. See criterion 2.
+7. Desktop type resolution (review fix): `paths` listing the bundled package's typed `exports`,
+   `typeRoots`, and `src/gpuix-html.d.ts`. See criterion 2.
 
 ### gpuix warnings seen
 
@@ -404,13 +434,16 @@ Kit's. Kit's own nested copies (`apps/webapp-legacy/node_modules/@sveltejs/kit/n
 
 What each Kit declares, read from the installed `package.json` files:
 
-| Dependency        | Kit 2.70.4 | Kit 3.4.1 | Root copy before | Imported by the server output       |
-| ----------------- | ---------- | --------- | ---------------- | ----------------------------------- |
-| cookie            | ^0.6.0     | ^2.0.1    | 2.0.2            | yes, both apps                      |
-| devalue           | ^5.8.1     | ^5.9.4    | 6.0.4 (svelte's) | yes, both apps                      |
-| magic-string      | ^0.30.5    | ^1.2.3    | 1.4.5            | no, build time only (Kit's own dir) |
-| set-cookie-parser | ^3.0.0     | (none)    | 3.x, matches     | legacy only                         |
-| esm-env           | ^1.2.2     | ^1.2.2    | matches          | yes                                 |
+| Dependency        | Kit 2.70.4 | Kit 3.4.1 | Root copy before | Bare import in the emitted server          |
+| ----------------- | ---------- | --------- | ---------------- | ------------------------------------------ |
+| cookie            | ^0.6.0     | ^2.0.1    | 2.0.2            | yes, both apps, both layouts               |
+| devalue           | ^5.8.1     | ^5.9.4    | 6.0.4 (svelte's) | yes, both apps, both layouts               |
+| magic-string      | ^0.30.5    | ^1.2.3    | 1.4.5            | no, build time only (Kit's own dir)        |
+| set-cookie-parser | ^3.0.0     | (none)    | 3.x, matches     | legacy, hoisted only (isolated inlines it) |
+| esm-env           | ^1.2.2     | ^1.2.2    | matches          | no, inlined                                |
+
+The last column comes from scanning `.svelte-kit/output/server` with `Bun.Transpiler#scanImports`
+after a build in hoisted and isolated scratch copies. Round 1 read it from Kit's source instead.
 
 The root `devalue` 6.0.4 was Svelte 5.59.2's (`^6.0.4`). Devalue 6 changed the `uneval` replacer:
 v5 calls `replacer(value, uneval)` and takes a string, v6 calls `replacer(value, js)` and takes a
@@ -434,21 +467,30 @@ Alternatives rejected: Bun `overrides` are workspace-wide and cannot split per a
 `ssr.noExternal` for `cookie`/`devalue` would resolve them from Kit's directory, but needs a change to
 legacy's `vite.config.ts`, and an exact pin here would rot on the next Kit bump.
 
-Against that rot, `scripts/check-kit-deps.ts` runs in `vp run check`. For every app depending on Kit,
-it walks the module graph from Kit's `src/runtime` and its non-Vite `src/exports` entry points,
-collects the packages that code imports, and fails when the app directory resolves a different copy
-of one than Kit's directory does. It reports what to add. Before the fix it printed:
+Against that rot, `scripts/check-kit-deps.ts` runs in `vp run check`, uncached, after `vp check`.
+For every app depending on Kit, it resolves `cookie` and `devalue` from the app's directory the way
+Node does, and fails unless the package found is named `cookie`/`devalue` and its installed version
+satisfies the range the app's Kit declares (`Bun.semver.satisfies`). A missing package fails too.
+It reports the range to declare. Clean run:
 
 ```
-webapp-legacy: Kit 2.70.4 imports cookie ^0.6.0 and resolves 0.6.0, but the app's server output would load 2.0.2. Add "cookie": "^0.6.0" to apps/webapp-legacy/package.json.
-webapp-legacy: Kit 2.70.4 imports devalue ^5.8.1 and resolves 5.9.4, but the app's server output would load 6.0.4. Add "devalue": "^5.8.1" to apps/webapp-legacy/package.json.
-web: Kit 3.4.1 imports devalue ^5.9.4 and resolves 5.9.4, but the app's server output would load 6.0.4. Add "devalue": "^5.9.4" to apps/web/package.json.
+webapp-legacy: Kit 2.70.4, cookie 0.6.0, devalue 5.9.4
+web: Kit 3.4.1, cookie 2.0.2, devalue 5.9.4
 ```
 
-After: `webapp-legacy: Kit 2.70.4, runtime dependencies checked: cookie, devalue, esm-env, set-cookie-parser`
-and `web: Kit 3.4.1, runtime dependencies checked: cookie, devalue, esm-env`, exit 0. That list
-matches the real bare imports in both built outputs (`@standard-schema/spec` also appears there, but
-only in JSDoc `@import` comments).
+Round 1's version walked Kit's runtime source for imports and compared the app's resolved directory
+with Kit's. Round 2 found it wrong both ways, and these probes, run in scratch copies, now behave:
+
+| Probe                                                            | Round 1                                | Now                                        |
+| ---------------------------------------------------------------- | -------------------------------------- | ------------------------------------------ |
+| root `overrides` `"devalue": "6.0.4"`, hoisted install           | exit 0                                 | exit 1, both apps: would load 6.0.4        |
+| copy of root devalue 5.9.4 into `apps/web/node_modules`          | exit 1, 5.9.4 vs 5.9.4                 | exit 0                                     |
+| root `devalue` moved aside                                       | exit 0                                 | exit 1, both apps: would load nothing      |
+| root `devalue` replaced by a copy of `cookie` (a stand-in alias) | (not run)                              | exit 1, both apps: would load cookie 2.0.2 |
+| fresh `bun install --frozen-lockfile --linker isolated`          | exit 1, `esm-env`, `set-cookie-parser` | exit 0                                     |
+
+`set-cookie-parser` is a bare import in legacy's hoisted output and is not checked. Kit 2 is the only
+Kit using it, the root copy satisfies its range, and legacy is deleted at parity.
 
 Evidence after the fix:
 
