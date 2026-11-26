@@ -23,6 +23,9 @@
     ],
     "strict": true,
     "allowJs": true,
+    // Also checks components with no `<script lang="ts">`. Without it, svelte-check skips their
+    // markup, so a DOM-only attribute in a markup-only shared component would pass on desktop.
+    "checkJs": true,
     "noEmit": true,
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
