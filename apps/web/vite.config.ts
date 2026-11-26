@@ -1,5 +1,6 @@
+import { existsSync, readFileSync, realpathSync } from 'node:fs';
 import { createRequire } from 'node:module';
-import { dirname } from 'node:path';
+import { dirname, isAbsolute, join } from 'node:path';
 import adapter from '@sveltejs/adapter-vercel';
 import { sveltekit } from '@sveltejs/kit/vite';
 import type { Plugin } from 'vite-plus';
@@ -10,13 +11,32 @@ import { defineConfig, lazyPlugins } from 'vite-plus';
 // runtimes end up in one page. vite-plugin-svelte dedupes `svelte` for that. This guard, based on
 // the upstream shared-components demo's, fails the build when that did not work. gpuix-svelte is
 // found from @retirement/ui, which depends on it, so the guard works wherever Bun installed it.
-const ui = dirname(createRequire(import.meta.url).resolve('@retirement/ui/package.json'));
+const require = createRequire(import.meta.url);
+const appSvelte = realpathSync(dirname(require.resolve('svelte/package.json')));
+const ui = dirname(require.resolve('@retirement/ui/package.json'));
 const gpuix = dirname(createRequire(`${ui}/`).resolve('gpuix-svelte/package.json'));
 const bundledSvelte = `${gpuix}/node_modules/svelte/`;
 
-// The svelte package directory a module ID belongs to, if any. Greedy, so a nested copy such as
-// gpuix-svelte/node_modules/svelte is told apart from the top-level one.
-const svelteDir = (id: string) => /^\0?(.*\/node_modules\/svelte)\//.exec(id)?.[1];
+// The real directory of the Svelte package a module ID belongs to, if any: the nearest package.json
+// with a name, so a copy installed under another name (an npm alias) is still recognised.
+function svelteDir(id: string): string | undefined {
+  const file = id.replace(/^\0/, '').split('?')[0] ?? '';
+  if (!isAbsolute(file)) {
+    return undefined;
+  }
+  for (let dir = dirname(file); dir !== dirname(dir); dir = dirname(dir)) {
+    const manifest = join(dir, 'package.json');
+    if (!existsSync(manifest)) {
+      continue;
+    }
+    const pkg: unknown = JSON.parse(readFileSync(manifest, 'utf8'));
+    const name = typeof pkg === 'object' && pkg !== null && 'name' in pkg ? pkg.name : undefined;
+    if (name) {
+      return name === 'svelte' ? realpathSync(dir) : undefined;
+    }
+  }
+  return undefined;
+}
 
 const oneSvelte: Plugin = {
   name: 'one-svelte',
@@ -34,30 +54,27 @@ const oneSvelte: Plugin = {
     }
     return resolved;
   },
-  // The check that counts: every module in this environment's output, however it was resolved,
-  // comes from one svelte package, and not the bundled one. This covers paths another plugin or an
-  // alias resolved before resolveId above could see a bare `svelte` import.
+  // The check that counts: every Svelte module in this environment's output, however it was
+  // resolved, comes from the Svelte this app resolves. This covers paths another plugin or an alias
+  // resolved before resolveId above could see a bare `svelte` import.
   generateBundle(_options, bundle) {
-    const dirs = new Map<string, string>();
+    const strays = new Map<string, string>();
     for (const output of Object.values(bundle)) {
       if (output.type !== 'chunk') {
         continue;
       }
       for (const id of output.moduleIds) {
         const dir = svelteDir(id);
-        if (dir && !dirs.has(dir)) {
-          dirs.set(dir, `${id} (in ${output.fileName})`);
+        if (dir && dir !== appSvelte && !strays.has(dir)) {
+          strays.set(dir, `${id} (in ${output.fileName})`);
         }
       }
     }
-    const env = this.environment.name;
-    const bundled = [...dirs].find(([dir]) => `${dir}/` === bundledSvelte);
-    if (bundled) {
-      this.error(`[${env}] gpuix-svelte's bundled svelte is in the web build: ${bundled[1]}`);
-    }
-    if (dirs.size > 1) {
-      const list = [...dirs].map(([dir, first]) => `  ${dir}: ${first}`).join('\n');
-      this.error(`[${env}] the web build contains ${dirs.size} svelte copies:\n${list}`);
+    if (strays.size > 0) {
+      const list = [...strays.values()].map((first) => `  ${first}`).join('\n');
+      this.error(
+        `[${this.environment.name}] the web build contains Svelte other than ${appSvelte}:\n${list}`
+      );
     }
   }
 };
