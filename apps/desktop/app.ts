@@ -7,7 +7,7 @@ import { render_hot } from 'gpuix-svelte';
 
 const root = fileURLToPath(new URL('src/DesktopRoot.svelte', import.meta.url));
 
-await render_hot(root, { title: 'Retirement calculator', width: 960, height: 680 });
+await render_hot(root, { title: 'Retirement calculator', width: 1200, height: 900 });
 
 // render_hot watches only the root's own directory, so it misses edits in packages/ui. This watcher
 // handles them the way render_hot handles its own directory:

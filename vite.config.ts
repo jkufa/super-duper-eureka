@@ -75,6 +75,12 @@ export default defineConfig({
         }
       },
       {
+        // Spike evidence: the web trace goes to the browser console, and the desktop package script
+        // prints the build result.
+        files: ['apps/web/src/lib/platform.ts', 'apps/desktop/build.ts'],
+        rules: { 'no-console': 'off' }
+      },
+      {
         files: ['packages/logger/**'],
         rules: {
           // Wide events carry arbitrary caller fields by design; a JSON value type rejects interface-typed callers.
