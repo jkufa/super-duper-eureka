@@ -169,7 +169,7 @@ function runProjection(
       salary
     });
 
-    if ((monthOffset + 1) % MONTHS_PER_YEAR === 0) {
+    if (monthIndex === MONTHS_PER_YEAR - 1 || monthOffset + 1 >= totalMonths) {
       yearlyProjections.push({
         year: yearIndex,
         balance: runningBalance,

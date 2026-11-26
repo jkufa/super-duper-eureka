@@ -19,7 +19,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 
   const config: RetirementConfig =
     mockRealData && seed !== null
-      ? generateRandomRetirementConfig(seed)
+      ? { ...generateRandomRetirementConfig(seed), startDate: todayStartDate }
       : {
           currentBalance: 1000,
           timeHorizonYears: 40,
