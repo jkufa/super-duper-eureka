@@ -22,7 +22,7 @@ Step 2 comes before step 3 on purpose. Steps 3 to 5 only pay off if gpuix works,
 |---|---|
 | 1 | One shared Svelte codebase for web and desktop. TypeScript only, no Swift. |
 | 2 | One implementation of every component, written to gpuix's shared subset on top of `gpuix-svelte-ui`. The new app has no shadcn, bits-ui, formsnap, superforms, vaul, LayerChart, number-flow, mode-watcher or Tailwind. |
-| 3 | The new code lives in `apps/web`, `apps/desktop` and `packages/core`. `apps/webapp` becomes `apps/webapp-legacy`, untouched in source, deleted at parity. |
+| 3 | The new code lives in `apps/web`, `apps/desktop`, `packages/core` and `packages/ui`. `apps/webapp` becomes `apps/webapp-legacy`, untouched in source, deleted at parity. |
 | 4 | Vite+ migration happens first, across the whole repo. Bun stays the package manager. |
 | 5 | Oxlint and Oxfmt replace ESLint and Prettier everywhere. `svelte-check` stays as its own task. |
 | 6 | The web target keeps its server on `adapter-vercel`. |
@@ -43,7 +43,6 @@ I did not get to these in the interview. Each has the default the specs assume.
 
 | Question | Assumed default |
 |---|---|
-| Where the shared Svelte components live | In `packages/core`, beside the shared logic. `apps/web` and `apps/desktop` hold only their entry points and platform adapters. The upstream demo keeps everything in one package, so the spike's Q1 has to prove this split works |
 | SvelteKit version for the new app | The upstream demo's versions, Kit 3 and Vite 8. The spike checks `adapter-vercel` against Kit 3 and falls back to Kit 2.70 |
 | Desktop distribution | An unsigned macOS build that runs on your machine. No signing, notarising or auto-update |
 | Accessibility bar for parity | Every flow works by keyboard on both targets. Screen reader parity is not a gate, because gpuix drops most ARIA state attributes and its dialogs do not trap focus |
@@ -55,13 +54,15 @@ I did not get to these in the interview. Each has the default the specs assume.
 - gpuix-svelte 0.6.0 bundles a build of an unmerged Svelte pull request. The web build uses the app's own Svelte and must never load the bundled one.
 - Shared components cannot use `bind:`. Styling lives in `<style>` blocks with single-class selectors, flexbox, a simple grid and `var(--token)`.
 - `IS_GPUIX` branches inside a component. Whole-file platform differences are adapters that each app passes into the shared root.
+- The upstream demo keeps apps and components in one package. Splitting them across a Bun workspace is untested upstream, and the spike's Q1 has to prove it.
 
 ## Layout
 
 ```
 apps/web/          SvelteKit on adapter-vercel. Routes, server loads, web adapters.
 apps/desktop/      gpuix entry. app.ts, the window root, desktop adapters.
-packages/core/     @retirement/core. Shared logic in src/logic, shared Svelte components in src/ui.
+packages/core/     @retirement/core. Shared logic. No Svelte, no browser APIs.
+packages/ui/       @retirement/ui. Shared Svelte components, written to gpuix's shared subset.
 ```
 - `onmousemove` exists and carries `e.x`, `e.y` and `e.pressedButton`. The docs do not list it, the source does.
 - Vite+ 1.x bundles Vite 8 and Vitest 5 for the whole workspace and supports Bun as the package manager.

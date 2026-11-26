@@ -6,11 +6,11 @@ Blocks: spec 6
 
 ## Goal
 
-`apps/web` and `apps/desktop` together do everything the legacy app does, apart from the behaviours decisions 9 to 14 changed, from one set of components in `packages/core`.
+`apps/web` and `apps/desktop` together do everything the legacy app does, apart from the behaviours decisions 9 to 14 changed, from one set of components in `packages/ui`.
 
 ## Rules for shared code
 
-These apply to everything under `packages/core/src/ui`.
+These apply to everything in `packages/ui`.
 
 - No `bind:`. A field takes `value` and calls `onchange(value)`.
 - No raw `<input>` events in shared components. Use the kit's `TextField`, or branch on `IS_GPUIX`.
@@ -42,17 +42,17 @@ apps/desktop/
   app.ts
   src/DesktopRoot.svelte            calls createBoot with process.env, renders App with the desktop platform
   src/platform.ts                   JSON file stores, desktop clipboard, per-launch id
-packages/core/
-  src/logic/                        from spec 3
-  src/ui/App.svelte                 shared root, takes boot and platform
-  src/ui/form/                      form store and fields
-  src/ui/editor/                    custom-variable editor
-  src/ui/projection/                table, KPIs, plot
-  src/ui/debug/
-  src/ui/base/                      our own base components
+packages/core/                      from spec 3
+packages/ui/
+  src/App.svelte                    shared root, takes boot and platform
+  src/form/                         form store and fields
+  src/editor/                       custom-variable editor
+  src/projection/                   table, KPIs, plot
+  src/debug/
+  src/base/                         our own base components
 ```
 
-The `platform` prop has one type, defined in `src/logic`:
+The `platform` prop has one type, defined in `@retirement/core`:
 
 ```ts
 export interface Platform {
@@ -81,7 +81,7 @@ Done when a hand-edited stored config changes the numbers shown on both targets.
 
 ### Stage 2: form store and base fields
 
-- A runes form store in a `.svelte.ts` module. It holds `values`, `committed` and `errors`, and exposes typed accessors per field. It calls the validation helper from `@retirement/core/logic`.
+- A runes form store in a `.svelte.ts` module. It holds `values`, `committed` and `errors`, and exposes typed accessors per field. It calls the validation helper from `@retirement/core`.
 - `NumericField` built from the spike's field: draft string, commit on blur and Enter, arrow-key stepping, prefix and suffix, optional label action and tooltip. No wheel or spinner stepping.
 - The four sections: basics, growth, salary and contributions. Growth uses the kit's `Select`.
 - Two base components the kit lacks. `Accordion` is a header button and an `{#if}` block. `SegmentedControl` replaces the toggle group.
@@ -91,7 +91,7 @@ Done when the `form-behavior` and `localstorage-config` specs pass on the app pr
 
 ### Stage 3: custom-variable editor
 
-- Add, edit and delete flows, driven by the editor model, state and actions already in `@retirement/core/logic`.
+- Add, edit and delete flows, driven by the editor model, state and actions already in `@retirement/core`.
 - The dialog is the kit's `Dialog`. It does not move focus into itself, so the editor focuses its first field on open and closes on Escape.
 - The timing field is a text input parsed by the frequency parser, with the parsed date shown on a line beneath. No calendar.
 - Core, growth and timing field groups, shared between add and edit.
@@ -105,7 +105,7 @@ Done when the `add-custom-variable`, `update-custom-variable`, `custom-variable-
 
 ### Stage 5: chart
 
-- `ProjectionPlot` takes its geometry from `@retirement/core/logic`.
+- `ProjectionPlot` takes its geometry from `@retirement/core`.
 - The paint layer has two branches. The web draws inline SVG paths. The desktop draws one SVG mask per colour.
 - Axis labels, legend and readout are text elements.
 - Hover shows a tooltip for the year under the pointer. Click and drag select a year. Left and Right step it.
@@ -149,7 +149,7 @@ Also run the config file check from the spike: save, restart, load.
 ## Acceptance criteria
 
 - All seven stages are done by their own criteria.
-- The shared-code rules hold. A check fails the lint task on `bind:`, a Tailwind class or a DOM global under `packages/core/src/ui`.
+- The shared-code rules hold. A check fails the lint task on `bind:`, a Tailwind class or a DOM global in `packages/ui`.
 - The desktop smoke suite passes on macOS.
 - The packaged macOS build launches and runs the smoke flows by hand.
 

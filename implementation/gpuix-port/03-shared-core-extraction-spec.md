@@ -6,13 +6,13 @@ Blocks: spec 5
 
 ## Goal
 
-All framework-free app logic lives in one workspace package that the legacy app and the new apps import. That logic has no Svelte and no browser APIs.
+All framework-free app logic lives in one workspace package that the legacy app, the new apps and `packages/ui` import. The package has no Svelte and no browser APIs.
 
 ## Package
 
-`packages/core`, named `@retirement/core`. The spike created it with `src/ui` for shared Svelte components. This spec adds `src/logic`, and everything below goes there. The logic depends on `@retirement/calculator`, `zod`, `chrono-node`, `d3-scale` and `d3-shape`.
+`packages/core`, named `@retirement/core`. It depends on `@retirement/calculator`, `zod`, `chrono-node`, `d3-scale` and `d3-shape`.
 
-The package exports the two folders separately, as `@retirement/core/logic` and `@retirement/core/ui`. The legacy app imports only `logic`, so it never compiles a gpuix component.
+The shared Svelte components live in a separate package, `packages/ui`, which the spike created. `ui` depends on `core`. `core` never depends on `ui`, so the legacy app can import it without compiling a gpuix component.
 
 ## Part A: move existing code
 
@@ -89,14 +89,14 @@ Move [reference/chart-geometry.ts](reference/chart-geometry.ts) into the package
 
 ## Acceptance criteria
 
-- The legacy app builds, and all 24 Playwright tests pass, with the moved files imported from `@retirement/core/logic`.
+- The legacy app builds, and all 24 Playwright tests pass, with the moved files imported from `@retirement/core`.
 - `vp test` runs the moved tests and the new ones, all green.
 - The round-trip test passes for every example config.
-- A test fails if any file under `src/logic` references `svelte`, `window`, `document`, `localStorage`, `sessionStorage` or `navigator`, or imports from `src/ui`.
+- A test fails if any file in the package references `svelte`, `window`, `document`, `localStorage`, `sessionStorage` or `navigator`, or imports `@retirement/ui`.
 - The legacy server loads call `createBoot`.
 
 ## Out of scope
 
-- The runes form store. It uses Svelte and goes in `src/ui` during spec 5.
+- The runes form store. It uses Svelte and goes in `packages/ui` during spec 5.
 - The `localStorage` and file adapters.
 - Multiple scenarios, revisions and SQLite.

@@ -10,24 +10,24 @@ Answer six questions with running code, then decide go or no-go on the port. The
 
 ## Setup
 
-Create three packages. The [upstream demo](https://github.com/khromov/gpuix-svelte-sveltekit-shared-components-demo) keeps all of this in one package, so this split is the first thing under test.
+Create two apps and one component package. The [upstream demo](https://github.com/khromov/gpuix-svelte-sveltekit-shared-components-demo) keeps all of this in one package, so this split is the first thing under test.
 
 ```
 apps/web/
   src/routes/               +layout.svelte, +page.svelte, +page.server.ts
   vite.config.ts
-  tsconfig.json             web type check, includes packages/core/src/ui
+  tsconfig.json             web type check, includes packages/ui/src
 apps/desktop/
   app.ts                    calls render_hot
   src/DesktopRoot.svelte    the window's root component
-  tsconfig.json             gpuix type check, includes packages/core/src/ui
-packages/core/
-  src/ui/                   shared Svelte components
+  tsconfig.json             gpuix type check, includes packages/ui/src
+packages/ui/
+  src/                      shared Svelte components
 ```
 
 - Pin `gpuix-svelte` 0.6.0 and `gpuix-svelte-ui` to exact versions.
 - `apps/web` lists its own `svelte` dependency. `apps/desktop` lists none and uses the build gpuix bundles.
-- `packages/core` depends on `gpuix-svelte` and `gpuix-svelte-ui`, and takes `svelte` as a peer.
+- `packages/ui` depends on `gpuix-svelte` and `gpuix-svelte-ui`, and takes `svelte` as a peer.
 - Use `adapter-vercel`, not the demo's `adapter-static`.
 - Copy the demo's `one-svelte` Vite plugin into `apps/web`. It fails the web build if gpuix's bundled Svelte gets in.
 - Each app passes its platform adapters into the shared root as a prop. No `imports` conditions.
@@ -42,7 +42,7 @@ Pass when all of these hold:
 
 - The desktop window opens from `apps/desktop` through gpuix's dev command, started with `vp run`.
 - The desktop tsconfig resolves the bundled Svelte wherever Bun installed `gpuix-svelte`, hoisted or not.
-- A component in `packages/core/src/ui` compiles with the bundled Svelte for the desktop and with the app's Svelte for the web.
+- A component in `packages/ui` compiles with the bundled Svelte for the desktop and with the app's Svelte for the web.
 - The web build contains one Svelte runtime, and the guard plugin stays quiet.
 - Both type checks pass over the shared components.
 - Editing a shared component hot-reloads in both targets.
