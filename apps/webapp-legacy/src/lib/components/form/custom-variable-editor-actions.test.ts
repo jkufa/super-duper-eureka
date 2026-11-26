@@ -1,11 +1,14 @@
 import { describe, expect, test, vi } from 'vite-plus/test';
 import { TIMING_PARSE_ERROR_MESSAGE } from '$lib/forms/frequency-nlp';
-import { buildCreatedCustomVariable, buildSavedCustomVariable } from './custom-variable-editor-actions';
+import {
+  buildCreatedCustomVariable,
+  buildSavedCustomVariable
+} from './custom-variable-editor-actions';
 
 const baseInput = {
   currentYear: 2026,
   horizonYears: 40,
-  referenceDate: new Date('2026-02-10T12:00:00.000Z'),
+  referenceDate: new Date('2026-02-10T12:00:00.000Z')
 };
 
 describe('custom-variable-editor-actions', () => {
@@ -25,14 +28,14 @@ describe('custom-variable-editor-actions', () => {
         month: 1,
         year: 2026,
         yearStart: 0,
-        yearEnd: 40,
+        yearEnd: 40
       },
       growth: {
         enabled: false,
         type: 'percent',
         amount: 0,
-        cadence: 'annual',
-      },
+        cadence: 'annual'
+      }
     });
 
     expect(result.error).toBeNull();
@@ -42,8 +45,8 @@ describe('custom-variable-editor-actions', () => {
         frequency: 'annual',
         timingMonth: 2,
         timingDay: 13,
-        timingInputMode: 'hybrid',
-      }),
+        timingInputMode: 'hybrid'
+      })
     );
     expect(result.variable?.id).toContain('custom-bonus-income-');
 
@@ -65,14 +68,14 @@ describe('custom-variable-editor-actions', () => {
         month: 1,
         year: 2026,
         yearStart: 2,
-        yearEnd: 10,
+        yearEnd: 10
       },
       growth: {
         enabled: true,
         type: 'flat',
         amount: 100,
-        cadence: 'monthly',
-      },
+        cadence: 'monthly'
+      }
     });
 
     expect(result.error).toBeNull();
@@ -84,8 +87,8 @@ describe('custom-variable-editor-actions', () => {
         frequency: 'monthly',
         timingDay: 15,
         yearStart: 2,
-        yearEnd: 10,
-      }),
+        yearEnd: 10
+      })
     );
   });
 
@@ -103,19 +106,19 @@ describe('custom-variable-editor-actions', () => {
         month: 1,
         year: 2026,
         yearStart: 0,
-        yearEnd: 40,
+        yearEnd: 40
       },
       growth: {
         enabled: false,
         type: 'percent',
         amount: 0,
-        cadence: 'annual',
-      },
+        cadence: 'annual'
+      }
     });
 
     expect(result).toEqual({
       error: TIMING_PARSE_ERROR_MESSAGE,
-      variable: null,
+      variable: null
     });
   });
 });

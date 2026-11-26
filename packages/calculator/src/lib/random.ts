@@ -31,8 +31,8 @@ const RANGE = {
     brokerageMonthly: { min: 0, max: 2500, mode: 300, low: 0, high: 2000 },
     rsuAnnual: { min: 0, max: 50000, modeFactor: 0.08, highFactor: 0.3 },
     collegeMonthly: { min: 0, max: 600, mode: 120, low: 0, high: 500 },
-    cryptoMonthly: { min: 0, max: 300, mode: 60, low: 0, high: 200 },
-  },
+    cryptoMonthly: { min: 0, max: 300, mode: 60, low: 0, high: 200 }
+  }
 };
 
 export function createRandomSeed(): number {
@@ -42,7 +42,7 @@ export function createRandomSeed(): number {
 export function createSeededRandom(seed: number): SeededRandom {
   let state = seed >>> 0;
   return () => {
-    state += 0x6D2B79F5;
+    state += 0x6d2b79f5;
     let value = Math.imul(state ^ (state >>> 15), 1 | state);
     value ^= value + Math.imul(value ^ (value >>> 7), 61 | value);
     return ((value ^ (value >>> 14)) >>> 0) / 4294967296;
@@ -51,7 +51,7 @@ export function createSeededRandom(seed: number): SeededRandom {
 
 export function generateRandomRetirementConfig(
   seed: number,
-  options: RandomConfigOptions = {},
+  options: RandomConfigOptions = {}
 ): RetirementConfig {
   const rng = createSeededRandom(seed);
   const retirementAge = options.retirementAge ?? 65;
@@ -61,13 +61,13 @@ export function generateRandomRetirementConfig(
   const age = clampInt(
     roundNormal(rng, RANGE.age.mean, RANGE.age.stddev),
     minWorkingAge,
-    maxWorkingAge,
+    maxWorkingAge
   );
   const timeHorizonYears = clampInt(retirementAge - age, 5, 45);
 
   const annualBase = roundToRange(
     sampleLogNormal(rng, RANGE.salary.mu, RANGE.salary.sigma),
-    RANGE.salary,
+    RANGE.salary
   );
 
   const annualRaiseRate = sampleTriangularClamped(rng, RANGE.raiseRate);
@@ -80,7 +80,7 @@ export function generateRandomRetirementConfig(
   const growthFactor = 0.6 + rng() * 1.2;
   const currentBalance = roundToRange(
     avgSalary * savingsRate * yearsWorking * growthFactor,
-    RANGE.balances,
+    RANGE.balances
   );
 
   const contributions = buildContributionRules(rng, annualBase);
@@ -93,13 +93,13 @@ export function generateRandomRetirementConfig(
     interest: {
       annualRate: interestAnnualRate,
       variance: interestVariance,
-      compounding: 'monthly',
+      compounding: 'monthly'
     },
     salary: {
       annualBase,
-      annualRaiseRate,
+      annualRaiseRate
     },
-    contributions,
+    contributions
   };
 }
 
@@ -107,25 +107,48 @@ function buildContributionRules(rng: SeededRandom, annualBase: number): Contribu
   const minIncludedRules = 4;
 
   const employee401k = roundPercent(sampleTriangularClamped(rng, RANGE.contributions.employee401k));
-  const match401k = employee401k > 0
-    ? roundPercent(clampFloat(
-        sampleTriangular(rng, RANGE.contributions.match401k.low, RANGE.contributions.match401k.mode, RANGE.contributions.match401k.high),
-        RANGE.contributions.match401k.min,
-        Math.min(RANGE.contributions.match401k.max, Math.max(0, employee401k * 0.75)),
-      ))
-    : 0;
+  const match401k =
+    employee401k > 0
+      ? roundPercent(
+          clampFloat(
+            sampleTriangular(
+              rng,
+              RANGE.contributions.match401k.low,
+              RANGE.contributions.match401k.mode,
+              RANGE.contributions.match401k.high
+            ),
+            RANGE.contributions.match401k.min,
+            Math.min(RANGE.contributions.match401k.max, Math.max(0, employee401k * 0.75))
+          )
+        )
+      : 0;
 
-  const roth401k = roundPercent(clampFloat(
-    sampleTriangular(rng, RANGE.contributions.roth401k.low, RANGE.contributions.roth401k.mode, RANGE.contributions.roth401k.high),
-    RANGE.contributions.roth401k.min,
-    Math.min(RANGE.contributions.roth401k.max, Math.max(0, 20 - employee401k)),
-  ));
+  const roth401k = roundPercent(
+    clampFloat(
+      sampleTriangular(
+        rng,
+        RANGE.contributions.roth401k.low,
+        RANGE.contributions.roth401k.mode,
+        RANGE.contributions.roth401k.high
+      ),
+      RANGE.contributions.roth401k.min,
+      Math.min(RANGE.contributions.roth401k.max, Math.max(0, 20 - employee401k))
+    )
+  );
 
   const bonusPercent = roundPercent(sampleTriangularClamped(rng, RANGE.contributions.bonusPercent));
   const esppPercent = roundPercent(sampleTriangularClamped(rng, RANGE.contributions.esppPercent));
 
-  const hsaEmployeeMonthly = sampleTriangularRounded(rng, RANGE.contributions.hsaEmployeeMonthly, 1);
-  const hsaEmployerMonthly = sampleTriangularRounded(rng, RANGE.contributions.hsaEmployerMonthly, 1);
+  const hsaEmployeeMonthly = sampleTriangularRounded(
+    rng,
+    RANGE.contributions.hsaEmployeeMonthly,
+    1
+  );
+  const hsaEmployerMonthly = sampleTriangularRounded(
+    rng,
+    RANGE.contributions.hsaEmployerMonthly,
+    1
+  );
   const iraAnnual = sampleTriangularRounded(rng, RANGE.contributions.iraAnnual, 1);
   const brokerageMonthly = sampleTriangularRounded(rng, RANGE.contributions.brokerageMonthly, 1);
   const rsuAnnual = sampleTriangularRounded(
@@ -135,9 +158,9 @@ function buildContributionRules(rng: SeededRandom, annualBase: number): Contribu
       max: RANGE.contributions.rsuAnnual.max,
       mode: annualBase * RANGE.contributions.rsuAnnual.modeFactor,
       low: 0,
-      high: annualBase * RANGE.contributions.rsuAnnual.highFactor,
+      high: annualBase * RANGE.contributions.rsuAnnual.highFactor
     },
-    1,
+    1
   );
   const collegeMonthly = sampleTriangularRounded(rng, RANGE.contributions.collegeMonthly, 1);
   const cryptoMonthly = sampleTriangularRounded(rng, RANGE.contributions.cryptoMonthly, 1);
@@ -155,7 +178,7 @@ function buildContributionRules(rng: SeededRandom, annualBase: number): Contribu
       type: 'salaryPercent',
       amount: employee401k,
       salaryBasis: 'monthly',
-      timing: monthlyTiming('start'),
+      timing: monthlyTiming('start')
     },
     {
       id: '401k-match',
@@ -163,7 +186,7 @@ function buildContributionRules(rng: SeededRandom, annualBase: number): Contribu
       type: 'salaryPercent',
       amount: match401k,
       salaryBasis: 'monthly',
-      timing: monthlyTiming('start'),
+      timing: monthlyTiming('start')
     },
     {
       id: '401k-roth',
@@ -171,35 +194,35 @@ function buildContributionRules(rng: SeededRandom, annualBase: number): Contribu
       type: 'salaryPercent',
       amount: roth401k,
       salaryBasis: 'monthly',
-      timing: monthlyTiming('start'),
+      timing: monthlyTiming('start')
     },
     {
       id: 'hsa-employee',
       name: 'HSA employee contribution',
       type: 'flat',
       amount: hsaEmployeeTiming === 'monthly' ? hsaEmployeeMonthly : hsaEmployeeMonthly * 12,
-      timing: hsaEmployeeTiming === 'monthly' ? monthlyTiming('end') : annualTiming(rng),
+      timing: hsaEmployeeTiming === 'monthly' ? monthlyTiming('end') : annualTiming(rng)
     },
     {
       id: 'hsa-employer',
       name: 'HSA employer contribution',
       type: 'flat',
       amount: hsaEmployerTiming === 'monthly' ? hsaEmployerMonthly : hsaEmployerMonthly * 12,
-      timing: hsaEmployerTiming === 'monthly' ? monthlyTiming('start') : annualTiming(rng),
+      timing: hsaEmployerTiming === 'monthly' ? monthlyTiming('start') : annualTiming(rng)
     },
     {
       id: 'ira',
       name: 'IRA contribution',
       type: 'flat',
       amount: iraAnnual,
-      timing: annualTiming(rng),
+      timing: annualTiming(rng)
     },
     {
       id: 'brokerage',
       name: 'Brokerage auto-invest',
       type: 'flat',
       amount: brokerageMonthly,
-      timing: monthlyTiming('end'),
+      timing: monthlyTiming('end')
     },
     {
       id: 'espp',
@@ -207,7 +230,7 @@ function buildContributionRules(rng: SeededRandom, annualBase: number): Contribu
       type: 'salaryPercent',
       amount: esppPercent,
       salaryBasis: 'monthly',
-      timing: monthlyTiming('start'),
+      timing: monthlyTiming('start')
     },
     {
       id: 'annual-bonus',
@@ -215,39 +238,39 @@ function buildContributionRules(rng: SeededRandom, annualBase: number): Contribu
       type: 'salaryPercent',
       amount: bonusPercent,
       salaryBasis: 'annual',
-      timing: bonusTiming,
+      timing: bonusTiming
     },
     {
       id: 'rsu-vesting',
       name: 'RSU vesting proceeds',
       type: 'flat',
       amount: rsuAnnual,
-      timing: rsuTiming,
+      timing: rsuTiming
     },
     {
       id: 'college-529',
       name: '529 contribution',
       type: 'flat',
       amount: collegeMonthly,
-      timing: monthlyTiming('end'),
+      timing: monthlyTiming('end')
     },
     {
       id: 'crypto',
       name: 'Crypto allocation',
       type: 'flat',
       amount: cryptoTiming === 'monthly' ? cryptoMonthly : cryptoMonthly * 12,
-      timing: cryptoTiming === 'monthly' ? monthlyTiming('end') : annualTiming(rng),
-    },
+      timing: cryptoTiming === 'monthly' ? monthlyTiming('end') : annualTiming(rng)
+    }
   ];
 
-  const orderedRuleIds = ruleTemplates.map(rule => rule.id);
+  const orderedRuleIds = ruleTemplates.map((rule) => rule.id);
   const selectedRuleIds = new Set<string>();
 
   const selectRandom = (id: string, chance: number) => {
     if (rng() < chance) selectedRuleIds.add(id);
   };
   const hasSelected = (id: string) => selectedRuleIds.has(id);
-  const byId = (id: string) => ruleTemplates.find(rule => rule.id === id);
+  const byId = (id: string) => ruleTemplates.find((rule) => rule.id === id);
 
   if (employee401k > 0) selectRandom('401k-employee', 0.8);
   if (match401k > 0 && hasSelected('401k-employee')) selectRandom('401k-match', 0.75);
@@ -275,13 +298,16 @@ function buildContributionRules(rng: SeededRandom, annualBase: number): Contribu
   }
 
   if (selectedRuleIds.size === 0) {
-    const fallbackId = orderedRuleIds[clampInt(Math.floor(rng() * orderedRuleIds.length), 0, orderedRuleIds.length - 1)];
+    const fallbackId =
+      orderedRuleIds[
+        clampInt(Math.floor(rng() * orderedRuleIds.length), 0, orderedRuleIds.length - 1)
+      ];
     if (fallbackId) selectedRuleIds.add(fallbackId);
   }
 
   return ruleTemplates
-    .filter(rule => selectedRuleIds.has(rule.id))
-    .map(rule => makeRule(rng, rule));
+    .filter((rule) => selectedRuleIds.has(rule.id))
+    .map((rule) => makeRule(rng, rule));
 }
 
 function makeRule(rng: SeededRandom, rule: ContributionRule): ContributionRule {
@@ -303,7 +329,7 @@ function hasMeaningfulAmount(rule: ContributionRule): boolean {
 function monthlyTiming(placement: 'start' | 'end'): ContributionTiming {
   return {
     frequency: 'monthly',
-    placement,
+    placement
   };
 }
 
@@ -311,14 +337,14 @@ function annualTiming(rng: SeededRandom): ContributionTiming {
   return {
     frequency: 'annual',
     month: clampInt(Math.floor(rng() * 12), 0, 11),
-    placement: rng() < 0.5 ? 'start' : 'end',
+    placement: rng() < 0.5 ? 'start' : 'end'
   };
 }
 
 function pickTiming<T extends string>(
   rng: SeededRandom,
   options: readonly T[],
-  weights: readonly number[],
+  weights: readonly number[]
 ): T {
   const total = weights.reduce((sum, value) => sum + value, 0);
   let roll = rng() * total;
@@ -349,7 +375,7 @@ function sampleTriangular(rng: SeededRandom, min: number, mode: number, max: num
 
 function sampleTriangularClamped(
   rng: SeededRandom,
-  range: { min: number; max: number; low: number; mode: number; high: number },
+  range: { min: number; max: number; low: number; mode: number; high: number }
 ): number {
   return clampFloat(sampleTriangular(rng, range.low, range.mode, range.high), range.min, range.max);
 }
@@ -357,9 +383,12 @@ function sampleTriangularClamped(
 function sampleTriangularRounded(
   rng: SeededRandom,
   range: { min: number; max: number; low: number; mode: number; high: number },
-  step: number,
+  step: number
 ): number {
-  return roundTo(clampFloat(sampleTriangular(rng, range.low, range.mode, range.high), range.min, range.max), step);
+  return roundTo(
+    clampFloat(sampleTriangular(rng, range.low, range.mode, range.high), range.min, range.max),
+    step
+  );
 }
 
 function roundNormal(rng: SeededRandom, mean: number, stddev: number): number {
@@ -394,9 +423,6 @@ function roundPercent(value: number): number {
   return Math.round(value * 100) / 100;
 }
 
-function roundToRange(
-  value: number,
-  range: { min: number; max: number; roundTo: number },
-): number {
+function roundToRange(value: number, range: { min: number; max: number; roundTo: number }): number {
   return roundTo(clampFloat(value, range.min, range.max), range.roundTo);
 }

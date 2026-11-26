@@ -10,4 +10,5 @@ export default defineConfig({
     // https://vitest.dev/guide/migration/#clearmocks-is-enabled-by-default
     clearMocks: false
   },
-  plugins: lazyPlugins(() => [tailwindcss(), sveltekit()]) });
+  plugins: lazyPlugins(() => [tailwindcss(), sveltekit()])
+});

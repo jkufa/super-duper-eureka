@@ -19,7 +19,7 @@ export function clampPanelPosition(
   next: PanelPosition,
   panel: PanelDimensions,
   viewport: ViewportDimensions,
-  gutter: number,
+  gutter: number
 ): PanelPosition {
   const minX = gutter;
   const minY = gutter;
@@ -30,14 +30,14 @@ export function clampPanelPosition(
 
   return {
     x: Math.min(Math.max(minX, next.x), maxX),
-    y: Math.min(Math.max(minY, next.y), maxY),
+    y: Math.min(Math.max(minY, next.y), maxY)
   };
 }
 
 export function nextDragPosition(start: DragStart, pointer: PanelPosition): PanelPosition {
   return {
     x: start.position.x + (pointer.x - start.pointer.x),
-    y: start.position.y + (pointer.y - start.pointer.y),
+    y: start.position.y + (pointer.y - start.pointer.y)
   };
 }
 
@@ -50,8 +50,7 @@ export function parseStoredPosition(raw: string | null, fallback: PanelPosition)
       return parsed;
     }
     return fallback;
-  }
-  catch {
+  } catch {
     return fallback;
   }
 }

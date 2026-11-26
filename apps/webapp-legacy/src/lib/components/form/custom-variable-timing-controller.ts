@@ -13,7 +13,7 @@ interface TimingParseControllerConfig {
 export function createTimingParseController(config: TimingParseControllerConfig) {
   const timers: Record<TimingTarget, ReturnType<typeof setTimeout> | null> = {
     draft: null,
-    edit: null,
+    edit: null
   };
 
   function clearTimer(target: TimingTarget) {
@@ -25,7 +25,7 @@ export function createTimingParseController(config: TimingParseControllerConfig)
   function applyParsedTiming(
     target: TimingTarget,
     text: string,
-    options?: { silentOnFailure?: boolean },
+    options?: { silentOnFailure?: boolean }
   ) {
     const parsed = config.parse(text);
     if (!parsed) {
@@ -64,6 +64,6 @@ export function createTimingParseController(config: TimingParseControllerConfig)
   return {
     schedule,
     flush,
-    cleanup,
+    cleanup
   };
 }

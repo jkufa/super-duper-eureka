@@ -6,7 +6,9 @@ test.describe('Custom variable hybrid timing mode', () => {
 
   test('create form only exposes hybrid timing controls', async ({ page }) => {
     await gotoApp(page);
-    const createForm = page.getByRole('heading', { name: 'Add custom variable' }).locator('xpath=ancestor::section[1]');
+    const createForm = page
+      .getByRole('heading', { name: 'Add custom variable' })
+      .locator('xpath=ancestor::section[1]');
 
     await expect(createForm.getByText('Contribution frequency')).toBeVisible();
     await expect(createForm.getByText('Timing phrase')).toHaveCount(0);
@@ -43,19 +45,25 @@ test.describe('Custom variable hybrid timing mode', () => {
 
   test('calendar opens anchored to today by default', async ({ page }) => {
     await gotoApp(page);
-    const createForm = page.getByRole('heading', { name: 'Add custom variable' }).locator('xpath=ancestor::section[1]');
+    const createForm = page
+      .getByRole('heading', { name: 'Add custom variable' })
+      .locator('xpath=ancestor::section[1]');
     const today = await page.evaluate(() => {
       const now = new Date();
       return `${String(now.getFullYear())}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
     });
 
     await createForm.locator('#custom-variable-timing-natural-date-picker').click();
-    await expect(page.locator(`[data-calendar-day][data-value="${today}"]:not([data-outside-month])`)).toBeVisible();
+    await expect(
+      page.locator(`[data-calendar-day][data-value="${today}"]:not([data-outside-month])`)
+    ).toBeVisible();
   });
 
   test('calendar pick keeps one-time parse text stable after debounce', async ({ page }) => {
     await gotoApp(page);
-    const createForm = page.getByRole('heading', { name: 'Add custom variable' }).locator('xpath=ancestor::section[1]');
+    const createForm = page
+      .getByRole('heading', { name: 'Add custom variable' })
+      .locator('xpath=ancestor::section[1]');
     const timingInput = createForm.locator('#custom-variable-timing-natural');
     const currentYear = new Date().getFullYear();
 
@@ -75,7 +83,9 @@ test.describe('Custom variable hybrid timing mode', () => {
 
   test('range modifiers parse and summarize without manual year inputs', async ({ page }) => {
     await gotoApp(page);
-    const createForm = page.getByRole('heading', { name: 'Add custom variable' }).locator('xpath=ancestor::section[1]');
+    const createForm = page
+      .getByRole('heading', { name: 'Add custom variable' })
+      .locator('xpath=ancestor::section[1]');
     const timingInput = createForm.locator('#custom-variable-timing-natural');
 
     await timingInput.fill('every 15th for 10 years starting in 2028');

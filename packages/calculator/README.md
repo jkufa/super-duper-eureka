@@ -50,15 +50,18 @@ All fields are required unless noted. Dates follow JavaScript Date conventions. 
 - `frequency`: `monthly`, `annual`, or `oneTime`.
 
 Monthly timing
+
 - `day`: number. Optional. 1 to 31. Used with daily compounding.
 - `placement`: `start` or `end`. Optional. Default is `start`.
 
 Annual timing
+
 - `month`: number. 0 to 11.
 - `day`: number. Optional. 1 to 31. Used with daily compounding.
 - `placement`: `start` or `end`. Optional. Default is `start`.
 
 One time timing
+
 - `on.month`: number. 0 to 11.
 - `on.year`: number. 0 based projection year.
 - `on.day`: number. Optional. 1 to 31. Used with daily compounding.

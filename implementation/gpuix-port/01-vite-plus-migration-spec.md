@@ -66,14 +66,14 @@ Do this before running the migrator, so a Vite 8 break shows up as a Vite 8 brea
 
 Define tasks in `run.tasks` in the root `vite.config.ts` so they cache. Replace the root `package.json` scripts with `vp run` calls.
 
-| Task | Command | Notes |
-|---|---|---|
-| `build` | per package | depends on the build of workspace dependencies |
-| `test` | `vp test` | |
-| `check` | `svelte-kit sync && svelte-check` in the web app | `vp check` covers lint, format and TS, not `.svelte` types |
-| `e2e` | `playwright test` | `cache: false` |
-| `retirement-calc` | `bun run packages/cli/src/index.ts` | stays on the Bun runtime, `cache: false` |
-| `dev` | per app | `cache: false` |
+| Task              | Command                                          | Notes                                                      |
+| ----------------- | ------------------------------------------------ | ---------------------------------------------------------- |
+| `build`           | per package                                      | depends on the build of workspace dependencies             |
+| `test`            | `vp test`                                        |                                                            |
+| `check`           | `svelte-kit sync && svelte-check` in the web app | `vp check` covers lint, format and TS, not `.svelte` types |
+| `e2e`             | `playwright test`                                | `cache: false`                                             |
+| `retirement-calc` | `bun run packages/cli/src/index.ts`              | stays on the Bun runtime, `cache: false`                   |
+| `dev`             | per app                                          | `cache: false`                                             |
 
 The packages keep building with `tsc --build`. Moving them to `vp pack` is optional and not part of this spec.
 

@@ -53,12 +53,18 @@ export interface ContributionTimingAnnual {
   placement?: 'start' | 'end';
 }
 
-export type ContributionTiming
-  = | ContributionTimingOneTime
-    | ContributionTimingMonthly
-    | ContributionTimingAnnual;
+export type ContributionTiming =
+  | ContributionTimingOneTime
+  | ContributionTimingMonthly
+  | ContributionTimingAnnual;
 
-export type SalaryBasis = 'annual' | 'monthly' | 'biweekly' | 'weekly' | 'daily' | 'perContribution';
+export type SalaryBasis =
+  | 'annual'
+  | 'monthly'
+  | 'biweekly'
+  | 'weekly'
+  | 'daily'
+  | 'perContribution';
 export interface ContributionGrowth {
   type: 'percent' | 'flat';
   /** Percent points if type='percent'; currency/absolute units if type='flat'. */

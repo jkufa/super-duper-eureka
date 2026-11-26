@@ -1,8 +1,8 @@
 {
   "name": "@retirement/logger",
-  "module": "src/index.ts",
-  "type": "module",
   "private": true,
+  "type": "module",
+  "module": "src/index.ts",
   "scripts": {
     "test": "echo 'no tests'",
     "build": "tsc --build"

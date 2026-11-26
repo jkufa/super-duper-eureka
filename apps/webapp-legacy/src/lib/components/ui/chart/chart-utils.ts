@@ -23,22 +23,20 @@ export type TooltipPayload = ExtractSnippetParams<
 export function getPayloadConfigFromPayload(
   config: ChartConfig,
   payload: TooltipPayload,
-  key: string,
+  key: string
 ) {
-  const nestedPayload
-    = typeof payload.payload === 'object' && payload.payload !== null
-      ? payload.payload as Record<string, unknown>
+  const nestedPayload =
+    typeof payload.payload === 'object' && payload.payload !== null
+      ? (payload.payload as Record<string, unknown>)
       : undefined;
 
   let configLabelKey: string = key;
 
   if (payload.key === key) {
     configLabelKey = payload.key;
-  }
-  else if (payload.name === key) {
+  } else if (payload.name === key) {
     configLabelKey = payload.name;
-  }
-  else {
+  } else {
     const payloadRecord = payload as Record<string, unknown>;
     const payloadLabel = payloadRecord[key];
     if (typeof payloadLabel === 'string') {
@@ -56,7 +54,9 @@ export function getPayloadConfigFromPayload(
   return configLabelKey in config ? config[configLabelKey] : config[key];
 }
 
-interface ChartContextValue { config: ChartConfig }
+interface ChartContextValue {
+  config: ChartConfig;
+}
 
 const chartContextKey = Symbol('chart-context');
 

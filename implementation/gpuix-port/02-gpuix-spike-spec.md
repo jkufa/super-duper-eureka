@@ -80,15 +80,15 @@ Record which event gpuix fires on blur. The docs list focus helpers but I have n
 
 Start from [reference/chart-geometry.ts](reference/chart-geometry.ts), which already matches LayerChart's path data.
 
-| Check | Pass | If it fails |
-|---|---|---|
-| Runtime-generated SVG mask per colour | Three series render | Stop. The 2026-11-21 probe says this works |
-| Dashed strokes inside a mask | Dashes render | Use solid lines |
-| Translucent fills | A 16% alpha fill tints correctly | Precompute solid colours |
-| Plot size | `onlayout` reports width and height in px | Fixed-size plot |
-| Pointer to year | `onmousemove` gives a position we can convert to a year, which needs the plot's left edge in window coordinates | Click and drag selection only |
-| Hover tooltip | A box follows the selected year using absolute `left` and `top`, or the `Popover` position prop | Fixed readout panel |
-| Keyboard | Left and Right step the selected year | Stop. The probe says this works |
+| Check                                 | Pass                                                                                                            | If it fails                                |
+| ------------------------------------- | --------------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| Runtime-generated SVG mask per colour | Three series render                                                                                             | Stop. The 2026-11-21 probe says this works |
+| Dashed strokes inside a mask          | Dashes render                                                                                                   | Use solid lines                            |
+| Translucent fills                     | A 16% alpha fill tints correctly                                                                                | Precompute solid colours                   |
+| Plot size                             | `onlayout` reports width and height in px                                                                       | Fixed-size plot                            |
+| Pointer to year                       | `onmousemove` gives a position we can convert to a year, which needs the plot's left edge in window coordinates | Click and drag selection only              |
+| Hover tooltip                         | A box follows the selected year using absolute `left` and `top`, or the `Popover` position prop                 | Fixed readout panel                        |
+| Keyboard                              | Left and Right step the selected year                                                                           | Stop. The probe says this works            |
 
 ### Q5. Desktop plumbing
 

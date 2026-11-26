@@ -29,13 +29,13 @@ export function initLoggingContext(options?: LoggingContextOptions): LoggingCont
     request_id: requestId,
     session_id: sessionId,
     run_id: runId,
-    ...options?.base,
+    ...options?.base
   };
 
   const logger = createWideEventLogger({
     base,
     pretty: options?.pretty,
-    indent: options?.indent,
+    indent: options?.indent
   });
 
   const context: LoggingContext = { base, logger };
@@ -52,7 +52,10 @@ export function getLoggingContext(): LoggingContext {
 }
 
 function randomId(prefix: string) {
-  if (typeof globalThis.crypto !== 'undefined' && typeof globalThis.crypto.randomUUID === 'function') {
+  if (
+    typeof globalThis.crypto !== 'undefined' &&
+    typeof globalThis.crypto.randomUUID === 'function'
+  ) {
     return `${prefix}_${globalThis.crypto.randomUUID()}`;
   }
   return `${prefix}_${Math.random().toString(36).slice(2, 10)}${Date.now().toString(36)}`;
@@ -70,8 +73,7 @@ function getOrCreateSessionId() {
     if (existing) return existing;
     globalThis.sessionStorage.setItem(key, fallback);
     return fallback;
-  }
-  catch {
+  } catch {
     return fallback;
   }
 }

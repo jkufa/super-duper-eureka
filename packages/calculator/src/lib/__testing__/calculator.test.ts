@@ -1,6 +1,10 @@
 import { describe, expect, it, vi } from 'vite-plus/test';
 
-import { calculateProjection, calculateProjectionWithSteps, calculateRetirement } from '../calculator';
+import {
+  calculateProjection,
+  calculateProjectionWithSteps,
+  calculateRetirement
+} from '../calculator';
 import { makeConfig, makeContribution } from '../factories';
 
 const setSystemTime = (isoDate: string) => {
@@ -29,10 +33,17 @@ const axes = {
   yearRange: ['none', 'startOnly', 'endOnly', 'range', 'outOfRange'] as YearRangeVariant[],
   enabled: [true, false],
   contributionType: ['flat', 'salaryPercent'] as ContributionType[],
-  salaryBasis: ['annual', 'monthly', 'biweekly', 'weekly', 'daily', 'perContribution'] as SalaryBasis[],
+  salaryBasis: [
+    'annual',
+    'monthly',
+    'biweekly',
+    'weekly',
+    'daily',
+    'perContribution'
+  ] as SalaryBasis[],
   raise: [0, 0.05],
   annualRate: [0, 0.05],
-  variance: [0, 0.02],
+  variance: [0, 0.02]
 };
 
 interface Case {
@@ -62,7 +73,7 @@ const defaultCase: Case = {
   salaryBasis: axes.salaryBasis[0],
   raise: axes.raise[0],
   annualRate: axes.annualRate[0],
-  variance: axes.variance[0],
+  variance: axes.variance[0]
 };
 
 const axisEntries = Object.entries(axes) as [keyof Case, Case[keyof Case][]][];
@@ -96,13 +107,18 @@ const resolveYearRange = (variant: YearRangeVariant) => {
   return { start: 3, end: 4 };
 };
 
-const resolveTiming = (frequency: Frequency, placement: Placement, day: DayVariant, startMonth: number) => {
+const resolveTiming = (
+  frequency: Frequency,
+  placement: Placement,
+  day: DayVariant,
+  startMonth: number
+) => {
   const dayValue = day === 'none' ? undefined : day === 'mid' ? 15 : 28;
 
   if (frequency === 'oneTime') {
     return {
       frequency: 'oneTime' as const,
-      on: { year: 0, month: startMonth, day: dayValue },
+      on: { year: 0, month: startMonth, day: dayValue }
     };
   }
 
@@ -111,21 +127,21 @@ const resolveTiming = (frequency: Frequency, placement: Placement, day: DayVaria
       frequency: 'annual' as const,
       month: startMonth,
       day: dayValue,
-      placement,
+      placement
     };
   }
 
   return {
     frequency: 'monthly' as const,
     day: dayValue,
-    placement,
+    placement
   };
 };
 
 const shouldThrow = (testCase: Case) =>
-  testCase.contributionType === 'salaryPercent'
-  && testCase.salaryBasis === 'perContribution'
-  && testCase.frequency === 'oneTime';
+  testCase.contributionType === 'salaryPercent' &&
+  testCase.salaryBasis === 'perContribution' &&
+  testCase.frequency === 'oneTime';
 
 const shouldContribute = (testCase: Case) => {
   if (!testCase.enabled) return false;
@@ -151,7 +167,7 @@ describe('calculator', () => {
         `salaryBasis=${testCase.salaryBasis}`,
         `raise=${String(testCase.raise)}`,
         `annualRate=${String(testCase.annualRate)}`,
-        `variance=${String(testCase.variance)}`,
+        `variance=${String(testCase.variance)}`
       ].join(' ');
 
       it(`covers pairwise permutations (${label})`, () => {
@@ -161,7 +177,11 @@ describe('calculator', () => {
           currentBalance: 1000,
           timeHorizonYears: 2,
           startDate: new Date(2026, testCase.startMonth, 1),
-          interest: { annualRate: testCase.annualRate, variance: testCase.variance, compounding: testCase.compounding },
+          interest: {
+            annualRate: testCase.annualRate,
+            variance: testCase.variance,
+            compounding: testCase.compounding
+          },
           salary: { annualBase: 120000, annualRaiseRate: testCase.raise },
           contributions: [
             makeContribution({
@@ -170,15 +190,20 @@ describe('calculator', () => {
               type: testCase.contributionType,
               amount: testCase.contributionType === 'flat' ? 500 : 5,
               salaryBasis: testCase.salaryBasis,
-              timing: resolveTiming(testCase.frequency, testCase.placement, testCase.day, testCase.startMonth),
-              yearRange: resolveYearRange(testCase.yearRange),
-            }),
-          ],
+              timing: resolveTiming(
+                testCase.frequency,
+                testCase.placement,
+                testCase.day,
+                testCase.startMonth
+              ),
+              yearRange: resolveYearRange(testCase.yearRange)
+            })
+          ]
         });
 
         if (shouldThrow(testCase)) {
           expect(() => calculateProjection(config, config.interest.annualRate)).toThrow(
-            'salaryBasis "perContribution" is not supported for oneTime contributions (id: pairwise).',
+            'salaryBasis "perContribution" is not supported for oneTime contributions (id: pairwise).'
           );
           resetTimers();
           return;
@@ -195,8 +220,7 @@ describe('calculator', () => {
 
         if (shouldContribute(testCase)) {
           expect(result.totalContributions).toBeGreaterThan(0);
-        }
-        else {
+        } else {
           expect(result.totalContributions).toBe(0);
         }
 
@@ -214,14 +238,15 @@ describe('calculator', () => {
         timeHorizonYears: 10,
         interest: { annualRate: 0.05, variance: 0.02, compounding: 'monthly' },
         salary: { annualBase: 100000, annualRaiseRate: 0 },
-        contributions: [],
+        contributions: []
       });
 
       const result = calculateProjection(config, config.interest.annualRate);
       expect(result).toBeDefined();
 
       const monthlyRate = (1 + config.interest.annualRate) ** (1 / 12) - 1;
-      const expectedBalance = config.currentBalance * (1 + monthlyRate) ** (config.timeHorizonYears * 12);
+      const expectedBalance =
+        config.currentBalance * (1 + monthlyRate) ** (config.timeHorizonYears * 12);
 
       expect(result.finalBalance).toBeCloseTo(expectedBalance, 2);
       resetTimers();
@@ -231,7 +256,7 @@ describe('calculator', () => {
       const config = makeConfig({ timeHorizonYears: -1 });
 
       expect(() => calculateProjection(config, config.interest.annualRate)).toThrow(
-        'timeHorizonYears must be 0 or greater (received -1).',
+        'timeHorizonYears must be 0 or greater (received -1).'
       );
     });
 
@@ -247,9 +272,9 @@ describe('calculator', () => {
             id: 'one-time',
             type: 'flat',
             amount: 500,
-            timing: { frequency: 'oneTime', on: { year: 0, month: 0 } },
-          }),
-        ],
+            timing: { frequency: 'oneTime', on: { year: 0, month: 0 } }
+          })
+        ]
       });
 
       const result = calculateProjection(config, config.interest.annualRate);
@@ -271,9 +296,9 @@ describe('calculator', () => {
             id: 'monthly-day-31',
             type: 'flat',
             amount: 200,
-            timing: { frequency: 'monthly', day: 31 },
-          }),
-        ],
+            timing: { frequency: 'monthly', day: 31 }
+          })
+        ]
       });
 
       const result = calculateProjection(config, config.interest.annualRate);
@@ -298,9 +323,9 @@ describe('calculator', () => {
             type: 'salaryPercent',
             amount: 10,
             salaryBasis: 'monthly',
-            timing: { frequency: 'monthly', placement: 'start' },
-          }),
-        ],
+            timing: { frequency: 'monthly', placement: 'start' }
+          })
+        ]
       });
 
       const result = calculateProjection(config, config.interest.annualRate);
@@ -323,13 +348,13 @@ describe('calculator', () => {
             type: 'salaryPercent',
             amount: 5,
             salaryBasis: 'perContribution',
-            timing: { frequency: 'oneTime', on: { year: 0, month: 0 } },
-          }),
-        ],
+            timing: { frequency: 'oneTime', on: { year: 0, month: 0 } }
+          })
+        ]
       });
 
       expect(() => calculateProjection(config, config.interest.annualRate)).toThrow(
-        'salaryBasis "perContribution" is not supported for oneTime contributions (id: one-time-percent).',
+        'salaryBasis "perContribution" is not supported for oneTime contributions (id: one-time-percent).'
       );
       resetTimers();
     });
@@ -349,51 +374,51 @@ describe('calculator', () => {
             type: 'salaryPercent',
             amount: 10,
             salaryBasis: 'annual',
-            timing: { frequency: 'monthly', placement: 'start' },
+            timing: { frequency: 'monthly', placement: 'start' }
           }),
           makeContribution({
             id: 'monthly',
             type: 'salaryPercent',
             amount: 10,
             salaryBasis: 'monthly',
-            timing: { frequency: 'monthly', placement: 'start' },
+            timing: { frequency: 'monthly', placement: 'start' }
           }),
           makeContribution({
             id: 'biweekly',
             type: 'salaryPercent',
             amount: 10,
             salaryBasis: 'biweekly',
-            timing: { frequency: 'monthly', placement: 'start' },
+            timing: { frequency: 'monthly', placement: 'start' }
           }),
           makeContribution({
             id: 'weekly',
             type: 'salaryPercent',
             amount: 10,
             salaryBasis: 'weekly',
-            timing: { frequency: 'monthly', placement: 'start' },
+            timing: { frequency: 'monthly', placement: 'start' }
           }),
           makeContribution({
             id: 'daily',
             type: 'salaryPercent',
             amount: 10,
             salaryBasis: 'daily',
-            timing: { frequency: 'monthly', placement: 'start' },
+            timing: { frequency: 'monthly', placement: 'start' }
           }),
           makeContribution({
             id: 'per-contrib-annual',
             type: 'salaryPercent',
             amount: 10,
             salaryBasis: 'perContribution',
-            timing: { frequency: 'annual', month: 0, placement: 'start' },
+            timing: { frequency: 'annual', month: 0, placement: 'start' }
           }),
           makeContribution({
             id: 'per-contrib-monthly',
             type: 'salaryPercent',
             amount: 10,
             salaryBasis: 'perContribution',
-            timing: { frequency: 'monthly', placement: 'start' },
-          }),
-        ],
+            timing: { frequency: 'monthly', placement: 'start' }
+          })
+        ]
       });
 
       const result = calculateProjection(config, config.interest.annualRate);
@@ -427,9 +452,9 @@ describe('calculator', () => {
             type: 'salaryPercent',
             amount: 10,
             salaryBasis: 'annual',
-            timing: { frequency: 'annual', month: 0, placement: 'start' },
-          }),
-        ],
+            timing: { frequency: 'annual', month: 0, placement: 'start' }
+          })
+        ]
       });
 
       const result = calculateProjection(config, config.interest.annualRate);
@@ -455,9 +480,9 @@ describe('calculator', () => {
             id: 'baseline',
             type: 'flat',
             amount: 100,
-            timing: { frequency: 'monthly', placement: 'start' },
-          }),
-        ],
+            timing: { frequency: 'monthly', placement: 'start' }
+          })
+        ]
       });
 
       const result = calculateProjection(config, config.interest.annualRate);
@@ -479,9 +504,9 @@ describe('calculator', () => {
             type: 'flat',
             amount: 100,
             growth: { type: 'percent', amount: 10, cadence: 'annual' },
-            timing: { frequency: 'annual', month: 0, placement: 'start' },
-          }),
-        ],
+            timing: { frequency: 'annual', month: 0, placement: 'start' }
+          })
+        ]
       });
 
       const result = calculateProjection(config, config.interest.annualRate);
@@ -503,13 +528,15 @@ describe('calculator', () => {
             type: 'flat',
             amount: 100,
             growth: { type: 'percent', amount: 10, cadence: 'monthly' },
-            timing: { frequency: 'monthly', placement: 'start' },
-          }),
-        ],
+            timing: { frequency: 'monthly', placement: 'start' }
+          })
+        ]
       });
 
-      const expected = Array.from({ length: 12 }, (_, index) => 100 * (1.1 ** index))
-        .reduce((total, value) => total + value, 0);
+      const expected = Array.from({ length: 12 }, (_, index) => 100 * 1.1 ** index).reduce(
+        (total, value) => total + value,
+        0
+      );
       const result = calculateProjection(config, config.interest.annualRate);
       expect(result.totalContributions).toBeCloseTo(expected, 6);
 
@@ -529,9 +556,9 @@ describe('calculator', () => {
             type: 'flat',
             amount: 100,
             growth: { type: 'flat', amount: 20, cadence: 'annual' },
-            timing: { frequency: 'annual', month: 0, placement: 'start' },
-          }),
-        ],
+            timing: { frequency: 'annual', month: 0, placement: 'start' }
+          })
+        ]
       });
 
       const result = calculateProjection(config, config.interest.annualRate);
@@ -553,9 +580,9 @@ describe('calculator', () => {
             type: 'flat',
             amount: 100,
             growth: { type: 'flat', amount: 20, cadence: 'monthly' },
-            timing: { frequency: 'monthly', placement: 'start' },
-          }),
-        ],
+            timing: { frequency: 'monthly', placement: 'start' }
+          })
+        ]
       });
 
       const result = calculateProjection(config, config.interest.annualRate);
@@ -578,9 +605,9 @@ describe('calculator', () => {
             amount: 100,
             growth: { type: 'flat', amount: 20, cadence: 'annual' },
             timing: { frequency: 'annual', month: 0, placement: 'start' },
-            yearRange: { start: 2, end: 3 },
-          }),
-        ],
+            yearRange: { start: 2, end: 3 }
+          })
+        ]
       });
 
       const result = calculateProjection(config, config.interest.annualRate);
@@ -604,15 +631,17 @@ describe('calculator', () => {
             amount: 10,
             growth: { type: 'flat', amount: 2, cadence: 'annual' },
             salaryBasis: 'monthly',
-            timing: { frequency: 'monthly', placement: 'start' },
-          }),
-        ],
+            timing: { frequency: 'monthly', placement: 'start' }
+          })
+        ]
       });
 
-      const run = calculateProjectionWithSteps(config, config.interest.annualRate, { includeContributionDetails: true });
+      const run = calculateProjectionWithSteps(config, config.interest.annualRate, {
+        includeContributionDetails: true
+      });
       expect(run.steps[0]?.contributionsThisStep).toBeCloseTo(1000, 6);
       expect(run.steps[12]?.contributionsThisStep).toBeCloseTo(1200, 6);
-      expect(run.projection.totalContributions).toBeCloseTo((1000 * 12) + (1200 * 12), 6);
+      expect(run.projection.totalContributions).toBeCloseTo(1000 * 12 + 1200 * 12, 6);
 
       resetTimers();
     });
@@ -630,13 +659,13 @@ describe('calculator', () => {
             type: 'flat',
             amount: 100,
             growth: { type: 'percent', amount: -1, cadence: 'annual' },
-            timing: { frequency: 'monthly', placement: 'start' },
-          }),
-        ],
+            timing: { frequency: 'monthly', placement: 'start' }
+          })
+        ]
       });
 
       expect(() => calculateProjection(config, config.interest.annualRate)).toThrow(
-        'growth.amount must be 0 or greater for contribution "invalid-growth".',
+        'growth.amount must be 0 or greater for contribution "invalid-growth".'
       );
 
       resetTimers();
@@ -652,7 +681,7 @@ describe('calculator', () => {
         timeHorizonYears: 1,
         interest: { annualRate: 0, compounding: 'monthly' as const },
         salary: { annualBase: 100000, annualRaiseRate: 0 },
-        contributions: [],
+        contributions: []
       };
       const systemResult = calculateProjection(fromSystem, fromSystem.interest.annualRate);
       expect(systemResult.monthlyProjections[0]?.month).toBe(2);
@@ -662,7 +691,7 @@ describe('calculator', () => {
         timeHorizonYears: 1,
         startDate: '2026-02-01T00:00:00.000Z',
         interest: { annualRate: 0, compounding: 'monthly' },
-        contributions: [],
+        contributions: []
       });
       const stringResult = calculateProjection(fromString, fromString.interest.annualRate);
       expect(stringResult.monthlyProjections[0]?.month).toBe(1);
@@ -672,7 +701,7 @@ describe('calculator', () => {
         timeHorizonYears: 1,
         startDate: new Date(2026, 5, 20),
         interest: { annualRate: 0, compounding: 'monthly' },
-        contributions: [],
+        contributions: []
       });
       const dateResult = calculateProjection(fromDate, fromDate.interest.annualRate);
       expect(dateResult.monthlyProjections[0]?.month).toBe(5);
@@ -693,9 +722,9 @@ describe('calculator', () => {
             id: 'monthly-day',
             type: 'flat',
             amount: 100,
-            timing: { frequency: 'monthly', day: 16, placement: 'start' },
-          }),
-        ],
+            timing: { frequency: 'monthly', day: 16, placement: 'start' }
+          })
+        ]
       });
 
       const run = calculateProjectionWithSteps(config, config.interest.annualRate);
@@ -718,9 +747,9 @@ describe('calculator', () => {
             id: 'daily-day',
             type: 'flat',
             amount: 100,
-            timing: { frequency: 'monthly', day: 16, placement: 'start' },
-          }),
-        ],
+            timing: { frequency: 'monthly', day: 16, placement: 'start' }
+          })
+        ]
       });
 
       const run = calculateProjectionWithSteps(config, config.interest.annualRate);
@@ -743,9 +772,9 @@ describe('calculator', () => {
             id: 'clamp-low',
             type: 'flat',
             amount: 200,
-            timing: { frequency: 'oneTime', on: { year: 0, month: 3, day: 0 } },
-          }),
-        ],
+            timing: { frequency: 'oneTime', on: { year: 0, month: 3, day: 0 } }
+          })
+        ]
       });
       const lowResult = calculateProjection(baseConfig, baseConfig.interest.annualRate);
 
@@ -756,9 +785,9 @@ describe('calculator', () => {
             id: 'explicit-low',
             type: 'flat',
             amount: 200,
-            timing: { frequency: 'oneTime', on: { year: 0, month: 3, day: 1 } },
-          }),
-        ],
+            timing: { frequency: 'oneTime', on: { year: 0, month: 3, day: 1 } }
+          })
+        ]
       });
       const explicitLowResult = calculateProjection(explicitLow, explicitLow.interest.annualRate);
 
@@ -774,9 +803,9 @@ describe('calculator', () => {
             id: 'clamp-high',
             type: 'flat',
             amount: 200,
-            timing: { frequency: 'oneTime', on: { year: 0, month: 3, day: 99 } },
-          }),
-        ],
+            timing: { frequency: 'oneTime', on: { year: 0, month: 3, day: 99 } }
+          })
+        ]
       });
       const highResult = calculateProjection(highConfig, highConfig.interest.annualRate);
 
@@ -787,11 +816,14 @@ describe('calculator', () => {
             id: 'explicit-high',
             type: 'flat',
             amount: 200,
-            timing: { frequency: 'oneTime', on: { year: 0, month: 3, day: 30 } },
-          }),
-        ],
+            timing: { frequency: 'oneTime', on: { year: 0, month: 3, day: 30 } }
+          })
+        ]
       });
-      const explicitHighResult = calculateProjection(explicitHigh, explicitHigh.interest.annualRate);
+      const explicitHighResult = calculateProjection(
+        explicitHigh,
+        explicitHigh.interest.annualRate
+      );
 
       expect(highResult.finalBalance).toBeCloseTo(explicitHighResult.finalBalance, 6);
 
@@ -811,15 +843,15 @@ describe('calculator', () => {
             id: 'start',
             type: 'flat',
             amount: 100,
-            timing: { frequency: 'annual', month: 3, placement: 'start' },
+            timing: { frequency: 'annual', month: 3, placement: 'start' }
           }),
           makeContribution({
             id: 'end',
             type: 'flat',
             amount: 150,
-            timing: { frequency: 'annual', month: 3, placement: 'end' },
-          }),
-        ],
+            timing: { frequency: 'annual', month: 3, placement: 'end' }
+          })
+        ]
       });
 
       const explicitConfig = makeConfig({
@@ -829,19 +861,25 @@ describe('calculator', () => {
             id: 'day-1',
             type: 'flat',
             amount: 100,
-            timing: { frequency: 'annual', month: 3, day: 1 },
+            timing: { frequency: 'annual', month: 3, day: 1 }
           }),
           makeContribution({
             id: 'day-last',
             type: 'flat',
             amount: 150,
-            timing: { frequency: 'annual', month: 3, day: 30 },
-          }),
-        ],
+            timing: { frequency: 'annual', month: 3, day: 30 }
+          })
+        ]
       });
 
-      const startEndResult = calculateProjection(startEndConfig, startEndConfig.interest.annualRate);
-      const explicitResult = calculateProjection(explicitConfig, explicitConfig.interest.annualRate);
+      const startEndResult = calculateProjection(
+        startEndConfig,
+        startEndConfig.interest.annualRate
+      );
+      const explicitResult = calculateProjection(
+        explicitConfig,
+        explicitConfig.interest.annualRate
+      );
 
       expect(startEndResult.finalBalance).toBeCloseTo(explicitResult.finalBalance, 6);
 
@@ -857,7 +895,7 @@ describe('calculator', () => {
         currentBalance: 1000,
         timeHorizonYears: 1,
         interest: { annualRate: 0.05, variance: 0.02, compounding: 'monthly' },
-        contributions: [],
+        contributions: []
       });
 
       const result = calculateRetirement(config);
@@ -875,7 +913,7 @@ describe('calculator', () => {
         currentBalance: 1000,
         timeHorizonYears: 1,
         interest: { annualRate: 0.05, variance: 0, compounding: 'monthly' },
-        contributions: [],
+        contributions: []
       });
 
       const result = calculateRetirement(config);

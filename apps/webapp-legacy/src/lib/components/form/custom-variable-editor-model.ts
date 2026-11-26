@@ -1,11 +1,11 @@
 import {
   normalizeCustomVariableInput,
   validateCustomVariableInput,
-  type NormalizeCustomVariableInput,
+  type NormalizeCustomVariableInput
 } from '@retirement/calculator';
 import {
   parseCustomVariableTimingText,
-  type ParsedCustomVariableTiming,
+  type ParsedCustomVariableTiming
 } from '$lib/forms/frequency-nlp';
 
 export interface TimingParseContext {
@@ -25,7 +25,9 @@ export interface StructuredTimingFallback {
 
 export type ResolvedParsedTiming = ParsedCustomVariableTiming;
 
-interface ValidateAndNormalizeInput extends NormalizeCustomVariableInput { parsedTiming: ResolvedParsedTiming }
+interface ValidateAndNormalizeInput extends NormalizeCustomVariableInput {
+  parsedTiming: ResolvedParsedTiming;
+}
 
 function toFiniteNumber(value: unknown, fallback: number) {
   const parsed = Number(value);
@@ -42,17 +44,14 @@ export function toCustomVariableId(name: string) {
   return `custom-${slug || 'variable'}-${token}`;
 }
 
-export function parseCustomVariableTiming(
-  input: string,
-  context: TimingParseContext,
-) {
+export function parseCustomVariableTiming(input: string, context: TimingParseContext) {
   return parseCustomVariableTimingText(input, context);
 }
 
 export function resolveParsedTimingOrStructured(
   input: string,
   fallback: StructuredTimingFallback,
-  context: TimingParseContext,
+  context: TimingParseContext
 ): ResolvedParsedTiming | null {
   const parsed = parseCustomVariableTiming(input, context);
   if (parsed) return parsed;
@@ -65,7 +64,7 @@ export function resolveParsedTimingOrStructured(
     year: toFiniteNumber(fallback.year, context.projectionStartYear),
     yearStart: toFiniteNumber(fallback.yearStart, 0),
     yearEnd: toFiniteNumber(fallback.yearEnd, Math.max(0, context.horizonYears)),
-    summary: '',
+    summary: ''
   };
 }
 
@@ -77,14 +76,14 @@ export function validateAndNormalizeCustomVariableInput(input: ValidateAndNormal
       yearStart: input.parsedTiming.yearStart,
       yearEnd: input.parsedTiming.yearEnd,
       growthEnabled: input.growthEnabled,
-      growthAmount: input.growthAmount,
+      growthAmount: input.growthAmount
     },
     {
       frequency: input.parsedTiming.frequency,
       day: input.parsedTiming.day,
       month: input.parsedTiming.month,
-      year: input.parsedTiming.year,
-    },
+      year: input.parsedTiming.year
+    }
   );
   if (validationError) {
     return { error: validationError as string, normalized: null };
@@ -94,18 +93,18 @@ export function validateAndNormalizeCustomVariableInput(input: ValidateAndNormal
     {
       ...input,
       yearStart: input.parsedTiming.yearStart,
-      yearEnd: input.parsedTiming.yearEnd,
+      yearEnd: input.parsedTiming.yearEnd
     },
     {
       frequency: input.parsedTiming.frequency,
       day: input.parsedTiming.day,
       month: input.parsedTiming.month,
-      year: input.parsedTiming.year,
-    },
+      year: input.parsedTiming.year
+    }
   );
 
   return {
     error: null,
-    normalized,
+    normalized
   };
 }

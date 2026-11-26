@@ -6,17 +6,19 @@ import { superValidate } from 'sveltekit-superforms';
 import { zod4 } from 'sveltekit-superforms/adapters';
 import {
   retirementConfigFormSchema,
-  toRetirementConfigFormDefaults,
+  toRetirementConfigFormDefaults
 } from '$lib/forms/retirement-config-form';
 
 export const load: PageServerLoad = async ({ locals }) => {
   const mockRealData = MOCK_REAL_DATA === 'true';
   const seed = mockRealData ? createRandomSeed() : null;
   const now = new Date();
-  const todayStartDate = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate())).toISOString();
+  const todayStartDate = new Date(
+    Date.UTC(now.getFullYear(), now.getMonth(), now.getDate())
+  ).toISOString();
 
-  const config: RetirementConfig
-    = mockRealData && seed !== null
+  const config: RetirementConfig =
+    mockRealData && seed !== null
       ? generateRandomRetirementConfig(seed)
       : {
           currentBalance: 1000,
@@ -25,11 +27,11 @@ export const load: PageServerLoad = async ({ locals }) => {
           interest: {
             annualRate: 0.06,
             variance: 0.02,
-            compounding: 'monthly',
+            compounding: 'monthly'
           },
           salary: {
             annualBase: 45000,
-            annualRaiseRate: 0.03,
+            annualRaiseRate: 0.03
           },
           contributions: [
             {
@@ -37,9 +39,9 @@ export const load: PageServerLoad = async ({ locals }) => {
               name: 'Monthly contribution',
               type: 'flat',
               amount: 100,
-              timing: { frequency: 'monthly', placement: 'end' },
-            },
-          ],
+              timing: { frequency: 'monthly', placement: 'end' }
+            }
+          ]
         };
 
   locals.logContext = {
@@ -48,18 +50,20 @@ export const load: PageServerLoad = async ({ locals }) => {
     projection_years: config.timeHorizonYears,
     contribution_rule_count: config.contributions.length,
     mock_real_data: mockRealData,
-    mock_seed: seed ?? undefined,
+    mock_seed: seed ?? undefined
   };
 
-  const configForm = await superValidate(zod4(retirementConfigFormSchema), { defaults: toRetirementConfigFormDefaults(config) });
+  const configForm = await superValidate(zod4(retirementConfigFormSchema), {
+    defaults: toRetirementConfigFormDefaults(config)
+  });
 
   return {
     config,
     configForm,
     mock: {
       enabled: mockRealData,
-      seed,
+      seed
     },
-    logContext: locals.logContext,
+    logContext: locals.logContext
   };
 };

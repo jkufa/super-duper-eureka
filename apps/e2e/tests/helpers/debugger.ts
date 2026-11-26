@@ -17,6 +17,6 @@ export function stepControls(page: Page) {
     prev: page.getByRole('button', { name: 'Step backward' }),
     input: page.getByRole('textbox', { name: 'Enter step number' }),
     next: page.getByRole('button', { name: 'Step forward' }),
-    last: page.getByRole('button', { name: 'Jump to last step' }),
+    last: page.getByRole('button', { name: 'Jump to last step' })
   };
 }

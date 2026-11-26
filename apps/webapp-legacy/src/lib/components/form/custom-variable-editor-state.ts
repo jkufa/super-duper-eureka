@@ -29,7 +29,11 @@ export function toParsedCalendarDate(year: unknown, month: unknown, day: unknown
   if (!Number.isFinite(year) || !Number.isFinite(month) || !Number.isFinite(day)) {
     return undefined;
   }
-  return new CalendarDate(Math.trunc(Number(year)), Math.trunc(Number(month)), Math.trunc(Number(day)));
+  return new CalendarDate(
+    Math.trunc(Number(year)),
+    Math.trunc(Number(month)),
+    Math.trunc(Number(day))
+  );
 }
 
 export function toCalendarBounds(input: {
@@ -54,7 +58,7 @@ export function formatCustomVariableDate(date: DateValue | undefined) {
   return date.toDate(getLocalTimeZone()).toLocaleDateString('en-US', {
     day: '2-digit',
     month: 'long',
-    year: 'numeric',
+    year: 'numeric'
   });
 }
 
@@ -75,7 +79,7 @@ export function toCustomVariableDraftState(variable: CustomVariable): CustomVari
     growthType: variable.growthType,
     growthAmount: variable.growthAmount,
     growthCadence: variable.growthCadence,
-    timingInputMode: 'hybrid',
+    timingInputMode: 'hybrid'
   };
 }
 
@@ -96,6 +100,6 @@ export function toDraftResetState(today: Date, horizonYears: number): DraftReset
     growthEnabled: false,
     growthType: 'percent',
     growthAmount: 0,
-    growthCadence: 'annual',
+    growthCadence: 'annual'
   };
 }

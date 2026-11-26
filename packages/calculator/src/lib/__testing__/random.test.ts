@@ -52,7 +52,7 @@ describe('random config generation', () => {
     let sawSubset = false;
     for (let seed = 1; seed <= 100; seed += 1) {
       const config = generateRandomRetirementConfig(seed);
-      const sortedIds = config.contributions.map(rule => rule.id).sort();
+      const sortedIds = config.contributions.map((rule) => rule.id).sort();
       contributionSets.add(sortedIds.join(','));
       if (config.contributions.length < 12) {
         sawSubset = true;
@@ -83,7 +83,7 @@ describe('random config generation', () => {
     setSystemTime('2026-01-01T00:00:00.000Z');
 
     const config = generateRandomRetirementConfig(918326173);
-    const employee401k = config.contributions.find(rule => rule.id === '401k-employee');
+    const employee401k = config.contributions.find((rule) => rule.id === '401k-employee');
 
     expect(employee401k?.type).toBe('salaryPercent');
     expect(employee401k?.amount).toBe(11.96);

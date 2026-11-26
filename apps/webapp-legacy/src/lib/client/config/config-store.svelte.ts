@@ -1,4 +1,7 @@
-import { applyRetirementConfigFormValues, type RetirementConfigFormValues } from '$lib/forms/retirement-config-form';
+import {
+  applyRetirementConfigFormValues,
+  type RetirementConfigFormValues
+} from '$lib/forms/retirement-config-form';
 import type { RetirementConfig } from '@retirement/calculator/types';
 import { initRetirementConfigContext, type RetirementConfigContext } from './config-context.svelte';
 

@@ -11,10 +11,12 @@ export interface RetirementConfigContext {
   clearStoredConfig: () => void;
 }
 
-interface RetirementConfigContextOptions { storageKey?: string }
+interface RetirementConfigContextOptions {
+  storageKey?: string;
+}
 
 export function initRetirementConfigContext(
-  options?: RetirementConfigContextOptions,
+  options?: RetirementConfigContextOptions
 ): RetirementConfigContext {
   const existing = getContext<RetirementConfigContext | undefined>(RETIREMENT_CONFIG_CONTEXT_KEY);
   if (existing) return existing;
@@ -34,8 +36,7 @@ export function initRetirementConfigContext(
 
         const parsed: unknown = JSON.parse(raw);
         return isRetirementConfigLike(parsed) ? parsed : undefined;
-      }
-      catch {
+      } catch {
         return undefined;
       }
     },
@@ -46,8 +47,7 @@ export function initRetirementConfigContext(
 
       try {
         globalThis.localStorage.setItem(storageKey, JSON.stringify(config));
-      }
-      catch {
+      } catch {
         // Swallow storage write errors (quota, private mode, etc).
       }
     },
@@ -58,11 +58,10 @@ export function initRetirementConfigContext(
 
       try {
         globalThis.localStorage.removeItem(storageKey);
-      }
-      catch {
+      } catch {
         // Swallow storage errors to avoid breaking the app.
       }
-    },
+    }
   };
 
   setContext(RETIREMENT_CONFIG_CONTEXT_KEY, context);
@@ -72,7 +71,9 @@ export function initRetirementConfigContext(
 export function getRetirementConfigContext(): RetirementConfigContext {
   const context = getContext<RetirementConfigContext | undefined>(RETIREMENT_CONFIG_CONTEXT_KEY);
   if (!context) {
-    throw new Error('Retirement config context is not set. Call initRetirementConfigContext first.');
+    throw new Error(
+      'Retirement config context is not set. Call initRetirementConfigContext first.'
+    );
   }
   return context;
 }
@@ -84,10 +85,10 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 function isRetirementConfigLike(value: unknown): value is RetirementConfig {
   if (!isRecord(value)) return false;
   return (
-    typeof value.currentBalance === 'number'
-    && typeof value.timeHorizonYears === 'number'
-    && isRecord(value.interest)
-    && isRecord(value.salary)
-    && Array.isArray(value.contributions)
+    typeof value.currentBalance === 'number' &&
+    typeof value.timeHorizonYears === 'number' &&
+    isRecord(value.interest) &&
+    isRecord(value.salary) &&
+    Array.isArray(value.contributions)
   );
 }

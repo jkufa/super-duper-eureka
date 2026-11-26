@@ -27,8 +27,8 @@ interface ParsedRange {
   cleanedInput: string;
 }
 
-const TIMING_PARSE_ERROR_MESSAGE
-  = 'Unable to parse that contribution frequency. Try "every 15th", "every Feb 13", "on 1/2/2027", "every 15th until 2030", or "every 15th for 10 years starting in 2028".';
+const TIMING_PARSE_ERROR_MESSAGE =
+  'Unable to parse that contribution frequency. Try "every 15th", "every Feb 13", "on 1/2/2027", "every 15th until 2030", or "every 15th for 10 years starting in 2028".';
 
 const MONTH_LOOKUP: Record<string, number> = {
   january: 1,
@@ -54,7 +54,7 @@ const MONTH_LOOKUP: Record<string, number> = {
   november: 11,
   nov: 11,
   december: 12,
-  dec: 12,
+  dec: 12
 };
 
 function normalizeWhitespace(input: string) {
@@ -71,7 +71,7 @@ function parseRangeModifiers(input: string): ParsedRange {
     /\bstarting\s+(?:in\s+)?(\d{4})\b/i,
     /\bbeginning\s+(?:in\s+)?(\d{4})\b/i,
     /\bfrom\s+(\d{4})\b/i,
-    /\bstart\s+(?:in\s+)?(\d{4})\b/i,
+    /\bstart\s+(?:in\s+)?(\d{4})\b/i
   ];
 
   for (const pattern of startYearPatterns) {
@@ -108,7 +108,7 @@ function parseRangeModifiers(input: string): ParsedRange {
     startYear,
     durationYears,
     endYear,
-    cleanedInput: normalizeWhitespace(cleaned),
+    cleanedInput: normalizeWhitespace(cleaned)
   };
 }
 
@@ -118,7 +118,7 @@ function parseRecurringTiming(input: string, referenceYear: number) {
   const monthlyPatterns = [
     /^(?:every|on)\s+(?:the\s+)?(\d{1,2})(?:st|nd|rd|th)?(?:\s+of\s+(?:each|every)\s+month)?$/,
     /^monthly\s+on\s+(?:the\s+)?(\d{1,2})(?:st|nd|rd|th)?$/,
-    /^every\s+month\s+on\s+(?:the\s+)?(\d{1,2})(?:st|nd|rd|th)?$/,
+    /^every\s+month\s+on\s+(?:the\s+)?(\d{1,2})(?:st|nd|rd|th)?$/
   ];
 
   for (const pattern of monthlyPatterns) {
@@ -131,14 +131,14 @@ function parseRecurringTiming(input: string, referenceYear: number) {
         day,
         month: 1,
         year: referenceYear,
-        summary: `Parsed as monthly on day ${String(day)}.`,
+        summary: `Parsed as monthly on day ${String(day)}.`
       };
     }
   }
 
   const annualPatterns = [
     /^(?:every\s+year\s+on|every|on)\s+([a-z]+)\s+(\d{1,2})(?:st|nd|rd|th)?$/,
-    /^annually\s+on\s+([a-z]+)\s+(\d{1,2})(?:st|nd|rd|th)?$/,
+    /^annually\s+on\s+([a-z]+)\s+(\d{1,2})(?:st|nd|rd|th)?$/
   ];
 
   for (const pattern of annualPatterns) {
@@ -155,7 +155,7 @@ function parseRecurringTiming(input: string, referenceYear: number) {
         day,
         month,
         year: referenceYear,
-        summary: `Parsed as annual on ${monthToken} ${String(day)}.`,
+        summary: `Parsed as annual on ${monthToken} ${String(day)}.`
       };
     }
   }
@@ -167,19 +167,21 @@ function resolveYearRange(
   parsed: { frequency: CustomVariableFrequency; year: number },
   range: ParsedRange,
   projectionStartYear: number,
-  horizonYears: number,
+  horizonYears: number
 ) {
   if (parsed.frequency === 'oneTime') {
     const oneTimeOffset = Math.max(0, parsed.year - projectionStartYear);
     return {
       yearStart: oneTimeOffset,
       yearEnd: oneTimeOffset,
-      rangeSummary: `Applies once in ${String(parsed.year)}.`,
+      rangeSummary: `Applies once in ${String(parsed.year)}.`
     };
   }
 
   const normalizedHorizon = Math.max(1, Math.trunc(horizonYears));
-  const safeDuration = range.durationYears ? Math.max(1, Math.trunc(range.durationYears)) : undefined;
+  const safeDuration = range.durationYears
+    ? Math.max(1, Math.trunc(range.durationYears))
+    : undefined;
   const safeStartYear = range.startYear ? Math.trunc(range.startYear) : undefined;
   const safeEndYear = range.endYear ? Math.trunc(range.endYear) : undefined;
 
@@ -187,10 +189,7 @@ function resolveYearRange(
   const yearEndCandidates = [normalizedHorizon];
   if (safeDuration) yearEndCandidates.push(yearStart + safeDuration - 1);
   if (safeEndYear) yearEndCandidates.push(safeEndYear - projectionStartYear);
-  const yearEnd = Math.min(
-    normalizedHorizon,
-    Math.max(yearStart, Math.min(...yearEndCandidates)),
-  );
+  const yearEnd = Math.min(normalizedHorizon, Math.max(yearStart, Math.min(...yearEndCandidates)));
 
   const absoluteStartYear = projectionStartYear + yearStart;
   const absoluteEndYear = projectionStartYear + yearEnd;
@@ -198,13 +197,13 @@ function resolveYearRange(
   return {
     yearStart,
     yearEnd,
-    rangeSummary: `Applies in years ${String(yearStart)}-${String(yearEnd)} (${String(absoluteStartYear)}-${String(absoluteEndYear)}).`,
+    rangeSummary: `Applies in years ${String(yearStart)}-${String(yearEnd)} (${String(absoluteStartYear)}-${String(absoluteEndYear)}).`
   };
 }
 
 export function parseCustomVariableTimingText(
   input: string,
-  options: ParseCustomVariableTimingOptions,
+  options: ParseCustomVariableTimingOptions
 ): ParsedCustomVariableTiming | null {
   const trimmed = normalizeWhitespace(input);
   if (!trimmed) return null;
@@ -219,11 +218,16 @@ export function parseCustomVariableTimingText(
 
   const recurring = parseRecurringTiming(cleanedForTiming, referenceYear);
   if (recurring) {
-    const resolvedRange = resolveYearRange(recurring, range, projectionStartYear, options.horizonYears);
+    const resolvedRange = resolveYearRange(
+      recurring,
+      range,
+      projectionStartYear,
+      options.horizonYears
+    );
     return {
       ...recurring,
       ...resolvedRange,
-      summary: `${recurring.summary} ${resolvedRange.rangeSummary}`,
+      summary: `${recurring.summary} ${resolvedRange.rangeSummary}`
     };
   }
 
@@ -236,14 +240,14 @@ export function parseCustomVariableTimingText(
   const formatted = parsedDate.toLocaleDateString('en-US', {
     day: '2-digit',
     month: 'long',
-    year: 'numeric',
+    year: 'numeric'
   });
 
   const resolvedRange = resolveYearRange(
     { frequency: 'oneTime', year },
     range,
     projectionStartYear,
-    options.horizonYears,
+    options.horizonYears
   );
 
   return {
@@ -252,7 +256,7 @@ export function parseCustomVariableTimingText(
     month,
     year,
     ...resolvedRange,
-    summary: `Parsed as one-time on ${formatted}. ${resolvedRange.rangeSummary}`,
+    summary: `Parsed as one-time on ${formatted}. ${resolvedRange.rangeSummary}`
   };
 }
 

@@ -13,10 +13,13 @@ const config = {
     adapter: adapter(),
     alias: {
       '@retirement/calculator': path.resolve(rootDir, '../../packages/calculator/src/index.ts'),
-      '@retirement/calculator/types': path.resolve(rootDir, '../../packages/calculator/src/lib/types.ts'),
-      '@retirement/logger': path.resolve(rootDir, '../../packages/logger/src/index.ts'),
-    },
-  },
+      '@retirement/calculator/types': path.resolve(
+        rootDir,
+        '../../packages/calculator/src/lib/types.ts'
+      ),
+      '@retirement/logger': path.resolve(rootDir, '../../packages/logger/src/index.ts')
+    }
+  }
 };
 
 export default config;

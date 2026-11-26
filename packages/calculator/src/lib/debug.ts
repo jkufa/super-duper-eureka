@@ -1,7 +1,13 @@
 import type { ProjectionRun, ProjectionStep } from './calculator';
 import { calculateProjectionWithSteps } from './calculator';
 import type { RetirementConfig } from './types';
-import { getDefaultEnvironmentContext, type WideEvent, type WideEventBase, type WideEventInput, type WideEventLogger } from '@retirement/logger';
+import {
+  getDefaultEnvironmentContext,
+  type WideEvent,
+  type WideEventBase,
+  type WideEventInput,
+  type WideEventLogger
+} from '@retirement/logger';
 
 export interface DebugSessionOptions {
   logger: WideEventLogger;
@@ -10,9 +16,14 @@ export interface DebugSessionOptions {
   includeContributionDetails?: boolean;
 }
 
-export interface DebugSessionResult extends ProjectionRun { events: WideEvent[] }
+export interface DebugSessionResult extends ProjectionRun {
+  events: WideEvent[];
+}
 
-export function runDebugSession(config: RetirementConfig, options: DebugSessionOptions): DebugSessionResult {
+export function runDebugSession(
+  config: RetirementConfig,
+  options: DebugSessionOptions
+): DebugSessionResult {
   const baseContext = buildBaseContext(options.baseContext);
   const logger = options.logger;
   const emitSteps = options.emitSteps ?? true;
@@ -22,7 +33,9 @@ export function runDebugSession(config: RetirementConfig, options: DebugSessionO
   const events: WideEvent[] = [];
 
   try {
-    projectionRun = calculateProjectionWithSteps(config, config.interest.annualRate, { includeContributionDetails: options.includeContributionDetails ?? true });
+    projectionRun = calculateProjectionWithSteps(config, config.interest.annualRate, {
+      includeContributionDetails: options.includeContributionDetails ?? true
+    });
 
     if (emitSteps) {
       for (const step of projectionRun.steps) {
@@ -33,17 +46,16 @@ export function runDebugSession(config: RetirementConfig, options: DebugSessionO
 
     const runEvent = buildRunWideEvent(config, projectionRun, baseContext, {
       durationMs: Date.now() - startedAt,
-      outcome: 'success',
+      outcome: 'success'
     });
     events.push(logger.info(runEvent));
 
     return { ...projectionRun, events };
-  }
-  catch (error) {
+  } catch (error) {
     const runEvent = buildRunWideEvent(config, projectionRun ?? emptyRun(), baseContext, {
       durationMs: Date.now() - startedAt,
       outcome: 'error',
-      error,
+      error
     });
     events.push(logger.error(runEvent));
     throw error;
@@ -53,7 +65,7 @@ export function runDebugSession(config: RetirementConfig, options: DebugSessionO
 export function buildStepWideEventInput(
   config: RetirementConfig,
   step: ProjectionStep,
-  base: WideEventBase,
+  base: WideEventBase
 ): WideEventInput {
   return {
     ...base,
@@ -78,8 +90,8 @@ export function buildStepWideEventInput(
       total_contributions: step.totalContributions,
       total_interest: step.totalInterest,
       salary: step.salary,
-      active_contributions: step.activeContributions,
-    },
+      active_contributions: step.activeContributions
+    }
   };
 }
 
@@ -87,7 +99,7 @@ export function buildRunWideEvent(
   config: RetirementConfig,
   run: ProjectionRun,
   base: WideEventBase,
-  meta: { durationMs: number; outcome: 'success' | 'error'; error?: unknown },
+  meta: { durationMs: number; outcome: 'success' | 'error'; error?: unknown }
 ) {
   return {
     ...base,
@@ -100,8 +112,8 @@ export function buildRunWideEvent(
       total_steps: run.summary.totalSteps,
       total_contributions: run.summary.totalContributions,
       total_interest: run.summary.totalInterest,
-      final_balance: run.summary.finalBalance,
-    },
+      final_balance: run.summary.finalBalance
+    }
   };
 }
 
@@ -117,7 +129,7 @@ export function buildBaseContext(overrides?: Partial<WideEventBase>): WideEventB
     region: overrides?.region ?? defaults.region,
     instance_id: overrides?.instance_id ?? defaults.instance_id,
     commit_hash: overrides?.commit_hash ?? defaults.commit_hash,
-    runtime: overrides?.runtime ?? defaults.runtime,
+    runtime: overrides?.runtime ?? defaults.runtime
   };
 }
 
@@ -128,12 +140,15 @@ function summarizeConfig(config: RetirementConfig) {
     current_balance: config.currentBalance,
     interest: config.interest,
     salary: config.salary,
-    contributions_count: config.contributions.length,
+    contributions_count: config.contributions.length
   };
 }
 
 function randomId() {
-  if (typeof globalThis.crypto !== 'undefined' && typeof globalThis.crypto.randomUUID === 'function') {
+  if (
+    typeof globalThis.crypto !== 'undefined' &&
+    typeof globalThis.crypto.randomUUID === 'function'
+  ) {
     return globalThis.crypto.randomUUID();
   }
   return `run_${Math.random().toString(36).slice(2, 10)}${Date.now().toString(36)}`;
@@ -146,15 +161,15 @@ function emptyRun(): ProjectionRun {
       totalContributions: 0,
       totalGrowth: 0,
       yearlyProjections: [],
-      monthlyProjections: [],
+      monthlyProjections: []
     },
     steps: [],
     summary: {
       totalSteps: 0,
       totalContributions: 0,
       totalInterest: 0,
-      finalBalance: 0,
-    },
+      finalBalance: 0
+    }
   };
 }
 
@@ -165,8 +180,7 @@ function formatUnknownError(error: unknown) {
   if (error && typeof error === 'object') {
     try {
       return { message: JSON.stringify(error) };
-    }
-    catch {
+    } catch {
       return { message: '[object Error]' };
     }
   }

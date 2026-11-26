@@ -12,14 +12,16 @@ test.describe('Retirement config localStorage sync', () => {
     const initialStoredYears = await page.evaluate<number | null, string>((storageKey) => {
       const hasTimeHorizonYears = (value: unknown): value is { timeHorizonYears: number } => {
         return (
-          typeof value === 'object'
-          && value !== null
-          && 'timeHorizonYears' in value
-          && typeof value.timeHorizonYears === 'number'
+          typeof value === 'object' &&
+          value !== null &&
+          'timeHorizonYears' in value &&
+          typeof value.timeHorizonYears === 'number'
         );
       };
 
-      const browserGlobal = globalThis as unknown as { localStorage: { getItem: (key: string) => string | null } };
+      const browserGlobal = globalThis as unknown as {
+        localStorage: { getItem: (key: string) => string | null };
+      };
       const raw = browserGlobal.localStorage.getItem(storageKey);
       if (!raw) return null;
 
@@ -34,31 +36,34 @@ test.describe('Retirement config localStorage sync', () => {
     await yearsToRetirementInput.fill(String(nextYears));
     await yearsToRetirementInput.blur();
 
-    await expect.poll(async () => {
-      return await page.evaluate<number | null, string>(
-        (storageKey) => {
+    await expect
+      .poll(async () => {
+        return await page.evaluate<number | null, string>((storageKey) => {
           const hasTimeHorizonYears = (value: unknown): value is { timeHorizonYears: number } => {
             return (
-              typeof value === 'object'
-              && value !== null
-              && 'timeHorizonYears' in value
-              && typeof value.timeHorizonYears === 'number'
+              typeof value === 'object' &&
+              value !== null &&
+              'timeHorizonYears' in value &&
+              typeof value.timeHorizonYears === 'number'
             );
           };
 
-          const browserGlobal = globalThis as unknown as { localStorage: { getItem: (key: string) => string | null } };
+          const browserGlobal = globalThis as unknown as {
+            localStorage: { getItem: (key: string) => string | null };
+          };
           const raw = browserGlobal.localStorage.getItem(storageKey);
           if (!raw) return null;
 
           const parsed: unknown = JSON.parse(raw);
           return hasTimeHorizonYears(parsed) ? parsed.timeHorizonYears : null;
-        },
-        CONFIG_STORAGE_KEY,
-      );
-    }).toBe(nextYears);
+        }, CONFIG_STORAGE_KEY);
+      })
+      .toBe(nextYears);
 
     await page.reload();
     await page.waitForLoadState('networkidle');
-    await expect(page.locator('input[name="yearsToRetirement"]').first()).toHaveValue(String(nextYears));
+    await expect(page.locator('input[name="yearsToRetirement"]').first()).toHaveValue(
+      String(nextYears)
+    );
   });
 });

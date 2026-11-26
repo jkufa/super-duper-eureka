@@ -10,7 +10,7 @@ import {
   calculateProjection,
   calculateProjectionWithSteps,
   createWideEventLogger,
-  type RetirementConfig,
+  type RetirementConfig
 } from '@retirement/calculator';
 
 const args = process.argv.slice(2);
@@ -64,12 +64,14 @@ if (!debug) {
 
 const baseContext = buildBaseContext({
   service_name: 'retirement-cli',
-  service_version: process.env.npm_package_version,
+  service_version: process.env.npm_package_version
 });
 const logger = createWideEventLogger({ base: baseContext, pretty: !raw });
 
 const startedAt = Date.now();
-const projectionRun = calculateProjectionWithSteps(config, config.interest.annualRate, { includeContributionDetails: true });
+const projectionRun = calculateProjectionWithSteps(config, config.interest.annualRate, {
+  includeContributionDetails: true
+});
 
 const rl = interactive ? createInterface({ input, output }) : null;
 
@@ -89,7 +91,9 @@ for (const step of projectionRun.steps) {
   logger.info(event);
 
   if (interactive && rl) {
-    const answer = await rl.question('Press Enter for next step, or q to quit, or s <n|spec> to skip: ');
+    const answer = await rl.question(
+      'Press Enter for next step, or q to quit, or s <n|spec> to skip: '
+    );
     const trimmed = answer.trim().toLowerCase();
     if (trimmed === 'q') {
       interrupted = true;
@@ -110,12 +114,12 @@ if (rl) {
 
 const runEvent = buildRunWideEvent(config, projectionRun, baseContext, {
   durationMs: Date.now() - startedAt,
-  outcome: 'success',
+  outcome: 'success'
 });
 if (skipSpecs.length > 0) {
   (runEvent as Record<string, unknown>).skip = {
     spec: skipSpecs,
-    skipped_steps: skippedCount,
+    skipped_steps: skippedCount
   };
 }
 if (interrupted) {
@@ -143,7 +147,7 @@ function getArgValues(argv: string[], key: string) {
 }
 
 function firstPositional(argv: string[]) {
-  return argv.find(arg => !arg.startsWith('-'));
+  return argv.find((arg) => !arg.startsWith('-'));
 }
 
 function parseSkipSpec(spec: string): { steps: Set<number>; nextCount: number } {
@@ -151,7 +155,10 @@ function parseSkipSpec(spec: string): { steps: Set<number>; nextCount: number } 
   let nextCount = 0;
   if (!spec) return { steps, nextCount };
 
-  const tokens = spec.split(',').map(token => token.trim()).filter(Boolean);
+  const tokens = spec
+    .split(',')
+    .map((token) => token.trim())
+    .filter(Boolean);
   for (const token of tokens) {
     if (token.startsWith('next:')) {
       const count = Number(token.slice(5));

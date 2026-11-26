@@ -8,7 +8,7 @@ const customVariableTimingSchema = z.object({
   timingNaturalText: z.string(),
   timingDay: z.coerce.number().int().min(1).max(31).optional(),
   timingMonth: z.coerce.number().int().min(1).max(12),
-  timingYear: z.coerce.number().int().min(2000).max(2200),
+  timingYear: z.coerce.number().int().min(2000).max(2200)
 });
 
 const customVariableDraftSchema = z.object({
@@ -21,7 +21,7 @@ const customVariableDraftSchema = z.object({
   growthEnabled: z.boolean(),
   growthType: z.enum(['percent', 'flat']),
   growthAmount: z.coerce.number().min(0),
-  growthCadence: z.enum(['annual', 'monthly']),
+  growthCadence: z.enum(['annual', 'monthly'])
 });
 
 export const retirementConfigFormSchema = z.object({
@@ -44,11 +44,11 @@ export const retirementConfigFormSchema = z.object({
       growthEnabled: z.boolean(),
       growthType: z.enum(['percent', 'flat']),
       growthAmount: z.coerce.number().min(0),
-      growthCadence: z.enum(['annual', 'monthly']),
-    }),
+      growthCadence: z.enum(['annual', 'monthly'])
+    })
   ),
   customVariableDraft: customVariableDraftSchema,
-  customVariableEditDraft: customVariableDraftSchema,
+  customVariableEditDraft: customVariableDraftSchema
 });
 
 export type RetirementConfigFormValues = z.infer<typeof retirementConfigFormSchema>;
@@ -59,14 +59,16 @@ const toNumberOr = (value: unknown, fallback: number) =>
   typeof value === 'number' && Number.isFinite(value) ? value : fallback;
 
 function resolveSalaryBasis(
-  item: RetirementConfigFormValues['customVariables'][number],
+  item: RetirementConfigFormValues['customVariables'][number]
 ): 'annual' | 'monthly' | undefined {
   if (item.type !== 'salaryPercent') return undefined;
   if (item.frequency === 'monthly') return 'monthly';
   return 'annual';
 }
 
-export function toRetirementConfigFormDefaults(config: RetirementConfig): RetirementConfigFormValues {
+export function toRetirementConfigFormDefaults(
+  config: RetirementConfig
+): RetirementConfigFormValues {
   const now = new Date();
   const startDate = normalizeStartDate(config.startDate);
   const startYear = startDate.getFullYear();
@@ -86,7 +88,7 @@ export function toRetirementConfigFormDefaults(config: RetirementConfig): Retire
     growthEnabled: false,
     growthType: 'percent' as const,
     growthAmount: 0,
-    growthCadence: 'annual' as const,
+    growthCadence: 'annual' as const
   };
 
   return {
@@ -120,7 +122,7 @@ export function toRetirementConfigFormDefaults(config: RetirementConfig): Retire
           growthEnabled: Boolean(rule.growth),
           growthType: rule.growth?.type ?? 'percent',
           growthAmount: rule.growth?.amount ?? 0,
-          growthCadence: rule.growth?.cadence ?? 'annual',
+          growthCadence: rule.growth?.cadence ?? 'annual'
         };
       }
 
@@ -142,7 +144,7 @@ export function toRetirementConfigFormDefaults(config: RetirementConfig): Retire
           growthEnabled: Boolean(rule.growth),
           growthType: rule.growth?.type ?? 'percent',
           growthAmount: rule.growth?.amount ?? 0,
-          growthCadence: rule.growth?.cadence ?? 'annual',
+          growthCadence: rule.growth?.cadence ?? 'annual'
         };
       }
 
@@ -163,27 +165,31 @@ export function toRetirementConfigFormDefaults(config: RetirementConfig): Retire
         growthEnabled: Boolean(rule.growth),
         growthType: rule.growth?.type ?? 'percent',
         growthAmount: rule.growth?.amount ?? 0,
-        growthCadence: rule.growth?.cadence ?? 'annual',
+        growthCadence: rule.growth?.cadence ?? 'annual'
       };
     }),
     customVariableDraft: { ...customVariableDraftDefaults },
-    customVariableEditDraft: { ...customVariableDraftDefaults },
+    customVariableEditDraft: { ...customVariableDraftDefaults }
   };
 }
 
 export function applyRetirementConfigFormValues(
   baseConfig: RetirementConfig,
-  values: RetirementConfigFormValues,
+  values: RetirementConfigFormValues
 ): RetirementConfig {
   const startDate = normalizeStartDate(baseConfig.startDate);
   const startYear = startDate.getFullYear();
   const nextContributions = values.customVariables.map((item) => {
     const yearStart = Math.max(0, Math.trunc(toNumberOr(item.yearStart, 0)));
-    const yearEnd = Math.max(yearStart, Math.trunc(toNumberOr(item.yearEnd, baseConfig.timeHorizonYears)));
+    const yearEnd = Math.max(
+      yearStart,
+      Math.trunc(toNumberOr(item.yearEnd, baseConfig.timeHorizonYears))
+    );
     // Only emit a day the user actually chose; otherwise placement drives start/end of month.
-    const day = item.timingDay === undefined
-      ? undefined
-      : Math.max(1, Math.min(31, Math.trunc(toNumberOr(item.timingDay, 1))));
+    const day =
+      item.timingDay === undefined
+        ? undefined
+        : Math.max(1, Math.min(31, Math.trunc(toNumberOr(item.timingDay, 1))));
     const monthIndex = Math.max(0, Math.min(11, Math.trunc(toNumberOr(item.timingMonth, 1)) - 1));
     const absoluteYear = Math.trunc(toNumberOr(item.timingYear, startYear));
     const relativeYear = Math.max(0, absoluteYear - startYear);
@@ -194,43 +200,51 @@ export function applyRetirementConfigFormValues(
       type: item.type,
       amount: toNumberOr(item.amount, 0),
       salaryBasis: resolveSalaryBasis(item),
-      growth:
-        item.growthEnabled
-          ? {
-              type: item.growthType,
-              amount: toNumberOr(item.growthAmount, 0),
-              cadence: item.growthCadence,
-            }
-          : undefined,
+      growth: item.growthEnabled
+        ? {
+            type: item.growthType,
+            amount: toNumberOr(item.growthAmount, 0),
+            cadence: item.growthCadence
+          }
+        : undefined,
       timing:
         item.frequency === 'oneTime'
-          ? ({ frequency: 'oneTime' as const, on: { year: relativeYear, month: monthIndex, day } })
+          ? { frequency: 'oneTime' as const, on: { year: relativeYear, month: monthIndex, day } }
           : item.frequency === 'annual'
-            ? ({ frequency: 'annual' as const, month: monthIndex, day, placement: item.placement })
-            : ({ frequency: 'monthly' as const, day, placement: item.placement }),
+            ? { frequency: 'annual' as const, month: monthIndex, day, placement: item.placement }
+            : { frequency: 'monthly' as const, day, placement: item.placement },
       yearRange: {
         start: yearStart,
-        end: yearEnd,
-      },
+        end: yearEnd
+      }
     };
   });
 
   return {
     ...baseConfig,
     currentBalance: toNumberOr(values.currentBalance, baseConfig.currentBalance),
-    timeHorizonYears: Math.max(1, Math.trunc(toNumberOr(values.yearsToRetirement, baseConfig.timeHorizonYears))),
+    timeHorizonYears: Math.max(
+      1,
+      Math.trunc(toNumberOr(values.yearsToRetirement, baseConfig.timeHorizonYears))
+    ),
     interest: {
       ...baseConfig.interest,
-      annualRate: toDecimalRate(toNumberOr(values.annualReturnPct, baseConfig.interest.annualRate * 100)),
-      variance: toDecimalRate(toNumberOr(values.variancePct, (baseConfig.interest.variance ?? 0) * 100)),
-      compounding: values.compounding,
+      annualRate: toDecimalRate(
+        toNumberOr(values.annualReturnPct, baseConfig.interest.annualRate * 100)
+      ),
+      variance: toDecimalRate(
+        toNumberOr(values.variancePct, (baseConfig.interest.variance ?? 0) * 100)
+      ),
+      compounding: values.compounding
     },
     salary: {
       ...baseConfig.salary,
       annualBase: toNumberOr(values.baseSalary, baseConfig.salary.annualBase),
-      annualRaiseRate: toDecimalRate(toNumberOr(values.annualRaisePct, (baseConfig.salary.annualRaiseRate ?? 0) * 100)),
+      annualRaiseRate: toDecimalRate(
+        toNumberOr(values.annualRaisePct, (baseConfig.salary.annualRaiseRate ?? 0) * 100)
+      )
     },
-    contributions: nextContributions,
+    contributions: nextContributions
   };
 }
 

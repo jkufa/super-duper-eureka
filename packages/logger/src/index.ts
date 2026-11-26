@@ -71,7 +71,7 @@ export function createWideEventLogger(options: LoggerOptions): WideEventLogger {
         ...base,
         ...event,
         timestamp: new Date().toISOString(),
-        level: 'info',
+        level: 'info'
       };
       sink.info(JSON.stringify(payload, null, indent));
       return payload;
@@ -81,11 +81,11 @@ export function createWideEventLogger(options: LoggerOptions): WideEventLogger {
         ...base,
         ...event,
         timestamp: new Date().toISOString(),
-        level: 'error',
+        level: 'error'
       };
       sink.error(JSON.stringify(payload, null, indent));
       return payload;
-    },
+    }
   };
 }
 
@@ -100,7 +100,7 @@ export function getDefaultEnvironmentContext(): Partial<WideEventBase> {
     region: nodeProcess.env.REGION,
     instance_id: nodeProcess.env.INSTANCE_ID,
     commit_hash: nodeProcess.env.COMMIT_SHA ?? nodeProcess.env.GIT_SHA,
-    runtime: `node ${nodeProcess.versions.node}`,
+    runtime: `node ${nodeProcess.versions.node}`
   };
 }
 
@@ -125,7 +125,9 @@ function getBrowserEnvironmentContext(): Partial<WideEventBase> {
   const browserName = brand?.brand;
   const browserVersion = brand?.version;
   const runtime = browserName
-    ? (browserVersion ? `browser ${browserName} ${browserVersion}` : `browser ${browserName}`)
+    ? browserVersion
+      ? `browser ${browserName} ${browserVersion}`
+      : `browser ${browserName}`
     : 'browser';
   return {
     environment: 'browser',
@@ -134,7 +136,7 @@ function getBrowserEnvironmentContext(): Partial<WideEventBase> {
     browser_version: browserVersion,
     user_agent: userAgent,
     platform: uaData?.platform ?? nav?.platform,
-    language: nav?.language,
+    language: nav?.language
   };
 }
 
@@ -156,7 +158,7 @@ function getNavigator(): NavigatorLike | undefined {
 }
 
 function pickBrowserBrand(
-  brands?: readonly { brand: string; version: string }[],
+  brands?: readonly { brand: string; version: string }[]
 ): { brand: string; version: string } | undefined {
   if (!brands) return undefined;
   for (const entry of brands) {
@@ -173,16 +175,20 @@ function getDefaultSink() {
   if (nodeProcess?.stdout && nodeProcess.stderr) {
     return {
       info: (payload: string) => nodeProcess.stdout?.write(`${payload}\n`),
-      error: (payload: string) => nodeProcess.stderr?.write(`${payload}\n`),
+      error: (payload: string) => nodeProcess.stderr?.write(`${payload}\n`)
     };
   }
 
-  const consoleLike = typeof globalThis.console === 'undefined'
-    ? undefined
-    : (globalThis.console as unknown as { log: (msg: string) => void; error: (msg: string) => void });
+  const consoleLike =
+    typeof globalThis.console === 'undefined'
+      ? undefined
+      : (globalThis.console as unknown as {
+          log: (msg: string) => void;
+          error: (msg: string) => void;
+        });
 
   return {
     info: (payload: string) => consoleLike?.log(payload),
-    error: (payload: string) => consoleLike?.error(payload),
+    error: (payload: string) => consoleLike?.error(payload)
   };
 }

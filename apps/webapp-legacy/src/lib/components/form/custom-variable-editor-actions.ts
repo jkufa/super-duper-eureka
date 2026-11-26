@@ -3,7 +3,7 @@ import type { RetirementConfigFormValues } from '$lib/forms/retirement-config-fo
 import {
   resolveParsedTimingOrStructured,
   toCustomVariableId,
-  validateAndNormalizeCustomVariableInput,
+  validateAndNormalizeCustomVariableInput
 } from './custom-variable-editor-model';
 
 type CustomVariable = RetirementConfigFormValues['customVariables'][number];
@@ -59,13 +59,21 @@ export interface SaveVariableActionInput extends BaseActionInput {
   };
 }
 
-interface ActionResult { error: string | null }
+interface ActionResult {
+  error: string | null;
+}
 
-interface CreateActionSuccess extends ActionResult { variable: CustomVariable }
+interface CreateActionSuccess extends ActionResult {
+  variable: CustomVariable;
+}
 
-interface SaveActionSuccess extends ActionResult { variable: CustomVariable }
+interface SaveActionSuccess extends ActionResult {
+  variable: CustomVariable;
+}
 
-interface ActionFailure extends ActionResult { variable: null }
+interface ActionFailure extends ActionResult {
+  variable: null;
+}
 
 function resolveAndNormalize(input: {
   name: string;
@@ -97,13 +105,13 @@ function resolveAndNormalize(input: {
       month: input.timing.month,
       year: input.timing.year,
       yearStart: input.timing.yearStart,
-      yearEnd: input.timing.yearEnd,
+      yearEnd: input.timing.yearEnd
     },
     {
       referenceDate: input.context.referenceDate,
       projectionStartYear: input.context.currentYear,
-      horizonYears: input.context.horizonYears,
-    },
+      horizonYears: input.context.horizonYears
+    }
   );
 
   if (!parsedTiming) {
@@ -122,7 +130,7 @@ function resolveAndNormalize(input: {
     growthType: input.growth.type,
     growthAmount: input.growth.amount,
     growthCadence: input.growth.cadence,
-    parsedTiming,
+    parsedTiming
   });
 
   if (error || !normalized) {
@@ -131,11 +139,13 @@ function resolveAndNormalize(input: {
 
   return {
     error: null,
-    normalized,
+    normalized
   };
 }
 
-export function buildCreatedCustomVariable(input: CreateVariableActionInput): CreateActionSuccess | ActionFailure {
+export function buildCreatedCustomVariable(
+  input: CreateVariableActionInput
+): CreateActionSuccess | ActionFailure {
   const resolved = resolveAndNormalize({
     name: input.name,
     type: input.type,
@@ -144,12 +154,12 @@ export function buildCreatedCustomVariable(input: CreateVariableActionInput): Cr
     timingNaturalText: input.timingNaturalText,
     timing: input.timing,
     growth: input.growth,
-    context: input,
+    context: input
   });
   if (resolved.error || !resolved.normalized) {
     return {
       error: resolved.error,
-      variable: null,
+      variable: null
     };
   }
 
@@ -158,12 +168,14 @@ export function buildCreatedCustomVariable(input: CreateVariableActionInput): Cr
     variable: {
       id: toCustomVariableId(input.name),
       ...resolved.normalized,
-      timingInputMode: 'hybrid',
-    },
+      timingInputMode: 'hybrid'
+    }
   };
 }
 
-export function buildSavedCustomVariable(input: SaveVariableActionInput): SaveActionSuccess | ActionFailure {
+export function buildSavedCustomVariable(
+  input: SaveVariableActionInput
+): SaveActionSuccess | ActionFailure {
   const resolved = resolveAndNormalize({
     name: input.name,
     type: input.type,
@@ -172,12 +184,12 @@ export function buildSavedCustomVariable(input: SaveVariableActionInput): SaveAc
     timingNaturalText: input.timingNaturalText,
     timing: input.timing,
     growth: input.growth,
-    context: input,
+    context: input
   });
   if (resolved.error || !resolved.normalized) {
     return {
       error: resolved.error,
-      variable: null,
+      variable: null
     };
   }
 
@@ -186,7 +198,7 @@ export function buildSavedCustomVariable(input: SaveVariableActionInput): SaveAc
     variable: {
       id: input.id,
       ...resolved.normalized,
-      timingInputMode: 'hybrid',
-    },
+      timingInputMode: 'hybrid'
+    }
   };
 }

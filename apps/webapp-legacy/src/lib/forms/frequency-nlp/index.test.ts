@@ -1,8 +1,5 @@
 import { describe, expect, test } from 'vite-plus/test';
-import {
-  parseCustomVariableTimingText,
-  TIMING_PARSE_ERROR_MESSAGE,
-} from './index';
+import { parseCustomVariableTimingText, TIMING_PARSE_ERROR_MESSAGE } from './index';
 
 const referenceDate = new Date('2026-02-10T12:00:00.000Z');
 
@@ -10,7 +7,7 @@ function parse(input: string, horizonYears = 40) {
   return parseCustomVariableTimingText(input, {
     referenceDate,
     projectionStartYear: 2026,
-    horizonYears,
+    horizonYears
   });
 }
 
@@ -24,8 +21,8 @@ describe('parseCustomVariableTimingText', () => {
         month: 1,
         year: 2026,
         yearStart: 0,
-        yearEnd: 40,
-      }),
+        yearEnd: 40
+      })
     );
   });
 
@@ -34,8 +31,8 @@ describe('parseCustomVariableTimingText', () => {
     expect(result).toEqual(
       expect.objectContaining({
         frequency: 'monthly',
-        day: 3,
-      }),
+        day: 3
+      })
     );
   });
 
@@ -45,8 +42,8 @@ describe('parseCustomVariableTimingText', () => {
       expect.objectContaining({
         frequency: 'annual',
         day: 13,
-        month: 2,
-      }),
+        month: 2
+      })
     );
   });
 
@@ -56,8 +53,8 @@ describe('parseCustomVariableTimingText', () => {
       expect.objectContaining({
         frequency: 'annual',
         day: 30,
-        month: 9,
-      }),
+        month: 9
+      })
     );
   });
 
@@ -70,8 +67,8 @@ describe('parseCustomVariableTimingText', () => {
         month: 1,
         year: 2027,
         yearStart: 1,
-        yearEnd: 1,
-      }),
+        yearEnd: 1
+      })
     );
   });
 
@@ -82,8 +79,8 @@ describe('parseCustomVariableTimingText', () => {
         frequency: 'monthly',
         day: 15,
         yearStart: 2,
-        yearEnd: 11,
-      }),
+        yearEnd: 11
+      })
     );
   });
 
@@ -93,8 +90,8 @@ describe('parseCustomVariableTimingText', () => {
       expect.objectContaining({
         frequency: 'annual',
         yearStart: 4,
-        yearEnd: 40,
-      }),
+        yearEnd: 40
+      })
     );
 
     const from = parse('every feb 13 from 2028 for 2 years');
@@ -102,8 +99,8 @@ describe('parseCustomVariableTimingText', () => {
       expect.objectContaining({
         frequency: 'annual',
         yearStart: 2,
-        yearEnd: 3,
-      }),
+        yearEnd: 3
+      })
     );
   });
 
@@ -113,8 +110,8 @@ describe('parseCustomVariableTimingText', () => {
       expect.objectContaining({
         frequency: 'monthly',
         yearStart: 0,
-        yearEnd: 4,
-      }),
+        yearEnd: 4
+      })
     );
   });
 
@@ -124,8 +121,8 @@ describe('parseCustomVariableTimingText', () => {
       expect.objectContaining({
         frequency: 'annual',
         yearStart: 2,
-        yearEnd: 4,
-      }),
+        yearEnd: 4
+      })
     );
   });
 
@@ -135,8 +132,8 @@ describe('parseCustomVariableTimingText', () => {
       expect.objectContaining({
         frequency: 'monthly',
         yearStart: 0,
-        yearEnd: 3,
-      }),
+        yearEnd: 3
+      })
     );
   });
 
@@ -146,8 +143,8 @@ describe('parseCustomVariableTimingText', () => {
       expect.objectContaining({
         frequency: 'annual',
         yearStart: 4,
-        yearEnd: 4,
-      }),
+        yearEnd: 4
+      })
     );
   });
 
@@ -157,8 +154,8 @@ describe('parseCustomVariableTimingText', () => {
       expect.objectContaining({
         frequency: 'monthly',
         yearStart: 2,
-        yearEnd: 30,
-      }),
+        yearEnd: 30
+      })
     );
   });
 
@@ -169,8 +166,8 @@ describe('parseCustomVariableTimingText', () => {
         frequency: 'oneTime',
         year: 2031,
         yearStart: 5,
-        yearEnd: 5,
-      }),
+        yearEnd: 5
+      })
     );
   });
 

@@ -2,7 +2,7 @@ import { describe, expect, test } from 'vite-plus/test';
 import {
   getDaysInMonthForYearMonth,
   isValidAnnualMonthDay,
-  isValidMonthDay,
+  isValidMonthDay
 } from '../utils/custom-variable-timing';
 
 describe('custom-variable-timing utils', () => {

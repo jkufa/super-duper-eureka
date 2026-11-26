@@ -68,8 +68,9 @@ test.describe('Debugger panel', () => {
     expect(after).not.toBeNull();
     if (!after) return;
 
-    expect(Math.round(after.x) !== Math.round(before.x) || Math.round(after.y) !== Math.round(before.y))
-      .toBeTruthy();
+    expect(
+      Math.round(after.x) !== Math.round(before.x) || Math.round(after.y) !== Math.round(before.y)
+    ).toBeTruthy();
 
     await page.getByRole('button', { name: 'Close debugger' }).click({ force: true });
     await expect(dialog).not.toBeVisible();

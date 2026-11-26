@@ -1,10 +1,10 @@
 {
   "name": "@retirement/cli",
-  "type": "module",
   "private": true,
   "bin": {
     "retirement-calc": "src/index.ts"
   },
+  "type": "module",
   "scripts": {
     "test": "echo 'no tests'",
     "build": "tsc --build"

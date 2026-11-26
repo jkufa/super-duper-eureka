@@ -7,7 +7,7 @@ import type {
   Projection,
   ProjectionByVariance,
   RetirementConfig,
-  SalaryConfig,
+  SalaryConfig
 } from './types';
 
 const MONTHS_PER_YEAR = 12;
@@ -20,12 +20,18 @@ export function calculateRetirement(config: RetirementConfig): ProjectionByVaria
     return {
       baseline,
       positive: baseline,
-      negative: baseline,
+      negative: baseline
     };
   }
 
-  const positive = calculateProjection(config, config.interest.annualRate + config.interest.variance);
-  const negative = calculateProjection(config, config.interest.annualRate - config.interest.variance);
+  const positive = calculateProjection(
+    config,
+    config.interest.annualRate + config.interest.variance
+  );
+  const negative = calculateProjection(
+    config,
+    config.interest.annualRate - config.interest.variance
+  );
   return { baseline, positive, negative };
 }
 
@@ -70,7 +76,7 @@ export interface ProjectionRun {
 export function calculateProjectionWithSteps(
   config: RetirementConfig,
   annualRate: number,
-  options?: { includeContributionDetails?: boolean },
+  options?: { includeContributionDetails?: boolean }
 ): ProjectionRun {
   return runProjection(config, annualRate, options);
 }
@@ -78,10 +84,12 @@ export function calculateProjectionWithSteps(
 function runProjection(
   config: RetirementConfig,
   annualRate: number,
-  options?: { includeContributionDetails?: boolean },
+  options?: { includeContributionDetails?: boolean }
 ): ProjectionRun {
   if (!Number.isFinite(config.timeHorizonYears) || config.timeHorizonYears < 0) {
-    throw new Error(`timeHorizonYears must be 0 or greater (received ${String(config.timeHorizonYears)}).`);
+    throw new Error(
+      `timeHorizonYears must be 0 or greater (received ${String(config.timeHorizonYears)}).`
+    );
   }
 
   const startDate = normalizeStartDate(config.startDate);
@@ -111,7 +119,7 @@ function runProjection(
       compounding,
       monthStart,
       projectionStartDate: startDate,
-      includeDetails: options?.includeContributionDetails ?? true,
+      includeDetails: options?.includeContributionDetails ?? true
     });
 
     const balanceStart = runningBalance;
@@ -123,20 +131,19 @@ function runProjection(
         balance: runningBalance,
         annualRate,
         contributions: monthContributions,
-        monthStart,
+        monthStart
       });
       stepInterest = interest;
       stepContributions = contributions;
       runningBalance = balance;
       totalContributions += contributions;
       totalInterest += interest;
-    }
-    else {
+    } else {
       const { balance, contributions, interest } = applyMonthlyCompounding({
         balance: runningBalance,
         annualRate,
         contributions: monthContributions,
-        monthStart,
+        monthStart
       });
       stepInterest = interest;
       stepContributions = contributions;
@@ -163,7 +170,7 @@ function runProjection(
       annualRate,
       daysInMonth: getDaysInMonth(monthStart),
       daysInYear: getDaysInYear(monthStart),
-      activeContributions: monthContributions.details ?? [],
+      activeContributions: monthContributions.details ?? []
     });
 
     monthlyProjections.push({
@@ -172,7 +179,7 @@ function runProjection(
       balance: runningBalance,
       contributions: totalContributions,
       interest: totalInterest,
-      salary,
+      salary
     });
 
     if ((monthOffset + 1) % MONTHS_PER_YEAR === 0) {
@@ -181,7 +188,7 @@ function runProjection(
         balance: runningBalance,
         contributions: totalContributions,
         interest: totalInterest,
-        salary,
+        salary
       });
     }
   }
@@ -191,7 +198,7 @@ function runProjection(
     totalContributions,
     totalGrowth: totalInterest,
     yearlyProjections,
-    monthlyProjections,
+    monthlyProjections
   };
 
   return {
@@ -201,8 +208,8 @@ function runProjection(
       totalSteps: steps.length,
       totalContributions,
       totalInterest,
-      finalBalance: runningBalance,
-    },
+      finalBalance: runningBalance
+    }
   };
 }
 
@@ -232,17 +239,37 @@ interface ContributionDetail {
   timing: ContributionTiming;
 }
 
-function resolveMonthlyContributions(params: ResolveMonthlyContributionsParams): MonthlyContributionBucket {
-  const { rules, yearIndex, monthIndex, timeHorizonYears, salary, compounding, monthStart, includeDetails } = params;
+function resolveMonthlyContributions(
+  params: ResolveMonthlyContributionsParams
+): MonthlyContributionBucket {
+  const {
+    rules,
+    yearIndex,
+    monthIndex,
+    timeHorizonYears,
+    salary,
+    compounding,
+    monthStart,
+    includeDetails
+  } = params;
   const bucket: MonthlyContributionBucket = {
     start: 0,
     end: 0,
     byDay: {},
-    details: includeDetails ? [] : undefined,
+    details: includeDetails ? [] : undefined
   };
 
   for (const rule of rules) {
-    if (!isContributionActive(rule, yearIndex, monthIndex, timeHorizonYears, monthStart, params.projectionStartDate)) {
+    if (
+      !isContributionActive(
+        rule,
+        yearIndex,
+        monthIndex,
+        timeHorizonYears,
+        monthStart,
+        params.projectionStartDate
+      )
+    ) {
       continue;
     }
 
@@ -254,18 +281,16 @@ function resolveMonthlyContributions(params: ResolveMonthlyContributionsParams):
         id: rule.id,
         type: rule.type,
         amount,
-        timing: rule.timing,
+        timing: rule.timing
       });
     }
 
     const day = resolveContributionDay(rule.timing, compounding, monthStart);
     if (day === 'start') {
       bucket.start += amount;
-    }
-    else if (day === 'end') {
+    } else if (day === 'end') {
       bucket.end += amount;
-    }
-    else {
+    } else {
       bucket.byDay[day] = (bucket.byDay[day] ?? 0) + amount;
     }
   }
@@ -279,13 +304,14 @@ function isContributionActive(
   monthIndex: number,
   timeHorizonYears: number,
   monthStart: Date,
-  projectionStartDate: Date,
+  projectionStartDate: Date
 ) {
   if (rule.enabled === false) return false;
 
   const timing = rule.timing;
-  const isStartMonth = monthStart.getFullYear() === projectionStartDate.getFullYear()
-    && monthStart.getMonth() === projectionStartDate.getMonth();
+  const isStartMonth =
+    monthStart.getFullYear() === projectionStartDate.getFullYear() &&
+    monthStart.getMonth() === projectionStartDate.getMonth();
   const startDay = projectionStartDate.getDate();
   const isPastStartDay = (day: number) => clampDay(day, getDaysInMonth(monthStart)) < startDay;
 
@@ -314,7 +340,12 @@ function isContributionActive(
   return true;
 }
 
-function resolveContributionAmount(rule: ContributionRule, salary: number, yearIndex: number, monthIndex: number) {
+function resolveContributionAmount(
+  rule: ContributionRule,
+  salary: number,
+  yearIndex: number,
+  monthIndex: number
+) {
   const effectiveAmount = resolveEffectiveRuleAmount(rule, yearIndex, monthIndex);
 
   if (rule.type === 'salaryPercent') {
@@ -343,7 +374,9 @@ function resolveContributionAmount(rule: ContributionRule, salary: number, yearI
     if (rule.timing.frequency === 'monthly') {
       return (annualSalary / 12) * (effectiveAmount / 100);
     }
-    throw new Error(`salaryBasis "perContribution" is not supported for oneTime contributions (id: ${rule.id}).`);
+    throw new Error(
+      `salaryBasis "perContribution" is not supported for oneTime contributions (id: ${rule.id}).`
+    );
   }
 
   return effectiveAmount;
@@ -354,9 +387,8 @@ function resolveEffectiveRuleAmount(rule: ContributionRule, yearIndex: number, m
   const growth = rule.growth;
   if (!growth) return Math.max(0, baseAmount);
 
-  const growthPeriods = growth.cadence === 'annual'
-    ? yearIndex
-    : yearIndex * MONTHS_PER_YEAR + monthIndex;
+  const growthPeriods =
+    growth.cadence === 'annual' ? yearIndex : yearIndex * MONTHS_PER_YEAR + monthIndex;
 
   if (growth.type === 'percent') {
     const rate = growth.amount / 100;
@@ -378,7 +410,7 @@ function validateContributionRules(rules: ContributionRule[]) {
 function resolveContributionDay(
   timing: ContributionTiming,
   compounding: 'monthly' | 'daily',
-  monthStart: Date,
+  monthStart: Date
 ): 'start' | 'end' | number {
   const daysInMonth = getDaysInMonth(monthStart);
   if (compounding === 'daily') {
@@ -388,7 +420,7 @@ function resolveContributionDay(
     if (timing.day) return clampDay(timing.day, daysInMonth);
   }
 
-  const placement = timing.frequency === 'oneTime' ? 'start' : timing.placement ?? 'start';
+  const placement = timing.frequency === 'oneTime' ? 'start' : (timing.placement ?? 'start');
   if (timing.frequency === 'annual' || timing.frequency === 'monthly') {
     if (timing.day && compounding === 'monthly') {
       const midpoint = Math.ceil(daysInMonth / 2);
@@ -408,8 +440,10 @@ function applyMonthlyCompounding(params: {
   const monthlyRate = annualToMonthlyRate(params.annualRate);
   const daysInMonth = params.monthStart ? getDaysInMonth(params.monthStart) : 30;
   const midpoint = Math.ceil(daysInMonth / 2);
-  const startContribution = params.contributions.start + sumByDay(params.contributions.byDay, 1, midpoint);
-  const endContribution = params.contributions.end + sumByDay(params.contributions.byDay, midpoint + 1, daysInMonth);
+  const startContribution =
+    params.contributions.start + sumByDay(params.contributions.byDay, 1, midpoint);
+  const endContribution =
+    params.contributions.end + sumByDay(params.contributions.byDay, midpoint + 1, daysInMonth);
 
   const balanceAfterStart = params.balance + startContribution;
   const interest = balanceAfterStart * monthlyRate;
@@ -418,7 +452,7 @@ function applyMonthlyCompounding(params: {
   return {
     balance,
     contributions: startContribution + endContribution,
-    interest,
+    interest
   };
 }
 

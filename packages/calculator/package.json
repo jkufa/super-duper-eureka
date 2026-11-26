@@ -1,19 +1,19 @@
 {
   "name": "@retirement/calculator",
-  "module": "src/index.ts",
   "type": "module",
+  "module": "src/index.ts",
   "scripts": {
     "test": "vp test",
     "build": "tsc --build"
   },
+  "dependencies": {
+    "@retirement/logger": "workspace:*"
+  },
   "devDependencies": {
     "@types/bun": "latest",
     "@vitest/coverage-v8": "catalog:",
-    "vitest": "catalog:",
-    "vite-plus": "catalog:"
-  },
-  "dependencies": {
-    "@retirement/logger": "workspace:*"
+    "vite-plus": "catalog:",
+    "vitest": "catalog:"
   },
   "peerDependencies": {
     "typescript": "^5.9.3"

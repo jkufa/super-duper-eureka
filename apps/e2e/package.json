@@ -1,8 +1,8 @@
 {
   "name": "e2e",
-  "module": "index.ts",
-  "type": "module",
   "private": true,
+  "type": "module",
+  "module": "index.ts",
   "scripts": {
     "test": "playwright test",
     "test:headed": "playwright test --headed",
