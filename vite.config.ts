@@ -44,7 +44,12 @@ export default defineConfig({
     ignorePatterns: [
       ...cloudflare.ignorePatterns,
       // Reference code for later specs. Its imports only resolve once it moves into a package.
-      'implementation/**'
+      'implementation/**',
+      // Legacy barrels re-export named exports from .svelte modules, which the type checker cannot
+      // see (TS2614). Type codes cannot be scoped per path, and svelte-check covers these files.
+      'apps/webapp-legacy/src/lib/components/ui/button/index.ts',
+      'apps/webapp-legacy/src/lib/components/ui/card/index.ts',
+      'apps/webapp-legacy/src/lib/components/ui/toggle/index.ts'
     ],
     options: { typeCheck: true },
     overrides: [
