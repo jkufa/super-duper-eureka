@@ -7,7 +7,7 @@ const defaultInterest: Interest = {
 };
 
 const defaultSalary: SalaryConfig = {
-  annualBase: 100000,
+  annualBase: 100_000,
   annualRaiseRate: 0
 };
 
@@ -27,7 +27,7 @@ export function makeContribution(rule?: Partial<ContributionRule>): Contribution
 
 export function makeConfig(overrides?: Partial<RetirementConfig>): RetirementConfig {
   return {
-    currentBalance: overrides?.currentBalance ?? 100000,
+    currentBalance: overrides?.currentBalance ?? 100_000,
     timeHorizonYears: overrides?.timeHorizonYears ?? 30,
     startDate: overrides?.startDate ?? '2026-01-01T00:00:00.000Z',
     interest: { ...defaultInterest, ...(overrides?.interest ?? {}) },

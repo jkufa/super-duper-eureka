@@ -61,8 +61,12 @@ const toNumberOr = (value: unknown, fallback: number) =>
 function resolveSalaryBasis(
   item: RetirementConfigFormValues['customVariables'][number]
 ): 'annual' | 'monthly' | undefined {
-  if (item.type !== 'salaryPercent') return undefined;
-  if (item.frequency === 'monthly') return 'monthly';
+  if (item.type !== 'salaryPercent') {
+    return undefined;
+  }
+  if (item.frequency === 'monthly') {
+    return 'monthly';
+  }
   return 'annual';
 }
 

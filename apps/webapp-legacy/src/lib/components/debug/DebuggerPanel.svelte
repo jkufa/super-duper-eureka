@@ -12,12 +12,8 @@
   import DebugCopyButton from './DebugCopyButton.svelte';
   import DebugJsonBlock from './DebugJsonBlock.svelte';
   import DebugStepControls from './DebugStepControls.svelte';
-  import {
-    clampPanelPosition,
-    nextDragPosition,
-    parseStoredPosition,
-    type DragStart
-  } from './panel-position';
+  import { clampPanelPosition, nextDragPosition, parseStoredPosition } from './panel-position';
+  import type { DragStart } from './panel-position';
   import type { DebugSectionId, PanelPosition } from './types';
 
   const PANEL_GUTTER = 8;
@@ -52,7 +48,9 @@
   let panelHeight = $state(0);
 
   function resolveInitialPosition(storage: string, fallback: PanelPosition): PanelPosition {
-    if (!browser) return fallback;
+    if (!browser) {
+      return fallback;
+    }
     const parsed = parseStoredPosition(localStorage.getItem(storage), fallback);
     return clampPanelPosition(
       parsed,
@@ -65,7 +63,7 @@
   let position = $state<PanelPosition>(resolveInitialPosition(storageKey, initialPosition));
   let isDragging = $state(false);
   let dragStart = $state<DragStart | null>(null);
-  let openItems = $state<DebugSectionId[]>(['step']);
+  let openItems = $state<Array<DebugSectionId>>(['step']);
 
   const stepLabel = $derived(`Step: ${stepIndex + 1}/${stepCount}`);
   const fullPayload = $derived({
@@ -79,7 +77,9 @@
   });
 
   function clampPosition(next: PanelPosition): PanelPosition {
-    if (!panelEl) return next;
+    if (!panelEl) {
+      return next;
+    }
 
     const width = panelWidth || panelEl.offsetWidth;
     const height = panelHeight || panelEl.offsetHeight;
@@ -92,7 +92,9 @@
   }
 
   function persistPosition(next: PanelPosition) {
-    if (!browser) return;
+    if (!browser) {
+      return;
+    }
     localStorage.setItem(storageKey, JSON.stringify(next));
   }
 
@@ -109,7 +111,9 @@
   }
 
   function handlePointerDown(event: PointerEvent) {
-    if (!panelEl || event.button !== 0) return;
+    if (!panelEl || event.button !== 0) {
+      return;
+    }
 
     dragHandleEl?.setPointerCapture(event.pointerId);
     dragStart = {
@@ -121,13 +125,17 @@
   }
 
   function handlePointerMove(event: PointerEvent) {
-    if (!isDragging || !dragStart) return;
+    if (!isDragging || !dragStart) {
+      return;
+    }
 
     position = clampPosition(nextDragPosition(dragStart, { x: event.clientX, y: event.clientY }));
   }
 
   function handlePointerUp(event: PointerEvent) {
-    if (!isDragging) return;
+    if (!isDragging) {
+      return;
+    }
 
     dragHandleEl?.releasePointerCapture(event.pointerId);
     dragStart = null;
@@ -173,10 +181,14 @@
   $effect(() => {
     panelWidth;
     panelHeight;
-    if (!panelEl || isDragging) return;
+    if (!panelEl || isDragging) {
+      return;
+    }
 
     requestAnimationFrame(() => {
-      if (!isDragging) reconcilePosition();
+      if (!isDragging) {
+        reconcilePosition();
+      }
     });
   });
 </script>

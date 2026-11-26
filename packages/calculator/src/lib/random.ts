@@ -12,7 +12,7 @@ export interface RandomConfigOptions {
 export type SeededRandom = () => number;
 
 const RANGE = {
-  salary: { min: 25000, max: 250000, mu: Math.log(60000), sigma: 0.55, roundTo: 100 },
+  salary: { min: 25_000, max: 250_000, mu: Math.log(60_000), sigma: 0.55, roundTo: 100 },
   age: { mean: 38, stddev: 9 },
   raiseRate: { min: 0, max: 0.06, mode: 0.03, low: 0.01, high: 0.05 },
   interestRate: { min: 0.03, max: 0.09, mode: 0.06, low: 0.045, high: 0.08 },
@@ -29,7 +29,7 @@ const RANGE = {
     hsaEmployerMonthly: { min: 0, max: 150, mode: 40, low: 0, high: 120 },
     iraAnnual: { min: 0, max: 8000, mode: 3500, low: 0, high: 7000 },
     brokerageMonthly: { min: 0, max: 2500, mode: 300, low: 0, high: 2000 },
-    rsuAnnual: { min: 0, max: 50000, modeFactor: 0.08, highFactor: 0.3 },
+    rsuAnnual: { min: 0, max: 50_000, modeFactor: 0.08, highFactor: 0.3 },
     collegeMonthly: { min: 0, max: 600, mode: 120, low: 0, high: 500 },
     cryptoMonthly: { min: 0, max: 300, mode: 60, low: 0, high: 200 }
   }
@@ -42,10 +42,10 @@ export function createRandomSeed(): number {
 export function createSeededRandom(seed: number): SeededRandom {
   let state = seed >>> 0;
   return () => {
-    state += 0x6d2b79f5;
+    state += 0x6d_2b_79_f5;
     let value = Math.imul(state ^ (state >>> 15), 1 | state);
     value ^= value + Math.imul(value ^ (value >>> 7), 61 | value);
-    return ((value ^ (value >>> 14)) >>> 0) / 4294967296;
+    return ((value ^ (value >>> 14)) >>> 0) / 4_294_967_296;
   };
 }
 
@@ -103,7 +103,7 @@ export function generateRandomRetirementConfig(
   };
 }
 
-function buildContributionRules(rng: SeededRandom, annualBase: number): ContributionRule[] {
+function buildContributionRules(rng: SeededRandom, annualBase: number): Array<ContributionRule> {
   const minIncludedRules = 4;
 
   const employee401k = roundPercent(sampleTriangularClamped(rng, RANGE.contributions.employee401k));
@@ -171,7 +171,7 @@ function buildContributionRules(rng: SeededRandom, annualBase: number): Contribu
   const hsaEmployerTiming = pickTiming(rng, ['monthly', 'annual'], [0.6, 0.4]);
   const cryptoTiming = pickTiming(rng, ['monthly', 'annual'], [0.65, 0.35]);
 
-  const ruleTemplates: ContributionRule[] = [
+  const ruleTemplates: Array<ContributionRule> = [
     {
       id: '401k-employee',
       name: '401(k) employee contribution',
@@ -267,26 +267,54 @@ function buildContributionRules(rng: SeededRandom, annualBase: number): Contribu
   const selectedRuleIds = new Set<string>();
 
   const selectRandom = (id: string, chance: number) => {
-    if (rng() < chance) selectedRuleIds.add(id);
+    if (rng() < chance) {
+      selectedRuleIds.add(id);
+    }
   };
   const hasSelected = (id: string) => selectedRuleIds.has(id);
   const byId = (id: string) => ruleTemplates.find((rule) => rule.id === id);
 
-  if (employee401k > 0) selectRandom('401k-employee', 0.8);
-  if (match401k > 0 && hasSelected('401k-employee')) selectRandom('401k-match', 0.75);
-  if (roth401k > 0) selectRandom('401k-roth', 0.65);
-  if (hsaEmployeeMonthly > 0) selectRandom('hsa-employee', 0.55);
-  if (hsaEmployerMonthly > 0) selectRandom('hsa-employer', 0.5);
-  if (iraAnnual > 0) selectRandom('ira', 0.6);
-  if (brokerageMonthly > 0) selectRandom('brokerage', 0.65);
-  if (esppPercent > 0) selectRandom('espp', 0.45);
-  if (bonusPercent > 0) selectRandom('annual-bonus', 0.5);
-  if (rsuAnnual > 0) selectRandom('rsu-vesting', 0.4);
-  if (collegeMonthly > 0) selectRandom('college-529', 0.45);
-  if (cryptoMonthly > 0) selectRandom('crypto', 0.35);
+  if (employee401k > 0) {
+    selectRandom('401k-employee', 0.8);
+  }
+  if (match401k > 0 && hasSelected('401k-employee')) {
+    selectRandom('401k-match', 0.75);
+  }
+  if (roth401k > 0) {
+    selectRandom('401k-roth', 0.65);
+  }
+  if (hsaEmployeeMonthly > 0) {
+    selectRandom('hsa-employee', 0.55);
+  }
+  if (hsaEmployerMonthly > 0) {
+    selectRandom('hsa-employer', 0.5);
+  }
+  if (iraAnnual > 0) {
+    selectRandom('ira', 0.6);
+  }
+  if (brokerageMonthly > 0) {
+    selectRandom('brokerage', 0.65);
+  }
+  if (esppPercent > 0) {
+    selectRandom('espp', 0.45);
+  }
+  if (bonusPercent > 0) {
+    selectRandom('annual-bonus', 0.5);
+  }
+  if (rsuAnnual > 0) {
+    selectRandom('rsu-vesting', 0.4);
+  }
+  if (collegeMonthly > 0) {
+    selectRandom('college-529', 0.45);
+  }
+  if (cryptoMonthly > 0) {
+    selectRandom('crypto', 0.35);
+  }
 
   const fallbackPool = orderedRuleIds.filter((id) => {
-    if (selectedRuleIds.has(id)) return false;
+    if (selectedRuleIds.has(id)) {
+      return false;
+    }
     const candidate = byId(id);
     return candidate ? hasMeaningfulAmount(candidate) : false;
   });
@@ -294,7 +322,9 @@ function buildContributionRules(rng: SeededRandom, annualBase: number): Contribu
   while (selectedRuleIds.size < minIncludedRules && fallbackPool.length > 0) {
     const index = clampInt(Math.floor(rng() * fallbackPool.length), 0, fallbackPool.length - 1);
     const fallbackId = fallbackPool.splice(index, 1)[0];
-    if (fallbackId) selectedRuleIds.add(fallbackId);
+    if (fallbackId) {
+      selectedRuleIds.add(fallbackId);
+    }
   }
 
   if (selectedRuleIds.size === 0) {
@@ -302,7 +332,9 @@ function buildContributionRules(rng: SeededRandom, annualBase: number): Contribu
       orderedRuleIds[
         clampInt(Math.floor(rng() * orderedRuleIds.length), 0, orderedRuleIds.length - 1)
       ];
-    if (fallbackId) selectedRuleIds.add(fallbackId);
+    if (fallbackId) {
+      selectedRuleIds.add(fallbackId);
+    }
   }
 
   return ruleTemplates
@@ -322,7 +354,9 @@ function makeRule(rng: SeededRandom, rule: ContributionRule): ContributionRule {
 }
 
 function hasMeaningfulAmount(rule: ContributionRule): boolean {
-  if (rule.type === 'salaryPercent') return rule.amount > 0;
+  if (rule.type === 'salaryPercent') {
+    return rule.amount > 0;
+  }
   return rule.amount >= 1;
 }
 
@@ -343,8 +377,8 @@ function annualTiming(rng: SeededRandom): ContributionTiming {
 
 function pickTiming<T extends string>(
   rng: SeededRandom,
-  options: readonly T[],
-  weights: readonly number[]
+  options: ReadonlyArray<T>,
+  weights: ReadonlyArray<number>
 ): T {
   const total = weights.reduce((sum, value) => sum + value, 0);
   let roll = rng() * total;
@@ -357,7 +391,7 @@ function pickTiming<T extends string>(
       }
     }
   }
-  const timing = options[0] ?? options[options.length - 1] ?? options[0];
+  const timing = options[0] ?? options.at(-1) ?? options[0];
   if (!timing) {
     throw new Error('No timing selected');
   }
@@ -398,8 +432,12 @@ function roundNormal(rng: SeededRandom, mean: number, stddev: number): number {
 function sampleNormal(rng: SeededRandom): number {
   let u = 0;
   let v = 0;
-  while (u === 0) u = rng();
-  while (v === 0) v = rng();
+  while (u === 0) {
+    u = rng();
+  }
+  while (v === 0) {
+    v = rng();
+  }
   return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
 }
 

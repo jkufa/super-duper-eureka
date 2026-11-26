@@ -25,14 +25,14 @@ type ContributionType = 'flat' | 'salaryPercent';
 type SalaryBasis = 'annual' | 'monthly' | 'biweekly' | 'weekly' | 'daily' | 'perContribution';
 
 const axes = {
-  compounding: ['monthly', 'daily'] as Compounding[],
-  frequency: ['oneTime', 'monthly', 'annual'] as Frequency[],
-  placement: ['start', 'end'] as Placement[],
-  day: ['none', 'mid', 'end'] as DayVariant[],
+  compounding: ['monthly', 'daily'] as Array<Compounding>,
+  frequency: ['oneTime', 'monthly', 'annual'] as Array<Frequency>,
+  placement: ['start', 'end'] as Array<Placement>,
+  day: ['none', 'mid', 'end'] as Array<DayVariant>,
   startMonth: [0, 1, 11],
-  yearRange: ['none', 'startOnly', 'endOnly', 'range', 'outOfRange'] as YearRangeVariant[],
+  yearRange: ['none', 'startOnly', 'endOnly', 'range', 'outOfRange'] as Array<YearRangeVariant>,
   enabled: [true, false],
-  contributionType: ['flat', 'salaryPercent'] as ContributionType[],
+  contributionType: ['flat', 'salaryPercent'] as Array<ContributionType>,
   salaryBasis: [
     'annual',
     'monthly',
@@ -40,7 +40,7 @@ const axes = {
     'weekly',
     'daily',
     'perContribution'
-  ] as SalaryBasis[],
+  ] as Array<SalaryBasis>,
   raise: [0, 0.05],
   annualRate: [0, 0.05],
   variance: [0, 0.02]
@@ -76,7 +76,7 @@ const defaultCase: Case = {
   variance: axes.variance[0]
 };
 
-const axisEntries = Object.entries(axes) as [keyof Case, Case[keyof Case][]][];
+const axisEntries = Object.entries(axes) as Array<[keyof Case, Case[keyof Case][]]>;
 
 const buildPairwiseCases = () => {
   const cases = new Map<string, Case>();
@@ -100,10 +100,18 @@ const buildPairwiseCases = () => {
 };
 
 const resolveYearRange = (variant: YearRangeVariant) => {
-  if (variant === 'none') return undefined;
-  if (variant === 'startOnly') return { start: 1 };
-  if (variant === 'endOnly') return { end: 0 };
-  if (variant === 'range') return { start: 0, end: 1 };
+  if (variant === 'none') {
+    return undefined;
+  }
+  if (variant === 'startOnly') {
+    return { start: 1 };
+  }
+  if (variant === 'endOnly') {
+    return { end: 0 };
+  }
+  if (variant === 'range') {
+    return { start: 0, end: 1 };
+  }
   return { start: 3, end: 4 };
 };
 
@@ -144,9 +152,15 @@ const shouldThrow = (testCase: Case) =>
   testCase.frequency === 'oneTime';
 
 const shouldContribute = (testCase: Case) => {
-  if (!testCase.enabled) return false;
-  if (testCase.frequency === 'oneTime') return true;
-  if (testCase.yearRange === 'outOfRange') return false;
+  if (!testCase.enabled) {
+    return false;
+  }
+  if (testCase.frequency === 'oneTime') {
+    return true;
+  }
+  if (testCase.yearRange === 'outOfRange') {
+    return false;
+  }
   return true;
 };
 
@@ -182,7 +196,7 @@ describe('calculator', () => {
             variance: testCase.variance,
             compounding: testCase.compounding
           },
-          salary: { annualBase: 120000, annualRaiseRate: testCase.raise },
+          salary: { annualBase: 120_000, annualRaiseRate: testCase.raise },
           contributions: [
             makeContribution({
               id: 'pairwise',
@@ -234,10 +248,10 @@ describe('calculator', () => {
       setSystemTime('2026-02-03T00:00:00.000Z');
 
       const config = makeConfig({
-        currentBalance: 100000,
+        currentBalance: 100_000,
         timeHorizonYears: 10,
         interest: { annualRate: 0.05, variance: 0.02, compounding: 'monthly' },
-        salary: { annualBase: 100000, annualRaiseRate: 0 },
+        salary: { annualBase: 100_000, annualRaiseRate: 0 },
         contributions: []
       });
 
@@ -315,7 +329,7 @@ describe('calculator', () => {
       const config = makeConfig({
         currentBalance: 0,
         timeHorizonYears: 1,
-        salary: { annualBase: 120000, annualRaiseRate: 0 },
+        salary: { annualBase: 120_000, annualRaiseRate: 0 },
         interest: { annualRate: 0, compounding: 'monthly' },
         contributions: [
           makeContribution({
@@ -340,7 +354,7 @@ describe('calculator', () => {
       const config = makeConfig({
         currentBalance: 0,
         timeHorizonYears: 1,
-        salary: { annualBase: 120000, annualRaiseRate: 0 },
+        salary: { annualBase: 120_000, annualRaiseRate: 0 },
         interest: { annualRate: 0, compounding: 'monthly' },
         contributions: [
           makeContribution({
@@ -366,7 +380,7 @@ describe('calculator', () => {
         currentBalance: 0,
         timeHorizonYears: 1,
         startDate: new Date(2026, 0, 1),
-        salary: { annualBase: 120000, annualRaiseRate: 0 },
+        salary: { annualBase: 120_000, annualRaiseRate: 0 },
         interest: { annualRate: 0, compounding: 'monthly' },
         contributions: [
           makeContribution({
@@ -422,11 +436,11 @@ describe('calculator', () => {
       });
 
       const result = calculateProjection(config, config.interest.annualRate);
-      const annual = 120000 * 0.1;
-      const monthly = (120000 / 12) * 0.1;
-      const biweekly = (120000 / 26) * 0.1;
-      const weekly = (120000 / 52) * 0.1;
-      const daily = (120000 / 365) * 0.1;
+      const annual = 120_000 * 0.1;
+      const monthly = (120_000 / 12) * 0.1;
+      const biweekly = (120_000 / 26) * 0.1;
+      const weekly = (120_000 / 52) * 0.1;
+      const daily = (120_000 / 365) * 0.1;
       const perAnnual = annual;
       const perMonthly = monthly;
       const perMonthTotal = annual + monthly + biweekly + weekly + daily + perMonthly;
@@ -444,7 +458,7 @@ describe('calculator', () => {
         currentBalance: 0,
         timeHorizonYears: 2,
         startDate: new Date(2026, 0, 1),
-        salary: { annualBase: 100000, annualRaiseRate: 0.1 },
+        salary: { annualBase: 100_000, annualRaiseRate: 0.1 },
         interest: { annualRate: 0, compounding: 'monthly' },
         contributions: [
           makeContribution({
@@ -458,8 +472,8 @@ describe('calculator', () => {
       });
 
       const result = calculateProjection(config, config.interest.annualRate);
-      const yearOne = 100000 * 0.1;
-      const yearTwo = 110000 * 0.1;
+      const yearOne = 100_000 * 0.1;
+      const yearTwo = 110_000 * 0.1;
 
       expect(result.totalContributions).toBeCloseTo(yearOne + yearTwo, 6);
 
@@ -623,7 +637,7 @@ describe('calculator', () => {
         currentBalance: 0,
         timeHorizonYears: 2,
         interest: { annualRate: 0, compounding: 'monthly' },
-        salary: { annualBase: 120000, annualRaiseRate: 0 },
+        salary: { annualBase: 120_000, annualRaiseRate: 0 },
         contributions: [
           makeContribution({
             id: 'salary-growth',
@@ -680,7 +694,7 @@ describe('calculator', () => {
         currentBalance: 1000,
         timeHorizonYears: 1,
         interest: { annualRate: 0, compounding: 'monthly' as const },
-        salary: { annualBase: 100000, annualRaiseRate: 0 },
+        salary: { annualBase: 100_000, annualRaiseRate: 0 },
         contributions: []
       };
       const systemResult = calculateProjection(fromSystem, fromSystem.interest.annualRate);

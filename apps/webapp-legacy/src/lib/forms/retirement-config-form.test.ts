@@ -13,7 +13,7 @@ describe('retirement-config-form', () => {
       timeHorizonYears: 10,
       startDate: '2026-01-01T00:00:00.000Z',
       interest: { annualRate: 0.05, variance: 0, compounding: 'monthly' },
-      salary: { annualBase: 120000, annualRaiseRate: 0.03 },
+      salary: { annualBase: 120_000, annualRaiseRate: 0.03 },
       contributions: [
         {
           id: 'monthly-percent',

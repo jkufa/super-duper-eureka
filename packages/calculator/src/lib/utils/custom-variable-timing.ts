@@ -1,15 +1,23 @@
 const REFERENCE_LEAP_YEAR = 2000;
 
 export function getDaysInMonthForYearMonth(year: number, month: number) {
-  if (!Number.isInteger(year) || !Number.isInteger(month)) return null;
-  if (month < 1 || month > 12) return null;
+  if (!Number.isInteger(year) || !Number.isInteger(month)) {
+    return null;
+  }
+  if (month < 1 || month > 12) {
+    return null;
+  }
   return new Date(year, month, 0).getDate();
 }
 
 export function isValidMonthDay(month: number, day: number, year: number) {
-  if (!Number.isInteger(month) || !Number.isInteger(day) || !Number.isInteger(year)) return false;
+  if (!Number.isInteger(month) || !Number.isInteger(day) || !Number.isInteger(year)) {
+    return false;
+  }
   const daysInMonth = getDaysInMonthForYearMonth(year, month);
-  if (!daysInMonth) return false;
+  if (!daysInMonth) {
+    return false;
+  }
   return day >= 1 && day <= daysInMonth;
 }
 

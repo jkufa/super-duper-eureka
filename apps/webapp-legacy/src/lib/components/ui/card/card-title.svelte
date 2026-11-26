@@ -1,5 +1,6 @@
 <script lang="ts" module>
-  import { cn, type WithElementRef } from '$lib/utils.js';
+  import { cn } from '$lib/utils.js';
+  import type { WithElementRef } from '$lib/utils.js';
   import type { HTMLAttributes } from 'svelte/elements';
 
   export type CardTitleProps = WithElementRef<HTMLAttributes<HTMLHeadingElement>>;

@@ -57,7 +57,7 @@ export interface ProjectionStep {
   annualRate: number;
   daysInMonth: number;
   daysInYear: number;
-  activeContributions: ContributionDetail[];
+  activeContributions: Array<ContributionDetail>;
 }
 
 export interface ProjectionStepSummary {
@@ -69,7 +69,7 @@ export interface ProjectionStepSummary {
 
 export interface ProjectionRun {
   projection: Projection;
-  steps: ProjectionStep[];
+  steps: Array<ProjectionStep>;
   summary: ProjectionStepSummary;
 }
 
@@ -101,9 +101,9 @@ function runProjection(
   let totalContributions = 0;
   let totalInterest = 0;
 
-  const steps: ProjectionStep[] = [];
-  const monthlyProjections: MonthlyProjection[] = [];
-  const yearlyProjections: AnnualProjection[] = [];
+  const steps: Array<ProjectionStep> = [];
+  const monthlyProjections: Array<MonthlyProjection> = [];
+  const yearlyProjections: Array<AnnualProjection> = [];
 
   for (let monthOffset = 0; monthOffset < totalMonths; monthOffset++) {
     const monthStart = addMonths(startDate, monthOffset);
@@ -214,7 +214,7 @@ function runProjection(
 }
 
 interface ResolveMonthlyContributionsParams {
-  rules: ContributionRule[];
+  rules: Array<ContributionRule>;
   yearIndex: number;
   monthIndex: number; // 0-11
   timeHorizonYears: number;
@@ -229,7 +229,7 @@ interface MonthlyContributionBucket {
   start: number;
   end: number;
   byDay: Record<number, number>;
-  details?: ContributionDetail[];
+  details?: Array<ContributionDetail>;
 }
 
 interface ContributionDetail {
@@ -274,7 +274,9 @@ function resolveMonthlyContributions(
     }
 
     const amount = resolveContributionAmount(rule, salary, yearIndex, monthIndex);
-    if (amount === 0) continue;
+    if (amount === 0) {
+      continue;
+    }
 
     if (bucket.details) {
       bucket.details.push({
@@ -306,7 +308,9 @@ function isContributionActive(
   monthStart: Date,
   projectionStartDate: Date
 ) {
-  if (rule.enabled === false) return false;
+  if (rule.enabled === false) {
+    return false;
+  }
 
   const timing = rule.timing;
   const isStartMonth =
@@ -316,20 +320,34 @@ function isContributionActive(
   const isPastStartDay = (day: number) => clampDay(day, getDaysInMonth(monthStart)) < startDay;
 
   if (timing.frequency === 'oneTime') {
-    if (timing.on.year !== yearIndex || timing.on.month !== monthIndex) return false;
-    if (!isStartMonth || yearIndex !== 0) return true;
-    if (!timing.on.day) return true;
+    if (timing.on.year !== yearIndex || timing.on.month !== monthIndex) {
+      return false;
+    }
+    if (!isStartMonth || yearIndex !== 0) {
+      return true;
+    }
+    if (!timing.on.day) {
+      return true;
+    }
     return !isPastStartDay(timing.on.day);
   }
 
   const rangeStart = rule.yearRange?.start ?? 0;
   const rangeEnd = rule.yearRange?.end ?? timeHorizonYears;
-  if (yearIndex < rangeStart || yearIndex > rangeEnd) return false;
+  if (yearIndex < rangeStart || yearIndex > rangeEnd) {
+    return false;
+  }
 
   if (timing.frequency === 'annual') {
-    if (timing.month !== monthIndex) return false;
-    if (!isStartMonth || yearIndex !== 0) return true;
-    if (!timing.day) return true;
+    if (timing.month !== monthIndex) {
+      return false;
+    }
+    if (!isStartMonth || yearIndex !== 0) {
+      return true;
+    }
+    if (!timing.day) {
+      return true;
+    }
     return !isPastStartDay(timing.day);
   }
 
@@ -385,7 +403,9 @@ function resolveContributionAmount(
 function resolveEffectiveRuleAmount(rule: ContributionRule, yearIndex: number, monthIndex: number) {
   const baseAmount = rule.amount;
   const growth = rule.growth;
-  if (!growth) return Math.max(0, baseAmount);
+  if (!growth) {
+    return Math.max(0, baseAmount);
+  }
 
   const growthPeriods =
     growth.cadence === 'annual' ? yearIndex : yearIndex * MONTHS_PER_YEAR + monthIndex;
@@ -398,9 +418,11 @@ function resolveEffectiveRuleAmount(rule: ContributionRule, yearIndex: number, m
   return Math.max(0, baseAmount + growth.amount * growthPeriods);
 }
 
-function validateContributionRules(rules: ContributionRule[]) {
+function validateContributionRules(rules: Array<ContributionRule>) {
   for (const rule of rules) {
-    if (!rule.growth) continue;
+    if (!rule.growth) {
+      continue;
+    }
     if (!Number.isFinite(rule.growth.amount) || rule.growth.amount < 0) {
       throw new Error(`growth.amount must be 0 or greater for contribution "${rule.id}".`);
     }
@@ -417,7 +439,9 @@ function resolveContributionDay(
     if (timing.frequency === 'oneTime') {
       return clampDay(timing.on.day ?? 1, daysInMonth);
     }
-    if (timing.day) return clampDay(timing.day, daysInMonth);
+    if (timing.day) {
+      return clampDay(timing.day, daysInMonth);
+    }
   }
 
   const placement = timing.frequency === 'oneTime' ? 'start' : (timing.placement ?? 'start');
@@ -487,8 +511,12 @@ function applyDailyCompounding(params: {
 
 function toDailyMap(bucket: MonthlyContributionBucket, daysInMonth: number) {
   const daily: Record<number, number> = { ...bucket.byDay };
-  if (bucket.start) daily[1] = (daily[1] ?? 0) + bucket.start;
-  if (bucket.end) daily[daysInMonth] = (daily[daysInMonth] ?? 0) + bucket.end;
+  if (bucket.start) {
+    daily[1] = (daily[1] ?? 0) + bucket.start;
+  }
+  if (bucket.end) {
+    daily[daysInMonth] = (daily[daysInMonth] ?? 0) + bucket.end;
+  }
   return daily;
 }
 
@@ -538,8 +566,12 @@ function annualToDailyRate(annualRate: number, daysInYear: number) {
 }
 
 function clampDay(day: number, daysInMonth: number) {
-  if (day < 1) return 1;
-  if (day > daysInMonth) return daysInMonth;
+  if (day < 1) {
+    return 1;
+  }
+  if (day > daysInMonth) {
+    return daysInMonth;
+  }
   return day;
 }
 

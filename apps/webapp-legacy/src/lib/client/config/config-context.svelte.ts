@@ -19,7 +19,9 @@ export function initRetirementConfigContext(
   options?: RetirementConfigContextOptions
 ): RetirementConfigContext {
   const existing = getContext<RetirementConfigContext | undefined>(RETIREMENT_CONFIG_CONTEXT_KEY);
-  if (existing) return existing;
+  if (existing) {
+    return existing;
+  }
 
   const storageKey = options?.storageKey ?? DEFAULT_STORAGE_KEY;
 
@@ -32,7 +34,9 @@ export function initRetirementConfigContext(
 
       try {
         const raw = globalThis.localStorage.getItem(storageKey);
-        if (!raw) return undefined;
+        if (!raw) {
+          return undefined;
+        }
 
         const parsed: unknown = JSON.parse(raw);
         return isRetirementConfigLike(parsed) ? parsed : undefined;
@@ -83,7 +87,9 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 function isRetirementConfigLike(value: unknown): value is RetirementConfig {
-  if (!isRecord(value)) return false;
+  if (!isRecord(value)) {
+    return false;
+  }
   return (
     typeof value.currentBalance === 'number' &&
     typeof value.timeHorizonYears === 'number' &&

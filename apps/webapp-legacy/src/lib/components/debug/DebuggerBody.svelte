@@ -36,7 +36,7 @@
       return {
         eventDetails: {},
         configuration: {},
-        steps: [] as any[]
+        steps: [] as Array<any>
       };
     }
 

@@ -71,7 +71,9 @@
   const inputPaddingClass = $derived(prefix ? 'pl-7' : suffix ? 'pr-7' : '');
 
   $effect(() => {
-    if (isFocused) return;
+    if (isFocused) {
+      return;
+    }
 
     if (Number.isFinite($valueStore)) {
       displayValue = `${$valueStore}`;
@@ -128,7 +130,9 @@
   }
 
   function handleChange(event: Event) {
-    if (!pendingStepSource) return;
+    if (!pendingStepSource) {
+      return;
+    }
 
     const target = event.currentTarget as HTMLInputElement;
     const nextValue = parseDisplayValue(target.value);

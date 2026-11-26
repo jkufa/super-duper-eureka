@@ -1,8 +1,13 @@
-import Root, { type CardProps } from './card.svelte';
-import Content, { type CardContentProps } from './card-content.svelte';
-import Footer, { type CardFooterProps } from './card-footer.svelte';
-import Header, { type CardHeaderProps } from './card-header.svelte';
-import Title, { type CardTitleProps } from './card-title.svelte';
+import Root from './card.svelte';
+import type { CardProps } from './card.svelte';
+import Content from './card-content.svelte';
+import type { CardContentProps } from './card-content.svelte';
+import Footer from './card-footer.svelte';
+import type { CardFooterProps } from './card-footer.svelte';
+import Header from './card-header.svelte';
+import type { CardHeaderProps } from './card-header.svelte';
+import Title from './card-title.svelte';
+import type { CardTitleProps } from './card-title.svelte';
 
 export {
   Root,

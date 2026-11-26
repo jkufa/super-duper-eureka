@@ -23,7 +23,9 @@ test.describe('Retirement config localStorage sync', () => {
         localStorage: { getItem: (key: string) => string | null };
       };
       const raw = browserGlobal.localStorage.getItem(storageKey);
-      if (!raw) return null;
+      if (!raw) {
+        return null;
+      }
 
       const parsed: unknown = JSON.parse(raw);
       return hasTimeHorizonYears(parsed) ? parsed.timeHorizonYears : null;
@@ -52,7 +54,9 @@ test.describe('Retirement config localStorage sync', () => {
             localStorage: { getItem: (key: string) => string | null };
           };
           const raw = browserGlobal.localStorage.getItem(storageKey);
-          if (!raw) return null;
+          if (!raw) {
+            return null;
+          }
 
           const parsed: unknown = JSON.parse(raw);
           return hasTimeHorizonYears(parsed) ? parsed.timeHorizonYears : null;

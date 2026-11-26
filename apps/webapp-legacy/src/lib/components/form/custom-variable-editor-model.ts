@@ -1,12 +1,7 @@
-import {
-  normalizeCustomVariableInput,
-  validateCustomVariableInput,
-  type NormalizeCustomVariableInput
-} from '@retirement/calculator';
-import {
-  parseCustomVariableTimingText,
-  type ParsedCustomVariableTiming
-} from '$lib/forms/frequency-nlp';
+import { normalizeCustomVariableInput, validateCustomVariableInput } from '@retirement/calculator';
+import type { NormalizeCustomVariableInput } from '@retirement/calculator';
+import { parseCustomVariableTimingText } from '$lib/forms/frequency-nlp';
+import type { ParsedCustomVariableTiming } from '$lib/forms/frequency-nlp';
 
 export interface TimingParseContext {
   referenceDate: Date;
@@ -54,8 +49,12 @@ export function resolveParsedTimingOrStructured(
   context: TimingParseContext
 ): ResolvedParsedTiming | null {
   const parsed = parseCustomVariableTiming(input, context);
-  if (parsed) return parsed;
-  if (input.trim().length > 0) return null;
+  if (parsed) {
+    return parsed;
+  }
+  if (input.trim().length > 0) {
+    return null;
+  }
 
   return {
     ...fallback,

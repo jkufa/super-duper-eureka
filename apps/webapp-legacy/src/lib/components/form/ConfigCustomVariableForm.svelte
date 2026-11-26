@@ -23,10 +23,8 @@
     toCustomVariableDraftState,
     toParsedCalendarDate
   } from './custom-variable-editor-state';
-  import {
-    createTimingParseController,
-    type TimingTarget
-  } from './custom-variable-timing-controller';
+  import { createTimingParseController } from './custom-variable-timing-controller';
+  import type { TimingTarget } from './custom-variable-timing-controller';
 
   type Mode = 'create' | 'edit';
   type CustomVariable = RetirementConfigFormValues['customVariables'][number];
@@ -85,7 +83,9 @@
       return;
     }
 
-    if (loadedEditVariableId === variable.id) return;
+    if (loadedEditVariableId === variable.id) {
+      return;
+    }
     $formData.customVariableEditDraft = toCustomVariableDraftState(variable);
     loadedEditVariableId = variable.id;
     editTimingInfo = null;
@@ -118,12 +118,16 @@
   });
 
   const draftSelectedCalendarDate = $derived.by(() => {
-    if ($draftFrequency !== 'oneTime') return undefined;
+    if ($draftFrequency !== 'oneTime') {
+      return undefined;
+    }
     return parsedDraftCalendarDate;
   });
 
   const editSelectedCalendarDate = $derived.by(() => {
-    if ($editDraftFrequency !== 'oneTime') return undefined;
+    if ($editDraftFrequency !== 'oneTime') {
+      return undefined;
+    }
     return parsedEditCalendarDate;
   });
 
@@ -282,7 +286,9 @@
   }
 
   function saveCustomVariable() {
-    if (mode !== 'edit' || !variable || !onSaveVariable) return;
+    if (mode !== 'edit' || !variable || !onSaveVariable) {
+      return;
+    }
 
     const result = buildSavedCustomVariable({
       id: variable.id,
@@ -319,18 +325,24 @@
   }
 
   function promptDeleteCustomVariable() {
-    if (mode !== 'edit' || !onDeleteVariable) return;
+    if (mode !== 'edit' || !onDeleteVariable) {
+      return;
+    }
     isDeleteVariableDialogOpen = true;
   }
 
   function deleteCustomVariable() {
-    if (mode !== 'edit' || !onDeleteVariable) return;
+    if (mode !== 'edit' || !onDeleteVariable) {
+      return;
+    }
     isDeleteVariableDialogOpen = false;
     onDeleteVariable();
   }
 
   function cancelEditCustomVariable() {
-    if (mode !== 'edit' || !onCancel) return;
+    if (mode !== 'edit' || !onCancel) {
+      return;
+    }
     onCancel();
   }
 </script>

@@ -17,7 +17,9 @@ export function createTimingParseController(config: TimingParseControllerConfig)
   };
 
   function clearTimer(target: TimingTarget) {
-    if (!timers[target]) return;
+    if (!timers[target]) {
+      return;
+    }
     clearTimeout(timers[target]);
     timers[target] = null;
   }
@@ -29,7 +31,9 @@ export function createTimingParseController(config: TimingParseControllerConfig)
   ) {
     const parsed = config.parse(text);
     if (!parsed) {
-      if (options?.silentOnFailure) return;
+      if (options?.silentOnFailure) {
+        return;
+      }
       config.onParseError(target);
       return;
     }

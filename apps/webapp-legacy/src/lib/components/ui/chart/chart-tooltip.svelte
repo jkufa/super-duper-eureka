@@ -1,7 +1,9 @@
 <script lang="ts">
-  import { cn, type WithElementRef, type WithoutChildren } from '$lib/utils.js';
+  import { cn } from '$lib/utils.js';
+  import type { WithElementRef, WithoutChildren } from '$lib/utils.js';
   import type { HTMLAttributes } from 'svelte/elements';
-  import { getPayloadConfigFromPayload, useChart, type TooltipPayload } from './chart-utils.js';
+  import { getPayloadConfigFromPayload, useChart } from './chart-utils.js';
+  import type { TooltipPayload } from './chart-utils.js';
   import { getTooltipContext, Tooltip as TooltipPrimitive } from 'layerchart';
   import type { Snippet } from 'svelte';
 
@@ -35,7 +37,9 @@
     valueFormatter?: (...args: [unknown]) => string;
     labelClassName?: string;
     // eslint-disable-next-line no-unused-vars
-    labelFormatter?: ((...args: [unknown, TooltipPayload[]]) => string | number | Snippet) | null;
+    labelFormatter?:
+      | ((...args: [unknown, Array<TooltipPayload>]) => string | number | Snippet)
+      | null;
     formatter?: Snippet<
       [
         {
@@ -43,7 +47,7 @@
           name: string;
           item: TooltipPayload;
           index: number;
-          payload: TooltipPayload[];
+          payload: Array<TooltipPayload>;
         }
       ]
     >;
@@ -53,7 +57,9 @@
   const tooltipCtx = getTooltipContext();
 
   const formattedLabel = $derived.by(() => {
-    if (hideLabel || !tooltipCtx.payload?.length) return null;
+    if (hideLabel || !tooltipCtx.payload?.length) {
+      return null;
+    }
 
     const [item] = tooltipCtx.payload;
     const key = labelKey ?? item?.label ?? item?.name ?? 'value';
@@ -65,8 +71,12 @@
         ? (chart.config[label as keyof typeof chart.config]?.label ?? label)
         : (itemConfig?.label ?? item.label);
 
-    if (value === undefined) return null;
-    if (!labelFormatter) return value;
+    if (value === undefined) {
+      return null;
+    }
+    if (!labelFormatter) {
+      return value;
+    }
     return labelFormatter(value, tooltipCtx.payload);
   });
 

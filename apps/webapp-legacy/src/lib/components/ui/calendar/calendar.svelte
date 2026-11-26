@@ -1,9 +1,11 @@
 <script lang="ts">
   import { Calendar as CalendarPrimitive } from 'bits-ui';
   import * as Calendar from './index.js';
-  import { cn, type WithoutChildrenOrChild } from '$lib/utils.js';
+  import { cn } from '$lib/utils.js';
+  import type { WithoutChildrenOrChild } from '$lib/utils.js';
   import type { ButtonVariant } from '../button/button.svelte';
-  import { isEqualMonth, type DateValue } from '@internationalized/date';
+  import { isEqualMonth } from '@internationalized/date';
+  import type { DateValue } from '@internationalized/date';
   import type { Snippet } from 'svelte';
 
   let {
@@ -33,8 +35,12 @@
   } = $props();
 
   const monthFormat = $derived.by(() => {
-    if (monthFormatProp) return monthFormatProp;
-    if (captionLayout.startsWith('dropdown')) return 'short';
+    if (monthFormatProp) {
+      return monthFormatProp;
+    }
+    if (captionLayout.startsWith('dropdown')) {
+      return 'short';
+    }
     return 'long';
   });
 </script>

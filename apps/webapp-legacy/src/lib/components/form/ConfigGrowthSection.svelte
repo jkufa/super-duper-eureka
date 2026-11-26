@@ -22,7 +22,9 @@
   }
 
   function handleCompoundingChange(value: string) {
-    if (!isCompoundingFrequency(value)) return;
+    if (!isCompoundingFrequency(value)) {
+      return;
+    }
     $formData.compounding = value;
     onCommit?.();
   }

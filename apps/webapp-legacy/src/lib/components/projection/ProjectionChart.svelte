@@ -50,7 +50,9 @@
   });
 
   $effect(() => {
-    if (!isHydrated) return;
+    if (!isHydrated) {
+      return;
+    }
     finalBalanceValue = summary.finalBalance;
     totalContributionsValue = summary.totalContributions;
     totalGrowthValue = summary.totalGrowth;
@@ -78,7 +80,9 @@
       }
     ];
 
-    if (!showVariance) return baseSeries;
+    if (!showVariance) {
+      return baseSeries;
+    }
 
     return [
       {

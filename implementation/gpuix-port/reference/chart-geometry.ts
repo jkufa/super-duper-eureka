@@ -24,7 +24,7 @@ export interface ProjectionPoint {
 }
 
 export interface GeometryInput {
-  points: ProjectionPoint[];
+  points: Array<ProjectionPoint>;
   /** outer size of the chart box in px */
   width: number;
   height: number;
@@ -46,7 +46,7 @@ export interface Column {
   /** x in px, outer-box coordinates */
   x: number;
   /** top to bottom in paint order: positive, balance, negative */
-  marks: SeriesMark[];
+  marks: Array<SeriesMark>;
 }
 
 export interface ChartGeometry {
@@ -61,11 +61,11 @@ export interface ChartGeometry {
     negativeLine: string | null;
   };
   /** y of each horizontal grid line */
-  gridY: number[];
-  yTicks: { y: number; value: number }[];
-  xTicks: { x: number; label: string }[];
+  gridY: Array<number>;
+  yTicks: Array<{ y: number; value: number }>;
+  xTicks: Array<{ x: number; label: string }>;
   /** one entry per year: where the marker, dots and readout values come from */
-  columns: Column[];
+  columns: Array<Column>;
   /** distance between neighbouring years in px */
   step: number;
 }
@@ -120,8 +120,8 @@ export function buildProjectionGeometry(input: GeometryInput): ChartGeometry {
 
   const yTickCount = Math.max(1, Math.round(plotHeight / 50));
 
-  const columns: Column[] = points.map((point, index) => {
-    const marks: SeriesMark[] = [];
+  const columns: Array<Column> = points.map((point, index) => {
+    const marks: Array<SeriesMark> = [];
     if (typeof point.positive === 'number') {
       marks.push({ key: 'positive', y: y(point.positive), value: point.positive });
     }
@@ -155,7 +155,9 @@ export function buildProjectionGeometry(input: GeometryInput): ChartGeometry {
 /** Nearest year for an x in outer-box px. Used by click, drag and nothing else. */
 export function columnIndexAtX(geometry: ChartGeometry, x: number): number {
   const count = geometry.columns.length;
-  if (count === 0 || geometry.step === 0) return 0;
+  if (count === 0 || geometry.step === 0) {
+    return 0;
+  }
   const raw = Math.floor((x - geometry.plot.left) / geometry.step);
   return Math.min(count - 1, Math.max(0, raw));
 }

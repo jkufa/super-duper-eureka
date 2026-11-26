@@ -48,11 +48,15 @@ test.describe('Debugger panel', () => {
 
     const before = await dialog.boundingBox();
     expect(before).not.toBeNull();
-    if (!before) return;
+    if (!before) {
+      return;
+    }
 
     const handleBox = await dragHandle.boundingBox();
     expect(handleBox).not.toBeNull();
-    if (!handleBox) return;
+    if (!handleBox) {
+      return;
+    }
 
     const startX = handleBox.x + handleBox.width / 2;
     const startY = handleBox.y + handleBox.height / 2;
@@ -66,7 +70,9 @@ test.describe('Debugger panel', () => {
 
     const after = await dialog.boundingBox();
     expect(after).not.toBeNull();
-    if (!after) return;
+    if (!after) {
+      return;
+    }
 
     expect(
       Math.round(after.x) !== Math.round(before.x) || Math.round(after.y) !== Math.round(before.y)
@@ -81,7 +87,9 @@ test.describe('Debugger panel', () => {
 
     const reopened = await dialog.boundingBox();
     expect(reopened).not.toBeNull();
-    if (!reopened) return;
+    if (!reopened) {
+      return;
+    }
 
     expect(Math.round(reopened.x)).toBe(Math.round(after.x));
     expect(Math.round(reopened.y)).toBe(Math.round(after.y));
@@ -93,11 +101,15 @@ test.describe('Debugger panel', () => {
     const dialog = debuggerPanel(page);
     const panelBounds = await dialog.boundingBox();
     expect(panelBounds).not.toBeNull();
-    if (!panelBounds) return;
+    if (!panelBounds) {
+      return;
+    }
 
     const viewport = page.viewportSize();
     expect(viewport).not.toBeNull();
-    if (!viewport) return;
+    if (!viewport) {
+      return;
+    }
 
     expect(panelBounds.x).toBeGreaterThanOrEqual(0);
     expect(panelBounds.y).toBeGreaterThanOrEqual(0);

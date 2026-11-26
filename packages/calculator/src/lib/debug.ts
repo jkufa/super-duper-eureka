@@ -1,13 +1,8 @@
 import type { ProjectionRun, ProjectionStep } from './calculator';
 import { calculateProjectionWithSteps } from './calculator';
 import type { RetirementConfig } from './types';
-import {
-  getDefaultEnvironmentContext,
-  type WideEvent,
-  type WideEventBase,
-  type WideEventInput,
-  type WideEventLogger
-} from '@retirement/logger';
+import { getDefaultEnvironmentContext } from '@retirement/logger';
+import type { WideEvent, WideEventBase, WideEventInput, WideEventLogger } from '@retirement/logger';
 
 export interface DebugSessionOptions {
   logger: WideEventLogger;
@@ -17,7 +12,7 @@ export interface DebugSessionOptions {
 }
 
 export interface DebugSessionResult extends ProjectionRun {
-  events: WideEvent[];
+  events: Array<WideEvent>;
 }
 
 export function runDebugSession(
@@ -30,7 +25,7 @@ export function runDebugSession(
 
   const startedAt = Date.now();
   let projectionRun: ProjectionRun | undefined;
-  const events: WideEvent[] = [];
+  const events: Array<WideEvent> = [];
 
   try {
     projectionRun = calculateProjectionWithSteps(config, config.interest.annualRate, {
@@ -145,10 +140,7 @@ function summarizeConfig(config: RetirementConfig) {
 }
 
 function randomId() {
-  if (
-    typeof globalThis.crypto !== 'undefined' &&
-    typeof globalThis.crypto.randomUUID === 'function'
-  ) {
+  if (globalThis.crypto !== undefined && typeof globalThis.crypto.randomUUID === 'function') {
     return globalThis.crypto.randomUUID();
   }
   return `run_${Math.random().toString(36).slice(2, 10)}${Date.now().toString(36)}`;
@@ -184,11 +176,17 @@ function formatUnknownError(error: unknown) {
       return { message: '[object Error]' };
     }
   }
-  if (error === undefined) return undefined;
-  if (typeof error === 'string') return { message: error };
+  if (error === undefined) {
+    return undefined;
+  }
+  if (typeof error === 'string') {
+    return { message: error };
+  }
   if (typeof error === 'number' || typeof error === 'bigint' || typeof error === 'boolean') {
     return { message: String(error) };
   }
-  if (typeof error === 'symbol') return { message: error.description ?? 'symbol' };
+  if (typeof error === 'symbol') {
+    return { message: error.description ?? 'symbol' };
+  }
   return { message: 'unknown error' };
 }

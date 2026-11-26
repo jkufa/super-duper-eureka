@@ -23,10 +23,14 @@
   const canStepForward = $derived(hasSteps && stepIndex < stepCount - 1);
 
   function goTo(nextIndex: number) {
-    if (!hasSteps) return;
+    if (!hasSteps) {
+      return;
+    }
 
     const clamped = Math.min(Math.max(0, nextIndex), stepCount - 1);
-    if (clamped === stepIndex) return;
+    if (clamped === stepIndex) {
+      return;
+    }
     onStepChange?.(clamped);
   }
 

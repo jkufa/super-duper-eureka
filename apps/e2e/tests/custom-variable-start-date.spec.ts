@@ -1,4 +1,5 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test } from '@playwright/test';
+import type { Page } from '@playwright/test';
 import {
   addCustomVariableButton,
   customVariableAmountInput,
@@ -18,7 +19,7 @@ const SEEDED_CONFIG = {
     compounding: 'monthly'
   },
   salary: {
-    annualBase: 45000,
+    annualBase: 45_000,
     annualRaiseRate: 0.03
   },
   contributions: []
@@ -67,7 +68,9 @@ test.describe('Custom variable start-date gating', () => {
             localStorage: { getItem: (key: string) => string | null };
           };
           const raw = browserGlobal.localStorage.getItem(storageKey);
-          if (!raw) return null;
+          if (!raw) {
+            return null;
+          }
           const parsed = JSON.parse(raw) as { startDate?: string };
           return parsed.startDate ?? null;
         }, CONFIG_STORAGE_KEY);

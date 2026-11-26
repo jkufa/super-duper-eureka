@@ -6,10 +6,13 @@
   import { Input } from '$lib/components/ui/input/index.js';
   import CalendarIcon from '@lucide/svelte/icons/calendar';
   import { parseDate } from 'chrono-node';
-  import { CalendarDate, getLocalTimeZone, today, type DateValue } from '@internationalized/date';
+  import { CalendarDate, getLocalTimeZone, today } from '@internationalized/date';
+  import type { DateValue } from '@internationalized/date';
 
   function formatDate(date: DateValue | undefined) {
-    if (!date) return '';
+    if (!date) {
+      return '';
+    }
 
     return date.toDate(getLocalTimeZone()).toLocaleDateString('en-US', {
       day: '2-digit',
@@ -49,14 +52,20 @@
   let open = $state(false);
 
   const calendarValue = $derived.by(() => {
-    if (selectedDate) return selectedDate;
+    if (selectedDate) {
+      return selectedDate;
+    }
     const parsed = parseDate(value);
-    if (!parsed) return undefined;
+    if (!parsed) {
+      return undefined;
+    }
     return new CalendarDate(parsed.getFullYear(), parsed.getMonth() + 1, parsed.getDate());
   });
 
   const calendarPlaceholder = $derived.by(() => {
-    if (calendarValue) return calendarValue;
+    if (calendarValue) {
+      return calendarValue;
+    }
 
     let anchorDate: DateValue = today(getLocalTimeZone());
     if (minDate && anchorDate.compare(minDate) < 0) {

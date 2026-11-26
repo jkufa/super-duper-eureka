@@ -9,9 +9,9 @@
   import { createRetirementConfigStore } from '$lib/client/config/config-store.svelte';
   import {
     toRetirementConfigFormDefaults,
-    retirementConfigFormSchema,
-    type RetirementConfigFormValues
+    retirementConfigFormSchema
   } from '$lib/forms/retirement-config-form';
+  import type { RetirementConfigFormValues } from '$lib/forms/retirement-config-form';
   import { calculateProjectionWithSteps, calculateRetirement } from '@retirement/calculator';
   import { zod4Client } from 'sveltekit-superforms/adapters';
   import { superForm } from 'sveltekit-superforms/client';
@@ -38,7 +38,9 @@
   const configContext = initRetirementConfigContext();
 
   $effect(() => {
-    if (hasStorageHydrationCompleted) return;
+    if (hasStorageHydrationCompleted) {
+      return;
+    }
 
     const storedConfig = configContext.getStoredConfig();
     if (!storedConfig) {
@@ -73,7 +75,9 @@
   );
 
   const projectionStartYear = $derived.by(() => {
-    if (!liveConfig.startDate) return new Date().getFullYear();
+    if (!liveConfig.startDate) {
+      return new Date().getFullYear();
+    }
     const parsed = new Date(liveConfig.startDate);
     return Number.isNaN(parsed.getTime()) ? new Date().getFullYear() : parsed.getUTCFullYear();
   });

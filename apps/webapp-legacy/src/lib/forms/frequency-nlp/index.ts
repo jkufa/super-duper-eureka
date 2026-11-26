@@ -123,7 +123,9 @@ function parseRecurringTiming(input: string, referenceYear: number) {
 
   for (const pattern of monthlyPatterns) {
     const match = normalized.match(pattern);
-    if (!match) continue;
+    if (!match) {
+      continue;
+    }
     const day = Number.parseInt(match[1], 10);
     if (day >= 1 && day <= 31) {
       return {
@@ -143,7 +145,9 @@ function parseRecurringTiming(input: string, referenceYear: number) {
 
   for (const pattern of annualPatterns) {
     const match = normalized.match(pattern);
-    if (!match) continue;
+    if (!match) {
+      continue;
+    }
 
     const monthToken = match[1];
     const month = MONTH_LOOKUP[monthToken];
@@ -187,8 +191,12 @@ function resolveYearRange(
 
   const yearStart = safeStartYear ? Math.max(0, safeStartYear - projectionStartYear) : 0;
   const yearEndCandidates = [normalizedHorizon];
-  if (safeDuration) yearEndCandidates.push(yearStart + safeDuration - 1);
-  if (safeEndYear) yearEndCandidates.push(safeEndYear - projectionStartYear);
+  if (safeDuration) {
+    yearEndCandidates.push(yearStart + safeDuration - 1);
+  }
+  if (safeEndYear) {
+    yearEndCandidates.push(safeEndYear - projectionStartYear);
+  }
   const yearEnd = Math.min(normalizedHorizon, Math.max(yearStart, Math.min(...yearEndCandidates)));
 
   const absoluteStartYear = projectionStartYear + yearStart;
@@ -206,7 +214,9 @@ export function parseCustomVariableTimingText(
   options: ParseCustomVariableTimingOptions
 ): ParsedCustomVariableTiming | null {
   const trimmed = normalizeWhitespace(input);
-  if (!trimmed) return null;
+  if (!trimmed) {
+    return null;
+  }
 
   const referenceDate = options.referenceDate ?? new Date();
   const referenceYear = referenceDate.getFullYear();
@@ -214,7 +224,9 @@ export function parseCustomVariableTimingText(
 
   const range = parseRangeModifiers(trimmed);
   const cleanedForTiming = range.cleanedInput;
-  if (!cleanedForTiming) return null;
+  if (!cleanedForTiming) {
+    return null;
+  }
 
   const recurring = parseRecurringTiming(cleanedForTiming, referenceYear);
   if (recurring) {
@@ -232,7 +244,9 @@ export function parseCustomVariableTimingText(
   }
 
   const parsedDate = parseDate(cleanedForTiming, referenceDate, { forwardDate: true });
-  if (!parsedDate) return null;
+  if (!parsedDate) {
+    return null;
+  }
 
   const day = parsedDate.getDate();
   const month = parsedDate.getMonth() + 1;

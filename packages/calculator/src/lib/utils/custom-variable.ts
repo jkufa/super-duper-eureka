@@ -64,7 +64,9 @@ export interface NormalizedCustomVariableInput {
 }
 
 function clampInteger(value: number, min: number, max: number) {
-  if (!Number.isFinite(value)) return min;
+  if (!Number.isFinite(value)) {
+    return min;
+  }
   return Math.max(min, Math.min(max, Math.trunc(value)));
 }
 
@@ -72,7 +74,9 @@ export function validateCustomVariableInput(
   input: ValidateCustomVariableInput,
   parsedTiming: ParsedCustomVariableTimingInput
 ) {
-  if (!input.name.trim()) return CUSTOM_VARIABLE_VALIDATION_ERRORS.nameRequired;
+  if (!input.name.trim()) {
+    return CUSTOM_VARIABLE_VALIDATION_ERRORS.nameRequired;
+  }
   if (!Number.isFinite(input.amount) || input.amount < 0) {
     return CUSTOM_VARIABLE_VALIDATION_ERRORS.amountInvalid;
   }

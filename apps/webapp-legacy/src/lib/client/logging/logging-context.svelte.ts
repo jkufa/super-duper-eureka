@@ -17,7 +17,9 @@ interface LoggingContextOptions {
 
 export function initLoggingContext(options?: LoggingContextOptions): LoggingContext {
   const existing = getContext<LoggingContext | undefined>(LOGGING_CONTEXT_KEY);
-  if (existing) return existing;
+  if (existing) {
+    return existing;
+  }
 
   const requestId = options?.base?.request_id ?? randomId('req');
   const sessionId = options?.base?.session_id ?? getOrCreateSessionId();
@@ -70,7 +72,9 @@ function getOrCreateSessionId() {
   try {
     const key = 'retirement_webapp_session_id';
     const existing = globalThis.sessionStorage.getItem(key);
-    if (existing) return existing;
+    if (existing) {
+      return existing;
+    }
     globalThis.sessionStorage.setItem(key, fallback);
     return fallback;
   } catch {

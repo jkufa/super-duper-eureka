@@ -9,7 +9,9 @@
   let { children, data }: LayoutProps = $props();
 
   onMount(() => {
-    if (!data.debugEnabled) return;
+    if (!data.debugEnabled) {
+      return;
+    }
     setDebuggerEnabledInStorage(localStorage, true);
   });
 </script>

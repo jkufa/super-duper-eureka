@@ -9,9 +9,9 @@ import {
   buildStepWideEventInput,
   calculateProjection,
   calculateProjectionWithSteps,
-  createWideEventLogger,
-  type RetirementConfig
+  createWideEventLogger
 } from '@retirement/calculator';
+import type { RetirementConfig } from '@retirement/calculator';
 
 const args = process.argv.slice(2);
 
@@ -50,8 +50,12 @@ let skippedCount = 0;
 
 for (const spec of skipSpecs) {
   const { steps, nextCount } = parseSkipSpec(spec);
-  for (const step of steps) skipSet.add(step);
-  if (nextCount > 0) skipRemaining = Math.max(skipRemaining, nextCount);
+  for (const step of steps) {
+    skipSet.add(step);
+  }
+  if (nextCount > 0) {
+    skipRemaining = Math.max(skipRemaining, nextCount);
+  }
 }
 
 const config = JSON.parse(readFileSync(configPath, 'utf8')) as RetirementConfig;
@@ -102,8 +106,12 @@ for (const step of projectionRun.steps) {
     if (trimmed.startsWith('s ')) {
       const spec = trimmed.slice(2).trim();
       const { steps, nextCount } = parseSkipSpec(spec);
-      for (const stepIndex of steps) skipSet.add(stepIndex);
-      if (nextCount > 0) skipRemaining = Math.max(skipRemaining, nextCount);
+      for (const stepIndex of steps) {
+        skipSet.add(stepIndex);
+      }
+      if (nextCount > 0) {
+        skipRemaining = Math.max(skipRemaining, nextCount);
+      }
     }
   }
 }
@@ -127,14 +135,16 @@ if (interrupted) {
 }
 logger.info(runEvent);
 
-function getArgValue(argv: string[], key: string) {
+function getArgValue(argv: Array<string>, key: string) {
   const index = argv.indexOf(key);
-  if (index === -1) return undefined;
+  if (index === -1) {
+    return undefined;
+  }
   return argv[index + 1];
 }
 
-function getArgValues(argv: string[], key: string) {
-  const values: string[] = [];
+function getArgValues(argv: Array<string>, key: string) {
+  const values: Array<string> = [];
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
     const value = argv[i + 1];
@@ -146,14 +156,16 @@ function getArgValues(argv: string[], key: string) {
   return values;
 }
 
-function firstPositional(argv: string[]) {
+function firstPositional(argv: Array<string>) {
   return argv.find((arg) => !arg.startsWith('-'));
 }
 
 function parseSkipSpec(spec: string): { steps: Set<number>; nextCount: number } {
   const steps = new Set<number>();
   let nextCount = 0;
-  if (!spec) return { steps, nextCount };
+  if (!spec) {
+    return { steps, nextCount };
+  }
 
   const tokens = spec
     .split(',')
@@ -162,7 +174,9 @@ function parseSkipSpec(spec: string): { steps: Set<number>; nextCount: number } 
   for (const token of tokens) {
     if (token.startsWith('next:')) {
       const count = Number(token.slice(5));
-      if (Number.isFinite(count) && count > 0) nextCount = Math.max(nextCount, count);
+      if (Number.isFinite(count) && count > 0) {
+        nextCount = Math.max(nextCount, count);
+      }
       continue;
     }
 
@@ -173,15 +187,21 @@ function parseSkipSpec(spec: string): { steps: Set<number>; nextCount: number } 
       if (Number.isFinite(start) && Number.isFinite(end)) {
         const min = Math.min(start, end);
         const max = Math.max(start, end);
-        for (let i = min; i <= max; i++) steps.add(i);
+        for (let i = min; i <= max; i++) {
+          steps.add(i);
+        }
       }
       continue;
     }
 
     const value = Number(token);
-    if (Number.isFinite(value)) steps.add(value);
+    if (Number.isFinite(value)) {
+      steps.add(value);
+    }
   }
 
-  if (!Number.isFinite(nextCount)) nextCount = 0;
+  if (!Number.isFinite(nextCount)) {
+    nextCount = 0;
+  }
   return { steps, nextCount };
 }

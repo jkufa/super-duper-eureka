@@ -112,7 +112,7 @@ interface NavigatorLike {
 }
 
 interface NavigatorUADataLike {
-  brands?: readonly { brand: string; version: string }[];
+  brands?: ReadonlyArray<{ brand: string; version: string }>;
   platform?: string;
   mobile?: boolean;
 }
@@ -148,19 +148,25 @@ interface NodeProcessLike {
 }
 
 function getNodeProcess(): NodeProcessLike | undefined {
-  if (typeof process === 'undefined') return undefined;
+  if (typeof process === 'undefined') {
+    return undefined;
+  }
   return process as unknown as NodeProcessLike;
 }
 
 function getNavigator(): NavigatorLike | undefined {
-  if (typeof navigator === 'undefined') return undefined;
+  if (typeof navigator === 'undefined') {
+    return undefined;
+  }
   return navigator as unknown as NavigatorLike;
 }
 
 function pickBrowserBrand(
-  brands?: readonly { brand: string; version: string }[]
+  brands?: ReadonlyArray<{ brand: string; version: string }>
 ): { brand: string; version: string } | undefined {
-  if (!brands) return undefined;
+  if (!brands) {
+    return undefined;
+  }
   for (const entry of brands) {
     const brand = entry.brand.trim();
     if (brand && brand.toLowerCase() !== 'not.a/brand') {
@@ -180,7 +186,7 @@ function getDefaultSink() {
   }
 
   const consoleLike =
-    typeof globalThis.console === 'undefined'
+    globalThis.console === undefined
       ? undefined
       : (globalThis.console as unknown as {
           log: (msg: string) => void;

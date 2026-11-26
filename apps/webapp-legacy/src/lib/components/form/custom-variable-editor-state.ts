@@ -1,4 +1,5 @@
-import { CalendarDate, getLocalTimeZone, type DateValue } from '@internationalized/date';
+import { CalendarDate, getLocalTimeZone } from '@internationalized/date';
+import type { DateValue } from '@internationalized/date';
 import type { RetirementConfigFormValues } from '$lib/forms/retirement-config-form';
 
 type CustomVariable = RetirementConfigFormValues['customVariables'][number];
@@ -8,7 +9,9 @@ export type DraftResetState = CustomVariableDraft;
 
 function toYearOffset(value: unknown, fallback = 0) {
   const parsed = Number(value);
-  if (!Number.isFinite(parsed)) return Math.max(0, Math.trunc(fallback));
+  if (!Number.isFinite(parsed)) {
+    return Math.max(0, Math.trunc(fallback));
+  }
   return Math.max(0, Math.trunc(parsed));
 }
 
@@ -54,7 +57,9 @@ export function toCalendarBounds(input: {
 }
 
 export function formatCustomVariableDate(date: DateValue | undefined) {
-  if (!date) return '';
+  if (!date) {
+    return '';
+  }
   return date.toDate(getLocalTimeZone()).toLocaleDateString('en-US', {
     day: '2-digit',
     month: 'long',

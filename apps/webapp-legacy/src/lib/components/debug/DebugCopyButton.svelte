@@ -23,7 +23,9 @@
   let copied = $state(false);
 
   const textValue = $derived.by(() => {
-    if (typeof value === 'string') return value;
+    if (typeof value === 'string') {
+      return value;
+    }
 
     try {
       return JSON.stringify(value, null, 2);
@@ -33,7 +35,9 @@
   });
 
   async function copy() {
-    if (!navigator?.clipboard) return;
+    if (!navigator?.clipboard) {
+      return;
+    }
 
     await navigator.clipboard.writeText(textValue);
     copied = true;

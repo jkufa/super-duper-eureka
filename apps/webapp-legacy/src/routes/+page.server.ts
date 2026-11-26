@@ -30,7 +30,7 @@ export const load: PageServerLoad = async ({ locals }) => {
             compounding: 'monthly'
           },
           salary: {
-            annualBase: 45000,
+            annualBase: 45_000,
             annualRaiseRate: 0.03
           },
           contributions: [

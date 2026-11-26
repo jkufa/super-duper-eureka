@@ -42,7 +42,9 @@ export function nextDragPosition(start: DragStart, pointer: PanelPosition): Pane
 }
 
 export function parseStoredPosition(raw: string | null, fallback: PanelPosition): PanelPosition {
-  if (!raw) return fallback;
+  if (!raw) {
+    return fallback;
+  }
 
   try {
     const parsed = JSON.parse(raw) as PanelPosition;
