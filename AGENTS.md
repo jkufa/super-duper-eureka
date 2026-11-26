@@ -3,6 +3,9 @@
 ## Project Structure & Module Organization
 
 - `apps/webapp-legacy/`: SvelteKit UI (forms, projection, debugger).
+- `apps/web/`: new SvelteKit app (gpuix port). Kit 3 on `adapter-vercel`.
+- `apps/desktop/`: gpuix-svelte desktop app (gpuix port). `app.ts` opens the window.
+- `packages/ui/`: `@retirement/ui`, Svelte components shared by `apps/web` and `apps/desktop`.
 - `apps/e2e/`: Playwright tests (`tests/*.spec.ts`, `tests/helpers/*`).
 - `packages/calculator/`: core calculator + domain utilities (`src/lib/__testing__` for Vitest).
 - `packages/cli/`: CLI wrapper and examples (`packages/cli/examples/`).
@@ -19,7 +22,10 @@ The repo runs on Vite+ (`vp`) with Bun as the package manager. Tasks are defined
 - `vp test`: run all unit tests (calculator and legacy app). `vp run test` runs the same thing through the task cache.
 - `vp check`: format check, lint, type-aware lint and TypeScript type check for the whole repo. It does not type-check `.svelte` files.
 - `vp run webapp-legacy#check`: `svelte-kit sync` + `svelte-check` for the legacy app, which covers `.svelte` files.
-- `vp run check`: `vp check` followed by `vp run webapp-legacy#check`.
+- `vp run web#dev` / `vp run web#build`: the new web app's dev server and build.
+- `vp run desktop#dev`: open the desktop window, hot-reloading `apps/desktop/src` and `packages/ui/src`.
+- `vp run web#check` / `vp run desktop#check`: `svelte-check` for each target, both over `packages/ui/src`.
+- `vp run check`: `vp check` followed by the `check` task of `webapp-legacy`, `web` and `desktop`.
 - `vp lint` / `vp fmt`: lint or format on their own. `vp check --fix` applies fixes from both.
 - `vp run e2e` / `vp run e2e:debugger` / `vp run e2e:ui`: Playwright suites (never cached).
 - `vp run retirement-calc --config <file>`: run the CLI on the Bun runtime.

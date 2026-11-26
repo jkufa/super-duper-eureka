@@ -8,8 +8,8 @@
   "type": "module",
   "scripts": {
     "build": "vp run -r build",
-    "dev": "vp run -r --parallel dev",
-    "check": "vp check && vp run webapp-legacy#check",
+    "dev": "vp run webapp-legacy#dev",
+    "check": "vp check && vp run webapp-legacy#check && vp run web#check && vp run desktop#check",
     "lint": "vp lint",
     "format": "vp fmt"
   },
