@@ -7,7 +7,20 @@
     "module": "preserve",
     "moduleResolution": "bundler",
     "customConditions": ["custom-renderer", "development"],
-    "types": ["bun", "gpuix-svelte/html"],
+    // The GPUI markup types come in through src/gpuix-html.d.ts, not here: with custom typeRoots,
+    // names in `types` are looked up in typeRoots only, and gpuix-svelte/html is not a typeRoot.
+    "types": ["bun"],
+    // svelte-check prefixes every component it checks with `/// <reference types="svelte" />`.
+    // Type references ignore `paths` and look in typeRoots first, then walk up node_modules, which
+    // would reach the registry svelte. Listing gpuix-svelte's own node_modules first, in both
+    // install layouts, makes that lookup find the bundled copy. The @types folders keep `bun`
+    // resolving. `types` is explicit, so nothing else in these folders gets included.
+    "typeRoots": [
+      "./node_modules/gpuix-svelte/node_modules",
+      "../../node_modules/gpuix-svelte/node_modules",
+      "./node_modules/@types",
+      "../../node_modules/@types"
+    ],
     "strict": true,
     "allowJs": true,
     "noEmit": true,
@@ -15,16 +28,25 @@
     "verbatimModuleSyntax": true,
     "skipLibCheck": true,
     // Type everything against the Svelte build gpuix-svelte bundles, which the window runs on, and not
-    // the registry copy Bun hoists for apps/web. TypeScript takes the first path that exists: the first
-    // is gpuix-svelte installed for this app, the second gpuix-svelte hoisted to the workspace root.
+    // the registry copy Bun installs for apps/web. TypeScript takes the first path that exists: the
+    // first is gpuix-svelte installed for this app, the second gpuix-svelte hoisted to the root.
+    //
+    // The entries mirror the bundled package's `exports` types: `svelte/elements` has its own file,
+    // and every other subpath is declared in types/index.d.ts. Each must hit an existing file. A
+    // subpath that missed would fall through to node_modules, load the registry svelte's
+    // types/index.d.ts, and merge its declarations for every `svelte/*` module into the bundled ones.
     "paths": {
       "svelte": [
-        "./node_modules/gpuix-svelte/node_modules/svelte",
-        "../../node_modules/gpuix-svelte/node_modules/svelte"
+        "./node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts",
+        "../../node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts"
+      ],
+      "svelte/elements": [
+        "./node_modules/gpuix-svelte/node_modules/svelte/elements.d.ts",
+        "../../node_modules/gpuix-svelte/node_modules/svelte/elements.d.ts"
       ],
       "svelte/*": [
-        "./node_modules/gpuix-svelte/node_modules/svelte/*",
-        "../../node_modules/gpuix-svelte/node_modules/svelte/*"
+        "./node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts",
+        "../../node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts"
       ]
     }
   },
