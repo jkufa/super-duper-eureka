@@ -34,10 +34,12 @@
     // the registry copy Bun installs for apps/web. TypeScript takes the first path that exists: the
     // first is gpuix-svelte installed for this app, the second gpuix-svelte hoisted to the root.
     //
-    // The entries mirror the bundled package's `exports` types: `svelte/elements` has its own file,
-    // and every other subpath is declared in types/index.d.ts. Each must hit an existing file. A
-    // subpath that missed would fall through to node_modules, load the registry svelte's
-    // types/index.d.ts, and merge its declarations for every `svelte/*` module into the bundled ones.
+    // The entries are the bundled package's `exports` that have types: `svelte/elements` has its own
+    // file, and the rest are declared in types/index.d.ts. Each must hit an existing file. A subpath
+    // that missed would fall through to node_modules, load the registry svelte's types/index.d.ts, and
+    // merge its declarations for every `svelte/*` module into the bundled ones. `svelte/package.json`
+    // is left out on purpose: gpuix's launcher does not redirect it, so the window reads the manifest
+    // that normal resolution finds, and TypeScript resolves it the same way.
     "paths": {
       "svelte": [
         "./node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts",
@@ -47,7 +49,59 @@
         "./node_modules/gpuix-svelte/node_modules/svelte/elements.d.ts",
         "../../node_modules/gpuix-svelte/node_modules/svelte/elements.d.ts"
       ],
-      "svelte/*": [
+      "svelte/action": [
+        "./node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts",
+        "../../node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts"
+      ],
+      "svelte/animate": [
+        "./node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts",
+        "../../node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts"
+      ],
+      "svelte/attachments": [
+        "./node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts",
+        "../../node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts"
+      ],
+      "svelte/compiler": [
+        "./node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts",
+        "../../node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts"
+      ],
+      "svelte/easing": [
+        "./node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts",
+        "../../node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts"
+      ],
+      "svelte/events": [
+        "./node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts",
+        "../../node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts"
+      ],
+      "svelte/legacy": [
+        "./node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts",
+        "../../node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts"
+      ],
+      "svelte/motion": [
+        "./node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts",
+        "../../node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts"
+      ],
+      "svelte/reactivity": [
+        "./node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts",
+        "../../node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts"
+      ],
+      "svelte/reactivity/window": [
+        "./node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts",
+        "../../node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts"
+      ],
+      "svelte/renderer": [
+        "./node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts",
+        "../../node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts"
+      ],
+      "svelte/server": [
+        "./node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts",
+        "../../node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts"
+      ],
+      "svelte/store": [
+        "./node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts",
+        "../../node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts"
+      ],
+      "svelte/transition": [
         "./node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts",
         "../../node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts"
       ]
