@@ -27,7 +27,14 @@ export default defineConfig({
     trailingComma: 'none',
     printWidth: 100,
     svelte: true,
-    ignorePatterns: ['bun.lock', 'apps/webapp-legacy/static/**'],
+    ignorePatterns: [
+      'bun.lock',
+      'apps/webapp-legacy/static/**',
+      // Local Claude Code settings, written by the tool.
+      '.claude/**',
+      // Generated research pages.
+      'implementation/**/*.html'
+    ],
     overrides: [
       {
         // Only the legacy app uses Tailwind.
