@@ -41,9 +41,12 @@ export default defineConfig({
   lint: {
     extends: [cloudflare],
     env: cloudflare.env,
-    ignorePatterns: cloudflare.ignorePatterns,
-    // The preset turns type-aware linting on. Step 8 of the migration spec enables it after removing baseUrl.
-    options: { typeAware: false },
+    ignorePatterns: [
+      ...cloudflare.ignorePatterns,
+      // Reference code for later specs. Its imports only resolve once it moves into a package.
+      'implementation/**'
+    ],
+    options: { typeCheck: true },
     overrides: [
       {
         files: ['**/*.svelte'],
@@ -84,6 +87,7 @@ export default defineConfig({
           'quality/no-unknown-type-aliases': 'off',
           'quality/no-unsafe-dictionary-type': 'off',
           'typescript/no-explicit-any': 'off',
+          'typescript/no-unsafe-type-assertion': 'off',
           'unicorn/no-typeof-undefined': 'off',
           'unicorn/prefer-import-meta-properties': 'off',
           'unicorn/prefer-string-replace-all': 'off'

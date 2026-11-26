@@ -68,8 +68,11 @@ test.describe('Custom variable start-date gating', () => {
           if (!raw) {
             return null;
           }
-          const parsed = JSON.parse(raw) as { startDate?: string };
-          return parsed.startDate ?? null;
+          const parsed: unknown = JSON.parse(raw);
+          if (typeof parsed !== 'object' || parsed === null || !('startDate' in parsed)) {
+            return null;
+          }
+          return typeof parsed.startDate === 'string' ? parsed.startDate : null;
         }, CONFIG_STORAGE_KEY);
       })
       .toBe(expectedDate);

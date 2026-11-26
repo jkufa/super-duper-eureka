@@ -58,6 +58,7 @@ for (const spec of skipSpecs) {
   }
 }
 
+// oxlint-disable-next-line typescript/no-unsafe-type-assertion -- The config file is user input and the calculator has no runtime schema to check it against.
 const config = JSON.parse(readFileSync(configPath, 'utf8')) as RetirementConfig;
 
 if (!debug) {

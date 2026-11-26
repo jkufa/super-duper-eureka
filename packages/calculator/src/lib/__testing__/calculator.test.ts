@@ -24,28 +24,6 @@ type YearRangeVariant = 'none' | 'startOnly' | 'endOnly' | 'range' | 'outOfRange
 type ContributionType = 'flat' | 'salaryPercent';
 type SalaryBasis = 'annual' | 'monthly' | 'biweekly' | 'weekly' | 'daily' | 'perContribution';
 
-const axes = {
-  compounding: ['monthly', 'daily'] as Array<Compounding>,
-  frequency: ['oneTime', 'monthly', 'annual'] as Array<Frequency>,
-  placement: ['start', 'end'] as Array<Placement>,
-  day: ['none', 'mid', 'end'] as Array<DayVariant>,
-  startMonth: [0, 1, 11],
-  yearRange: ['none', 'startOnly', 'endOnly', 'range', 'outOfRange'] as Array<YearRangeVariant>,
-  enabled: [true, false],
-  contributionType: ['flat', 'salaryPercent'] as Array<ContributionType>,
-  salaryBasis: [
-    'annual',
-    'monthly',
-    'biweekly',
-    'weekly',
-    'daily',
-    'perContribution'
-  ] as Array<SalaryBasis>,
-  raise: [0, 0.05],
-  annualRate: [0, 0.05],
-  variance: [0, 0.02]
-};
-
 interface Case {
   compounding: Compounding;
   frequency: Frequency;
@@ -60,6 +38,24 @@ interface Case {
   annualRate: number;
   variance: number;
 }
+
+type Axes = { [K in keyof Case]: readonly [Case[K], ...Array<Case[K]>] };
+
+// The first value on each axis is the default case.
+const axes: Axes = {
+  compounding: ['monthly', 'daily'],
+  frequency: ['oneTime', 'monthly', 'annual'],
+  placement: ['start', 'end'],
+  day: ['none', 'mid', 'end'],
+  startMonth: [0, 1, 11],
+  yearRange: ['none', 'startOnly', 'endOnly', 'range', 'outOfRange'],
+  enabled: [true, false],
+  contributionType: ['flat', 'salaryPercent'],
+  salaryBasis: ['annual', 'monthly', 'biweekly', 'weekly', 'daily', 'perContribution'],
+  raise: [0, 0.05],
+  annualRate: [0, 0.05],
+  variance: [0, 0.02]
+};
 
 const defaultCase: Case = {
   compounding: axes.compounding[0],
@@ -76,20 +72,22 @@ const defaultCase: Case = {
   variance: axes.variance[0]
 };
 
-const axisEntries = Object.entries(axes) as Array<[keyof Case, Array<Case[keyof Case]>]>;
+const isCaseKey = (key: string): key is keyof Case => key in defaultCase;
+
+const axisEntries = Object.entries(axes).flatMap(([key, values]) =>
+  isCaseKey(key) ? [{ key, values }] : []
+);
 
 const buildPairwiseCases = () => {
   const cases = new Map<string, Case>();
 
-  for (let i = 0; i < axisEntries.length; i++) {
-    const [axisA, valuesA] = axisEntries[i];
-    for (let j = i + 1; j < axisEntries.length; j++) {
-      const [axisB, valuesB] = axisEntries[j];
-      for (const valueA of valuesA) {
-        for (const valueB of valuesB) {
+  for (const [i, axisA] of axisEntries.entries()) {
+    for (const axisB of axisEntries.slice(i + 1)) {
+      for (const valueA of axisA.values) {
+        for (const valueB of axisB.values) {
           const next: Case = { ...defaultCase };
-          setCaseValue(next, axisA, valueA);
-          setCaseValue(next, axisB, valueB);
+          setCaseValue(next, axisA.key, valueA);
+          setCaseValue(next, axisB.key, valueB);
           cases.set(JSON.stringify(next), next);
         }
       }
