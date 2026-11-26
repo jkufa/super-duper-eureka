@@ -39,6 +39,12 @@ Facts for the owner's call. This note makes no call.
   - Chart behaviour on a window resize. The spike never resized the window.
   - Running from Finder by double-click: `open` was used, which goes through LaunchServices the same
     way, but no person clicked it.
+  - Narrow windows. Everything was checked at 1200 px wide. At 390 px on web the chart starts at
+    x=404, past the right edge, because the 380 px sidebar and the padding do not wrap. The spike
+    has no narrow layout.
+- Found in review and fixed: the Q4 tooltip was clamped at its top edge only, so at a 10% return the
+  2026 tooltip ran 12 px below the chart box on web and 7 px on GPUI and was clipped. It is now
+  clamped by its full height. See the note under the Q4 table.
 
 ## Q1. Workspace wiring
 
@@ -637,6 +643,9 @@ Production build:
 [prod] console (non-debug): none
 ```
 
+The console capture covers hydration warnings and page errors. Chromium also requests
+`/favicon.ico`, which returns 404 in dev and preview because the spike ships no favicon.
+
 Svelte reports hydration problems only in dev builds, so the same script ran against `vp dev`:
 `page errors: none`, `console (non-debug): none` (the only console lines were `[vite] connecting...`,
 `[vite] connected.` and the spike's own `debug` traces).
@@ -852,6 +861,25 @@ reading the screenshots (desktop captures are 2x).
 | Pointer to year                       | pass                   | `onmousemove`'s `e.x` is window x. Year = `columnIndexAtX(geometry, e.x - left)`, `left` from `onlayout`'s `e.x`. `mouse.move` to x = 436.5 / 685.8 / 1159.5 → `2026`, `2036`, `2055` (indexes 0, 10, 29); the trace shows the event's x, e.g. `mousemove x=685.7999877929688 ... "label":"2036"`. Web: same three years from `clientX` minus the box's `getBoundingClientRect().x`. |
 | Hover tooltip                         | pass                   | A box with absolute `left`/`top` inside the chart box, at the column's x + 12 (flipped left near the edge). Bounds per move: x 448.5 (column 436.5), 698 (685.8), 997.5 (flipped at 1159.5). `q4-desktop-hover-2036.png`, `q4-web-hover-2036.png`. `Popover` was not needed.                                                                                                         |
 | Keyboard                              | pass                   | Click at index 15 focuses the box (`tabindex="0"`, `role="slider"`) → `2041`; `right` → `2042`; `left left` → `2040`, sent with no target element, so they went to the focused box. `q4-desktop-keyboard.png`, `q4-web-keyboard.png`.                                                                                                                                                |
+
+Tooltip clamp, added after review. The first version kept only the tooltip's top edge inside the box.
+At 1200 px wide with the rate committed at 10%, the 2026 tooltip ended below the box and was clipped
+(web: y 787.73 against a box bottom of 776; GPUI: 883 against 876). The position now subtracts the
+tooltip's height, 84 px on both targets. Bounds after the fix, pointer at 5%, 50% and 97% of the box
+width, with the rate at 5% then 10%:
+
+```
+web   10%  2026  tip 692.0 to 776.0  box 54.6 to 776.0  inside
+web   10%  2040  tip 597.0 to 681.0                      inside
+web   10%  2055  tip  70.8 to 154.8                      inside
+gpui  10%  2026  tip 793   to 877    box 54.5 to 877    inside
+gpui  10%  2040  tip 678   to 762                        inside
+gpui  10%  2055  tip  75.5 to 159.5                      inside
+```
+
+The three positions at 5% are inside on both targets too. Web ran in headless Chromium against
+`vp preview`; GPUI ran through the automation API (simulated pointer moves).
+`q4-desktop-tooltip-clamped.png`.
 
 Limit (not tested): `onlayout` fires on size changes only, so if the box moved without resizing
 (inside a scrolled container), `left` would go stale. The kit's `bounds_of(node)` reads the painted
