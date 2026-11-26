@@ -32,6 +32,7 @@ test.describe('Retirement config form behavior', () => {
 
     const yearsToRetirementInput = page.locator('input[name="yearsToRetirement"]');
     const tableRows = page.locator('[data-slot="table-body"] [data-slot="table-row"]');
+    const startsInJanuary = await page.evaluate(() => new Date().getMonth() === 0);
     const initialRowCount = await tableRows.count();
     expect(initialRowCount).toBeGreaterThan(1);
 
@@ -42,6 +43,6 @@ test.describe('Retirement config form behavior', () => {
     await yearsToRetirementInput.blur();
     await expect(yearsToRetirementInput).toHaveValue('1');
 
-    await expect(tableRows).toHaveCount(1);
+    await expect(tableRows).toHaveCount(startsInJanuary ? 1 : 2);
   });
 });
