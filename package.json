@@ -2,6 +2,7 @@
   "name": "super-duper-eureka",
   "type": "module",
   "private": true,
+  "packageManager": "bun@1.4.5",
   "workspaces": ["packages/*", "apps/*"],
   "scripts": {
     "retirement-calc": "bun run packages/cli/src/index.ts",
