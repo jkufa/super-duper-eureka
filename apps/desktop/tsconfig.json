@@ -1,0 +1,112 @@
+{
+  // The desktop type check: the entry, the window root and the shared components in packages/ui,
+  // typed as GPUI markup (gpuixHTML). `customConditions` resolves gpuix-svelte to its GPUI entry.
+  "compilerOptions": {
+    "target": "esnext",
+    "lib": ["esnext"],
+    "module": "preserve",
+    "moduleResolution": "bundler",
+    "customConditions": ["custom-renderer", "development"],
+    // The GPUI markup types come in through src/gpuix-html.d.ts, not here: with custom typeRoots,
+    // names in `types` are looked up in typeRoots only, and gpuix-svelte/html is not a typeRoot.
+    "types": ["bun"],
+    // svelte-check prefixes every component it checks with `/// <reference types="svelte" />`.
+    // Type references ignore `paths` and look in typeRoots first, then walk up node_modules, which
+    // would reach the registry svelte. Listing gpuix-svelte's own node_modules first, in both
+    // install layouts, makes that lookup find the bundled copy. The @types folders keep `bun`
+    // resolving. `types` is explicit, so nothing else in these folders gets included.
+    "typeRoots": [
+      "./node_modules/gpuix-svelte/node_modules",
+      "../../node_modules/gpuix-svelte/node_modules",
+      "./node_modules/@types",
+      "../../node_modules/@types"
+    ],
+    "strict": true,
+    "allowJs": true,
+    // Also checks components with no `<script lang="ts">`. Without it, svelte-check skips their
+    // markup, so a DOM-only attribute in a markup-only shared component would pass on desktop.
+    "checkJs": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "skipLibCheck": true,
+    // Type everything against the Svelte build gpuix-svelte bundles, which the window runs on, and not
+    // the registry copy Bun installs for apps/web. TypeScript takes the first path that exists: the
+    // first is gpuix-svelte installed for this app, the second gpuix-svelte hoisted to the root.
+    //
+    // The entries are the bundled package's `exports` that have types: `svelte/elements` has its own
+    // file, and the rest are declared in types/index.d.ts. Each must hit an existing file. A subpath
+    // that missed would fall through to node_modules, load the registry svelte's types/index.d.ts, and
+    // merge its declarations for every `svelte/*` module into the bundled ones. `svelte/package.json`
+    // is left out on purpose: gpuix's launcher does not redirect it, so the window reads the manifest
+    // that normal resolution finds, and TypeScript resolves it the same way.
+    "paths": {
+      "svelte": [
+        "./node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts",
+        "../../node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts"
+      ],
+      "svelte/elements": [
+        "./node_modules/gpuix-svelte/node_modules/svelte/elements.d.ts",
+        "../../node_modules/gpuix-svelte/node_modules/svelte/elements.d.ts"
+      ],
+      "svelte/action": [
+        "./node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts",
+        "../../node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts"
+      ],
+      "svelte/animate": [
+        "./node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts",
+        "../../node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts"
+      ],
+      "svelte/attachments": [
+        "./node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts",
+        "../../node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts"
+      ],
+      "svelte/compiler": [
+        "./node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts",
+        "../../node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts"
+      ],
+      "svelte/easing": [
+        "./node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts",
+        "../../node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts"
+      ],
+      "svelte/events": [
+        "./node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts",
+        "../../node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts"
+      ],
+      "svelte/legacy": [
+        "./node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts",
+        "../../node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts"
+      ],
+      "svelte/motion": [
+        "./node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts",
+        "../../node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts"
+      ],
+      "svelte/reactivity": [
+        "./node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts",
+        "../../node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts"
+      ],
+      "svelte/reactivity/window": [
+        "./node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts",
+        "../../node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts"
+      ],
+      "svelte/renderer": [
+        "./node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts",
+        "../../node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts"
+      ],
+      "svelte/server": [
+        "./node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts",
+        "../../node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts"
+      ],
+      "svelte/store": [
+        "./node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts",
+        "../../node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts"
+      ],
+      "svelte/transition": [
+        "./node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts",
+        "../../node_modules/gpuix-svelte/node_modules/svelte/types/index.d.ts"
+      ]
+    }
+  },
+  "svelteOptions": { "namespace": "gpuixHTML" },
+  "include": ["app.ts", "src", "vite.config.ts", "svelte.config.js", "../../packages/ui/src"]
+}

@@ -1,0 +1,8 @@
+{
+  // The web type check: the routes and the shared components in packages/ui, typed as DOM markup.
+  "extends": "$app/tsconfig",
+  "compilerOptions": {
+    "strict": true
+  },
+  "include": ["src", "vite.config.ts", "../../packages/ui/src"]
+}
