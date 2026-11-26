@@ -8,16 +8,12 @@
     "test:headed": "playwright test --headed",
     "test:ui": "playwright test --ui",
     "test:debugger": "playwright test tests/debugger.spec.ts",
-    "test:debugger:headed": "playwright test tests/debugger.spec.ts --headed",
-    "lint": "eslint",
-    "format": "eslint --fix"
+    "test:debugger:headed": "playwright test tests/debugger.spec.ts --headed"
   },
   "devDependencies": {
-    "@jkufa/eslint": "^0.1.0",
     "@playwright/test": "^1.58.2",
     "@types/bun": "latest",
-    "@types/node": "^25.2.1",
-    "eslint": "^9.39.2"
+    "@types/node": "^25.2.1"
   },
   "peerDependencies": {
     "typescript": "^5"

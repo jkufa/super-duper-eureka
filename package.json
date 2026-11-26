@@ -10,8 +10,8 @@
   "scripts": {
     "retirement-calc": "bun run packages/cli/src/index.ts",
     "test": "bun run --parallel --filter '!e2e' test",
-    "lint": "bun run --parallel --filter '*' lint",
-    "format": "bun run --parallel --filter '*' format",
+    "lint": "vp lint",
+    "format": "vp fmt",
     "build": "bun run --parallel --filter '*' build",
     "dev": "bun run  --elide-lines 0 --parallel --filter '*' dev",
     "e2e": "bun run --filter e2e test",
@@ -19,6 +19,7 @@
     "e2e:ui": "bun run --filter e2e test:ui"
   },
   "devDependencies": {
+    "@cloudflare/oxlint-config": "0.2.0",
     "@types/bun": "latest",
     "vite": "catalog:",
     "vite-plus": "catalog:",
