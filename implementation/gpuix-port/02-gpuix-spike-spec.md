@@ -59,9 +59,14 @@ Pass when all of these hold:
 - A route with a `+page.server.ts` load renders a shared component that uses the kit's `Button`, `TextField` and `Card`.
 - The server HTML contains the rendered component and the `--ui-*` tokens, using the kit's `theme_rule` in `<svelte:head>`.
 - The page hydrates with no mismatch warning.
-- A Vercel preview deployment serves it.
+- A local `adapter-vercel` production build serves it (`vp run web#build`, then `vp preview` in `apps/web`).
+- The same load also returns a streamed promise holding a `Date`, and the page renders its value. A
+  `devalue` mismatch broke exactly that path during Q1.
 
-Record which SvelteKit major this worked on. Try Kit 3 first, as in the demo. Fall back to Kit 2.70 if `adapter-vercel` does not support Kit 3.
+Amended 2026-11-26 (owner decision): the spike deploys nothing to Vercel. The local production build
+stands in for the preview deployment, and the real Vercel preview moves to spec 5.
+
+Record which SvelteKit major this worked on. Try Kit 3 first, as in the demo. Fall back to Kit 2.70 if `adapter-vercel` does not support Kit 3. Result: Kit 3.4.1 with `adapter-vercel` 7.0.5.
 
 ### Q3. Text input
 

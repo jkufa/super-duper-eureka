@@ -43,7 +43,7 @@ I did not get to these in the interview. Each has the default the specs assume.
 
 | Question                          | Assumed default                                                                                                                                                    |
 | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| SvelteKit version for the new app | The upstream demo's versions, Kit 3 and Vite 8. The spike checks `adapter-vercel` against Kit 3 and falls back to Kit 2.70                                         |
+| SvelteKit version for the new app | Settled by the spike: Kit 3.4.1 with `adapter-vercel` 7.0.5 and Vite 8, built and served locally. The Vercel preview is checked in spec 5                          |
 | Desktop distribution              | An unsigned macOS build that runs on your machine. No signing, notarising or auto-update                                                                           |
 | Accessibility bar for parity      | Every flow works by keyboard on both targets. Screen reader parity is not a gate, because gpuix drops most ARIA state attributes and its dialogs do not trap focus |
 | gpuix upgrade policy              | Pin `gpuix-svelte` and `gpuix-svelte-ui` to exact versions. Upgrade on purpose, one version at a time, because each release can change the bundled Svelte build    |
