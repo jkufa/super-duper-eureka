@@ -3,8 +3,7 @@
   "type": "module",
   "module": "src/index.ts",
   "scripts": {
-    "test": "vp test",
-    "build": "tsc --build"
+    "test": "vp test"
   },
   "dependencies": {
     "@retirement/logger": "workspace:*"

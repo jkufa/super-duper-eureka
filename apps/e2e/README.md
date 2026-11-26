@@ -57,7 +57,7 @@ E2E_SKIP_WEBSERVER=1 E2E_BASE_URL=http://127.0.0.1:4173 bun run --filter e2e tes
 Set a custom command when local environment needs a different runtime:
 
 ```bash
-E2E_WEBSERVER_COMMAND="cd ../webapp-legacy && bun run dev -- --host 127.0.0.1 --port 4173 --strictPort" bun run --filter e2e test:debugger
+E2E_WEBSERVER_COMMAND="cd ../webapp-legacy && bun run vp dev --host 127.0.0.1 --port 4173 --strictPort" bun run --filter e2e test:debugger
 ```
 
 ## Structure

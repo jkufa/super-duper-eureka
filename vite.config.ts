@@ -1,7 +1,22 @@
 import cloudflare from '@cloudflare/oxlint-config/vite-plus';
 import { defineConfig } from 'vite-plus';
 
+// Tasks here belong to the workspace root. Per-package tasks (build, dev, check) live in each
+// package's vite.config.ts, because Vite Task reads a package's tasks from its own config.
 export default defineConfig({
+  run: {
+    tasks: {
+      test: 'vp test',
+      e2e: { command: 'playwright test', cwd: 'apps/e2e', cache: false },
+      'e2e:debugger': {
+        command: 'playwright test tests/debugger.spec.ts',
+        cwd: 'apps/e2e',
+        cache: false
+      },
+      'e2e:ui': { command: 'playwright test --ui', cwd: 'apps/e2e', cache: false },
+      'retirement-calc': { command: 'bun run packages/cli/src/index.ts', cache: false }
+    }
+  },
   test: {
     projects: ['packages/calculator', 'apps/webapp-legacy']
   },

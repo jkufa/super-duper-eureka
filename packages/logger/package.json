@@ -4,8 +4,7 @@
   "type": "module",
   "module": "src/index.ts",
   "scripts": {
-    "test": "echo 'no tests'",
-    "build": "tsc --build"
+    "test": "echo 'no tests'"
   },
   "peerDependencies": {
     "typescript": "^5.9.3"
