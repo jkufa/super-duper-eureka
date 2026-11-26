@@ -135,3 +135,28 @@ For PR review agents only. Orchestration and implementation agents do not read t
 - Better: When the app already declares the requested range, point to the override or installed copy. Keep the add-dependency hint for an absent declaration.
 - Seen before: 2026-11-26, spec 2, directory equality stands in for Kit version compatibility
 - Promoted: yes, the dependency diagnostic guideline in AGENTS.md
+
+### 2026-11-26, spec 2, hover tooltip extends below the plot
+
+- Where: `packages/ui/src/ProjectionChart.svelte:51`, PR #7
+- What: Q4's hover evidence uses the default rate. At 1200 × 800, commit 10% and hover over 2026. The tooltip ends at y=787.73 and the plot clips it at y=776. Headless GPUI reports the same bounds overrun, 883 versus 876.
+- Better: Measure the tooltip and constrain its entire box to the plot, or record the clipping as a limit in the go/no-go inputs. Probe the first and last columns after changing the rate.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-26, spec 2, chart sits beyond a narrow viewport
+
+- Where: `packages/ui/src/App.svelte:70`, PR #7
+- What: On the production web build at 390 × 844, the fixed-width sidebar places the entire chart to the right of the initial viewport. Its left edge is x=404.
+- Better: State the viewport used for Q4 and document the narrow-width limit until the app gives the chart space at small widths.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-26, spec 2, console claim exceeds hydration evidence
+
+- Where: `.codex/notes/2026-11-26-gpuix-spike.md`, Q2 criterion 3, PR #7
+- What: Chromium reports a 404 for `/favicon.ico` on dev and preview in the review. Hydration produces no mismatch warning or page error.
+- Second pass at `57c5f12`: The note now names the 404 and narrows the capture to hydration warnings and page errors. The old dev sentence still says "the only console lines" were Vite and spike traces. Chromium reproduced the favicon error on both dev and preview.
+- Better: Report hydration warnings and page errors separately from incidental HTTP errors.
+- Seen before: no
+- Promoted: no

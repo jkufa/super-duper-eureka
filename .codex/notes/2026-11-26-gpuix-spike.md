@@ -647,8 +647,8 @@ The console capture covers hydration warnings and page errors. Chromium also req
 `/favicon.ico`, which returns 404 in dev and preview because the spike ships no favicon.
 
 Svelte reports hydration problems only in dev builds, so the same script ran against `vp dev`:
-`page errors: none`, `console (non-debug): none` (the only console lines were `[vite] connecting...`,
-`[vite] connected.` and the spike's own `debug` traces).
+`page errors: none`, `console (non-debug): none` (the other console lines were `[vite] connecting...`,
+`[vite] connected.`, the spike's own `debug` traces and the favicon 404 described above).
 
 Negative probe, to show the capture would see a warning: a temporary
 `{@html typeof window === 'undefined' ? '<b>server</b>' : '<i>client</i>'}` in `+page.svelte` gave
