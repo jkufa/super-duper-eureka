@@ -160,3 +160,11 @@ For PR review agents only. Orchestration and implementation agents do not read t
 - Better: Report hydration warnings and page errors separately from incidental HTTP errors.
 - Seen before: no
 - Promoted: no
+
+### 2026-11-27, spec 1, removed caller leaves a source lookup configured
+
+- Where: `btca.config.jsonc` and `AGENTS.typescript.md`, PR #8
+- What: The last chrono caller was deleted, but the source lookup and the agent guidance still point to chrono.
+- Better: When deleting a dependency's last caller, check source lookup configuration and examples as well as package manifests.
+- Seen before: no
+- Promoted: no
