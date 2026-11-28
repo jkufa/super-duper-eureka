@@ -4,7 +4,12 @@
 mod effective_rate;
 mod weighted;
 
-use super::{MonthlyRow, ProjectionError, Series, project_account, yearly_rows};
+use serde::Serialize;
+
+use super::{
+    MonthlyRow, ProjectionError, Series, TraceSegment, project_account, trace_account_range,
+    yearly_rows,
+};
 use crate::date::CalendarDate;
 use crate::scenario::{Account, AccountId, Scenario};
 use crate::schedule::{month_segments, salary_in_year};
@@ -35,7 +40,8 @@ impl Band {
     }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct ScenarioProjection<'a> {
     today: CalendarDate,
     end_date: CalendarDate,
@@ -75,7 +81,8 @@ impl<'a> ScenarioProjection<'a> {
     }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct StaleAccount<'a> {
     account_id: &'a AccountId,
     balance_as_of: CalendarDate,
@@ -91,7 +98,8 @@ impl<'a> StaleAccount<'a> {
     }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct YearSalary {
     year: i16,
     salary: f64,
@@ -108,7 +116,8 @@ impl YearSalary {
     }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Bands<'a> {
     baseline: BaselineProjection<'a>,
     positive: BandProjection<'a>,
@@ -129,7 +138,8 @@ impl<'a> Bands<'a> {
     }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct BandProjection<'a> {
     total: Series,
     accounts: Vec<AccountProjection<'a>>,
@@ -147,7 +157,8 @@ impl<'a> BandProjection<'a> {
     }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct AccountProjection<'a> {
     account_id: &'a AccountId,
     included: bool,
@@ -183,7 +194,8 @@ impl<'a> AccountProjection<'a> {
 
 /// What the roll forward from the balance's date to today added. Zero when the balance is dated
 /// today.
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct RolledForward {
     contributions: f64,
     interest: f64,
@@ -244,6 +256,46 @@ pub fn project_scenario(
             negative,
         },
     })
+}
+
+/// The account's segments from its balance's date to today, then from today to the end date, at
+/// the band's rate for it. A `today` in mid-month splits that month into two segments.
+/// `unknown_account` with `account_id` when the scenario has no account with that id.
+pub fn trace_account<'a>(
+    scenario: &'a Scenario,
+    account_id: &'a str,
+    band: Band,
+) -> Result<Vec<TraceSegment<'a>>, ProjectionError<'a>> {
+    let Some(account) = scenario
+        .accounts()
+        .iter()
+        .find(|account| account.id().as_str() == account_id)
+    else {
+        return Err(ProjectionError::UnknownAccount {
+            account: account_id,
+        });
+    };
+    let annual_rate = band.rate(scenario, account);
+    let mut trace = trace_account_range(
+        scenario,
+        account,
+        account.balance_as_of(),
+        scenario.today(),
+        account.balance(),
+        annual_rate,
+    )?;
+    let rolled_balance = trace
+        .last()
+        .map_or(account.balance(), TraceSegment::balance_end);
+    trace.extend(trace_account_range(
+        scenario,
+        account,
+        scenario.today(),
+        scenario.end_date(),
+        rolled_balance,
+        annual_rate,
+    )?);
+    Ok(trace)
 }
 
 fn project_band(

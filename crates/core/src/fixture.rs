@@ -1,7 +1,9 @@
 use serde_json::{Value, json};
 
 use crate::date::CalendarDate;
+use crate::project::TraceSegment;
 use crate::scenario::{Account, Scenario};
+use crate::schedule::Bucket;
 
 pub(crate) fn date(text: &str) -> CalendarDate {
     CalendarDate::parse(text).unwrap()
@@ -122,4 +124,65 @@ pub(crate) fn monthly_end(id: &str, amount: f64) -> Value {
         amount,
         json!({ "frequency": "monthly", "placement": "end" }),
     )
+}
+
+/// A trace segment with its dates and rule ids as text, for comparing with literal values.
+#[derive(Debug, PartialEq)]
+pub(crate) struct Segment {
+    pub(crate) from: String,
+    pub(crate) to: String,
+    pub(crate) days: i8,
+    pub(crate) days_in_month: i8,
+    pub(crate) days_in_year: i16,
+    pub(crate) balance_start: f64,
+    pub(crate) balance_end: f64,
+    pub(crate) contributions: f64,
+    pub(crate) interest: f64,
+    pub(crate) annual_rate: f64,
+    pub(crate) deposits: Vec<TracedDeposit>,
+}
+
+/// `(rule_id, date, amount, bucket)`.
+pub(crate) type TracedDeposit = (String, String, f64, Bucket);
+
+impl From<&TraceSegment<'_>> for Segment {
+    fn from(segment: &TraceSegment<'_>) -> Self {
+        Self {
+            from: segment.from().to_string(),
+            to: segment.to().to_string(),
+            days: segment.days(),
+            days_in_month: segment.days_in_month(),
+            days_in_year: segment.days_in_year(),
+            balance_start: segment.balance_start(),
+            balance_end: segment.balance_end(),
+            contributions: segment.contributions(),
+            interest: segment.interest(),
+            annual_rate: segment.annual_rate(),
+            deposits: segment
+                .deposits()
+                .iter()
+                .map(|deposit| {
+                    (
+                        deposit.rule_id().to_string(),
+                        deposit.date().to_string(),
+                        deposit.amount(),
+                        deposit.bucket(),
+                    )
+                })
+                .collect(),
+        }
+    }
+}
+
+pub(crate) fn segments(trace: &[TraceSegment<'_>]) -> Vec<Segment> {
+    trace.iter().map(Segment::from).collect()
+}
+
+pub(crate) fn traced_deposit(
+    rule_id: &str,
+    on: &str,
+    amount: f64,
+    bucket: Bucket,
+) -> TracedDeposit {
+    (rule_id.to_owned(), on.to_owned(), amount, bucket)
 }

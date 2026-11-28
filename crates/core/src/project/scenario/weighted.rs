@@ -1,8 +1,11 @@
+use serde::Serialize;
+
 use super::{AccountProjection, BandProjection};
 use crate::project::{MonthlyRow, ProjectionError, YearlyRow};
 
 /// The baseline band, whose total's yearly rows carry the balance-weighted rate.
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct BaselineProjection<'a> {
     total: WeightedSeries,
     accounts: Vec<AccountProjection<'a>>,
@@ -21,7 +24,8 @@ impl<'a> BaselineProjection<'a> {
 }
 
 /// A [`Series`](crate::project::Series) whose yearly rows carry the balance-weighted rate.
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct WeightedSeries {
     start_balance: f64,
     final_balance: f64,
@@ -60,8 +64,10 @@ impl WeightedSeries {
     }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct WeightedYearlyRow {
+    #[serde(flatten)]
     row: YearlyRow,
     weighted_rate: Option<f64>,
 }

@@ -3,23 +3,28 @@
 
 mod error;
 mod scenario;
+mod trace;
 
-use crate::compound::{BucketTotals, compound_segment};
+use serde::Serialize;
+
+use crate::compound::{BucketTotals, Compounded, compound_segment};
 use crate::date::CalendarDate;
 use crate::scenario::{Account, Scenario};
-use crate::schedule::build_account_schedule;
+use crate::schedule::{ScheduledMonth, build_account_schedule};
 
 pub use error::ProjectionError;
 pub use scenario::{
     AccountProjection, Band, BandProjection, Bands, BaselineProjection, RolledForward,
     ScenarioProjection, StaleAccount, WeightedSeries, WeightedYearlyRow, YearSalary,
-    project_scenario,
+    project_scenario, trace_account,
 };
+pub use trace::{TraceSegment, trace_account_range};
 
 const LAST_MONTH: i8 = 12;
 
 /// The figures at the end of one month's segment.
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct MonthlyRow {
     year: i16,
     month: i8,
@@ -54,7 +59,8 @@ impl MonthlyRow {
 }
 
 /// The figures at the end of a calendar year's last counted segment.
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct YearlyRow {
     year: i16,
     balance: f64,
@@ -93,7 +99,8 @@ impl From<MonthlyRow> for YearlyRow {
     }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Series {
     start_balance: f64,
     final_balance: f64,
@@ -167,36 +174,71 @@ pub fn project_account<'a>(
     opening_balance: f64,
     annual_rate: f64,
 ) -> Result<Series, ProjectionError<'a>> {
+    let monthly = compound_range(scenario, account, from, to, opening_balance, annual_rate)?
+        .iter()
+        .map(|compounded| MonthlyRow {
+            year: compounded.month.from().year(),
+            month: compounded.month.from().month(),
+            balance: compounded.result.balance(),
+            contributions: compounded.total_contributions,
+            interest: compounded.total_interest,
+        })
+        .collect();
+    Ok(Series::new(opening_balance, monthly))
+}
+
+/// One month's segment of a range and what compounding it did.
+struct CompoundedMonth<'a> {
+    month: ScheduledMonth<'a>,
+    balance_start: f64,
+    result: Compounded,
+    /// Cumulative since the start of the range.
+    total_contributions: f64,
+    /// Cumulative since the start of the range.
+    total_interest: f64,
+}
+
+/// `not_finite` with the account's id when a balance, cumulative contribution or cumulative
+/// interest is not finite.
+fn compound_range<'a>(
+    scenario: &Scenario,
+    account: &'a Account,
+    from: CalendarDate,
+    to: CalendarDate,
+    opening_balance: f64,
+    annual_rate: f64,
+) -> Result<Vec<CompoundedMonth<'a>>, ProjectionError<'a>> {
     let compounding = scenario.interest().compounding();
     let mut balance = opening_balance;
     let mut total_contributions = 0.0;
     let mut total_interest = 0.0;
     let schedule = build_account_schedule(scenario, account, from, to)?;
-    let mut monthly = Vec::with_capacity(schedule.len());
+    let mut compounded = Vec::with_capacity(schedule.len());
 
     for month in schedule {
         let totals = BucketTotals::of(month.deposits());
         let result = compound_segment(balance, &totals, &month, compounding, annual_rate);
         total_contributions += result.contributions();
         total_interest += result.interest();
-        balance = result.balance();
-        let figures_are_finite =
-            balance.is_finite() && total_contributions.is_finite() && total_interest.is_finite();
+        let figures_are_finite = result.balance().is_finite()
+            && total_contributions.is_finite()
+            && total_interest.is_finite();
         if !figures_are_finite {
             return Err(ProjectionError::NotFinite {
                 account: account.id(),
             });
         }
-        monthly.push(MonthlyRow {
-            year: month.from().year(),
-            month: month.from().month(),
-            balance,
-            contributions: total_contributions,
-            interest: total_interest,
+        compounded.push(CompoundedMonth {
+            month,
+            balance_start: balance,
+            result,
+            total_contributions,
+            total_interest,
         });
+        balance = result.balance();
     }
 
-    Ok(Series::new(opening_balance, monthly))
+    Ok(compounded)
 }
 
 #[cfg(test)]
