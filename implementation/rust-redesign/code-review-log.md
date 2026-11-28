@@ -263,7 +263,7 @@ For PR review agents only. Orchestration and implementation agents do not read t
 - What: The adapter has no rule for the baseline's 19 growth rules with no legacy start bound, although the new validator requires a growth start. A trace deposit has no contribution type, and the stream needs the compounding mode and the active rule sequence.
 - Better: Make the adapter take the input along with the outputs, state which fields it joins or derives, and specify January 1 of the projection's start year as the growth anchor when the legacy start is absent.
 - Seen before: no
-- Promoted: no
+- Promoted: yes, the legacy bounds guideline in AGENTS.md
 
 ### 2026-11-27, spec 2 part A, parser equality guard runs after source data has been dropped
 
@@ -318,5 +318,125 @@ For PR review agents only. Orchestration and implementation agents do not read t
 - Where: `implementation/rust-redesign/02-ts-engine-rebuild-spec.md:79`, PR #10
 - What: Both engines use a truthiness test for a placement total and for the merged day's deposit. A NaN start total alongside a day-1 deposit of seven produces a balance of seven at zero interest. Replacing the placement guard with unconditional addition gives zero. All 536 tests pass with that mutation.
 - Better: Specify which non-finite values the legacy guard skips, or explicitly scope the arithmetic description to finite intermediates. Use the seven-dollar case to test the guard if preserving that behavior.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-27, spec 2 part C, a validated raise can create a withdrawal
+
+- Where: `packages/calculator/src/lib/parse-scenario.ts:391`, PR #11
+- What: A base salary of 100, a raise of -2 and a 100% rule one calendar year later produce a deposit of -100. At a raise of -1, projecting before the salary anchor gives infinite salary and can produce a NaN balance.
+- Better: Require the raise factor to be positive when projecting across calendar years in either direction. Specify the rate error and test both directions.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-27, spec 2 part C, finite operands overflow the projection
+
+- Where: `packages/calculator/src/lib/parse-scenario.ts:205` and `implementation/rust-redesign/02-ts-engine-rebuild-spec.md`, PR #11
+- What: A rate and variance both equal to 1e308 pass and produce an infinite positive-band rate. Even at zero interest, a balance and start deposit of 1e308 each give a NaN balance. JSON converts that balance to null.
+- Better: Validate both band endpoints. Define an input domain that bounds monetary intermediates or specify how both engines signal arithmetic overflow.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-27, spec 2 part C, key checks lose available error subjects
+
+- Where: `packages/calculator/src/lib/parse-scenario.ts:252` and `:319`, PR #11
+- What: An extra key on account a produces no account id. An extra key directly on its rule r produces only the account id. The original objects contain both string ids.
+- Better: Capture available string ids before checking the object's keys. Assert the ids on structural errors at the account and rule levels.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-27, spec 2 part C, run options bypass strict key checks
+
+- Where: `packages/calculator/src/lib/parse-scenario.ts:377`, PR #11
+- What: Options with today and a misplaced endDate pass. The parser checks the keys on the file and reads only today from the second input.
+- Better: Check options against their one allowed key at the same boundary as the scenario.
+- Seen before: 2026-11-27, spec 2 part A, parser equality guard runs after source data has been dropped
+- Promoted: yes, the run options guideline in AGENTS.md
+
+### 2026-11-27, spec 2 part C, sparse arrays bypass element parsing
+
+- Where: `packages/calculator/src/lib/parse-scenario.ts:331` and `:401`, PR #11
+- What: An array containing a hole for an account or rule bypasses the map callback. The id scan dereferences undefined and throws TypeError. This is reachable through the JS entry point that accepts unknown input.
+- Better: Visit every index during parsing and report the missing element at its path.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-27, spec 2 part C, the validated type admits unchecked changes
+
+- Where: `packages/calculator/src/lib/scenario.ts:81`, PR #11
+- What: Ordinary typed code can assign -1 to a parsed account balance and project a final balance of -1 at zero interest. Callers can also construct the same structural type without parsing.
+- Better: Make validated values opaque and deeply readonly. Keep engine arguments that require validation inside that boundary.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-27, spec 2 part C, the adapter invents conflicting year bounds
+
+- Where: `packages/calculator/src/lib/__testing__/legacy-scenario.ts:92`, PR #11
+- What: In a one-year projection a monthly rule with just start offset 2 throws rule_end_before_start. Just end offset -1 has the same failure. Legacy deposits nothing in both. Fractional bounds are accepted by the legacy comparison but produce invalid date strings in the adapter.
+- Better: Intersect the old integer year indices with the projection's covered years before encoding bounds. Omit inactive rules and use ceiling for a lower bound and floor for an upper bound.
+- Seen before: 2026-11-27, spec 2 part A, adapter maps legacy offsets to invalid dates
+- Promoted: yes, the legacy bounds guideline in AGENTS.md
+
+### 2026-11-27, spec 2 part C, a legacy lower bound changes the growth anchor
+
+- Where: `packages/calculator/src/lib/__testing__/legacy-scenario.ts:92`, PR #11
+- What: A monthly rule with base 0, annual flat growth of 1 and start offset -1 gives 12 instead of 0 over the first year. The old engine always counts growth from January of the projection's start year.
+- Better: Keep the legacy growth anchor at January 1 of the first year when the rule is already active then.
+- Seen before: 2026-11-27, spec 2 part A, trace adapter assumes fields and defaults its input cannot supply
+- Promoted: yes, the legacy bounds guideline in AGENTS.md
+
+### 2026-11-27, spec 2 part C, impossible annual days survive adaptation
+
+- Where: `packages/calculator/src/lib/__testing__/legacy-scenario.ts:87`, PR #11
+- What: An annual April 31 rule is rejected as invalid_day. Legacy credits April 30 every year. An annual April 30 rule represents the same schedule in the new engine.
+- Better: Clamp an explicit annual day to the month length in a leap year before parsing the translated file.
+- Seen before: 2026-11-27, spec 2 part A, adapter maps legacy offsets to invalid dates
+- Promoted: yes, the legacy bounds guideline in AGENTS.md
+
+### 2026-11-27, spec 2 part C, date helpers have different year domains
+
+- Where: `packages/calculator/src/lib/plain-date.ts:36`, `:43` and `:61`, PR #11
+- What: Parsing accepts 0000 and coerces a one-element array holding a date string. Adding one month to December 9999 formats as a five-digit year that the same parser rejects. Jiff accepts year zero and timestamp strings by default and rejects arithmetic beyond 9999. Legacy JS date constructors also remap starting years 0 through 99.
+- Better: Specify the supported year interval and check the file grammar and arithmetic bounds in both languages. State the ancient-year exception for comparisons to the old engine.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-27, spec 2 part C, invalid inputs have no shared diagnostic precedence
+
+- Where: `implementation/rust-redesign/02-ts-engine-rebuild-spec.md:179`, PR #11
+- What: Missing version returns unsupported_version despite also satisfying the missing-field condition. With a negative account balance and negative rule amount, the rule wins. The port must reproduce an error code and ids but has no ordering rule for these cases.
+- Better: Specify priority and add shared multiple-error vectors, or promise exact diagnostic parity only for single-fault inputs. Specify how missing and mistyped version and rate fields are classified.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-27, spec 2 part C, an inclusive range end survives every test
+
+- Where: `packages/calculator/src/lib/account-schedule.ts:46` and its schedule tests, PR #11
+- What: Changing the upper-bound guard from >= to > passes all 870 tests. For a January 15 to 20 schedule it credits a January 20 deposit. A range ending on day 1 never visits the end month.
+- Better: Test the schedule builder directly with a mid-month end and a deposit on that day.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-27, spec 2 part C, partial-month wording conflates dates with buckets
+
+- Where: `implementation/rust-redesign/02-ts-engine-rebuild-spec.md:205` and `:231`, PR #11
+- What: A placement-derived date also controls bounds, growth and trace. Part D's wording can discard a January 28 one-time deposit in a monthly January 27 to February 1 range just because its compounding bucket is start.
+- Better: Use the resolved date for eligibility and growth. Bucket retained deposits only after that test and preserve their resolved dates in the trace.
+- Seen before: 2026-11-27, spec 2 part B, the schedule loses the resolved deposit date
+- Promoted: yes, the partial-range eligibility guideline in AGENTS.md
+
+### 2026-11-27, spec 2 part C, Rust must infer defaults and salary evaluation order
+
+- Where: `implementation/rust-redesign/02-ts-engine-rebuild-spec.md:169` and `:211`, PR #11
+- What: Part C leaves several defaults to old code and does not specify all salary-share grouping. With salary 100, monthly basis and amount 7, dividing salary first yields 0.5833333333333335. Applying the percent first yields 0.5833333333333334.
+- Better: List normalized defaults and give the parenthesized salary-share expression, including the annual case.
+- Seen before: 2026-11-27, spec 2 part A, exact parity depends on unstated rounding and evaluation order
+- Promoted: yes, the salary formula guideline in AGENTS.md
+
+### 2026-11-27, spec 2 part C, trace field names are absent from the port spec
+
+- Where: `implementation/rust-redesign/02-ts-engine-rebuild-spec.md:306` and `04-rust-port-spec.md:55`, PR #11
+- What: Rust must serialize exactly the same fields. The spec describes a segment's dates and counts in prose. An implementation could reasonably emit startDate and endDate where TS emits from and to.
+- Better: Include the TraceSegment and TraceDeposit wire shapes with their inclusive start and exclusive end.
 - Seen before: no
 - Promoted: no
