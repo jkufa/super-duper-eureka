@@ -1,0 +1,53 @@
+{
+  "scenario": {
+    "accounts": [
+      {
+        "balance": 1e+201,
+        "balanceAsOf": "2026-01-01",
+        "contributions": [],
+        "id": "slow",
+        "included": true,
+        "kind": "other",
+        "name": "slow"
+      },
+      {
+        "annualRate": 4095,
+        "balance": 1e+196,
+        "balanceAsOf": "2026-01-01",
+        "contributions": [],
+        "id": "fast",
+        "included": true,
+        "kind": "other",
+        "name": "fast"
+      }
+    ],
+    "endDate": "2056-01-01",
+    "interest": {
+      "annualRate": 0,
+      "compounding": "monthly",
+      "variance": 0
+    },
+    "salary": {
+      "annualBase": 0,
+      "asOf": "2026-01-01"
+    },
+    "version": 1
+  },
+  "today": "2026-01-01",
+  "traits": [
+    "account_without_rules",
+    "accounts:2",
+    "compounding:monthly",
+    "end:decades_away",
+    "end:jan_1",
+    "large_balance",
+    "raise:zero",
+    "rate_override",
+    "rates:differ",
+    "salary_as_of:in_range",
+    "salary_zero",
+    "today:first_of_month",
+    "today_is_as_of",
+    "zero_variance"
+  ]
+}

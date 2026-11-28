@@ -1,0 +1,54 @@
+{
+  "scenario": {
+    "accounts": [
+      {
+        "annualRate": 0.05,
+        "balance": 1000,
+        "balanceAsOf": "2026-01-01",
+        "contributions": [
+          {
+            "amount": 7,
+            "id": "share",
+            "salaryBasis": "monthly",
+            "timing": {
+              "day": 15,
+              "frequency": "monthly"
+            },
+            "type": "salaryPercent"
+          }
+        ],
+        "id": "saver",
+        "included": true,
+        "kind": "other",
+        "name": "saver"
+      }
+    ],
+    "endDate": "2029-01-01",
+    "interest": {
+      "annualRate": 0,
+      "compounding": "monthly",
+      "variance": 0
+    },
+    "salary": {
+      "annualBase": 123456.78,
+      "annualRaiseRate": 0.037,
+      "asOf": "2028-06-01"
+    },
+    "version": 1
+  },
+  "today": "2026-01-01",
+  "traits": [
+    "accounts:1",
+    "basis:monthly",
+    "compounding:monthly",
+    "end:jan_1",
+    "raise:positive",
+    "rate_override",
+    "salary_as_of:in_range",
+    "salary_before_as_of",
+    "timing:monthly_day",
+    "today:first_of_month",
+    "today_is_as_of",
+    "zero_variance"
+  ]
+}

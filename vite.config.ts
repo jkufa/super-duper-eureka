@@ -11,7 +11,8 @@ export default defineConfig({
       'parity-corpus': {
         command: 'bun packages/calculator/scripts/write-corpus.ts',
         cache: false
-      }
+      },
+      parity: { command: 'bun packages/calculator/scripts/parity.ts', cache: false }
     }
   },
   test: {
@@ -28,7 +29,9 @@ export default defineConfig({
       // Local Claude Code settings, written by the tool.
       '.claude/**',
       // Generated research pages.
-      'implementation/**/*.html'
+      'implementation/**/*.html',
+      // Parity cases, printed by the corpus's stableJson.
+      'parity/**'
     ]
   },
   lint: {

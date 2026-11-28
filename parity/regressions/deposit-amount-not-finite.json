@@ -1,0 +1,58 @@
+{
+  "scenario": {
+    "accounts": [
+      {
+        "annualRate": 0.05,
+        "balance": 100,
+        "balanceAsOf": "2026-01-01",
+        "contributions": [],
+        "id": "first",
+        "included": true,
+        "kind": "other",
+        "name": "first"
+      },
+      {
+        "balance": 100,
+        "balanceAsOf": "2026-01-01",
+        "contributions": [
+          {
+            "amount": 0,
+            "growth": {
+              "amount": 1e+300,
+              "cadence": "annual",
+              "type": "percent"
+            },
+            "id": "zero-times-infinity",
+            "startDate": "2020-01-01",
+            "timing": {
+              "frequency": "monthly",
+              "placement": "start"
+            },
+            "type": "flat"
+          }
+        ],
+        "id": "nan",
+        "included": true,
+        "kind": "other",
+        "name": "nan"
+      }
+    ],
+    "endDate": "2030-01-01",
+    "interest": {
+      "annualRate": 0,
+      "compounding": "monthly",
+      "variance": 0
+    },
+    "salary": {
+      "annualBase": 0,
+      "asOf": "2026-01-01"
+    },
+    "version": 1
+  },
+  "today": "2026-01-01",
+  "traits": [
+    "engine_error",
+    "error:not_finite",
+    "error_account:nan"
+  ]
+}
