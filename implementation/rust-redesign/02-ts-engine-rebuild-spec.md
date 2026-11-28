@@ -56,7 +56,7 @@ Before any engine change, save today's outputs.
 
 Same public contract as today. Only the inside changes.
 
-1. `buildSchedule` takes the rules, salary, dates and compounding mode and returns a flat list of deposits. Each deposit has a rule id, the rule's position, a date, an amount and a bucket: `start`, `end` or a day number. It takes no rate. The position is there because today's contract lets two rules share an id. Part C makes that an error.
+1. `buildSchedule` takes the rules, salary, dates and compounding mode and returns a flat list of deposits. Each deposit has a rule id, the rule's position, a date, an amount and a bucket: `start`, `end` or a day number. The date and the bucket are separate facts. In monthly mode a deposit on the 2nd and one on the 15th share the `start` bucket, and parts C and D need the date to decide whether a deposit falls inside a range. It takes no rate. The position is there because today's contract lets two rules share an id. Part C makes that an error.
 2. `compound` takes a starting balance, a schedule and an annual rate, and returns the monthly balances, cumulative contributions and cumulative interest. It makes no decisions about rules.
 
 - `calculateRetirement` builds the schedule once and compounds it three times.
@@ -79,6 +79,8 @@ The split must add numbers in the order today's engine does. A different order c
 - Daily compounding. `dailyRate = (1 + annualRate) ** (1 / daysInYear) - 1`. Day 1's deposit is its numbered-day total plus `startTotal`, in that order. The last day's deposit is its numbered-day total plus `endTotal`. A placement total of 0 is not added. On each day, add the day's deposit to the balance once if it is not 0, then compute `balance * dailyRate` and add that to the balance. The month's contributions and the month's interest are each summed from 0, day by day.
 - Running totals. The month's contributions and the month's interest are each added to the cumulative totals once per month.
 - A step reports `contributionsStart` as `startTotal`, `contributionsEnd` as `endTotal`, and `contributionsByDay` as the numbered-day totals before the placement totals are merged in.
+- Days outside 1 to 31. Today's contract accepts them, and part B must keep what the engine does with them. A recurring rule's day of 0 counts as no day, so the rule uses its placement in both modes. In daily mode a one-time rule's day is clamped into the month: 0 becomes 1, and a day past the end becomes the last day. Part C rejects these days as `invalid_day`, so none of this reaches the Rust port.
+- Values that are not finite. The two guards in daily compounding, on a placement total and on a day's deposit, are truthiness checks, so they skip `NaN` as well as 0. Part B keeps them as they are. Part C rejects input that is not finite, and for finite values adding a total of 0 changes nothing.
 
 ## Part C: calendar contract
 
