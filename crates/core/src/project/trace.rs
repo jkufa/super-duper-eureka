@@ -80,7 +80,7 @@ impl<'a> TraceSegment<'a> {
 
 /// The segments behind [`project_account`](super::project_account) with the same arguments, one
 /// per calendar month in the range. Empty when `from` is not before `to`.
-pub fn trace_account_range<'a>(
+pub(crate) fn trace_account_range<'a>(
     scenario: &Scenario,
     account: &'a Account,
     from: CalendarDate,

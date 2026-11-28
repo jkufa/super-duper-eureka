@@ -18,7 +18,8 @@ pub use scenario::{
     ScenarioProjection, StaleAccount, WeightedSeries, WeightedYearlyRow, YearSalary,
     project_scenario, trace_account,
 };
-pub use trace::{TraceSegment, trace_account_range};
+pub use trace::TraceSegment;
+pub(crate) use trace::trace_account_range;
 
 const LAST_MONTH: i8 = 12;
 
@@ -166,7 +167,7 @@ fn yearly_rows(monthly: &[MonthlyRow]) -> Vec<YearlyRow> {
 /// Projects `account` over the days from `from` up to, and not including, `to`, starting from
 /// `opening_balance` at `annual_rate`. When `from` is not before `to`, the series has the opening
 /// balance and no rows.
-pub fn project_account<'a>(
+pub(crate) fn project_account<'a>(
     scenario: &Scenario,
     account: &'a Account,
     from: CalendarDate,

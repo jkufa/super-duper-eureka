@@ -478,6 +478,49 @@ fn counts_monthly_growth_in_whole_months_with_the_31st_reaching_shorter_months_o
 }
 
 #[test]
+fn grows_by_whole_powers_of_1_plus_g_over_100_100_x_1_007_powi_3_is_102_11473429999995() {
+    let rules = json!([flat_with(
+        "growing",
+        json!({ "frequency": "monthly", "day": 1 }),
+        json!({
+            "growth": { "type": "percent", "amount": 0.7, "cadence": "monthly" },
+            "startDate": "2026-01-01"
+        })
+    )]);
+
+    assert_eq!(1.0 + 0.7 / 100.0, 1.007);
+    assert_eq!((100.0 + 0.7) / 100.0, 1.007_000_000_000_000_1);
+    assert_eq!(100.0 * 1.007_f64.powf(3.0), 102.114_734_299_999_98);
+    assert_eq!(
+        Setup::new(rules).deposits("2026-04-01", "2026-05-01"),
+        [listed(
+            "growing",
+            "2026-04-01",
+            102.114_734_299_999_95,
+            Bucket::Start
+        )]
+    );
+}
+
+#[test]
+fn adds_g_times_the_periods_once_100_plus_0_1_x_2_is_100_2_not_100_plus_0_1_plus_0_1() {
+    let rules = json!([flat_with(
+        "growing",
+        json!({ "frequency": "monthly", "day": 1 }),
+        json!({
+            "growth": { "type": "flat", "amount": 0.1, "cadence": "monthly" },
+            "startDate": "2026-01-01"
+        })
+    )]);
+
+    assert_eq!(100.0 + 0.1 + 0.1, 100.199_999_999_999_99);
+    assert_eq!(
+        Setup::new(rules).deposits("2026-03-01", "2026-04-01"),
+        [listed("growing", "2026-03-01", 100.2, Bucket::Start)]
+    );
+}
+
+#[test]
 fn counts_annual_growth_one_day_before_and_on_the_anniversary_of_29_february_and_of_a_31st() {
     let growth = json!({ "type": "flat", "amount": 1, "cadence": "annual" });
     let annual = |id: &str, month: i8, day: i8, start: &str| {

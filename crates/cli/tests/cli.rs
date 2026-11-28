@@ -451,6 +451,8 @@ fn exits_1_with_nothing_on_stdout_for_bad_usage_an_unreadable_file_or_text_that_
         vec!["--scenario", basic, "--band", "positive"],
         vec!["--scenario", basic, "--trace", "401k", "--band", "sideways"],
         vec!["--scenario", basic, "--bogus"],
+        vec!["--scenario", basic, "-h"],
+        vec!["-h"],
         vec!["--scenario", basic, "extra"],
         vec!["--scenario", missing],
         vec!["--scenario", not_json],
@@ -570,6 +572,44 @@ fn exits_2_with_the_error_object_for_an_invalid_scenario() -> TestResult {
         let mut args = vec!["--today", TODAY];
         args.extend(extra);
         assert_scenario_error(&calc_on(&path, &args)?, &error, case)?;
+    }
+    Ok(())
+}
+
+#[test]
+fn exits_2_with_not_finite_for_the_account_whose_cumulative_interest_alone_overflows() -> TestResult
+{
+    let scenario = json!({
+        "version": 1,
+        "endDate": "2026-11-01",
+        "interest": { "annualRate": 0 },
+        "salary": { "annualBase": 0, "asOf": "2026-01-01" },
+        "accounts": [{
+            "id": "shrinking",
+            "name": "Shrinking",
+            "kind": "other",
+            "included": true,
+            "balance": 1e308,
+            "balanceAsOf": "2026-01-01",
+            "annualRate": -0.999_999_999_999_999_9,
+            "contributions": [{
+                "id": "end",
+                "type": "flat",
+                "amount": 1e307,
+                "timing": { "frequency": "monthly", "placement": "end" }
+            }]
+        }]
+    });
+    let path = file_with("interest-overflow", &scenario.to_string())?;
+
+    for extra in [vec![], vec!["--trace", "shrinking"]] {
+        let mut args = vec!["--today", "2026-01-01"];
+        args.extend(&extra);
+        assert_scenario_error(
+            &calc_on(&path, &args)?,
+            &json!({ "code": "not_finite", "accountId": "shrinking" }),
+            &format!("{extra:?}"),
+        )?;
     }
     Ok(())
 }

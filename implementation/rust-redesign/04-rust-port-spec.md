@@ -56,6 +56,7 @@ Port `projectScenario` from spec 2 parts E and F: the roll forward, the per-acco
 - The effective rate runs exactly 60 passes, with the same shortcuts in the same order as spec 2.
 - Sum accounts in file order.
 - The output types serialise to the same JSON field names as TypeScript. An absent optional field is omitted, not `null`. `weightedRate` is the one field that can be `null`.
+- Outside the crate, `core` offers `Scenario::parse`, `project_scenario` and `trace_account`, plus the types they take and return. Every function that takes a balance, a rate or a date range it has not checked is `pub(crate)`: `project_account`, `trace_account_range`, `build_account_schedule`, `salary_in_year` and the calendar arithmetic on `CalendarDate`. A caller outside the crate cannot hand the engine a value the parser never saw.
 
 ## Part D: step trace
 
@@ -73,6 +74,7 @@ Port `traceAccount`. Same records, same field names.
 - Run every example file from spec 2 through both CLIs and compare by eye before part F automates it.
 - Match the TypeScript CLI's contract in spec 2 part G: the flags, a two-space indent with a trailing newline, exit status 1 for bad usage or an unreadable file with nothing on stdout, and status 2 with the error object for a `ScenarioError`.
 - Call the TypeScript CLI as `bun packages/cli/src/index.ts`. Through `vp run`, Vite+ prints a line of its own before the output.
+- `-h` is not an option. It is bad usage and exits with status 1, as in TypeScript. Only `--help` prints the usage text.
 
 ## Part F: parity harness
 
