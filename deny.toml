@@ -17,7 +17,11 @@ ignore = true
 multiple-versions = "warn"
 wildcards = "deny"
 allow-wildcard-paths = true
-deny = [{ crate = "jiff", wrappers = ["retirement-cli"], reason = "core uses jiff-core; only the CLI reads the clock" }]
+deny = [
+  { crate = "jiff", wrappers = [
+    "retirement-cli"
+  ], reason = "core uses jiff-core; only the CLI reads the clock" }
+]
 
 [sources]
 unknown-registry = "deny"
