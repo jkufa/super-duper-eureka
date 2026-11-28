@@ -92,6 +92,13 @@ export function readBaselineCases(): Array<StoredCase> {
     });
 }
 
+export function readFullExampleNames(): Array<string> {
+  return readdirSync(BASELINE_FULL_DIR)
+    .filter((file) => file.endsWith('.result.json'))
+    .map((file) => file.slice(0, -'.result.json'.length))
+    .toSorted();
+}
+
 function fullExampleFiles(name: string): Record<keyof FullExample, string> {
   return { result: `${name}.result.json`, steps: `${name}.steps.json` };
 }

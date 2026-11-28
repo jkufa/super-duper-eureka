@@ -380,6 +380,20 @@ describe('bisectRate', () => {
     expect(Math.abs(rate - 0.3)).toBeLessThan(1e-15);
   });
 
+  it('takes its first midpoint of 0.01 and 0.03 as 0.019999999999999997, where (lo + hi) / 2 is 0.02', () => {
+    const calls: Array<number> = [];
+    bisectRate(0.01, 0.03, 0, (midpoint) => {
+      calls.push(midpoint);
+      return midpoint;
+    });
+
+    expect(calls[0]).toBe(0.019999999999999997);
+  });
+
+  it('returns lo + (hi - lo) / 2, which stays finite where lo + hi overflows', () => {
+    expect(bisectRate(1e308, 1.7e308, 1e308, (midpoint) => midpoint)).toBe(1e308);
+  });
+
   it('moves hi down when the result equals the target, and lo up only when it is below', () => {
     const calls: Array<number> = [];
     bisectRate(0, 1, 0.5, (midpoint) => {
@@ -469,6 +483,26 @@ describe('weightedRate', () => {
     expect(projection.bands.baseline.total.yearly).toStrictEqual([
       { year: 2026, balance: 3000, contributions: 0, interest: 1000, weightedRate: 2730 }
     ]);
+  });
+
+  it('sums the numerator in file order', () => {
+    // Every deposit lands in the end bucket of the only month, so the row balances are 2e16, 1 and 1.
+    // The total is 2e16 + 1 + 1 = 2e16. In file order 0.5 * 2e16 + 1 + 1 = 1e16, which gives 0.5.
+    // Reversed, 1 + 1 + 1e16 = 10000000000000002, which gives 0.5000000000000001.
+    const projection = project({
+      today: '2026-12-01',
+      endDate: '2027-01-01',
+      accounts: [
+        { id: 'big', annualRate: 0.5, contributions: [monthly('big', 2e16, 'end')] },
+        { id: 'one', annualRate: 1, contributions: [monthly('one', 1, 'end')] },
+        { id: 'another', annualRate: 1, contributions: [monthly('another', 1, 'end')] }
+      ]
+    });
+
+    expect(
+      projection.bands.baseline.accounts.map(({ series }) => series.yearly[0]?.balance)
+    ).toStrictEqual([2e16, 1, 1]);
+    expect(projection.bands.baseline.total.yearly[0]?.weightedRate).toBe(0.5);
   });
 
   it('is present only on the baseline total yearly rows', () => {
