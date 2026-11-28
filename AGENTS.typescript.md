@@ -7,9 +7,10 @@ This file is temporary. The TypeScript code is the reference for the Rust port a
 ## Project Structure & Module Organization
 
 - `packages/calculator/`: the projection engine. `src/index.ts` exports `parseScenario`, `projectScenario`, `traceAccount`, `ScenarioError` and the file and result types, nothing else.
-  - `src/lib/`: `plain-date.ts`, `scenario.ts` (file and validated types), `parse-scenario.ts`, `account-schedule.ts`, `compound.ts`, `project-account.ts`, `project-scenario.ts`, `effective-rate.ts`, and `random.ts` (`createSeededRandom` for spec 2 part H).
+  - `src/lib/`: `plain-date.ts`, `scenario.ts` (file and validated types), `parse-scenario.ts`, `account-schedule.ts`, `compound.ts`, `project-account.ts`, `project-scenario.ts`, `effective-rate.ts`, and `random.ts` (`createSeededRandom`).
+  - `src/lib/corpus/`: the parity corpus generator from spec 2 part H. `generateCase(seed)` in `case.ts`, valid cases in `valid.ts`, invalid and engine-failure cases in `faults.ts`, traits in `traits.ts`, and `stableJson` in `json.ts`. Not exported from the package. `no-clock.test.ts` scans it like engine code.
   - `src/lib/__testing__/`: Vitest tests and their helpers. `factories.ts` holds `makeScenarioFile`, `makeAccount` and `makeRule`. `baseline/` holds the stored baseline, which `legacy-scenario.ts` and `legacy-config.ts` read through the adapter.
-  - `scripts/bench.ts`: the benchmark.
+  - `scripts/bench.ts`: the benchmark. `scripts/write-corpus.ts`: writes corpus cases to a folder.
 - `packages/cli/`: the `retirement-calc` CLI (`src/index.ts`) and example scenarios (`examples/`).
 
 ## Build, Test, and Development Commands
@@ -22,6 +23,7 @@ The repo runs on Vite+ (`vp`) with Bun as the package manager. Tasks are defined
 - `vp check`: format check, lint, type-aware lint and TypeScript type check for the whole repo.
 - `vp lint` / `vp fmt`: lint or format on their own. `vp check --fix` applies fixes from both.
 - `vp run retirement-calc --scenario <file> [--today YYYY-MM-DD] [--trace <accountId>] [--band baseline|positive|negative]`: run the CLI on the Bun runtime. It prints one JSON document to stdout. It exits 1 on bad usage or a file that cannot be read or is not JSON, and 2 on a `ScenarioError`, with `{ "error": { "code", "accountId"?, "ruleId"? } }` on stdout.
+- `vp run parity-corpus <outputDir> <firstSeed> <lastSeed>`: write the parity corpus. Each seed gives `<seed>.json`, the case `{ scenario, today, traits }`, and `<seed>.scenario.json`, its scenario alone, which a CLI reads with `--scenario <seed>.scenario.json --today <today>`. `traits` is a sorted list of the edges the case reaches; a failing case has `invalid` or `engine_error`, `fault:<name>`, `error:<code>` and, when the error carries them, `error_account:<id>` and `error_rule:<id>`. Nothing generated is committed.
 - `vp run @retirement/calculator#bench`: time one effective-rate solve and one `projectScenario` on the 30-year, three-account reference case, on Node and then on Bun.
 
 ## Coding Style & Naming Conventions

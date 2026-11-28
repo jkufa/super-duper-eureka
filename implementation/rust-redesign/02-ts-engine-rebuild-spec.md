@@ -421,14 +421,20 @@ Tests:
 
 ## Part H: parity corpus generator
 
-Replace `random.ts` with a seeded generator of new-contract cases. Each case is `{ scenario, today }`. Spec 4 runs both CLIs over its output.
+A seeded generator of new-contract cases, in `src/lib/corpus/`, built on `random.ts` and not exported from the package. Spec 4 runs both CLIs over its output.
+
+Each seed writes two files. `<seed>.json` is the case, `{ scenario, today, traits }`. `<seed>.scenario.json` is the scenario alone, for `--scenario`. A harness runs each CLI with `--scenario <seed>.scenario.json --today <today>`. Both files print keys in sorted order with a two-space indent, and are byte-identical on Node and Bun in any time zone.
+
+`traits` is a sorted list of facts about the case, read back from the parsed scenario and its schedules, not from what the generator meant to build. It names every edge the case hits, the two known power differences (`negative_salary_power`, `growth_periods_over_1000`), and for a failing case the fault, the expected error code and the expected ids.
 
 - Keep `createSeededRandom`. The same seed must always give the same case.
 - 1 to 6 accounts per case, with mixed rates, kinds and `included` flags.
 - Push hard on edges. At least one case in ten has each of these: a stale account, an as-of date on 29 February, a rule on day 31, an end date mid-month, `today` equal to an as-of date, a zero balance, a disabled rule, an excluded account, zero variance.
 - Both compounding modes, split evenly.
-- One case in twenty is invalid on purpose, one per validation code in turn.
-- A script writes cases for seeds 1 to N into a folder given on the command line. Nothing generated is committed in this spec.
+- One case in twenty is invalid on purpose, with exactly one fault, cycling through the 14 codes the parser can raise and through each code's shapes. `invalid_rate` is covered in every condition except "not finite", which no file can carry without a number literal too large for a float.
+- One case in a hundred is valid to the parser and makes the engine fail with `not_finite`: an overflowing balance, an overflowing total, a deposit amount that is not finite, an overflowing salary.
+- Dates stay well inside years 0001 to 9999, and no number literal exceeds `1e308`.
+- `vp run parity-corpus <outputDir> <firstSeed> <lastSeed>` writes the cases. Nothing generated is committed in this spec.
 
 ## Acceptance criteria
 
