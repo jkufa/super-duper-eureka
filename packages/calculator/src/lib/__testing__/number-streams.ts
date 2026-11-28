@@ -80,6 +80,7 @@ export function monthlyStream(bands: MonthlyStreamBands): string {
         band.finalBalance,
         band.totalContributions,
         band.totalGrowth,
+        band.monthly.length,
         ...band.monthly.flatMap((row) => [
           row.year,
           row.month,
@@ -94,10 +95,10 @@ export function monthlyStream(bands: MonthlyStreamBands): string {
 }
 
 function dayAmountPairs(byDay: Readonly<Record<number, number>>): Array<number> {
-  return Object.entries(byDay)
+  const pairs = Object.entries(byDay)
     .map(([day, amount]): [number, number] => [Number(day), amount])
-    .toSorted(([dayA], [dayB]) => dayA - dayB)
-    .flat();
+    .toSorted(([dayA], [dayB]) => dayA - dayB);
+  return [pairs.length, ...pairs.flat()];
 }
 
 export function stepStream(run: StepStreamRun): string {
@@ -107,6 +108,7 @@ export function stepStream(run: StepStreamRun): string {
     summary.totalContributions,
     summary.totalInterest,
     summary.finalBalance,
+    run.steps.length,
     ...run.steps.flatMap((step) => [
       step.stepIndex,
       step.yearIndex,
@@ -125,6 +127,7 @@ export function stepStream(run: StepStreamRun): string {
       step.daysInYear,
       step.compounding,
       ...dayAmountPairs(step.contributionsByDay),
+      step.activeContributions.length,
       ...step.activeContributions.flatMap((contribution) => [
         contribution.id,
         contribution.type,
