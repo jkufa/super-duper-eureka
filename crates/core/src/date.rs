@@ -2,6 +2,7 @@ use std::fmt;
 
 use jiff::Span;
 use jiff::civil::Date;
+use jiff::fmt::temporal::DateTimeParser;
 use serde::{Serialize, Serializer};
 
 const FIRST_YEAR: i16 = 1;
@@ -22,7 +23,10 @@ impl CalendarDate {
         if !has_file_shape(text) {
             return None;
         }
-        text.parse().ok().and_then(Self::in_range)
+        DateTimeParser::new()
+            .parse_date(text)
+            .ok()
+            .and_then(Self::in_range)
     }
 
     pub fn year(self) -> i16 {

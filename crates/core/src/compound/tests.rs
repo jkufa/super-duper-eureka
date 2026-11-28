@@ -25,10 +25,9 @@ fn on_days(days: &[(usize, f64)]) -> [f64; MAX_DAY] {
 }
 
 fn only_month(from: &str, to: &str) -> ScheduledMonth<'static> {
-    let [month] = month_segments(date(from), date(to))
-        .collect::<Vec<_>>()
-        .try_into()
-        .unwrap();
+    let mut months = month_segments(date(from), date(to));
+    let month = months.next().unwrap();
+    assert!(months.next().is_none());
     month
 }
 

@@ -1002,14 +1002,13 @@ mod traces {
     }
 
     fn days_between(from: CalendarDate, to: CalendarDate) -> i64 {
-        std::iter::successors(Some(from), |&day| {
+        let days = std::iter::successors(Some(from), |&day| {
             CalendarDate::new(day.year(), day.month(), day.day() + 1)
                 .or_else(|| day.with_day_clamped(1).checked_add_months(1))
         })
         .take_while(|&day| day < to)
-        .count()
-        .try_into()
-        .unwrap()
+        .count();
+        i64::try_from(days).unwrap()
     }
 
     #[test]
