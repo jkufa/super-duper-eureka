@@ -43,7 +43,7 @@ For PR review agents only. Orchestration and implementation agents do not read t
 - What: Removing the package scripts broke the app README's development and build commands. Its recreation command also installs the retired tools.
 - Better: Check workspace-level setup instructions when removing scripts or replacing tooling.
 - Seen before: no
-- Promoted: no
+- Promoted: yes, the machine-readable command guideline in AGENTS.md
 
 ### 2026-11-26, spec 2, generated servers resolve another package's dependency major
 
@@ -335,7 +335,7 @@ For PR review agents only. Orchestration and implementation agents do not read t
 - What: A rate and variance both equal to 1e308 pass and produce an infinite positive-band rate. Even at zero interest, a balance and start deposit of 1e308 each give a NaN balance. JSON converts that balance to null.
 - Better: Validate both band endpoints. Define an input domain that bounds monetary intermediates or specify how both engines signal arithmetic overflow.
 - Seen before: no
-- Promoted: no
+- Promoted: yes, the intermediate overflow guideline in AGENTS.md
 
 ### 2026-11-27, spec 2 part C, key checks lose available error subjects
 
@@ -399,7 +399,7 @@ For PR review agents only. Orchestration and implementation agents do not read t
 - What: Parsing accepts 0000 and coerces a one-element array holding a date string. Adding one month to December 9999 formats as a five-digit year that the same parser rejects. Jiff accepts year zero and timestamp strings by default and rejects arithmetic beyond 9999. Legacy JS date constructors also remap starting years 0 through 99.
 - Better: Specify the supported year interval and check the file grammar and arithmetic bounds in both languages. State the ancient-year exception for comparisons to the old engine.
 - Seen before: no
-- Promoted: no
+- Promoted: yes, the last supported month guideline in AGENTS.md
 
 ### 2026-11-27, spec 2 part C, invalid inputs have no shared diagnostic precedence
 
@@ -407,7 +407,7 @@ For PR review agents only. Orchestration and implementation agents do not read t
 - What: Missing version returns unsupported_version despite also satisfying the missing-field condition. With a negative account balance and negative rule amount, the rule wins. The port must reproduce an error code and ids but has no ordering rule for these cases.
 - Better: Specify priority and add shared multiple-error vectors, or promise exact diagnostic parity only for single-fault inputs. Specify how missing and mistyped version and rate fields are classified.
 - Seen before: no
-- Promoted: no
+- Promoted: yes, the multiple-error subjects guideline in AGENTS.md
 
 ### 2026-11-27, spec 2 part C, an inclusive range end survives every test
 
@@ -448,6 +448,7 @@ For PR review agents only. Orchestration and implementation agents do not read t
 - Better: Ban each sibling path that reads the clock, the environment, the filesystem, or the network, and forbid `unsafe` in `core`. There is no lint that forbids `async fn`.
 - Seen before: no
 - Promoted: yes, the clock-ban guideline in AGENTS.md
+- Promoted: yes, the clock independence guideline in AGENTS.md
 
 ### 2026-11-28, spec 3, unpublished-crate licence skip is not limited to the workspace
 
@@ -496,3 +497,146 @@ For PR review agents only. Orchestration and implementation agents do not read t
 - Better: Ban `jiff::ZonedDateTime::now` and `jiff::tz::TimeZone::try_system`. Confirm each call fails `just check` when the method is actually in the build.
 - Seen before: 2026-11-28, spec 3, clock and environment bans name one function and miss its siblings
 - Promoted: yes, the clock-ban guideline in AGENTS.md
+### 2026-11-28, spec 2 part F, a rate-independent pool produces two different headline rates
+
+- Where: `packages/calculator/src/lib/effective-rate.ts:92`, PR #19
+- What: Two zero-balance accounts at 4% and 10% receive end-placement deposits of 50 and [10.01, 1.23] in their only month. Reordering the accounts moves the effective rate from 10% to 4%. Both totals are 61.24 and neither earns interest. A one-unit change in the last place of a salary deposit can also switch endpoints.
+- Better: Define a return for a pool with no exposure to interest and take that shortcut before bisection. Test both orders and a rounded salary deposit.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-28, spec 2 parts D and E, a valid final segment requests year 10000
+
+- Where: `packages/calculator/src/lib/account-schedule.ts:69` and `:76`, PRs #14 and #17
+- What: With no accounts, today 9999-12-01 and end 9999-12-02 the CLI exits 1 with a RangeError. Spec 4 documents the exclusion from parity, but spec 2 accepts the file.
+- Better: Finish the segment at the requested end when it lies in the current month. Break before computing a successor.
+- Seen before: 2026-11-27, spec 2 part C, date helpers have different year domains
+- Promoted: yes, the last supported month guideline in AGENTS.md
+
+### 2026-11-28, spec 2 part E, backcast salary can differ by more than the parity tolerance
+
+- Where: `packages/calculator/src/lib/account-schedule.ts:29`, `implementation/rust-redesign/04-rust-port-spec.md:34`
+- What: At base salary 1e308, raise 1e155, as-of 2028 and projection year 2026, Bun returns 0.009999999999999969. A standalone rustc 1.100.0 calculation using the specified powi returns 0. Its positive square overflows before the reciprocal.
+- Better: Use a negative-exponent operation verified at the scaled output and cover the boundary in the parity inputs.
+- Seen before: 2026-11-27, spec 2 part C, finite operands overflow the projection
+- Promoted: yes, the intermediate overflow guideline in AGENTS.md
+
+### 2026-11-28, spec 2 part D, the deposit-free monthly split example does not generalize
+
+- Where: `implementation/rust-redesign/02-ts-engine-rebuild-spec.md:282`, PR #14
+- What: Splitting April on the 16th adds 1.48 to 250000 at 6%, but with a 20000 one-time deposit on the 28th it subtracts 47.19. The deposit earns a half-month less. In daily mode the split preserves the final balance, while recombining separately accumulated contributions can round differently.
+- Better: State the split property for final balance and quantify a late start-bucket deposit alongside the no-deposit example.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-28, spec 2 part E, parity can compare two different valid overflow subjects
+
+- Where: `implementation/rust-redesign/02-ts-engine-rebuild-spec.md:186` and `:305`, `04-rust-port-spec.md:89`
+- What: Aggregate, salary and weighted-rate failures have no account id. Two accounts may each overflow, and reporting either first is permitted. Comparing their ids whenever both are present can reject a conforming port.
+- Better: Require exact subjects for isolated account failures. For multiple independent failures either define traversal priority or compare only the agreed code.
+- Seen before: 2026-11-27, spec 2 part C, invalid inputs have no shared diagnostic precedence
+- Promoted: yes, the multiple-error subjects guideline in AGENTS.md
+
+### 2026-11-28, spec 2 part F, port properties omit the solver exceptions
+
+- Where: `implementation/rust-redesign/04-rust-port-spec.md:115`, PR #19
+- What: With no cash or deposits, unequal overrides 2% and 3% and default 6%, spec 2 returns 6%. The unconditional bracket property fails. An unrestricted bracket also invalidates the stated residual bound after 60 passes.
+- Better: Condition the properties on the specified shortcuts and the rate domain used for the residual test.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-28, spec 2 part F, equivalent-looking solver arithmetic survives mutation
+
+- Where: `packages/calculator/src/lib/__testing__/effective-rate.test.ts:297`, PR #19
+- What: Changing both midpoints to (lo + hi) / 2 passes all 981 tests. Between 0.01 and 0.03 the specified first midpoint is 0.019999999999999997 and the mutant returns 0.02.
+- Better: Assert the first midpoint on that bracket.
+- Seen before: 2026-11-27, spec 2 part A, exact parity depends on unstated rounding and evaluation order
+- Promoted: yes, the float reduction and midpoint guideline in AGENTS.md
+
+### 2026-11-28, spec 2 part F, the weighted numerator has no order-sensitive test
+
+- Where: `packages/calculator/src/lib/project-scenario.ts:174`, PR #19
+- What: Summing the numerator backwards passes all 981 tests. With rates [0.5, 1, 1] and final monthly end deposits [2e16, 1, 1], the correct rate is 0.5 and the reversed result is 0.5000000000000001.
+- Better: Pin the weighted rate on a three-account input that distinguishes these orders.
+- Seen before: 2026-11-27, spec 2 part B, sorting by deposit date survives the full suite
+- Promoted: yes, the float reduction and midpoint guideline in AGENTS.md
+
+### 2026-11-28, spec 2 part F, weighted products can silently underflow
+
+- Where: `packages/calculator/src/lib/project-scenario.ts:175`, PR #19
+- What: Balances of 1e-323 each at 5% and 10% produce a positive total and a weighted rate of zero. Both products round to zero before division.
+- Better: If subnormal dollar inputs stay supported, scale the balances before multiplying in this case. Document and test the exception in both engines.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-28, spec 2 parts E and G, the scenario baseline rebuilds public salary values
+
+- Where: `packages/calculator/src/lib/__testing__/legacy-scenario.ts:150` and `:183`, PRs #17 and #21
+- What: Adding a dollar to every published salaryByYear entry leaves both baseline suites green, 484 tests. They call salaryInYear again. A separate scenario test catches this particular change.
+- Better: For projectScenario replay, compare salaryByYear directly with the stored yearly salaries. Keep the internal range adapter for figures absent from its result.
+- Seen before: 2026-11-27, spec 2 part A, shared digest omits outputs under contract
+- Promoted: yes, the public output guideline in AGENTS.md
+
+### 2026-11-28, spec 2 part G, deleting the old baseline also deletes its composition assertion
+
+- Where: `packages/calculator/src/lib/__testing__/baseline-project-scenario.test.ts:13`, PR #21
+- What: Both remaining suites check the total count and discover the full examples by prefix. The old suite also required four examples, 200 generated cases and at least 20 hand-written cases. A renamed example can lose full-result coverage without changing the count.
+- Better: Assert the four known names and the generated and hand-written counts once in the shared replay tests.
+- Seen before: 2026-11-27, spec 2 part A, shared digest omits outputs under contract
+- Promoted: yes, the fixture groups guideline in AGENTS.md
+
+### 2026-11-28, spec 2 part G, parser errors replace expressible flat-deposit tests
+
+- Where: `packages/calculator/src/lib/__testing__/ported-calculator.test.ts:245`, PR #21
+- What: Fifteen formerly successful one-time flat permutations now return after checking the forbidden salary basis. Dropping that unused field yields the same deposit in the new contract.
+- Better: Keep a rejection test and run the original numerical assertions on the fifteen equivalent flat rules.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-28, spec 2 part G, the documented invocation changes stdout
+
+- Where: `AGENTS.typescript.md:24`, `packages/cli/README.md:11` and `packages/cli/src/index.ts:133`, PR #21
+- What: vp run retirement-calc prepends its command to stdout. The example tests call the engine directly and cannot catch changes to command parsing, stream routing or status.
+- Better: Document the direct Bun invocation for JSON consumers and spawn it on one success, one usage error and one scenario error.
+- Seen before: 2026-11-26, spec 1, task migration leaves app setup instructions behind
+- Promoted: yes, the machine-readable command guideline in AGENTS.md
+
+### 2026-11-28, spec 2 part G, the CLI accepts input forms absent from the port contract
+
+- Where: `packages/cli/src/index.ts:50`, `:90` and `:104`, PR #21
+- What: Repeated scalar flags and duplicate JSON members take the last value. Help writes plain text to stdout. Invalid UTF-8 in a name becomes a replacement character, and an escaped lone surrogate passes. A generator that serializes valid objects cannot exercise these file-level differences.
+- Better: Define the supported wire grammar and test raw files and command lines for any behavior the port must match.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-28, spec 2 part G, the randomness test accepts a constant generator
+
+- Where: `packages/calculator/src/lib/__testing__/random.test.ts:6`, PR #21
+- What: Returning 0.5 on every draw passes all 981 tests. Part H will use this function to choose the parity corpus.
+- Better: Pin a short sequence for a fixed seed and check another seed differs.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-28, spec 2 part G, the clock guard only recognizes three text fragments
+
+- Where: `packages/calculator/src/lib/__testing__/no-clock.test.ts:7`, PR #21
+- What: Reading globalThis.Date["now"](<>) passed all eleven guard tests. The scan covers current .ts modules on this machine, but alternate spellings and other source extensions are outside its check.
+- Better: Enforce the prohibited globals with a syntax-aware rule or state the literal scope of the guard.
+- Seen before: 2026-11-28, spec 3, clock and environment bans name one function and miss its siblings
+- Promoted: yes, the clock independence guideline in AGENTS.md
+
+### 2026-11-28, spec 2 part E, tracing computes the stale interval twice
+
+- Where: `packages/calculator/src/lib/project-scenario.ts:74`, PR #17
+- What: traceAccount builds and compounds the roll-forward range for a full series, then builds and compounds it again for the trace. A long stale history pays for both.
+- Better: Use the final balance of the last roll-forward trace segment, falling back to the stored balance when the trace is empty.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-28, spec 2 part F, rate bounds depend on a runtime argument limit
+
+- Where: `packages/calculator/src/lib/effective-rate.ts:82`, PR #19
+- What: Spreading every included rate into Math.min and Math.max ties the public Node entry point to a function argument limit. A standalone reduction over 250000 values raises RangeError on Node 24.13.0.
+- Better: Find both bounds in one iteration over included accounts.
+- Seen before: no
+- Promoted: no

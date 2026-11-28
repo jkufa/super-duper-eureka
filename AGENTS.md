@@ -59,7 +59,7 @@ Specs live in `implementation/rust-redesign/`. Read its `README.md` first, then 
 - Publish related golden fixtures as a single generation. Readers must keep seeing a complete generation if publication fails.
 - When exact arithmetic must survive a refactor, specify grouping, summation order, and the metadata needed to reproduce them.
 - Keep a deposit's resolved date and its compounding bucket separately when range checks and interest use different rules.
-- Test summation order with values that round differently when reordered within a bucket.
+- Test each specified float reduction and midpoint with inputs that round differently under a plausible reordering or regrouping.
 - Specify how each timing variant resolves missing and out-of-month days before porting its calendar logic.
 - Validate original fixture JSON at its first parse. Reject misplaced or unknown keys before a parser can discard them.
 - Validate run options as strictly as the file they accompany. Reject unknown keys before extracting values from either.
@@ -68,6 +68,12 @@ Specs live in `implementation/rust-redesign/`. Read its `README.md` first, then 
 - Write salary-share formulas with explicit parentheses around the basis division and the percentage conversion.
 - Test a comparison at the equal value, not only on the side that fails.
 - Ban a dependency's clock and I/O paths from the version in the lockfile, including the sibling that does the work, and show that calling each one fails `just check`.
+- Exercise a nonempty projection in the last supported month through the public entry point.
+- Compare golden figures to the public output wherever it supplies them. Pin the expected fixture groups as well as their total count.
+- If several accounts can overflow, specify which error subjects parity compares or use single-fault inputs.
+- Test documented machine-readable commands as subprocesses, including the launcher, stdout, stderr and exit status.
+- Check temporal and arithmetic claims at their boundaries, including intermediate overflow before a reciprocal.
+- Exercise equivalent ways to read the clock when a source guard promises clock independence.
 
 ### Rust Guidelines
 
