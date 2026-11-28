@@ -71,6 +71,8 @@ Port `traceAccount`. Same records, same field names.
 - The CLI reads the file in two steps: the version on its own through `VersionFile` and `Version::check`, then the whole file into `ScenarioFile`. Any failure to deserialise is `invalid_field`.
 - A catch-all error type is fine here. Errors from `core` still print as the JSON error object and exit with status 2.
 - Run every example file from spec 2 through both CLIs and compare by eye before part F automates it.
+- Match the TypeScript CLI's contract in spec 2 part G: the flags, a two-space indent with a trailing newline, exit status 1 for bad usage or an unreadable file with nothing on stdout, and status 2 with the error object for a `ScenarioError`.
+- Call the TypeScript CLI as `bun packages/cli/src/index.ts`. Through `vp run`, Vite+ prints a line of its own before the output.
 
 ## Part F: parity harness
 
