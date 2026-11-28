@@ -97,7 +97,8 @@ The split must add numbers in the order today's engine does. A different order c
 
 Build the new engine's input side and its first entry point, still with one account's worth of maths.
 
-- `projectAccount(scenario, account, from, to, annualRate)` returns the account's `Series`, and `traceAccountRange` with the same arguments returns its trace. Part E defines both shapes. In part C, `from` and `to` must each be the 1st of a month, and anything else throws. Part D lifts that.
+- `projectAccount(scenario, account, from, to, openingBalance, annualRate)` returns the account's `Series`, and `traceAccountRange` with the same arguments returns its trace. "Trace" below and part E define both shapes. The caller supplies the opening balance and the rate, because part E calls this twice per account, once to roll forward and once to project. When `from` is on or after `to`, the series has the opening balance and no rows. In part C, `from` and `to` must each be the 1st of a month, and anything else throws. Part D lifts that.
+- Neither function is exported from the package. They trust their arguments. Part E's `projectScenario` is the public entry point, and until then the package exports only `parseScenario`, `ScenarioError` and the file and result types.
 - Add a test-only adapter, `legacyToScenario`, that maps a baseline config to a new scenario with one account. A second baseline test runs every stored case through the adapter and `projectAccount`, once per band, and must reproduce the stored yearly rows and digests exactly.
 - The old engine and its tests are untouched. See "Two engines until part G".
 
@@ -171,29 +172,40 @@ Part C implements and validates all of these types. Its `projectAccount` works o
 ### Dates
 
 - Inside the engine a date is `{ year, month, day }` with months 1 to 12. Write a small `plain-date.ts` with integer maths: days in a month, leap years, compare, add months, parse and format.
+- A date in a file is exactly ten ASCII characters, `YYYY-MM-DD`, with zero padding. The year is 0001 to 9999. Anything else is `invalid_date`: a missing zero, a time or zone suffix, surrounding space, year 0000, or a day the month does not have. A value that is not a string is `invalid_field`.
+- Adding months clamps the day to the end of the month. A result outside years 0001 to 9999 is an error, not a date.
 - No `Date` object appears in the new engine. No function in it reads the clock or the timezone. The old engine keeps its `Date` code until part G deletes it.
 - Validation guarantees a day is a whole number from 1 to 31. The shared compounding helpers key day totals by the day's string form, because the old engine must keep accepting a quoted day. For validated days that gives the same result as number keys. Part G switches the helpers to number keys when it deletes the old engine.
 
 ### Validation
 
-`parseScenario(file, options)` checks the file once and returns a `Scenario` the engine trusts. Engine functions take only `Scenario`. On failure it throws a `ScenarioError` with a `code` and the id of the account or rule at fault. Spec 4 gives Rust the same codes, and the parity run compares them.
+`parseScenario(file, options)` checks the file once and returns a `Scenario` the engine trusts. Engine functions take only `Scenario`. On failure it throws a `ScenarioError` with a `code`, the path of the field and the id of the account or rule at fault. Spec 4 gives Rust the same codes, and the parity run compares them.
 
-| Code                           | Raised when                                                                                                                                                                |
-| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `unsupported_version`          | `version` is not 1                                                                                                                                                         |
-| `invalid_field`                | A key is unknown or misplaced, a required field is missing, or a value has the wrong type or is not finite. Rates raise `invalid_rate`. The message names the field's path |
-| `invalid_date`                 | A date string is not a real calendar date                                                                                                                                  |
-| `end_not_after_today`          | `endDate` is on or before `today`                                                                                                                                          |
-| `as_of_in_future`              | An account's `balanceAsOf` is after `today`                                                                                                                                |
-| `negative_balance`             | An account's `balance` is below 0                                                                                                                                          |
-| `invalid_rate`                 | A rate, raise or variance is not finite, the variance is below 0, or a rate minus the variance is at or below -1                                                           |
-| `negative_amount`              | A rule's `amount`, a growth `amount` or `salary.annualBase` is below 0                                                                                                     |
-| `duplicate_id`                 | Two accounts share an id, or two rules in the scenario do                                                                                                                  |
-| `invalid_day`                  | A day is outside 1 to 31, a month is outside 1 to 12, or an annual month and day pair does not exist in a leap year                                                        |
-| `growth_without_start`         | A recurring rule has `growth` and no `startDate`                                                                                                                           |
-| `growth_on_one_time`           | A one-time rule has `growth`. A one-time amount is what it says                                                                                                            |
-| `rule_end_before_start`        | A rule's `endDate` is before its `startDate`                                                                                                                               |
-| `per_contribution_on_one_time` | A one-time rule uses `salaryBasis: 'perContribution'`                                                                                                                      |
+- The returned `Scenario` is deeply read-only in its types and shares no object with the input.
+- `options` is checked as strictly as the file. Its only key is `today`.
+- An error on or inside an account carries that account's id, and one on or inside a rule carries the rule's id too, whenever the id itself is a readable string. That includes an unknown key directly on the account or rule.
+- Every element of `accounts` and `contributions` is checked, including a hole in an array.
+- Filled defaults: `variance` 0, `annualRaiseRate` 0, `compounding` `monthly`, a rule's `enabled` true, `placement` `start`, `salaryBasis` `annual`.
+- Which code a single fault raises. A missing, mistyped or unsupported `version` is `unsupported_version`. A rate, raise or variance that is a number but breaks a rule below is `invalid_rate`, and one that is not a number is `invalid_field`.
+- Several faults at once. The parser reports one of them. Which one is not part of the contract, and the parity run compares errors on single-fault inputs only.
+
+| Code                           | Raised when                                                                                                                                                                                   |
+| ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `unsupported_version`          | `version` is not 1                                                                                                                                                                            |
+| `invalid_field`                | A key is unknown or misplaced, a required field is missing, or a value has the wrong type or is not finite. Rates raise `invalid_rate`. The message names the field's path                    |
+| `invalid_date`                 | A date string is not a real calendar date                                                                                                                                                     |
+| `end_not_after_today`          | `endDate` is on or before `today`                                                                                                                                                             |
+| `as_of_in_future`              | An account's `balanceAsOf` is after `today`                                                                                                                                                   |
+| `negative_balance`             | An account's `balance` is below 0                                                                                                                                                             |
+| `invalid_rate`                 | A rate, raise or variance is not finite. The variance is below 0. A rate minus the variance is at or below -1, or a rate plus the variance is not finite. `annualRaiseRate` is at or below -1 |
+| `negative_amount`              | A rule's `amount`, a growth `amount` or `salary.annualBase` is below 0                                                                                                                        |
+| `duplicate_id`                 | Two accounts share an id, or two rules in the scenario do                                                                                                                                     |
+| `invalid_day`                  | A day is outside 1 to 31, a month is outside 1 to 12, or an annual month and day pair does not exist in a leap year                                                                           |
+| `growth_without_start`         | A recurring rule has `growth` and no `startDate`                                                                                                                                              |
+| `growth_on_one_time`           | A one-time rule has `growth`. A one-time amount is what it says                                                                                                                               |
+| `rule_end_before_start`        | A rule's `endDate` is before its `startDate`                                                                                                                                                  |
+| `per_contribution_on_one_time` | A one-time rule uses `salaryBasis: 'perContribution'`                                                                                                                                         |
+| `not_finite`                   | Raised by the engine, not the parser. A balance, contribution or interest figure it computed is not finite. Carries the account's id                                                          |
 
 ### Deposits
 
@@ -201,34 +213,67 @@ Part C implements and validates all of these types. Its `projectAccount` works o
 - A day past the end of the month clamps to the last day, as today.
 - A recurring rule deposits only on dates from its `startDate` to its `endDate`, both inclusive. A missing bound is open.
 - A deposit is in range when its date is on or after the range start and before the range end.
-- For that test, a rule with `placement: 'start'` and no day counts as day 1, and `placement: 'end'` counts as the last day. This differs from today, where a start-placed rule in the first month always deposits. It only shows when a range starts after the 1st.
-- Buckets, bucket totals and the order of arithmetic are unchanged from part B's "Grouping and order". In daily mode a rule with a placement and no day keeps its `start` or `end` bucket. Counting it as day 1 or the last day applies to the range test above and nothing else.
+- Every deposit has a resolved date. A rule with `placement: 'start'` and no day is dated day 1, and `placement: 'end'` is dated the last day of the month. Rule bounds, range membership, growth and the trace all use the resolved date. This differs from today, where a start-placed rule in the first month always deposits. It only shows when a range starts after the 1st.
+- Compounding uses the bucket, not the date. Buckets, bucket totals and the order of arithmetic are unchanged from part B's "Grouping and order". In daily mode a rule with a placement and no day keeps its `start` or `end` bucket. In monthly mode a one-time deposit dated the 28th is still in `start`.
 
 ### Amounts
 
 - Growth. Periods are the whole years, or whole months for a monthly cadence, from the rule's `startDate` to the deposit date. Whole months are the largest `n` for which `startDate` plus `n` months is on or before the deposit date, where adding months clamps the day to the end of the month. Whole years are that count divided by 12, rounded down. So a rule that starts on 31 January completes its first month on 28 February, and one that starts on 29 February 2024 completes its first year on 28 February 2025. Percent growth multiplies `amount` by `(1 + g/100)` to the power of the periods. Flat growth adds `g` times the periods. Today's engine counts periods from January of the projection's start year, which is why a rule can no longer start late and grow from an earlier date.
-- Salary. The salary on a deposit date is `annualBase` times `(1 + annualRaiseRate)` to the power of the deposit's year minus the year of `salary.asOf`. Export this as `salaryInYear(scenario, year)`. The adapter uses it for the monthly rows, and part E uses it for `salaryByYear`.
-- Salary basis divides as today: 12 for monthly, 26 for biweekly, 52 for weekly, 365 for daily. `perContribution` divides by 12 on a monthly rule. On an annual rule it uses the annual expression, `salary * (amount / 100)`, with no division.
+- Salary. The salary on a deposit date is `annualBase` times `(1 + annualRaiseRate)` to the power of the deposit's year minus the year of `salary.asOf`. The difference can be negative, when `asOf` is in a later year than the deposit. Write this once as `salaryInYear(scenario, year)`. The adapter uses it for the monthly rows, and part E uses it for `salaryByYear`.
+- Salary share. Grow the rule's amount first. A divided basis is `(salary / divisor) * (grownAmount / 100)`, with both pairs of parentheses. The divisors are 12 for monthly, 26 for biweekly, 52 for weekly and 365 for daily, and `perContribution` on a monthly rule uses 12. The annual basis, and `perContribution` on an annual rule, is `salary * (grownAmount / 100)` with no division. The order matters: a salary of 100 on a monthly basis at 7 percent gives `0.5833333333333335` this way and `0.5833333333333334` with the percentage applied first.
+- Results that are not finite. After compounding an account, if any balance, cumulative contribution or cumulative interest in its series is not finite, the engine throws `not_finite` with the account's id. Inputs are finite, but a large rate, raise or growth over a long horizon can still overflow.
+
+### Trace
+
+`traceAccountRange` returns one segment per calendar month in the range. Spec 4 serialises these names as they are.
+
+```ts
+export interface TraceSegment {
+  from: PlainDateString;
+  /** Not included. */
+  to: PlainDateString;
+  days: number;
+  daysInMonth: number;
+  daysInYear: number;
+  balanceStart: number;
+  balanceEnd: number;
+  /** The segment's contributions as compounded. */
+  contributions: number;
+  interest: number;
+  annualRate: number;
+  /** In schedule order. */
+  deposits: Array<TraceDeposit>;
+}
+
+export interface TraceDeposit {
+  ruleId: string;
+  date: PlainDateString;
+  amount: number;
+  bucket: 'start' | 'end' | number;
+}
+```
 
 ### The adapter
 
-`legacyToScenario` lives in the test folder only. It sets `balanceAsOf`, `today` and `salary.asOf` to the old start date, and `endDate` to the old start date plus the horizon. A rule's `startDate` is 1 January of the start year plus `yearRange.start`, which defaults to 0. Its `endDate` is 31 December of the start year plus `yearRange.end`, which defaults to the horizon. Every recurring rule gets both, so a rule with growth and no range grows from 1 January of the start year, as it does today. An annual rule's month is the old month plus 1, since the old contract counts months from 0. A one-time rule's `on` uses day 1 when the old rule had no day. An explicit day past the end of its month is clamped to the last day before the date is written, so 31 April becomes the 30th. Today's engine ignores `yearRange` on a one-time rule, and the new contract gives one-time rules no bounds, so the adapter drops it.
+`legacyToScenario` lives in the test folder only. It sets `balanceAsOf`, `today` and `salary.asOf` to the old start date, and `endDate` to the old start date plus the horizon. A recurring rule's bounds come from the calendar years in which it could deposit. The first is the start year plus `yearRange.start` rounded up, and never before the start year. The last is the start year plus `yearRange.end` rounded down. The defaults are 0 and the horizon. `startDate` is 1 January of the first year and `endDate` is 31 December of the last. A rule with no such year is left out of the scenario. Today's engine grows every rule from 1 January of the start year. So a rule with growth whose first year is the start year gets that as its `startDate`, and a rule with growth whose first year is later cannot be expressed: the adapter throws on it, and does not guess. An annual rule's day is clamped to the longest that month can be, so 31 April becomes the 30th and 29 February stays. An annual rule's month is the old month plus 1, since the old contract counts months from 0. A one-time rule's `on` uses day 1 when the old rule had no day. An explicit day past the end of its month is clamped to the last day before the date is written, so 31 April becomes the 30th. Today's engine ignores `yearRange` on a one-time rule, and the new contract gives one-time rules no bounds, so the adapter drops it.
 
 The adapter has a second half, `toLegacyRows`. It takes the legacy config along with the new output and trace, and maps them back to the rows and steps the stream builders take.
 
 - `yearIndex` is the calendar year minus the start year, and `monthIndex` is the month minus 1.
-- `compounding` comes from the config. Each active contribution's `type` and its position come from the config too, matched by rule id.
+- `compounding` comes from the config. The order of a step's active contributions comes from the trace. Each one's `type` and original `timing` come from the config, matched by rule id.
 - The trace's rate is the annual rate.
 - The start, end and by-day figures are the trace's deposits totalled by bucket, as part B groups them.
+- The adapter does no arithmetic on money beyond totalling a step's deposits by bucket with the shared helper.
+- Equivalence is claimed for start years from 100 on. Below that, the old engine's `Date` constructor moves the year into the 1900s.
 - `contributionsThisStep` is the segment's contributions as compounded, which the trace reports. It is not a difference of two cumulative figures, which can lose a small deposit, and it is not a fresh sum of the bucket totals, which in daily mode can differ from the day-by-day sum in the last digit.
 
 ## Part D: day-accurate ranges
 
-`projectAccount(scenario, account, from, to, annualRate)` now projects over the days from `from` up to, and not including, `to`, for any two dates. Each calendar month contributes one segment: the days of that month inside the range.
+`projectAccount` now projects over the days from `from` up to, and not including, `to`, for any two dates. Each calendar month contributes one segment: the days of that month inside the range.
 
 - Daily mode. For each day in the segment, add that day's deposits, then add the day's interest. The daily rate is unchanged: `(1 + r)^(1 / daysInYear) - 1`.
 - Monthly mode. Interest for a segment is `(balance + startDeposits) * monthlyRate * (segmentDays / daysInMonth)`, evaluated as written: the product first, then times the fraction, with the division done inside its own parentheses. Then add the `end` deposits. A full month multiplies by exactly 1, so full months match today. Multiplying by the days and then dividing does not: it changes the last digit.
-- Grouping is as in part B. `startTotal` belongs to day 1 and `endTotal` to the last day of the month, so a segment that leaves that day out leaves that total out.
+- Filter by date first, then total by bucket. Keep the month's deposits whose resolved date is inside the segment, in schedule order. Total the kept deposits by bucket and compound them as part B says. In monthly mode a one-time deposit dated 28 January is in `start`, and a segment from 27 January to 1 February keeps it and adds it before that segment's interest. In daily mode a start placement is dated day 1, so a segment that starts later has already dropped it.
 
 The baseline test still passes exactly, because every baseline range starts on the 1st and ends on a 1st.
 
@@ -237,7 +282,7 @@ New tests, each with a hand-computed expected value:
 - A range that starts on the 27th of a 30-day month, in both modes.
 - A range that ends mid-month.
 - A range that starts and ends inside one month.
-- A deposit dated before the range start, on the start, on the end and after the end.
+- A deposit dated before the range start, on the start, on the end and after the end. Use a range that ends mid-month, such as the 15th to the 20th with a deposit on the 20th, so the test fails if the end is treated as included.
 - 29 February as a range start, and a day-31 rule in a 30-day month.
 
 ## Part E: accounts
@@ -303,7 +348,7 @@ export interface Row {
 }
 ```
 
-`traceAccount(scenario, options, accountId, band)` returns one record per segment, covering the roll forward and the projection: the segment's dates, its days, the days in its month and year, the balance before and after, the contributions as compounded, the interest, the annual rate, and each deposit with its rule id, date, amount and bucket. Deposits are listed in schedule order, and a bucket is `start`, `end` or a day number as part B defines them.
+`traceAccount(scenario, options, accountId, band)` returns the account's `TraceSegment`s from part C, covering the roll forward and then the projection.
 
 Tests:
 
