@@ -3,44 +3,40 @@ import { describe, expect, it } from 'vite-plus/test';
 import { parseScenario, ScenarioError } from '../parse-scenario';
 import { projectScenario, traceAccount } from '../project-scenario';
 import type {
-  AccountFile,
   Compounding,
   ContributionRuleFile,
   RuleSalaryBasis,
   RuleTiming,
-  RuleType,
-  ScenarioFile
+  RuleType
 } from '../scenario';
+import { FACTORY_TODAY, makeAccount, makeRule, makeScenarioFile } from './factories';
+import type { ScenarioFileOverrides } from './factories';
 
-const TODAY = '2026-01-01';
 const ACCOUNT_ID = 'account';
 
 interface Setup {
   today?: string;
   endDate: string;
   balance: number;
-  interest: ScenarioFile['interest'];
-  salary?: { annualBase: number; annualRaiseRate?: number };
+  interest: ScenarioFileOverrides['interest'];
+  salary?: ScenarioFileOverrides['salary'];
   rules?: Array<ContributionRuleFile>;
 }
 
-function scenarioOf({ today = TODAY, endDate, balance, interest, salary, rules = [] }: Setup) {
-  const account: AccountFile = {
-    id: ACCOUNT_ID,
-    name: 'Account',
-    kind: 'other',
-    included: true,
-    balance,
-    balanceAsOf: today,
-    contributions: rules
-  };
-  const file: ScenarioFile = {
-    version: 1,
+function scenarioOf({
+  today = FACTORY_TODAY,
+  endDate,
+  balance,
+  interest,
+  salary,
+  rules = []
+}: Setup) {
+  const file = makeScenarioFile({
     endDate,
     interest,
-    salary: { annualBase: 100_000, annualRaiseRate: 0, ...salary, asOf: today },
-    accounts: [account]
-  };
+    salary: { ...salary, asOf: today },
+    accounts: [makeAccount({ id: ACCOUNT_ID, balance, balanceAsOf: today, contributions: rules })]
+  });
   return parseScenario(file, { today });
 }
 
@@ -50,10 +46,6 @@ function baseline(setup: Setup) {
 
 function trace(setup: Setup) {
   return traceAccount(scenarioOf(setup), ACCOUNT_ID, 'baseline');
-}
-
-function rule(id: string, fields: Omit<ContributionRuleFile, 'id'>): ContributionRuleFile {
-  return { id, ...fields };
 }
 
 function scenarioErrorFrom(run: () => void): ScenarioError {
@@ -169,13 +161,14 @@ function pairwiseRule(testCase: Case): ContributionRuleFile {
   };
   if (testCase.frequency === 'oneTime') {
     const on = `2026-${monthText(testCase.startMonth)}-${monthText(day ?? 1)}`;
-    return rule('pairwise', { ...shared, timing: { frequency: 'oneTime', on } });
+    return makeRule({ id: 'pairwise', ...shared, timing: { frequency: 'oneTime', on } });
   }
   const timing: RuleTiming =
     testCase.frequency === 'annual'
       ? { frequency: 'annual', month: testCase.startMonth, placement: testCase.placement }
       : { frequency: 'monthly', placement: testCase.placement };
-  return rule('pairwise', {
+  return makeRule({
+    id: 'pairwise',
     ...shared,
     timing: day === undefined ? timing : { ...timing, day },
     ...RULE_BOUNDS[testCase.yearRange]
@@ -210,7 +203,7 @@ function percentRule(
   salaryBasis: RuleSalaryBasis,
   timing: RuleTiming = { frequency: 'monthly', placement: 'start' }
 ) {
-  return rule(id, { type: 'salaryPercent', amount: 10, salaryBasis, timing });
+  return makeRule({ id, type: 'salaryPercent', amount: 10, salaryBasis, timing });
 }
 
 function growing(
@@ -219,12 +212,12 @@ function growing(
   growth: ContributionRuleFile['growth'],
   timing: RuleTiming
 ): Setup {
-  const fixed = rule(id, { type: 'flat', amount: 100, timing });
+  const fixed = makeRule({ id, amount: 100, timing });
   return {
     endDate: `${String(2026 + years)}-01-01`,
     balance: 0,
     interest: { annualRate: 0, compounding: 'monthly' },
-    rules: [growth === undefined ? fixed : { ...fixed, growth, startDate: TODAY }]
+    rules: [growth === undefined ? fixed : { ...fixed, growth, startDate: FACTORY_TODAY }]
   };
 }
 
@@ -285,11 +278,7 @@ describe('behaviour ported from the old calculator tests', () => {
         balance: 180_000,
         interest: { annualRate: 0 },
         rules: [
-          rule('end', {
-            type: 'flat',
-            amount: 3000,
-            timing: { frequency: 'monthly', placement: 'end' }
-          })
+          makeRule({ id: 'end', amount: 3000, timing: { frequency: 'monthly', placement: 'end' } })
         ]
       });
 
@@ -326,8 +315,8 @@ describe('behaviour ported from the old calculator tests', () => {
         balance: 1000,
         interest: { annualRate: 0, compounding: 'monthly' },
         rules: [
-          rule('one-time', {
-            type: 'flat',
+          makeRule({
+            id: 'one-time',
             amount: 500,
             timing: { frequency: 'oneTime', on: '2026-01-01' }
           })
@@ -344,11 +333,7 @@ describe('behaviour ported from the old calculator tests', () => {
         balance: 1000,
         interest: { annualRate: 0, compounding: 'daily' },
         rules: [
-          rule('monthly-day-31', {
-            type: 'flat',
-            amount: 200,
-            timing: { frequency: 'monthly', day: 31 }
-          })
+          makeRule({ id: 'monthly-day-31', amount: 200, timing: { frequency: 'monthly', day: 31 } })
         ]
       });
 
@@ -474,13 +459,14 @@ describe('behaviour ported from the old calculator tests', () => {
         salary: { annualBase: 120_000 },
         interest: { annualRate: 0, compounding: 'monthly' },
         rules: [
-          rule('salary-growth', {
+          makeRule({
+            id: 'salary-growth',
             type: 'salaryPercent',
             amount: 10,
             growth: { type: 'flat', amount: 2, cadence: 'annual' },
             salaryBasis: 'monthly',
             timing: MONTHLY_START,
-            startDate: TODAY
+            startDate: FACTORY_TODAY
           })
         ]
       };
@@ -511,8 +497,8 @@ describe('behaviour ported from the old calculator tests', () => {
           balance: 0,
           interest: { annualRate: 0, compounding },
           rules: [
-            rule('monthly-day', {
-              type: 'flat',
+            makeRule({
+              id: 'monthly-day',
               amount: 100,
               timing: { frequency: 'monthly', day: 16, placement: 'start' }
             })
@@ -534,13 +520,13 @@ describe('behaviour ported from the old calculator tests', () => {
       const placed = baseline({
         ...april,
         rules: [
-          rule('start', {
-            type: 'flat',
+          makeRule({
+            id: 'start',
             amount: 100,
             timing: { frequency: 'annual', month: 4, placement: 'start' }
           }),
-          rule('end', {
-            type: 'flat',
+          makeRule({
+            id: 'end',
             amount: 150,
             timing: { frequency: 'annual', month: 4, placement: 'end' }
           })
@@ -549,13 +535,9 @@ describe('behaviour ported from the old calculator tests', () => {
       const dated = baseline({
         ...april,
         rules: [
-          rule('day-1', {
-            type: 'flat',
-            amount: 100,
-            timing: { frequency: 'annual', month: 4, day: 1 }
-          }),
-          rule('day-last', {
-            type: 'flat',
+          makeRule({ id: 'day-1', amount: 100, timing: { frequency: 'annual', month: 4, day: 1 } }),
+          makeRule({
+            id: 'day-last',
             amount: 150,
             timing: { frequency: 'annual', month: 4, day: 30 }
           })
