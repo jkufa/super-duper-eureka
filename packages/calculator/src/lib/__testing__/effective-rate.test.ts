@@ -247,7 +247,7 @@ describe('effectiveRate: a pool the rate cannot move', () => {
 
   function threshold(endDeposit: number): Setup {
     // At 0% the pool ends on 1 + endDeposit. At 4095% the 1 doubles, so it ends on 2 + endDeposit.
-    // The two differ by 1, and the threshold is 1e-9 times the pool at 4095%.
+    // The two differ by 1, and the threshold is 1e-9 times the pool at 0%.
     return {
       today: '2026-12-01',
       endDate: '2027-01-01',
@@ -258,14 +258,14 @@ describe('effectiveRate: a pool the rate cannot move', () => {
     };
   }
 
-  it('returns the lowest rate when the bracket ends differ by exactly 1e-9 of the pool at hi', () => {
-    // 1 <= 1e-9 * (2 + 999,999,998) = 1.
-    expect(project(threshold(999_999_998)).effectiveRate).toBe(0);
+  it('returns the lowest rate when the bracket ends differ by exactly 1e-9 of the pool at lo', () => {
+    // 1 <= 1e-9 * (1 + 999,999,999) = 1.
+    expect(project(threshold(999_999_999)).effectiveRate).toBe(0);
   });
 
-  it('bisects when the bracket ends differ by just more than 1e-9 of the pool at hi', () => {
-    // 1 > 1e-9 * (2 + 999,999,997) = 0.999999999.
-    const setup = threshold(999_999_997);
+  it('bisects when the bracket ends differ by just more than 1e-9 of the pool at lo', () => {
+    // 1 > 1e-9 * (1 + 999,999,998) = 0.999999999.
+    const setup = threshold(999_999_998);
     const projection = project(setup);
     const pooled = poolFinalBalance(includedPool(setup), 'monthly', projection.effectiveRate);
 
@@ -273,9 +273,10 @@ describe('effectiveRate: a pool the rate cannot move', () => {
     expect(relativeError(pooled, projection.bands.baseline.total.finalBalance)).toBeLessThan(1e-9);
   });
 
-  it('returns the lowest rate, as step 5 is written, when the pool overflows at hi', () => {
+  it('bisects when the pool overflows at hi', () => {
     // At 4095% for 30 years the pool grows by 2^360 = 2.3e108, so 1e201 overflows while the total
-    // is 1e201 + 1e196 * 2^360 = 2.3e304. Bisection would return 2789.571384675445.
+    // is 1e201 + 1e196 * 2^360 = 2.3e304. Infinity - atLo is above 1e-9 * atLo.
+    // (1e201 + 1e196) * (1 + r)^30 = 2.3e304 gives (1 + r)^30 = 2.3e103, so r is about 2790.
     const setup: Setup = {
       today: '2026-01-01',
       endDate: '2056-01-01',
@@ -290,7 +291,7 @@ describe('effectiveRate: a pool the rate cannot move', () => {
       Number.POSITIVE_INFINITY
     );
     expect(Number.isFinite(projection.bands.baseline.total.finalBalance)).toBe(true);
-    expect(projection.effectiveRate).toBe(0);
+    expect(projection.effectiveRate).toBe(2789.571384675445);
   });
 });
 
@@ -376,9 +377,10 @@ describe('effectiveRate: the solve', () => {
     );
   });
 
-  it('stays finite and inside the rates when the pool overflows at a midpoint', () => {
+  it('bisects past midpoints where the pool overflows, staying finite and inside the rates', () => {
     // The first midpoint is 2047.5: 1e308 grows by 2048.5^(1/12) = 1.89 and overflows.
-    // The total is 1e308 at 0% plus 1 doubling to 2, which stays finite.
+    // The total is 1e308 at 0% plus 1 doubling to 2, which rounds to 1e308. The pool at every
+    // midpoint reaches it, so each pass moves hi down: 4095 / 2^60 after 60, returning 4095 / 2^61.
     const setup: Setup = {
       today: '2026-12-01',
       endDate: '2027-01-01',
@@ -391,7 +393,7 @@ describe('effectiveRate: the solve', () => {
     const pool = includedPool(setup);
 
     expect(poolFinalBalance(pool, 'monthly', 2047.5)).toBe(Number.POSITIVE_INFINITY);
-    expect(Number.isFinite(projection.effectiveRate)).toBe(true);
+    expect(projection.effectiveRate).toBe(DOUBLING_MONTHLY_RATE / 2 ** 61);
     expect(projection.effectiveRate).toBeGreaterThanOrEqual(0);
     expect(projection.effectiveRate).toBeLessThanOrEqual(DOUBLING_MONTHLY_RATE);
     expect(

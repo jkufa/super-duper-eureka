@@ -98,7 +98,7 @@ export function effectiveRate(
   const { compounding } = scenario.interest;
   const atLo = poolFinalBalance(pool, compounding, lowest);
   const atHi = poolFinalBalance(pool, compounding, highest);
-  if (atHi - atLo <= 1e-9 * atHi) {
+  if (atHi - atLo <= 1e-9 * atLo) {
     return lowest;
   }
   return bisectRate(lowest, highest, total.finalBalance, (rate) =>

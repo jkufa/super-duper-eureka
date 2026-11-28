@@ -54,14 +54,14 @@ Part G keyed the day totals by number, then deleted the old engine. `bench.ts` n
 
 ## Review fixes (2026-11-28)
 
-The effective rate now compounds the pool at both ends of the bracket before bisecting (spec 2 part F step 5), so a solve that bisects makes 62 pool passes, and the bracket is found in one loop. Figures from three runs of the command each.
+The effective rate now compounds the pool at both ends of the bracket before bisecting (spec 2 part F step 5), so a solve that bisects makes 62 pool passes, and the bracket is found in one loop. Figures span six runs of the command, three before and three after step 5 was rescaled by the pool at `lo`.
 
 | Runtime    | Mode    | Solve           | Target | One `projectScenario` |
 | ---------- | ------- | --------------- | ------ | --------------------- |
-| Node 24.13 | monthly | 0.45 to 0.47 ms | 1 ms   | 1.9 to 2.0 ms         |
-| Node 24.13 | daily   | 3.91 to 4.04 ms | 5 ms   | 5.9 to 6.1 ms         |
-| Bun 1.4.5  | monthly | 0.37 to 0.38 ms | 1 ms   | 1.9 ms                |
-| Bun 1.4.5  | daily   | 2.35 to 2.41 ms | 5 ms   | 4.0 to 4.2 ms         |
+| Node 24.13 | monthly | 0.45 to 0.49 ms | 1 ms   | 1.9 to 2.1 ms         |
+| Node 24.13 | daily   | 3.91 to 4.18 ms | 5 ms   | 5.9 to 6.2 ms         |
+| Bun 1.4.5  | monthly | 0.37 to 0.40 ms | 1 ms   | 1.9 to 2.1 ms         |
+| Bun 1.4.5  | daily   | 2.35 to 2.46 ms | 5 ms   | 4.0 to 4.3 ms         |
 
 - Both runtimes still meet both targets. The two extra passes are within run-to-run noise.
-- Step 5 as the spec writes it, `atHi - atLo <= 1e-9 * atHi`, is true when the pool overflows at `hi` and `atLo` is finite, since `Infinity <= Infinity`. It then returns `lo` where bisection would find a rate inside the bracket: $1e201 at 0% and $1e196 at 4095% for 30 years give 0 instead of 2789.57. `effective-rate.test.ts` pins the spec's behaviour; scaling by `atLo` instead would keep bisecting there.
+- Step 5 first scaled the test by the pool at `hi`: `atHi - atLo <= 1e-9 * atHi` is true when the pool overflows at `hi`, since `Infinity <= Infinity`, so it returned `lo` where bisection finds a rate inside the bracket ($1e201 at 0% and $1e196 at 4095% for 30 years gave 0 instead of 2789.571384675445). The spec and code now scale by the pool at `lo`: `atHi - atLo <= 1e-9 * atLo`.
