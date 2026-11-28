@@ -1,14 +1,17 @@
 # Repository Guidelines
 
-The repo is mid-redesign. The app is being rebuilt in Rust on GPUI, and the TypeScript code stays only until the Rust port passes. See "Rust Redesign" below.
+The repo is mid-redesign. The app is being rebuilt in Rust on GPUI. The engine and the CLI are ported; the app comes next. See "Rust Redesign" below.
 
 ## Where Things Are
 
 - `implementation/rust-redesign/`: the specs for the redesign. Start with its `README.md`.
 - `implementation/`, `qa/`: older specs, audits and rollout tracking docs.
 - `.codex/notes/`: working notes from earlier tasks.
-- `packages/`: the TypeScript code. Before touching anything there, read [AGENTS.typescript.md](AGENTS.typescript.md). It has the structure, commands, style and testing rules for that code.
-- `crates/`: the Rust workspace. `crates/core` (`retirement-core`) is the engine, a pure library. `crates/cli` (`retirement-cli`) builds the `retirement-calc` binary. Read "Rust Guidelines" below before touching it.
+- `crates/`: the Rust workspace. Read "Rust Guidelines" below before touching it.
+  - `crates/core` (`retirement-core`): the engine, a pure library. `date.rs` is the calendar date, `scenario/` the file types and their validation, `schedule/` the dated deposits, `compound/` the interest on one month's segment, `project/` the account and scenario projections, the effective and weighted rates and the step trace.
+  - `crates/core` test helpers: `fixture.rs` builds scenarios from JSON for unit tests, `arbitrary.rs` generates valid scenarios and runs every property, `properties.rs` holds the property tests. Unit tests sit in a `tests.rs` beside the module they test.
+  - `crates/cli` (`retirement-cli`): the `retirement-calc` binary in `src/main.rs`, the only code that reads files or the clock. `examples/` holds the example scenarios.
+  - `crates/cli/tests/`: `cli.rs` runs the binary as a subprocess and checks stdout, stderr and the exit status. `golden.rs` checks the CLI against the golden set in `golden/`, and `publication/` is the writer behind `just golden`.
 - `Cargo.toml`, `clippy.toml`, `crates/core/clippy.toml`, `rustfmt.toml`, `deny.toml`, `rust-toolchain.toml`: Rust lint, format and dependency rules.
 - `justfile`: the Rust commands. `just check` runs every Rust check; `just fix` applies formatting and Clippy fixes. Its header says how to install the tools.
 
@@ -54,7 +57,7 @@ Specs live in `implementation/rust-redesign/`. Read its `README.md` first, then 
 
 ### Lessons From Review
 
-- Put new lessons here unless they only apply to TypeScript.
+- Put new lessons here.
 - Include collection lengths or explicit record boundaries when hashing structured output for parity.
 - Publish related golden fixtures as a single generation. Readers must keep seeing a complete generation if publication fails.
 - Pause a writer before and after each rename, run a second writer, and verify that a reader can still open one complete generation.
@@ -90,7 +93,7 @@ Commands:
 - `just check`: format check, Clippy, tests, `cargo deny check` and `cargo shear`, stopping at the first failure. Run it before handing work to review.
 - `just fix`: apply rustfmt and Clippy's automatic fixes.
 - `just golden`: rewrite the golden expected files from the release Rust CLI and swap the set in whole, under a lock that refuses a second run. See the process list below before running it.
-- While TypeScript exists, `vp check` and `vp test` still cover it. `just check` covers Rust only.
+- `cargo run -p retirement-cli -- --scenario crates/cli/examples/basic.json --today 2026-01-01`: run the CLI on an example. Add `--trace <accountId>` and `--band baseline|positive|negative` for one account's step trace. It prints one JSON document to stdout. It exits 1 on bad usage or an unreadable file, and 2 on a scenario or projection error, with `{ "error": { "code", "accountId"?, "ruleId"? } }` on stdout.
 
 Design:
 
@@ -102,7 +105,13 @@ Design:
 - No trait or generic parameter until two real callers need it.
 - No `.clone()` to satisfy the borrow checker. Restructure ownership instead.
 - Take `&[T]` and `&str`, not `&Vec<T>` and `&String`. Return owned values or iterators.
-- Sum floats in a fixed, documented order. Parity with TypeScript depends on it.
+- Sum floats in a fixed, documented order. The golden set compares every digit.
+
+Testing:
+
+- The golden set has four groups: `examples` (the files in `crates/cli/examples/`, which a test requires to match byte for byte), `regressions` (cases the parity run with the retired TypeScript engine found), `hand-computed` and `generated`. Each case is run through the CLI and compared exactly.
+- Property tests live in `crates/core/src/properties.rs`, plus the pool property in the effective rate's tests. Run each through `crate::arbitrary::check`, which fixes the seed and the case count. Generators of valid scenarios are in `arbitrary.rs`.
+- Test CLI behaviour in `crates/cli/tests/cli.rs`, by running the binary. A new example needs its golden case under `golden/examples/` and an entry in `EXAMPLES` there.
 
 Process:
 

@@ -3,6 +3,7 @@
 Date: 2026-11-27
 Depends on: specs 2 and 3
 Blocks: the GPUI app
+Status: done, 2026-11-28. Part H deleted the TypeScript code, the parity harness and `parity/`. Parts E to G describe them as they were when the port ran. The examples are now in `crates/cli/examples/`.
 
 ## Goal
 

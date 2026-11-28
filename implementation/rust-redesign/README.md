@@ -1,7 +1,7 @@
 # Rust redesign
 
-Date: 2026-11-27
-Status: spec 1 and all of spec 2 are built. The old engine is deleted, and the CLI runs the new one. Spec 3 is built. Spec 4 is in progress
+Date: 2026-11-28
+Status: specs 1 to 4 are built. The Rust engine and CLI replace the TypeScript ones, which are deleted. Spec 5, the GPUI app, is next
 Replaces: the gpuix port plan. Its specs and the chart geometry PoC are in git history at `2f5b79d`, under `implementation/gpuix-port/`.
 
 The retirement calculator becomes a macOS desktop app written in Rust on GPUI. There is no web target. The data model changes from one lump-sum balance to many accounts, each with its own balance, return and contribution rules. SnapTrade sync comes last and uses the owner's own API key.
@@ -46,6 +46,7 @@ Spec 3 touches no TypeScript, so it can run while spec 2 is in progress. Spec 4 
 | 21  | `crates/core` is pure. It has no file access, clock, network or async. Input is validated once into a type the engine trusts.                                                                                        |
 | 22  | Work lands on `rust-redesign`, cut from `gpuix-port`. It merges into `main` once, when the Rust app replaces the live site.                                                                                          |
 | 23  | No GPUI spike gates the port. The owner trusts GPUI for this app.                                                                                                                                                    |
+| 24  | The port is done (2026-11-28). The parity run over seeds 1 to 20,000 found no mismatch. The largest relative difference from TypeScript was 1.61e-10, in cases with more than 1000 growth periods, and 0 elsewhere. All TypeScript is deleted. |
 
 ## Defaults nobody confirmed
 
