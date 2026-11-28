@@ -190,6 +190,7 @@ Part C implements and validates all of these types. Its `projectAccount` works o
 | `duplicate_id`                 | Two accounts share an id, or two rules in the scenario do                                                           |
 | `invalid_day`                  | A day is outside 1 to 31, a month is outside 1 to 12, or an annual month and day pair does not exist in a leap year |
 | `growth_without_start`         | A recurring rule has `growth` and no `startDate`                                                                    |
+| `growth_on_one_time`           | A one-time rule has `growth`. A one-time amount is what it says                                                     |
 | `rule_end_before_start`        | A rule's `endDate` is before its `startDate`                                                                        |
 | `per_contribution_on_one_time` | A one-time rule uses `salaryBasis: 'perContribution'`                                                               |
 
@@ -205,12 +206,12 @@ Part C implements and validates all of these types. Its `projectAccount` works o
 ### Amounts
 
 - Growth. Periods are the whole years, or whole months for a monthly cadence, from the rule's `startDate` to the deposit date. Percent growth multiplies `amount` by `(1 + g/100)` to the power of the periods. Flat growth adds `g` times the periods. Today's engine counts periods from January of the projection's start year, which is why a rule can no longer start late and grow from an earlier date.
-- Salary. The salary on a deposit date is `annualBase` times `(1 + annualRaiseRate)` to the power of the deposit's year minus the year of `salary.asOf`.
+- Salary. The salary on a deposit date is `annualBase` times `(1 + annualRaiseRate)` to the power of the deposit's year minus the year of `salary.asOf`. Export this as `salaryInYear(scenario, year)`. The adapter uses it for the monthly rows, and part E uses it for `salaryByYear`.
 - Salary basis divides as today: 12 for monthly, 26 for biweekly, 52 for weekly, 365 for daily. `perContribution` divides by 12 on a monthly rule and by 1 on an annual one.
 
 ### The adapter
 
-`legacyToScenario` lives in the test folder only. It sets `balanceAsOf`, `today` and `salary.asOf` to the old start date, and `endDate` to the old start date plus the horizon. A rule's `startDate` is 1 January of the start year plus `yearRange.start`, which defaults to 0. Its `endDate` is 31 December of the start year plus `yearRange.end`, which defaults to the horizon. Every recurring rule gets both, so a rule with growth and no range grows from 1 January of the start year, as it does today. A one-time rule's `on` uses day 1 when the old rule had no day. An explicit day past the end of its month is clamped to the last day before the date is written, so 31 April becomes the 30th. Today's engine ignores `yearRange` on a one-time rule, and the new contract gives one-time rules no bounds, so the adapter drops it.
+`legacyToScenario` lives in the test folder only. It sets `balanceAsOf`, `today` and `salary.asOf` to the old start date, and `endDate` to the old start date plus the horizon. A rule's `startDate` is 1 January of the start year plus `yearRange.start`, which defaults to 0. Its `endDate` is 31 December of the start year plus `yearRange.end`, which defaults to the horizon. Every recurring rule gets both, so a rule with growth and no range grows from 1 January of the start year, as it does today. An annual rule's month is the old month plus 1, since the old contract counts months from 0. A one-time rule's `on` uses day 1 when the old rule had no day. An explicit day past the end of its month is clamped to the last day before the date is written, so 31 April becomes the 30th. Today's engine ignores `yearRange` on a one-time rule, and the new contract gives one-time rules no bounds, so the adapter drops it.
 
 The adapter has a second half, `toLegacyRows`. It takes the legacy config along with the new output and trace, and maps them back to the rows and steps the stream builders take.
 
