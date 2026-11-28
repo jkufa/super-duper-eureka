@@ -586,6 +586,92 @@ describe('projectScenario: salary and dates', () => {
     expect(salaryByYear('2029-01-01').map(({ year }) => year)).toStrictEqual([2026, 2027, 2028]);
   });
 
+  it.each([
+    ['monthly', DOUBLING_MONTHLY_RATE, 3200],
+    ['daily', DOUBLING_DAILY_RATE, 6200]
+  ] satisfies Array<[Compounding, number, number]>)(
+    'projects a range that ends inside December 9999 in %s mode',
+    (compounding, annualRate, finalBalance) => {
+      // 3000 plus a deposit of 100 on 1 December. Monthly: 3100 earns 3100 * 1 * (1 / 31) = 100.
+      // Daily: 3100 doubles on its one day.
+      const setup: Setup = {
+        today: '9999-12-01',
+        endDate: '9999-12-02',
+        compounding,
+        accounts: [
+          {
+            id: 'last',
+            balance: 3000,
+            annualRate,
+            contributions: [
+              {
+                id: 'once',
+                type: 'flat',
+                amount: 100,
+                timing: { frequency: 'oneTime', on: '9999-12-01' }
+              }
+            ]
+          }
+        ]
+      };
+      const { total } = project(setup).bands.baseline;
+
+      expect(total.finalBalance).toBe(finalBalance);
+      expect(total.monthly).toStrictEqual([
+        {
+          year: 9999,
+          month: 12,
+          balance: finalBalance,
+          contributions: 100,
+          interest: finalBalance - 3100
+        }
+      ]);
+      expect(
+        traceAccount(scenarioOf(setup), 'last', 'baseline').map(({ from, to, days }) => ({
+          from,
+          to,
+          days
+        }))
+      ).toStrictEqual([{ from: '9999-12-01', to: '9999-12-02', days: 1 }]);
+    }
+  );
+
+  it.each(['monthly', 'daily'] satisfies Array<Compounding>)(
+    'rolls forward and projects inside December 9999 in %s mode',
+    (compounding) => {
+      const setup: Setup = {
+        today: '9999-12-10',
+        endDate: '9999-12-31',
+        compounding,
+        accounts: [
+          {
+            id: 'stale',
+            balance: 1000,
+            balanceAsOf: '9999-11-15',
+            contributions: [
+              {
+                id: 'once',
+                type: 'flat',
+                amount: 50,
+                timing: { frequency: 'oneTime', on: '9999-12-20' }
+              }
+            ]
+          }
+        ]
+      };
+      const segments = traceAccount(scenarioOf(setup), 'stale', 'baseline').map(
+        ({ from, to, days, balanceEnd }) => ({ from, to, days, balanceEnd })
+      );
+
+      expect(project(setup).bands.baseline.total.finalBalance).toBe(1050);
+      expect(segments).toStrictEqual([
+        { from: '9999-11-15', to: '9999-12-01', days: 16, balanceEnd: 1000 },
+        { from: '9999-12-01', to: '9999-12-10', days: 9, balanceEnd: 1000 },
+        { from: '9999-12-10', to: '9999-12-31', days: 21, balanceEnd: 1050 }
+      ]);
+    }
+  );
+
   it('reports today and the end date as written', () => {
     const projection = project({ today: '2026-11-16', endDate: '2028-03-10', accounts: [] });
 
