@@ -639,6 +639,7 @@ For PR review agents only. Orchestration and implementation agents do not read t
 - Where: `packages/calculator/src/lib/effective-rate.ts:82`, PR #19
 - What: Spreading every included rate into Math.min and Math.max ties the public Node entry point to a function argument limit. A standalone reduction over 250000 values raises RangeError on Node 24.13.0.
 - Better: Find both bounds in one iteration over included accounts.
+
 ### 2026-11-28, spec 4, a float test still passes after the formula is rearranged
 
 - Where: `crates/core/src/compound/mod.rs`, `crates/core/src/project/mod.rs`, `crates/core/src/project/scenario/effective_rate/mod.rs`, PR #20 and PR #22
