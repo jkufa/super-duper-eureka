@@ -725,6 +725,15 @@ fn raises_salary_by_a_whole_power_90000_at_3_percent_after_4_years_is_101295_792
 }
 
 #[test]
+fn undoes_raises_by_a_whole_power_90000_at_3_percent_4_years_before_as_of_is_79963_83431241201() {
+    let salary = json!({ "annualBase": 90_000, "annualRaiseRate": 0.03, "asOf": "2030-07-01" });
+    let scenario = Setup::new(json!([])).with_salary(salary).scenario();
+
+    assert_eq!(salary_in_year(&scenario, 2026), 79_963.834_312_412_01);
+    assert_eq!(90_000.0 / 1.03_f64.powf(4.0), 79_963.834_312_411_99);
+}
+
+#[test]
 fn gives_0_for_a_salary_before_as_of_whose_undone_raises_overflow_1e308_over_infinity() {
     let salary = json!({ "annualBase": 1e308, "annualRaiseRate": 1e155, "asOf": "2028-01-01" });
     let scenario = Setup::new(json!([])).with_salary(salary).scenario();
