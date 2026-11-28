@@ -30,7 +30,9 @@ crates/cli/             retirement-cli. Binary name: retirement-calc.
 - When Homebrew moves to a newer stable, bump both in one commit and fix whatever new default Clippy rules report.
 - This machine also has a `rustup` toolchain called `stable` at 1.75.0 from 2023. `cargo` on the `PATH` is Homebrew's, so it is unused. Leave it alone.
 - `crates/core` has no file access, clock, network, environment access or async. It depends on nothing that brings those in.
-- `crates/cli` depends on `core`. `core` never depends on another workspace crate.
+- `core` never depends on another workspace crate. `cli` will depend on `core`, but only from the commit in which it first calls it. `cargo shear` rejects a dependency nothing uses, and inventing a call to satisfy it would be filler.
+- Until part D, `core` is an empty library with a doc line. The workspace's one test runs the `retirement-calc` binary and checks that it prints its version, because `cargo nextest` fails when there are no tests.
+- A crate's `clippy.toml` replaces the root one. It does not merge with it. That is why `crates/core/clippy.toml` repeats the test allowances.
 - The app and SnapTrade crates come later. Do not create them.
 
 ## Part B: lints and tools
@@ -136,12 +138,14 @@ Review agents check each of these rules on every Rust PR and log repeats in the 
 
 Write the smallest slice of `core` that exercises every design rule, and review it at high effort. It is real code that spec 4 builds on.
 
-- `CalendarDate`. A timezone-free date. Use an established crate's date type inside it, `jiff` first and `time` if `jiff` does not fit. No hand-written leap-year code. It parses and prints `YYYY-MM-DD`, compares, reports the days in its month and year, and adds months.
-- The raw file types, matching spec 2 part C field for field, with `serde`.
-- The validated `Scenario`, `Account` and `ContributionRule` types, with enums and id types.
+- `CalendarDate`. A timezone-free date. Use an established crate's date type inside it, `jiff` first and `time` if `jiff` does not fit. No hand-written leap-year code. It accepts only spec 2's file grammar: ten ASCII characters, `YYYY-MM-DD`, years 0001 to 9999. The crate's own parser accepts more, so check the shape before handing it over. It prints the same form, compares, reports the days in its month and year, and adds months with the day clamped to the month's end. Adding months is how growth periods are counted, so do not expose or use the crate's month difference. See the note in spec 4 part A.
+- The raw file types, matching spec 2 part C field for field. They derive `serde::Deserialize` and reject unknown and misplaced fields. A `startDate` on a one-time rule is misplaced, and so is a `null` where a value is optional. Dates stay strings at this level. `core` depends on `serde` and not on `serde_json`: turning text into the raw types is the caller's job.
+- The validated `Scenario`, `Account` and `ContributionRule` types, with enums and id types, and the defaults spec 2 lists filled in. Nothing outside the module can build one except through `parse`.
 - `Scenario::parse(raw, today)`, returning the validated scenario or a `ScenarioError`.
-- `ScenarioError`, one variant per code in spec 2's validation table. Each variant exposes the same `code` string as TypeScript.
-- Unit tests: one per error code, the leap-year and month-end cases, and a round trip of each spec 2 example file through parse and serialise.
+- `ScenarioError`, one variant per code in spec 2's validation table that the parser can raise from a well-shaped file. Each carries the ids spec 2 says it carries and exposes the same `code` string as TypeScript.
+- Two codes are raised elsewhere, and this module does not define them. `invalid_field` is what the CLI reports when the text does not deserialise into the raw types. `not_finite` belongs to the engine in spec 4.
+- `version` follows spec 2: the caller reads it first, on its own. A whole number other than 1 is `unsupported_version`. The exemplar provides the function that makes that check, so the CLI in spec 4 only calls it.
+- Unit tests: one per error code the parser raises, with the same input and ids as the TypeScript test for that code; the date grammar cases from `plain-date.test.ts`, including both ends of the year range, a timestamp suffix and surrounding whitespace; adding months from the 29th, 30th and 31st and across a year end; and a round trip of a valid raw scenario built in the test. `serde_json` is a dev-dependency for building raw values from text in tests.
 
 When it merges, name its files in "Rust Guidelines" as the pattern to follow.
 
