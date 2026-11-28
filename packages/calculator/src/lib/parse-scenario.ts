@@ -17,7 +17,8 @@ export type ScenarioErrorCode =
   | 'growth_on_one_time'
   | 'rule_end_before_start'
   | 'per_contribution_on_one_time'
-  | 'not_finite';
+  | 'not_finite'
+  | 'unknown_account';
 
 interface Subject {
   accountId?: string;
