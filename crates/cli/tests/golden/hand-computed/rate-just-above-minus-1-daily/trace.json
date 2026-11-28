@@ -1,0 +1,62 @@
+[
+  {
+    "from": "2026-01-01",
+    "to": "2026-02-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 1000.0,
+    "balanceEnd": 62.22020715659154,
+    "contributions": 100.0,
+    "interest": -1037.7797928434084,
+    "annualRate": -0.9999999999999999,
+    "deposits": [
+      {
+        "ruleId": "mid-month",
+        "date": "2026-01-15",
+        "amount": 100.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2026-02-01",
+    "to": "2026-03-01",
+    "days": 28,
+    "daysInMonth": 28,
+    "daysInYear": 365,
+    "balanceStart": 62.22020715659154,
+    "balanceEnd": 28.152236209543467,
+    "contributions": 100.0,
+    "interest": -134.06797094704805,
+    "annualRate": -0.9999999999999999,
+    "deposits": [
+      {
+        "ruleId": "mid-month",
+        "date": "2026-02-15",
+        "amount": 100.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2026-03-01",
+    "to": "2026-04-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 28.152236209543467,
+    "balanceEnd": 19.310960547865907,
+    "contributions": 100.0,
+    "interest": -108.84127566167754,
+    "annualRate": -0.9999999999999999,
+    "deposits": [
+      {
+        "ruleId": "mid-month",
+        "date": "2026-03-15",
+        "amount": 100.0,
+        "bucket": 15
+      }
+    ]
+  }
+]
