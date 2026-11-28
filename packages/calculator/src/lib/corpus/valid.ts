@@ -8,7 +8,7 @@ import type {
   RuleTiming,
   ScenarioFile
 } from '../scenario';
-import { addDays, dateIn, dateOf, leapDayOnOrBefore } from './draw';
+import { addDays, dateIn, leapDayOnOrBefore } from './draw';
 import type { Draw } from './draw';
 
 export interface ValidCase {
@@ -52,7 +52,6 @@ const CLUSTER_TIMINGS: ReadonlyArray<MonthlyTiming> = [
 ];
 const LEAP_YEARS_FROM = 499;
 const LEAP_YEARS_TO = 515;
-const NEGATIVE_POWER_PERCENT = 20;
 const LONG_GROWTH_DAYS = { from: 31_000, to: 34_000 };
 
 export function validCase(draw: Draw): ValidCase {
@@ -75,11 +74,7 @@ export function validCase(draw: Draw): ValidCase {
   const accounts = Array.from({ length: draw.int(1, 6) }, (_, index) =>
     drawAccount(draw, index + 1, range, rates)
   );
-  const firstSalaryYear = Math.min(
-    today.year,
-    ...accounts.map((account) => dateOf(account.balanceAsOf).year)
-  );
-  const salary = drawSalary(draw, range, firstSalaryYear);
+  const salary = drawSalary(draw, range);
   if (draw.chance(12)) {
     addOrderSensitiveRules(draw, draw.pick(accounts));
   }
@@ -131,13 +126,7 @@ function drawEndDate(draw: Draw, today: PlainDate): PlainDate {
   return draw.chance(55) ? { year, month: 1, day: 1 } : drawDayInYear(draw, year);
 }
 
-/** The raise is 0 when `asOf` is after `firstSalaryYear`, except in NEGATIVE_POWER_PERCENT cases in 100. */
-function drawSalary(
-  draw: Draw,
-  { today, endDate }: Range,
-  firstSalaryYear: number
-): ScenarioFile['salary'] {
-  const allowNegativePower = draw.chance(NEGATIVE_POWER_PERCENT);
+function drawSalary(draw: Draw, { today, endDate }: Range): ScenarioFile['salary'] {
   const annualBase = draw.chance(10) ? 0 : draw.int(1_000_000, 30_000_000) / 100;
   const asOfRoll = draw.int(1, 100);
   let asOf = addDays(endDate, draw.int(0, 2000));
@@ -155,7 +144,7 @@ function drawSalary(
   if (raiseRoll <= 15) {
     return salary;
   }
-  if (raiseRoll <= 35 || (asOf.year > firstSalaryYear && !allowNegativePower)) {
+  if (raiseRoll <= 35) {
     salary.annualRaiseRate = 0;
   } else if (raiseRoll <= 70) {
     salary.annualRaiseRate = draw.int(1, 800) / 10_000;

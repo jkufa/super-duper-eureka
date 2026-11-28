@@ -153,12 +153,15 @@ const RULE_BOUNDS: Record<YearRangeVariant, Pick<ContributionRuleFile, 'startDat
 
 function pairwiseRule(testCase: Case): ContributionRuleFile {
   const day = { none: undefined, mid: 15, end: 28 }[testCase.day];
-  const shared = {
-    enabled: testCase.enabled,
-    type: testCase.contributionType,
-    amount: testCase.contributionType === 'flat' ? 500 : 5,
-    salaryBasis: testCase.salaryBasis
-  };
+  const shared =
+    testCase.contributionType === 'flat'
+      ? { enabled: testCase.enabled, type: 'flat' as const, amount: 500 }
+      : {
+          enabled: testCase.enabled,
+          type: 'salaryPercent' as const,
+          amount: 5,
+          salaryBasis: testCase.salaryBasis
+        };
   if (testCase.frequency === 'oneTime') {
     const on = `2026-${monthText(testCase.startMonth)}-${monthText(day ?? 1)}`;
     return makeRule({ id: 'pairwise', ...shared, timing: { frequency: 'oneTime', on } });
@@ -246,7 +249,11 @@ describe('behaviour ported from the old calculator tests', () => {
     it.each(buildPairwiseCases())('covers pairwise permutations %o', (testCase) => {
       const setup = pairwiseSetup(testCase);
 
-      if (testCase.frequency === 'oneTime' && testCase.salaryBasis === 'perContribution') {
+      if (
+        testCase.contributionType === 'salaryPercent' &&
+        testCase.frequency === 'oneTime' &&
+        testCase.salaryBasis === 'perContribution'
+      ) {
         const error = scenarioErrorFrom(() => baseline(setup));
         expect([error.code, error.ruleId]).toStrictEqual([
           'per_contribution_on_one_time',

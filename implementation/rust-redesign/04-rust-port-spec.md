@@ -31,7 +31,7 @@ Port `buildSchedule` and the deposit and amount rules from spec 2 part C.
 
 - This is the second exemplar. Review it at high effort, then name it in "Rust Guidelines" next to the first.
 - The schedule is built per account: a list of months in the range, each cut to its segment, each holding that month's kept deposits in the order of the rules. It is not ordered by day within a month. Bucket totals are summed in that order. Pooling for the effective rate takes each month's deposits account by account in file order. See "Grouping and order" in spec 2 part B, which this part ports line for line. A deposit carries no rule position, because rule ids are unique in a scenario.
-- Use the built-in `f64::powi` for whole-number powers and `f64::powf` for the rest. On 200,000 samples `powi` matched Bun's `**` on every whole-number power of 0 and up, and `powf` matched it on the fractional roots every time. Do not write a power function of our own, and do not choose between `powi` and `powf` by the exponent's sign. A negative whole-number exponent, which only a salary before `salary.asOf` has, differs from Bun in the last bit under `powi`. That is inside the tolerance and is the accepted cost of plain code.
+- Use the built-in `f64::powi` for whole-number powers and `f64::powf` for the rest. On 200,000 samples `powi` matched Bun's `**` on every whole-number power from 0 to 1000, and `powf` matched it on the fractional roots every time. Do not write a power function of our own. Every whole-number exponent in the engine is 0 or above: a salary in a year before `salary.asOf` divides by a positive power, as spec 2 part C says, so there is no negative exponent to handle. Growth over more than 1,000 periods still differs from Bun in the last bit about one time in five. That is inside the tolerance and the corpus marks those cases.
 - Ranges at the edges. An empty or reversed range gives no months. A range that reaches December 9999 ends its last segment at `to`. The TypeScript builder throws there, and the parity corpus stays clear of year 9999.
 - Port the TypeScript unit tests for deposits and amounts one for one, with the same inputs and expected values.
 - Count growth periods the way spec 2 defines them: the largest `n` for which the rule's start plus `n` months, with the day clamped, is on or before the deposit. Do not read the months from a date library's difference. A reviewer measured this on `jiff`: 31 January plus one month is 28 February, but the month-unit difference between those two dates came back as 28 days and no months, which would undercount. `CalendarDate` exposes no difference for that reason.
@@ -87,13 +87,14 @@ The comparison:
 - Keys, array lengths, strings, booleans, `null`s, dates, ids and integers must be identical.
 - Two numbers `a` and `b` agree when `|a - b| <= 1e-9 * max(1, |a|, |b|)`.
 - An invalid case must fail in both with the same error `code` and the same account or rule id. For `not_finite`, compare the id only when both report one, since the two may meet different overflowing figures first. For `invalid_field` compare the code alone. Rust's deserialiser reports a shape error without knowing which account it was in.
-- For every valid case also compare the trace of its first account in the baseline band.
+- For every valid case with at least one account, also compare the trace of its first account in the baseline band.
+- `effectiveRate` is compared like any other number. Outside the cases marked `growth_periods_over_1000` the two engines do the same operations and it should match exactly. Inside them, a last-bit difference in a deposit can move a poorly conditioned rate by more than the tolerance. Report those separately, with the pool's sensitivity, and do not fail the run on them alone.
 
 Use the traits in `<seed>.json`:
 
 - A failing case names its expected code and ids. Both CLIs must report them, and the harness checks each against the traits as well as against the other.
 - Report results grouped by trait, so a difference that only shows with one edge is visible as such.
-- Cases with `negative_salary_power` or `growth_periods_over_1000` are where the two languages are known to differ in the last bit. Report the largest relative difference inside those cases and outside them separately. Outside them the expectation is zero.
+- Cases with `growth_periods_over_1000` are where the two languages are known to differ in the last bit. Report the largest relative difference inside those cases and outside them separately. Outside them the expectation is zero.
 
 Rules for the run:
 
@@ -118,8 +119,8 @@ Property tests, with `proptest`:
 - A scenario with one fresh account equals `projectAccount` on that account.
 - The total equals the sum of the included accounts on every row.
 - Raising any account's rate never lowers the total's final balance.
-- The effective rate is at or between the lowest and highest included rate.
-- Compounding the pool at the effective rate gives the total's final balance within tolerance.
+- The effective rate is at or between the lowest and highest included rate, except when the pool is empty and the default rate is returned.
+- Compounding the pool at the effective rate gives the total's final balance within tolerance, for rates in a realistic range. Sixty halvings of a very wide bracket do not get that close.
 - An account that is not stale has zero `rolledForward`.
 - Moving `today` forward one day never changes a deposit's date or amount.
 - Parsing a serialised valid scenario gives back the same scenario.

@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vite-plus/test';
 
-import { BISECTION_PASSES, bisectRate, poolAccounts, poolFinalBalance } from '../effective-rate';
+import {
+  BISECTION_PASSES,
+  bisectRate,
+  effectiveRate,
+  poolAccounts,
+  poolFinalBalance
+} from '../effective-rate';
 import { parseScenario } from '../parse-scenario';
 import { projectScenario } from '../project-scenario';
 import type { AccountFile, Compounding, ContributionRuleFile, ScenarioFile } from '../scenario';
@@ -152,6 +158,34 @@ describe('effectiveRate: short cuts', () => {
   });
 
   it.each([
+    [[0, -0], -0],
+    [[-0, 0], -0],
+    [[0, 0], 0]
+  ])('treats 0 and -0 as one rate: %o returns %s, as Math.min does', (rates, expected) => {
+    const projection = project({
+      today: '2026-01-01',
+      endDate: '2027-01-01',
+      accounts: rates.map((annualRate, index) => ({
+        id: `zero-${String(index)}`,
+        balance: 1,
+        annualRate
+      }))
+    });
+
+    expect(projection.effectiveRate).toBe(expected);
+  });
+
+  it('takes the bracket from a million included accounts', () => {
+    const scenario = scenarioOf({ ...README, accounts: [{ id: 'one', balance: 1 }] });
+    const { total } = projectScenario(scenario).bands.baseline;
+    const included = scenario.accounts.flatMap((account) =>
+      Array.from({ length: 1_000_000 }, () => ({ account, annualRate: 0.05 }))
+    );
+
+    expect(effectiveRate(scenario, included, total)).toBe(0.05);
+  });
+
+  it.each([
     ['no accounts', []],
     ['only excluded accounts', [{ id: 'out', balance: 100, annualRate: 0.2, included: false }]]
   ] satisfies Array<[string, Array<AccountSetup>]>)(
@@ -184,6 +218,80 @@ describe('effectiveRate: short cuts', () => {
     expect(
       projection.bands.baseline.total.yearly.map(({ weightedRate }) => weightedRate)
     ).toStrictEqual([null, null, null, null]);
+  });
+});
+
+describe('effectiveRate: a pool the rate cannot move', () => {
+  const lowAccount: AccountSetup = {
+    id: 'low',
+    annualRate: 0.04,
+    contributions: [monthly('fifty', 50, 'end')]
+  };
+  const highAccount: AccountSetup = {
+    id: 'high',
+    annualRate: 0.1,
+    contributions: [monthly('ten', 10.01, 'end'), monthly('one', 1.23, 'end')]
+  };
+
+  it.each([
+    ['low first', [lowAccount, highAccount]],
+    ['high first', [highAccount, lowAccount]]
+  ])('returns the lowest rate when no money earns interest, %s', (_, accounts) => {
+    // Every deposit lands in the end bucket of the only month: 50 + 10.01 + 1.23 = 61.24 at any rate.
+    const projection = project({ today: '2026-01-01', endDate: '2026-02-01', accounts });
+
+    expect(projection.bands.baseline.total.finalBalance).toBe(61.24);
+    expect(projection.bands.baseline.total.totalInterest).toBe(0);
+    expect(projection.effectiveRate).toBe(0.04);
+  });
+
+  function threshold(endDeposit: number): Setup {
+    // At 0% the pool ends on 1 + endDeposit. At 4095% the 1 doubles, so it ends on 2 + endDeposit.
+    // The two differ by 1, and the threshold is 1e-9 times the pool at 0%.
+    return {
+      today: '2026-12-01',
+      endDate: '2027-01-01',
+      accounts: [
+        { id: 'end', contributions: [monthly('end', endDeposit, 'end')] },
+        { id: 'fast', balance: 1, annualRate: DOUBLING_MONTHLY_RATE }
+      ]
+    };
+  }
+
+  it('returns the lowest rate when the bracket ends differ by exactly 1e-9 of the pool at lo', () => {
+    // 1 <= 1e-9 * (1 + 999,999,999) = 1.
+    expect(project(threshold(999_999_999)).effectiveRate).toBe(0);
+  });
+
+  it('bisects when the bracket ends differ by just more than 1e-9 of the pool at lo', () => {
+    // 1 > 1e-9 * (1 + 999,999,998) = 0.999999999.
+    const setup = threshold(999_999_998);
+    const projection = project(setup);
+    const pooled = poolFinalBalance(includedPool(setup), 'monthly', projection.effectiveRate);
+
+    expect(projection.effectiveRate).toBeGreaterThan(0);
+    expect(relativeError(pooled, projection.bands.baseline.total.finalBalance)).toBeLessThan(1e-9);
+  });
+
+  it('bisects when the pool overflows at hi', () => {
+    // At 4095% for 30 years the pool grows by 2^360 = 2.3e108, so 1e201 overflows while the total
+    // is 1e201 + 1e196 * 2^360 = 2.3e304. Infinity - atLo is above 1e-9 * atLo.
+    // (1e201 + 1e196) * (1 + r)^30 = 2.3e304 gives (1 + r)^30 = 2.3e103, so r is about 2790.
+    const setup: Setup = {
+      today: '2026-01-01',
+      endDate: '2056-01-01',
+      accounts: [
+        { id: 'slow', balance: 1e201 },
+        { id: 'fast', balance: 1e196, annualRate: DOUBLING_MONTHLY_RATE }
+      ]
+    };
+    const projection = project(setup);
+
+    expect(poolFinalBalance(includedPool(setup), 'monthly', DOUBLING_MONTHLY_RATE)).toBe(
+      Number.POSITIVE_INFINITY
+    );
+    expect(Number.isFinite(projection.bands.baseline.total.finalBalance)).toBe(true);
+    expect(projection.effectiveRate).toBe(2789.571384675445);
   });
 });
 
@@ -269,9 +377,10 @@ describe('effectiveRate: the solve', () => {
     );
   });
 
-  it('stays finite and inside the rates when the pool overflows at a midpoint', () => {
+  it('bisects past midpoints where the pool overflows, staying finite and inside the rates', () => {
     // The first midpoint is 2047.5: 1e308 grows by 2048.5^(1/12) = 1.89 and overflows.
-    // The total is 1e308 at 0% plus 1 doubling to 2, which stays finite.
+    // The total is 1e308 at 0% plus 1 doubling to 2, which rounds to 1e308. The pool at every
+    // midpoint reaches it, so each pass moves hi down: 4095 / 2^60 after 60, returning 4095 / 2^61.
     const setup: Setup = {
       today: '2026-12-01',
       endDate: '2027-01-01',
@@ -284,7 +393,7 @@ describe('effectiveRate: the solve', () => {
     const pool = includedPool(setup);
 
     expect(poolFinalBalance(pool, 'monthly', 2047.5)).toBe(Number.POSITIVE_INFINITY);
-    expect(Number.isFinite(projection.effectiveRate)).toBe(true);
+    expect(projection.effectiveRate).toBe(DOUBLING_MONTHLY_RATE / 2 ** 61);
     expect(projection.effectiveRate).toBeGreaterThanOrEqual(0);
     expect(projection.effectiveRate).toBeLessThanOrEqual(DOUBLING_MONTHLY_RATE);
     expect(
@@ -294,7 +403,7 @@ describe('effectiveRate: the solve', () => {
 });
 
 describe('bisectRate', () => {
-  it('compounds exactly 60 times at midpoints written lo + (hi - lo) / 2', () => {
+  it('makes exactly 60 passes at midpoints lo + (hi - lo) / 2, not counting the passes effectiveRate makes at lo and hi', () => {
     const calls: Array<number> = [];
     const rate = bisectRate(0, 1, 0.3, (midpoint) => {
       calls.push(midpoint);
@@ -305,6 +414,20 @@ describe('bisectRate', () => {
     expect(calls).toHaveLength(60);
     expect(calls.slice(0, 3)).toStrictEqual([0.5, 0.25, 0.375]);
     expect(Math.abs(rate - 0.3)).toBeLessThan(1e-15);
+  });
+
+  it('takes its first midpoint of 0.01 and 0.03 as 0.019999999999999997, where (lo + hi) / 2 is 0.02', () => {
+    const calls: Array<number> = [];
+    bisectRate(0.01, 0.03, 0, (midpoint) => {
+      calls.push(midpoint);
+      return midpoint;
+    });
+
+    expect(calls[0]).toBe(0.019999999999999997);
+  });
+
+  it('returns lo + (hi - lo) / 2, which stays finite where lo + hi overflows', () => {
+    expect(bisectRate(1e308, 1.7e308, 1e308, (midpoint) => midpoint)).toBe(1e308);
   });
 
   it('moves hi down when the result equals the target, and lo up only when it is below', () => {
@@ -396,6 +519,26 @@ describe('weightedRate', () => {
     expect(projection.bands.baseline.total.yearly).toStrictEqual([
       { year: 2026, balance: 3000, contributions: 0, interest: 1000, weightedRate: 2730 }
     ]);
+  });
+
+  it('sums the numerator in file order', () => {
+    // Every deposit lands in the end bucket of the only month, so the row balances are 2e16, 1 and 1.
+    // The total is 2e16 + 1 + 1 = 2e16. In file order 0.5 * 2e16 + 1 + 1 = 1e16, which gives 0.5.
+    // Reversed, 1 + 1 + 1e16 = 10000000000000002, which gives 0.5000000000000001.
+    const projection = project({
+      today: '2026-12-01',
+      endDate: '2027-01-01',
+      accounts: [
+        { id: 'big', annualRate: 0.5, contributions: [monthly('big', 2e16, 'end')] },
+        { id: 'one', annualRate: 1, contributions: [monthly('one', 1, 'end')] },
+        { id: 'another', annualRate: 1, contributions: [monthly('another', 1, 'end')] }
+      ]
+    });
+
+    expect(
+      projection.bands.baseline.accounts.map(({ series }) => series.yearly[0]?.balance)
+    ).toStrictEqual([2e16, 1, 1]);
+    expect(projection.bands.baseline.total.yearly[0]?.weightedRate).toBe(0.5);
   });
 
   it('is present only on the baseline total yearly rows', () => {

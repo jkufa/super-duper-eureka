@@ -369,6 +369,35 @@ describe('buildAccountSchedule', () => {
     ]);
   });
 
+  it('multiplies by the raise power from salary.asOf on and divides by it before', () => {
+    // 1.0003^2 rounds to 1.0006000899999998. 100,000 / 1.0003 = 99,970.008997300...,
+    // 100,000 / 1.0006000899999998 = 99,940.026989204..., 100,000 * 1.0006000899999998 = 100,060.00899999998.
+    // 100,000 * 1.0003^-2 would give 99940.02698920405.
+    const scenario = scenarioWith({
+      rules: [],
+      salary: { annualBase: 100_000, annualRaiseRate: 0.0003, asOf: '2028-07-01' }
+    });
+
+    expect(
+      [2026, 2027, 2028, 2029, 2030].map((year) => salaryInYear(scenario, year))
+    ).toStrictEqual([
+      99_940.02698920407, 99_970.00899730081, 100_000, 100_030, 100_060.00899999998
+    ]);
+  });
+
+  it('gives 0 before salary.asOf when the raise power overflows', () => {
+    // (1 + 1e155)^2 is Infinity, and 1e308 / Infinity is 0. The true value is 0.01.
+    // A year at or after asOf still multiplies: 1e308 * (1 + 1e155)^0 = 1e308.
+    const scenario = scenarioWith({
+      rules: [],
+      salary: { annualBase: 1e308, annualRaiseRate: 1e155, asOf: '2028-01-01' }
+    });
+
+    expect([2026, 2027, 2028].map((year) => salaryInYear(scenario, year))).toStrictEqual([
+      0, 1e153, 1e308
+    ]);
+  });
+
   it('divides by the basis before applying the percentage', () => {
     const salary = { annualBase: 100, asOf: TODAY };
     const rules: Array<ContributionRuleFile> = [

@@ -8,7 +8,7 @@ Runs the retirement engine on a scenario file and prints the result as JSON.
 retirement-calc --scenario <file> [--today YYYY-MM-DD] [--trace <accountId>] [--band <band>]
 ```
 
-From the repo root, `vp run retirement-calc --scenario packages/cli/examples/basic.json --today 2026-01-01` runs it on Bun.
+From the repo root, `bun packages/cli/src/index.ts --scenario packages/cli/examples/basic.json --today 2026-01-01` runs it on Bun. Programs should call it this way. `vp run retirement-calc` with the same options also runs it, but prints a line of its own to stdout before the JSON.
 
 ## Options
 

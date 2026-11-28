@@ -6,7 +6,7 @@
   },
   "type": "module",
   "scripts": {
-    "test": "echo 'no tests'"
+    "test": "vp test"
   },
   "dependencies": {
     "@retirement/calculator": "workspace:*"
