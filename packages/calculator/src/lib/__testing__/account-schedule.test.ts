@@ -1,10 +1,11 @@
 import { describe, expect, it } from 'vite-plus/test';
 
 import { buildAccountSchedule, salaryInYear } from '../account-schedule';
-import { parseScenario } from '../parse-scenario';
+import { parseScenario, ScenarioError } from '../parse-scenario';
 import { formatPlainDate, parsePlainDate } from '../plain-date';
 import type { PlainDate } from '../plain-date';
 import { projectAccount } from '../project-account';
+import { projectScenario } from '../project-scenario';
 import type { Compounding, ContributionRuleFile, Scenario, ScenarioFile } from '../scenario';
 
 const TODAY = '2026-01-01';
@@ -475,4 +476,60 @@ describe('buildAccountSchedule', () => {
       ).toBe(10_000_000_000_000_002);
     }
   );
+
+  it.each([
+    ['monthly', 'NaN', 0],
+    ['daily', 'NaN', 0],
+    ['monthly', 'Infinity', 1],
+    ['daily', 'Infinity', 1]
+  ] as const)(
+    'throws not_finite with the account id in %s mode when a deposit amount is %s',
+    (compounding, value, amount) => {
+      const rules = [
+        flat(
+          'grows',
+          { frequency: 'monthly' },
+          {
+            amount,
+            growth: { type: 'percent', amount: 1e300, cadence: 'monthly' },
+            startDate: '2026-01-01'
+          }
+        )
+      ];
+      const scenario = scenarioWith({ rules, compounding });
+      const [account] = scenario.accounts;
+      if (!account) {
+        throw new Error('The fixture has no account.');
+      }
+      const built = scenarioErrorFrom(() =>
+        buildAccountSchedule(scenario, account, date('2026-01-01'), date('2026-04-01'))
+      );
+      const projected = scenarioErrorFrom(() => projectScenario(scenario));
+
+      expect((1 + 1e300 / 100) ** 2).toBe(Infinity);
+      expect([built.code, built.accountId, built.ruleId, built.message]).toStrictEqual([
+        'not_finite',
+        'account',
+        undefined,
+        `not_finite: the deposit of rule grows on 2026-03-01 is ${value}.`
+      ]);
+      expect([projected.code, projected.accountId, projected.message]).toStrictEqual([
+        built.code,
+        built.accountId,
+        built.message
+      ]);
+    }
+  );
 });
+
+function scenarioErrorFrom(run: () => void): ScenarioError {
+  try {
+    run();
+  } catch (error) {
+    if (error instanceof ScenarioError) {
+      return error;
+    }
+    throw error;
+  }
+  throw new Error('Expected a ScenarioError.');
+}

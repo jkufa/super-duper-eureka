@@ -1,4 +1,5 @@
-import { addMonths, compareDates, daysInMonth, daysInYear } from './plain-date';
+import { ScenarioError } from './parse-scenario';
+import { addMonths, compareDates, daysInMonth, daysInYear, formatPlainDate } from './plain-date';
 import type { PlainDate } from './plain-date';
 import type { Account, Compounding, Rule, Scenario, Timing } from './scenario';
 import type { DepositBucket } from './compound';
@@ -46,6 +47,14 @@ export function buildAccountSchedule(
         continue;
       }
       const amount = depositAmount(scenario, rule, date);
+      if (!Number.isFinite(amount)) {
+        throw new ScenarioError(
+          'not_finite',
+          '',
+          `the deposit of rule ${rule.id} on ${formatPlainDate(date)} is ${String(amount)}`,
+          { accountId: account.id }
+        );
+      }
       if (amount === 0) {
         continue;
       }
