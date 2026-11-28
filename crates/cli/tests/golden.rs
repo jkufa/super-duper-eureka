@@ -439,6 +439,26 @@ fn golden_set_holds_the_pinned_cases_and_files() -> TestResult {
     Ok(())
 }
 
+#[test]
+fn shipped_examples_are_the_golden_examples_byte_for_byte() -> TestResult {
+    let tests = tests_dir();
+    let _lock = lock_for_reading(&tests)?;
+    let golden = generation(&tests).join("examples");
+    let shipped = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/cli/examples");
+    let names = names_in(&golden)?;
+    let files: Vec<String> = names.iter().map(|name| format!("{name}.json")).collect();
+
+    assert_eq!(names_in(&shipped)?, files);
+    for (name, file) in names.iter().zip(&files) {
+        assert_eq!(
+            fs::read(shipped.join(file))?,
+            fs::read(golden.join(name).join(SCENARIO_FILE))?,
+            "{file}"
+        );
+    }
+    Ok(())
+}
+
 /// Every difference in `cases`, each named by its case.
 fn chunk_failures(cases: &[PathBuf]) -> Result<Vec<String>, String> {
     let mut failures = Vec::new();
