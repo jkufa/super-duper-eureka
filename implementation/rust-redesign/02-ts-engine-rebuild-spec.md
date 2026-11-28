@@ -45,6 +45,7 @@ Before any engine change, save today's outputs.
 - For the four example files also save the full `calculateRetirement` result and the full step result. They are the readable reference when a digest fails.
 - Everything goes under `packages/calculator/src/lib/__testing__/baseline/`. Keep the folder under 5 MB and report its size.
 - Add a test that reruns today's engine on every stored input. The yearly numbers must be identical and both digests must match. It passes trivially now. It is the check for part B.
+- Write and test the baseline on Node, which is where Vitest runs. Bun computes whole-number powers differently in the last digit, so a baseline written on Bun fails on Node. The CLI runs on Bun. That is fine as long as each check stays on one runtime.
 
 ## Part B: split the engine into two phases
 
@@ -160,7 +161,7 @@ Part C implements these types but reads only `accounts[0]`. Part E adds the rest
 - A recurring rule deposits only on dates from its `startDate` to its `endDate`, both inclusive. A missing bound is open.
 - A deposit is in range when its date is on or after the range start and before the range end.
 - For that test, a rule with `placement: 'start'` and no day counts as day 1, and `placement: 'end'` counts as the last day. This differs from today, where a start-placed rule in the first month always deposits. It only shows when a range starts after the 1st.
-- Buckets are unchanged. Daily mode uses the day. Monthly mode puts a day at or before the midpoint in `start` and a later day in `end`.
+- Buckets are unchanged. Daily mode uses the day. Monthly mode puts a recurring rule's day at or before the midpoint in `start` and a later day in `end`. A one-time deposit in monthly mode goes in `start` whatever its day, as it does today.
 
 ### Amounts
 
