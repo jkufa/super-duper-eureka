@@ -3,7 +3,7 @@ use serde_json::{Value, json};
 use super::{BucketTotals, Compounded, MAX_DAY, compound_segment};
 use crate::fixture::{date, doubling_daily_rate, flat, one_time, only_account, scenario};
 use crate::scenario::Compounding;
-use crate::schedule::build_account_schedule;
+use crate::schedule::{ScheduledMonth, build_account_schedule, month_segments};
 
 const DOUBLING_MONTHLY_RATE: f64 = 4095.0;
 
@@ -22,6 +22,14 @@ fn on_days(days: &[(usize, f64)]) -> [f64; MAX_DAY] {
         by_day[day - 1] = total;
     }
     by_day
+}
+
+fn only_month(from: &str, to: &str) -> ScheduledMonth<'static> {
+    let [month] = month_segments(date(from), date(to))
+        .collect::<Vec<_>>()
+        .try_into()
+        .unwrap();
+    month
 }
 
 fn compound_november(compounding: &str, rules: Value, from: &str, to: &str) -> Compounded {
@@ -151,6 +159,101 @@ fn multiplies_a_monthly_segment_by_its_share_of_the_month_last() {
             balance: 1000.0 + 366.666_666_666_666_63,
             contributions: 0.0,
             interest: 366.666_666_666_666_63,
+        }
+    );
+}
+
+#[test]
+fn multiplies_the_balance_by_the_monthly_rate_before_the_share_1e16_x_rate_at_10_percent_x_11_over_30_is_29238514905980_465()
+ {
+    let scenario = scenario("monthly", json!([]));
+    let schedule = build_account_schedule(
+        &scenario,
+        only_account(&scenario),
+        date("2026-11-01"),
+        date("2026-11-12"),
+    )
+    .unwrap();
+    let [month] = schedule.as_slice() else {
+        panic!("expected one month");
+    };
+    let monthly_rate = 1.1_f64.powf(1.0 / 12.0) - 1.0;
+    let share = 11.0 / 30.0;
+
+    assert_eq!(monthly_rate, 0.007_974_140_428_903_764);
+    assert_eq!(share, 0.366_666_666_666_666_64);
+    assert_eq!(1e16 * monthly_rate, 79_741_404_289_037.64);
+    assert_eq!(79_741_404_289_037.64 * share, 29_238_514_905_980.465);
+    assert_eq!(1e16 * (monthly_rate * share), 29_238_514_905_980.47);
+    assert_eq!(
+        compound_segment(
+            1e16,
+            &BucketTotals::of(month.deposits()),
+            month,
+            Compounding::Monthly,
+            0.1,
+        )
+        .interest(),
+        29_238_514_905_980.465
+    );
+}
+
+#[test]
+fn adds_the_interest_to_the_balance_after_start_deposits_and_then_the_end_total_1000_1_plus_7_974937842946654_plus_0_1_is_1008_1749378429467()
+ {
+    let totals = BucketTotals {
+        start: 0.1,
+        end: 0.1,
+        by_day: [0.0; MAX_DAY],
+    };
+    let interest = 7.974_937_842_946_654;
+
+    assert_eq!(1000.0 + 0.1, 1000.1);
+    assert_eq!(1000.1 * (1.1_f64.powf(1.0 / 12.0) - 1.0), interest);
+    assert_eq!(1000.1 + interest + 0.1, 1_008.174_937_842_946_7);
+    assert_eq!(1000.1 + (interest + 0.1), 1_008.174_937_842_946_6);
+    assert_eq!(1000.0 + (0.1 + interest) + 0.1, 1_008.174_937_842_946_6);
+    assert_eq!(
+        compound_segment(
+            1000.0,
+            &totals,
+            &only_month("2026-11-01", "2026-12-01"),
+            Compounding::Monthly,
+            0.1,
+        ),
+        Compounded {
+            balance: 1_008.174_937_842_946_7,
+            contributions: 0.2,
+            interest,
+        }
+    );
+}
+
+#[test]
+fn adds_balance_times_the_365th_root_daily_rate_to_the_balance_2411_at_50_percent_is_2413_679779598977()
+ {
+    let daily_rate = 1.5_f64.powf(1.0 / 365.0) - 1.0;
+    let interest = 2411.0 * daily_rate;
+
+    assert_eq!(daily_rate, 0.001_111_480_547_066_223_7);
+    assert_eq!(
+        (0.5_f64.ln_1p() / 365.0).exp_m1(),
+        0.001_111_480_547_066_226_5
+    );
+    assert_eq!(2411.0 + interest, 2_413.679_779_598_977);
+    assert_eq!(2411.0 * (1.0 + daily_rate), 2_413.679_779_598_976_4);
+    assert_eq!(
+        compound_segment(
+            2411.0,
+            &BucketTotals::of(&[]),
+            &only_month("2026-11-01", "2026-11-02"),
+            Compounding::Daily,
+            0.5,
+        ),
+        Compounded {
+            balance: 2_413.679_779_598_977,
+            contributions: 0.0,
+            interest,
         }
     );
 }

@@ -1036,6 +1036,41 @@ mod traces {
 mod errors {
     use super::*;
 
+    /// The next float above -1.
+    const NEARLY_MINUS_1: f64 = -0.999_999_999_999_999_9;
+
+    fn one_shrinking_account(end_date: &'static str, balance: f64, deposit: f64) -> Scenario {
+        Setup::new(
+            "2026-01-01",
+            end_date,
+            vec![json!({
+                "id": "shrinking",
+                "balance": balance,
+                "annualRate": NEARLY_MINUS_1,
+                "contributions": [monthly_end("end", deposit)]
+            })],
+        )
+        .scenario()
+    }
+
+    /// Accounts `a` and `b`, each with an end deposit every month.
+    fn two_accounts(
+        end_date: &'static str,
+        balance: f64,
+        annual_rate: f64,
+        deposit: f64,
+    ) -> Scenario {
+        let accounts = ["a", "b"].map(|id| {
+            json!({
+                "id": id,
+                "balance": balance,
+                "annualRate": annual_rate,
+                "contributions": [monthly_end(&format!("{id}-end"), deposit)]
+            })
+        });
+        Setup::new("2026-01-01", end_date, accounts.to_vec()).scenario()
+    }
+
     #[test]
     fn names_the_unknown_account_a_trace_asks_for() {
         let scenario =
@@ -1053,6 +1088,133 @@ mod errors {
         assert_eq!(
             error.to_string(),
             "unknown_account missing: the scenario has no account with this id"
+        );
+    }
+
+    #[test]
+    fn fails_with_not_finite_and_the_account_id_when_only_the_balance_overflows_1e308_plus_an_end_deposit_of_1e308()
+     {
+        let scenario = Setup::new(
+            "2026-01-01",
+            "2026-02-01",
+            vec![json!({
+                "id": "overflowing",
+                "balance": 1e308,
+                "contributions": [monthly_end("end", 1e308)]
+            })],
+        )
+        .scenario();
+
+        assert_eq!(1e308 + 0.0 + 1e308, f64::INFINITY);
+        assert_eq!(
+            project_scenario(&scenario),
+            Err(ProjectionError::NotFinite {
+                account: scenario.accounts()[0].id()
+            })
+        );
+    }
+
+    #[test]
+    fn fails_with_not_finite_and_the_account_id_when_only_cumulative_contributions_overflow_1e308_twice_at_a_rate_near_minus_1()
+     {
+        let to_february = one_shrinking_account("2026-02-01", 0.0, 1e308);
+        let projection = project(&to_february);
+        let series = only_account(projection.bands().baseline().accounts()).series();
+        let to_march = one_shrinking_account("2026-03-01", 0.0, 1e308);
+
+        assert_eq!(
+            (series.final_balance(), series.total_contributions()),
+            (1e308, 1e308)
+        );
+        assert_eq!(1e308 + 1e308, f64::INFINITY);
+        assert_eq!(
+            project_scenario(&to_march),
+            Err(ProjectionError::NotFinite {
+                account: to_march.accounts()[0].id()
+            })
+        );
+    }
+
+    #[test]
+    fn fails_with_not_finite_and_the_account_id_when_only_cumulative_interest_overflows_in_october_after_minus_1_795e308_by_september()
+     {
+        let to_october = one_shrinking_account("2026-10-01", 1e308, 1e307);
+        let projection = project(&to_october);
+        let series = only_account(projection.bands().baseline().accounts()).series();
+        let to_november = one_shrinking_account("2026-11-01", 1e308, 1e307);
+        let account = &to_november.accounts()[0];
+
+        assert_eq!(account.annual_rate(), Some(NEARLY_MINUS_1));
+        assert_eq!(series.final_balance(), 1.049_122_095_647_225_7e307);
+        assert_eq!(series.total_contributions(), 8.999_999_999_999_999e307);
+        assert_eq!(series.total_interest(), -1.795_087_790_435_277_3e308);
+        assert_eq!(
+            project_scenario(&to_november),
+            Err(ProjectionError::NotFinite {
+                account: account.id()
+            })
+        );
+        assert_eq!(
+            trace_account(&to_november, "shrinking", Band::Baseline),
+            Err(ProjectionError::NotFinite {
+                account: account.id()
+            })
+        );
+    }
+
+    #[test]
+    fn fails_with_not_finite_and_no_account_id_when_only_the_total_start_balance_overflows_9e307_twice()
+     {
+        let scenario = two_accounts("2026-02-01", 9e307, NEARLY_MINUS_1, 0.0);
+
+        assert_eq!(9e307 + 9e307, f64::INFINITY);
+        assert_eq!(
+            project_scenario(&scenario),
+            Err(ProjectionError::ScenarioNotFinite)
+        );
+    }
+
+    #[test]
+    fn fails_with_not_finite_and_no_account_id_when_only_a_total_row_balance_overflows_1_1e308_twice()
+     {
+        let scenario = two_accounts("2026-02-01", 6e307, 0.0, 5e307);
+
+        assert_eq!(6e307 + 6e307, 1.2e308);
+        assert_eq!(1.1e308 + 1.1e308, f64::INFINITY);
+        assert_eq!(
+            project_scenario(&scenario),
+            Err(ProjectionError::ScenarioNotFinite)
+        );
+    }
+
+    #[test]
+    fn fails_with_not_finite_and_no_account_id_when_only_a_total_row_contribution_overflows_1_2e308_twice()
+     {
+        let scenario = two_accounts("2026-03-01", 0.0, NEARLY_MINUS_1, 6e307);
+
+        assert_eq!(1.2e308 + 1.2e308, f64::INFINITY);
+        assert_eq!(
+            project_scenario(&scenario),
+            Err(ProjectionError::ScenarioNotFinite)
+        );
+    }
+
+    #[test]
+    fn fails_with_not_finite_and_no_account_id_when_only_a_total_row_interest_overflows_in_march() {
+        let to_march = two_accounts("2026-03-01", 8e307, NEARLY_MINUS_1, 1e307);
+        let to_april = two_accounts("2026-04-01", 8e307, NEARLY_MINUS_1, 1e307);
+
+        assert_eq!(
+            project(&to_march)
+                .bands()
+                .baseline()
+                .total()
+                .total_interest(),
+            -1.787_127_886_868_554e308
+        );
+        assert_eq!(
+            project_scenario(&to_april),
+            Err(ProjectionError::ScenarioNotFinite)
         );
     }
 

@@ -402,6 +402,19 @@ mod bisect {
     }
 
     #[test]
+    fn returns_a_finite_rate_from_a_bracket_of_1e308_to_1_7e308_whose_sum_overflows() {
+        let mut calls = Vec::new();
+        let rate = bisect_rate(1e308, 1.7e308, 0.0, |midpoint| {
+            calls.push(midpoint);
+            midpoint
+        });
+
+        assert_eq!(1e308 + 1.7e308, f64::INFINITY);
+        assert_eq!(calls[0], 1.35e308);
+        assert_eq!(rate, 1e308);
+    }
+
+    #[test]
     fn moves_hi_down_when_the_result_equals_the_target_and_lo_up_only_when_it_is_below() {
         let mut calls = Vec::new();
         bisect_rate(0.0, 1.0, 0.5, |midpoint| {
@@ -665,6 +678,26 @@ mod weighted_rate {
                 },
                 Some(2730.0)
             )]
+        );
+    }
+
+    #[test]
+    fn divides_the_weighted_sum_by_the_total_balance_4095_x_10_over_11_is_3722_7272727272725_not_times_1_over_11()
+     {
+        let scenario = Setup::new(
+            "2026-12-01",
+            "2027-01-01",
+            vec![
+                json!({ "id": "zero", "balance": 1 }),
+                json!({ "id": "doubling", "balance": 5, "annualRate": DOUBLING_MONTHLY_RATE }),
+            ],
+        )
+        .scenario();
+
+        assert_eq!(40_950.0 * (1.0 / 11.0), 3_722.727_272_727_273);
+        assert_eq!(
+            weighted_rates(&project(&scenario)),
+            [Some(3_722.727_272_727_272_5)]
         );
     }
 
