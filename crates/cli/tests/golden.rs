@@ -1,5 +1,6 @@
-//! Runs every case in `crates/cli/tests/golden/` through `retirement-calc` and compares what it
-//! prints with the expected files, by the parity harness's rule from spec 4 part F.
+//! Runs every case in `crates/cli/tests/golden/` through `retirement-calc` and requires its stdout
+//! to be the expected file byte for byte. `just golden` writes the expected files through
+//! [`write_the_golden_set_to_staging`].
 
 use std::error::Error;
 use std::fmt;
@@ -9,37 +10,34 @@ use std::process::Command;
 
 use serde::Deserialize;
 use serde::de::{self, MapAccess, SeqAccess, Visitor};
+use serde_json::Value;
 
 type TestResult<T = ()> = Result<T, Box<dyn Error>>;
-
-/// Two numbers agree when `|a - b| <= TOLERANCE * max(1, |a|, |b|)`.
-const TOLERANCE: f64 = 1e-9;
 
 /// Every group of golden cases and how many cases it holds.
 const GROUPS: [(&str, usize); 4] = [
     ("examples", 5),
     ("generated", 200),
-    ("hand-computed", 7),
-    ("regressions", 11),
+    ("hand-computed", 10),
+    ("regressions", 14),
 ];
 
-const TOTAL_CASES: usize = 223;
+const TOTAL_CASES: usize = 229;
 
-const INPUT_FILES: [&str; 2] = ["scenario.json", "today"];
+/// Lists every case as `group/name`, one per line, sorted.
+const MANIFEST: &str = "manifest";
+const SCENARIO_FILE: &str = "scenario.json";
+const TODAY_FILE: &str = "today";
 const PROJECTION_FILE: &str = "projection.json";
-const TRACE_FILES: [&str; 2] = ["trace", "trace.json"];
+const TRACE_FILE: &str = "trace";
+const TRACE_JSON_FILE: &str = "trace.json";
 
-fn golden_dir() -> PathBuf {
-    Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/golden")
+fn tests_dir() -> PathBuf {
+    Path::new(env!("CARGO_MANIFEST_DIR")).join("tests")
 }
 
-/// The case folders of `group`, sorted by name.
-fn cases_in(group: &str) -> TestResult<Vec<PathBuf>> {
-    let mut cases = fs::read_dir(golden_dir().join(group))?
-        .map(|entry| Ok(entry?.path()))
-        .collect::<TestResult<Vec<_>>>()?;
-    cases.sort();
-    Ok(cases)
+fn golden_dir() -> PathBuf {
+    tests_dir().join("golden")
 }
 
 fn names_in(dir: &Path) -> TestResult<Vec<String>> {
@@ -54,6 +52,23 @@ fn names_in(dir: &Path) -> TestResult<Vec<String>> {
     Ok(names)
 }
 
+/// Every case under `root` as `group/name`, sorted, from the folders present.
+fn case_names(root: &Path) -> TestResult<Vec<String>> {
+    let mut cases = Vec::new();
+    for group in names_in(root)? {
+        if group != MANIFEST {
+            for name in names_in(&root.join(&group))? {
+                cases.push(format!("{group}/{name}"));
+            }
+        }
+    }
+    Ok(cases)
+}
+
+fn manifest_text(cases: &[String]) -> String {
+    cases.iter().map(|case| format!("{case}\n")).collect()
+}
+
 /// One line of a text file, without its newline.
 fn read_line(path: &Path) -> TestResult<String> {
     let text = fs::read_to_string(path)?;
@@ -64,7 +79,7 @@ fn read_line(path: &Path) -> TestResult<String> {
 }
 
 /// Parsed JSON with each object's keys in the order they were printed.
-#[derive(Debug, PartialEq)]
+#[derive(Debug)]
 enum Node {
     Null,
     Bool(bool),
@@ -166,16 +181,12 @@ impl<'de> Visitor<'de> for NodeVisitor {
     }
 }
 
-fn numbers_agree(expected: f64, actual: f64) -> bool {
-    (expected - actual).abs() <= TOLERANCE * 1.0_f64.max(expected.abs()).max(actual.abs())
-}
-
 /// The first place two documents disagree: keys and their order, array lengths, strings,
-/// booleans and nulls must be identical, and numbers must agree within the tolerance.
+/// booleans and nulls must be identical, and numbers must have the same bits.
 fn first_difference(expected: &Node, actual: &Node, path: &str) -> Option<String> {
     match (expected, actual) {
         (Node::Number(a), Node::Number(b)) => {
-            (!numbers_agree(*a, *b)).then(|| format!("{path}: expected {a}, got {b}"))
+            (a.to_bits() != b.to_bits()).then(|| format!("{path}: expected {a:?}, got {b:?}"))
         }
         (Node::Array(a), Node::Array(b)) => {
             if a.len() != b.len() {
@@ -194,21 +205,20 @@ fn first_difference(expected: &Node, actual: &Node, path: &str) -> Option<String
                 .zip(b)
                 .find_map(|((name, a), (_, b))| first_difference(a, b, &format!("{path}.{name}")))
         }
+        (Node::Null, Node::Null) => None,
+        (Node::Bool(a), Node::Bool(b)) if a == b => None,
+        (Node::String(a), Node::String(b)) if a == b => None,
         _ if expected.kind() != actual.kind() => Some(format!(
             "{path}: expected a {}, got a {}",
             expected.kind(),
             actual.kind()
         )),
-        _ => (expected != actual).then(|| format!("{path}: expected {expected:?}, got {actual:?}")),
+        _ => Some(format!("{path}: expected {expected:?}, got {actual:?}")),
     }
 }
 
 fn keys(entries: &[(String, Node)]) -> Vec<&str> {
     entries.iter().map(|(name, _)| name.as_str()).collect()
-}
-
-fn code(error: &Node) -> Option<&str> {
-    error.member("code").and_then(Node::string)
 }
 
 /// The `error` member of an error document, when `document` is one.
@@ -219,91 +229,123 @@ fn error_of(document: &Node) -> Option<&Node> {
     }
 }
 
-/// How two error members disagree. The code must match. Ids are compared except for
-/// `invalid_field`, and for `not_finite` only when both carry one.
-fn error_difference(expected: &Node, actual: &Node) -> Option<String> {
-    let expected_code = code(expected)?;
-    if code(actual) != Some(expected_code) {
-        return Some(format!("code {expected_code}, got {:?}", code(actual)));
-    }
-    ["accountId", "ruleId"].into_iter().find_map(|field| {
-        let a = expected.member(field).and_then(Node::string);
-        let b = actual.member(field).and_then(Node::string);
-        let compared = match expected_code {
-            "invalid_field" => false,
-            "not_finite" => a.is_some() && b.is_some(),
-            _ => true,
-        };
-        (compared && a != b).then(|| format!("{field} {a:?}, got {b:?}"))
-    })
+/// The exit status the CLI gives when it prints `document`.
+fn status_of(document: &Node) -> i32 {
+    if error_of(document).is_some() { 2 } else { 0 }
 }
 
-/// Runs the CLI with `args` and says how its output differs from `expected_path`, if it does.
-fn run_difference(args: &[&str], expected_path: &Path) -> TestResult<Option<String>> {
+/// The account a case traces: the first account of a scenario that projects, or that parses and
+/// then fails with `not_finite`, the only error a parsed scenario's projection gives. A scenario
+/// that fails to parse has no trace.
+fn traced_account<'a>(scenario: &'a Value, projection: &Node) -> Option<&'a str> {
+    if let Some(error) = error_of(projection)
+        && error.member("code").and_then(Node::string) != Some("not_finite")
+    {
+        return None;
+    }
+    scenario.get("accounts")?.get(0)?.get("id")?.as_str()
+}
+
+fn read_scenario(case: &Path) -> TestResult<Value> {
+    Ok(serde_json::from_slice(&fs::read(
+        case.join(SCENARIO_FILE),
+    )?)?)
+}
+
+/// The CLI's stdout and exit status for `args`.
+fn run_cli(args: &[&str]) -> TestResult<(Vec<u8>, Option<i32>)> {
     let output = Command::new(env!("CARGO_BIN_EXE_retirement-calc"))
         .args(args)
         .output()?;
-    let expected = Node::parse(&fs::read(expected_path)?)?;
-    let status = output.status.code();
-    let Some(expected_error) = error_of(&expected) else {
-        if status != Some(0) {
-            return Ok(Some(format!("exit {status:?}, expected 0")));
-        }
-        return Ok(first_difference(
-            &expected,
-            &Node::parse(&output.stdout)?,
-            "$",
-        ));
-    };
-    if status != Some(2) {
-        return Ok(Some(format!("exit {status:?}, expected 2")));
+    Ok((output.stdout, output.status.code()))
+}
+
+/// How the CLI's output for `args` differs from the bytes of `expected_path`, if it does.
+fn run_difference(args: &[&str], expected_path: &Path) -> TestResult<Option<String>> {
+    let (stdout, status) = run_cli(args)?;
+    let expected_bytes = fs::read(expected_path)?;
+    let expected = Node::parse(&expected_bytes)?;
+    let expected_status = status_of(&expected);
+    if status != Some(expected_status) {
+        return Ok(Some(format!("exit {status:?}, expected {expected_status}")));
     }
-    let actual = Node::parse(&output.stdout)?;
-    let Some(actual_error) = error_of(&actual) else {
-        return Ok(Some("exit 2 without an error document".to_owned()));
-    };
-    Ok(error_difference(expected_error, actual_error))
+    if stdout == expected_bytes {
+        return Ok(None);
+    }
+    let difference = first_difference(&expected, &Node::parse(&stdout)?, "$")
+        .unwrap_or_else(|| "the same JSON printed differently".to_owned());
+    Ok(Some(difference))
+}
+
+fn case_args(case: &Path) -> TestResult<(String, String)> {
+    let scenario = case.join(SCENARIO_FILE);
+    let scenario = scenario
+        .to_str()
+        .ok_or("a path that is not UTF-8")?
+        .to_owned();
+    Ok((scenario, read_line(&case.join(TODAY_FILE))?))
 }
 
 fn case_differences(case: &Path) -> TestResult<Vec<String>> {
-    let scenario = case.join("scenario.json");
-    let scenario = scenario.to_str().ok_or("a path that is not UTF-8")?;
-    let today = read_line(&case.join("today"))?;
-    let args = ["--scenario", scenario, "--today", &today];
+    let (scenario, today) = case_args(case)?;
+    let args = ["--scenario", &scenario, "--today", &today];
     let mut differences = Vec::new();
     if let Some(difference) = run_difference(&args, &case.join(PROJECTION_FILE))? {
-        differences.push(format!("projection: {difference}"));
+        differences.push(format!("{PROJECTION_FILE}: {difference}"));
     }
-    let [trace_file, trace_json] = TRACE_FILES;
-    if case.join(trace_file).exists() {
-        let account_id = read_line(&case.join(trace_file))?;
+    if case.join(TRACE_FILE).exists() {
+        let account_id = read_line(&case.join(TRACE_FILE))?;
         let traced = [&args[..], &["--trace", &account_id]].concat();
-        if let Some(difference) = run_difference(&traced, &case.join(trace_json))? {
-            differences.push(format!("trace: {difference}"));
+        if let Some(difference) = run_difference(&traced, &case.join(TRACE_JSON_FILE))? {
+            differences.push(format!("{TRACE_JSON_FILE}: {difference}"));
         }
     }
     Ok(differences)
 }
 
+/// The files `case` must hold, by the trace rule, and how its `trace` file must read.
+fn expected_files(case: &Path) -> TestResult<(Vec<&'static str>, Option<String>)> {
+    let scenario = read_scenario(case)?;
+    let projection = Node::parse(&fs::read(case.join(PROJECTION_FILE))?)?;
+    let mut files = vec![PROJECTION_FILE, SCENARIO_FILE, TODAY_FILE];
+    let traced = traced_account(&scenario, &projection).map(|id| format!("{id}\n"));
+    if traced.is_some() {
+        files.extend([TRACE_FILE, TRACE_JSON_FILE]);
+    }
+    files.sort_unstable();
+    Ok((files, traced))
+}
+
 #[test]
-fn golden_groups_hold_the_pinned_cases() -> TestResult {
-    let groups = GROUPS.map(|(group, _)| group.to_owned());
-    assert_eq!(names_in(&golden_dir())?, groups);
-    let mut total = 0;
+fn golden_set_holds_the_pinned_cases_and_files() -> TestResult {
+    let golden = golden_dir();
+    let mut expected_top: Vec<&str> = GROUPS.iter().map(|&(group, _)| group).collect();
+    expected_top.push(MANIFEST);
+    expected_top.sort_unstable();
+    assert_eq!(names_in(&golden)?, expected_top);
+    let cases = case_names(&golden)?;
+    assert_eq!(
+        fs::read_to_string(golden.join(MANIFEST))?,
+        manifest_text(&cases),
+        "the case folders differ from {MANIFEST}"
+    );
     for (group, count) in GROUPS {
-        let cases = cases_in(group)?;
-        assert_eq!(cases.len(), count, "{group}");
-        total += cases.len();
-        for case in cases {
-            let mut expected = [INPUT_FILES[0], INPUT_FILES[1], PROJECTION_FILE].to_vec();
-            if case.join(TRACE_FILES[0]).exists() {
-                expected.extend(TRACE_FILES);
-            }
-            expected.sort_unstable();
-            assert_eq!(names_in(&case)?, expected, "{}", case.display());
+        let prefix = format!("{group}/");
+        let held = cases
+            .iter()
+            .filter(|case| case.starts_with(&prefix))
+            .count();
+        assert_eq!(held, count, "{group}");
+    }
+    assert_eq!(cases.len(), TOTAL_CASES);
+    for case in &cases {
+        let dir = golden.join(case);
+        let (files, traced) = expected_files(&dir)?;
+        assert_eq!(names_in(&dir)?, files, "{case}");
+        if let Some(traced) = traced {
+            assert_eq!(fs::read_to_string(dir.join(TRACE_FILE))?, traced, "{case}");
         }
     }
-    assert_eq!(total, TOTAL_CASES);
     Ok(())
 }
 
@@ -323,11 +365,12 @@ fn chunk_failures(cases: &[PathBuf]) -> Result<Vec<String>, String> {
 }
 
 #[test]
-fn rust_cli_reproduces_every_golden_case() -> TestResult {
-    let mut cases = Vec::new();
-    for (group, _) in GROUPS {
-        cases.extend(cases_in(group)?);
-    }
+fn rust_cli_prints_every_golden_case_byte_for_byte() -> TestResult {
+    let golden = golden_dir();
+    let cases: Vec<PathBuf> = case_names(&golden)?
+        .iter()
+        .map(|case| golden.join(case))
+        .collect();
     let workers = std::thread::available_parallelism()?.get();
     let chunk = cases.len().div_ceil(workers).max(1);
     let failures = std::thread::scope(|scope| {
@@ -342,5 +385,50 @@ fn rust_cli_reproduces_every_golden_case() -> TestResult {
     })?;
     let failures = failures.concat();
     assert!(failures.is_empty(), "{}", failures.join("\n"));
+    Ok(())
+}
+
+/// The CLI's document for `args`, checked against the exit status it gave.
+fn write_output(args: &[&str], path: &Path) -> TestResult<Node> {
+    let (stdout, status) = run_cli(args)?;
+    let document = Node::parse(&stdout)
+        .map_err(|error| format!("{}: exit {status:?}: {error}", path.display()))?;
+    if status != Some(status_of(&document)) {
+        return Err(format!(
+            "{}: exit {status:?} does not match its document",
+            path.display()
+        )
+        .into());
+    }
+    fs::write(path, stdout)?;
+    Ok(document)
+}
+
+/// Copies the inputs of every case in the golden set to `.golden-new` beside it, with the CLI's
+/// output for each, the trace files the trace rule asks for, and the manifest.
+#[test]
+#[ignore = "writes crates/cli/tests/.golden-new for just golden"]
+fn write_the_golden_set_to_staging() -> TestResult {
+    let golden = golden_dir();
+    let staged = tests_dir().join(".golden-new");
+    fs::create_dir(&staged)?;
+    let cases = case_names(&golden)?;
+    for case in &cases {
+        let (from, to) = (golden.join(case), staged.join(case));
+        fs::create_dir_all(&to)?;
+        for file in [SCENARIO_FILE, TODAY_FILE] {
+            fs::copy(from.join(file), to.join(file))?;
+        }
+        let (scenario_path, today) = case_args(&to)?;
+        let args = ["--scenario", &scenario_path, "--today", &today];
+        let projection = write_output(&args, &to.join(PROJECTION_FILE))?;
+        let scenario = read_scenario(&to)?;
+        if let Some(account_id) = traced_account(&scenario, &projection) {
+            fs::write(to.join(TRACE_FILE), format!("{account_id}\n"))?;
+            let traced = [&args[..], &["--trace", account_id]].concat();
+            write_output(&traced, &to.join(TRACE_JSON_FILE))?;
+        }
+    }
+    fs::write(staged.join(MANIFEST), manifest_text(&cases))?;
     Ok(())
 }
