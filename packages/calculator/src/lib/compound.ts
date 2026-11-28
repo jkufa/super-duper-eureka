@@ -22,6 +22,9 @@ export interface MonthDeposits {
   deposits: Array<Deposit>;
 }
 
+type MonthDays = Pick<ScheduleMonth, 'daysInMonth' | 'daysInYear'>;
+type BucketedAmount = Pick<Deposit, 'amount' | 'bucket'>;
+
 export interface BucketTotals {
   start: number;
   end: number;
@@ -65,7 +68,7 @@ export function groupByMonth(schedule: Schedule): Array<MonthDeposits> {
   return groups;
 }
 
-export function totalByBucket(deposits: Array<Deposit>): BucketTotals {
+export function totalByBucket(deposits: ReadonlyArray<BucketedAmount>): BucketTotals {
   const totals: BucketTotals = { start: 0, end: 0, byDay: new Map() };
   for (const deposit of deposits) {
     if (deposit.bucket === 'start') {
@@ -83,7 +86,7 @@ export function totalByBucket(deposits: Array<Deposit>): BucketTotals {
 export function compoundMonth(
   balance: number,
   totals: BucketTotals,
-  month: ScheduleMonth,
+  month: MonthDays,
   compounding: CompoundingFrequency,
   annualRate: number
 ) {
@@ -107,7 +110,7 @@ function compoundMonthly(balance: number, totals: BucketTotals, annualRate: numb
 function compoundDaily(
   startBalance: number,
   totals: BucketTotals,
-  month: ScheduleMonth,
+  month: MonthDays,
   annualRate: number
 ) {
   const dailyRate = (1 + annualRate) ** (1 / month.daysInYear) - 1;
