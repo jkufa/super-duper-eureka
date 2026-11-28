@@ -2,14 +2,12 @@
   "name": "super-duper-eureka",
   "private": true,
   "workspaces": [
-    "packages/*",
-    "apps/*"
+    "packages/*"
   ],
   "type": "module",
   "scripts": {
     "build": "vp run -r build",
-    "dev": "vp run webapp-legacy#dev",
-    "check": "vp check && bun scripts/check-kit-deps.ts && vp run webapp-legacy#check && vp run web#check && vp run desktop#check",
+    "check": "vp check",
     "lint": "vp lint",
     "format": "vp fmt"
   },
