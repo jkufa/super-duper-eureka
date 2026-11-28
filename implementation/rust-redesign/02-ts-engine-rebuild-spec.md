@@ -187,8 +187,10 @@ Part C implements and validates all of these types. Its `projectAccount` works o
 - An error on or inside an account carries that account's id, and one on or inside a rule carries the rule's id too, whenever the id itself is a readable string. That includes an unknown key directly on the account or rule.
 - Every element of `accounts` and `contributions` is checked, including a hole in an array.
 - Filled defaults: `variance` 0, `annualRaiseRate` 0, `compounding` `monthly`, a rule's `enabled` true, `placement` `start`, `salaryBasis` `annual`.
-- Which code a single fault raises. A missing, mistyped or unsupported `version` is `unsupported_version`. A rate, raise or variance that is a number but breaks a rule below is `invalid_rate`, and one that is not a number is `invalid_field`.
+- Which code a single fault raises. `version` is read before anything else. A whole number other than 1 is `unsupported_version`, even when the rest of the file is in a shape this version does not know. A missing `version`, or one that is not a whole number, is `invalid_field`. A rate, raise or variance that is a number but breaks a rule below is `invalid_rate`, and one that is not a number is `invalid_field`.
 - Several faults at once. The parser reports one of them. Which one is not part of the contract, and the parity run compares errors on single-fault inputs only.
+- `invalid_field` is about the file's shape, and the two languages find shape errors differently. Rust's deserialiser stops at the first one without knowing which account it was in. So for `invalid_field` the parity run compares the code alone, not the path or the ids. Every other code is compared with its ids.
+- A number literal too large for a float, such as `1e400`, reads as infinity in JavaScript and is a read error in Rust. The parity corpus never contains one.
 
 | Code                           | Raised when                                                                                                                                                                                   |
 | ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

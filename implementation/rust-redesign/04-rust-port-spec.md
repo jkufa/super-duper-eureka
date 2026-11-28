@@ -77,7 +77,7 @@ The comparison:
 
 - Keys, array lengths, strings, booleans, `null`s, dates, ids and integers must be identical.
 - Two numbers `a` and `b` agree when `|a - b| <= 1e-9 * max(1, |a|, |b|)`.
-- An invalid case must fail in both with the same error `code` and the same account or rule id.
+- An invalid case must fail in both with the same error `code` and the same account or rule id. For `invalid_field` compare the code alone. Rust's deserialiser reports a shape error without knowing which account it was in.
 - For every valid case also compare the trace of its first account in the baseline band.
 
 Rules for the run:
