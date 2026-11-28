@@ -38,9 +38,8 @@ export function buildAccountSchedule(
   to: PlainDate
 ): Array<ScheduledMonth> {
   const rules = account.contributions.filter((rule) => rule.enabled);
-  const months: Array<ScheduledMonth> = [];
-  for (let first = { ...from, day: 1 }; compareDates(first, to) < 0; first = addMonths(first, 1)) {
-    const month = monthSegment(first, from, to);
+  const months = monthSegments(from, to);
+  for (const month of months) {
     for (const rule of rules) {
       const date = depositDate(rule, month);
       if (!date || compareDates(date, month.from) < 0 || compareDates(date, month.to) >= 0) {
@@ -57,7 +56,18 @@ export function buildAccountSchedule(
         bucket: depositBucket(rule.timing, date, scenario.interest.compounding, month.daysInMonth)
       });
     }
-    months.push(month);
+  }
+  return months;
+}
+
+/** One segment per calendar month from `from` up to `to`, with no deposits. Empty when `from` is on or after `to`. */
+export function monthSegments(from: PlainDate, to: PlainDate): Array<ScheduledMonth> {
+  const months: Array<ScheduledMonth> = [];
+  if (compareDates(from, to) >= 0) {
+    return months;
+  }
+  for (let first = { ...from, day: 1 }; compareDates(first, to) < 0; first = addMonths(first, 1)) {
+    months.push(monthSegment(first, from, to));
   }
   return months;
 }
