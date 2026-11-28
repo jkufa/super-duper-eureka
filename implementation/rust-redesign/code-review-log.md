@@ -199,7 +199,7 @@ For PR review agents only. Orchestration and implementation agents do not read t
 - What: The adapter says to substitute day 1 for a missing one-time day but has no rule for impossible explicit dates. A fixture specifies April 31, which is accepted by the legacy engine and would fail civil-date validation when copied literally.
 - Better: Clamp the legacy day in the target year and month before formatting the adapter's one-time date.
 - Seen before: no
-- Promoted: no
+- Promoted: yes, the timing variant guideline in AGENTS.md
 
 ### 2026-11-27, spec 2 part A, exact parity depends on unstated rounding and evaluation order
 
@@ -272,3 +272,51 @@ For PR review agents only. Orchestration and implementation agents do not read t
 - Better: Apply the strict schema or equality check directly to the original parsed JSON at every entry point.
 - Seen before: 2026-11-27, spec 2 part A, type predicates promise unvalidated fixture fields
 - Promoted: yes, the original fixture validation guideline in AGENTS.md
+
+### 2026-11-27, spec 2 part B, the schedule loses the resolved deposit date
+
+- Where: `packages/calculator/src/lib/schedule.ts:20`, PR #10 at `9ddcef8`
+- What: With a one-month horizon starting on January 1, changing a monthly rule from day 2 to day 15 produces an identical schedule in monthly mode. Both deposits carry offset 0 and the start bucket. Part C needs the actual day to filter a range and part E promises it in the trace.
+- Better: Resolve the calendar date once in the builder and retain it alongside the bucket. Test two distinct dates in the same bucket.
+- Seen before: 2026-11-27, spec 2 part A, schedule order and grouping underspecified for exact parity
+- Promoted: yes, the resolved date and compounding bucket guideline in AGENTS.md
+
+### 2026-11-27, spec 2 part B, day lookup changes behavior for existing CLI input
+
+- Where: `packages/calculator/src/lib/compound.ts:76` and `:132`, PR #10
+- What: The CLI reads JSON without checking day types. A daily projection with a seven-dollar monthly contribution on `"2"` used to credit seven dollars. The map stores the string key and looks up a number. The new balance stays zero while the trace reports seven on day 2.
+- Better: Preserve the old property-key semantics on both insertion and lookup. Pin the CLI case while it accepts these files.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-27, spec 2 part B, the trace rereads caller-owned state
+
+- Where: `packages/calculator/src/lib/calculator.ts:157` and `:186`, PR #10
+- What: With one month, zero interest, no deposits and a balance getter returning 1 then 2, the projection and summary end at 1 while the last step ends at 2. A rule whose amount getter removes itself from the caller's array produces a missing-rule exception where the old engine returned its deposit.
+- Better: Give projection and trace the same captured opening balance. Capture the contributing rule or its trace fields when resolving the deposit.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-27, spec 2 part B, sorting by deposit date survives the full suite
+
+- Where: `packages/calculator/src/lib/__testing__/compound.test.ts:51`, PR #10
+- What: Sorting by actual day immediately before summing buckets leaves all 536 tests passing. In January, in monthly mode at zero interest and zero opening balance, amounts of 1e16, 1 and 1 on days 15, 3 and 2 produce 10000000000000000 in file order and 10000000000000002 in date order.
+- Better: Pin that balance in a test the Rust port will copy. Add a direct daily start-placement schedule case alongside the existing end-placement case.
+- Seen before: 2026-11-27, spec 2 part A, schedule order and grouping underspecified for exact parity
+- Promoted: yes, the summation order test guideline in AGENTS.md
+
+### 2026-11-27, spec 2 part B, bucket wording omits legacy day resolution
+
+- Where: `implementation/rust-redesign/02-ts-engine-rebuild-spec.md:75`, PR #10
+- What: Both engines treat a recurring day of zero as missing even when placement is end. The daily one-time branch instead clamps an explicit zero to day 1 and a day past month end to the last day. The daily grouping paragraph specifies clamping only for recurring rules.
+- Better: State the recurring-day presence test and both one-time clamp bounds. Distinguish legacy inputs from the stricter validation planned for part C.
+- Seen before: 2026-11-27, spec 2 part A, adapter maps legacy offsets to invalid dates
+- Promoted: yes, the timing variant guideline in AGENTS.md
+
+### 2026-11-27, spec 2 part B, a daily guard also skips NaN
+
+- Where: `implementation/rust-redesign/02-ts-engine-rebuild-spec.md:79`, PR #10
+- What: Both engines use a truthiness test for a placement total and for the merged day's deposit. A NaN start total alongside a day-1 deposit of seven produces a balance of seven at zero interest. Replacing the placement guard with unconditional addition gives zero. All 536 tests pass with that mutation.
+- Better: Specify which non-finite values the legacy guard skips, or explicitly scope the arithmetic description to finite intermediates. Use the seven-dollar case to test the guard if preserving that behavior.
+- Seen before: no
+- Promoted: no
