@@ -46,6 +46,7 @@ Port `compound` and `projectAccount` from spec 2 parts B and D, both modes, with
 
 ## Part C: scenario projection
 
+`Scenario` carries `today`, stored by `Scenario::parse`, and `project_scenario` takes the scenario alone. Part A adds the field.
 Port `projectScenario` from spec 2 parts E and F: the roll forward, the per-account series, the total, the three bands, `staleAccounts`, the effective rate and the weighted rate.
 
 - The effective rate runs exactly 60 passes, with the same shortcuts in the same order as spec 2.
