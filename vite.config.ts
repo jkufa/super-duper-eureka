@@ -15,7 +15,7 @@ export default defineConfig({
     }
   },
   test: {
-    projects: ['packages/calculator']
+    projects: ['packages/calculator', 'packages/cli']
   },
   fmt: {
     useTabs: false,
