@@ -80,7 +80,7 @@ Port `traceAccount`. Same records, same field names.
 
 A script that proves the two engines agree.
 
-1. Generate cases with spec 2's generator, seeds 1 to N: `vp run parity-corpus <dir> 1 N`.
+1. Generate cases with spec 2's generator, seeds 1 to N. The harness calls the generator itself: `vp run parity <workDir> <N>` writes the cases to `<workDir>`, which must be outside the repo, builds the release Rust CLI and runs every case.
 2. Run each case through the TypeScript CLI on Bun and the Rust CLI, as `--scenario <seed>.scenario.json --today <today>`, with `today` read from `<seed>.json`. Bun is the reference runtime. Node computes whole-number powers differently in the last digit. On 200,000 samples it matched `powf` on all but 5 and disagreed with `powi` on 163,875.
 3. Compare the two JSON documents.
 
@@ -96,7 +96,8 @@ Use the traits in `<seed>.json`:
 
 - A failing case names its expected code and ids. Both CLIs must report them, and the harness checks each against the traits as well as against the other.
 - Report results grouped by trait, so a difference that only shows with one edge is visible as such.
-- Cases with `growth_periods_over_1000` are where the two languages are known to differ in the last bit. Report the largest relative difference inside those cases and outside them separately. Outside them the expectation is zero.
+- Cases with `growth_periods_over_1000` are where the two languages are known to differ in the last bit. Report the largest relative difference inside those cases and outside them separately. Outside them the expectation is zero, and any numeric difference at all there is a mismatch.
+- An engine-error case carries only its fault traits, yet the trace of its first account can succeed and reach more than 1,000 growth periods. The harness reads the valid traits of such a case with `observeTraits`.
 
 Rules for the run:
 
@@ -104,6 +105,8 @@ Rules for the run:
 - The script prints the largest relative difference it saw across all numbers. Record it. If it is below 1e-12, tighten the tolerance to 100 times the observed maximum and rerun.
 - Any mismatch is a bug in the port until shown otherwise. Shrink the case to the smallest scenario that still fails, save it under `parity/regressions/` with a name that says what it exercises, and fix the cause. Regression cases run on every later parity run. Turso does the same with what its fuzzer finds.
 - Do not raise the tolerance to make a case pass. If a real last-digit difference is larger than 1e-9, stop and report it.
+
+The acceptance run, on 2026-11-28: seeds 1 to 20,000 and 11 regression cases. 309,071,208 numbers compared, no mismatch. Outside the 529 `growth_periods_over_1000` cases every number was identical. Inside them the largest relative difference was 1.61e-10, so the tolerance stays at 1e-9.
 
 ## Part G: golden files and property tests
 
