@@ -83,7 +83,7 @@ Design:
 - Use an enum where the set of values is closed: account kind, frequency, compounding, band, bucket. Never match on strings.
 - Give ids and dates their own types, so a function that takes an account id cannot be passed a rule id.
 - `core` returns an error enum with one variant per failure, carrying the id of the account or rule at fault. `anyhow` and other catch-all error types belong only in binaries.
-- `core` has no file access, clock, network, environment access, async or `unsafe`, and depends on nothing that brings those in. `crates/core/clippy.toml` bans the calls it can name.
+- `core` has no file access, clock, network, environment access, process spawning or async, and depends on nothing that brings those in. `crates/core/clippy.toml` bans the calls by path. When you add a dependency to `core`, ban its clock and I/O calls in the same commit. `unsafe` is forbidden in every crate.
 - No trait or generic parameter until two real callers need it.
 - No `.clone()` to satisfy the borrow checker. Restructure ownership instead.
 - Take `&[T]` and `&str`, not `&Vec<T>` and `&String`. Return owned values or iterators.

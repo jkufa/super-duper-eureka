@@ -440,3 +440,19 @@ For PR review agents only. Orchestration and implementation agents do not read t
 - Better: Include the TraceSegment and TraceDeposit wire shapes with their inclusive start and exclusive end.
 - Seen before: no
 - Promoted: no
+
+### 2026-11-28, spec 3, clock and environment bans name one function and miss its siblings
+
+- Where: `crates/core/clippy.toml`, PR #12
+- What: The ban list names `SystemTime::now`, `Instant::now`, and `std::env::var`. `SystemTime::UNIX_EPOCH.elapsed()`, `Instant::elapsed`, `std::env::var_os`, `std::env::vars`, and `std::fs::read` all pass `just check`. So does an `async fn` and an `unsafe` block.
+- Better: Ban each sibling path that reads the clock, the environment, the filesystem, or the network, and forbid `unsafe` in `core`. There is no lint that forbids `async fn`.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-28, spec 3, unpublished-crate licence skip is not limited to the workspace
+
+- Where: `deny.toml`, PR #12
+- What: `[licenses.private] ignore = true` skips every crate with `publish = false`. A path dependency outside the workspace, with that flag and either `GPL-3.0-only` or no licence, passed `cargo deny check licenses`. A publishable crate with the same licence failed.
+- Better: Do not treat `publish = false` as proof that a crate is ours. Keep the licence check on path dependencies.
+- Seen before: no
+- Promoted: no
