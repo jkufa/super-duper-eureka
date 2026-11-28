@@ -4,6 +4,8 @@ mod amount;
 
 use std::iter;
 
+use serde::{Serialize, Serializer};
+
 use crate::date::CalendarDate;
 use crate::project::ProjectionError;
 use crate::scenario::{
@@ -12,13 +14,24 @@ use crate::scenario::{
 
 pub use amount::salary_in_year;
 
-/// Where compounding adds a deposit within its month.
+/// Where compounding adds a deposit within its month. Serialises as `"start"`, `"end"` or the
+/// day's number.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Bucket {
     Start,
     End,
     /// A day of the month, 1 to 31. Only in daily compounding.
     Day(i8),
+}
+
+impl Serialize for Bucket {
+    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
+        match *self {
+            Self::Start => serializer.serialize_str("start"),
+            Self::End => serializer.serialize_str("end"),
+            Self::Day(day) => serializer.serialize_i8(day),
+        }
+    }
 }
 
 impl From<Placement> for Bucket {
@@ -30,7 +43,8 @@ impl From<Placement> for Bucket {
     }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Deposit<'a> {
     rule_id: &'a RuleId,
     date: CalendarDate,

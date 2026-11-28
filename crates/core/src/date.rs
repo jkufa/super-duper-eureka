@@ -2,6 +2,7 @@ use std::fmt;
 
 use jiff::Span;
 use jiff::civil::Date;
+use serde::{Serialize, Serializer};
 
 const FIRST_YEAR: i16 = 1;
 const LAST_YEAR: i16 = 9999;
@@ -86,6 +87,13 @@ impl fmt::Display for CalendarDate {
             self.month(),
             self.day()
         )
+    }
+}
+
+/// As `YYYY-MM-DD`, the form [`CalendarDate::parse`] reads.
+impl Serialize for CalendarDate {
+    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
+        serializer.collect_str(self)
     }
 }
 

@@ -1,13 +1,16 @@
 //! An account's month segments over a range with every figure compounding produced, from the
 //! same arithmetic as its series.
 
+use serde::Serialize;
+
 use super::{ProjectionError, compound_range};
 use crate::date::CalendarDate;
 use crate::scenario::{Account, Scenario};
 use crate::schedule::Deposit;
 
 /// One month's segment of a range, as compounded.
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct TraceSegment<'a> {
     from: CalendarDate,
     to: CalendarDate,

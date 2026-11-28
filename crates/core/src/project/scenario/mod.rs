@@ -4,6 +4,8 @@
 mod effective_rate;
 mod weighted;
 
+use serde::Serialize;
+
 use super::{
     MonthlyRow, ProjectionError, Series, TraceSegment, project_account, trace_account_range,
     yearly_rows,
@@ -38,7 +40,8 @@ impl Band {
     }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct ScenarioProjection<'a> {
     today: CalendarDate,
     end_date: CalendarDate,
@@ -78,7 +81,8 @@ impl<'a> ScenarioProjection<'a> {
     }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct StaleAccount<'a> {
     account_id: &'a AccountId,
     balance_as_of: CalendarDate,
@@ -94,7 +98,8 @@ impl<'a> StaleAccount<'a> {
     }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct YearSalary {
     year: i16,
     salary: f64,
@@ -111,7 +116,8 @@ impl YearSalary {
     }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Bands<'a> {
     baseline: BaselineProjection<'a>,
     positive: BandProjection<'a>,
@@ -132,7 +138,8 @@ impl<'a> Bands<'a> {
     }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct BandProjection<'a> {
     total: Series,
     accounts: Vec<AccountProjection<'a>>,
@@ -150,7 +157,8 @@ impl<'a> BandProjection<'a> {
     }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct AccountProjection<'a> {
     account_id: &'a AccountId,
     included: bool,
@@ -186,7 +194,8 @@ impl<'a> AccountProjection<'a> {
 
 /// What the roll forward from the balance's date to today added. Zero when the balance is dated
 /// today.
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct RolledForward {
     contributions: f64,
     interest: f64,
