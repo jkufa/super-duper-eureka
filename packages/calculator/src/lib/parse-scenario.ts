@@ -409,7 +409,11 @@ function checkUniqueIds(accounts: ReadonlyArray<Account>) {
 
 export function parseScenario(file: unknown, options: RunOptions): Scenario {
   const source = toSource(file, '', {});
-  if (source.fields.get('version') !== 1) {
+  const version = source.fields.get('version');
+  if (typeof version !== 'number' || !Number.isInteger(version)) {
+    failField(source, 'version', 'a whole number');
+  }
+  if (version !== 1) {
     fail('unsupported_version', 'version', 'expected 1', {});
   }
   checkKeys(source, SCENARIO_KEYS);
