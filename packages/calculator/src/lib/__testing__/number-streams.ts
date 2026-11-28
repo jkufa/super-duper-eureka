@@ -63,7 +63,7 @@ const BAND_ORDER = ['baseline', 'positive', 'negative'] as const;
 
 export function formatStreamValue(value: StreamValue): string {
   if (typeof value === 'string') {
-    return value;
+    return JSON.stringify(value);
   }
   return Object.is(value, -0) ? '-0' : String(value);
 }
