@@ -202,6 +202,13 @@ describe('parseScenario', () => {
       expectError({ version: 2, somethingNew: true }, 'unsupported_version');
     });
 
+    it('invalid_field for a version that is missing or not a whole number', () => {
+      const { version: _version, ...withoutVersion } = validFile();
+      expectError(withoutVersion, 'invalid_field');
+      expectError({ ...validFile(), version: '1' }, 'invalid_field');
+      expectError({ ...validFile(), version: 1.5 }, 'invalid_field');
+    });
+
     it('invalid_date', () => {
       expectError(
         edited((file) => {
