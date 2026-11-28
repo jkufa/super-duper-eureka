@@ -171,7 +171,7 @@ function grownAmount(rule: Rule, date: PlainDate): number {
   return rule.amount + growth.amount * periods;
 }
 
-function wholeMonthsBetween(start: PlainDate, end: PlainDate): number {
+export function wholeMonthsBetween(start: PlainDate, end: PlainDate): number {
   const months = (end.year - start.year) * MONTHS_PER_YEAR + end.month - start.month;
   return compareDates(addMonths(start, months), end) > 0 ? months - 1 : months;
 }

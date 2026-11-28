@@ -7,7 +7,11 @@ export default defineConfig({
   run: {
     tasks: {
       test: 'vp test',
-      'retirement-calc': { command: 'bun run packages/cli/src/index.ts', cache: false }
+      'retirement-calc': { command: 'bun run packages/cli/src/index.ts', cache: false },
+      'parity-corpus': {
+        command: 'bun packages/calculator/scripts/write-corpus.ts',
+        cache: false
+      }
     }
   },
   test: {
