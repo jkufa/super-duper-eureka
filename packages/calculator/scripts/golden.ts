@@ -22,12 +22,12 @@ import { errorReportOf, memberAt, parseJson } from './parity/compare';
 
 const USAGE = `Usage: golden <lastSeed>
 
-Captures the golden set from the TypeScript CLI on Bun into crates/core/tests/golden/: the CLI
+Captures the golden set from the TypeScript CLI on Bun into crates/cli/tests/golden/: the CLI
 examples, every case in parity/regressions/, the hand-computed cases, and 200 generated cases
 chosen from seeds 1 to lastSeed to cover every trait. The new set replaces the old one whole.`;
 
 const REPO = fileURLToPath(new URL('../../../', import.meta.url));
-const GOLDEN = join(REPO, 'crates/core/tests/golden');
+const GOLDEN = join(REPO, 'crates/cli/tests/golden');
 const EXAMPLES = join(REPO, 'packages/cli/examples');
 const REGRESSIONS = join(REPO, 'parity/regressions');
 const TS_CLI = join(REPO, 'packages/cli/src/index.ts');

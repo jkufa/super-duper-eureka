@@ -34,7 +34,7 @@ export default defineConfig({
       // Parity cases, printed by the corpus's stableJson.
       'parity/**',
       // Golden cases, printed by the two CLIs.
-      'crates/core/tests/golden/**'
+      'crates/cli/tests/golden/**'
     ]
   },
   lint: {

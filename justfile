@@ -16,16 +16,16 @@ fix:
     cargo fmt --all
     cargo clippy --fix --workspace --all-targets --allow-dirty
 
-# Rewrites the expected files under crates/core/tests/golden/ from the release Rust CLI. The new
+# Rewrites the expected files under crates/cli/tests/golden/ from the release Rust CLI. The new
 # set replaces the old one whole, or the old one stays.
 golden:
     #!/usr/bin/env bash
     set -euo pipefail
     cargo build --release -p retirement-cli
     cli=target/release/retirement-calc
-    golden=crates/core/tests/golden
-    staged=$(mktemp -d crates/core/tests/.golden-new-XXXXXX)
-    retired=$(mktemp -d crates/core/tests/.golden-old-XXXXXX)
+    golden=crates/cli/tests/golden
+    staged=$(mktemp -d crates/cli/tests/.golden-new-XXXXXX)
+    retired=$(mktemp -d crates/cli/tests/.golden-old-XXXXXX)
     trap 'rm -rf "$staged" "$retired"' EXIT
     cp -R "$golden/." "$staged/"
     write() {

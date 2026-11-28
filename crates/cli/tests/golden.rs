@@ -1,4 +1,4 @@
-//! Runs every case in `crates/core/tests/golden/` through `retirement-calc` and compares what it
+//! Runs every case in `crates/cli/tests/golden/` through `retirement-calc` and compares what it
 //! prints with the expected files, by the parity harness's rule from spec 4 part F.
 
 use std::error::Error;
@@ -30,7 +30,7 @@ const PROJECTION_FILE: &str = "projection.json";
 const TRACE_FILES: [&str; 2] = ["trace", "trace.json"];
 
 fn golden_dir() -> PathBuf {
-    Path::new(env!("CARGO_MANIFEST_DIR")).join("../core/tests/golden")
+    Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/golden")
 }
 
 /// The case folders of `group`, sorted by name.
