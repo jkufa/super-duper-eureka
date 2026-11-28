@@ -1,0 +1,599 @@
+{
+  "today": "2026-01-01",
+  "endDate": "2028-01-01",
+  "effectiveRate": 0.05,
+  "staleAccounts": [],
+  "salaryByYear": [
+    {
+      "year": 2026,
+      "salary": 0.0
+    },
+    {
+      "year": 2027,
+      "salary": 0.0
+    }
+  ],
+  "bands": {
+    "baseline": {
+      "total": {
+        "startBalance": 0.0,
+        "finalBalance": 0.0,
+        "totalContributions": 0.0,
+        "totalInterest": 0.0,
+        "monthly": [
+          {
+            "year": 2026,
+            "month": 1,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2026,
+            "month": 2,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2026,
+            "month": 3,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2026,
+            "month": 4,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2026,
+            "month": 5,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2026,
+            "month": 6,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2026,
+            "month": 7,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2026,
+            "month": 8,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2026,
+            "month": 9,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2026,
+            "month": 10,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2026,
+            "month": 11,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2026,
+            "month": 12,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 1,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 2,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 3,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 4,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 5,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 6,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 7,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 8,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 9,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 10,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 11,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 12,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          }
+        ],
+        "yearly": [
+          {
+            "year": 2026,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0,
+            "weightedRate": null
+          },
+          {
+            "year": 2027,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0,
+            "weightedRate": null
+          }
+        ]
+      },
+      "accounts": []
+    },
+    "positive": {
+      "total": {
+        "startBalance": 0.0,
+        "finalBalance": 0.0,
+        "totalContributions": 0.0,
+        "totalInterest": 0.0,
+        "monthly": [
+          {
+            "year": 2026,
+            "month": 1,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2026,
+            "month": 2,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2026,
+            "month": 3,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2026,
+            "month": 4,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2026,
+            "month": 5,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2026,
+            "month": 6,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2026,
+            "month": 7,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2026,
+            "month": 8,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2026,
+            "month": 9,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2026,
+            "month": 10,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2026,
+            "month": 11,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2026,
+            "month": 12,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 1,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 2,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 3,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 4,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 5,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 6,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 7,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 8,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 9,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 10,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 11,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 12,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          }
+        ],
+        "yearly": [
+          {
+            "year": 2026,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          }
+        ]
+      },
+      "accounts": []
+    },
+    "negative": {
+      "total": {
+        "startBalance": 0.0,
+        "finalBalance": 0.0,
+        "totalContributions": 0.0,
+        "totalInterest": 0.0,
+        "monthly": [
+          {
+            "year": 2026,
+            "month": 1,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2026,
+            "month": 2,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2026,
+            "month": 3,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2026,
+            "month": 4,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2026,
+            "month": 5,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2026,
+            "month": 6,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2026,
+            "month": 7,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2026,
+            "month": 8,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2026,
+            "month": 9,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2026,
+            "month": 10,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2026,
+            "month": 11,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2026,
+            "month": 12,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 1,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 2,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 3,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 4,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 5,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 6,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 7,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 8,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 9,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 10,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 11,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "month": 12,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          }
+        ],
+        "yearly": [
+          {
+            "year": 2026,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2027,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          }
+        ]
+      },
+      "accounts": []
+    }
+  }
+}

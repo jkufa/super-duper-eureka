@@ -6,15 +6,15 @@
     "daysInMonth": 31,
     "daysInYear": 365,
     "balanceStart": 67790.82,
-    "balanceEnd": 71385.17913110116,
-    "contributions": 3586.969955762179,
+    "balanceEnd": 71385.17913110113,
+    "contributions": 3586.9699557621525,
     "interest": 7.3891753389815555,
     "annualRate": 0.0136,
     "deposits": [
       {
         "ruleId": "a1g",
         "date": "1998-03-30",
-        "amount": 3586.969955762179,
+        "amount": 3586.9699557621525,
         "bucket": "end"
       }
     ]
@@ -25,10 +25,10 @@
     "days": 15,
     "daysInMonth": 30,
     "daysInYear": 365,
-    "balanceStart": 71385.17913110116,
-    "balanceEnd": 71425.38075368402,
+    "balanceStart": 71385.17913110113,
+    "balanceEnd": 71425.38075368399,
     "contributions": 0.0,
-    "interest": 40.20162258285541,
+    "interest": 40.20162258285539,
     "annualRate": 0.0136,
     "deposits": []
   },
@@ -38,10 +38,10 @@
     "days": 5,
     "daysInMonth": 30,
     "daysInYear": 365,
-    "balanceStart": 71425.38075368402,
-    "balanceEnd": 71438.78884125834,
+    "balanceStart": 71425.38075368399,
+    "balanceEnd": 71438.78884125831,
     "contributions": 0.0,
-    "interest": 13.40808757432642,
+    "interest": 13.408087574326416,
     "annualRate": 0.0136,
     "deposits": []
   }

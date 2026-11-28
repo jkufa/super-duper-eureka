@@ -1,15 +1,24 @@
-//! Proptest generators of valid scenario files, as JSON, with the `today` each is valid for.
+//! Proptest generators of valid scenario files, as JSON, with the `today` each is valid for, and
+//! the runner every property uses.
 
+use std::any::Any;
 use std::fmt;
 use std::ops::RangeInclusive;
+use std::panic::{self, AssertUnwindSafe};
 
 use proptest::prelude::*;
+use proptest::test_runner::{Config, RngAlgorithm, TestCaseResult, TestRng, TestRunner};
 use serde::Deserialize;
 use serde_json::{Value, json};
 
 use crate::date::CalendarDate;
+use crate::project::{Band, TraceSegment, trace_account};
 use crate::scenario::Scenario;
 use crate::scenario::raw::ScenarioFile;
+
+const CASES: u32 = 256;
+/// The ChaCha seed of every property run.
+const SEED: [u8; 32] = *b"retirement-core property seed v1";
 
 /// Up to this many months from `today` to the end date.
 const MAX_HORIZON_MONTHS: i32 = 120;
@@ -40,6 +49,17 @@ impl Case {
     pub(crate) fn scenario_on(&self, today: CalendarDate) -> Scenario {
         let file = ScenarioFile::deserialize(&self.file).unwrap();
         Scenario::parse(file, today).unwrap()
+    }
+
+    /// The case with every account's balance 0 and its rules removed.
+    fn without_money(mut self) -> Self {
+        if let Some(accounts) = self.file["accounts"].as_array_mut() {
+            for account in accounts {
+                account["balance"] = json!(0.0);
+                account["contributions"] = json!([]);
+            }
+        }
+        self
     }
 }
 
@@ -239,24 +259,90 @@ fn scenario_with(
     })
 }
 
-/// A valid scenario of 0 to 4 accounts, stale or not, over up to ten years.
-pub(crate) fn any_case() -> impl Strategy<Value = Case> {
-    scenario_with(|today, end| prop::collection::vec(account(today, end), 0..=MAX_ACCOUNTS).boxed())
+/// The text of a panic's payload.
+fn panic_text(payload: &(dyn Any + Send)) -> String {
+    let text = payload
+        .downcast_ref::<&str>()
+        .copied()
+        .or_else(|| payload.downcast_ref::<String>().map(String::as_str))
+        .unwrap_or("a panic without a message");
+    format!("panicked: {text}")
 }
 
-/// A valid scenario of `count` accounts whose balances are all dated `today`.
-pub(crate) fn fresh_cases(count: RangeInclusive<usize>) -> impl Strategy<Value = Case> {
+/// Runs `test` on [`CASES`] values of `strategy` drawn from [`SEED`], with no failure file. A
+/// failure, including a panic in `test`, is shrunk, and the panic names the reason and the
+/// smallest failing value.
+pub(crate) fn check<S: Strategy>(strategy: &S, test: impl Fn(S::Value) -> TestCaseResult) {
+    let mut runner = TestRunner::new_with_rng(
+        Config::with_cases(CASES),
+        TestRng::from_seed(RngAlgorithm::ChaCha, &SEED),
+    );
+    let result = runner.run(strategy, |value| {
+        panic::catch_unwind(AssertUnwindSafe(|| test(value)))
+            .unwrap_or_else(|payload| Err(TestCaseError::fail(panic_text(payload.as_ref()))))
+    });
+    if let Err(error) = result {
+        panic!("{error}");
+    }
+}
+
+fn cases_of(accounts: RangeInclusive<usize>) -> impl Strategy<Value = Case> {
+    let (fewest, most) = accounts.into_inner();
     scenario_with(move |today, end| {
-        prop::collection::vec(account(today, end), count.clone())
-            .prop_map(move |accounts| {
-                accounts
-                    .into_iter()
-                    .map(|mut account| {
-                        account["balanceAsOf"] = json!(text(today));
-                        account
-                    })
-                    .collect()
-            })
-            .boxed()
+        prop::collection::vec(account(today, end), fewest..=most).boxed()
+    })
+}
+
+/// A valid scenario of 0 to 4 accounts, stale or not, over up to ten years.
+pub(crate) fn any_case() -> impl Strategy<Value = Case> {
+    cases_of(0..=MAX_ACCOUNTS)
+}
+
+/// A valid scenario of 1 to 4 accounts, stale or not, over up to ten years.
+pub(crate) fn case_with_accounts() -> impl Strategy<Value = Case> {
+    cases_of(1..=MAX_ACCOUNTS)
+}
+
+/// [`any_case`], and one time in four the same with every balance 0 and no rules, so the
+/// included accounts pool no money.
+pub(crate) fn case_with_empty_pools() -> impl Strategy<Value = Case> {
+    prop_oneof![
+        3 => any_case(),
+        1 => any_case().prop_map(Case::without_money),
+    ]
+}
+
+/// A case with at least one account and the indexes of the accounts that are included and either
+/// hold a positive balance or receive a deposit from their balance's date to the end date.
+pub(crate) fn case_with_money_at_interest() -> impl Strategy<Value = (Case, Vec<usize>)> {
+    case_with_accounts().prop_filter_map("no included account holds money", |case| {
+        let scenario = case.scenario();
+        let earning: Vec<usize> = (0..scenario.accounts().len())
+            .filter(|&index| holds_money(&scenario, index))
+            .collect();
+        (!earning.is_empty()).then_some((case, earning))
+    })
+}
+
+fn holds_money(scenario: &Scenario, index: usize) -> bool {
+    let account = &scenario.accounts()[index];
+    account.included()
+        && (account.balance() > 0.0
+            || trace_account(scenario, account.id().as_str(), Band::Baseline)
+                .unwrap()
+                .iter()
+                .any(|segment: &TraceSegment<'_>| !segment.deposits().is_empty()))
+}
+
+/// A valid scenario of one account whose balance is dated `today`.
+pub(crate) fn fresh_case() -> impl Strategy<Value = Case> {
+    cases_of(1..=1).prop_map(|mut case| {
+        let today = case.today;
+        if let Some(accounts) = case.file["accounts"].as_array_mut() {
+            for account in accounts {
+                account["balanceAsOf"] = json!(text(today));
+            }
+        }
+        case
     })
 }

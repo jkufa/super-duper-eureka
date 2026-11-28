@@ -42,7 +42,11 @@ disallowed-methods = [
   { path = "std::net::TcpListener::bind", reason = "core has no network access" },
   { path = "std::net::UdpSocket::bind", reason = "core has no network access" },
   { path = "std::os::unix::net::UnixStream::connect", reason = "core has no network access" },
-  { path = "std::process::Command::new", reason = "core does not spawn processes" }
+  { path = "std::process::Command::new", reason = "core does not spawn processes" },
+  { path = "proptest::test_runner::TestRunner::new", reason = "properties run through crate::arbitrary::check, which fixes the seed" },
+  { path = "proptest::test_runner::TestRunner::deterministic", reason = "properties run through crate::arbitrary::check, which fixes the seed" },
+  { path = "proptest::test_runner::TestRng::deterministic_rng", reason = "properties run through crate::arbitrary::check, which fixes the seed" },
+  { path = "proptest::test_runner::contextualize_config", reason = "properties take their settings from crate::arbitrary::check, not PROPTEST_* variables" }
 ]
 disallowed-types = [
   { path = "std::collections::HashMap", reason = "iteration order changes between runs; use BTreeMap or a Vec" },
@@ -59,5 +63,6 @@ disallowed-types = [
 disallowed-macros = [
   { path = "std::include_str", reason = "core has no file access" },
   { path = "std::include_bytes", reason = "core has no file access" },
-  { path = "std::include", reason = "core has no file access" }
+  { path = "std::include", reason = "core has no file access" },
+  { path = "proptest::proptest", reason = "properties run through crate::arbitrary::check, which fixes the seed" }
 ]

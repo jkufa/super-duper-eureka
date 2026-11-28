@@ -86,7 +86,7 @@
           "included": true,
           "annualRate": 0.1116,
           "rolledForward": {
-            "contributions": 176194.69330979555,
+            "contributions": 176194.69330979118,
             "interest": 149451395441.71286
           },
           "series": {
@@ -273,7 +273,7 @@
           "included": true,
           "annualRate": 0.1116,
           "rolledForward": {
-            "contributions": 176194.69330979555,
+            "contributions": 176194.69330979118,
             "interest": 149451395441.71286
           },
           "series": {
@@ -460,7 +460,7 @@
           "included": true,
           "annualRate": 0.1116,
           "rolledForward": {
-            "contributions": 176194.69330979555,
+            "contributions": 176194.69330979118,
             "interest": 149451395441.71286
           },
           "series": {

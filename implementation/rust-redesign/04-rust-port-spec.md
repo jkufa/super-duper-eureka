@@ -114,17 +114,20 @@ These keep the engine honest after TypeScript is gone.
 
 Golden files:
 
-- Take the outputs of the TypeScript CLI for the example files, every regression case, the hand-computed cases and 200 generated cases.
-- Commit each as an input and an expected output under `crates/cli/tests/golden/`.
-- A Rust test, `crates/cli/tests/golden.rs`, runs the CLI on every input and compares with the same rule as the parity harness. The files sit beside it because `core` may not read files, in its tests either.
-- A second command regenerates the expected files from the Rust engine. After part H it is the only way they change, and a PR that regenerates them must explain every number that moved.
+- The cases are the CLI examples, every regression case, the hand-computed cases in `scripts/golden/hand-computed.ts` (which also hold a rate of `-0.9999999999999999` in both modes and a scenario with no accounts) and 200 generated cases. `crates/cli/tests/golden/manifest` lists them as `group/name`, one per line, sorted.
+- Each case folder holds `scenario.json`, `today` and `projection.json`. It also holds `trace`, the first account's id, and `trace.json` exactly when the scenario has an account and its projection succeeds or fails with `not_finite`, the only error a parsed scenario's projection gives. An invalid scenario has no trace. A `not_finite` case does, and its trace may succeed or fail.
+- The set was captured once from the TypeScript CLI (`vp run golden-capture 20000`, printed as the Rust CLI prints) and then regenerated with `just golden`, so the committed files are the Rust CLI's output. That regeneration moved only the numbers of the 18 `growth_periods_over_1000` cases, by at most 8.9e-14 relative, and dropped the ids of 5 `invalid_field` errors.
+- `crates/cli/tests/golden.rs` runs the CLI on every case and requires stdout to equal the stored file byte for byte, with exit status 0 for a projection and 2 for an error document. On a mismatch it names the case, the file and the first differing JSON path. It checks the case folders against the manifest and the group counts, and each folder's files against the trace rule. The files sit beside it because `core` may not read files, in its tests either.
+- `just golden` regenerates the expected files, the trace files and the manifest from the release Rust CLI and swaps the new set in whole. After part H it is the only way they change, and a PR that regenerates them must explain every number that moved.
+- The comparison is exact, so a Rust toolchain or a platform maths library that changes a last digit moves golden numbers. Such a regeneration PR says that is the cause and names the toolchain or platform change.
 
 Property tests, with `proptest`:
 
+- Proptest is built without `std` (features `alloc` and `no_std`), so it reads no OS random source, `PROPTEST_*` variable, clock or file. Every property runs through `crate::arbitrary::check`: 256 cases from a fixed ChaCha seed, no failure file, panics shrunk like failures, and the shrunk input in the failure message. `deny.toml` bans the features that bring those reads back, and `crates/core/clippy.toml` bans the runner entry points that bypass the seed.
 - A scenario with one fresh account equals `projectAccount` on that account.
 - The total equals the sum of the included accounts on every row.
-- Raising any account's rate never lowers the total's final balance.
-- The effective rate is at or between the lowest and highest included rate, except when no account is included or the pool is empty, and the default rate is returned.
+- Raising the rate of an included account that has a positive balance or a deposit from its balance's date to the end never lowers the total's final balance. Cases with no such account are filtered out in the generator.
+- The effective rate has the default rate's bits when no account is included. When every included account has the same rate, it has that rate's bits, whatever the pool. Otherwise it has the default rate's bits when the pool is empty, with no balance at today and no deposits, and lies at or between the lowest and highest included rate when it is not.
 - Compounding the pool at the effective rate gives the total's final balance within tolerance, for rates in a realistic range. Sixty halvings of a very wide bracket do not get that close.
 - An account that is not stale has zero `rolledForward`.
 - Moving `today` forward one day never changes a deposit's date or amount.

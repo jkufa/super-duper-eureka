@@ -1,6 +1,5 @@
 {
   "error": {
-    "code": "invalid_field",
-    "accountId": "a1"
+    "code": "invalid_field"
   }
 }

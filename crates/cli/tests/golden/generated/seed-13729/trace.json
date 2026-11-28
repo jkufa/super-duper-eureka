@@ -6,9 +6,9 @@
     "daysInMonth": 29,
     "daysInYear": 366,
     "balanceStart": 0.0,
-    "balanceEnd": 2130.803697098986,
-    "contributions": 2130.535209837025,
-    "interest": 0.26848726196100564,
+    "balanceEnd": 2130.8036970989615,
+    "contributions": 2130.5352098370004,
+    "interest": 0.26848726196100253,
     "annualRate": 0.0472,
     "deposits": [
       {
@@ -20,7 +20,7 @@
       {
         "ruleId": "a1g",
         "date": "2012-02-29",
-        "amount": 1525.8352098370246,
+        "amount": 1525.835209837,
         "bucket": 29
       }
     ]

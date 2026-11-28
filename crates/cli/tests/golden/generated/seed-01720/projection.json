@@ -1,7 +1,5 @@
 {
   "error": {
-    "code": "invalid_field",
-    "accountId": "a2",
-    "ruleId": "a2x"
+    "code": "invalid_field"
   }
 }
