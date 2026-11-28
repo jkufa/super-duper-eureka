@@ -855,3 +855,27 @@ For PR review agents only. Orchestration and implementation agents do not read t
 - Better: Pass the length range to the scenario generator and construct the account strategy there.
 - Seen before: no
 - Promoted: no
+
+### 2026-11-28, spec 4 part G, the golden writer's explicit unlock is not what the tests fail on
+
+- Where: `crates/cli/tests/golden.rs:630`, PR #35
+- What: Replacing `lock.unlock()` with a drop of the `File` left all 14 publication tests passing under `cargo test --test-threads=8`. The tests publish, spawn the CLI, and publish again. On Darwin 24, `LOCK_UN` releases the lock while a forked child still holds the descriptor, and closing the parent's descriptor does not. Nothing in the suite fails if the explicit release is deleted.
+- Better: Keep a publication test that fails when the writer only closes the descriptor while another thread is between fork and exec.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-28, spec 4 part G, the default today is checked as a shape
+
+- Where: `crates/cli/src/main.rs:203` and `crates/cli/tests/cli.rs:296`, PR #35
+- What: `defaults_today_to_a_date_in_the_file_grammar` checks that the omitted `--today` is ten characters with dashes. Returning the constant `2026-06-01` from `local_today` left that test passing. The basic example's balances are dated 2026-01-01 and its end date is 2046-01-01, so that constant still projects. It is not this machine's date.
+- Better: Compare the omitted `--today` with the date the test reads from the clock by the same rule the CLI uses.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-28, spec 4 part G, parking a thread waits on the clock without a ban
+
+- Where: `crates/core/clippy.toml:65`, PR #35
+- What: A core test calling `std::env::home_dir`, `DirBuilder::new`, `ToSocketAddrs::to_socket_addrs`, `serde_json::to_writer`, `serde_json::from_reader`, and `std::process::id` failed `cargo clippy -p retirement-core --all-targets -- -D warnings`. The same probe was allowed to call `std::thread::park_timeout`, `TestRunner::default`, and `DefaultHasher::new`. `park_timeout` waits on the clock, next to the new `thread::sleep` ban. `DefaultHasher::new` in Rust 1.100 uses the keys 0 and 0. With proptest's `no_std` feature, `TestRunner::default` uses the crate's deterministic generator and does not open a file. Clippy still cannot name `TestRunner::default`.
+- Better: Ban `std::thread::park_timeout` beside `std::thread::sleep`. Keep runner construction in `crate::arbitrary::check`.
+- Seen before: 2026-11-28, spec 4, std and unix socket bans still miss sibling calls
+- Promoted: yes, the clock-ban guideline in AGENTS.md
