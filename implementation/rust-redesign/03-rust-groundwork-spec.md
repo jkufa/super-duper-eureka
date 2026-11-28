@@ -30,7 +30,9 @@ crates/cli/             retirement-cli. Binary name: retirement-calc.
 - When Homebrew moves to a newer stable, bump both in one commit and fix whatever new default Clippy rules report.
 - This machine also has a `rustup` toolchain called `stable` at 1.75.0 from 2023. `cargo` on the `PATH` is Homebrew's, so it is unused. Leave it alone.
 - `crates/core` has no file access, clock, network, environment access or async. It depends on nothing that brings those in.
-- `crates/cli` depends on `core`. `core` never depends on another workspace crate.
+- `core` never depends on another workspace crate. `cli` will depend on `core`, but only from the commit in which it first calls it. `cargo shear` rejects a dependency nothing uses, and inventing a call to satisfy it would be filler.
+- Until part D, `core` is an empty library with a doc line. The workspace's one test runs the `retirement-calc` binary and checks that it prints its version, because `cargo nextest` fails when there are no tests.
+- A crate's `clippy.toml` replaces the root one. It does not merge with it. That is why `crates/core/clippy.toml` repeats the test allowances.
 - The app and SnapTrade crates come later. Do not create them.
 
 ## Part B: lints and tools
