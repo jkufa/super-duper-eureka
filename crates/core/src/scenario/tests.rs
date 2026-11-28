@@ -503,6 +503,22 @@ fn rule_end_before_start() {
 }
 
 #[test]
+fn accepts_a_rule_that_starts_and_ends_on_the_same_day() {
+    let scenario = parse(edited(|file| {
+        let rule = &mut file["accounts"][0]["contributions"][0];
+        rule["startDate"] = json!("2027-01-01");
+        rule["endDate"] = json!("2027-01-01");
+    }))
+    .unwrap();
+
+    let deferral = &scenario.accounts()[0].contributions()[0];
+    assert_eq!(
+        (deferral.start_date(), deferral.end_date()),
+        (Some(date("2027-01-01")), Some(date("2027-01-01")))
+    );
+}
+
+#[test]
 fn per_contribution_on_one_time() {
     expect_error(
         edited(|file| {
@@ -575,6 +591,26 @@ fn refuses_to_deserialise_a_file_of_the_wrong_shape() {
         assert!(read(file).is_err(), "edit {index} deserialised");
     }
     assert!(read(json!([])).is_err());
+}
+
+#[test]
+fn refuses_an_unknown_key_in_every_object() {
+    let objects: [fn(&mut Value) -> &mut Value; 9] = [
+        |file| file,
+        |file| &mut file["interest"],
+        |file| &mut file["salary"],
+        |file| &mut file["accounts"][0],
+        |file| &mut file["accounts"][0]["contributions"][1],
+        |file| &mut file["accounts"][0]["contributions"][1]["growth"],
+        |file| &mut file["accounts"][0]["contributions"][0]["timing"],
+        |file| &mut file["accounts"][0]["contributions"][1]["timing"],
+        |file| &mut file["accounts"][1]["contributions"][0]["timing"],
+    ];
+    for (index, object) in objects.into_iter().enumerate() {
+        let mut file = valid_file();
+        object(&mut file)["extra"] = json!(1);
+        assert!(read(file).is_err(), "object {index} took an unknown key");
+    }
 }
 
 #[test]
