@@ -57,6 +57,7 @@ Specs live in `implementation/rust-redesign/`. Read its `README.md` first, then 
 - Put new lessons here unless they only apply to TypeScript.
 - Include collection lengths or explicit record boundaries when hashing structured output for parity.
 - Publish related golden fixtures as a single generation. Readers must keep seeing a complete generation if publication fails.
+- Pause a writer before and after each rename, run a second writer, and verify that a reader can still open one complete generation.
 - When exact arithmetic must survive a refactor, specify grouping, summation order, and the metadata needed to reproduce them.
 - Keep a deposit's resolved date and its compounding bucket separately when range checks and interest use different rules.
 - Test each specified float reduction and midpoint with inputs that round differently under a plausible reordering or regrouping.
@@ -69,12 +70,16 @@ Specs live in `implementation/rust-redesign/`. Read its `README.md` first, then 
 - Test a comparison at the equal value, not only on the side that fails.
 - Exercise a nonempty projection in the last supported month through the public entry point.
 - Compare golden figures to the public output wherever it supplies them. Pin the expected fixture groups as well as their total count.
+- Check candidate case names and counts against the committed inventory before a writer replaces either the fixtures or their manifest.
 - If several accounts can overflow, specify which error subjects parity compares or use single-fault inputs.
 - Test documented machine-readable commands as subprocesses, including the launcher, stdout, stderr and exit status.
+- Carry repeated-option tests into the replacement CLI. Exercise shipped examples against their expected results or verify their contents against the golden inputs.
 - Check temporal and arithmetic claims at their boundaries, including intermediate overflow before a reciprocal.
 - Exercise equivalent ways to read the clock when a source guard promises clock independence.
+- Test purity guards through trait defaults, OS-backed builders and hostname resolution as well as the named constructors.
 - Ban a dependency's clock and I/O paths from the version in the lockfile, including the sibling that does the work and a parser or trait method that reaches them without naming the banned type, and show that calling each one fails `just check`.
 - Pin a float formula with an input on which the wrong association, an algebraically rearranged expression, or a dropped finiteness check produces a different result.
+- For parsed fields, exercise each enum variant and both present and absent optional values. Check the parsed value against the input as well as against its round trip.
 
 ### Rust Guidelines
 
