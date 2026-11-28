@@ -1,7 +1,11 @@
 //! The scenario file as written, before validation. Text that does not deserialise into these
 //! types is the caller's `invalid_field`.
 
-use serde::de::Error as _;
+use std::fmt;
+use std::marker::PhantomData;
+
+use serde::de::value::MapAccessDeserializer;
+use serde::de::{Error as _, MapAccess, Visitor};
 use serde::{Deserialize, Deserializer};
 
 use super::Compounding;
@@ -61,15 +65,31 @@ impl TryFrom<f64> for Finite {
 }
 
 /// The one field read before the rest of the file, so that a file from another version reports
-/// `unsupported_version` whatever its shape.
+/// `unsupported_version` whatever its other keys. Reads from a JSON object only.
 #[derive(Debug, Deserialize)]
-pub struct VersionFile {
-    pub version: Version,
+#[serde(transparent)]
+pub struct VersionFile(VersionFields);
+
+impl VersionFile {
+    pub fn version(&self) -> Version {
+        self.0.version
+    }
 }
 
 #[derive(Debug, Deserialize)]
-#[serde(rename_all = "camelCase", deny_unknown_fields)]
-pub struct ScenarioFile {
+#[serde(remote = "Self")]
+struct VersionFields {
+    version: Version,
+}
+
+/// The whole file as written. Reads from a JSON object only, as does every object in it.
+#[derive(Debug, Deserialize)]
+#[serde(transparent)]
+pub struct ScenarioFile(pub(super) ScenarioFields);
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields, remote = "Self")]
+pub(super) struct ScenarioFields {
     pub(super) version: Version,
     /// `YYYY-MM-DD`. A boundary: the last day counted is the day before it.
     pub(super) end_date: String,
@@ -79,8 +99,8 @@ pub struct ScenarioFile {
 }
 
 #[derive(Debug, Deserialize)]
-#[serde(rename_all = "camelCase", deny_unknown_fields)]
-pub struct InterestFile {
+#[serde(rename_all = "camelCase", deny_unknown_fields, remote = "Self")]
+pub(super) struct InterestFile {
     pub(super) annual_rate: f64,
     #[serde(default, deserialize_with = "present")]
     pub(super) variance: Option<f64>,
@@ -89,8 +109,8 @@ pub struct InterestFile {
 }
 
 #[derive(Debug, Deserialize)]
-#[serde(rename_all = "camelCase", deny_unknown_fields)]
-pub struct SalaryFile {
+#[serde(rename_all = "camelCase", deny_unknown_fields, remote = "Self")]
+pub(super) struct SalaryFile {
     pub(super) annual_base: Finite,
     #[serde(default, deserialize_with = "present")]
     pub(super) annual_raise_rate: Option<f64>,
@@ -99,8 +119,8 @@ pub struct SalaryFile {
 }
 
 #[derive(Debug, Deserialize)]
-#[serde(rename_all = "camelCase", deny_unknown_fields)]
-pub struct AccountFile {
+#[serde(rename_all = "camelCase", deny_unknown_fields, remote = "Self")]
+pub(super) struct AccountFile {
     pub(super) id: String,
     pub(super) name: String,
     pub(super) kind: AccountKind,
@@ -115,7 +135,7 @@ pub struct AccountFile {
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields, remote = "Self")]
-pub struct ContributionRuleFile {
+pub(super) struct ContributionRuleFile {
     pub(super) id: String,
     #[serde(default, deserialize_with = "present")]
     pub(super) name: Option<String>,
@@ -137,8 +157,8 @@ pub struct ContributionRuleFile {
     pub(super) end_date: Option<String>,
 }
 
-impl<'de> Deserialize<'de> for ContributionRuleFile {
-    fn deserialize<D: Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
+impl<'de> Derived<'de> for ContributionRuleFile {
+    fn derived<D: Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
         let rule = Self::deserialize(deserializer)?;
         let has_bounds = rule.start_date.is_some() || rule.end_date.is_some();
         if has_bounds && matches!(rule.timing, TimingFile::OneTime { .. }) {
@@ -151,8 +171,8 @@ impl<'de> Deserialize<'de> for ContributionRuleFile {
 }
 
 #[derive(Debug, Deserialize)]
-#[serde(rename_all = "camelCase", deny_unknown_fields)]
-pub struct GrowthFile {
+#[serde(rename_all = "camelCase", deny_unknown_fields, remote = "Self")]
+pub(super) struct GrowthFile {
     #[serde(rename = "type")]
     pub(super) kind: GrowthKind,
     pub(super) amount: Finite,
@@ -164,9 +184,10 @@ pub struct GrowthFile {
     tag = "frequency",
     rename_all = "camelCase",
     rename_all_fields = "camelCase",
-    deny_unknown_fields
+    deny_unknown_fields,
+    remote = "Self"
 )]
-pub enum TimingFile {
+pub(super) enum TimingFile {
     OneTime {
         /// `YYYY-MM-DD`.
         on: String,
@@ -185,6 +206,69 @@ pub enum TimingFile {
         placement: Option<Placement>,
     },
 }
+
+/// A raw type's reader built on the one `#[derive(Deserialize)]` writes, which accepts a
+/// sequence of the fields in order as well as a map.
+trait Derived<'de>: Sized {
+    fn derived<D: Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error>;
+}
+
+struct ObjectOnly<T>(PhantomData<T>);
+
+impl<'de, T: Derived<'de>> Visitor<'de> for ObjectOnly<T> {
+    type Value = T;
+
+    fn expecting(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        formatter.write_str("an object")
+    }
+
+    fn visit_map<A: MapAccess<'de>>(self, map: A) -> Result<T, A::Error> {
+        T::derived(MapAccessDeserializer::new(map))
+    }
+}
+
+/// Each type's [`Derived`] reader is the one serde derives, unchanged.
+macro_rules! derived_unchanged {
+    ($($file:ty),+) => {$(
+        impl<'de> Derived<'de> for $file {
+            fn derived<D: Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
+                Self::deserialize(deserializer)
+            }
+        }
+    )+};
+}
+
+/// Each type reads from a map only, through its [`Derived`] reader.
+macro_rules! from_objects_only {
+    ($($file:ty),+) => {$(
+        impl<'de> Deserialize<'de> for $file {
+            fn deserialize<D: Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
+                deserializer.deserialize_map(ObjectOnly(PhantomData))
+            }
+        }
+    )+};
+}
+
+derived_unchanged!(
+    VersionFields,
+    ScenarioFields,
+    InterestFile,
+    SalaryFile,
+    AccountFile,
+    GrowthFile,
+    TimingFile
+);
+
+from_objects_only!(
+    VersionFields,
+    ScenarioFields,
+    InterestFile,
+    SalaryFile,
+    AccountFile,
+    ContributionRuleFile,
+    GrowthFile,
+    TimingFile
+);
 
 fn present<'de, D: Deserializer<'de>, T: Deserialize<'de>>(
     deserializer: D,

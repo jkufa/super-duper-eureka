@@ -1,6 +1,6 @@
 use serde_json::{Value, json};
 
-use super::{BISECTION_PASSES, Pool, bisect_rate};
+use super::{BISECTION_PASSES, Pool, bisect_rate, solve_rate};
 use crate::fixture::{Setup, flat, monthly, monthly_end};
 use crate::project::{AccountProjection, ScenarioProjection, YearlyRow, project_scenario};
 use crate::scenario::{Account, Compounding, Scenario};
@@ -155,6 +155,28 @@ mod short_cuts {
 
         assert_eq!(projection.effective_rate(), 0.1);
         assert_eq!(weighted_rates(&projection), [Some(0.1); 10]);
+    }
+
+    #[test]
+    fn returns_minus_0_for_rates_of_0_and_minus_0_in_either_file_order() {
+        for rates in [[0.0, -0.0], [-0.0, 0.0]] {
+            let scenario = Setup::new(
+                "2026-01-01",
+                "2027-01-01",
+                rates
+                    .iter()
+                    .enumerate()
+                    .map(|(index, rate)| json!({ "id": format!("a{index}"), "balance": 1, "annualRate": rate }))
+                    .collect(),
+            )
+            .scenario();
+
+            assert_eq!(
+                project(&scenario).effective_rate().to_bits(),
+                (-0.0_f64).to_bits(),
+                "{rates:?}"
+            );
+        }
     }
 
     #[test]
@@ -353,7 +375,8 @@ mod bisect {
     use super::*;
 
     #[test]
-    fn compounds_exactly_60_times_at_midpoints_written_lo_plus_hi_minus_lo_over_2() {
+    fn compounds_the_pool_exactly_60_times_in_the_bisection_at_midpoints_written_lo_plus_hi_minus_lo_over_2()
+     {
         let mut calls = Vec::new();
         let rate = bisect_rate(0.0, 1.0, 0.3, |midpoint| {
             calls.push(midpoint);
@@ -364,6 +387,18 @@ mod bisect {
         assert_eq!(calls.len(), 60);
         assert_eq!(calls[..3], [0.5, 0.25, 0.375]);
         assert!((rate - 0.3).abs() < 1e-15);
+    }
+
+    #[test]
+    fn takes_the_first_midpoint_of_0_01_and_0_03_as_0_019999999999999997_not_0_02() {
+        let mut calls = Vec::new();
+        bisect_rate(0.01, 0.03, 0.0, |midpoint| {
+            calls.push(midpoint);
+            midpoint
+        });
+
+        assert_eq!(calls[0], 0.019_999_999_999_999_997);
+        assert_ne!(calls[0], f64::midpoint(0.01, 0.03));
     }
 
     #[test]
@@ -388,6 +423,132 @@ mod bisect {
 
             assert_eq!(calls[..3], [0.5, 0.25, 0.125], "{overflow}");
             assert!((rate - 0.2).abs() < 1e-15, "{overflow}");
+        }
+    }
+}
+
+mod solve {
+    use super::*;
+
+    /// `5^9`, so the tolerance `1e-9 * AT_LOWEST` is exactly `2^-9`.
+    const AT_LOWEST: f64 = 1_953_125.0;
+    /// `AT_LOWEST + 2^-9`: the difference equals the tolerance.
+    const ON_THE_BOUNDARY: f64 = 1_953_125.001_953_125;
+    /// The next value up: the difference is `0.0019531252328306437`.
+    const JUST_PAST: f64 = 1_953_125.001_953_125_2;
+
+    /// The rate `solve_rate` returns, and the rates it compounded at, when the pool's final
+    /// balance is `at_lowest` at 0, `at_highest` at 1 and the rate itself in between.
+    fn solve(at_lowest: f64, at_highest: f64) -> (f64, Vec<f64>) {
+        let mut calls = Vec::new();
+        let rate = solve_rate(0.0, 1.0, 0.3, |rate| {
+            calls.push(rate);
+            match rate {
+                0.0 => at_lowest,
+                1.0 => at_highest,
+                _ => rate,
+            }
+        });
+        (rate, calls)
+    }
+
+    fn assert_bisects(at_lowest: f64, at_highest: f64) {
+        let (rate, calls) = solve(at_lowest, at_highest);
+
+        assert_eq!(calls.len(), 62, "{at_lowest} {at_highest}");
+        assert!((rate - 0.3).abs() < 1e-15, "{at_lowest} {at_highest}");
+    }
+
+    #[test]
+    fn compounds_the_pool_at_the_lowest_and_highest_rates_then_60_times_in_the_bisection() {
+        let (rate, calls) = solve(0.0, 1.0);
+
+        assert_eq!(calls.len(), 62);
+        assert_eq!(calls[..5], [0.0, 1.0, 0.5, 0.25, 0.375]);
+        assert!((rate - 0.3).abs() < 1e-15);
+    }
+
+    #[test]
+    fn returns_the_lowest_rate_when_the_highest_balance_exceeds_the_lowest_by_at_most_1e_minus_9_of_it()
+     {
+        assert_eq!(1e-9 * AT_LOWEST, 2.0_f64.powi(-9));
+        assert_eq!(ON_THE_BOUNDARY - AT_LOWEST, 2.0_f64.powi(-9));
+        assert_eq!(solve(AT_LOWEST, ON_THE_BOUNDARY), (0.0, vec![0.0, 1.0]));
+        assert_eq!(solve(AT_LOWEST, AT_LOWEST), (0.0, vec![0.0, 1.0]));
+        assert_eq!(solve(0.0, 0.0), (0.0, vec![0.0, 1.0]));
+    }
+
+    #[test]
+    fn bisects_when_the_highest_balance_exceeds_the_lowest_by_more_than_1e_minus_9_of_it() {
+        assert_eq!(ON_THE_BOUNDARY.next_up(), JUST_PAST);
+        assert_bisects(AT_LOWEST, JUST_PAST);
+        assert_bisects(0.0, 1e-300);
+    }
+
+    #[test]
+    fn bisects_when_the_highest_balance_is_infinite_or_either_is_nan() {
+        for (at_lowest, at_highest) in [
+            (1.0, f64::INFINITY),
+            (f64::INFINITY, f64::INFINITY),
+            (f64::NAN, 1.0),
+            (1.0, f64::NAN),
+            (f64::NAN, f64::NAN),
+        ] {
+            assert_bisects(at_lowest, at_highest);
+        }
+    }
+
+    #[test]
+    fn bisects_a_pool_that_overflows_at_the_highest_rate_1e201_at_0_and_1e196_at_4095_over_30_years()
+     {
+        let scenario = Setup::new(
+            "2026-01-01",
+            "2056-01-01",
+            vec![
+                json!({ "id": "huge", "balance": 1e201 }),
+                json!({ "id": "fast", "balance": 1e196, "annualRate": DOUBLING_MONTHLY_RATE }),
+            ],
+        )
+        .scenario();
+        let pool = included_pool(&scenario);
+        let effective_rate = project(&scenario).effective_rate();
+
+        assert_eq!(
+            pool.final_balance(Compounding::Monthly, DOUBLING_MONTHLY_RATE),
+            f64::INFINITY
+        );
+        assert_eq!(effective_rate, 2_789.571_384_675_445);
+    }
+
+    fn unexposed(accounts: Vec<Value>) -> Scenario {
+        Setup::new("2026-01-01", "2026-02-01", accounts).scenario()
+    }
+
+    fn four_percent() -> Value {
+        json!({
+            "id": "a",
+            "annualRate": 0.04,
+            "contributions": [monthly_end("fifty", 50.0)]
+        })
+    }
+
+    fn ten_percent() -> Value {
+        json!({
+            "id": "b",
+            "annualRate": 0.1,
+            "contributions": [monthly_end("cents", 10.01), monthly_end("more", 1.23)]
+        })
+    }
+
+    #[test]
+    fn returns_the_lowest_rate_for_a_pool_with_no_money_exposed_to_interest_in_either_file_order() {
+        for accounts in [
+            vec![four_percent(), ten_percent()],
+            vec![ten_percent(), four_percent()],
+        ] {
+            let scenario = unexposed(accounts);
+
+            assert_eq!(project(&scenario).effective_rate(), 0.04);
         }
     }
 }
@@ -504,6 +665,39 @@ mod weighted_rate {
                 },
                 Some(2730.0)
             )]
+        );
+    }
+
+    /// Each account's balance on the one yearly row, and the row's weighted rate.
+    fn unexposed_row(accounts: Vec<Value>) -> (Vec<f64>, Vec<Option<f64>>) {
+        let scenario = Setup::new("2026-12-01", "2027-01-01", accounts).scenario();
+        let projection = project(&scenario);
+        let balances = projection
+            .bands()
+            .baseline()
+            .accounts()
+            .iter()
+            .flat_map(|account| account.series().yearly().iter().map(|row| row.balance))
+            .collect();
+        (balances, weighted_rates(&projection))
+    }
+
+    #[test]
+    fn sums_rate_times_balance_in_file_order_0_5_x_2e16_then_1_then_1_over_2e16_is_0_5() {
+        let accounts = vec![
+            json!({ "id": "half", "annualRate": 0.5, "contributions": [monthly_end("big", 2e16)] }),
+            json!({ "id": "one", "annualRate": 1, "contributions": [monthly_end("a", 1.0)] }),
+            json!({ "id": "two", "annualRate": 1, "contributions": [monthly_end("b", 1.0)] }),
+        ];
+        let reversed: Vec<Value> = accounts.iter().rev().cloned().collect();
+
+        assert_eq!(
+            unexposed_row(accounts),
+            (vec![2e16, 1.0, 1.0], vec![Some(0.5)])
+        );
+        assert_eq!(
+            unexposed_row(reversed),
+            (vec![1.0, 1.0, 2e16], vec![Some(0.500_000_000_000_000_1)])
         );
     }
 

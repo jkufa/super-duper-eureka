@@ -105,7 +105,8 @@ impl Scenario {
     }
 
     /// `today` is the first day of the results.
-    pub fn parse(raw: ScenarioFile, today: CalendarDate) -> Result<Self, ScenarioError> {
+    pub fn parse(file: ScenarioFile, today: CalendarDate) -> Result<Self, ScenarioError> {
+        let ScenarioFile(raw) = file;
         raw.version.check()?;
         let interest = parse_interest(&raw.interest)?;
         let salary = parse_salary(&raw.salary)?;

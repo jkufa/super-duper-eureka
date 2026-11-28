@@ -10,6 +10,9 @@ use crate::schedule::{Deposit, ScheduledMonth, build_account_schedule, month_seg
 
 const BISECTION_PASSES: usize = 60;
 
+/// Relative to the pool's final balance at the lowest rate, which is finite.
+const PARITY_TOLERANCE: f64 = 1e-9;
+
 /// With no included account, or a pool with no balance and no deposits, the result is the
 /// scenario's rate.
 pub(super) fn effective_rate<'a>(
@@ -44,12 +47,29 @@ pub(super) fn effective_rate<'a>(
         return Ok(default_rate);
     }
     let compounding = scenario.interest().compounding();
-    Ok(bisect_rate(
+    Ok(solve_rate(
         lowest,
         highest,
         baseline.total().final_balance(),
         |rate| pool.final_balance(compounding, rate),
     ))
+}
+
+/// `lowest` when the pool's final balance at `highest` exceeds the one at `lowest` by at most
+/// [`PARITY_TOLERANCE`] of the latter, so the rate does not determine the result. Otherwise the
+/// bisection. Compounds the pool twice before the bisection's passes.
+fn solve_rate(
+    lowest: f64,
+    highest: f64,
+    target: f64,
+    mut final_balance_at: impl FnMut(f64) -> f64,
+) -> f64 {
+    let at_lowest = final_balance_at(lowest);
+    let at_highest = final_balance_at(highest);
+    if at_highest - at_lowest <= PARITY_TOLERANCE * at_lowest {
+        return lowest;
+    }
+    bisect_rate(lowest, highest, target, final_balance_at)
 }
 
 /// Exactly [`BISECTION_PASSES`] passes. A result that is not below the target, including an
