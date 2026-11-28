@@ -1,0 +1,174 @@
+{
+  "name": "daily-day-boundaries",
+  "input": {
+    "currentBalance": 35000,
+    "timeHorizonYears": 4,
+    "startDate": "2026-01-01T00:00:00.000Z",
+    "interest": {
+      "annualRate": 0.05,
+      "variance": 0.02,
+      "compounding": "daily"
+    },
+    "salary": {
+      "annualBase": 90000,
+      "annualRaiseRate": 0.02
+    },
+    "contributions": [
+      {
+        "id": "day-31",
+        "enabled": true,
+        "type": "flat",
+        "amount": 310,
+        "timing": {
+          "frequency": "monthly",
+          "day": 31
+        }
+      },
+      {
+        "id": "day-29",
+        "enabled": true,
+        "type": "flat",
+        "amount": 290,
+        "timing": {
+          "frequency": "monthly",
+          "day": 29
+        }
+      },
+      {
+        "id": "day-1",
+        "enabled": true,
+        "type": "flat",
+        "amount": 100,
+        "timing": {
+          "frequency": "monthly",
+          "day": 1
+        }
+      },
+      {
+        "id": "placed-end",
+        "enabled": true,
+        "type": "flat",
+        "amount": 220,
+        "timing": {
+          "frequency": "monthly",
+          "placement": "end"
+        }
+      },
+      {
+        "id": "placed-start",
+        "enabled": true,
+        "type": "flat",
+        "amount": 110,
+        "timing": {
+          "frequency": "monthly",
+          "placement": "start"
+        }
+      },
+      {
+        "id": "feb-29",
+        "enabled": true,
+        "type": "flat",
+        "amount": 2900,
+        "timing": {
+          "frequency": "annual",
+          "month": 1,
+          "day": 29
+        }
+      }
+    ]
+  },
+  "yearly": {
+    "baseline": [
+      {
+        "year": 0,
+        "balance": 52426.14030332438,
+        "contributions": 15260,
+        "interest": 2166.140303324389,
+        "salary": 90000
+      },
+      {
+        "year": 1,
+        "balance": 70723.58762181537,
+        "contributions": 30520,
+        "interest": 5203.587621815371,
+        "salary": 91800
+      },
+      {
+        "year": 2,
+        "balance": 89934.9235150475,
+        "contributions": 45780,
+        "interest": 9154.923515047494,
+        "salary": 93636
+      },
+      {
+        "year": 3,
+        "balance": 110107.80999412546,
+        "contributions": 61040,
+        "interest": 14067.809994125437,
+        "salary": 95508.72000000002
+      }
+    ],
+    "positive": [
+      {
+        "year": 0,
+        "balance": 53290.985504162854,
+        "contributions": 15260,
+        "interest": 3030.9855041628457,
+        "salary": 90000
+      },
+      {
+        "year": 1,
+        "balance": 72862.33999361764,
+        "contributions": 30520,
+        "interest": 7342.3399936176875,
+        "salary": 91800
+      },
+      {
+        "year": 2,
+        "balance": 93802.30762967902,
+        "contributions": 45780,
+        "interest": 13022.307629679133,
+        "salary": 93636
+      },
+      {
+        "year": 3,
+        "balance": 116209.45466792135,
+        "contributions": 61040,
+        "interest": 20169.45466792144,
+        "salary": 95508.72000000002
+      }
+    ],
+    "negative": [
+      {
+        "year": 0,
+        "balance": 51560.38742094653,
+        "contributions": 15260,
+        "interest": 1300.387420946496,
+        "salary": 90000
+      },
+      {
+        "year": 1,
+        "balance": 68617.58646452182,
+        "contributions": 30520,
+        "interest": 3097.586464521746,
+        "salary": 91800
+      },
+      {
+        "year": 2,
+        "balance": 86185.91311211979,
+        "contributions": 45780,
+        "interest": 5405.91311211969,
+        "salary": 93636
+      },
+      {
+        "year": 3,
+        "balance": 104281.87792643101,
+        "contributions": 61040,
+        "interest": 8241.877926430889,
+        "salary": 95508.72000000002
+      }
+    ]
+  },
+  "monthlyDigest": "70e8f90539ceb7cffc012bed4887d64b57be13bf70cb92eb0866f9e06ea4dd45",
+  "stepsDigest": "ecb5418e07e248a549d710ce74a7d7b0d19f374f1f6e91ae0897d5e7b03a966e"
+}

@@ -1,0 +1,144 @@
+{
+  "name": "monthly-day-midpoint",
+  "input": {
+    "currentBalance": 48000,
+    "timeHorizonYears": 3,
+    "startDate": "2026-01-01T00:00:00.000Z",
+    "interest": {
+      "annualRate": 0.06,
+      "variance": 0.02,
+      "compounding": "monthly"
+    },
+    "salary": {
+      "annualBase": 80000,
+      "annualRaiseRate": 0
+    },
+    "contributions": [
+      {
+        "id": "day-14",
+        "enabled": true,
+        "type": "flat",
+        "amount": 140,
+        "timing": {
+          "frequency": "monthly",
+          "day": 14
+        }
+      },
+      {
+        "id": "day-15",
+        "enabled": true,
+        "type": "flat",
+        "amount": 150,
+        "timing": {
+          "frequency": "monthly",
+          "day": 15
+        }
+      },
+      {
+        "id": "day-16",
+        "enabled": true,
+        "type": "flat",
+        "amount": 160,
+        "timing": {
+          "frequency": "monthly",
+          "day": 16
+        }
+      },
+      {
+        "id": "day-31",
+        "enabled": true,
+        "type": "flat",
+        "amount": 310,
+        "timing": {
+          "frequency": "monthly",
+          "day": 31
+        }
+      },
+      {
+        "id": "annual-late",
+        "enabled": true,
+        "type": "flat",
+        "amount": 1200,
+        "timing": {
+          "frequency": "annual",
+          "month": 1,
+          "day": 20,
+          "placement": "start"
+        }
+      }
+    ]
+  },
+  "yearly": {
+    "baseline": [
+      {
+        "year": 0,
+        "balance": 61530.099977645594,
+        "contributions": 10320,
+        "interest": 3210.0999776456097,
+        "salary": 80000
+      },
+      {
+        "year": 1,
+        "balance": 75872.00595394993,
+        "contributions": 20640,
+        "interest": 7232.005953949956,
+        "salary": 80000
+      },
+      {
+        "year": 2,
+        "balance": 91075.19274963919,
+        "contributions": 30960,
+        "interest": 12115.192749639198,
+        "salary": 80000
+      }
+    ],
+    "positive": [
+      {
+        "year": 0,
+        "balance": 62598.87065721717,
+        "contributions": 10320,
+        "interest": 4278.870657217179,
+        "salary": 80000
+      },
+      {
+        "year": 1,
+        "balance": 78365.65096701175,
+        "contributions": 20640,
+        "interest": 9725.650967011727,
+        "salary": 80000
+      },
+      {
+        "year": 2,
+        "balance": 95394.80273026627,
+        "contributions": 30960,
+        "interest": 16434.802730266245,
+        "salary": 80000
+      }
+    ],
+    "negative": [
+      {
+        "year": 0,
+        "balance": 60460.70980164767,
+        "contributions": 10320,
+        "interest": 2140.7098016476734,
+        "salary": 80000
+      },
+      {
+        "year": 1,
+        "balance": 73419.84799536127,
+        "contributions": 20640,
+        "interest": 4779.847995361262,
+        "salary": 80000
+      },
+      {
+        "year": 2,
+        "balance": 86897.85909275814,
+        "contributions": 30960,
+        "interest": 7937.859092758125,
+        "salary": 80000
+      }
+    ]
+  },
+  "monthlyDigest": "a96e7f8311d1298c8289297a86d8b0d1284954e0d37a180525fea6d2601af602",
+  "stepsDigest": "be159c66a9de3e89f41a2b0ad9b3c22cee7406c33bd1c5ab75cc46e648006c4f"
+}

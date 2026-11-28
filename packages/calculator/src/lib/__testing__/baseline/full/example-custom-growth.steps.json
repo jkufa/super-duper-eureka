@@ -1,0 +1,2384 @@
+{
+  "projection": {
+    "finalBalance": 114325.228886012,
+    "totalContributions": 45390.17842160001,
+    "totalGrowth": 18935.050464411972,
+    "yearlyProjections": [
+      {
+        "year": 0,
+        "balance": 59751.702145887124,
+        "contributions": 7130,
+        "interest": 2621.702145887116,
+        "salary": 120000
+      },
+      {
+        "year": 1,
+        "balance": 70947.34963422472,
+        "contributions": 15197,
+        "interest": 5750.349634224709,
+        "salary": 122400
+      },
+      {
+        "year": 2,
+        "balance": 83696.30079410605,
+        "contributions": 24237.428,
+        "interest": 9458.872794106002,
+        "salary": 124848
+      },
+      {
+        "year": 3,
+        "balance": 98114.57613613481,
+        "contributions": 34288.884320000005,
+        "interest": 13825.691816134795,
+        "salary": 127344.96000000002
+      },
+      {
+        "year": 4,
+        "balance": 114325.228886012,
+        "contributions": 45390.17842160001,
+        "interest": 18935.050464411972,
+        "salary": 129891.85919999999
+      }
+    ],
+    "monthlyProjections": [
+      {
+        "month": 0,
+        "year": 0,
+        "balance": 50603.70618918242,
+        "contributions": 400,
+        "interest": 203.7061891824177,
+        "salary": 120000
+      },
+      {
+        "month": 1,
+        "year": 0,
+        "balance": 51214.87195210852,
+        "contributions": 805,
+        "interest": 409.87195210851917,
+        "salary": 120000
+      },
+      {
+        "month": 2,
+        "year": 0,
+        "balance": 51833.527680005114,
+        "contributions": 1215,
+        "interest": 618.5276800051095,
+        "salary": 120000
+      },
+      {
+        "month": 3,
+        "year": 0,
+        "balance": 52459.70388791662,
+        "contributions": 1630,
+        "interest": 829.7038879166136,
+        "salary": 120000
+      },
+      {
+        "month": 4,
+        "year": 0,
+        "balance": 53093.43121520953,
+        "contributions": 2050,
+        "interest": 1043.4312152095247,
+        "salary": 120000
+      },
+      {
+        "month": 5,
+        "year": 0,
+        "balance": 53734.74042607891,
+        "contributions": 2475,
+        "interest": 1259.7404260789076,
+        "salary": 120000
+      },
+      {
+        "month": 6,
+        "year": 0,
+        "balance": 54383.66241005697,
+        "contributions": 2905,
+        "interest": 1478.6624100569663,
+        "salary": 120000
+      },
+      {
+        "month": 7,
+        "year": 0,
+        "balance": 55040.228182523686,
+        "contributions": 3340,
+        "interest": 1700.2281825236823,
+        "salary": 120000
+      },
+      {
+        "month": 8,
+        "year": 0,
+        "balance": 55704.46888521954,
+        "contributions": 3780,
+        "interest": 1924.4688852195345,
+        "salary": 120000
+      },
+      {
+        "month": 9,
+        "year": 0,
+        "balance": 56376.41578676031,
+        "contributions": 4225,
+        "interest": 2151.415786760307,
+        "salary": 120000
+      },
+      {
+        "month": 10,
+        "year": 0,
+        "balance": 57056.100283154,
+        "contributions": 4675,
+        "interest": 2381.100283153996,
+        "salary": 120000
+      },
+      {
+        "month": 11,
+        "year": 0,
+        "balance": 59751.702145887124,
+        "contributions": 7130,
+        "interest": 2621.702145887116,
+        "salary": 120000
+      },
+      {
+        "month": 0,
+        "year": 1,
+        "balance": 60464.337976713156,
+        "contributions": 7599.2,
+        "interest": 2865.137976713147,
+        "salary": 122400
+      },
+      {
+        "month": 1,
+        "year": 1,
+        "balance": 61184.97717412664,
+        "contributions": 8073.5,
+        "interest": 3111.4771741266263,
+        "salary": 122400
+      },
+      {
+        "month": 2,
+        "year": 1,
+        "balance": 61913.65234483373,
+        "contributions": 8552.9,
+        "interest": 3360.7523448337174,
+        "salary": 122400
+      },
+      {
+        "month": 3,
+        "year": 1,
+        "balance": 62650.39622838436,
+        "contributions": 9037.4,
+        "interest": 3612.99622838434,
+        "salary": 122400
+      },
+      {
+        "month": 4,
+        "year": 1,
+        "balance": 63395.24169771341,
+        "contributions": 9527,
+        "interest": 3868.241697713394,
+        "salary": 122400
+      },
+      {
+        "month": 5,
+        "year": 1,
+        "balance": 64148.2217596842,
+        "contributions": 10021.7,
+        "interest": 4126.521759684184,
+        "salary": 122400
+      },
+      {
+        "month": 6,
+        "year": 1,
+        "balance": 64909.36955563408,
+        "contributions": 10521.5,
+        "interest": 4387.869555634063,
+        "salary": 122400
+      },
+      {
+        "month": 7,
+        "year": 1,
+        "balance": 65678.7183619223,
+        "contributions": 11026.4,
+        "interest": 4652.318361922292,
+        "salary": 122400
+      },
+      {
+        "month": 8,
+        "year": 1,
+        "balance": 66456.30159048016,
+        "contributions": 11536.4,
+        "interest": 4919.901590480142,
+        "salary": 122400
+      },
+      {
+        "month": 9,
+        "year": 1,
+        "balance": 67242.15278936324,
+        "contributions": 12051.5,
+        "interest": 5190.652789363225,
+        "salary": 122400
+      },
+      {
+        "month": 10,
+        "year": 1,
+        "balance": 68036.3056433061,
+        "contributions": 12571.7,
+        "interest": 5464.605643306086,
+        "salary": 122400
+      },
+      {
+        "month": 11,
+        "year": 1,
+        "balance": 70947.34963422472,
+        "contributions": 15197,
+        "interest": 5750.349634224709,
+        "salary": 122400
+      },
+      {
+        "month": 0,
+        "year": 2,
+        "balance": 71777.40591875634,
+        "contributions": 15738.008,
+        "interest": 6039.397918756319,
+        "salary": 124848
+      },
+      {
+        "month": 1,
+        "year": 2,
+        "balance": 72616.04595533853,
+        "contributions": 16284.218,
+        "interest": 6331.827955338506,
+        "salary": 124848
+      },
+      {
+        "month": 2,
+        "year": 2,
+        "balance": 73463.30471523968,
+        "contributions": 16835.63,
+        "interest": 6627.674715239653,
+        "salary": 124848
+      },
+      {
+        "month": 3,
+        "year": 2,
+        "balance": 74319.21731220544,
+        "contributions": 17392.244000000002,
+        "interest": 6926.973312205417,
+        "salary": 124848
+      },
+      {
+        "month": 4,
+        "year": 2,
+        "balance": 75183.81900303923,
+        "contributions": 17954.06,
+        "interest": 7229.759003039203,
+        "salary": 124848
+      },
+      {
+        "month": 5,
+        "year": 2,
+        "balance": 76057.14518818502,
+        "contributions": 18521.078,
+        "interest": 7536.0671881849985,
+        "salary": 124848
+      },
+      {
+        "month": 6,
+        "year": 2,
+        "balance": 76939.2314123126,
+        "contributions": 19093.298000000003,
+        "interest": 7845.933412312579,
+        "salary": 124848
+      },
+      {
+        "month": 7,
+        "year": 2,
+        "balance": 77830.11336490513,
+        "contributions": 19670.72,
+        "interest": 8159.393364905106,
+        "salary": 124848
+      },
+      {
+        "month": 8,
+        "year": 2,
+        "balance": 78729.82688084914,
+        "contributions": 20253.344,
+        "interest": 8476.482880849113,
+        "salary": 124848
+      },
+      {
+        "month": 9,
+        "year": 2,
+        "balance": 79638.40794102693,
+        "contributions": 20841.170000000002,
+        "interest": 8797.237941026899,
+        "salary": 124848
+      },
+      {
+        "month": 10,
+        "year": 2,
+        "balance": 80555.89267291137,
+        "contributions": 21434.198,
+        "interest": 9121.694672911326,
+        "salary": 124848
+      },
+      {
+        "month": 11,
+        "year": 2,
+        "balance": 83696.30079410605,
+        "contributions": 24237.428,
+        "interest": 9458.872794106002,
+        "salary": 124848
+      },
+      {
+        "month": 0,
+        "year": 3,
+        "balance": 84652.7905237747,
+        "contributions": 24852.92864,
+        "interest": 9799.861883774656,
+        "salary": 127344.96000000002
+      },
+      {
+        "month": 1,
+        "year": 3,
+        "balance": 85618.4831509998,
+        "contributions": 25473.73532,
+        "interest": 10144.74783099977,
+        "salary": 127344.96000000002
+      },
+      {
+        "month": 2,
+        "year": 3,
+        "balance": 86593.4161695252,
+        "contributions": 26099.84804,
+        "interest": 10493.568129525154,
+        "salary": 127344.96000000002
+      },
+      {
+        "month": 3,
+        "year": 3,
+        "balance": 87577.62722584882,
+        "contributions": 26731.2668,
+        "interest": 10846.360425848778,
+        "salary": 127344.96000000002
+      },
+      {
+        "month": 4,
+        "year": 3,
+        "balance": 88571.15411984513,
+        "contributions": 27367.9916,
+        "interest": 11203.162519845098,
+        "salary": 127344.96000000002
+      },
+      {
+        "month": 5,
+        "year": 3,
+        "balance": 89574.03480538998,
+        "contributions": 28010.02244,
+        "interest": 11564.012365389943,
+        "salary": 127344.96000000002
+      },
+      {
+        "month": 6,
+        "year": 3,
+        "balance": 90586.30739098796,
+        "contributions": 28657.35932,
+        "interest": 11928.948070987928,
+        "salary": 127344.96000000002
+      },
+      {
+        "month": 7,
+        "year": 3,
+        "balance": 91608.01014040246,
+        "contributions": 29310.002239999998,
+        "interest": 12298.007900402432,
+        "salary": 127344.96000000002
+      },
+      {
+        "month": 8,
+        "year": 3,
+        "balance": 92639.18147328816,
+        "contributions": 29967.9512,
+        "interest": 12671.230273288145,
+        "salary": 127344.96000000002
+      },
+      {
+        "month": 9,
+        "year": 3,
+        "balance": 93679.85996582621,
+        "contributions": 30631.2062,
+        "interest": 13048.653765826184,
+        "salary": 127344.96000000002
+      },
+      {
+        "month": 10,
+        "year": 3,
+        "balance": 94730.08435136183,
+        "contributions": 31299.76724,
+        "interest": 13430.317111361805,
+        "salary": 127344.96000000002
+      },
+      {
+        "month": 11,
+        "year": 3,
+        "balance": 98114.57613613481,
+        "contributions": 34288.884320000005,
+        "interest": 13825.691816134795,
+        "salary": 127344.96000000002
+      },
+      {
+        "month": 0,
+        "year": 4,
+        "balance": 99207.06364669363,
+        "contributions": 34981.6409024,
+        "interest": 14225.422744293599,
+        "salary": 129891.85919999999
+      },
+      {
+        "month": 1,
+        "year": 4,
+        "balance": 100309.41424740254,
+        "contributions": 35679.809645600006,
+        "interest": 14629.60460180251,
+        "salary": 129891.85919999999
+      },
+      {
+        "month": 2,
+        "year": 4,
+        "balance": 101421.66812171173,
+        "contributions": 36383.39054960001,
+        "interest": 15038.277572111687,
+        "salary": 129891.85919999999
+      },
+      {
+        "month": 3,
+        "year": 4,
+        "balance": 102543.86561678369,
+        "contributions": 37092.38361440001,
+        "interest": 15451.482002383642,
+        "salary": 129891.85919999999
+      },
+      {
+        "month": 4,
+        "year": 4,
+        "balance": 103676.04724416026,
+        "contributions": 37806.78884000001,
+        "interest": 15869.25840416022,
+        "salary": 129891.85919999999
+      },
+      {
+        "month": 5,
+        "year": 4,
+        "balance": 104818.25368043235,
+        "contributions": 38526.60622640001,
+        "interest": 16291.647454032303,
+        "salary": 129891.85919999999
+      },
+      {
+        "month": 6,
+        "year": 4,
+        "balance": 105970.52576791227,
+        "contributions": 39251.8357736,
+        "interest": 16718.68999431224,
+        "salary": 129891.85919999999
+      },
+      {
+        "month": 7,
+        "year": 4,
+        "balance": 107132.90451530904,
+        "contributions": 39982.477481600006,
+        "interest": 17150.427033709013,
+        "salary": 129891.85919999999
+      },
+      {
+        "month": 8,
+        "year": 4,
+        "balance": 108305.43109840619,
+        "contributions": 40718.53135040001,
+        "interest": 17586.899748006163,
+        "salary": 129891.85919999999
+      },
+      {
+        "month": 9,
+        "year": 4,
+        "balance": 109488.14686074249,
+        "contributions": 41459.99738000001,
+        "interest": 18028.149480742468,
+        "salary": 129891.85919999999
+      },
+      {
+        "month": 10,
+        "year": 4,
+        "balance": 110681.09331429543,
+        "contributions": 42206.87557040001,
+        "interest": 18474.217743895402,
+        "salary": 129891.85919999999
+      },
+      {
+        "month": 11,
+        "year": 4,
+        "balance": 114325.228886012,
+        "contributions": 45390.17842160001,
+        "interest": 18935.050464411972,
+        "salary": 129891.85919999999
+      }
+    ]
+  },
+  "steps": [
+    {
+      "stepIndex": 0,
+      "yearIndex": 0,
+      "monthIndex": 0,
+      "balanceStart": 50000,
+      "balanceEnd": 50603.70618918242,
+      "interestEarned": 203.7061891824177,
+      "contributionsThisStep": 400,
+      "totalContributions": 400,
+      "totalInterest": 203.7061891824177,
+      "contributionsStart": 0,
+      "contributionsEnd": 400,
+      "contributionsByDay": {},
+      "salary": 120000,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 400,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 1,
+      "yearIndex": 0,
+      "monthIndex": 1,
+      "balanceStart": 50603.70618918242,
+      "balanceEnd": 51214.87195210852,
+      "interestEarned": 206.16576292610148,
+      "contributionsThisStep": 405,
+      "totalContributions": 805,
+      "totalInterest": 409.87195210851917,
+      "contributionsStart": 0,
+      "contributionsEnd": 405,
+      "contributionsByDay": {},
+      "salary": 120000,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 28,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 405,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 2,
+      "yearIndex": 0,
+      "monthIndex": 2,
+      "balanceStart": 51214.87195210852,
+      "balanceEnd": 51833.527680005114,
+      "interestEarned": 208.65572789659032,
+      "contributionsThisStep": 409.99999999999994,
+      "totalContributions": 1215,
+      "totalInterest": 618.5276800051095,
+      "contributionsStart": 0,
+      "contributionsEnd": 409.99999999999994,
+      "contributionsByDay": {},
+      "salary": 120000,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 409.99999999999994,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 3,
+      "yearIndex": 0,
+      "monthIndex": 3,
+      "balanceStart": 51833.527680005114,
+      "balanceEnd": 52459.70388791662,
+      "interestEarned": 211.1762079115041,
+      "contributionsThisStep": 415,
+      "totalContributions": 1630,
+      "totalInterest": 829.7038879166136,
+      "contributionsStart": 0,
+      "contributionsEnd": 415,
+      "contributionsByDay": {},
+      "salary": 120000,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 30,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 415,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 4,
+      "yearIndex": 0,
+      "monthIndex": 4,
+      "balanceStart": 52459.70388791662,
+      "balanceEnd": 53093.43121520953,
+      "interestEarned": 213.7273272929111,
+      "contributionsThisStep": 420,
+      "totalContributions": 2050,
+      "totalInterest": 1043.4312152095247,
+      "contributionsStart": 0,
+      "contributionsEnd": 420,
+      "contributionsByDay": {},
+      "salary": 120000,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 420,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 5,
+      "yearIndex": 0,
+      "monthIndex": 5,
+      "balanceStart": 53093.43121520953,
+      "balanceEnd": 53734.74042607891,
+      "interestEarned": 216.30921086938304,
+      "contributionsThisStep": 425.00000000000006,
+      "totalContributions": 2475,
+      "totalInterest": 1259.7404260789076,
+      "contributionsStart": 0,
+      "contributionsEnd": 425.00000000000006,
+      "contributionsByDay": {},
+      "salary": 120000,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 30,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 425.00000000000006,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 6,
+      "yearIndex": 0,
+      "monthIndex": 6,
+      "balanceStart": 53734.74042607891,
+      "balanceEnd": 54383.66241005697,
+      "interestEarned": 218.92198397805876,
+      "contributionsThisStep": 429.99999999999994,
+      "totalContributions": 2905,
+      "totalInterest": 1478.6624100569663,
+      "contributionsStart": 0,
+      "contributionsEnd": 429.99999999999994,
+      "contributionsByDay": {},
+      "salary": 120000,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 429.99999999999994,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 7,
+      "yearIndex": 0,
+      "monthIndex": 7,
+      "balanceStart": 54383.66241005697,
+      "balanceEnd": 55040.228182523686,
+      "interestEarned": 221.56577246671603,
+      "contributionsThisStep": 434.99999999999994,
+      "totalContributions": 3340,
+      "totalInterest": 1700.2281825236823,
+      "contributionsStart": 0,
+      "contributionsEnd": 434.99999999999994,
+      "contributionsByDay": {},
+      "salary": 120000,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 434.99999999999994,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 8,
+      "yearIndex": 0,
+      "monthIndex": 8,
+      "balanceStart": 55040.228182523686,
+      "balanceEnd": 55704.46888521954,
+      "interestEarned": 224.24070269585215,
+      "contributionsThisStep": 440.00000000000006,
+      "totalContributions": 3780,
+      "totalInterest": 1924.4688852195345,
+      "contributionsStart": 0,
+      "contributionsEnd": 440.00000000000006,
+      "contributionsByDay": {},
+      "salary": 120000,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 30,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 440.00000000000006,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 9,
+      "yearIndex": 0,
+      "monthIndex": 9,
+      "balanceStart": 55704.46888521954,
+      "balanceEnd": 56376.41578676031,
+      "interestEarned": 226.94690154077261,
+      "contributionsThisStep": 445.00000000000006,
+      "totalContributions": 4225,
+      "totalInterest": 2151.415786760307,
+      "contributionsStart": 0,
+      "contributionsEnd": 445.00000000000006,
+      "contributionsByDay": {},
+      "salary": 120000,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 445.00000000000006,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 10,
+      "yearIndex": 0,
+      "monthIndex": 10,
+      "balanceStart": 56376.41578676031,
+      "balanceEnd": 57056.100283154,
+      "interestEarned": 229.6844963936887,
+      "contributionsThisStep": 450,
+      "totalContributions": 4675,
+      "totalInterest": 2381.100283153996,
+      "contributionsStart": 0,
+      "contributionsEnd": 450,
+      "contributionsByDay": {},
+      "salary": 120000,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 30,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 450,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 11,
+      "yearIndex": 0,
+      "monthIndex": 11,
+      "balanceStart": 57056.100283154,
+      "balanceEnd": 59751.702145887124,
+      "interestEarned": 240.60186273312,
+      "contributionsThisStep": 2455,
+      "totalContributions": 7130,
+      "totalInterest": 2621.702145887116,
+      "contributionsStart": 2000,
+      "contributionsEnd": 455,
+      "contributionsByDay": {},
+      "salary": 120000,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "bonus",
+          "type": "flat",
+          "amount": 2000,
+          "timing": {
+            "frequency": "annual",
+            "month": 11,
+            "placement": "start"
+          }
+        },
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 455,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 12,
+      "yearIndex": 1,
+      "monthIndex": 0,
+      "balanceStart": 59751.702145887124,
+      "balanceEnd": 60464.337976713156,
+      "interestEarned": 243.4358308260311,
+      "contributionsThisStep": 469.2,
+      "totalContributions": 7599.2,
+      "totalInterest": 2865.137976713147,
+      "contributionsStart": 0,
+      "contributionsEnd": 469.2,
+      "contributionsByDay": {},
+      "salary": 122400,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 469.2,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 13,
+      "yearIndex": 1,
+      "monthIndex": 1,
+      "balanceStart": 60464.337976713156,
+      "balanceEnd": 61184.97717412664,
+      "interestEarned": 246.33919741347944,
+      "contributionsThisStep": 474.30000000000007,
+      "totalContributions": 8073.5,
+      "totalInterest": 3111.4771741266263,
+      "contributionsStart": 0,
+      "contributionsEnd": 474.30000000000007,
+      "contributionsByDay": {},
+      "salary": 122400,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 28,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 474.30000000000007,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 14,
+      "yearIndex": 1,
+      "monthIndex": 2,
+      "balanceStart": 61184.97717412664,
+      "balanceEnd": 61913.65234483373,
+      "interestEarned": 249.27517070709095,
+      "contributionsThisStep": 479.4,
+      "totalContributions": 8552.9,
+      "totalInterest": 3360.7523448337174,
+      "contributionsStart": 0,
+      "contributionsEnd": 479.4,
+      "contributionsByDay": {},
+      "salary": 122400,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 479.4,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 15,
+      "yearIndex": 1,
+      "monthIndex": 3,
+      "balanceStart": 61913.65234483373,
+      "balanceEnd": 62650.39622838436,
+      "interestEarned": 252.24388355062277,
+      "contributionsThisStep": 484.5,
+      "totalContributions": 9037.4,
+      "totalInterest": 3612.99622838434,
+      "contributionsStart": 0,
+      "contributionsEnd": 484.5,
+      "contributionsByDay": {},
+      "salary": 122400,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 30,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 484.5,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 16,
+      "yearIndex": 1,
+      "monthIndex": 4,
+      "balanceStart": 62650.39622838436,
+      "balanceEnd": 63395.24169771341,
+      "interestEarned": 255.2454693290538,
+      "contributionsThisStep": 489.6,
+      "totalContributions": 9527,
+      "totalInterest": 3868.241697713394,
+      "contributionsStart": 0,
+      "contributionsEnd": 489.6,
+      "contributionsByDay": {},
+      "salary": 122400,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 489.6,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 17,
+      "yearIndex": 1,
+      "monthIndex": 5,
+      "balanceStart": 63395.24169771341,
+      "balanceEnd": 64148.2217596842,
+      "interestEarned": 258.28006197079003,
+      "contributionsThisStep": 494.69999999999993,
+      "totalContributions": 10021.7,
+      "totalInterest": 4126.521759684184,
+      "contributionsStart": 0,
+      "contributionsEnd": 494.69999999999993,
+      "contributionsByDay": {},
+      "salary": 122400,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 30,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 494.69999999999993,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 18,
+      "yearIndex": 1,
+      "monthIndex": 6,
+      "balanceStart": 64148.2217596842,
+      "balanceEnd": 64909.36955563408,
+      "interestEarned": 261.3477959498782,
+      "contributionsThisStep": 499.8,
+      "totalContributions": 10521.5,
+      "totalInterest": 4387.869555634063,
+      "contributionsStart": 0,
+      "contributionsEnd": 499.8,
+      "contributionsByDay": {},
+      "salary": 122400,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 499.8,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 19,
+      "yearIndex": 1,
+      "monthIndex": 7,
+      "balanceStart": 64909.36955563408,
+      "balanceEnd": 65678.7183619223,
+      "interestEarned": 264.44880628822915,
+      "contributionsThisStep": 504.90000000000003,
+      "totalContributions": 11026.4,
+      "totalInterest": 4652.318361922292,
+      "contributionsStart": 0,
+      "contributionsEnd": 504.90000000000003,
+      "contributionsByDay": {},
+      "salary": 122400,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 504.90000000000003,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 20,
+      "yearIndex": 1,
+      "monthIndex": 8,
+      "balanceStart": 65678.7183619223,
+      "balanceEnd": 66456.30159048016,
+      "interestEarned": 267.5832285578495,
+      "contributionsThisStep": 510,
+      "totalContributions": 11536.4,
+      "totalInterest": 4919.901590480142,
+      "contributionsStart": 0,
+      "contributionsEnd": 510,
+      "contributionsByDay": {},
+      "salary": 122400,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 30,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 510,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 21,
+      "yearIndex": 1,
+      "monthIndex": 9,
+      "balanceStart": 66456.30159048016,
+      "balanceEnd": 67242.15278936324,
+      "interestEarned": 270.75119888308313,
+      "contributionsThisStep": 515.0999999999999,
+      "totalContributions": 12051.5,
+      "totalInterest": 5190.652789363225,
+      "contributionsStart": 0,
+      "contributionsEnd": 515.0999999999999,
+      "contributionsByDay": {},
+      "salary": 122400,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 515.0999999999999,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 22,
+      "yearIndex": 1,
+      "monthIndex": 10,
+      "balanceStart": 67242.15278936324,
+      "balanceEnd": 68036.3056433061,
+      "interestEarned": 273.9528539428613,
+      "contributionsThisStep": 520.1999999999999,
+      "totalContributions": 12571.7,
+      "totalInterest": 5464.605643306086,
+      "contributionsStart": 0,
+      "contributionsEnd": 520.1999999999999,
+      "contributionsByDay": {},
+      "salary": 122400,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 30,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 520.1999999999999,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 23,
+      "yearIndex": 1,
+      "monthIndex": 11,
+      "balanceStart": 68036.3056433061,
+      "balanceEnd": 70947.34963422472,
+      "interestEarned": 285.74399091862364,
+      "contributionsThisStep": 2625.3,
+      "totalContributions": 15197,
+      "totalInterest": 5750.349634224709,
+      "contributionsStart": 2100,
+      "contributionsEnd": 525.3000000000001,
+      "contributionsByDay": {},
+      "salary": 122400,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "bonus",
+          "type": "flat",
+          "amount": 2100,
+          "timing": {
+            "frequency": "annual",
+            "month": 11,
+            "placement": "start"
+          }
+        },
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 525.3000000000001,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 24,
+      "yearIndex": 2,
+      "monthIndex": 0,
+      "balanceStart": 70947.34963422472,
+      "balanceEnd": 71777.40591875634,
+      "interestEarned": 289.04828453161025,
+      "contributionsThisStep": 541.008,
+      "totalContributions": 15738.008,
+      "totalInterest": 6039.397918756319,
+      "contributionsStart": 0,
+      "contributionsEnd": 541.008,
+      "contributionsByDay": {},
+      "salary": 124848,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 366,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 541.008,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 25,
+      "yearIndex": 2,
+      "monthIndex": 1,
+      "balanceStart": 71777.40591875634,
+      "balanceEnd": 72616.04595533853,
+      "interestEarned": 292.4300365821873,
+      "contributionsThisStep": 546.21,
+      "totalContributions": 16284.218,
+      "totalInterest": 6331.827955338506,
+      "contributionsStart": 0,
+      "contributionsEnd": 546.21,
+      "contributionsByDay": {},
+      "salary": 124848,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 29,
+      "daysInYear": 366,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 546.21,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 26,
+      "yearIndex": 2,
+      "monthIndex": 2,
+      "balanceStart": 72616.04595533853,
+      "balanceEnd": 73463.30471523968,
+      "interestEarned": 295.8467599011465,
+      "contributionsThisStep": 551.412,
+      "totalContributions": 16835.63,
+      "totalInterest": 6627.674715239653,
+      "contributionsStart": 0,
+      "contributionsEnd": 551.412,
+      "contributionsByDay": {},
+      "salary": 124848,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 366,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 551.412,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 27,
+      "yearIndex": 2,
+      "monthIndex": 3,
+      "balanceStart": 73463.30471523968,
+      "balanceEnd": 74319.21731220544,
+      "interestEarned": 299.2985969657642,
+      "contributionsThisStep": 556.614,
+      "totalContributions": 17392.244000000002,
+      "totalInterest": 6926.973312205417,
+      "contributionsStart": 0,
+      "contributionsEnd": 556.614,
+      "contributionsByDay": {},
+      "salary": 124848,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 30,
+      "daysInYear": 366,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 556.614,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 28,
+      "yearIndex": 2,
+      "monthIndex": 4,
+      "balanceStart": 74319.21731220544,
+      "balanceEnd": 75183.81900303923,
+      "interestEarned": 302.78569083378665,
+      "contributionsThisStep": 561.816,
+      "totalContributions": 17954.06,
+      "totalInterest": 7229.759003039203,
+      "contributionsStart": 0,
+      "contributionsEnd": 561.816,
+      "contributionsByDay": {},
+      "salary": 124848,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 366,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 561.816,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 29,
+      "yearIndex": 2,
+      "monthIndex": 5,
+      "balanceStart": 75183.81900303923,
+      "balanceEnd": 76057.14518818502,
+      "interestEarned": 306.30818514579516,
+      "contributionsThisStep": 567.018,
+      "totalContributions": 18521.078,
+      "totalInterest": 7536.0671881849985,
+      "contributionsStart": 0,
+      "contributionsEnd": 567.018,
+      "contributionsByDay": {},
+      "salary": 124848,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 30,
+      "daysInYear": 366,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 567.018,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 30,
+      "yearIndex": 2,
+      "monthIndex": 6,
+      "balanceStart": 76057.14518818502,
+      "balanceEnd": 76939.2314123126,
+      "interestEarned": 309.86622412758055,
+      "contributionsThisStep": 572.22,
+      "totalContributions": 19093.298000000003,
+      "totalInterest": 7845.933412312579,
+      "contributionsStart": 0,
+      "contributionsEnd": 572.22,
+      "contributionsByDay": {},
+      "salary": 124848,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 366,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 572.22,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 31,
+      "yearIndex": 2,
+      "monthIndex": 7,
+      "balanceStart": 76939.2314123126,
+      "balanceEnd": 77830.11336490513,
+      "interestEarned": 313.45995259252726,
+      "contributionsThisStep": 577.422,
+      "totalContributions": 19670.72,
+      "totalInterest": 8159.393364905106,
+      "contributionsStart": 0,
+      "contributionsEnd": 577.422,
+      "contributionsByDay": {},
+      "salary": 124848,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 366,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 577.422,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 32,
+      "yearIndex": 2,
+      "monthIndex": 8,
+      "balanceStart": 77830.11336490513,
+      "balanceEnd": 78729.82688084914,
+      "interestEarned": 317.0895159440076,
+      "contributionsThisStep": 582.6239999999999,
+      "totalContributions": 20253.344,
+      "totalInterest": 8476.482880849113,
+      "contributionsStart": 0,
+      "contributionsEnd": 582.6239999999999,
+      "contributionsByDay": {},
+      "salary": 124848,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 30,
+      "daysInYear": 366,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 582.6239999999999,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 33,
+      "yearIndex": 2,
+      "monthIndex": 9,
+      "balanceStart": 78729.82688084914,
+      "balanceEnd": 79638.40794102693,
+      "interestEarned": 320.75506017778497,
+      "contributionsThisStep": 587.826,
+      "totalContributions": 20841.170000000002,
+      "totalInterest": 8797.237941026899,
+      "contributionsStart": 0,
+      "contributionsEnd": 587.826,
+      "contributionsByDay": {},
+      "salary": 124848,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 366,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 587.826,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 34,
+      "yearIndex": 2,
+      "monthIndex": 10,
+      "balanceStart": 79638.40794102693,
+      "balanceEnd": 80555.89267291137,
+      "interestEarned": 324.4567318844277,
+      "contributionsThisStep": 593.028,
+      "totalContributions": 21434.198,
+      "totalInterest": 9121.694672911326,
+      "contributionsStart": 0,
+      "contributionsEnd": 593.028,
+      "contributionsByDay": {},
+      "salary": 124848,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 30,
+      "daysInYear": 366,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 593.028,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 35,
+      "yearIndex": 2,
+      "monthIndex": 11,
+      "balanceStart": 80555.89267291137,
+      "balanceEnd": 83696.30079410605,
+      "interestEarned": 337.178121194677,
+      "contributionsThisStep": 2803.23,
+      "totalContributions": 24237.428,
+      "totalInterest": 9458.872794106002,
+      "contributionsStart": 2205,
+      "contributionsEnd": 598.23,
+      "contributionsByDay": {},
+      "salary": 124848,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 366,
+      "activeContributions": [
+        {
+          "id": "bonus",
+          "type": "flat",
+          "amount": 2205,
+          "timing": {
+            "frequency": "annual",
+            "month": 11,
+            "placement": "start"
+          }
+        },
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 598.23,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 36,
+      "yearIndex": 3,
+      "monthIndex": 0,
+      "balanceStart": 83696.30079410605,
+      "balanceEnd": 84652.7905237747,
+      "interestEarned": 340.989089668654,
+      "contributionsThisStep": 615.5006400000001,
+      "totalContributions": 24852.92864,
+      "totalInterest": 9799.861883774656,
+      "contributionsStart": 0,
+      "contributionsEnd": 615.5006400000001,
+      "contributionsByDay": {},
+      "salary": 127344.96000000002,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 615.5006400000001,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 37,
+      "yearIndex": 3,
+      "monthIndex": 1,
+      "balanceStart": 84652.7905237747,
+      "balanceEnd": 85618.4831509998,
+      "interestEarned": 344.8859472251125,
+      "contributionsThisStep": 620.80668,
+      "totalContributions": 25473.73532,
+      "totalInterest": 10144.74783099977,
+      "contributionsStart": 0,
+      "contributionsEnd": 620.80668,
+      "contributionsByDay": {},
+      "salary": 127344.96000000002,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 28,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 620.80668,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 38,
+      "yearIndex": 3,
+      "monthIndex": 2,
+      "balanceStart": 85618.4831509998,
+      "balanceEnd": 86593.4161695252,
+      "interestEarned": 348.82029852538415,
+      "contributionsThisStep": 626.1127200000002,
+      "totalContributions": 26099.84804,
+      "totalInterest": 10493.568129525154,
+      "contributionsStart": 0,
+      "contributionsEnd": 626.1127200000002,
+      "contributionsByDay": {},
+      "salary": 127344.96000000002,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 626.1127200000002,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 39,
+      "yearIndex": 3,
+      "monthIndex": 3,
+      "balanceStart": 86593.4161695252,
+      "balanceEnd": 87577.62722584882,
+      "interestEarned": 352.7922963236225,
+      "contributionsThisStep": 631.4187600000001,
+      "totalContributions": 26731.2668,
+      "totalInterest": 10846.360425848778,
+      "contributionsStart": 0,
+      "contributionsEnd": 631.4187600000001,
+      "contributionsByDay": {},
+      "salary": 127344.96000000002,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 30,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 631.4187600000001,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 40,
+      "yearIndex": 3,
+      "monthIndex": 4,
+      "balanceStart": 87577.62722584882,
+      "balanceEnd": 88571.15411984513,
+      "interestEarned": 356.80209399632025,
+      "contributionsThisStep": 636.7248000000001,
+      "totalContributions": 27367.9916,
+      "totalInterest": 11203.162519845098,
+      "contributionsStart": 0,
+      "contributionsEnd": 636.7248000000001,
+      "contributionsByDay": {},
+      "salary": 127344.96000000002,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 636.7248000000001,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 41,
+      "yearIndex": 3,
+      "monthIndex": 5,
+      "balanceStart": 88571.15411984513,
+      "balanceEnd": 89574.03480538998,
+      "interestEarned": 360.84984554484487,
+      "contributionsThisStep": 642.0308400000001,
+      "totalContributions": 28010.02244,
+      "totalInterest": 11564.012365389943,
+      "contributionsStart": 0,
+      "contributionsEnd": 642.0308400000001,
+      "contributionsByDay": {},
+      "salary": 127344.96000000002,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 30,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 642.0308400000001,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 42,
+      "yearIndex": 3,
+      "monthIndex": 6,
+      "balanceStart": 89574.03480538998,
+      "balanceEnd": 90586.30739098796,
+      "interestEarned": 364.93570559798474,
+      "contributionsThisStep": 647.3368800000001,
+      "totalContributions": 28657.35932,
+      "totalInterest": 11928.948070987928,
+      "contributionsStart": 0,
+      "contributionsEnd": 647.3368800000001,
+      "contributionsByDay": {},
+      "salary": 127344.96000000002,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 647.3368800000001,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 43,
+      "yearIndex": 3,
+      "monthIndex": 7,
+      "balanceStart": 90586.30739098796,
+      "balanceEnd": 91608.01014040246,
+      "interestEarned": 369.0598294145047,
+      "contributionsThisStep": 652.6429200000001,
+      "totalContributions": 29310.002239999998,
+      "totalInterest": 12298.007900402432,
+      "contributionsStart": 0,
+      "contributionsEnd": 652.6429200000001,
+      "contributionsByDay": {},
+      "salary": 127344.96000000002,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 652.6429200000001,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 44,
+      "yearIndex": 3,
+      "monthIndex": 8,
+      "balanceStart": 91608.01014040246,
+      "balanceEnd": 92639.18147328816,
+      "interestEarned": 373.2223728857132,
+      "contributionsThisStep": 657.94896,
+      "totalContributions": 29967.9512,
+      "totalInterest": 12671.230273288145,
+      "contributionsStart": 0,
+      "contributionsEnd": 657.94896,
+      "contributionsByDay": {},
+      "salary": 127344.96000000002,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 30,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 657.94896,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 45,
+      "yearIndex": 3,
+      "monthIndex": 9,
+      "balanceStart": 92639.18147328816,
+      "balanceEnd": 93679.85996582621,
+      "interestEarned": 377.4234925380392,
+      "contributionsThisStep": 663.2550000000001,
+      "totalContributions": 30631.2062,
+      "totalInterest": 13048.653765826184,
+      "contributionsStart": 0,
+      "contributionsEnd": 663.2550000000001,
+      "contributionsByDay": {},
+      "salary": 127344.96000000002,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 663.2550000000001,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 46,
+      "yearIndex": 3,
+      "monthIndex": 10,
+      "balanceStart": 93679.85996582621,
+      "balanceEnd": 94730.08435136183,
+      "interestEarned": 381.6633455356198,
+      "contributionsThisStep": 668.5610400000002,
+      "totalContributions": 31299.76724,
+      "totalInterest": 13430.317111361805,
+      "contributionsStart": 0,
+      "contributionsEnd": 668.5610400000002,
+      "contributionsByDay": {},
+      "salary": 127344.96000000002,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 30,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 668.5610400000002,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 47,
+      "yearIndex": 3,
+      "monthIndex": 11,
+      "balanceStart": 94730.08435136183,
+      "balanceEnd": 98114.57613613481,
+      "interestEarned": 395.3747047729898,
+      "contributionsThisStep": 2989.1170800000004,
+      "totalContributions": 34288.884320000005,
+      "totalInterest": 13825.691816134795,
+      "contributionsStart": 2315.2500000000005,
+      "contributionsEnd": 673.8670800000001,
+      "contributionsByDay": {},
+      "salary": 127344.96000000002,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "bonus",
+          "type": "flat",
+          "amount": 2315.2500000000005,
+          "timing": {
+            "frequency": "annual",
+            "month": 11,
+            "placement": "start"
+          }
+        },
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 673.8670800000001,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 48,
+      "yearIndex": 4,
+      "monthIndex": 0,
+      "balanceStart": 98114.57613613481,
+      "balanceEnd": 99207.06364669363,
+      "interestEarned": 399.73092815880403,
+      "contributionsThisStep": 692.7565824,
+      "totalContributions": 34981.6409024,
+      "totalInterest": 14225.422744293599,
+      "contributionsStart": 0,
+      "contributionsEnd": 692.7565824,
+      "contributionsByDay": {},
+      "salary": 129891.85919999999,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 692.7565824,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 49,
+      "yearIndex": 4,
+      "monthIndex": 1,
+      "balanceStart": 99207.06364669363,
+      "balanceEnd": 100309.41424740254,
+      "interestEarned": 404.18185750891047,
+      "contributionsThisStep": 698.1687432,
+      "totalContributions": 35679.809645600006,
+      "totalInterest": 14629.60460180251,
+      "contributionsStart": 0,
+      "contributionsEnd": 698.1687432,
+      "contributionsByDay": {},
+      "salary": 129891.85919999999,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 28,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 698.1687432,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 50,
+      "yearIndex": 4,
+      "monthIndex": 2,
+      "balanceStart": 100309.41424740254,
+      "balanceEnd": 101421.66812171173,
+      "interestEarned": 408.6729703091777,
+      "contributionsThisStep": 703.580904,
+      "totalContributions": 36383.39054960001,
+      "totalInterest": 15038.277572111687,
+      "contributionsStart": 0,
+      "contributionsEnd": 703.580904,
+      "contributionsByDay": {},
+      "salary": 129891.85919999999,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 703.580904,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 51,
+      "yearIndex": 4,
+      "monthIndex": 3,
+      "balanceStart": 101421.66812171173,
+      "balanceEnd": 102543.86561678369,
+      "interestEarned": 413.2044302719558,
+      "contributionsThisStep": 708.9930648,
+      "totalContributions": 37092.38361440001,
+      "totalInterest": 15451.482002383642,
+      "contributionsStart": 0,
+      "contributionsEnd": 708.9930648,
+      "contributionsByDay": {},
+      "salary": 129891.85919999999,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 30,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 708.9930648,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 52,
+      "yearIndex": 4,
+      "monthIndex": 4,
+      "balanceStart": 102543.86561678369,
+      "balanceEnd": 103676.04724416026,
+      "interestEarned": 417.77640177657906,
+      "contributionsThisStep": 714.4052256,
+      "totalContributions": 37806.78884000001,
+      "totalInterest": 15869.25840416022,
+      "contributionsStart": 0,
+      "contributionsEnd": 714.4052256,
+      "contributionsByDay": {},
+      "salary": 129891.85919999999,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 714.4052256,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 53,
+      "yearIndex": 4,
+      "monthIndex": 5,
+      "balanceStart": 103676.04724416026,
+      "balanceEnd": 104818.25368043235,
+      "interestEarned": 422.38904987208366,
+      "contributionsThisStep": 719.8173864,
+      "totalContributions": 38526.60622640001,
+      "totalInterest": 16291.647454032303,
+      "contributionsStart": 0,
+      "contributionsEnd": 719.8173864,
+      "contributionsByDay": {},
+      "salary": 129891.85919999999,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 30,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 719.8173864,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 54,
+      "yearIndex": 4,
+      "monthIndex": 6,
+      "balanceStart": 104818.25368043235,
+      "balanceEnd": 105970.52576791227,
+      "interestEarned": 427.04254027993596,
+      "contributionsThisStep": 725.2295472,
+      "totalContributions": 39251.8357736,
+      "totalInterest": 16718.68999431224,
+      "contributionsStart": 0,
+      "contributionsEnd": 725.2295472,
+      "contributionsByDay": {},
+      "salary": 129891.85919999999,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 725.2295472,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 55,
+      "yearIndex": 4,
+      "monthIndex": 7,
+      "balanceStart": 105970.52576791227,
+      "balanceEnd": 107132.90451530904,
+      "interestEarned": 431.7370393967721,
+      "contributionsThisStep": 730.641708,
+      "totalContributions": 39982.477481600006,
+      "totalInterest": 17150.427033709013,
+      "contributionsStart": 0,
+      "contributionsEnd": 730.641708,
+      "contributionsByDay": {},
+      "salary": 129891.85919999999,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 730.641708,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 56,
+      "yearIndex": 4,
+      "monthIndex": 8,
+      "balanceStart": 107132.90451530904,
+      "balanceEnd": 108305.43109840619,
+      "interestEarned": 436.4727142971486,
+      "contributionsThisStep": 736.0538688,
+      "totalContributions": 40718.53135040001,
+      "totalInterest": 17586.899748006163,
+      "contributionsStart": 0,
+      "contributionsEnd": 736.0538688,
+      "contributionsByDay": {},
+      "salary": 129891.85919999999,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 30,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 736.0538688,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 57,
+      "yearIndex": 4,
+      "monthIndex": 9,
+      "balanceStart": 108305.43109840619,
+      "balanceEnd": 109488.14686074249,
+      "interestEarned": 441.2497327363047,
+      "contributionsThisStep": 741.4660295999998,
+      "totalContributions": 41459.99738000001,
+      "totalInterest": 18028.149480742468,
+      "contributionsStart": 0,
+      "contributionsEnd": 741.4660295999998,
+      "contributionsByDay": {},
+      "salary": 129891.85919999999,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 741.4660295999998,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 58,
+      "yearIndex": 4,
+      "monthIndex": 10,
+      "balanceStart": 109488.14686074249,
+      "balanceEnd": 110681.09331429543,
+      "interestEarned": 446.0682631529348,
+      "contributionsThisStep": 746.8781904,
+      "totalContributions": 42206.87557040001,
+      "totalInterest": 18474.217743895402,
+      "contributionsStart": 0,
+      "contributionsEnd": 746.8781904,
+      "contributionsByDay": {},
+      "salary": 129891.85919999999,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 30,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 746.8781904,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    },
+    {
+      "stepIndex": 59,
+      "yearIndex": 4,
+      "monthIndex": 11,
+      "balanceStart": 110681.09331429543,
+      "balanceEnd": 114325.228886012,
+      "interestEarned": 460.8327205165702,
+      "contributionsThisStep": 3183.3028512,
+      "totalContributions": 45390.17842160001,
+      "totalInterest": 18935.050464411972,
+      "contributionsStart": 2431.0125000000003,
+      "contributionsEnd": 752.2903512,
+      "contributionsByDay": {},
+      "salary": 129891.85919999999,
+      "compounding": "monthly",
+      "annualRate": 0.05,
+      "daysInMonth": 31,
+      "daysInYear": 365,
+      "activeContributions": [
+        {
+          "id": "bonus",
+          "type": "flat",
+          "amount": 2431.0125000000003,
+          "timing": {
+            "frequency": "annual",
+            "month": 11,
+            "placement": "start"
+          }
+        },
+        {
+          "id": "espp",
+          "type": "salaryPercent",
+          "amount": 752.2903512,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "totalSteps": 60,
+    "totalContributions": 45390.17842160001,
+    "totalInterest": 18935.050464411972,
+    "finalBalance": 114325.228886012
+  }
+}

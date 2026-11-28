@@ -1,0 +1,186 @@
+{
+  "name": "zero-rate-disabled-rules",
+  "input": {
+    "currentBalance": 10000,
+    "timeHorizonYears": 5,
+    "startDate": "2026-03-01T00:00:00.000Z",
+    "interest": {
+      "annualRate": 0,
+      "variance": 0,
+      "compounding": "monthly"
+    },
+    "salary": {
+      "annualBase": 50000,
+      "annualRaiseRate": 0.01
+    },
+    "contributions": [
+      {
+        "id": "disabled",
+        "enabled": false,
+        "type": "flat",
+        "amount": 1000,
+        "timing": {
+          "frequency": "monthly",
+          "placement": "start"
+        }
+      },
+      {
+        "id": "zero-amount",
+        "enabled": true,
+        "type": "flat",
+        "amount": 0,
+        "timing": {
+          "frequency": "annual",
+          "month": 6,
+          "placement": "end"
+        }
+      },
+      {
+        "id": "savings",
+        "enabled": true,
+        "type": "flat",
+        "amount": 250,
+        "timing": {
+          "frequency": "monthly",
+          "placement": "end"
+        }
+      }
+    ]
+  },
+  "yearly": {
+    "baseline": [
+      {
+        "year": 0,
+        "balance": 12500,
+        "contributions": 2500,
+        "interest": 0,
+        "salary": 50000
+      },
+      {
+        "year": 1,
+        "balance": 15500,
+        "contributions": 5500,
+        "interest": 0,
+        "salary": 50500
+      },
+      {
+        "year": 2,
+        "balance": 18500,
+        "contributions": 8500,
+        "interest": 0,
+        "salary": 51005
+      },
+      {
+        "year": 3,
+        "balance": 21500,
+        "contributions": 11500,
+        "interest": 0,
+        "salary": 51515.05000000001
+      },
+      {
+        "year": 4,
+        "balance": 24500,
+        "contributions": 14500,
+        "interest": 0,
+        "salary": 52030.2005
+      },
+      {
+        "year": 5,
+        "balance": 25000,
+        "contributions": 15000,
+        "interest": 0,
+        "salary": 52550.502505000004
+      }
+    ],
+    "positive": [
+      {
+        "year": 0,
+        "balance": 12500,
+        "contributions": 2500,
+        "interest": 0,
+        "salary": 50000
+      },
+      {
+        "year": 1,
+        "balance": 15500,
+        "contributions": 5500,
+        "interest": 0,
+        "salary": 50500
+      },
+      {
+        "year": 2,
+        "balance": 18500,
+        "contributions": 8500,
+        "interest": 0,
+        "salary": 51005
+      },
+      {
+        "year": 3,
+        "balance": 21500,
+        "contributions": 11500,
+        "interest": 0,
+        "salary": 51515.05000000001
+      },
+      {
+        "year": 4,
+        "balance": 24500,
+        "contributions": 14500,
+        "interest": 0,
+        "salary": 52030.2005
+      },
+      {
+        "year": 5,
+        "balance": 25000,
+        "contributions": 15000,
+        "interest": 0,
+        "salary": 52550.502505000004
+      }
+    ],
+    "negative": [
+      {
+        "year": 0,
+        "balance": 12500,
+        "contributions": 2500,
+        "interest": 0,
+        "salary": 50000
+      },
+      {
+        "year": 1,
+        "balance": 15500,
+        "contributions": 5500,
+        "interest": 0,
+        "salary": 50500
+      },
+      {
+        "year": 2,
+        "balance": 18500,
+        "contributions": 8500,
+        "interest": 0,
+        "salary": 51005
+      },
+      {
+        "year": 3,
+        "balance": 21500,
+        "contributions": 11500,
+        "interest": 0,
+        "salary": 51515.05000000001
+      },
+      {
+        "year": 4,
+        "balance": 24500,
+        "contributions": 14500,
+        "interest": 0,
+        "salary": 52030.2005
+      },
+      {
+        "year": 5,
+        "balance": 25000,
+        "contributions": 15000,
+        "interest": 0,
+        "salary": 52550.502505000004
+      }
+    ]
+  },
+  "monthlyDigest": "dc3f5ef68d68355ecd97c9714afcee054740c093f6408864d9289f9c85b4b988",
+  "stepsDigest": "d23a8a6a6104497e27ce6bf5fc504b25a7033c5705ddfe3533150b2fe323c70f"
+}
