@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vite-plus/test';
 
 import { parseScenario, ScenarioError } from '../parse-scenario';
 import type { ScenarioErrorCode } from '../parse-scenario';
-import type { ScenarioFile } from '../scenario';
+import type { RunOptions, ScenarioFile } from '../scenario';
 
 const TODAY = '2026-03-01';
 
@@ -152,6 +152,33 @@ describe('parseScenario', () => {
     });
   });
 
+  it('returns a read-only scenario that shares no object with the file', () => {
+    const file = validFile();
+    const scenario = parseScenario(file, { today: TODAY });
+    const [account] = scenario.accounts;
+    const bonusFile = firstAccount(file).contributions[1];
+    if (!account || !bonusFile?.growth) {
+      throw new Error('The fixture lost its first account or its growing rule.');
+    }
+    const parsedGrowth = account.contributions[1]?.growth;
+
+    expect(parsedGrowth).toStrictEqual(bonusFile.growth);
+    expect(parsedGrowth).not.toBe(bonusFile.growth);
+    expect(account.contributions[0]?.timing).not.toBe(firstRule(file).timing);
+
+    bonusFile.growth.amount = 99;
+    firstAccount(file).contributions.length = 0;
+
+    expect(parsedGrowth?.amount).toBe(2);
+    expect(account.contributions).toHaveLength(2);
+    // @ts-expect-error A parsed account's balance is read-only.
+    account.balance = -1;
+    // @ts-expect-error A parsed scenario's account list is read-only.
+    scenario.accounts[1] = account;
+    // @ts-expect-error A parsed date is read-only.
+    scenario.endDate.year = 2040;
+  });
+
   it('fills in a missing variance, raise and compounding', () => {
     const scenario = parseScenario(
       edited((file) => {
@@ -269,6 +296,58 @@ describe('parseScenario', () => {
         'invalid_rate',
         { accountId: 'roth' }
       );
+    });
+
+    it.each([
+      [
+        'a raise of -1',
+        (file: ScenarioFile) => {
+          file.salary.annualRaiseRate = -1;
+        },
+        'salary.annualRaiseRate',
+        {}
+      ],
+      [
+        'a raise of -2',
+        (file: ScenarioFile) => {
+          file.salary.annualRaiseRate = -2;
+        },
+        'salary.annualRaiseRate',
+        {}
+      ],
+      [
+        'a default rate plus variance that overflows',
+        (file: ScenarioFile) => {
+          file.interest = { annualRate: 1e308, variance: 1e308 };
+        },
+        'interest.annualRate',
+        {}
+      ],
+      [
+        'an account rate plus variance that overflows',
+        (file: ScenarioFile) => {
+          file.interest = { annualRate: 1e308, variance: 7e307 };
+          const roth = file.accounts[1];
+          if (roth) {
+            roth.annualRate = 1.5e308;
+          }
+        },
+        'accounts[1].annualRate',
+        { accountId: 'roth' }
+      ]
+    ])('invalid_rate for %s', (_, edit, path, ids) => {
+      expect(expectError(edited(edit), 'invalid_rate', ids).path).toBe(path);
+    });
+
+    it('accepts a raise just above -1', () => {
+      const scenario = parseScenario(
+        edited((file) => {
+          file.salary.annualRaiseRate = -0.99;
+        }),
+        { today: TODAY }
+      );
+
+      expect(scenario.salary.annualRaiseRate).toBe(-0.99);
     });
 
     it('negative_amount', () => {
@@ -459,6 +538,67 @@ describe('parseScenario', () => {
         'invalid_field at accounts[0].contributions[0].amount: missing.'
       );
       expect(wrongType.path).toBe('accounts[0].contributions[0].timing.day');
+    });
+
+    it.each([
+      [
+        'on an account',
+        (file: ScenarioFile) => {
+          Object.assign(firstAccount(file), { extra: 1 });
+        },
+        'accounts[0].extra',
+        { accountId: 'k401' }
+      ],
+      [
+        'on a rule',
+        (file: ScenarioFile) => {
+          Object.assign(firstRule(file), { extra: 1 });
+        },
+        'accounts[0].contributions[0].extra',
+        { accountId: 'k401', ruleId: 'deferral' }
+      ],
+      [
+        'on a rule whose id is not a string',
+        (file: ScenarioFile) => {
+          Object.assign(firstRule(file), { id: 7, extra: 1 });
+        },
+        'accounts[0].contributions[0].extra',
+        { accountId: 'k401' }
+      ]
+    ])('names the ids for an unknown key directly %s', (_, edit, path, ids) => {
+      expect(expectError(edited(edit), 'invalid_field', ids).path).toBe(path);
+    });
+
+    it('rejects a hole in the accounts and in a rule list', () => {
+      const accountHole = expectError(
+        edited((file) => {
+          file.accounts.length = 3;
+        }),
+        'invalid_field'
+      );
+      const ruleHole = expectError(
+        edited((file) => {
+          firstAccount(file).contributions.length = 3;
+        }),
+        'invalid_field',
+        { accountId: 'k401' }
+      );
+
+      expect(accountHole.message).toBe('invalid_field at accounts[2]: expected an object.');
+      expect(ruleHole.path).toBe('accounts[0].contributions[2]');
+    });
+
+    it('rejects an option other than today', () => {
+      const options: RunOptions = Object.assign({ today: TODAY }, { endDate: '2030-01-01' });
+      let error: unknown;
+      try {
+        parseScenario(validFile(), options);
+      } catch (error_) {
+        error = error_;
+      }
+
+      expect(error).toBeInstanceOf(ScenarioError);
+      expect(error).toMatchObject({ code: 'invalid_field', path: 'options.endDate' });
     });
 
     it('rejects a root that is not an object', () => {

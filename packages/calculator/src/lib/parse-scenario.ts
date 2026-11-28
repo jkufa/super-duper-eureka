@@ -16,7 +16,8 @@ export type ScenarioErrorCode =
   | 'growth_without_start'
   | 'growth_on_one_time'
   | 'rule_end_before_start'
-  | 'per_contribution_on_one_time';
+  | 'per_contribution_on_one_time'
+  | 'not_finite';
 
 interface Subject {
   accountId?: string;
@@ -30,7 +31,7 @@ export class ScenarioError extends Error {
   readonly ruleId: string | undefined;
 
   constructor(code: ScenarioErrorCode, path: string, problem: string, subject: Subject) {
-    super(`${code} at ${path || 'the root'}: ${problem}.`);
+    super(path ? `${code} at ${path}: ${problem}.` : `${code}: ${problem}.`);
     this.name = 'ScenarioError';
     this.code = code;
     this.path = path;
@@ -38,6 +39,8 @@ export class ScenarioError extends Error {
     this.ruleId = subject.ruleId;
   }
 }
+
+type Writable<T> = { -readonly [K in keyof T]: T[K] };
 
 /** An object from the file, with where it sits and whose it is. */
 interface Source {
@@ -140,9 +143,24 @@ function objectAt(
   return readObject(source.fields.get(key), pathOf(source, key), keys, subject);
 }
 
-function arrayAt(source: Source, key: string): Array<unknown> {
+function elementsAt<T>(
+  source: Source,
+  key: string,
+  parse: (value: unknown, path: string) => T
+): Array<T> {
   const value = source.fields.get(key);
-  return Array.isArray(value) ? value : failField(source, key, 'an array');
+  if (!Array.isArray(value)) {
+    return failField(source, key, 'an array');
+  }
+  const path = pathOf(source, key);
+  return Array.from(value, (element: unknown, index) =>
+    parse(element, `${path}[${String(index)}]`)
+  );
+}
+
+function readableId(source: Source): string | undefined {
+  const id = source.fields.get('id');
+  return typeof id === 'string' ? id : undefined;
 }
 
 function numberAt(source: Source, key: string): number {
@@ -202,12 +220,20 @@ function checkNotNegative(code: ScenarioErrorCode, source: Source, key: string, 
   }
 }
 
-function checkRateAgainstVariance(source: Source, key: string, rate: number, variance: number) {
+function checkBandRates(source: Source, key: string, rate: number, variance: number) {
   if (rate - variance <= -1) {
     fail(
       'invalid_rate',
       pathOf(source, key),
       'the rate minus the variance is at or below -1',
+      source.subject
+    );
+  }
+  if (!Number.isFinite(rate + variance)) {
+    fail(
+      'invalid_rate',
+      pathOf(source, key),
+      'the rate plus the variance is not finite',
       source.subject
     );
   }
@@ -249,38 +275,29 @@ function parseGrowth(source: Source): RuleGrowth {
 }
 
 function parseRule(value: unknown, path: string, accountId: string): Rule {
-  const source = readObject(value, path, RULE_KEYS, { accountId });
+  const source = toSource(value, path, { accountId });
+  source.subject = { accountId, ruleId: readableId(source) };
+  checkKeys(source, RULE_KEYS);
   const id = stringAt(source, 'id');
-  source.subject = { accountId, ruleId: id };
   const timing = parseTiming(objectAt(source, 'timing', ANY_TIMING_KEYS));
   const isOneTime = timing.frequency === 'oneTime';
   checkKeys(source, isOneTime ? ONE_TIME_RULE_KEYS : RULE_KEYS);
 
-  const rule: Rule = {
-    id,
-    enabled: source.fields.has('enabled') ? booleanAt(source, 'enabled') : true,
-    type: oneOfAt(source, 'type', ['flat', 'salaryPercent'] as const),
-    amount: numberAt(source, 'amount'),
-    salaryBasis: source.fields.has('salaryBasis')
-      ? oneOfAt(source, 'salaryBasis', SALARY_BASES)
-      : 'annual',
-    timing
-  };
-  checkNotNegative('negative_amount', source, 'amount', rule.amount);
-  if (source.fields.has('name')) {
-    rule.name = stringAt(source, 'name');
-  }
-  if (source.fields.has('growth')) {
-    rule.growth = parseGrowth(objectAt(source, 'growth', GROWTH_KEYS));
-  }
-  if (source.fields.has('startDate')) {
-    rule.startDate = dateAt(source, 'startDate');
-  }
-  if (source.fields.has('endDate')) {
-    rule.endDate = dateAt(source, 'endDate');
-  }
+  const name = source.fields.has('name') ? stringAt(source, 'name') : undefined;
+  const enabled = source.fields.has('enabled') ? booleanAt(source, 'enabled') : true;
+  const type = oneOfAt(source, 'type', ['flat', 'salaryPercent'] as const);
+  const amount = numberAt(source, 'amount');
+  checkNotNegative('negative_amount', source, 'amount', amount);
+  const salaryBasis = source.fields.has('salaryBasis')
+    ? oneOfAt(source, 'salaryBasis', SALARY_BASES)
+    : 'annual';
+  const growth = source.fields.has('growth')
+    ? parseGrowth(objectAt(source, 'growth', GROWTH_KEYS))
+    : undefined;
+  const startDate = source.fields.has('startDate') ? dateAt(source, 'startDate') : undefined;
+  const endDate = source.fields.has('endDate') ? dateAt(source, 'endDate') : undefined;
 
-  if (isOneTime && rule.growth) {
+  if (isOneTime && growth) {
     fail(
       'growth_on_one_time',
       pathOf(source, 'growth'),
@@ -288,7 +305,7 @@ function parseRule(value: unknown, path: string, accountId: string): Rule {
       source.subject
     );
   }
-  if (isOneTime && rule.salaryBasis === 'perContribution') {
+  if (isOneTime && salaryBasis === 'perContribution') {
     fail(
       'per_contribution_on_one_time',
       pathOf(source, 'salaryBasis'),
@@ -296,7 +313,7 @@ function parseRule(value: unknown, path: string, accountId: string): Rule {
       source.subject
     );
   }
-  if (rule.growth && !rule.startDate) {
+  if (growth && !startDate) {
     fail(
       'growth_without_start',
       pathOf(source, 'startDate'),
@@ -304,7 +321,7 @@ function parseRule(value: unknown, path: string, accountId: string): Rule {
       source.subject
     );
   }
-  if (rule.startDate && rule.endDate && compareDates(rule.endDate, rule.startDate) < 0) {
+  if (startDate && endDate && compareDates(endDate, startDate) < 0) {
     fail(
       'rule_end_before_start',
       pathOf(source, 'endDate'),
@@ -312,38 +329,60 @@ function parseRule(value: unknown, path: string, accountId: string): Rule {
       source.subject
     );
   }
+  const rule: Writable<Rule> = { id, enabled, type, amount, salaryBasis, timing };
+  if (name !== undefined) {
+    rule.name = name;
+  }
+  if (growth) {
+    rule.growth = growth;
+  }
+  if (startDate) {
+    rule.startDate = startDate;
+  }
+  if (endDate) {
+    rule.endDate = endDate;
+  }
   return rule;
 }
 
 function parseAccount(value: unknown, path: string, today: PlainDate, variance: number): Account {
-  const source = readObject(value, path, ACCOUNT_KEYS, {});
+  const source = toSource(value, path, {});
+  source.subject = { accountId: readableId(source) };
+  checkKeys(source, ACCOUNT_KEYS);
   const id = stringAt(source, 'id');
-  source.subject = { accountId: id };
-  const contributionsPath = pathOf(source, 'contributions');
 
-  const account: Account = {
-    id,
-    name: stringAt(source, 'name'),
-    kind: oneOfAt(source, 'kind', ['pretax', 'roth', 'taxable', 'other'] as const),
-    included: booleanAt(source, 'included'),
-    balance: numberAt(source, 'balance'),
-    balanceAsOf: dateAt(source, 'balanceAsOf'),
-    contributions: arrayAt(source, 'contributions').map((rule, index) =>
-      parseRule(rule, `${contributionsPath}[${String(index)}]`, id)
-    )
-  };
-  checkNotNegative('negative_balance', source, 'balance', account.balance);
-  if (compareDates(account.balanceAsOf, today) > 0) {
+  const name = stringAt(source, 'name');
+  const kind = oneOfAt(source, 'kind', ['pretax', 'roth', 'taxable', 'other'] as const);
+  const included = booleanAt(source, 'included');
+  const balance = numberAt(source, 'balance');
+  checkNotNegative('negative_balance', source, 'balance', balance);
+  const balanceAsOf = dateAt(source, 'balanceAsOf');
+  if (compareDates(balanceAsOf, today) > 0) {
     fail('as_of_in_future', pathOf(source, 'balanceAsOf'), 'after today', source.subject);
   }
-  if (source.fields.has('annualRate')) {
-    account.annualRate = rateAt(source, 'annualRate');
-    checkRateAgainstVariance(source, 'annualRate', account.annualRate, variance);
+  const annualRate = source.fields.has('annualRate') ? rateAt(source, 'annualRate') : undefined;
+  if (annualRate !== undefined) {
+    checkBandRates(source, 'annualRate', annualRate, variance);
+  }
+  const contributions = elementsAt(source, 'contributions', (rule, rulePath) =>
+    parseRule(rule, rulePath, id)
+  );
+  const account: Writable<Account> = {
+    id,
+    name,
+    kind,
+    included,
+    balance,
+    balanceAsOf,
+    contributions
+  };
+  if (annualRate !== undefined) {
+    account.annualRate = annualRate;
   }
   return account;
 }
 
-function checkUniqueIds(accounts: Array<Account>) {
+function checkUniqueIds(accounts: ReadonlyArray<Account>) {
   const accountIds = new Set<string>();
   const ruleIds = new Set<string>();
   for (const [accountIndex, account] of accounts.entries()) {
@@ -374,13 +413,13 @@ export function parseScenario(file: unknown, options: RunOptions): Scenario {
     fail('unsupported_version', 'version', 'expected 1', {});
   }
   checkKeys(source, SCENARIO_KEYS);
-  const today = dateAt(toSource(options, '', {}), 'today');
+  const today = dateAt(readObject(options, 'options', ['today'], {}), 'today');
 
   const interest = objectAt(source, 'interest', INTEREST_KEYS);
   const annualRate = rateAt(interest, 'annualRate');
   const variance = interest.fields.has('variance') ? rateAt(interest, 'variance') : 0;
   checkNotNegative('invalid_rate', interest, 'variance', variance);
-  checkRateAgainstVariance(interest, 'annualRate', annualRate, variance);
+  checkBandRates(interest, 'annualRate', annualRate, variance);
   const compounding = interest.fields.has('compounding')
     ? oneOfAt(interest, 'compounding', ['monthly', 'daily'] as const)
     : 'monthly';
@@ -391,6 +430,9 @@ export function parseScenario(file: unknown, options: RunOptions): Scenario {
   const annualRaiseRate = salary.fields.has('annualRaiseRate')
     ? rateAt(salary, 'annualRaiseRate')
     : 0;
+  if (annualRaiseRate <= -1) {
+    fail('invalid_rate', 'salary.annualRaiseRate', 'at or below -1', {});
+  }
   const asOf = dateAt(salary, 'asOf');
 
   const endDate = dateAt(source, 'endDate');
@@ -398,8 +440,8 @@ export function parseScenario(file: unknown, options: RunOptions): Scenario {
     fail('end_not_after_today', 'endDate', 'on or before today', {});
   }
 
-  const accounts = arrayAt(source, 'accounts').map((account, index) =>
-    parseAccount(account, `accounts[${String(index)}]`, today, variance)
+  const accounts = elementsAt(source, 'accounts', (account, accountPath) =>
+    parseAccount(account, accountPath, today, variance)
   );
   checkUniqueIds(accounts);
 
