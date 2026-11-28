@@ -1,9 +1,12 @@
 use serde_json::{Value, json};
 
-use super::{MonthlyRow, ProjectionError, Series, YearlyRow, project_account};
+use super::{MonthlyRow, ProjectionError, Series, YearlyRow, project_account, trace_account_range};
 use crate::date::CalendarDate;
-use crate::fixture::{date, doubling_daily_rate, flat, one_time, only_account, scenario};
-use crate::schedule::{Bucket, ScheduledMonth, build_account_schedule};
+use crate::fixture::{
+    Segment, TracedDeposit, date, doubling_daily_rate, flat, one_time, only_account, scenario,
+    segments, traced_deposit,
+};
+use crate::schedule::{Bucket, build_account_schedule};
 
 const DOUBLING_MONTHLY_RATE: f64 = 4095.0;
 
@@ -80,50 +83,43 @@ impl Run {
             .collect()
     }
 
-    /// Each segment's `(from, to, days, days_in_month, days_in_year)`.
-    fn segments(&self) -> Vec<(CalendarDate, CalendarDate, i8, i8, i16)> {
+    fn trace(&self) -> Vec<Segment> {
         let scenario = scenario(self.compounding, self.rules.clone());
-        build_account_schedule(
-            &scenario,
-            only_account(&scenario),
-            date(self.from),
-            date(self.to),
-        )
-        .unwrap()
-        .iter()
-        .map(|month| {
-            (
-                month.from(),
-                month.to(),
-                month.days(),
-                month.days_in_month(),
-                month.days_in_year(),
+        segments(
+            &trace_account_range(
+                &scenario,
+                only_account(&scenario),
+                date(self.from),
+                date(self.to),
+                self.opening,
+                self.rate,
             )
-        })
-        .collect()
+            .unwrap(),
+        )
     }
 
-    /// Each kept deposit's `(rule_id, date, amount, bucket)`.
-    fn deposits(&self) -> Vec<(String, CalendarDate, f64, Bucket)> {
-        let scenario = scenario(self.compounding, self.rules.clone());
-        build_account_schedule(
-            &scenario,
-            only_account(&scenario),
-            date(self.from),
-            date(self.to),
-        )
-        .unwrap()
-        .iter()
-        .flat_map(ScheduledMonth::deposits)
-        .map(|deposit| {
-            (
-                deposit.rule_id().to_string(),
-                deposit.date(),
-                deposit.amount(),
-                deposit.bucket(),
-            )
-        })
-        .collect()
+    /// Each traced segment's `(from, to, days, days_in_month, days_in_year)`.
+    fn segments(&self) -> Vec<(CalendarDate, CalendarDate, i8, i8, i16)> {
+        self.trace()
+            .iter()
+            .map(|segment| {
+                (
+                    date(&segment.from),
+                    date(&segment.to),
+                    segment.days,
+                    segment.days_in_month,
+                    segment.days_in_year,
+                )
+            })
+            .collect()
+    }
+
+    /// Each traced deposit's `(rule_id, date, amount, bucket)`.
+    fn deposits(&self) -> Vec<TracedDeposit> {
+        self.trace()
+            .into_iter()
+            .flat_map(|segment| segment.deposits)
+            .collect()
     }
 }
 
@@ -300,11 +296,13 @@ mod project_account_ported_from_project_account_test {
             ("2026-12-15", "2026-12-15"),
             ("2026-12-20", "2026-12-15"),
         ] {
+            let run = run("daily", from, to, 500.0)
+                .rules(early_and_late())
+                .rate(0.05);
+
+            assert_eq!(run.trace(), [], "{from} to {to}");
             assert_eq!(
-                run("daily", from, to, 500.0)
-                    .rules(early_and_late())
-                    .rate(0.05)
-                    .project(),
+                run.project(),
                 Series {
                     start_balance: 500.0,
                     final_balance: 500.0,
@@ -319,7 +317,7 @@ mod project_account_ported_from_project_account_test {
     }
 
     #[test]
-    fn fails_with_not_finite_and_the_account_id_for_a_deposit_that_overflows_into_infinity_times_a_zero_rate()
+    fn fails_with_not_finite_and_the_account_id_for_a_deposit_that_overflows_into_infinity_times_a_zero_rate_from_both_entry_points()
      {
         let monthly_rule = json!([flat("huge", 1e308, json!({ "frequency": "monthly" }))]);
         assert_eq!(1e308 + 1e308, f64::INFINITY);
@@ -348,6 +346,17 @@ mod project_account_ported_from_project_account_test {
                 (error.code(), error.account_id()),
                 ("not_finite", Some("account"))
             );
+            assert_eq!(
+                trace_account_range(
+                    &scenario,
+                    account,
+                    date("2026-11-01"),
+                    date("2027-02-01"),
+                    opening,
+                    rate,
+                ),
+                Err(error)
+            );
         }
     }
 
@@ -370,6 +379,39 @@ mod project_account_ported_from_project_account_test {
                 110.0,
                 1_100_585_388_970.0
             )]
+        );
+    }
+}
+
+mod trace_account_range_ported_from_project_account_test {
+    use super::*;
+
+    #[test]
+    fn records_each_month_with_its_deposits_in_schedule_order() {
+        let final_balance =
+            1000.0 * 2.0_f64.powi(30) + 100.0 * 2.0_f64.powi(28) + 10.0 * 2.0_f64.powi(11);
+
+        assert_eq!(final_balance, 1_100_585_390_080.0);
+        assert_eq!(
+            run("daily", "2026-11-01", "2026-12-01", 1000.0)
+                .rules(early_and_late())
+                .trace(),
+            [Segment {
+                from: "2026-11-01".to_owned(),
+                to: "2026-12-01".to_owned(),
+                days: 30,
+                days_in_month: 30,
+                days_in_year: 365,
+                balance_start: 1000.0,
+                balance_end: 1_100_585_390_080.0,
+                contributions: 110.0,
+                interest: 1_100_585_388_970.0,
+                annual_rate: doubling_daily_rate(365),
+                deposits: vec![
+                    traced_deposit("early", "2026-11-03", 100.0, Bucket::Day(3)),
+                    traced_deposit("late", "2026-11-20", 10.0, Bucket::Day(20)),
+                ],
+            }]
         );
     }
 }
@@ -488,7 +530,7 @@ mod project_account_over_part_of_a_month {
             assert_eq!(run.final_balance(), balance, "{compounding}");
             assert_eq!(
                 run.deposits(),
-                [("on-start".to_owned(), date("2026-11-10"), 10.0, bucket)]
+                [traced_deposit("on-start", "2026-11-10", 10.0, bucket)]
             );
         }
     }
@@ -593,12 +635,20 @@ mod project_account_over_part_of_a_month {
             [month_row(2026, 11, 3400.0, 500.0, 400.0)]
         );
         assert_eq!(
-            run.segments(),
-            [(date("2026-11-27"), date("2026-12-01"), 4, 30, 365)]
-        );
-        assert_eq!(
-            run.deposits(),
-            [("once".to_owned(), date("2026-11-28"), 500.0, Bucket::Start)]
+            run.trace(),
+            [Segment {
+                from: "2026-11-27".to_owned(),
+                to: "2026-12-01".to_owned(),
+                days: 4,
+                days_in_month: 30,
+                days_in_year: 365,
+                balance_start: 2500.0,
+                balance_end: 3400.0,
+                contributions: 500.0,
+                interest: 400.0,
+                annual_rate: DOUBLING_MONTHLY_RATE,
+                deposits: vec![traced_deposit("once", "2026-11-28", 500.0, Bucket::Start)],
+            }]
         );
     }
 
@@ -716,6 +766,86 @@ mod project_account_over_part_of_a_month {
                 .final_balance(),
             8000.0
         );
+    }
+}
+
+mod trace_account_range_over_part_of_a_month {
+    use super::*;
+
+    #[test]
+    fn reports_each_segment_with_its_real_dates_and_day_count_and_the_days_add_up_to_the_range_4_plus_31_plus_31_plus_29_plus_1_is_96()
+     {
+        let segments = run("daily", "2027-11-27", "2028-03-02", 0.0).segments();
+
+        assert_eq!(
+            segments,
+            [
+                (date("2027-11-27"), date("2027-12-01"), 4, 30, 365),
+                (date("2027-12-01"), date("2028-01-01"), 31, 31, 365),
+                (date("2028-01-01"), date("2028-02-01"), 31, 31, 366),
+                (date("2028-02-01"), date("2028-03-01"), 29, 29, 366),
+                (date("2028-03-01"), date("2028-03-02"), 1, 31, 366),
+            ]
+        );
+        let days: i32 = segments
+            .iter()
+            .map(|&(_, _, days, ..)| i32::from(days))
+            .sum();
+        assert_eq!(days, 96);
+        assert_eq!(days_from("2027-11-27", "2028-03-02").len(), 96);
+    }
+
+    #[test]
+    fn counts_every_day_of_the_range_once_in_segments_that_meet() {
+        for (from, to) in [
+            ("2026-01-01", "2026-01-02"),
+            ("2026-11-16", "2026-11-17"),
+            ("2026-11-16", "2026-12-01"),
+            ("2026-01-31", "2026-03-01"),
+            ("2027-11-27", "2030-01-01"),
+            ("2028-02-29", "2032-02-29"),
+            ("2026-07-15", "2028-02-10"),
+        ] {
+            let segments = run("daily", from, to, 0.0).segments();
+            let days: usize = segments
+                .iter()
+                .map(|&(_, _, days, ..)| usize::try_from(days).unwrap())
+                .sum();
+
+            assert_eq!(days, days_from(from, to).len(), "{from} to {to}");
+            assert_eq!(segments.first().map(|segment| segment.0), Some(date(from)));
+            assert_eq!(segments.last().map(|segment| segment.1), Some(date(to)));
+            for pair in segments.windows(2) {
+                assert_eq!(pair[0].1, pair[1].0, "{from} to {to}");
+            }
+        }
+    }
+
+    #[test]
+    fn ends_on_the_series_final_balance_bit_for_bit_in_both_modes() {
+        for compounding in ["monthly", "daily"] {
+            let run = run(compounding, "2026-11-27", "2029-03-10", 2500.0)
+                .rules(early_and_late())
+                .rate(0.07);
+            let trace = run.trace();
+            let series = run.project();
+
+            assert_eq!(
+                trace.last().map(|segment| segment.balance_end.to_bits()),
+                Some(series.final_balance().to_bits()),
+                "{compounding}"
+            );
+            let balances: Vec<u64> = trace
+                .iter()
+                .map(|segment| segment.balance_end.to_bits())
+                .collect();
+            let rows: Vec<u64> = series
+                .monthly()
+                .iter()
+                .map(|row| row.balance().to_bits())
+                .collect();
+            assert_eq!(balances, rows, "{compounding}");
+        }
     }
 }
 

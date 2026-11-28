@@ -4,7 +4,10 @@
 mod effective_rate;
 mod weighted;
 
-use super::{MonthlyRow, ProjectionError, Series, project_account, yearly_rows};
+use super::{
+    MonthlyRow, ProjectionError, Series, TraceSegment, project_account, trace_account_range,
+    yearly_rows,
+};
 use crate::date::CalendarDate;
 use crate::scenario::{Account, AccountId, Scenario};
 use crate::schedule::{month_segments, salary_in_year};
@@ -244,6 +247,46 @@ pub fn project_scenario(
             negative,
         },
     })
+}
+
+/// The account's segments from its balance's date to today, then from today to the end date, at
+/// the band's rate for it. A `today` in mid-month splits that month into two segments.
+/// `unknown_account` with `account_id` when the scenario has no account with that id.
+pub fn trace_account<'a>(
+    scenario: &'a Scenario,
+    account_id: &'a str,
+    band: Band,
+) -> Result<Vec<TraceSegment<'a>>, ProjectionError<'a>> {
+    let Some(account) = scenario
+        .accounts()
+        .iter()
+        .find(|account| account.id().as_str() == account_id)
+    else {
+        return Err(ProjectionError::UnknownAccount {
+            account: account_id,
+        });
+    };
+    let annual_rate = band.rate(scenario, account);
+    let mut trace = trace_account_range(
+        scenario,
+        account,
+        account.balance_as_of(),
+        scenario.today(),
+        account.balance(),
+        annual_rate,
+    )?;
+    let rolled_balance = trace
+        .last()
+        .map_or(account.balance(), TraceSegment::balance_end);
+    trace.extend(trace_account_range(
+        scenario,
+        account,
+        scenario.today(),
+        scenario.end_date(),
+        rolled_balance,
+        annual_rate,
+    )?);
+    Ok(trace)
 }
 
 fn project_band(
