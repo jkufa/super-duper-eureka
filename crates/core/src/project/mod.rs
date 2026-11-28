@@ -164,7 +164,7 @@ pub fn project_account<'a>(
     let mut balance = opening_balance;
     let mut total_contributions = 0.0;
     let mut total_interest = 0.0;
-    let schedule = build_account_schedule(scenario, account, from, to);
+    let schedule = build_account_schedule(scenario, account, from, to)?;
     let mut monthly = Vec::with_capacity(schedule.len());
 
     for month in schedule {

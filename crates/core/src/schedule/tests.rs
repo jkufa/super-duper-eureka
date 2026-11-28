@@ -65,6 +65,7 @@ impl Setup {
             panic!("expected one account");
         };
         build_account_schedule(&scenario, account, date(from), date(to))
+            .unwrap()
             .iter()
             .flat_map(ScheduledMonth::deposits)
             .map(|deposit| Listed {
@@ -121,6 +122,7 @@ fn segments(from: &str, to: &str) -> Vec<Segment> {
         panic!("expected one account");
     };
     build_account_schedule(&scenario, account, date(from), date(to))
+        .unwrap()
         .iter()
         .map(|month| {
             assert_eq!(month.deposits(), []);
