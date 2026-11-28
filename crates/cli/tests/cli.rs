@@ -451,6 +451,8 @@ fn exits_1_with_nothing_on_stdout_for_bad_usage_an_unreadable_file_or_text_that_
         vec!["--scenario", basic, "--band", "positive"],
         vec!["--scenario", basic, "--trace", "401k", "--band", "sideways"],
         vec!["--scenario", basic, "--bogus"],
+        vec!["--scenario", basic, "-h"],
+        vec!["-h"],
         vec!["--scenario", basic, "extra"],
         vec!["--scenario", missing],
         vec!["--scenario", not_json],
