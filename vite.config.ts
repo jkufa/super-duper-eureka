@@ -34,13 +34,6 @@ export default defineConfig({
     options: { typeCheck: true },
     overrides: [
       {
-        files: ['packages/cli/**'],
-        rules: {
-          // The CLI's job is printing results to the terminal.
-          'no-console': 'off'
-        }
-      },
-      {
         files: ['packages/logger/**'],
         rules: {
           // Wide events carry arbitrary caller fields by design; a JSON value type rejects interface-typed callers.

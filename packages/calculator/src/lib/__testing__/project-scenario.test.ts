@@ -634,4 +634,40 @@ describe('projectScenario: errors', () => {
     });
     expect(error.message).toBe('not_finite: the total startBalance is Infinity.');
   });
+
+  it('throws not_finite with no account id when the salary in a year overflows', () => {
+    const error = scenarioErrorFrom(() =>
+      project({
+        today: '2026-01-01',
+        endDate: '2028-01-01',
+        salary: { annualBase: 1e308, annualRaiseRate: 1, asOf: '2026-01-01' },
+        accounts: []
+      })
+    );
+
+    expect({ code: error.code, accountId: error.accountId }).toStrictEqual({
+      code: 'not_finite',
+      accountId: undefined
+    });
+    expect(error.message).toBe('not_finite: the salary in 2027 is Infinity.');
+  });
+
+  it('throws not_finite with no account id when a weighted rate overflows', () => {
+    const error = scenarioErrorFrom(() =>
+      project({
+        today: '2026-12-01',
+        endDate: '2027-01-01',
+        accounts: [
+          { id: 'a', balance: 1 },
+          { id: 'b', balance: 1e10, annualRate: 1e300 }
+        ]
+      })
+    );
+
+    expect({ code: error.code, accountId: error.accountId }).toStrictEqual({
+      code: 'not_finite',
+      accountId: undefined
+    });
+    expect(error.message).toBe('not_finite: the weighted rate in 2026 is Infinity.');
+  });
 });

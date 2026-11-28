@@ -57,7 +57,7 @@ export function projectScenario(scenario: Scenario): ScenarioProjection {
       })),
     salaryByYear: bands.baseline.total.yearly.map(({ year }) => ({
       year,
-      salary: salaryInYear(scenario, year)
+      salary: finiteTotalFigure(`salary in ${String(year)}`, salaryInYear(scenario, year))
     })),
     bands
   };
@@ -147,10 +147,14 @@ function projectBand(scenario: Scenario, band: Band): BandProjection {
 
 function withWeightedRates(band: BandProjection): BandProjection {
   const included = band.accounts.filter((account) => account.included);
-  const yearly = band.total.yearly.map((row, index): Row => ({
-    ...row,
-    weightedRate: weightedRate(included, row.balance, index)
-  }));
+  const yearly = band.total.yearly.map((row, index): Row => {
+    const rate = weightedRate(included, row.balance, index);
+    return {
+      ...row,
+      weightedRate:
+        rate === null ? null : finiteTotalFigure(`weighted rate in ${String(row.year)}`, rate)
+    };
+  });
   return { ...band, total: { ...band.total, yearly } };
 }
 
@@ -224,13 +228,14 @@ function checkTotalFinite(total: Series) {
       ] as const;
     })
   ] as const;
-  const overflowed = figures.find(([, value]) => !Number.isFinite(value));
-  if (overflowed) {
-    throw new ScenarioError(
-      'not_finite',
-      '',
-      `the total ${overflowed[0]} is ${String(overflowed[1])}`,
-      {}
-    );
+  for (const [figure, value] of figures) {
+    finiteTotalFigure(`total ${figure}`, value);
   }
+}
+
+function finiteTotalFigure(figure: string, value: number): number {
+  if (!Number.isFinite(value)) {
+    throw new ScenarioError('not_finite', '', `the ${figure} is ${String(value)}`, {});
+  }
+  return value;
 }

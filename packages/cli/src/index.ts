@@ -1,203 +1,169 @@
 #!/usr/bin/env bun
 
 import { readFileSync } from 'node:fs';
-import { createInterface } from 'node:readline/promises';
-import { stdin as input, stdout as output } from 'node:process';
+import { parseArgs } from 'node:util';
 import {
-  buildBaseContext,
-  buildRunWideEvent,
-  buildStepWideEventInput,
-  calculateProjection,
-  calculateProjectionWithSteps,
-  createWideEventLogger
+  parseScenario,
+  projectScenario,
+  ScenarioError,
+  traceAccount
 } from '@retirement/calculator';
-import type { RetirementConfig } from '@retirement/calculator';
+import type {
+  Band,
+  ScenarioErrorCode,
+  ScenarioProjection,
+  TraceSegment
+} from '@retirement/calculator';
 
-const args = process.argv.slice(2);
+const USAGE = `Usage:
+  retirement-calc --scenario <file> [--today YYYY-MM-DD] [--trace <accountId>] [--band <band>]
 
-const usage = `
-Usage:
-  retirement-calc --config <path> [--debug] [--no-interactive]
+Prints one JSON document to stdout: the scenario's projection, or with --trace the
+account's trace segments.
 
 Options:
-  --config <path>       Path to RetirementConfig JSON
-  --debug               Emit step-by-step wide events
-  --no-interactive      Do not pause between steps (only with --debug)
-  --raw                 Emit raw JSON (no pretty formatting)
-  --skip <spec>         Skip prompts for steps. Example: "1,3-5,next:10"
-  --help                Show help
-`;
+  --scenario <file>    Path to a version 1 scenario JSON file. Required.
+  --today <date>       The date results start from. Default: this machine's local date.
+  --trace <accountId>  Print the trace of one account instead of the projection.
+  --band <band>        baseline, positive or negative. Only with --trace. Default: baseline.
+  --help               Print this text.
 
-if (args.includes('--help') || args.length === 0) {
-  console.log(usage.trim());
-  process.exit(0);
+Exit status:
+  0  Success.
+  1  Bad usage, or the scenario file cannot be read or is not JSON. Nothing goes to stdout.
+  2  The scenario is invalid or cannot be projected. stdout holds
+     { "error": { "code", "accountId"?, "ruleId"? } } and stderr the message.`;
+
+const BANDS: ReadonlyArray<Band> = ['baseline', 'positive', 'negative'];
+
+class UsageError extends Error {}
+
+class InputError extends Error {}
+
+interface Command {
+  scenarioPath: string;
+  today: string;
+  trace?: { accountId: string; band: Band };
 }
 
-const configPath = getArgValue(args, '--config') ?? firstPositional(args);
-if (!configPath) {
-  console.error('Missing config file path.');
-  console.log(usage.trim());
-  process.exit(1);
-}
-
-const debug = args.includes('--debug');
-const interactive = debug && !args.includes('--no-interactive');
-const raw = args.includes('--raw');
-const skipSpecs = getArgValues(args, '--skip');
-const skipSet = new Set<number>();
-let skipRemaining = 0;
-let skippedCount = 0;
-
-for (const spec of skipSpecs) {
-  const { steps, nextCount } = parseSkipSpec(spec);
-  for (const step of steps) {
-    skipSet.add(step);
-  }
-  if (nextCount > 0) {
-    skipRemaining = Math.max(skipRemaining, nextCount);
-  }
-}
-
-// oxlint-disable-next-line typescript/no-unsafe-type-assertion -- The config file is user input and the calculator has no runtime schema to check it against.
-const config = JSON.parse(readFileSync(configPath, 'utf8')) as RetirementConfig;
-
-if (!debug) {
-  const projection = calculateProjection(config, config.interest.annualRate);
-  console.log(JSON.stringify(projection, null, 2));
-  process.exit(0);
-}
-
-const baseContext = buildBaseContext({
-  service_name: 'retirement-cli',
-  service_version: process.env.npm_package_version
-});
-const logger = createWideEventLogger({ base: baseContext, pretty: !raw });
-
-const startedAt = Date.now();
-const projectionRun = calculateProjectionWithSteps(config, config.interest.annualRate, {
-  includeContributionDetails: true
-});
-
-const rl = interactive ? createInterface({ input, output }) : null;
-
-let interrupted = false;
-for (const step of projectionRun.steps) {
-  if (skipSet.has(step.stepIndex)) {
-    skippedCount += 1;
-    continue;
-  }
-  if (skipRemaining > 0) {
-    skipRemaining -= 1;
-    skippedCount += 1;
-    continue;
-  }
-
-  const event = buildStepWideEventInput(config, step, baseContext);
-  logger.info(event);
-
-  if (interactive && rl) {
-    const answer = await rl.question(
-      'Press Enter for next step, or q to quit, or s <n|spec> to skip: '
-    );
-    const trimmed = answer.trim().toLowerCase();
-    if (trimmed === 'q') {
-      interrupted = true;
-      break;
+function readCommand(args: Array<string>): Command | 'help' {
+  const { values } = parseArgs({
+    args,
+    options: {
+      scenario: { type: 'string' },
+      today: { type: 'string' },
+      trace: { type: 'string' },
+      band: { type: 'string' },
+      help: { type: 'boolean' }
     }
-    if (trimmed.startsWith('s ')) {
-      const spec = trimmed.slice(2).trim();
-      const { steps, nextCount } = parseSkipSpec(spec);
-      for (const stepIndex of steps) {
-        skipSet.add(stepIndex);
-      }
-      if (nextCount > 0) {
-        skipRemaining = Math.max(skipRemaining, nextCount);
-      }
+  });
+  if (values.help) {
+    return 'help';
+  }
+  if (values.scenario === undefined) {
+    throw new UsageError('--scenario is required.');
+  }
+  const today = values.today ?? localToday();
+  if (values.trace === undefined) {
+    if (values.band !== undefined) {
+      throw new UsageError('--band applies only with --trace.');
     }
+    return { scenarioPath: values.scenario, today };
+  }
+  const bandName = values.band ?? 'baseline';
+  const band = BANDS.find((candidate) => candidate === bandName);
+  if (band === undefined) {
+    throw new UsageError(`--band must be one of ${BANDS.join(', ')} (received "${bandName}").`);
+  }
+  return { scenarioPath: values.scenario, today, trace: { accountId: values.trace, band } };
+}
+
+function localToday(): string {
+  const now = new Date();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  return `${String(now.getFullYear()).padStart(4, '0')}-${month}-${day}`;
+}
+
+function readText(path: string): string {
+  try {
+    return readFileSync(path, 'utf8');
+  } catch (error) {
+    throw new InputError(`Cannot read ${path}: ${messageOf(error)}`);
   }
 }
 
-if (rl) {
-  rl.close();
+function messageOf(error: unknown): string {
+  return error instanceof Error ? error.message : String(error);
 }
 
-const runEvent = {
-  ...buildRunWideEvent(config, projectionRun, baseContext, {
-    durationMs: Date.now() - startedAt,
-    outcome: 'success'
-  }),
-  ...(skipSpecs.length > 0 && { skip: { spec: skipSpecs, skipped_steps: skippedCount } }),
-  ...(interrupted && { debug_interrupted: true })
-};
-logger.info(runEvent);
-
-function getArgValue(argv: Array<string>, key: string) {
-  const index = argv.indexOf(key);
-  if (index === -1) {
-    return undefined;
+function run(command: Command): ScenarioProjection | Array<TraceSegment> {
+  const text = readText(command.scenarioPath);
+  let file: unknown;
+  try {
+    file = JSON.parse(text);
+  } catch (error) {
+    throw new InputError(`${command.scenarioPath} is not JSON: ${messageOf(error)}`);
   }
-  return argv[index + 1];
+  const scenario = parseScenario(file, { today: command.today });
+  return command.trace
+    ? traceAccount(scenario, command.trace.accountId, command.trace.band)
+    : projectScenario(scenario);
 }
 
-function getArgValues(argv: Array<string>, key: string) {
-  const values: Array<string> = [];
-  for (let i = 0; i < argv.length; i++) {
-    const arg = argv[i];
-    const value = argv[i + 1];
-    if (arg === key && value !== undefined) {
-      values.push(value);
-      i += 1;
+interface ErrorDocument {
+  error: { code: ScenarioErrorCode; accountId?: string; ruleId?: string };
+}
+
+function errorDocument({ code, accountId, ruleId }: ScenarioError): ErrorDocument {
+  const document: ErrorDocument = { error: { code } };
+  if (accountId !== undefined) {
+    document.error.accountId = accountId;
+  }
+  if (ruleId !== undefined) {
+    document.error.ruleId = ruleId;
+  }
+  return document;
+}
+
+function printJson(value: unknown) {
+  process.stdout.write(`${JSON.stringify(value, null, 2)}\n`);
+}
+
+function main(args: Array<string>): number {
+  try {
+    const command = readCommand(args);
+    if (command === 'help') {
+      process.stdout.write(`${USAGE}\n`);
+      return 0;
     }
+    printJson(run(command));
+    return 0;
+  } catch (error) {
+    if (error instanceof ScenarioError) {
+      printJson(errorDocument(error));
+      process.stderr.write(`${error.message}\n`);
+      return 2;
+    }
+    if (error instanceof UsageError || isParseArgsError(error)) {
+      process.stderr.write(`${messageOf(error)}\n\n${USAGE}\n`);
+      return 1;
+    }
+    if (error instanceof InputError) {
+      process.stderr.write(`${error.message}\n`);
+      return 1;
+    }
+    throw error;
   }
-  return values;
 }
 
-function firstPositional(argv: Array<string>) {
-  return argv.find((arg) => !arg.startsWith('-'));
+function isParseArgsError(error: unknown): boolean {
+  return (
+    error instanceof TypeError &&
+    'code' in error &&
+    typeof error.code === 'string' &&
+    error.code.startsWith('ERR_PARSE_ARGS_')
+  );
 }
 
-function parseSkipSpec(spec: string) {
-  const steps = new Set<number>();
-  let nextCount = 0;
-  if (!spec) {
-    return { steps, nextCount };
-  }
-
-  const tokens = spec
-    .split(',')
-    .map((token) => token.trim())
-    .filter(Boolean);
-  for (const token of tokens) {
-    if (token.startsWith('next:')) {
-      const count = Number(token.slice(5));
-      if (Number.isFinite(count) && count > 0) {
-        nextCount = Math.max(nextCount, count);
-      }
-      continue;
-    }
-
-    if (token.includes('-')) {
-      const [startStr, endStr] = token.split('-', 2);
-      const start = Number(startStr);
-      const end = Number(endStr);
-      if (Number.isFinite(start) && Number.isFinite(end)) {
-        const min = Math.min(start, end);
-        const max = Math.max(start, end);
-        for (let i = min; i <= max; i++) {
-          steps.add(i);
-        }
-      }
-      continue;
-    }
-
-    const value = Number(token);
-    if (Number.isFinite(value)) {
-      steps.add(value);
-    }
-  }
-
-  if (!Number.isFinite(nextCount)) {
-    nextCount = 0;
-  }
-  return { steps, nextCount };
-}
+process.exitCode = main(process.argv.slice(2));
