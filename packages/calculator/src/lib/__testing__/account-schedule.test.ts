@@ -90,9 +90,72 @@ describe('buildAccountSchedule', () => {
     const months = buildAccountSchedule(scenario, account, date('2027-12-01'), date('2028-03-01'));
 
     expect(months).toStrictEqual([
-      { start: date('2027-12-01'), daysInMonth: 31, daysInYear: 365, deposits: [] },
-      { start: date('2028-01-01'), daysInMonth: 31, daysInYear: 366, deposits: [] },
-      { start: date('2028-02-01'), daysInMonth: 29, daysInYear: 366, deposits: [] }
+      {
+        from: date('2027-12-01'),
+        to: date('2028-01-01'),
+        firstDay: 1,
+        days: 31,
+        daysInMonth: 31,
+        daysInYear: 365,
+        deposits: []
+      },
+      {
+        from: date('2028-01-01'),
+        to: date('2028-02-01'),
+        firstDay: 1,
+        days: 31,
+        daysInMonth: 31,
+        daysInYear: 366,
+        deposits: []
+      },
+      {
+        from: date('2028-02-01'),
+        to: date('2028-03-01'),
+        firstDay: 1,
+        days: 29,
+        daysInMonth: 29,
+        daysInYear: 366,
+        deposits: []
+      }
+    ]);
+  });
+
+  it('cuts the first and last months to the days of the range', () => {
+    const scenario = scenarioWith({ rules: [] });
+    const [account] = scenario.accounts;
+    if (!account) {
+      throw new Error('The fixture has no account.');
+    }
+    const months = buildAccountSchedule(scenario, account, date('2027-12-27'), date('2028-02-10'));
+
+    expect(months).toStrictEqual([
+      {
+        from: date('2027-12-27'),
+        to: date('2028-01-01'),
+        firstDay: 27,
+        days: 5,
+        daysInMonth: 31,
+        daysInYear: 365,
+        deposits: []
+      },
+      {
+        from: date('2028-01-01'),
+        to: date('2028-02-01'),
+        firstDay: 1,
+        days: 31,
+        daysInMonth: 31,
+        daysInYear: 366,
+        deposits: []
+      },
+      {
+        from: date('2028-02-01'),
+        to: date('2028-02-10'),
+        firstDay: 1,
+        days: 9,
+        daysInMonth: 29,
+        daysInYear: 366,
+        deposits: []
+      }
     ]);
   });
 
