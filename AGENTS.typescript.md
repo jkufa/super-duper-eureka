@@ -20,6 +20,7 @@ The repo runs on Vite+ (`vp`) with Bun as the package manager. Tasks are defined
 - `vp check`: format check, lint, type-aware lint and TypeScript type check for the whole repo.
 - `vp lint` / `vp fmt`: lint or format on their own. `vp check --fix` applies fixes from both.
 - `vp run retirement-calc --config <file>`: run the CLI on the Bun runtime.
+- `vp run @retirement/calculator#write-baseline`: rewrite the engine baseline in `packages/calculator/src/lib/__testing__/baseline/` on Node. Run it only on the engine from before spec 2 part B. After that, the baseline is what the engine must reproduce, and rewriting it would hide a change in the maths. Bun and Node compute some powers differently, so the baseline must be written on Node, which the tests run on.
 
 ## Coding Style & Naming Conventions
 
