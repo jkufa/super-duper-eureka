@@ -17,31 +17,10 @@ fix:
     cargo clippy --fix --workspace --all-targets --allow-dirty
 
 # Rewrites the expected files under crates/cli/tests/golden/ from the release Rust CLI, with the
-# trace files the golden test's trace rule asks for and the manifest. The new set replaces the old
-# one whole. Until the new set is in place the old one is at crates/cli/tests/.golden-old, and
-# this recipe moves it back on exit or, after a kill, on its next run.
+# trace files the golden test's trace rule asks for, and replaces the set whole. The case folders,
+# the manifest and the counts in crates/cli/tests/golden.rs must already agree, or nothing changes:
+# to add a case, add its folder with scenario.json and today, its manifest line and its count. A
+# run is refused while another run or the golden tests hold the set, and the next run cleans up
+# after a killed one.
 golden:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    tests=crates/cli/tests
-    golden=$tests/golden
-    staged=$tests/.golden-new
-    retired=$tests/.golden-old
-    settle() {
-        if [[ ! -d $golden && -d $retired ]]; then
-            mv "$retired" "$golden"
-        fi
-        rm -rf "$staged"
-        if [[ -d $golden ]]; then
-            rm -rf "$retired"
-        fi
-    }
-    settle
-    trap settle EXIT
-    trap 'exit 129' HUP
-    trap 'exit 130' INT
-    trap 'exit 143' TERM
-    cargo test --release -p retirement-cli --test golden -- --ignored --exact write_the_golden_set_to_staging
-    mv "$golden" "$retired"
-    mv "$staged" "$golden"
-    echo "Rewrote the expected files in $golden." >&2
+    cargo test --release -p retirement-cli --test golden -- --ignored --exact publish_the_golden_set

@@ -1,10 +1,16 @@
 //! Runs every case in `crates/cli/tests/golden/` through `retirement-calc` and requires its stdout
-//! to be the expected file byte for byte. `just golden` writes the expected files through
-//! [`write_the_golden_set_to_staging`].
+//! to be the expected file byte for byte. `just golden` rewrites the expected files through
+//! [`publish_the_golden_set`].
+//!
+//! Publication holds an exclusive lock on `.golden.lock` beside the set and the readers hold it
+//! shared, so a reader always sees one complete generation. The writer stages the new set at
+//! `.golden-new`, moves the live set to `.golden-old`, moves the staged set in and removes the
+//! old one. A writer killed between the two moves leaves `.golden-old` alone, which readers read
+//! and the next writer puts back.
 
 use std::error::Error;
 use std::fmt;
-use std::fs;
+use std::fs::{self, File, TryLockError};
 use std::path::{Path, PathBuf};
 use std::process::Command;
 
@@ -12,9 +18,16 @@ use serde::Deserialize;
 use serde::de::{self, MapAccess, SeqAccess, Visitor};
 use serde_json::Value;
 
+mod publication;
+
 type TestResult<T = ()> = Result<T, Box<dyn Error>>;
 
-/// Every group of golden cases and how many cases it holds.
+/// The cases a golden set must hold: each group with its number of cases, and the total.
+struct Inventory {
+    groups: &'static [(&'static str, usize)],
+    total: usize,
+}
+
 const GROUPS: [(&str, usize); 4] = [
     ("examples", 5),
     ("generated", 200),
@@ -24,6 +37,15 @@ const GROUPS: [(&str, usize); 4] = [
 
 const TOTAL_CASES: usize = 229;
 
+const INVENTORY: Inventory = Inventory {
+    groups: &GROUPS,
+    total: TOTAL_CASES,
+};
+
+const GOLDEN: &str = "golden";
+const STAGED: &str = ".golden-new";
+const RETIRED: &str = ".golden-old";
+const LOCK: &str = ".golden.lock";
 /// Lists every case as `group/name`, one per line, sorted.
 const MANIFEST: &str = "manifest";
 const SCENARIO_FILE: &str = "scenario.json";
@@ -34,10 +56,6 @@ const TRACE_JSON_FILE: &str = "trace.json";
 
 fn tests_dir() -> PathBuf {
     Path::new(env!("CARGO_MANIFEST_DIR")).join("tests")
-}
-
-fn golden_dir() -> PathBuf {
-    tests_dir().join("golden")
 }
 
 fn names_in(dir: &Path) -> TestResult<Vec<String>> {
@@ -316,36 +334,108 @@ fn expected_files(case: &Path) -> TestResult<(Vec<&'static str>, Option<String>)
     Ok((files, traced))
 }
 
-#[test]
-fn golden_set_holds_the_pinned_cases_and_files() -> TestResult {
-    let golden = golden_dir();
-    let mut expected_top: Vec<&str> = GROUPS.iter().map(|&(group, _)| group).collect();
+/// Whether a set's output files must already follow the trace rule, or may be stale because the
+/// writer is about to replace them.
+#[derive(Clone, Copy)]
+enum Outputs {
+    Current,
+    Stale,
+}
+
+fn mismatch<T>(message: String) -> TestResult<T> {
+    Err(message.into())
+}
+
+/// Checks the set at `root` against `inventory`: its groups, its manifest against its case
+/// folders, each group's count, the total and each case's files. Returns its cases.
+fn check_set(root: &Path, inventory: &Inventory, outputs: Outputs) -> TestResult<Vec<String>> {
+    let mut expected_top: Vec<&str> = inventory.groups.iter().map(|&(group, _)| group).collect();
     expected_top.push(MANIFEST);
     expected_top.sort_unstable();
-    assert_eq!(names_in(&golden)?, expected_top);
-    let cases = case_names(&golden)?;
-    assert_eq!(
-        fs::read_to_string(golden.join(MANIFEST))?,
-        manifest_text(&cases),
-        "the case folders differ from {MANIFEST}"
-    );
-    for (group, count) in GROUPS {
+    let top = names_in(root)?;
+    if top != expected_top {
+        return mismatch(format!(
+            "{} holds {top:?}, expected {expected_top:?}",
+            root.display()
+        ));
+    }
+    let cases = case_names(root)?;
+    if fs::read_to_string(root.join(MANIFEST))? != manifest_text(&cases) {
+        return mismatch(format!(
+            "the case folders in {} differ from its {MANIFEST}",
+            root.display()
+        ));
+    }
+    for &(group, count) in inventory.groups {
         let prefix = format!("{group}/");
         let held = cases
             .iter()
             .filter(|case| case.starts_with(&prefix))
             .count();
-        assert_eq!(held, count, "{group}");
-    }
-    assert_eq!(cases.len(), TOTAL_CASES);
-    for case in &cases {
-        let dir = golden.join(case);
-        let (files, traced) = expected_files(&dir)?;
-        assert_eq!(names_in(&dir)?, files, "{case}");
-        if let Some(traced) = traced {
-            assert_eq!(fs::read_to_string(dir.join(TRACE_FILE))?, traced, "{case}");
+        if held != count {
+            return mismatch(format!("{group} holds {held} cases, expected {count}"));
         }
     }
+    if cases.len() != inventory.total {
+        return mismatch(format!(
+            "the set holds {} cases, expected {}",
+            cases.len(),
+            inventory.total
+        ));
+    }
+    for case in &cases {
+        let dir = root.join(case);
+        let held = names_in(&dir)?;
+        match outputs {
+            Outputs::Current => check_outputs(&dir, &held)?,
+            Outputs::Stale => check_inputs(&dir, &held)?,
+        }
+    }
+    Ok(cases)
+}
+
+/// Requires the files of `case` to be exactly those the trace rule asks for.
+fn check_outputs(case: &Path, held: &[String]) -> TestResult {
+    let (files, traced) = expected_files(case)?;
+    if held != files {
+        return mismatch(format!(
+            "{} holds {held:?}, expected {files:?}",
+            case.display()
+        ));
+    }
+    if let Some(traced) = traced
+        && fs::read_to_string(case.join(TRACE_FILE))? != traced
+    {
+        return mismatch(format!("{} does not trace {traced:?}", case.display()));
+    }
+    Ok(())
+}
+
+/// Requires `case` to hold its inputs and no file a case cannot hold.
+fn check_inputs(case: &Path, held: &[String]) -> TestResult {
+    let all = [
+        PROJECTION_FILE,
+        SCENARIO_FILE,
+        TODAY_FILE,
+        TRACE_FILE,
+        TRACE_JSON_FILE,
+    ];
+    let missing = [SCENARIO_FILE, TODAY_FILE]
+        .into_iter()
+        .find(|input| !held.iter().any(|name| name == input));
+    let stray = held.iter().find(|name| !all.contains(&name.as_str()));
+    match (missing, stray) {
+        (Some(input), _) => mismatch(format!("{} has no {input}", case.display())),
+        (None, Some(name)) => mismatch(format!("{} holds {name}", case.display())),
+        (None, None) => Ok(()),
+    }
+}
+
+#[test]
+fn golden_set_holds_the_pinned_cases_and_files() -> TestResult {
+    let tests = tests_dir();
+    let _lock = lock_for_reading(&tests)?;
+    check_set(&generation(&tests), &INVENTORY, Outputs::Current)?;
     Ok(())
 }
 
@@ -366,7 +456,9 @@ fn chunk_failures(cases: &[PathBuf]) -> Result<Vec<String>, String> {
 
 #[test]
 fn rust_cli_prints_every_golden_case_byte_for_byte() -> TestResult {
-    let golden = golden_dir();
+    let tests = tests_dir();
+    let _lock = lock_for_reading(&tests)?;
+    let golden = generation(&tests);
     let cases: Vec<PathBuf> = case_names(&golden)?
         .iter()
         .map(|case| golden.join(case))
@@ -404,17 +496,72 @@ fn write_output(args: &[&str], path: &Path) -> TestResult<Node> {
     Ok(document)
 }
 
-/// Copies the inputs of every case in the golden set to `.golden-new` beside it, with the CLI's
-/// output for each, the trace files the trace rule asks for, and the manifest.
-#[test]
-#[ignore = "writes crates/cli/tests/.golden-new for just golden"]
-fn write_the_golden_set_to_staging() -> TestResult {
-    let golden = golden_dir();
-    let staged = tests_dir().join(".golden-new");
+fn open_lock(tests: &Path) -> TestResult<File> {
+    Ok(File::options()
+        .read(true)
+        .write(true)
+        .create(true)
+        .truncate(false)
+        .open(tests.join(LOCK))?)
+}
+
+/// Holds the lock of the golden set under `tests` exclusively, or fails at once when a writer or
+/// a reader holds it.
+fn lock_for_writing(tests: &Path) -> TestResult<File> {
+    let lock = open_lock(tests)?;
+    match lock.try_lock() {
+        Ok(()) => Ok(lock),
+        Err(TryLockError::WouldBlock) => Err(format!(
+            "another golden regeneration or golden test is running in {}, so nothing was changed",
+            tests.display()
+        )
+        .into()),
+        Err(TryLockError::Error(error)) => Err(error.into()),
+    }
+}
+
+/// Holds the lock of the golden set under `tests` shared, waiting for a writer to finish.
+fn lock_for_reading(tests: &Path) -> TestResult<File> {
+    let lock = open_lock(tests)?;
+    lock.lock_shared()?;
+    Ok(lock)
+}
+
+/// The generation readers see: the live set, or the retired one when a killed writer left no
+/// live set.
+fn generation(tests: &Path) -> PathBuf {
+    let live = tests.join(GOLDEN);
+    if live.exists() {
+        live
+    } else {
+        tests.join(RETIRED)
+    }
+}
+
+/// Clears what a killed writer left: puts the retired set back when there is no live set, removes
+/// the staged set, and removes the retired set once a live set is in place.
+fn settle(tests: &Path) -> TestResult {
+    let (live, staged, retired) = (tests.join(GOLDEN), tests.join(STAGED), tests.join(RETIRED));
+    if !fs::exists(&live)? && fs::exists(&retired)? {
+        fs::rename(&retired, &live)?;
+    }
+    if fs::exists(&staged)? {
+        fs::remove_dir_all(&staged)?;
+    }
+    if fs::exists(&live)? && fs::exists(&retired)? {
+        fs::remove_dir_all(&retired)?;
+    }
+    Ok(())
+}
+
+/// Copies the manifest and the inputs of `cases` from the live set to the staged set, and writes
+/// the CLI's output for each case with the trace files the trace rule asks for.
+fn stage(tests: &Path, cases: &[String]) -> TestResult {
+    let (live, staged) = (tests.join(GOLDEN), tests.join(STAGED));
     fs::create_dir(&staged)?;
-    let cases = case_names(&golden)?;
-    for case in &cases {
-        let (from, to) = (golden.join(case), staged.join(case));
+    fs::copy(live.join(MANIFEST), staged.join(MANIFEST))?;
+    for case in cases {
+        let (from, to) = (live.join(case), staged.join(case));
         fs::create_dir_all(&to)?;
         for file in [SCENARIO_FILE, TODAY_FILE] {
             fs::copy(from.join(file), to.join(file))?;
@@ -429,6 +576,53 @@ fn write_the_golden_set_to_staging() -> TestResult {
             write_output(&traced, &to.join(TRACE_JSON_FILE))?;
         }
     }
-    fs::write(staged.join(MANIFEST), manifest_text(&cases))?;
     Ok(())
+}
+
+fn retire(tests: &Path) -> TestResult {
+    Ok(fs::rename(tests.join(GOLDEN), tests.join(RETIRED))?)
+}
+
+/// Moves the staged set in, or puts the retired set back and fails.
+fn install(tests: &Path) -> TestResult {
+    let live = tests.join(GOLDEN);
+    let Err(error) = fs::rename(tests.join(STAGED), &live) else {
+        return Ok(());
+    };
+    match fs::rename(tests.join(RETIRED), &live) {
+        Ok(()) => Err(format!(
+            "the new set could not be moved in, so the old set is back: {error}"
+        )
+        .into()),
+        Err(restore) => Err(format!(
+            "the new set could not be moved in ({error}) and the old set is still at {}: {restore}",
+            tests.join(RETIRED).display()
+        )
+        .into()),
+    }
+}
+
+/// Replaces the golden set under `tests` whole with the CLI's output for its inputs, holding its
+/// lock throughout. The live set and the new one must both match `inventory`.
+fn publish(tests: &Path, inventory: &Inventory) -> TestResult {
+    let lock = lock_for_writing(tests)?;
+    let published = publish_locked(tests, inventory);
+    lock.unlock()?;
+    published
+}
+
+fn publish_locked(tests: &Path, inventory: &Inventory) -> TestResult {
+    settle(tests)?;
+    let cases = check_set(&tests.join(GOLDEN), inventory, Outputs::Stale)?;
+    stage(tests, &cases)?;
+    check_set(&tests.join(STAGED), inventory, Outputs::Current)?;
+    retire(tests)?;
+    install(tests)?;
+    Ok(fs::remove_dir_all(tests.join(RETIRED))?)
+}
+
+#[test]
+#[ignore = "rewrites crates/cli/tests/golden/; just golden runs it"]
+fn publish_the_golden_set() -> TestResult {
+    publish(&tests_dir(), &INVENTORY)
 }

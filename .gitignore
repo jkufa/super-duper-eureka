@@ -34,3 +34,8 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 
 # rust
 target
+
+# golden publication
+crates/cli/tests/.golden-new
+crates/cli/tests/.golden-old
+crates/cli/tests/.golden.lock
