@@ -43,10 +43,12 @@ Before any engine change, save today's outputs.
 - The streams cover every number the engine computes, so no output can change unnoticed.
   - Monthly stream. For each band in the order baseline, positive, negative: `finalBalance`, `totalContributions` and `totalGrowth`, then for each monthly row its `year`, `month`, `balance`, `contributions`, `interest` and `salary`.
   - Step stream. Run at the baseline rate with contribution details on. First the summary: `totalSteps`, `totalContributions`, `totalInterest` and `finalBalance`. Then for each step: `stepIndex`, `yearIndex`, `monthIndex`, `balanceStart`, `balanceEnd`, `interestEarned`, `contributionsThisStep`, `totalContributions`, `totalInterest`, `contributionsStart`, `contributionsEnd`, `salary`, `annualRate`, `daysInMonth`, `daysInYear` and `compounding`. Then its `contributionsByDay` as day and amount pairs in day order. Then each active contribution's `id`, `type` and `amount`, in rule order. A contribution's `timing` is left out. It is a copy of the input.
+- Every list in a stream is preceded by its length: each band's monthly rows, the steps, and each step's day pairs and active contributions. Without the count, a row moved from one band to the next gives the same text.
 - Put the stream builders in one test helper. Parts B to E call the same helper on the new output. Part C says how the new output maps back to these fields.
 - For the four example files also save the full `calculateRetirement` result and the full step result. They are the readable reference when a digest fails, and the test compares them too.
 - Everything goes under `packages/calculator/src/lib/__testing__/baseline/`. Keep the folder under 8 MB and report its size.
-- The writer builds and checks every case in memory before it replaces any file, so a rejected input cannot leave half a baseline behind.
+- The writer builds and checks every case in memory before it replaces any file, so a rejected input cannot leave half a baseline behind. If putting the new folder in place fails, it puts the old one back. Do not run the tests while the writer runs.
+- Stored inputs are checked strictly where they are first parsed: an unknown key, a misplaced key or a number that is not finite is an error that names the field's path.
 - Add a test that reruns today's engine on every stored input. The yearly numbers must be identical and both digests must match. It passes trivially now. It is the check for part B.
 - Write and test the baseline on Node, which is where Vitest runs. Bun computes whole-number powers differently in the last digit, so a baseline written on Bun fails on Node. The CLI runs on Bun. That is fine as long as each check stays on one runtime.
 
