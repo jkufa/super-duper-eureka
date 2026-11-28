@@ -575,6 +575,26 @@ fn exits_2_with_the_error_object_for_an_invalid_scenario() -> TestResult {
 }
 
 #[test]
+fn exits_2_with_invalid_field_for_an_array_in_place_of_an_object() -> TestResult {
+    let cases = [
+        (
+            "interest",
+            r#"{"version":1,"endDate":"2027-01-01","interest":[0],"salary":{"annualBase":0,"asOf":"2026-01-01"},"accounts":[]}"#,
+        ),
+        ("root with an unsupported version", "[2]"),
+    ];
+
+    for (case, text) in cases {
+        assert_scenario_error(
+            &calc_on(&file_with(case, text)?, &["--today", "2026-01-01"])?,
+            &json!({ "code": "invalid_field" }),
+            case,
+        )?;
+    }
+    Ok(())
+}
+
+#[test]
 fn reports_a_today_outside_the_file_grammar_as_invalid_date() -> TestResult {
     for today in [
         "2026-02-30",

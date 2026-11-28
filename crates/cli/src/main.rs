@@ -180,7 +180,7 @@ fn read_scenario(path: &Path, text: &str, today: Option<&str>) -> Result<Scenari
         .map_err(|error| Failure::Input(format!("{} is not JSON: {error}", path.display())))?;
     VersionFile::deserialize(&json)
         .map_err(|error| Failure::Scenario(ErrorReport::invalid_field(error)))?
-        .version
+        .version()
         .check()?;
     let today_text = today.map_or_else(local_today, str::to_owned);
     let Some(today) = CalendarDate::parse(&today_text) else {

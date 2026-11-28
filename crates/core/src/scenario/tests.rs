@@ -251,7 +251,7 @@ fn unsupported_version() {
     file["version"] = json!(2);
     let version: VersionFile = serde_json::from_value(file.clone()).unwrap();
     assert_eq!(
-        version.version.check(),
+        version.version().check(),
         Err(ScenarioError::UnsupportedVersion)
     );
     expect_error(read(file).unwrap(), "unsupported_version", None, None);
@@ -259,7 +259,7 @@ fn unsupported_version() {
     let newer: VersionFile =
         serde_json::from_value(json!({ "version": 2, "somethingNew": true })).unwrap();
     assert_eq!(
-        newer.version.check(),
+        newer.version().check(),
         Err(ScenarioError::UnsupportedVersion)
     );
 }
@@ -268,7 +268,7 @@ fn unsupported_version() {
 fn checks_a_version_read_on_its_own() {
     for (version, supported) in [(json!(1), true), (json!(1.0), true), (json!(-3), false)] {
         let file: VersionFile = serde_json::from_value(json!({ "version": version })).unwrap();
-        assert_eq!(file.version.check().is_ok(), supported, "{version}");
+        assert_eq!(file.version().check().is_ok(), supported, "{version}");
     }
     for file in [
         json!({}),
@@ -349,15 +349,15 @@ fn negative_balance() {
 #[test]
 fn invalid_rate() {
     let mut nan_rate = read(valid_file()).unwrap();
-    nan_rate.interest.annual_rate = f64::NAN;
+    nan_rate.0.interest.annual_rate = f64::NAN;
     expect_error(nan_rate, "invalid_rate", None, None);
 
     let mut infinite_variance = read(valid_file()).unwrap();
-    infinite_variance.interest.variance = Some(f64::INFINITY);
+    infinite_variance.0.interest.variance = Some(f64::INFINITY);
     expect_error(infinite_variance, "invalid_rate", None, None);
 
     let mut infinite_raise = read(valid_file()).unwrap();
-    infinite_raise.salary.annual_raise_rate = Some(f64::NEG_INFINITY);
+    infinite_raise.0.salary.annual_raise_rate = Some(f64::NEG_INFINITY);
     expect_error(infinite_raise, "invalid_rate", None, None);
 
     for edit in [
@@ -591,6 +591,82 @@ fn refuses_to_deserialise_a_file_of_the_wrong_shape() {
         assert!(read(file).is_err(), "edit {index} deserialised");
     }
     assert!(read(json!([])).is_err());
+}
+
+#[test]
+fn refuses_an_array_of_the_fields_in_place_of_each_object() {
+    let edits: [fn(&mut Value); 9] = [
+        |file| {
+            *file = json!([
+                file["version"],
+                file["endDate"],
+                file["interest"],
+                file["salary"],
+                file["accounts"]
+            ]);
+        },
+        |file| file["interest"] = json!([0.06, 0.02, "daily"]),
+        |file| file["salary"] = json!([120_000, 0.03, "2026-01-01"]),
+        |file| {
+            let roth = &file["accounts"][1];
+            file["accounts"][1] = json!([
+                "roth",
+                "Roth IRA",
+                "roth",
+                false,
+                0,
+                TODAY,
+                0.07,
+                roth["contributions"]
+            ]);
+        },
+        |file| {
+            file["accounts"][0]["contributions"][0] = json!([
+                "bonus",
+                "Bonus",
+                true,
+                "flat",
+                5000,
+                "annual",
+                { "type": "flat", "amount": 100, "cadence": "monthly" },
+                { "frequency": "monthly", "day": 15 },
+                "2026-01-01",
+                "2030-12-31"
+            ]);
+        },
+        |file| {
+            file["accounts"][0]["contributions"][1]["growth"] = json!(["percent", 2, "annual"]);
+        },
+        |file| {
+            file["accounts"][1]["contributions"][0]["timing"] = json!(["oneTime", "2027-06-30"]);
+        },
+        |file| file["accounts"][0]["contributions"][0]["timing"] = json!(["monthly", 15, "end"]),
+        |file| {
+            file["accounts"][0]["contributions"][1]["timing"] = json!(["annual", 2, 29, "end"]);
+        },
+    ];
+    let deserialised: Vec<usize> = (0..edits.len())
+        .filter(|&index| {
+            let mut file = valid_file();
+            edits[index](&mut file);
+            read(file).is_ok()
+        })
+        .collect();
+
+    assert!(
+        deserialised.is_empty(),
+        "edits {deserialised:?} deserialised"
+    );
+}
+
+#[test]
+fn reads_the_version_from_an_object_only() {
+    for file in [json!([1]), json!([2]), json!([2, "2036-01-01"])] {
+        assert!(
+            serde_json::from_value::<VersionFile>(file.clone()).is_err(),
+            "{file}"
+        );
+    }
 }
 
 #[test]
