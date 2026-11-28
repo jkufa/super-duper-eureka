@@ -7,7 +7,7 @@ The repo is mid-redesign. The app is being rebuilt in Rust on GPUI, and the Type
 - `implementation/rust-redesign/`: the specs for the redesign. Start with its `README.md`.
 - `implementation/`, `qa/`: older specs, audits and rollout tracking docs.
 - `.codex/notes/`: working notes from earlier tasks.
-- `apps/`, `packages/`: the TypeScript code. Before touching anything there, read [AGENTS.typescript.md](AGENTS.typescript.md). It has the structure, commands, style and testing rules for that code.
+- `packages/`: the TypeScript code. Before touching anything there, read [AGENTS.typescript.md](AGENTS.typescript.md). It has the structure, commands, style and testing rules for that code.
 - `crates/`: the Rust workspace. It does not exist until spec 3 creates it.
 
 ## Coding Style
@@ -51,8 +51,14 @@ Specs live in `implementation/rust-redesign/`. Read its `README.md` first, then 
 
 ### Lessons From Review
 
-- The lessons from the gpuix port's reviews are about Svelte and Kit code. They moved to [AGENTS.typescript.md](AGENTS.typescript.md) with the rest of the TypeScript rules.
 - Put new lessons here unless they only apply to TypeScript.
+- Include collection lengths or explicit record boundaries when hashing structured output for parity.
+- Publish related golden fixtures as a single generation. Readers must keep seeing a complete generation if publication fails.
+- When exact arithmetic must survive a refactor, specify grouping, summation order, and the metadata needed to reproduce them.
+- Keep a deposit's resolved date and its compounding bucket separately when range checks and interest use different rules.
+- Test summation order with values that round differently when reordered within a bucket.
+- Specify how each timing variant resolves missing and out-of-month days before porting its calendar logic.
+- Validate original fixture JSON at its first parse. Reject misplaced or unknown keys before a parser can discard them.
 
 ### Finishing Work
 

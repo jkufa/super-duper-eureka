@@ -1,0 +1,553 @@
+{
+  "name": "generated-152",
+  "input": {
+    "currentBalance": 532900,
+    "timeHorizonYears": 20,
+    "interest": {
+      "annualRate": 0.0655335433149738,
+      "variance": 0.0192546104827016,
+      "compounding": "monthly"
+    },
+    "salary": {
+      "annualBase": 86400,
+      "annualRaiseRate": 0.031361009189576655
+    },
+    "contributions": [
+      {
+        "id": "401k-employee",
+        "type": "salaryPercent",
+        "amount": 10.54,
+        "timing": {
+          "frequency": "monthly",
+          "placement": "start"
+        },
+        "name": "401(k) employee contribution",
+        "enabled": false,
+        "salaryBasis": "monthly"
+      },
+      {
+        "id": "401k-match",
+        "type": "salaryPercent",
+        "amount": 2.28,
+        "timing": {
+          "frequency": "monthly",
+          "placement": "start"
+        },
+        "name": "401(k) employer match",
+        "enabled": true,
+        "salaryBasis": "monthly"
+      },
+      {
+        "id": "hsa-employee",
+        "type": "flat",
+        "amount": 2064,
+        "timing": {
+          "frequency": "annual",
+          "month": 7,
+          "placement": "start"
+        },
+        "name": "HSA employee contribution",
+        "enabled": true
+      },
+      {
+        "id": "brokerage",
+        "type": "flat",
+        "amount": 615,
+        "timing": {
+          "frequency": "monthly",
+          "placement": "end"
+        },
+        "name": "Brokerage auto-invest",
+        "enabled": true
+      },
+      {
+        "id": "espp",
+        "type": "salaryPercent",
+        "amount": 5.33,
+        "timing": {
+          "frequency": "monthly",
+          "placement": "start"
+        },
+        "name": "ESPP contribution",
+        "enabled": false,
+        "salaryBasis": "monthly"
+      },
+      {
+        "id": "annual-bonus",
+        "type": "salaryPercent",
+        "amount": 9.82,
+        "timing": {
+          "frequency": "annual",
+          "month": 9,
+          "placement": "end"
+        },
+        "name": "Annual bonus contribution",
+        "enabled": true,
+        "salaryBasis": "annual"
+      },
+      {
+        "id": "crypto",
+        "type": "flat",
+        "amount": 123,
+        "timing": {
+          "frequency": "monthly",
+          "placement": "end"
+        },
+        "name": "Crypto allocation",
+        "enabled": false
+      }
+    ],
+    "startDate": "2026-08-01T00:00:00.000Z"
+  },
+  "yearly": {
+    "baseline": [
+      {
+        "year": 0,
+        "balance": 561818.0543487839,
+        "contributions": 14444.28,
+        "interest": 14473.774348783716,
+        "salary": 86400
+      },
+      {
+        "year": 1,
+        "balance": 619301.1734884518,
+        "contributions": 34670.5405344715,
+        "interest": 51730.6329539797,
+        "salary": 89109.59119397942
+      },
+      {
+        "year": 2,
+        "balance": 680894.6661425447,
+        "contributions": 55234.94364064902,
+        "interest": 92759.72250189462,
+        "salary": 91904.15790229323
+      },
+      {
+        "year": 3,
+        "balance": 746878.6659187686,
+        "contributions": 76148.09381083111,
+        "interest": 137830.57210793564,
+        "salary": 94786.36504282734
+      },
+      {
+        "year": 4,
+        "balance": 817552.0022137398,
+        "contributions": 97420.92810489687,
+        "interest": 187231.074108841,
+        "salary": 97758.96110798202
+      },
+      {
+        "year": 5,
+        "balance": 893233.4360030431,
+        "contributions": 119064.72657996092,
+        "interest": 241268.70942308003,
+        "salary": 100824.78078565291
+      },
+      {
+        "year": 6,
+        "balance": 974262.9769490578,
+        "contributions": 141091.1230471123,
+        "interest": 300271.8539019438,
+        "salary": 103986.74766240882
+      },
+      {
+        "year": 7,
+        "balance": 1061003.2871660236,
+        "contributions": 163512.11616549714,
+        "interest": 364591.1710005252,
+        "salary": 107247.87701144381
+      },
+      {
+        "year": 8,
+        "balance": 1153841.1773320285,
+        "contributions": 186340.08088432055,
+        "interest": 434601.0964477054,
+        "salary": 110611.27866796228
+      },
+      {
+        "year": 9,
+        "balance": 1253189.2012108206,
+        "contributions": 209587.78024368404,
+        "interest": 510701.42096713354,
+        "salary": 114080.15999473905
+      },
+      {
+        "year": 10,
+        "balance": 1359487.355044026,
+        "contributions": 233268.37754550675,
+        "interest": 593318.9774985177,
+        "salary": 117657.82894068245
+      },
+      {
+        "year": 11,
+        "balance": 1473204.8886980726,
+        "contributions": 257395.44890614017,
+        "interest": 682909.4397919306,
+        "salary": 121347.69719531682
+      },
+      {
+        "year": 12,
+        "balance": 1594842.2359016438,
+        "contributions": 281982.9962026455,
+        "interest": 779959.2396989969,
+        "salary": 125153.28344219312
+      },
+      {
+        "year": 13,
+        "balance": 1724933.071390657,
+        "contributions": 307045.4604250795,
+        "interest": 884987.6109655757,
+        "salary": 129078.21671432942
+      },
+      {
+        "year": 14,
+        "balance": 1864046.5032903492,
+        "contributions": 332597.7354475203,
+        "interest": 998548.7678428267,
+        "salary": 133126.2398548817
+      },
+      {
+        "year": 15,
+        "balance": 2012789.4096104042,
+        "contributions": 358655.1822309679,
+        "interest": 1121234.227379435,
+        "salary": 137301.21308634442
+      },
+      {
+        "year": 16,
+        "balance": 2171808.928311097,
+        "contributions": 385233.64347166166,
+        "interest": 1253675.2848394336,
+        "salary": 141607.11769168527
+      },
+      {
+        "year": 17,
+        "balance": 2341795.1110186772,
+        "contributions": 412349.45870878315,
+        "interest": 1396545.652309891,
+        "salary": 146048.05981092365
+      },
+      {
+        "year": 18,
+        "balance": 2523483.7511291537,
+        "contributions": 440019.4799059528,
+        "interest": 1550564.271223201,
+        "salary": 150628.27435677388
+      },
+      {
+        "year": 19,
+        "balance": 2717659.3977438635,
+        "contributions": 468261.08752137626,
+        "interest": 1716498.310222485,
+        "salary": 155352.12905308674
+      },
+      {
+        "year": 20,
+        "balance": 2826724.4204556993,
+        "contributions": 474697.06843175547,
+        "interest": 1819127.35202394,
+        "salary": 160224.1285999409
+      }
+    ],
+    "positive": [
+      {
+        "year": 0,
+        "balance": 565971.0709341301,
+        "contributions": 14444.28,
+        "interest": 18626.790934129982,
+        "salary": 86400
+      },
+      {
+        "year": 1,
+        "balance": 634750.3987548051,
+        "contributions": 34670.5405344715,
+        "interest": 67179.85822033294,
+        "salary": 89109.59119397942
+      },
+      {
+        "year": 2,
+        "balance": 709706.1789897623,
+        "contributions": 55234.94364064902,
+        "interest": 121571.23534911228,
+        "salary": 91904.15790229323
+      },
+      {
+        "year": 3,
+        "balance": 791372.9142909017,
+        "contributions": 76148.09381083111,
+        "interest": 182324.82048006868,
+        "salary": 94786.36504282734
+      },
+      {
+        "year": 4,
+        "balance": 880330.7658989386,
+        "contributions": 97420.92810489687,
+        "interest": 250009.83779403951,
+        "salary": 97758.96110798202
+      },
+      {
+        "year": 5,
+        "balance": 977209.4355852434,
+        "contributions": 119064.72657996092,
+        "interest": 325244.7090052799,
+        "salary": 100824.78078565291
+      },
+      {
+        "year": 6,
+        "balance": 1082692.3770698612,
+        "contributions": 141091.1230471123,
+        "interest": 408701.25402274594,
+        "salary": 103986.74766240882
+      },
+      {
+        "year": 7,
+        "balance": 1197521.3648618585,
+        "contributions": 163512.11616549714,
+        "interest": 501109.2486963592,
+        "salary": 107247.87701144381
+      },
+      {
+        "year": 8,
+        "balance": 1322501.4508379619,
+        "contributions": 186340.08088432055,
+        "interest": 603261.3699536376,
+        "salary": 110611.27866796228
+      },
+      {
+        "year": 9,
+        "balance": 1458506.341446211,
+        "contributions": 209587.78024368404,
+        "interest": 716018.5612025227,
+        "salary": 114080.15999473905
+      },
+      {
+        "year": 10,
+        "balance": 1606484.2312101524,
+        "contributions": 233268.37754550675,
+        "interest": 840315.8536646423,
+        "salary": 117657.82894068245
+      },
+      {
+        "year": 11,
+        "balance": 1767464.1312342603,
+        "contributions": 257395.44890614017,
+        "interest": 977168.682328116,
+        "salary": 121347.69719531682
+      },
+      {
+        "year": 12,
+        "balance": 1942562.7346930278,
+        "contributions": 281982.9962026455,
+        "interest": 1127679.7384903787,
+        "salary": 125153.28344219312
+      },
+      {
+        "year": 13,
+        "balance": 2132991.8648462035,
+        "contributions": 307045.4604250795,
+        "interest": 1293046.4044211202,
+        "salary": 129078.21671432942
+      },
+      {
+        "year": 14,
+        "balance": 2340066.5549844243,
+        "contributions": 332597.7354475203,
+        "interest": 1474568.819536902,
+        "salary": 133126.2398548817
+      },
+      {
+        "year": 15,
+        "balance": 2565213.8138989042,
+        "contributions": 358655.1822309679,
+        "interest": 1673658.6316679318,
+        "salary": 137301.21308634442
+      },
+      {
+        "year": 16,
+        "balance": 2809982.135013232,
+        "contributions": 385233.64347166166,
+        "interest": 1891848.4915415663,
+        "salary": 141607.11769168527
+      },
+      {
+        "year": 17,
+        "balance": 3076051.8122453555,
+        "contributions": 412349.45870878315,
+        "interest": 2130802.353536565,
+        "salary": 146048.05981092365
+      },
+      {
+        "year": 18,
+        "balance": 3365246.131015491,
+        "contributions": 440019.4799059528,
+        "interest": 2392326.651109534,
+        "salary": 150628.27435677388
+      },
+      {
+        "year": 19,
+        "balance": 3679543.5086172493,
+        "contributions": 468261.08752137626,
+        "interest": 2678382.4210958662,
+        "salary": 155352.12905308674
+      },
+      {
+        "year": 20,
+        "balance": 3865024.2924346807,
+        "contributions": 474697.06843175547,
+        "interest": 2857427.224002917,
+        "salary": 160224.1285999409
+      }
+    ],
+    "negative": [
+      {
+        "year": 0,
+        "balance": 557620.8725996643,
+        "contributions": 14444.28,
+        "interest": 10276.592599664102,
+        "salary": 86400
+      },
+      {
+        "year": 1,
+        "balance": 603964.5740476897,
+        "contributions": 34670.5405344715,
+        "interest": 36394.033513217546,
+        "salary": 89109.59119397942
+      },
+      {
+        "year": 2,
+        "balance": 652794.8182906895,
+        "contributions": 55234.94364064902,
+        "interest": 64659.87465003937,
+        "salary": 91904.15790229323
+      },
+      {
+        "year": 3,
+        "balance": 704237.3992488758,
+        "contributions": 76148.09381083111,
+        "interest": 95189.30543804272,
+        "salary": 94786.36504282734
+      },
+      {
+        "year": 4,
+        "balance": 758424.2686212055,
+        "contributions": 97420.92810489687,
+        "interest": 128103.34051630643,
+        "salary": 97758.96110798202
+      },
+      {
+        "year": 5,
+        "balance": 815493.8314034543,
+        "contributions": 119064.72657996092,
+        "interest": 163529.10482349104,
+        "salary": 100824.78078565291
+      },
+      {
+        "year": 6,
+        "balance": 875591.2554131731,
+        "contributions": 141091.1230471123,
+        "interest": 201600.13236605882,
+        "salary": 103986.74766240882
+      },
+      {
+        "year": 7,
+        "balance": 938868.7954801319,
+        "contributions": 163512.11616549714,
+        "interest": 242456.67931463345,
+        "salary": 107247.87701144381
+      },
+      {
+        "year": 8,
+        "balance": 1005486.1329916383,
+        "contributions": 186340.08088432055,
+        "interest": 286246.0521073162,
+        "salary": 110611.27866796228
+      },
+      {
+        "year": 9,
+        "balance": 1075610.7315143696,
+        "contributions": 209587.78024368404,
+        "interest": 333122.9512706848,
+        "salary": 114080.15999473905
+      },
+      {
+        "year": 10,
+        "balance": 1149418.2092481062,
+        "contributions": 233268.37754550675,
+        "interest": 383249.8317025995,
+        "salary": 117657.82894068245
+      },
+      {
+        "year": 11,
+        "balance": 1227092.7291020486,
+        "contributions": 257395.44890614017,
+        "interest": 436797.28019590734,
+        "salary": 121347.69719531682
+      },
+      {
+        "year": 12,
+        "balance": 1308827.4072213697,
+        "contributions": 281982.9962026455,
+        "interest": 493944.4110187241,
+        "salary": 125153.28344219312
+      },
+      {
+        "year": 13,
+        "balance": 1394824.7408303707,
+        "contributions": 307045.4604250795,
+        "interest": 554879.2804052903,
+        "salary": 129078.21671432942
+      },
+      {
+        "year": 14,
+        "balance": 1485297.056299007,
+        "contributions": 332597.7354475203,
+        "interest": 619799.3208514854,
+        "salary": 133126.2398548817
+      },
+      {
+        "year": 15,
+        "balance": 1580466.978382032,
+        "contributions": 358655.1822309679,
+        "interest": 688911.7961510632,
+        "salary": 137301.21308634442
+      },
+      {
+        "year": 16,
+        "balance": 1680567.921624263,
+        "contributions": 385233.64347166166,
+        "interest": 762434.2781525996,
+        "salary": 141607.11769168527
+      },
+      {
+        "year": 17,
+        "balance": 1785844.6049719113,
+        "contributions": 412349.45870878315,
+        "interest": 840595.1462631263,
+        "salary": 146048.05981092365
+      },
+      {
+        "year": 18,
+        "balance": 1896553.590678517,
+        "contributions": 440019.4799059528,
+        "interest": 923634.1107725624,
+        "salary": 150628.27435677388
+      },
+      {
+        "year": 19,
+        "balance": 2012963.8486448068,
+        "contributions": 468261.08752137626,
+        "interest": 1011802.7611234296,
+        "salary": 155352.12905308674
+      },
+      {
+        "year": 20,
+        "balance": 2073310.6241439735,
+        "contributions": 474697.06843175547,
+        "interest": 1065713.5557122172,
+        "salary": 160224.1285999409
+      }
+    ]
+  },
+  "monthlyDigest": "8ef291663c42d0a0c441b98908daaf136bdb5206c3d27bbd3d8487995c9795a4",
+  "stepsDigest": "0ea7582b90037a955143bd04ef447d8b4ef75915086fd576a0d91719d80f6025"
+}

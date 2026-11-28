@@ -93,11 +93,12 @@ One PR per part. Each PR targets `rust-redesign`, or the PR below it in a stack.
 
 - The engine is deterministic. Variance is three runs, at the rate, the rate plus the variance and the rate minus it. There is no Monte Carlo.
 - Measured on this machine with Bun 1.4.5, a 30-year projection and five rules. Rerunning today's engine 60 times takes 37.6 ms with monthly compounding and 62.3 ms with daily. A compound-only loop over a prebuilt schedule takes 0.07 ms and 1.5 ms for the same 60 passes. The second pair is a stripped-down prototype loop.
-- Bun 1.4.5 and Rust 1.93 were compared on 200,000 random inputs. `(1+r)^(1/12)`, `^(1/365)` and `^(1/366)` matched every time. `(1+r)^n` with a whole-number `n` differed in the last binary digit on 163,880 of them. Salary raises and contribution growth use whole-number powers, which is why decision 12 is a tolerance.
+- Power results were compared on 200,000 random inputs across Bun 1.4.5, Node 24.13 and Rust 1.100. The fractional roots `(1+r)^(1/12)`, `^(1/365)` and `^(1/366)` were identical in all three. For `(1+r)^n` with a whole-number `n`, Bun's `**` matched Rust's `powi` every time, and Node's `**` matched Rust's `powf` on all but 5. Bun and Node differed from each other on 163,875. So the TypeScript engine gives different last digits on Bun and on Node. The unit tests and the baseline run on Node. The CLI and the parity run use Bun, where idiomatic Rust agrees. Decision 12's tolerance stays as the rule.
 - Today's engine credits a full first month of interest whatever the start day. On $250,000 at 6% starting on the 27th, that is about $1,200 where about $160 is due.
 - Today's monthly growth counts from January of the start year, even when the projection starts in July.
 - The legacy form already works in calendar years and months 1 to 12 and converts to offsets before it calls the engine.
-- `main` has not moved since 2026-02-15. The legacy app is linked to a Vercel project. Nobody has checked that the project's production branch is `main`.
+- `main` last moved on 2026-11-21, at `ddbb779`. `rust-redesign` contains every commit on it.
+- The live site builds from `main`. GitHub's deployment records show every Production deployment came from a commit on `main`, the latest from `ddbb779`. Pushes to the gpuix and redesign branches produce Preview deployments only, and those fail once spec 1 deletes the app.
 - Lint research, read on 2026-11-27 from the repos' own files. Codex lists 36 Clippy rules as errors and enables no whole group. Zed lists 5 and switches the `style` group off. Turso lists 10. Goose uses the defaults. Codex and Zed pin the compiler and use `cargo-shear`. Codex uses `cargo-nextest` and `cargo-deny`.
 
 ## For the GPUI interview

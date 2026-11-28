@@ -1,5 +1,0 @@
-{
-  // Owns this package's files for the linter and editors. The type checks that count run from
-  // apps/web (DOM markup) and apps/desktop (GPUI markup), and both include src.
-  "extends": "../tsconfig.pkg.json"
-}

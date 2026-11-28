@@ -10,7 +10,9 @@ Blocks: spec 2
 
 ## Before deleting
 
-Check the Vercel project that `apps/webapp-legacy/.vercel` links to. Its production branch must be `main`. If it builds previews for other branches, switch previews off for `rust-redesign`, or accept failing preview builds. Record what you found in the PR. Nobody has checked this yet.
+The live site must build from `main`. The repo holds no Vercel project link, so check GitHub's deployment records: `gh api repos/jkufa/super-duper-eureka/deployments`. On 2026-11-27 every Production deployment came from a commit on `main`, and every other branch got Preview deployments only.
+
+Preview builds for `rust-redesign` and its PRs fail once the app is deleted. That is expected. The owner can switch previews off for these branches in the Vercel dashboard or leave the failed check in place.
 
 ## Delete
 
@@ -27,6 +29,9 @@ Then remove what pointed at them:
 
 - Root `package.json`: the `dev` script, the Kit, web and desktop parts of `check`, and `apps/*` from `workspaces` if `apps/` is now empty.
 - Root `vite.config.ts`: the `e2e` tasks, `apps/webapp-legacy` in `test.projects`, the Svelte formatter option, and every `fmt` and `lint` entry that names a deleted path or `.svelte` files.
+- Root `tsconfig.json`: the `include` entries for `scripts/` and for legacy files.
+- `btca.config.jsonc`: the `svelte`, `kit` and `superforms` resources.
+- Root `README.md`: the SvelteKit, Playwright, `apps/*` and e2e content.
 - `bun.lock`: regenerate with `vp install`.
 - `.codex/notes/`: leave every note. They are history.
 
@@ -46,9 +51,9 @@ In `AGENTS.md`, change `apps/`, `packages/` under "Where Things Are" to `package
 ## Acceptance criteria
 
 - `vp install`, `vp check` and `vp test` pass.
-- `vp test` runs the calculator's four test files and nothing else. The count was 41 tests on 2026-11-27.
+- `vp test` runs the calculator's four test files and nothing else. On 2026-11-27 that is 275 tests as Vitest counts them, from 41 `it` and `test` declarations.
 - `vp run retirement-calc --config packages/cli/examples/basic.json` prints the same output as it does on `gpuix-port`. Save both outputs and diff them.
-- `grep -rn "webapp-legacy\|apps/web\|apps/desktop\|packages/ui\|apps/e2e\|svelte" --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.codex --exclude-dir=implementation --exclude=bun.lock .` finds nothing.
+- `grep -rn "webapp-legacy\|apps/web\|apps/desktop\|packages/ui\|apps/e2e\|svelte" --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.codex --exclude-dir=.claude --exclude-dir=implementation --exclude-dir=qa --exclude=bun.lock .` finds nothing. `qa/` holds old audits that name `apps/webapp/`, and `.claude/` is local tool config.
 - No file under `packages/calculator`, `packages/cli` or `packages/logger` changed.
 
 ## Out of scope

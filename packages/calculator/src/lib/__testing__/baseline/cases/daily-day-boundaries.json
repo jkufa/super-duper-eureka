@@ -1,0 +1,174 @@
+{
+  "name": "daily-day-boundaries",
+  "input": {
+    "currentBalance": 35000,
+    "timeHorizonYears": 4,
+    "interest": {
+      "annualRate": 0.05,
+      "variance": 0.02,
+      "compounding": "daily"
+    },
+    "salary": {
+      "annualBase": 90000,
+      "annualRaiseRate": 0.02
+    },
+    "contributions": [
+      {
+        "id": "day-31",
+        "type": "flat",
+        "amount": 310,
+        "timing": {
+          "frequency": "monthly",
+          "day": 31
+        },
+        "enabled": true
+      },
+      {
+        "id": "day-29",
+        "type": "flat",
+        "amount": 290,
+        "timing": {
+          "frequency": "monthly",
+          "day": 29
+        },
+        "enabled": true
+      },
+      {
+        "id": "day-1",
+        "type": "flat",
+        "amount": 100,
+        "timing": {
+          "frequency": "monthly",
+          "day": 1
+        },
+        "enabled": true
+      },
+      {
+        "id": "placed-end",
+        "type": "flat",
+        "amount": 220,
+        "timing": {
+          "frequency": "monthly",
+          "placement": "end"
+        },
+        "enabled": true
+      },
+      {
+        "id": "placed-start",
+        "type": "flat",
+        "amount": 110,
+        "timing": {
+          "frequency": "monthly",
+          "placement": "start"
+        },
+        "enabled": true
+      },
+      {
+        "id": "feb-29",
+        "type": "flat",
+        "amount": 2900,
+        "timing": {
+          "frequency": "annual",
+          "month": 1,
+          "day": 29
+        },
+        "enabled": true
+      }
+    ],
+    "startDate": "2026-01-01T00:00:00.000Z"
+  },
+  "yearly": {
+    "baseline": [
+      {
+        "year": 0,
+        "balance": 52426.14030332438,
+        "contributions": 15260,
+        "interest": 2166.140303324389,
+        "salary": 90000
+      },
+      {
+        "year": 1,
+        "balance": 70723.58762181537,
+        "contributions": 30520,
+        "interest": 5203.587621815371,
+        "salary": 91800
+      },
+      {
+        "year": 2,
+        "balance": 89934.9235150475,
+        "contributions": 45780,
+        "interest": 9154.923515047494,
+        "salary": 93636
+      },
+      {
+        "year": 3,
+        "balance": 110107.80999412546,
+        "contributions": 61040,
+        "interest": 14067.809994125437,
+        "salary": 95508.72000000002
+      }
+    ],
+    "positive": [
+      {
+        "year": 0,
+        "balance": 53290.985504162854,
+        "contributions": 15260,
+        "interest": 3030.9855041628457,
+        "salary": 90000
+      },
+      {
+        "year": 1,
+        "balance": 72862.33999361764,
+        "contributions": 30520,
+        "interest": 7342.3399936176875,
+        "salary": 91800
+      },
+      {
+        "year": 2,
+        "balance": 93802.30762967902,
+        "contributions": 45780,
+        "interest": 13022.307629679133,
+        "salary": 93636
+      },
+      {
+        "year": 3,
+        "balance": 116209.45466792135,
+        "contributions": 61040,
+        "interest": 20169.45466792144,
+        "salary": 95508.72000000002
+      }
+    ],
+    "negative": [
+      {
+        "year": 0,
+        "balance": 51560.38742094653,
+        "contributions": 15260,
+        "interest": 1300.387420946496,
+        "salary": 90000
+      },
+      {
+        "year": 1,
+        "balance": 68617.58646452182,
+        "contributions": 30520,
+        "interest": 3097.586464521746,
+        "salary": 91800
+      },
+      {
+        "year": 2,
+        "balance": 86185.91311211979,
+        "contributions": 45780,
+        "interest": 5405.91311211969,
+        "salary": 93636
+      },
+      {
+        "year": 3,
+        "balance": 104281.87792643101,
+        "contributions": 61040,
+        "interest": 8241.877926430889,
+        "salary": 95508.72000000002
+      }
+    ]
+  },
+  "monthlyDigest": "83a4c70c86c1f6771981e7718a8654571cb5d0b842a40ae933227bcc1d24b8df",
+  "stepsDigest": "a6a10b019399e2ac1b342a651203c6505044dc7123ee841caa39a9cd032a3821"
+}
