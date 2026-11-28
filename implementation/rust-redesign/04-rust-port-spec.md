@@ -33,6 +33,8 @@ Port `buildSchedule` and the deposit and amount rules from spec 2 part C.
 - The schedule is a `Vec` of deposits in a fixed order: by month, then by account position, then by the rule's position in its account. It is not ordered by day within a month. Bucket totals are summed in that order. See "Grouping and order" in spec 2 part B, which this part ports line for line.
 - Use the built-in `f64::powi` for whole-number powers and `f64::powf` for the rest. On 200,000 samples `powi` matched Bun's `**` every time, and `powf` matched it on the fractional roots every time. Do not use `powf` for a whole-number power, and do not write a power function of our own.
 - Port the TypeScript unit tests for deposits and amounts one for one, with the same inputs and expected values.
+- Count growth periods the way spec 2 defines them: the largest `n` for which the rule's start plus `n` months, with the day clamped, is on or before the deposit. Do not read the months from a date library's difference. In `jiff` 0.2.46, 31 January plus one month is 28 February, but the month-unit difference between those two dates is 28 days and no months, which would undercount.
+- The date type accepts only spec 2's file grammar: ten ASCII characters and years 0001 to 9999. `jiff`'s own parser also accepts year 0000 and a timestamp such as `2026-01-01T00:00:00`, so wrap it.
 
 ## Part B: compounding and account projection
 

@@ -61,6 +61,10 @@ Specs live in `implementation/rust-redesign/`. Read its `README.md` first, then 
 - Test summation order with values that round differently when reordered within a bucket.
 - Specify how each timing variant resolves missing and out-of-month days before porting its calendar logic.
 - Validate original fixture JSON at its first parse. Reject misplaced or unknown keys before a parser can discard them.
+- Validate run options as strictly as the file they accompany. Reject unknown keys before extracting values from either.
+- Translate legacy bounds by checking which dates could actually deposit. Preserve the growth anchor independently and normalize impossible recurring dates before validation.
+- In partial ranges, filter deposits by their resolved dates before totalling the retained deposits by bucket.
+- Write salary-share formulas with explicit parentheses around the basis division and the percentage conversion.
 
 ### Rust Guidelines
 

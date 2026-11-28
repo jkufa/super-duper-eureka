@@ -79,37 +79,54 @@ export interface RunOptions {
 }
 
 export interface Scenario {
-  endDate: PlainDate;
-  interest: { annualRate: number; variance: number; compounding: Compounding };
-  salary: { annualBase: number; annualRaiseRate: number; asOf: PlainDate };
-  accounts: Array<Account>;
+  readonly endDate: PlainDate;
+  readonly interest: {
+    readonly annualRate: number;
+    readonly variance: number;
+    readonly compounding: Compounding;
+  };
+  readonly salary: {
+    readonly annualBase: number;
+    readonly annualRaiseRate: number;
+    readonly asOf: PlainDate;
+  };
+  readonly accounts: ReadonlyArray<Account>;
 }
 
 export interface Account {
-  id: string;
-  name: string;
-  kind: AccountKind;
-  included: boolean;
-  balance: number;
-  balanceAsOf: PlainDate;
-  annualRate?: number;
-  contributions: Array<Rule>;
+  readonly id: string;
+  readonly name: string;
+  readonly kind: AccountKind;
+  readonly included: boolean;
+  readonly balance: number;
+  readonly balanceAsOf: PlainDate;
+  readonly annualRate?: number;
+  readonly contributions: ReadonlyArray<Rule>;
 }
 
 export type Timing =
-  | { frequency: 'oneTime'; on: PlainDate }
-  | { frequency: 'monthly'; day?: number; placement: 'start' | 'end' }
-  | { frequency: 'annual'; month: number; day?: number; placement: 'start' | 'end' };
+  | { readonly frequency: 'oneTime'; readonly on: PlainDate }
+  | {
+      readonly frequency: 'monthly';
+      readonly day?: number;
+      readonly placement: 'start' | 'end';
+    }
+  | {
+      readonly frequency: 'annual';
+      readonly month: number;
+      readonly day?: number;
+      readonly placement: 'start' | 'end';
+    };
 
 export interface Rule {
-  id: string;
-  name?: string;
-  enabled: boolean;
-  type: RuleType;
-  amount: number;
-  salaryBasis: RuleSalaryBasis;
-  growth?: RuleGrowth;
-  timing: Timing;
-  startDate?: PlainDate;
-  endDate?: PlainDate;
+  readonly id: string;
+  readonly name?: string;
+  readonly enabled: boolean;
+  readonly type: RuleType;
+  readonly amount: number;
+  readonly salaryBasis: RuleSalaryBasis;
+  readonly growth?: Readonly<RuleGrowth>;
+  readonly timing: Timing;
+  readonly startDate?: PlainDate;
+  readonly endDate?: PlainDate;
 }
