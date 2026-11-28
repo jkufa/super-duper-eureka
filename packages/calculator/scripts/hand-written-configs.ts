@@ -287,6 +287,27 @@ export const handWrittenConfigs = {
       }
     ]
   }),
+  'one-time-late-day-monthly': makeConfig({
+    currentBalance: 52_000,
+    timeHorizonYears: 5,
+    startDate: firstOf(4),
+    interest: { annualRate: 0.06, variance: 0.015, compounding: 'monthly' },
+    salary: { annualBase: 92_000, annualRaiseRate: 0.025 },
+    contributions: [
+      {
+        id: 'bonus',
+        type: 'flat',
+        amount: 12_000,
+        timing: { frequency: 'oneTime', on: { year: 1, month: 8, day: 20 } }
+      },
+      {
+        id: 'gift',
+        type: 'flat',
+        amount: 4000,
+        timing: { frequency: 'oneTime', on: { year: 2, month: 3, day: 31 } }
+      }
+    ]
+  }),
   'one-time-with-day-daily': makeConfig({
     currentBalance: 45_000,
     timeHorizonYears: 5,
