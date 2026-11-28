@@ -9,7 +9,7 @@ export default defineConfig({
   },
   test: {
     name: 'calculator',
-    include: ['src/lib/**/__testing__/**/*.test.ts'],
+    include: ['src/lib/**/__testing__/**/*.test.ts', 'scripts/**/__testing__/**/*.test.ts'],
     globals: true,
     environment: 'node'
   }

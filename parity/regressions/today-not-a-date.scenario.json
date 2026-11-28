@@ -1,0 +1,24 @@
+{
+  "accounts": [
+    {
+      "balance": 10,
+      "balanceAsOf": "2026-02-01",
+      "contributions": [],
+      "id": "a",
+      "included": true,
+      "kind": "other",
+      "name": "a"
+    }
+  ],
+  "endDate": "2030-01-01",
+  "interest": {
+    "annualRate": 0,
+    "compounding": "monthly",
+    "variance": 0
+  },
+  "salary": {
+    "annualBase": 0,
+    "asOf": "2026-02-01"
+  },
+  "version": 1
+}

@@ -1,0 +1,17 @@
+{
+  "scenario": {
+    "accounts": "none",
+    "horizonYears": 30,
+    "people": [
+      {
+        "name": "x"
+      }
+    ],
+    "version": 2
+  },
+  "today": "2026-01-01",
+  "traits": [
+    "error:unsupported_version",
+    "invalid"
+  ]
+}
