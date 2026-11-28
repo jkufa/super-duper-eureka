@@ -40,6 +40,12 @@ fn calc_on(path: &Path, extra: &[&str]) -> TestResult<Output> {
 }
 
 /// Writes `text` to a temporary file whose name holds `name` and returns its path.
+/// The machine's local date as `YYYY-MM-DD`, from `date`.
+fn machine_date() -> TestResult<String> {
+    let output = Command::new("date").arg("+%F").output()?;
+    Ok(String::from_utf8(output.stdout)?.trim_end().to_owned())
+}
+
 fn file_with(name: &str, text: &str) -> TestResult<PathBuf> {
     let path = std::env::temp_dir().join(format!(
         "retirement-calc-{}-{name}.json",
@@ -293,17 +299,18 @@ fn prints_the_same_bytes_on_every_run() -> TestResult {
 }
 
 #[test]
-fn defaults_today_to_a_date_in_the_file_grammar() -> TestResult {
+fn defaults_today_to_the_local_date_of_the_machine() -> TestResult {
+    let before = machine_date()?;
     let output = calc_on(&example("basic.json"), &[])?;
+    let after = machine_date()?;
     let projection = stdout_json(&output)?;
     let today = projection["today"].as_str().ok_or("no today")?;
 
     assert_eq!(output.status.code(), Some(0));
-    assert_eq!(today.len(), 10);
-    assert!(today.bytes().enumerate().all(|(index, byte)| match index {
-        4 | 7 => byte == b'-',
-        _ => byte.is_ascii_digit(),
-    }));
+    assert!(
+        [before.as_str(), after.as_str()].contains(&today),
+        "{today}"
+    );
     Ok(())
 }
 
