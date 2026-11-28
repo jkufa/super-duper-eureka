@@ -218,9 +218,9 @@ fn with_ids(mut accounts: Vec<Value>) -> Vec<Value> {
     accounts
 }
 
-fn scenario_with(
-    accounts: impl Fn(CalendarDate, CalendarDate) -> BoxedStrategy<Vec<Value>> + 'static,
-) -> impl Strategy<Value = Case> {
+/// A valid scenario of `accounts` accounts, stale or not, over up to ten years.
+fn cases_of(accounts: RangeInclusive<usize>) -> impl Strategy<Value = Case> {
+    let (fewest, most) = accounts.into_inner();
     let today = (2000_i16..=2040, 1_i8..=12, 1_i8..=31).prop_map(|(year, month, day)| {
         CalendarDate::new(year, month, 1)
             .unwrap()
@@ -229,7 +229,7 @@ fn scenario_with(
     (today, 1..=MAX_HORIZON_MONTHS, 1_i8..=31).prop_flat_map(move |(today, months, day)| {
         let end = shifted(today, months, day).max(shifted(today, months, 1));
         (
-            accounts(today, end),
+            prop::collection::vec(account(today, end), fewest..=most),
             -0.02..0.12_f64,
             optional(0.0..0.03_f64),
             optional(prop_oneof![Just("monthly"), Just("daily")]),
@@ -284,13 +284,6 @@ pub(crate) fn check<S: Strategy>(strategy: &S, test: impl Fn(S::Value) -> TestCa
     if let Err(error) = result {
         panic!("{error}");
     }
-}
-
-fn cases_of(accounts: RangeInclusive<usize>) -> impl Strategy<Value = Case> {
-    let (fewest, most) = accounts.into_inner();
-    scenario_with(move |today, end| {
-        prop::collection::vec(account(today, end), fewest..=most).boxed()
-    })
 }
 
 /// A valid scenario of 0 to 4 accounts, stale or not, over up to ten years.
