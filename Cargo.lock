@@ -278,7 +278,7 @@ dependencies = [
 name = "retirement-core"
 version = "0.1.0"
 dependencies = [
- "jiff",
+ "jiff-core",
  "proptest",
  "serde",
  "serde_json",
