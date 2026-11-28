@@ -4,9 +4,9 @@ allow-unwrap-in-tests = true
 disallowed-methods = [
   { path = "std::time::SystemTime::now", reason = "core never reads the clock; the caller passes today" },
   { path = "std::time::Instant::now", reason = "core never reads the clock; the caller passes today" },
-  { path = "std::env::var", reason = "core takes its inputs as arguments" },
+  { path = "std::env::var", reason = "core takes its inputs as arguments" }
 ]
 disallowed-types = [
   { path = "std::collections::HashMap", reason = "iteration order changes between runs; use BTreeMap or a Vec" },
-  { path = "std::collections::HashSet", reason = "iteration order changes between runs; use BTreeSet or a Vec" },
+  { path = "std::collections::HashSet", reason = "iteration order changes between runs; use BTreeSet or a Vec" }
 ]
