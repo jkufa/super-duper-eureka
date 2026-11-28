@@ -1,6 +1,7 @@
 //! An account's balance, contributions and interest over a range of days, month by month.
 
 mod error;
+mod scenario;
 
 use crate::compound::{BucketTotals, compound_segment};
 use crate::date::CalendarDate;
@@ -8,6 +9,10 @@ use crate::scenario::{Account, Scenario};
 use crate::schedule::build_account_schedule;
 
 pub use error::ProjectionError;
+pub use scenario::{
+    AccountProjection, Band, BandProjection, Bands, RolledForward, ScenarioProjection,
+    StaleAccount, YearSalary, project_scenario,
+};
 
 const LAST_MONTH: i8 = 12;
 
