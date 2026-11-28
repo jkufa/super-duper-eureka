@@ -6,7 +6,7 @@ use std::io::{self, Write};
 use std::path::{Path, PathBuf};
 use std::process::ExitCode;
 
-use clap::{Parser, ValueEnum};
+use clap::{ArgAction, Parser, ValueEnum};
 use retirement_core::date::CalendarDate;
 use retirement_core::project::{Band, ProjectionError, project_scenario, trace_account};
 use retirement_core::scenario::raw::{ScenarioFile, VersionFile};
@@ -24,7 +24,12 @@ Exit status:
 /// Prints one JSON document to stdout: the scenario's projection, or with --trace the account's
 /// trace segments.
 #[derive(Debug, Parser)]
-#[command(name = "retirement-calc", after_help = EXIT_STATUSES, args_override_self = true)]
+#[command(
+    name = "retirement-calc",
+    after_help = EXIT_STATUSES,
+    args_override_self = true,
+    disable_help_flag = true
+)]
 struct Args {
     /// Path to a version 1 scenario JSON file.
     #[arg(long, value_name = "file")]
@@ -38,6 +43,9 @@ struct Args {
     /// Only with --trace. Default: baseline.
     #[arg(long, value_name = "band", requires = "trace")]
     band: Option<BandArg>,
+    /// Print help.
+    #[arg(long, action = ArgAction::Help)]
+    help: Option<bool>,
 }
 
 #[derive(Clone, Copy, Debug, ValueEnum)]

@@ -12,7 +12,7 @@ use crate::scenario::{
     Account, Compounding, ContributionRule, Placement, RuleId, Scenario, Timing,
 };
 
-pub use amount::salary_in_year;
+pub(crate) use amount::salary_in_year;
 
 /// Where compounding adds a deposit within its month. Serialises as `"start"`, `"end"` or the
 /// day's number.
@@ -74,7 +74,7 @@ impl<'a> Deposit<'a> {
 
 /// The days of one calendar month inside a range, and the deposits dated on them.
 #[derive(Debug, PartialEq)]
-pub struct ScheduledMonth<'a> {
+pub(crate) struct ScheduledMonth<'a> {
     from: CalendarDate,
     to: CalendarDate,
     days: i8,
@@ -85,36 +85,36 @@ pub struct ScheduledMonth<'a> {
 
 impl<'a> ScheduledMonth<'a> {
     /// The first day counted.
-    pub fn from(&self) -> CalendarDate {
+    pub(crate) fn from(&self) -> CalendarDate {
         self.from
     }
 
     /// The first day not counted: the range's end or the 1st of the next month.
-    pub fn to(&self) -> CalendarDate {
+    pub(crate) fn to(&self) -> CalendarDate {
         self.to
     }
 
     /// The day of the month of `from`.
-    pub fn first_day(&self) -> i8 {
+    pub(crate) fn first_day(&self) -> i8 {
         self.from.day()
     }
 
     /// The number of days counted, 1 to `days_in_month`.
-    pub fn days(&self) -> i8 {
+    pub(crate) fn days(&self) -> i8 {
         self.days
     }
 
-    pub fn days_in_month(&self) -> i8 {
+    pub(crate) fn days_in_month(&self) -> i8 {
         self.days_in_month
     }
 
     /// The number of days in the month's calendar year.
-    pub fn days_in_year(&self) -> i16 {
+    pub(crate) fn days_in_year(&self) -> i16 {
         self.days_in_year
     }
 
     /// In the order of the rules in the account.
-    pub fn deposits(&self) -> &[Deposit<'a>] {
+    pub(crate) fn deposits(&self) -> &[Deposit<'a>] {
         &self.deposits
     }
 
@@ -125,7 +125,7 @@ impl<'a> ScheduledMonth<'a> {
 
 /// One month per calendar month from `from` up to, and not including, `to`. Empty when `from` is
 /// not before `to`. `not_finite` with the account's id when a deposit's amount is not finite.
-pub fn build_account_schedule<'a>(
+pub(crate) fn build_account_schedule<'a>(
     scenario: &Scenario,
     account: &'a Account,
     from: CalendarDate,
