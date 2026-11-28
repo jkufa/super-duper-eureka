@@ -651,3 +651,410 @@ fn reports_a_today_outside_the_file_grammar_as_invalid_date() -> TestResult {
     }
     Ok(())
 }
+
+/// The stdout of a run that exits 0.
+fn stdout_of(path: &Path, extra: &[&str]) -> TestResult<Vec<u8>> {
+    let output = calc_on(path, extra)?;
+    assert_eq!(output.status.code(), Some(0), "{extra:?}");
+    Ok(output.stdout)
+}
+
+#[test]
+fn takes_the_last_value_of_each_scalar_option_given_twice() -> TestResult {
+    let basic = example("basic.json");
+    let daily = example("daily.json");
+    let [basic_arg, daily_arg] =
+        [&basic, &daily].map(|path| path.to_str().ok_or("a path that is not UTF-8"));
+    let (basic_arg, daily_arg) = (basic_arg?, daily_arg?);
+    let cases = [
+        (
+            "--today",
+            vec![
+                "--scenario",
+                basic_arg,
+                "--today",
+                TODAY,
+                "--today",
+                "2026-03-01",
+            ],
+            vec!["--scenario", basic_arg, "--today", "2026-03-01"],
+            vec!["--scenario", basic_arg, "--today", TODAY],
+        ),
+        (
+            "--scenario",
+            vec![
+                "--scenario",
+                daily_arg,
+                "--scenario",
+                basic_arg,
+                "--today",
+                TODAY,
+            ],
+            vec!["--scenario", basic_arg, "--today", TODAY],
+            vec!["--scenario", daily_arg, "--today", TODAY],
+        ),
+        (
+            "--trace",
+            vec![
+                "--scenario",
+                basic_arg,
+                "--today",
+                TODAY,
+                "--trace",
+                "401k",
+                "--trace",
+                "roth",
+            ],
+            vec!["--scenario", basic_arg, "--today", TODAY, "--trace", "roth"],
+            vec!["--scenario", basic_arg, "--today", TODAY, "--trace", "401k"],
+        ),
+        (
+            "--band",
+            vec![
+                "--scenario",
+                basic_arg,
+                "--today",
+                TODAY,
+                "--trace",
+                "roth",
+                "--band",
+                "negative",
+                "--band",
+                "positive",
+            ],
+            vec![
+                "--scenario",
+                basic_arg,
+                "--today",
+                TODAY,
+                "--trace",
+                "roth",
+                "--band",
+                "positive",
+            ],
+            vec![
+                "--scenario",
+                basic_arg,
+                "--today",
+                TODAY,
+                "--trace",
+                "roth",
+                "--band",
+                "negative",
+            ],
+        ),
+    ];
+
+    for (option, twice, last, first) in cases {
+        let output = calc(&twice)?;
+        let last = calc(&last)?;
+
+        assert_eq!(output.status.code(), Some(0), "{option}");
+        assert_eq!(last.status.code(), Some(0), "{option}");
+        assert_eq!(output.stdout, last.stdout, "{option}");
+        assert_ne!(output.stdout, calc(&first)?.stdout, "{option}");
+    }
+    Ok(())
+}
+
+#[test]
+fn prints_the_trace_from_its_first_segment_and_a_different_trace_in_each_band() -> TestResult {
+    let basic = example("basic.json");
+    let extra = ["--today", "2026-01-01", "--trace", "roth"];
+    let baseline = calc_on(&basic, &extra)?;
+    let text = String::from_utf8(baseline.stdout)?;
+
+    assert_eq!(baseline.status.code(), Some(0));
+    assert!(baseline.stderr.is_empty());
+    assert!(
+        text.starts_with("[\n  {\n    \"from\": \"2026-01-01\","),
+        "{text}"
+    );
+    for band in ["positive", "negative"] {
+        let other = stdout_of(&basic, &[&extra[..], &["--band", band]].concat())?;
+        assert_ne!(other, text.as_bytes(), "{band}");
+    }
+    Ok(())
+}
+
+#[test]
+fn prints_the_usage_line_in_help_with_nothing_on_stderr() -> TestResult {
+    let output = calc(&["--help"])?;
+    let help = String::from_utf8(output.stdout)?;
+
+    assert!(output.stderr.is_empty());
+    assert!(
+        help.contains("\nUsage: retirement-calc [OPTIONS] --scenario <file>\n"),
+        "{help}"
+    );
+    Ok(())
+}
+
+#[test]
+fn names_the_fault_and_the_usage_on_stderr_for_bad_usage() -> TestResult {
+    let basic = example("basic.json");
+    let basic = basic.to_str().ok_or("a path that is not UTF-8")?;
+    for (args, fault) in [
+        (vec!["--today", TODAY], "--scenario <file>"),
+        (
+            vec!["--scenario", basic, "--band", "positive"],
+            "--trace <accountId>",
+        ),
+        (vec!["--scenario", basic, "--bogus"], "'--bogus'"),
+    ] {
+        let output = calc(&args)?;
+        let stderr = String::from_utf8(output.stderr)?;
+
+        assert_eq!(output.status.code(), Some(1), "{args:?}");
+        assert!(output.stdout.is_empty(), "{args:?}");
+        assert!(stderr.contains(fault), "{args:?}: {stderr}");
+        assert!(stderr.contains("Usage:"), "{args:?}: {stderr}");
+    }
+    Ok(())
+}
+
+#[test]
+fn names_the_file_on_stderr_when_it_cannot_be_read_or_is_not_json() -> TestResult {
+    let not_json = file_with("named-not-json", "{ \"version\": 1,")?;
+    let missing = std::env::temp_dir().join("retirement-calc-named-missing.json");
+    for (path, message) in [
+        (&not_json, format!("{} is not JSON", not_json.display())),
+        (&missing, format!("Cannot read {}", missing.display())),
+    ] {
+        let output = calc_on(path, &["--today", TODAY])?;
+        let stderr = String::from_utf8(output.stderr)?;
+
+        assert_eq!(output.status.code(), Some(1), "{message}");
+        assert!(output.stdout.is_empty(), "{message}");
+        assert!(stderr.contains(&message), "{stderr}");
+    }
+    Ok(())
+}
+
+#[test]
+fn prints_the_error_document_with_its_keys_in_order() -> TestResult {
+    let negative = file_with(
+        "negative-amount",
+        &json!({
+            "version": 1,
+            "endDate": "2027-01-01",
+            "interest": { "annualRate": 0.05 },
+            "salary": { "annualBase": 0, "asOf": "2026-01-01" },
+            "accounts": [{
+                "id": "savings", "name": "Savings", "kind": "other", "included": true,
+                "balance": 0, "balanceAsOf": "2026-01-01",
+                "contributions": [{
+                    "id": "monthly", "type": "flat", "amount": -1,
+                    "timing": { "frequency": "monthly" }
+                }]
+            }]
+        })
+        .to_string(),
+    )?;
+    let cases = [
+        (
+            negative,
+            "2026-01-01",
+            "{\n  \"error\": {\n    \"code\": \"negative_amount\",\n    \"accountId\": \"savings\",\n    \"ruleId\": \"monthly\"\n  }\n}\n",
+        ),
+        (
+            example("basic.json"),
+            "2026-02-30",
+            "{\n  \"error\": {\n    \"code\": \"invalid_date\"\n  }\n}\n",
+        ),
+    ];
+
+    for (path, today, expected) in cases {
+        let output = calc_on(&path, &["--today", today])?;
+
+        assert_eq!(output.status.code(), Some(2), "{expected}");
+        assert_eq!(String::from_utf8(output.stdout)?, expected);
+        assert!(!output.stderr.is_empty(), "{expected}");
+    }
+    Ok(())
+}
+
+/// Each shipped example with the today its expected figures assume.
+const EXAMPLE_TODAYS: [(&str, &str); 5] = [
+    ("basic.json", "2026-01-01"),
+    ("custom-growth.json", "2026-01-01"),
+    ("daily.json", "2026-02-01"),
+    ("one-time.json", "2026-01-01"),
+    ("stale-and-excluded.json", "2026-06-15"),
+];
+
+fn example_today(name: &str) -> TestResult<&'static str> {
+    Ok(EXAMPLE_TODAYS
+        .iter()
+        .find(|&&(example, _)| example == name)
+        .ok_or("no today for this example")?
+        .1)
+}
+
+fn example_projection(name: &str) -> TestResult<Value> {
+    let output = calc_on(&example(name), &["--today", example_today(name)?])?;
+    assert_eq!(output.status.code(), Some(0), "{name}");
+    stdout_json(&output)
+}
+
+fn example_trace(name: &str, account_id: &str) -> TestResult<Value> {
+    let today = example_today(name)?;
+    let output = calc_on(&example(name), &["--today", today, "--trace", account_id])?;
+    assert_eq!(output.status.code(), Some(0), "{name}");
+    stdout_json(&output)
+}
+
+fn number(value: &Value) -> TestResult<f64> {
+    Ok(value.as_f64().ok_or("not a number")?)
+}
+
+/// The baseline projection of `account_id`.
+fn baseline_account<'a>(projection: &'a Value, account_id: &str) -> TestResult<&'a Value> {
+    Ok(projection["bands"]["baseline"]["accounts"]
+        .as_array()
+        .ok_or("no accounts")?
+        .iter()
+        .find(|account| account["accountId"] == account_id)
+        .ok_or("no such account")?)
+}
+
+fn contributions(projection: &Value, account_id: &str) -> TestResult<f64> {
+    number(&baseline_account(projection, account_id)?["series"]["totalContributions"])
+}
+
+fn years(total: &Value) -> Vec<Option<i64>> {
+    total["yearly"]
+        .as_array()
+        .map(|rows| rows.iter().map(|row| row["year"].as_i64()).collect())
+        .unwrap_or_default()
+}
+
+#[test]
+fn every_example_projects_at_least_two_accounts() -> TestResult {
+    assert_eq!(EXAMPLE_TODAYS.map(|(name, _)| name), EXAMPLES);
+    for name in EXAMPLES {
+        let projection = example_projection(name)?;
+        let accounts = projection["bands"]["baseline"]["accounts"]
+            .as_array()
+            .ok_or("no accounts")?;
+
+        assert!(accounts.len() >= 2, "{name}");
+        assert!(
+            number(&projection["bands"]["baseline"]["total"]["finalBalance"])?.is_finite(),
+            "{name}"
+        );
+    }
+    Ok(())
+}
+
+#[test]
+fn basic_projects_twenty_years_of_a_growing_salary_share_and_a_flat_roth_deposit() -> TestResult {
+    let projection = example_projection("basic.json")?;
+    let bands = &projection["bands"];
+    let total = &bands["baseline"]["total"];
+    let salary_share: f64 = (0..20)
+        .map(|year| 110_000.0 * 1.03_f64.powi(year) / 12.0 * 0.06 * 12.0)
+        .sum();
+    let final_balance = number(&total["finalBalance"])?;
+
+    assert_eq!(total["startBalance"], 75_000.0);
+    assert_eq!(total["monthly"].as_array().map(Vec::len), Some(240));
+    assert_eq!(years(total), (2026..2046).map(Some).collect::<Vec<_>>());
+    assert_eq!(contributions(&projection, "roth")?, 120_000.0);
+    assert!((contributions(&projection, "401k")? - salary_share).abs() < 5e-7);
+    assert_eq!(projection["effectiveRate"], 0.05);
+    assert!(number(&bands["positive"]["total"]["finalBalance"])? > final_balance);
+    assert!(number(&bands["negative"]["total"]["finalBalance"])? < final_balance);
+    Ok(())
+}
+
+#[test]
+fn custom_growth_raises_the_bonus_5_percent_a_year_and_gives_espp_its_own_rate() -> TestResult {
+    let projection = example_projection("custom-growth.json")?;
+    let bonus: f64 = (0..5).map(|years| 2000.0 * 1.05_f64.powi(years)).sum();
+    let effective_rate = number(&projection["effectiveRate"])?;
+
+    assert!((contributions(&projection, "brokerage")? - bonus).abs() < 5e-10);
+    assert_eq!(baseline_account(&projection, "espp")?["annualRate"], 0.07);
+    assert!(
+        effective_rate > 0.05 && effective_rate < 0.07,
+        "{effective_rate}"
+    );
+    Ok(())
+}
+
+#[test]
+fn daily_deposits_land_on_their_day() -> TestResult {
+    let projection = example_projection("daily.json")?;
+    let trace = example_trace("daily.json", "brokerage")?;
+
+    assert_eq!(
+        years(&projection["bands"]["baseline"]["total"]),
+        (2026..2030).map(Some).collect::<Vec<_>>()
+    );
+    assert_eq!(contributions(&projection, "brokerage")?, 36.0 * 200.0);
+    assert_eq!(contributions(&projection, "savings")?, 3.0 * 3000.0);
+    assert_eq!(
+        trace[0]["deposits"],
+        json!([{ "ruleId": "auto-invest", "date": "2026-02-15", "amount": 200.0, "bucket": 15 }])
+    );
+    Ok(())
+}
+
+#[test]
+fn one_time_deposits_the_inheritance_once_on_its_date() -> TestResult {
+    let projection = example_projection("one-time.json")?;
+    let trace = example_trace("one-time.json", "brokerage")?;
+    let deposits: Vec<&Value> = trace
+        .as_array()
+        .ok_or("no segments")?
+        .iter()
+        .flat_map(|segment| segment["deposits"].as_array().into_iter().flatten())
+        .collect();
+
+    assert_eq!(
+        deposits,
+        [
+            &json!({ "ruleId": "inheritance", "date": "2026-07-01", "amount": 10_000.0, "bucket": "start" })
+        ]
+    );
+    assert_eq!(contributions(&projection, "brokerage")?, 10_000.0);
+    assert_eq!(contributions(&projection, "401k")?, 10.0 * 2600.0);
+    Ok(())
+}
+
+#[test]
+fn stale_and_excluded_rolls_the_stale_account_forward_and_leaves_the_excluded_one_out() -> TestResult
+{
+    let projection = example_projection("stale-and-excluded.json")?;
+    let stale = baseline_account(&projection, "401k")?;
+    let excluded = baseline_account(&projection, "old-ira")?;
+    let accounts = projection["bands"]["baseline"]["accounts"]
+        .as_array()
+        .ok_or("no accounts")?;
+    let mut included_start = 0.0;
+    for account in accounts
+        .iter()
+        .filter(|account| account["included"] == true)
+    {
+        included_start += number(&account["series"]["startBalance"])?;
+    }
+
+    assert_eq!(number(&stale["rolledForward"]["contributions"])?, 3000.0);
+    assert!(number(&stale["series"]["startBalance"])? > 90_000.0 + 3000.0);
+    assert_eq!(
+        number(&stale["series"]["totalContributions"])?,
+        114.0 * 1000.0
+    );
+    assert_eq!(excluded["included"], false);
+    assert!(number(&excluded["rolledForward"]["interest"])? > 0.0);
+    assert_eq!(
+        number(&projection["bands"]["baseline"]["total"]["startBalance"])?,
+        included_start
+    );
+    assert_eq!(
+        number(&baseline_account(&projection, "hsa")?["series"]["startBalance"])?,
+        8000.0
+    );
+    Ok(())
+}

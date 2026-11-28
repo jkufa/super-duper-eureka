@@ -151,11 +151,13 @@ fn rule(as_of: CalendarDate, end: CalendarDate) -> impl Strategy<Value = Value> 
             Just("perContribution")
         ],
         optional(any::<bool>()),
+        optional(Just("Rule")),
     )
         .prop_map(
-            |((kind, amount), timing, start, length, growth, basis, enabled)| {
+            |((kind, amount), timing, start, length, growth, basis, enabled, name)| {
                 let mut rule =
                     json!({ "id": "", "type": kind, "amount": amount, "timing": timing });
+                set(&mut rule, "name", name.map(Value::from));
                 let recurring = rule["timing"]["frequency"] != "oneTime";
                 if kind == "salaryPercent" && (recurring || basis != "perContribution") {
                     rule["salaryBasis"] = json!(basis);
@@ -182,8 +184,9 @@ fn account(today: CalendarDate, end: CalendarDate) -> impl Strategy<Value = Valu
         prop_oneof![Just(0.0), 0.0..1e6_f64],
         optional(-0.05..0.15_f64),
         prop::bool::weighted(0.8),
+        prop_oneof![Just("pretax"), Just("roth"), Just("taxable"), Just("other")],
     )
-        .prop_flat_map(move |((back, day, fresh), balance, rate, included)| {
+        .prop_flat_map(move |((back, day, fresh), balance, rate, included, kind)| {
             let as_of = if fresh {
                 today
             } else {
@@ -193,7 +196,7 @@ fn account(today: CalendarDate, end: CalendarDate) -> impl Strategy<Value = Valu
                 let mut account = json!({
                     "id": "",
                     "name": "Account",
-                    "kind": "other",
+                    "kind": kind,
                     "included": included,
                     "balance": balance,
                     "balanceAsOf": text(as_of),
@@ -218,9 +221,9 @@ fn with_ids(mut accounts: Vec<Value>) -> Vec<Value> {
     accounts
 }
 
-fn scenario_with(
-    accounts: impl Fn(CalendarDate, CalendarDate) -> BoxedStrategy<Vec<Value>> + 'static,
-) -> impl Strategy<Value = Case> {
+/// A valid scenario of `accounts` accounts, stale or not, over up to ten years.
+fn cases_of(accounts: RangeInclusive<usize>) -> impl Strategy<Value = Case> {
+    let (fewest, most) = accounts.into_inner();
     let today = (2000_i16..=2040, 1_i8..=12, 1_i8..=31).prop_map(|(year, month, day)| {
         CalendarDate::new(year, month, 1)
             .unwrap()
@@ -229,7 +232,7 @@ fn scenario_with(
     (today, 1..=MAX_HORIZON_MONTHS, 1_i8..=31).prop_flat_map(move |(today, months, day)| {
         let end = shifted(today, months, day).max(shifted(today, months, 1));
         (
-            accounts(today, end),
+            prop::collection::vec(account(today, end), fewest..=most),
             -0.02..0.12_f64,
             optional(0.0..0.03_f64),
             optional(prop_oneof![Just("monthly"), Just("daily")]),
@@ -284,13 +287,6 @@ pub(crate) fn check<S: Strategy>(strategy: &S, test: impl Fn(S::Value) -> TestCa
     if let Err(error) = result {
         panic!("{error}");
     }
-}
-
-fn cases_of(accounts: RangeInclusive<usize>) -> impl Strategy<Value = Case> {
-    let (fewest, most) = accounts.into_inner();
-    scenario_with(move |today, end| {
-        prop::collection::vec(account(today, end), fewest..=most).boxed()
-    })
 }
 
 /// A valid scenario of 0 to 4 accounts, stale or not, over up to ten years.

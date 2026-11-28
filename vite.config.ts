@@ -12,8 +12,7 @@ export default defineConfig({
         command: 'bun packages/calculator/scripts/write-corpus.ts',
         cache: false
       },
-      parity: { command: 'bun packages/calculator/scripts/parity.ts', cache: false },
-      'golden-capture': { command: 'bun packages/calculator/scripts/golden.ts', cache: false }
+      parity: { command: 'bun packages/calculator/scripts/parity.ts', cache: false }
     }
   },
   test: {

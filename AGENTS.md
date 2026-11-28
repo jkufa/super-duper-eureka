@@ -57,6 +57,7 @@ Specs live in `implementation/rust-redesign/`. Read its `README.md` first, then 
 - Put new lessons here unless they only apply to TypeScript.
 - Include collection lengths or explicit record boundaries when hashing structured output for parity.
 - Publish related golden fixtures as a single generation. Readers must keep seeing a complete generation if publication fails.
+- Pause a writer before and after each rename, run a second writer, and verify that a reader can still open one complete generation.
 - When exact arithmetic must survive a refactor, specify grouping, summation order, and the metadata needed to reproduce them.
 - Keep a deposit's resolved date and its compounding bucket separately when range checks and interest use different rules.
 - Test each specified float reduction and midpoint with inputs that round differently under a plausible reordering or regrouping.
@@ -69,12 +70,16 @@ Specs live in `implementation/rust-redesign/`. Read its `README.md` first, then 
 - Test a comparison at the equal value, not only on the side that fails.
 - Exercise a nonempty projection in the last supported month through the public entry point.
 - Compare golden figures to the public output wherever it supplies them. Pin the expected fixture groups as well as their total count.
+- Check candidate case names and counts against the committed inventory before a writer replaces either the fixtures or their manifest.
 - If several accounts can overflow, specify which error subjects parity compares or use single-fault inputs.
 - Test documented machine-readable commands as subprocesses, including the launcher, stdout, stderr and exit status.
+- Carry repeated-option tests into the replacement CLI. Exercise shipped examples against their expected results or verify their contents against the golden inputs.
 - Check temporal and arithmetic claims at their boundaries, including intermediate overflow before a reciprocal.
 - Exercise equivalent ways to read the clock when a source guard promises clock independence.
+- Test purity guards through trait defaults, OS-backed builders and hostname resolution as well as the named constructors.
 - Ban a dependency's clock and I/O paths from the version in the lockfile, including the sibling that does the work and a parser or trait method that reaches them without naming the banned type, and show that calling each one fails `just check`.
 - Pin a float formula with an input on which the wrong association, an algebraically rearranged expression, or a dropped finiteness check produces a different result.
+- For parsed fields, exercise each enum variant and both present and absent optional values. Check the parsed value against the input as well as against its round trip.
 
 ### Rust Guidelines
 
@@ -84,7 +89,7 @@ Commands:
 
 - `just check`: format check, Clippy, tests, `cargo deny check` and `cargo shear`, stopping at the first failure. Run it before handing work to review.
 - `just fix`: apply rustfmt and Clippy's automatic fixes.
-- `just golden`: rewrite the golden expected files from the release Rust CLI, all at once. See the process list below before running it.
+- `just golden`: rewrite the golden expected files from the release Rust CLI and swap the set in whole, under a lock that refuses a second run. See the process list below before running it.
 - While TypeScript exists, `vp check` and `vp test` still cover it. `just check` covers Rust only.
 
 Design:
@@ -105,7 +110,7 @@ Process:
 - The comment rule under "Coding Style" applies, and so does silencing a lint with `#[expect]` and a reason. Find the way that needs neither.
 - A doc comment that states a field's unit or invariant is a fact about the data, not a justification. Write those. A field that needs neither gets none.
 - A bug fix comes with a test that fails without the fix.
-- The golden cases in `crates/cli/tests/golden/` are the engine's expected output, and `crates/cli/tests/golden.rs` checks the CLI against them. `just golden` rewrites the expected files from the Rust CLI. Regenerate only when behaviour is meant to change, and in the PR explain every number that moved: which case, which field, the old and new value, and why. A regeneration that moves a number nobody can explain is a bug.
+- The golden cases in `crates/cli/tests/golden/` are the engine's expected output, and `crates/cli/tests/golden.rs` checks the CLI against them. `just golden` rewrites the expected files from the Rust CLI; the case folders, `manifest` and the counts in `golden.rs` are the inventory, and it changes nothing unless they agree. To add a case, add its folder with `scenario.json` and `today`, its manifest line and its count. Regenerate only when behaviour is meant to change, and in the PR explain every number that moved: which case, which field, the old and new value, and why. A regeneration that moves a number nobody can explain is a bug.
 - Before writing a new module, read the exemplar and match it: `crates/core/src/date.rs` and `crates/core/src/scenario/` (`raw.rs`, `mod.rs`, `account.rs`, `rule.rs`, `error.rs`, `tests.rs`). Imitate how the raw file types become validated types with private fields and accessors, how each validator returns an error that names the account or rule at fault without cloning ids, and how the tests build input from JSON text and edit one field per case.
 - Review agents check each of these rules on every Rust PR and log repeats in the code review log.
 

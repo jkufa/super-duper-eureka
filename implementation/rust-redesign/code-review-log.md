@@ -608,7 +608,7 @@ For PR review agents only. Orchestration and implementation agents do not read t
 - What: Repeated scalar flags and duplicate JSON members take the last value. Help writes plain text to stdout. Invalid UTF-8 in a name becomes a replacement character, and an escaped lone surrogate passes. A generator that serializes valid objects cannot exercise these file-level differences.
 - Better: Define the supported wire grammar and test raw files and command lines for any behavior the port must match.
 - Seen before: no
-- Promoted: no
+- Promoted: yes, the CLI contract guideline in AGENTS.md
 
 ### 2026-11-28, spec 2 part G, the randomness test accepts a constant generator
 
@@ -718,7 +718,7 @@ For PR review agents only. Orchestration and implementation agents do not read t
 - What: On 1000 draws from `any_case` with seed 1, 206 scenarios had no accounts, 252 set daily compounding, 341 had a growing rule, 511 had a start or end date, and 530 had an included account with a positive balance. The horizon is at most 120 months and account rates stay inside about -0.05 to 0.15. Raising a rate on an empty or excluded account cannot lower the total, so property 3 holds without exercising compounding. No draw reaches a growth exponent past 1000.
 - Better: Reject empty scenarios in the properties that need an account, and draw the raised-rate property from an included account that has a balance or a deposit. Keep a few long horizons if that edge should stay covered after the corpus is gone.
 - Seen before: no
-- Promoted: no
+- Promoted: yes, the property input guideline in AGENTS.md
 
 ### 2026-11-28, spec 4, the port spec still says December 9999 throws
 
@@ -751,3 +751,107 @@ For PR review agents only. Orchestration and implementation agents do not read t
 - Better: Ban `set_current_dir`, `Path::try_exists`, `UnixListener`, and `UnixDatagram` next to the siblings already on the list.
 - Seen before: 2026-11-28, spec 3, clock and environment bans name one function and miss its siblings
 - Promoted: yes, the clock-ban guideline in AGENTS.md
+
+### 2026-11-28, spec 4 parts F and G, overlapping publishers retire the only complete generation
+
+- Where: `justfile:34` and `packages/calculator/scripts/golden.ts:197`, PR #33
+- What: I paused the Rust writer after it staged all 229 cases and started TypeScript capture. Its startup cleanup removed the Rust staging directory. After TypeScript wrote one case, I resumed Rust. It exited 0, installed the one-case directory and deleted the retired 229 cases. Killing the second writer and running recovery left one case and no manifest. Two Rust writers and two TypeScript writers reproduced the same loss separately.
+- Better: Serialize publishers across both commands and give each writer its own staging directory. Verify the candidate for publication before retiring the previous generation.
+- Seen before: spec 4 part G, golden publish deletes the only copy if killed between the renames
+- Promoted: yes, the fixture publication guideline in AGENTS.md
+
+### 2026-11-28, spec 4 parts F and G, readers lose the live path between the renames
+
+- Where: `justfile:45` and `packages/calculator/scripts/golden.ts:215`, PR #33
+- What: For both commands, a reader found no `golden/manifest` after the first rename. SIGKILL left the live path missing. A later valid invocation recovered all 229 cases. A kill during staging or after the second rename left a populated live path.
+- Better: Switch generations in one atomic operation and keep the selected generation available to readers that are already using it.
+- Seen before: spec 2 part A, staged fixture publication still drops the live path
+- Promoted: yes, the fixture publication guideline in AGENTS.md
+
+### 2026-11-28, spec 4 parts F and G, regeneration approves a stale manifest
+
+- Where: `crates/cli/tests/golden.rs:415`, PR #33
+- What: Renaming `regressions/no-accounts` made the layout test fail. Following the rename with `just golden` regenerated the manifest from the renamed folders and both golden tests passed. The independent name for that regression disappears in part H.
+- Better: Check the source folders against the committed inventory before regenerating outputs. Handle intentional case changes explicitly.
+- Seen before: spec 2 part G, deleting the old baseline also deletes its composition assertion
+- Promoted: yes, the fixture inventory guideline in AGENTS.md
+
+### 2026-11-28, spec 4 parts F and G, TypeScript capture can replace 229 cases with 30
+
+- Where: `packages/calculator/scripts/golden.ts:109` and `:240`, PR #33
+- What: In a scratch copy, `bun packages/calculator/scripts/golden.ts 1` exited 0. The manifest had 30 entries, including one generated case. Cleanup removed the complete backup. The Rust inventory test then failed.
+- Better: Require all four expected group counts in the candidate before publishing it.
+- Seen before: spec 2 part A, fixture writer removes the oracle before validating replacements
+- Promoted: yes, the fixture inventory guideline in AGENTS.md
+
+### 2026-11-28, spec 4 parts F and G, the Rust CLI suite accepts a change to repeated options
+
+- Where: `crates/cli/src/main.rs:30` and `packages/cli/src/__testing__/cli.test.ts:135`, part H review
+- What: Setting `args_override_self` to false passed `just check`. A real invocation with two `--today` arguments then exited 1. Spec 2 and the TypeScript subprocess test require exit 0 and the second value in stdout.
+- Better: Port the repeated-option subprocess test before removing its TypeScript counterpart.
+- Seen before: spec 2 part G, the CLI accepts input forms absent from the port contract
+- Promoted: yes, the CLI contract guideline in AGENTS.md
+
+### 2026-11-28, spec 4 parts F and G, the examples shipped to users can drift from their golden copies
+
+- Where: `crates/cli/tests/cli.rs:21` and `packages/calculator/src/lib/__testing__/examples.test.ts:69`, part H review
+- What: Changing only the shipped basic example's monthly Roth amount from 500 to 501 passed `just check`. The TypeScript example test failed with 120240 versus 120000. The Rust byte comparison read the other copy. The TypeScript suite also checks the inventory of example files.
+- Better: Use the shipped files as the inputs for the examples group, or compare their names and contents with that group's inputs.
+- Seen before: spec 2 parts E and G, the scenario baseline rebuilds public salary values
+- Promoted: yes, the shipped examples guideline in AGENTS.md
+
+### 2026-11-28, spec 4 parts F and G, property inputs omit account kinds and named rules
+
+- Where: `crates/core/src/arbitrary.rs:158` and `:196`, PR #33
+- What: The round-trip generator emits only `other` and never supplies a rule name. Mapping a parsed `taxable` account to `Other` passed `just check`. Separately, deleting the test writer's rule-name field also passed. A round trip compares two parsed values, so an independent raw-to-validated assertion is needed for a parser that drops a value consistently.
+- Better: Exercise the accepted account kinds and optional names with raw input and assert their validated values. Generate named rules and every kind for the writer round trip.
+- Seen before: spec 4 part G, property generators leave many cases with nothing to prove
+- Promoted: yes, the property input guideline in AGENTS.md
+
+### 2026-11-28, spec 4 parts F and G, the pool tolerance accepts infinity
+
+- Where: `crates/core/src/project/scenario/effective_rate/tests.rs:770`, PR #33
+- What: Returning positive infinity for every `Pool::final_balance` passed the pooled-balance property on all 256 draws. The expected target was finite, but the difference and the tolerance bound both became infinity. Other solver tests and the golden replay failed.
+- Better: Require finite endpoints before applying a relative tolerance to a pool evaluated at the reported rate.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-28, spec 4 parts F and G, a total can omit its final month and still satisfy the row property
+
+- Where: `crates/core/src/properties.rs:57`, PR #33
+- What: Dropping the last monthly row after constructing the yearly rows passed all eight properties. The sum check iterates the rows the total returns. Unit tests and the golden replay caught the missing row.
+- Better: Check row counts and calendar positions against the scenario range before comparing sums.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-28, spec 4 parts F and G, the standard library still exposes unguarded I/O
+
+- Where: `crates/core/clippy.toml:20`, PR #34
+- What: All ten Path methods added by #34 failed Clippy. A test calling `std::env::home_dir`, resolving `localhost:0` via `ToSocketAddrs` and using `DirBuilder` on the current directory passed the full `just check`. These paths can read process state, resolve a hostname or operate on the filesystem. A separate probe passed JSON through an OS pipe using the dev dependency's `serde_json::to_writer` and `from_reader`.
+- Better: Cover home-directory lookup, hostname resolution and directory builders when testing the core I/O guard.
+- Seen before: spec 4, std and unix socket bans still miss sibling calls
+- Promoted: yes, the purity guard guideline in AGENTS.md
+
+### 2026-11-28, spec 4 parts F and G, the default runner bypasses the repository seed
+
+- Where: `crates/core/clippy.toml:62`, PR #33
+- What: In a core test, `let runner: TestRunner = Default::default()` passed `just check`. Proptest 1.12.0 implements it through the banned `TestRunner::new`. With the locked features it uses proptest's built-in seed. The current eight properties use the repository seed correctly.
+- Better: Keep runner construction in the one shared helper and check alternate constructors, including trait defaults.
+- Seen before: spec 4 part G, property tests take a random seed and open a regression file
+- Promoted: yes, the purity guard guideline in AGENTS.md
+
+### 2026-11-28, spec 4 parts F and G, the regeneration record lists one path per file
+
+- Where: `implementation/rust-redesign/04-rust-port-spec.md:119`, PR #33 and `8817e84`
+- What: The PR says the commit lists every moved JSON path. I compared every token against its parent. There were 761 changed numeric tokens across 27 files. The commit lists the largest difference per file and omits the other paths and the old and new values. The reported reason and maximum are correct.
+- Better: Attach the field-level old and new values when regenerating, with the cause for each group of changes.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-28, spec 4 parts F and G, the account generator callback has one caller
+
+- Where: `crates/core/src/arbitrary.rs:221` and `:291`, PR #33
+- What: Before #33, two callers supplied different account generators. `rg 'scenario_with\('` now finds one caller, `cases_of`, which always builds the same boxed account strategy with a different length range.
+- Better: Pass the length range to the scenario generator and construct the account strategy there.
+- Seen before: no
+- Promoted: no
