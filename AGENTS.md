@@ -52,6 +52,10 @@ Specs live in `implementation/rust-redesign/`. Read its `README.md` first, then 
 ### Lessons From Review
 
 - Put new lessons here unless they only apply to TypeScript.
+- Include collection lengths or explicit record boundaries when hashing structured output for parity.
+- Publish related golden fixtures as a single generation. Readers must keep seeing a complete generation if publication fails.
+- When exact arithmetic must survive a refactor, specify grouping, summation order, and the metadata needed to reproduce them.
+- Validate original fixture JSON at its first parse. Reject misplaced or unknown keys before a parser can discard them.
 
 ### Finishing Work
 

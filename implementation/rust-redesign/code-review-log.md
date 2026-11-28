@@ -175,7 +175,7 @@ For PR review agents only. Orchestration and implementation agents do not read t
 - What: The comparison omits monthly salary and date fields, projection and trace summaries, and the numeric metadata and deposit details of each step. The trace call disables contribution details. Adding one dollar to the reported start bucket leaves all 507 tests passing. The four full reference files are also outside the comparison.
 - Better: Compare or hash all output fields that the rebuild promises to preserve, with record boundaries. Keep the trace details enabled for the comparison and state how replaced fields map to the new contract.
 - Seen before: no
-- Promoted: no
+- Promoted: yes, the collection boundary guideline in AGENTS.md
 
 ### 2026-11-27, spec 2 part A, numeric encoding loses signed zero
 
@@ -207,7 +207,7 @@ For PR review agents only. Orchestration and implementation agents do not read t
 - What: The recurring monthly bucket description leaves odd-month midpoint rounding implicit. The partial-month formula also reads as multiply by days then divide, which changes stored full-month interest in the last digit.
 - Better: Specify the ceiling midpoint and compute the day fraction before multiplying. Keep the legacy grouping and addition order when moving deposits into the schedule.
 - Seen before: no
-- Promoted: no
+- Promoted: yes, the exact arithmetic guideline in AGENTS.md
 
 ### 2026-11-27, spec 2 part A, fixture writer removes the oracle before validating replacements
 
@@ -215,7 +215,7 @@ For PR review agents only. Orchestration and implementation agents do not read t
 - What: The writer deletes both live directories before validating the first input. Readers can see a partial corpus during regeneration, and a validation failure can leave that corpus in place.
 - Better: Validate and serialize the replacement corpus before touching the existing files. Stage regeneration if concurrent readers need a complete view.
 - Seen before: no
-- Promoted: no
+- Promoted: yes, the fixture publication guideline in AGENTS.md
 
 ### 2026-11-27, spec 2 part A, type predicates promise unvalidated fixture fields
 
@@ -223,7 +223,7 @@ For PR review agents only. Orchestration and implementation agents do not read t
 - What: The guards narrow arbitrary JSON to RetirementConfig and BaselineCase while leaving array elements and optional fields unchecked.
 - Better: Validate the shapes the predicates claim, or make the trusted fixture deserialization boundary explicit.
 - Seen before: no
-- Promoted: no
+- Promoted: yes, the original fixture validation guideline in AGENTS.md
 
 ### 2026-11-27, spec 2 part A, fixtures normalize away defaults before testing
 
@@ -232,3 +232,43 @@ For PR review agents only. Orchestration and implementation agents do not read t
 - Better: Save a small raw config with optional fields omitted so the engine and legacy adapter resolve the defaults during the test.
 - Seen before: no
 - Promoted: no
+
+### 2026-11-27, spec 2 part A, monthly digest loses band boundaries
+
+- Where: `packages/calculator/src/lib/__testing__/number-streams.ts:75`, PR #9 second pass
+- What: Moving a monthly row from baseline to positive while keeping all encoded values at 1 produces identical stream text. Neither a row count nor a band delimiter is encoded.
+- Better: Include each band's row count and test that moving a row to another band changes the stream.
+- Seen before: 2026-11-27, spec 2 part A, shared digest omits outputs under contract
+- Promoted: yes, the collection boundary guideline in AGENTS.md
+
+### 2026-11-27, spec 2 part A, staged fixture publication still drops the live path
+
+- Where: `packages/calculator/scripts/write-baseline.ts:113`, PR #9 second pass
+- What: Injecting a failure on the second rename leaves the live baseline missing. Both the previous and the staged generations remain, and the next run deletes both before attempting publication.
+- Better: Publish the new generation atomically and retain the old generation until the new one is reachable.
+- Seen before: 2026-11-27, spec 2 part A, fixture writer removes the oracle before validating replacements
+- Promoted: yes, the fixture publication guideline in AGENTS.md
+
+### 2026-11-27, spec 2 part A, schedule order and grouping underspecified for exact parity
+
+- Where: `implementation/rust-redesign/02-ts-engine-rebuild-spec.md:168` and `04-rust-port-spec.md:33`, PR #9 second pass
+- What: Daily rules without an explicit day still contribute to legacy start and end buckets. Flattening to day buckets loses that provenance. Adding deposits individually on a day gives six different legacy balances in the baseline corpus. Date order also does not imply rule order inside a monthly bucket.
+- Better: Specify legacy bucket identity, group amounts in file order, merge the day bucket with placement totals before touching the balance, and preserve enough metadata to recover that grouping in the trace.
+- Seen before: 2026-11-27, spec 2 part A, exact parity depends on unstated rounding and evaluation order
+- Promoted: yes, the exact arithmetic guideline in AGENTS.md
+
+### 2026-11-27, spec 2 part A, trace adapter assumes fields and defaults its input cannot supply
+
+- Where: `implementation/rust-redesign/02-ts-engine-rebuild-spec.md:178`, PR #9 second pass
+- What: The adapter has no rule for the baseline's 19 growth rules with no legacy start bound, although the new validator requires a growth start. A trace deposit has no contribution type, and the stream needs the compounding mode and the active rule sequence.
+- Better: Make the adapter take the input along with the outputs, state which fields it joins or derives, and specify January 1 of the projection's start year as the growth anchor when the legacy start is absent.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-27, spec 2 part A, parser equality guard runs after source data has been dropped
+
+- Where: `packages/calculator/scripts/write-baseline.ts:32` and `packages/calculator/src/lib/__testing__/baseline.ts:100`, PR #9 second pass
+- What: An example with a misspelled salary field passes ingestion because the first parse drops the field before the writer compares the parsed input to JSON. Fixture replay has no equality check either.
+- Better: Apply the strict schema or equality check directly to the original parsed JSON at every entry point.
+- Seen before: 2026-11-27, spec 2 part A, type predicates promise unvalidated fixture fields
+- Promoted: yes, the original fixture validation guideline in AGENTS.md
