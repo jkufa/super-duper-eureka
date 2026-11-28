@@ -1,11 +1,16 @@
 use serde_json::json;
 
 use super::{
-    AccountProjection, ScenarioProjection, WeightedSeries, WeightedYearlyRow, project_scenario,
+    AccountProjection, Band, ScenarioProjection, WeightedSeries, WeightedYearlyRow,
+    project_scenario, trace_account,
 };
-use crate::fixture::{Setup, date, doubling_daily_rate, flat, monthly, monthly_end};
+use crate::date::CalendarDate;
+use crate::fixture::{
+    Segment, Setup, date, doubling_daily_rate, flat, monthly, monthly_end, segments, traced_deposit,
+};
 use crate::project::{MonthlyRow, ProjectionError, Series, YearlyRow};
 use crate::scenario::Scenario;
+use crate::schedule::Bucket;
 
 const DOUBLING_MONTHLY_RATE: f64 = 4095.0;
 
@@ -728,8 +733,328 @@ mod salary_and_dates {
     }
 }
 
+mod traces {
+    use super::*;
+
+    const BANDS: [Band; 3] = [Band::Baseline, Band::Positive, Band::Negative];
+
+    fn trace(scenario: &Scenario, account_id: &str, band: Band) -> Vec<Segment> {
+        segments(&trace_account(scenario, account_id, band).unwrap())
+    }
+
+    fn segment(from: &str, to: &str, days: i8, days_in_month: i8) -> Segment {
+        Segment {
+            from: from.to_owned(),
+            to: to.to_owned(),
+            days,
+            days_in_month,
+            days_in_year: 365,
+            balance_start: 0.0,
+            balance_end: 0.0,
+            contributions: 0.0,
+            interest: 0.0,
+            annual_rate: 0.0,
+            deposits: vec![],
+        }
+    }
+
+    fn stale_setup() -> Setup {
+        Setup {
+            annual_rate: DOUBLING_MONTHLY_RATE,
+            variance: DOUBLING_MONTHLY_RATE,
+            ..Setup::new(
+                "2026-11-16",
+                "2026-12-01",
+                vec![json!({
+                    "id": "stale",
+                    "balance": 1000,
+                    "balanceAsOf": "2026-10-01",
+                    "contributions": [monthly("start", 100.0)]
+                })],
+            )
+        }
+    }
+
+    #[test]
+    fn traces_the_roll_forward_from_balance_as_of_and_then_the_projection_from_today_2200_then_3450_at_today_then_5175()
+     {
+        let scenario = stale_setup().scenario();
+
+        assert_eq!(
+            trace(&scenario, "stale", Band::Baseline),
+            [
+                Segment {
+                    balance_start: 1000.0,
+                    balance_end: 2200.0,
+                    contributions: 100.0,
+                    interest: 1100.0,
+                    annual_rate: DOUBLING_MONTHLY_RATE,
+                    deposits: vec![traced_deposit("start", "2026-10-01", 100.0, Bucket::Start)],
+                    ..segment("2026-10-01", "2026-11-01", 31, 31)
+                },
+                Segment {
+                    balance_start: 2200.0,
+                    balance_end: 3450.0,
+                    contributions: 100.0,
+                    interest: 1150.0,
+                    annual_rate: DOUBLING_MONTHLY_RATE,
+                    deposits: vec![traced_deposit("start", "2026-11-01", 100.0, Bucket::Start)],
+                    ..segment("2026-11-01", "2026-11-16", 15, 30)
+                },
+                Segment {
+                    balance_start: 3450.0,
+                    balance_end: 5175.0,
+                    contributions: 0.0,
+                    interest: 1725.0,
+                    annual_rate: DOUBLING_MONTHLY_RATE,
+                    deposits: vec![],
+                    ..segment("2026-11-16", "2026-12-01", 15, 30)
+                },
+            ]
+        );
+    }
+
+    #[test]
+    fn traces_the_negative_band_at_a_rate_of_0_1000_then_1100_then_1200() {
+        let scenario = stale_setup().scenario();
+        let figures: Vec<(f64, f64, f64)> = trace(&scenario, "stale", Band::Negative)
+            .iter()
+            .map(|segment| {
+                (
+                    segment.balance_start,
+                    segment.balance_end,
+                    segment.annual_rate,
+                )
+            })
+            .collect();
+
+        assert_eq!(
+            figures,
+            [
+                (1000.0, 1100.0, 0.0),
+                (1100.0, 1200.0, 0.0),
+                (1200.0, 1200.0, 0.0)
+            ]
+        );
+    }
+
+    #[test]
+    fn traces_the_positive_band_at_twice_the_rate_ending_on_its_series() {
+        let scenario = stale_setup().scenario();
+        let positive = trace(&scenario, "stale", Band::Positive);
+        let projection = project(&scenario);
+        let series = only_account(projection.bands().positive().accounts()).series();
+        let [rolled_october, rolled_november, projected] = positive.as_slice() else {
+            panic!("expected three segments");
+        };
+
+        assert_eq!(
+            positive
+                .iter()
+                .map(|segment| (segment.from.as_str(), segment.to.as_str()))
+                .collect::<Vec<_>>(),
+            [
+                ("2026-10-01", "2026-11-01"),
+                ("2026-11-01", "2026-11-16"),
+                ("2026-11-16", "2026-12-01")
+            ]
+        );
+        assert!(
+            positive
+                .iter()
+                .all(|segment| segment.annual_rate == 2.0 * DOUBLING_MONTHLY_RATE)
+        );
+        assert_eq!(rolled_october.balance_start, 1000.0);
+        assert_eq!(rolled_november.balance_start, rolled_october.balance_end);
+        assert_eq!(projected.balance_start, rolled_november.balance_end);
+        assert_eq!(projected.balance_start, series.start_balance());
+        assert_eq!(projected.balance_end, series.final_balance());
+    }
+
+    #[test]
+    fn splits_a_mid_month_today_into_two_segments_that_meet_on_today() {
+        let scenario = stale_setup().scenario();
+
+        for band in BANDS {
+            let trace = trace(&scenario, "stale", band);
+            let november: Vec<(&str, &str, i8)> = trace
+                .iter()
+                .filter(|segment| segment.from.starts_with("2026-11"))
+                .map(|segment| (segment.from.as_str(), segment.to.as_str(), segment.days))
+                .collect();
+
+            assert_eq!(
+                november,
+                [
+                    ("2026-11-01", "2026-11-16", 15),
+                    ("2026-11-16", "2026-12-01", 15)
+                ],
+                "{band:?}"
+            );
+        }
+    }
+
+    fn mixed_setup(compounding: &'static str, annual_rate: f64) -> Setup {
+        Setup {
+            compounding,
+            annual_rate,
+            variance: 0.02,
+            salary: Some(
+                json!({ "annualBase": 90_000, "annualRaiseRate": 0.03, "asOf": "2026-01-01" }),
+            ),
+            ..Setup::new(
+                "2026-11-16",
+                "2031-07-10",
+                vec![
+                    json!({
+                        "id": "stale",
+                        "balance": 25_000.5,
+                        "balanceAsOf": "2025-02-28",
+                        "contributions": [
+                            monthly("start", 100.0),
+                            monthly_end("end", 37.25),
+                            flat("thirty-first", 12.5, json!({ "frequency": "monthly", "day": 31 })),
+                            {
+                                "id": "percent",
+                                "type": "salaryPercent",
+                                "amount": 6,
+                                "salaryBasis": "perContribution",
+                                "timing": { "frequency": "monthly", "day": 15 }
+                            }
+                        ]
+                    }),
+                    json!({
+                        "id": "fresh",
+                        "balance": 1234.56,
+                        "annualRate": 0.09,
+                        "included": false,
+                        "contributions": [
+                            flat("yearly", 500.0, json!({ "frequency": "annual", "month": 2, "day": 29 }))
+                        ]
+                    }),
+                ],
+            )
+        }
+    }
+
+    #[test]
+    fn ends_on_each_account_series_final_balance_bit_for_bit_in_both_modes_and_all_three_bands() {
+        for compounding in ["monthly", "daily"] {
+            let scenario = mixed_setup(compounding, 0.055).scenario();
+            let projection = project(&scenario);
+
+            for band in BANDS {
+                let accounts = match band {
+                    Band::Baseline => projection.bands().baseline().accounts(),
+                    Band::Positive => projection.bands().positive().accounts(),
+                    Band::Negative => projection.bands().negative().accounts(),
+                };
+                for account in accounts {
+                    let id = account.account_id().as_str();
+                    let trace = trace(&scenario, id, band);
+                    let today = trace
+                        .iter()
+                        .position(|segment| segment.from == "2026-11-16")
+                        .unwrap();
+
+                    assert_eq!(
+                        trace.last().map(|segment| segment.balance_end.to_bits()),
+                        Some(account.series().final_balance().to_bits()),
+                        "{compounding} {band:?} {id}"
+                    );
+                    assert_eq!(
+                        trace[today].balance_start.to_bits(),
+                        account.series().start_balance().to_bits(),
+                        "{compounding} {band:?} {id}"
+                    );
+                    assert!(
+                        trace
+                            .iter()
+                            .all(|segment| segment.annual_rate == account.annual_rate())
+                    );
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn counts_every_day_from_the_balance_date_to_the_end_date_once() {
+        let scenario = mixed_setup("daily", 0.055).scenario();
+
+        for (id, from) in [("stale", date("2025-02-28")), ("fresh", date("2026-11-16"))] {
+            let trace = trace(&scenario, id, Band::Baseline);
+            let days: i64 = trace.iter().map(|segment| i64::from(segment.days)).sum();
+            let first_and_last = (
+                trace.first().map(|segment| date(&segment.from)),
+                trace.last().map(|segment| date(&segment.to)),
+            );
+
+            assert_eq!(
+                first_and_last,
+                (Some(from), Some(date("2031-07-10"))),
+                "{id}"
+            );
+            assert_eq!(days, days_between(from, date("2031-07-10")), "{id}");
+            for pair in trace.windows(2) {
+                assert_eq!(pair[0].to, pair[1].from, "{id}");
+            }
+        }
+    }
+
+    fn days_between(from: CalendarDate, to: CalendarDate) -> i64 {
+        std::iter::successors(Some(from), |&day| {
+            CalendarDate::new(day.year(), day.month(), day.day() + 1)
+                .or_else(|| day.with_day_clamped(1).checked_add_months(1))
+        })
+        .take_while(|&day| day < to)
+        .count()
+        .try_into()
+        .unwrap()
+    }
+
+    #[test]
+    fn fails_with_not_finite_and_the_account_id_as_a_projection_does() {
+        let scenario = Setup {
+            annual_rate: 1e300,
+            ..Setup::new(
+                "2026-11-01",
+                "2027-02-01",
+                vec![json!({ "id": "huge", "balance": 1e300 })],
+            )
+        }
+        .scenario();
+        let error = trace_account(&scenario, "huge", Band::Baseline).unwrap_err();
+
+        assert_eq!(project_scenario(&scenario).unwrap_err(), error);
+        assert_eq!(
+            (error.code(), error.account_id()),
+            ("not_finite", Some("huge"))
+        );
+    }
+}
+
 mod errors {
     use super::*;
+
+    #[test]
+    fn names_the_unknown_account_a_trace_asks_for() {
+        let scenario =
+            Setup::new("2026-11-01", "2027-01-01", vec![json!({ "id": "known" })]).scenario();
+        let error = trace_account(&scenario, "missing", Band::Baseline).unwrap_err();
+
+        assert_eq!(
+            error,
+            ProjectionError::UnknownAccount { account: "missing" }
+        );
+        assert_eq!(
+            (error.code(), error.account_id()),
+            ("unknown_account", Some("missing"))
+        );
+        assert_eq!(
+            error.to_string(),
+            "unknown_account missing: the scenario has no account with this id"
+        );
+    }
 
     #[test]
     fn fails_with_not_finite_and_no_account_id_when_finite_accounts_overflow_the_total() {

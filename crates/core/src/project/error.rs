@@ -1,6 +1,6 @@
 use crate::scenario::AccountId;
 
-/// A projection of a valid scenario that cannot be completed.
+/// A projection or trace of a valid scenario that cannot be completed.
 #[derive(Debug, PartialEq, thiserror::Error)]
 pub enum ProjectionError<'a> {
     #[error(
@@ -12,6 +12,8 @@ pub enum ProjectionError<'a> {
          every account's figures are"
     )]
     ScenarioNotFinite,
+    #[error("unknown_account {account}: the scenario has no account with this id")]
+    UnknownAccount { account: &'a str },
 }
 
 impl<'a> ProjectionError<'a> {
@@ -19,12 +21,14 @@ impl<'a> ProjectionError<'a> {
     pub fn code(&self) -> &'static str {
         match self {
             Self::NotFinite { .. } | Self::ScenarioNotFinite => "not_finite",
+            Self::UnknownAccount { .. } => "unknown_account",
         }
     }
 
     pub fn account_id(&self) -> Option<&'a str> {
         match self {
             Self::NotFinite { account } => Some(account.as_str()),
+            Self::UnknownAccount { account } => Some(account),
             Self::ScenarioNotFinite => None,
         }
     }
