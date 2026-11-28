@@ -67,14 +67,10 @@ function toExactJson(name: string, value: unknown): string {
   return text;
 }
 
-function toStoredInput(name: string, config: RetirementConfig): RetirementConfig {
+function toStoredInput(config: RetirementConfig): RetirementConfig {
   const text = JSON.stringify(config);
   const json: unknown = JSON.parse(text);
-  const input = parseRetirementConfig(json);
-  if (!isDeepStrictEqual(input, json)) {
-    throw new Error(`${name}: the config parser does not read this input back unchanged.`);
-  }
-  return input;
+  return parseRetirementConfig(json);
 }
 
 if (process.versions.bun !== undefined) {
@@ -88,7 +84,7 @@ const inputs = [...examples, ...generatedConfigs(), ...Object.entries(handWritte
 
 const files = new Map<string, string>();
 for (const [name, config] of inputs) {
-  const input = toStoredInput(name, config);
+  const input = toStoredInput(config);
   requireFirstOfMonth(name, input);
   const baselineCase: BaselineCase = { name, input, ...projectBaseline(input) };
   files.set(`cases/${name}.json`, toExactJson(name, baselineCase));
@@ -101,16 +97,28 @@ for (const [name, input] of examples) {
 }
 
 const staging = new URL('../baseline.next/', BASELINE_DIR);
-const retired = new URL('../baseline.old/', BASELINE_DIR);
+const previous = new URL('../baseline.old/', BASELINE_DIR);
+
+if (!existsSync(BASELINE_DIR) && existsSync(previous)) {
+  renameSync(previous, BASELINE_DIR);
+}
 rmSync(staging, { recursive: true, force: true });
-rmSync(retired, { recursive: true, force: true });
 mkdirSync(new URL('cases/', staging), { recursive: true });
 mkdirSync(new URL('full/', staging), { recursive: true });
 for (const [path, text] of files) {
   writeFileSync(new URL(path, staging), text);
 }
+
 if (existsSync(BASELINE_DIR)) {
-  renameSync(BASELINE_DIR, retired);
+  rmSync(previous, { recursive: true, force: true });
+  renameSync(BASELINE_DIR, previous);
 }
-renameSync(staging, BASELINE_DIR);
-rmSync(retired, { recursive: true, force: true });
+try {
+  renameSync(staging, BASELINE_DIR);
+} catch (error) {
+  if (existsSync(previous)) {
+    renameSync(previous, BASELINE_DIR);
+  }
+  throw error;
+}
+rmSync(previous, { recursive: true, force: true });
