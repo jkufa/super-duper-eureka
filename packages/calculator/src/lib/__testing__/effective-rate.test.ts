@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vite-plus/test';
 
-import { BISECTION_PASSES, bisectRate, poolAccounts, poolFinalBalance } from '../effective-rate';
+import {
+  BISECTION_PASSES,
+  bisectRate,
+  effectiveRate,
+  poolAccounts,
+  poolFinalBalance
+} from '../effective-rate';
 import { parseScenario } from '../parse-scenario';
 import { projectScenario } from '../project-scenario';
 import type { AccountFile, Compounding, ContributionRuleFile, ScenarioFile } from '../scenario';
@@ -149,6 +155,34 @@ describe('effectiveRate: short cuts', () => {
     expect(
       projection.bands.baseline.total.yearly.map(({ weightedRate }) => weightedRate)
     ).toStrictEqual(Array.from({ length: 10 }, () => 0.1));
+  });
+
+  it.each([
+    [[0, -0], -0],
+    [[-0, 0], -0],
+    [[0, 0], 0]
+  ])('treats 0 and -0 as one rate: %o returns %s, as Math.min does', (rates, expected) => {
+    const projection = project({
+      today: '2026-01-01',
+      endDate: '2027-01-01',
+      accounts: rates.map((annualRate, index) => ({
+        id: `zero-${String(index)}`,
+        balance: 1,
+        annualRate
+      }))
+    });
+
+    expect(projection.effectiveRate).toBe(expected);
+  });
+
+  it('takes the bracket from a million included accounts', () => {
+    const scenario = scenarioOf({ ...README, accounts: [{ id: 'one', balance: 1 }] });
+    const { total } = projectScenario(scenario).bands.baseline;
+    const included = scenario.accounts.flatMap((account) =>
+      Array.from({ length: 1_000_000 }, () => ({ account, annualRate: 0.05 }))
+    );
+
+    expect(effectiveRate(scenario, included, total)).toBe(0.05);
   });
 
   it.each([

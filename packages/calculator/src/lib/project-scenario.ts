@@ -71,24 +71,18 @@ export function traceAccount(
   const account =
     scenario.accounts.find((candidate) => candidate.id === accountId) ?? unknownAccount(accountId);
   const rate = bandRate(scenario, account, band);
-  const rolled = rollForward(scenario, account, rate);
+  const rolled = traceAccountRange(
+    scenario,
+    account,
+    account.balanceAsOf,
+    scenario.today,
+    account.balance,
+    rate
+  );
+  const opening = rolled.at(-1)?.balanceEnd ?? account.balance;
   return [
-    ...traceAccountRange(
-      scenario,
-      account,
-      account.balanceAsOf,
-      scenario.today,
-      account.balance,
-      rate
-    ),
-    ...traceAccountRange(
-      scenario,
-      account,
-      scenario.today,
-      scenario.endDate,
-      rolled.finalBalance,
-      rate
-    )
+    ...rolled,
+    ...traceAccountRange(scenario, account, scenario.today, scenario.endDate, opening, rate)
   ];
 }
 
