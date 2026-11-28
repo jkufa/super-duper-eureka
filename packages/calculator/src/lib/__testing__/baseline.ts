@@ -62,7 +62,10 @@ function toStreamBand(projection: Projection): MonthlyStreamBand {
 }
 
 export function projectBaseline(input: RetirementConfig): BaselineOutputs {
-  const { result, steps } = runFullExample(input);
+  return toBaselineOutputs(runFullExample(input));
+}
+
+export function toBaselineOutputs({ result, steps }: FullExample): BaselineOutputs {
   const { baseline, positive, negative } = result;
 
   return {
