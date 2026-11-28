@@ -30,8 +30,8 @@ One PR per part.
 Port `buildSchedule` and the deposit and amount rules from spec 2 part C.
 
 - This is the second exemplar. Review it at high effort, then name it in "Rust Guidelines" next to the first.
-- The schedule is a `Vec` of deposits in a fixed order: by date, then by the rule's position in the file. Compounding and the effective rate depend on that order.
-- Use the built-in `f64::powi` for whole-number powers and `f64::powf` for the rest. Do not write a power function to match TypeScript. Decision 12 accepts the last-digit difference.
+- The schedule is a `Vec` of deposits in a fixed order: by month, then by account position, then by the rule's position in its account. It is not ordered by day within a month. Bucket totals are summed in that order. See "Grouping and order" in spec 2 part B, which this part ports line for line.
+- Use the built-in `f64::powi` for whole-number powers and `f64::powf` for the rest. On 200,000 samples `powi` matched Bun's `**` every time, and `powf` matched it on the fractional roots every time. Do not use `powf` for a whole-number power, and do not write a power function of our own.
 - Port the TypeScript unit tests for deposits and amounts one for one, with the same inputs and expected values.
 
 ## Part B: compounding and account projection
@@ -68,7 +68,7 @@ Port `traceAccount`. Same records, same field names.
 A script that proves the two engines agree.
 
 1. Generate cases with spec 2's generator, seeds 1 to N.
-2. Run each case through the TypeScript CLI and the Rust CLI, with `--today` set from the case.
+2. Run each case through the TypeScript CLI on Bun and the Rust CLI, with `--today` set from the case. Bun is the reference runtime. Node computes whole-number powers differently in the last digit. On 200,000 samples it matched `powf` on all but 5 and disagreed with `powi` on 163,875.
 3. Compare the two JSON documents.
 
 The comparison:

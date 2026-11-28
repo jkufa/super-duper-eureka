@@ -168,3 +168,155 @@ For PR review agents only. Orchestration and implementation agents do not read t
 - Better: When deleting a dependency's last caller, check source lookup configuration and examples as well as package manifests.
 - Seen before: no
 - Promoted: no
+
+### 2026-11-27, spec 2 part A, shared digest omits outputs under contract
+
+- Where: `packages/calculator/src/lib/__testing__/baseline.ts` and `number-streams.ts`, PR #9
+- What: The comparison omits monthly salary and date fields, projection and trace summaries, and the numeric metadata and deposit details of each step. The trace call disables contribution details. Adding one dollar to the reported start bucket leaves all 507 tests passing. The four full reference files are also outside the comparison.
+- Better: Compare or hash all output fields that the rebuild promises to preserve, with record boundaries. Keep the trace details enabled for the comparison and state how replaced fields map to the new contract.
+- Seen before: no
+- Promoted: yes, the collection boundary guideline in AGENTS.md
+
+### 2026-11-27, spec 2 part A, numeric encoding loses signed zero
+
+- Where: `packages/calculator/src/lib/__testing__/number-streams.ts` and `implementation/rust-redesign/02-ts-engine-rebuild-spec.md`, PR #9
+- What: String conversion produces the same token for 0 and -0. The writer rejects -0 during capture, but changing zero step interest to -0 on replay leaves all 507 tests passing.
+- Better: Encode signed zero explicitly or enforce the same canonical-number check during replay.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-27, spec 2 part A, digest cannot enforce a numeric tolerance
+
+- Where: `implementation/rust-redesign/02-ts-engine-rebuild-spec.md`, parts A and B, PR #9
+- What: The spec allows a relative tolerance, but the saved monthly and step values are only hashes for 227 inputs. A mismatched hash gives no expected value to use in that comparison.
+- Better: Keep exact comparison mandatory or arrange to replay a frozen legacy oracle for any explicitly approved tolerance.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-27, spec 2 part A, adapter maps legacy offsets to invalid dates
+
+- Where: `implementation/rust-redesign/02-ts-engine-rebuild-spec.md`, part C, and `packages/calculator/scripts/hand-written-configs.ts`, PR #9
+- What: The adapter says to substitute day 1 for a missing one-time day but has no rule for impossible explicit dates. A fixture specifies April 31, which is accepted by the legacy engine and would fail civil-date validation when copied literally.
+- Better: Clamp the legacy day in the target year and month before formatting the adapter's one-time date.
+- Seen before: no
+- Promoted: yes, the timing variant guideline in AGENTS.md
+
+### 2026-11-27, spec 2 part A, exact parity depends on unstated rounding and evaluation order
+
+- Where: `implementation/rust-redesign/02-ts-engine-rebuild-spec.md`, parts C and D, PR #9
+- What: The recurring monthly bucket description leaves odd-month midpoint rounding implicit. The partial-month formula also reads as multiply by days then divide, which changes stored full-month interest in the last digit.
+- Better: Specify the ceiling midpoint and compute the day fraction before multiplying. Keep the legacy grouping and addition order when moving deposits into the schedule.
+- Seen before: no
+- Promoted: yes, the exact arithmetic guideline in AGENTS.md
+
+### 2026-11-27, spec 2 part A, fixture writer removes the oracle before validating replacements
+
+- Where: `packages/calculator/scripts/write-baseline.ts`, PR #9
+- What: The writer deletes both live directories before validating the first input. Readers can see a partial corpus during regeneration, and a validation failure can leave that corpus in place.
+- Better: Validate and serialize the replacement corpus before touching the existing files. Stage regeneration if concurrent readers need a complete view.
+- Seen before: no
+- Promoted: yes, the fixture publication guideline in AGENTS.md
+
+### 2026-11-27, spec 2 part A, type predicates promise unvalidated fixture fields
+
+- Where: `packages/calculator/src/lib/__testing__/baseline.ts`, PR #9
+- What: The guards narrow arbitrary JSON to RetirementConfig and BaselineCase while leaving array elements and optional fields unchecked.
+- Better: Validate the shapes the predicates claim, or make the trusted fixture deserialization boundary explicit.
+- Seen before: no
+- Promoted: yes, the original fixture validation guideline in AGENTS.md
+
+### 2026-11-27, spec 2 part A, fixtures normalize away defaults before testing
+
+- Where: `packages/calculator/scripts/hand-written-configs.ts` and the saved corpus, PR #9
+- What: All 231 inputs supply compounding and a salary raise, and every enabled salary-percentage rule supplies its salary basis. Every enabled recurring rule supplies a day or placement. The baseline will pass if a rebuild mishandles these defaults.
+- Better: Save a small raw config with optional fields omitted so the engine and legacy adapter resolve the defaults during the test.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-27, spec 2 part A, monthly digest loses band boundaries
+
+- Where: `packages/calculator/src/lib/__testing__/number-streams.ts:75`, PR #9 second pass
+- What: Moving a monthly row from baseline to positive while keeping all encoded values at 1 produces identical stream text. Neither a row count nor a band delimiter is encoded.
+- Better: Include each band's row count and test that moving a row to another band changes the stream.
+- Seen before: 2026-11-27, spec 2 part A, shared digest omits outputs under contract
+- Promoted: yes, the collection boundary guideline in AGENTS.md
+
+### 2026-11-27, spec 2 part A, staged fixture publication still drops the live path
+
+- Where: `packages/calculator/scripts/write-baseline.ts:113`, PR #9 second pass
+- What: Injecting a failure on the second rename leaves the live baseline missing. Both the previous and the staged generations remain, and the next run deletes both before attempting publication.
+- Better: Publish the new generation atomically and retain the old generation until the new one is reachable.
+- Seen before: 2026-11-27, spec 2 part A, fixture writer removes the oracle before validating replacements
+- Promoted: yes, the fixture publication guideline in AGENTS.md
+
+### 2026-11-27, spec 2 part A, schedule order and grouping underspecified for exact parity
+
+- Where: `implementation/rust-redesign/02-ts-engine-rebuild-spec.md:168` and `04-rust-port-spec.md:33`, PR #9 second pass
+- What: Daily rules without an explicit day still contribute to legacy start and end buckets. Flattening to day buckets loses that provenance. Adding deposits individually on a day gives six different legacy balances in the baseline corpus. Date order also does not imply rule order inside a monthly bucket.
+- Better: Specify legacy bucket identity, group amounts in file order, merge the day bucket with placement totals before touching the balance, and preserve enough metadata to recover that grouping in the trace.
+- Seen before: 2026-11-27, spec 2 part A, exact parity depends on unstated rounding and evaluation order
+- Promoted: yes, the exact arithmetic guideline in AGENTS.md
+
+### 2026-11-27, spec 2 part A, trace adapter assumes fields and defaults its input cannot supply
+
+- Where: `implementation/rust-redesign/02-ts-engine-rebuild-spec.md:178`, PR #9 second pass
+- What: The adapter has no rule for the baseline's 19 growth rules with no legacy start bound, although the new validator requires a growth start. A trace deposit has no contribution type, and the stream needs the compounding mode and the active rule sequence.
+- Better: Make the adapter take the input along with the outputs, state which fields it joins or derives, and specify January 1 of the projection's start year as the growth anchor when the legacy start is absent.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-27, spec 2 part A, parser equality guard runs after source data has been dropped
+
+- Where: `packages/calculator/scripts/write-baseline.ts:32` and `packages/calculator/src/lib/__testing__/baseline.ts:100`, PR #9 second pass
+- What: An example with a misspelled salary field passes ingestion because the first parse drops the field before the writer compares the parsed input to JSON. Fixture replay has no equality check either.
+- Better: Apply the strict schema or equality check directly to the original parsed JSON at every entry point.
+- Seen before: 2026-11-27, spec 2 part A, type predicates promise unvalidated fixture fields
+- Promoted: yes, the original fixture validation guideline in AGENTS.md
+
+### 2026-11-27, spec 2 part B, the schedule loses the resolved deposit date
+
+- Where: `packages/calculator/src/lib/schedule.ts:20`, PR #10 at `9ddcef8`
+- What: With a one-month horizon starting on January 1, changing a monthly rule from day 2 to day 15 produces an identical schedule in monthly mode. Both deposits carry offset 0 and the start bucket. Part C needs the actual day to filter a range and part E promises it in the trace.
+- Better: Resolve the calendar date once in the builder and retain it alongside the bucket. Test two distinct dates in the same bucket.
+- Seen before: 2026-11-27, spec 2 part A, schedule order and grouping underspecified for exact parity
+- Promoted: yes, the resolved date and compounding bucket guideline in AGENTS.md
+
+### 2026-11-27, spec 2 part B, day lookup changes behavior for existing CLI input
+
+- Where: `packages/calculator/src/lib/compound.ts:76` and `:132`, PR #10
+- What: The CLI reads JSON without checking day types. A daily projection with a seven-dollar monthly contribution on `"2"` used to credit seven dollars. The map stores the string key and looks up a number. The new balance stays zero while the trace reports seven on day 2.
+- Better: Preserve the old property-key semantics on both insertion and lookup. Pin the CLI case while it accepts these files.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-27, spec 2 part B, the trace rereads caller-owned state
+
+- Where: `packages/calculator/src/lib/calculator.ts:157` and `:186`, PR #10
+- What: With one month, zero interest, no deposits and a balance getter returning 1 then 2, the projection and summary end at 1 while the last step ends at 2. A rule whose amount getter removes itself from the caller's array produces a missing-rule exception where the old engine returned its deposit.
+- Better: Give projection and trace the same captured opening balance. Capture the contributing rule or its trace fields when resolving the deposit.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-27, spec 2 part B, sorting by deposit date survives the full suite
+
+- Where: `packages/calculator/src/lib/__testing__/compound.test.ts:51`, PR #10
+- What: Sorting by actual day immediately before summing buckets leaves all 536 tests passing. In January, in monthly mode at zero interest and zero opening balance, amounts of 1e16, 1 and 1 on days 15, 3 and 2 produce 10000000000000000 in file order and 10000000000000002 in date order.
+- Better: Pin that balance in a test the Rust port will copy. Add a direct daily start-placement schedule case alongside the existing end-placement case.
+- Seen before: 2026-11-27, spec 2 part A, schedule order and grouping underspecified for exact parity
+- Promoted: yes, the summation order test guideline in AGENTS.md
+
+### 2026-11-27, spec 2 part B, bucket wording omits legacy day resolution
+
+- Where: `implementation/rust-redesign/02-ts-engine-rebuild-spec.md:75`, PR #10
+- What: Both engines treat a recurring day of zero as missing even when placement is end. The daily one-time branch instead clamps an explicit zero to day 1 and a day past month end to the last day. The daily grouping paragraph specifies clamping only for recurring rules.
+- Better: State the recurring-day presence test and both one-time clamp bounds. Distinguish legacy inputs from the stricter validation planned for part C.
+- Seen before: 2026-11-27, spec 2 part A, adapter maps legacy offsets to invalid dates
+- Promoted: yes, the timing variant guideline in AGENTS.md
+
+### 2026-11-27, spec 2 part B, a daily guard also skips NaN
+
+- Where: `implementation/rust-redesign/02-ts-engine-rebuild-spec.md:79`, PR #10
+- What: Both engines use a truthiness test for a placement total and for the merged day's deposit. A NaN start total alongside a day-1 deposit of seven produces a balance of seven at zero interest. Replacing the placement guard with unconditional addition gives zero. All 536 tests pass with that mutation.
+- Better: Specify which non-finite values the legacy guard skips, or explicitly scope the arithmetic description to finite intermediates. Use the seven-dollar case to test the guard if preserving that behavior.
+- Seen before: no
+- Promoted: no
