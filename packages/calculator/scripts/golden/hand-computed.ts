@@ -10,6 +10,7 @@ export interface HandCase {
 const DOUBLING_MONTHLY_RATE = 4095;
 const DOUBLING_DAILY_RATE = 2 ** 365 - 1;
 const DOUBLING_LEAP_DAILY_RATE = 2 ** 366 - 1;
+const JUST_ABOVE_MINUS_1 = -0.9999999999999999;
 
 type Fields = { [key: string]: Json };
 
@@ -40,7 +41,21 @@ const EARLY_AND_LATE = [
   flat('late', 10, { frequency: 'monthly', day: 20 })
 ];
 
-/** The hand-computed tests of spec 2 parts D to F that a scenario file can express. */
+function justAboveMinus1(compounding: string): Json {
+  return scenario('2026-01-01', '2026-04-01', { compounding }, [
+    {
+      id: 'account',
+      balance: 1000,
+      annualRate: JUST_ABOVE_MINUS_1,
+      contributions: [flat('mid-month', 100, { frequency: 'monthly', day: 15 })]
+    }
+  ]);
+}
+
+/**
+ * The hand-computed tests of spec 2 parts D to F that a scenario file can express, a rate just
+ * above -1 in both modes, and a scenario with no accounts.
+ */
 export const HAND_CASES: ReadonlyArray<HandCase> = [
   {
     name: 'readme-two-accounts-thirty-years',
@@ -121,5 +136,20 @@ export const HAND_CASES: ReadonlyArray<HandCase> = [
         contributions: [flat('one', 1, { frequency: 'monthly', placement: 'start' })]
       }
     ])
+  },
+  {
+    name: 'rate-just-above-minus-1-monthly',
+    today: '2026-01-01',
+    scenario: justAboveMinus1('monthly')
+  },
+  {
+    name: 'rate-just-above-minus-1-daily',
+    today: '2026-01-01',
+    scenario: justAboveMinus1('daily')
+  },
+  {
+    name: 'no-accounts',
+    today: '2026-01-01',
+    scenario: scenario('2026-01-01', '2028-01-01', { annualRate: 0.05 }, [])
   }
 ];

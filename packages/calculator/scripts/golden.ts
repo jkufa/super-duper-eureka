@@ -2,13 +2,13 @@ import { spawnSync } from 'node:child_process';
 import {
   existsSync,
   mkdirSync,
-  mkdtempSync,
   readdirSync,
   readFileSync,
   renameSync,
   rmSync,
   writeFileSync
 } from 'node:fs';
+import { constants } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { isDeepStrictEqual } from 'node:util';
@@ -18,16 +18,23 @@ import { stableJson } from '../src/lib/corpus/json';
 import { HAND_CASES } from './golden/hand-computed';
 import { rustJson } from './golden/rust-json';
 import { candidateOf, selectCases } from './golden/select';
+import type { ErrorReport } from './parity/compare';
 import { errorReportOf, memberAt, parseJson } from './parity/compare';
 
 const USAGE = `Usage: golden <lastSeed>
 
 Captures the golden set from the TypeScript CLI on Bun into crates/cli/tests/golden/: the CLI
 examples, every case in parity/regressions/, the hand-computed cases, and 200 generated cases
-chosen from seeds 1 to lastSeed to cover every trait. The new set replaces the old one whole.`;
+chosen from seeds 1 to lastSeed to cover every trait, with a manifest of their names. The new set
+replaces the old one whole.`;
 
 const REPO = fileURLToPath(new URL('../../../', import.meta.url));
-const GOLDEN = join(REPO, 'crates/cli/tests/golden');
+const TESTS = join(REPO, 'crates/cli/tests');
+const GOLDEN = join(TESTS, 'golden');
+const STAGED = join(TESTS, '.golden-new');
+const RETIRED = join(TESTS, '.golden-old');
+const MANIFEST = 'manifest';
+const SIGNALS = ['SIGHUP', 'SIGINT', 'SIGTERM'] as const;
 const EXAMPLES = join(REPO, 'packages/cli/examples');
 const REGRESSIONS = join(REPO, 'parity/regressions');
 const TS_CLI = join(REPO, 'packages/cli/src/index.ts');
@@ -43,13 +50,12 @@ const EXAMPLE_TODAYS: ReadonlyArray<[string, string]> = [
   ['stale-and-excluded', '2026-06-15']
 ];
 
-/** One golden input: the scenario file's text, its today, and whether to keep a trace. */
+/** One golden input: the scenario file's text and its today. */
 interface GoldenInput {
   group: string;
   name: string;
   scenarioText: string;
   today: string;
-  traceable: boolean;
 }
 
 function firstAccountId(scenarioText: string): string | undefined {
@@ -63,8 +69,7 @@ function examples(): Array<GoldenInput> {
     group: 'examples',
     name,
     scenarioText: readFileSync(join(EXAMPLES, `${name}.json`), 'utf8'),
-    today,
-    traceable: true
+    today
   }));
 }
 
@@ -76,16 +81,14 @@ function regressions(): Array<GoldenInput> {
       const name = file.slice(0, -SCENARIO_SUFFIX.length);
       const corpusCase = parseJson(readFileSync(join(REGRESSIONS, `${name}.json`), 'utf8'));
       const today = memberAt(corpusCase, ['today']);
-      const traits = memberAt(corpusCase, ['traits']);
-      if (typeof today !== 'string' || !Array.isArray(traits)) {
-        throw new Error(`Regression ${name} has no today or traits.`);
+      if (typeof today !== 'string') {
+        throw new Error(`Regression ${name} has no today.`);
       }
       return {
         group: 'regressions',
         name,
         scenarioText: readFileSync(join(REGRESSIONS, file), 'utf8'),
-        today,
-        traceable: !traits.includes('invalid')
+        today
       };
     });
 }
@@ -95,8 +98,7 @@ function handComputed(): Array<GoldenInput> {
     group: 'hand-computed',
     name,
     scenarioText: stableJson(scenario),
-    today,
-    traceable: true
+    today
   }));
 }
 
@@ -119,13 +121,18 @@ function generated(lastSeed: number): Array<GoldenInput> {
     group: 'generated',
     name: `seed-${String(seed).padStart(5, '0')}`,
     scenarioText: stableJson(corpusCase.scenario),
-    today: corpusCase.today,
-    traceable: !corpusCase.traits.includes('invalid')
+    today: corpusCase.today
   }));
 }
 
+/** The TypeScript CLI's document in the Rust CLI's print, and whether it is an error document. */
+interface Captured {
+  printed: string;
+  error: ErrorReport | undefined;
+}
+
 /** Runs the TypeScript CLI and returns its document in the Rust CLI's print. */
-function capture(args: Array<string>, label: string): string {
+function capture(args: Array<string>, label: string): Captured {
   const { status, stdout, stderr } = spawnSync('bun', [TS_CLI, ...args], {
     encoding: 'utf8',
     maxBuffer: 1 << 30
@@ -134,14 +141,24 @@ function capture(args: Array<string>, label: string): string {
   if (document === undefined || (status !== 0 && status !== 2)) {
     throw new Error(`${label}: exit ${String(status)}: ${stderr}`);
   }
-  if ((status === 2) !== (errorReportOf(document) !== undefined)) {
+  const error = errorReportOf(document);
+  if ((status === 2) !== (error !== undefined)) {
     throw new Error(`${label}: exit ${String(status)} does not match its document.`);
   }
   const printed = rustJson(document);
   if (!isDeepStrictEqual(parseJson(printed), document)) {
     throw new Error(`${label}: the reprinted document reads back differently.`);
   }
-  return printed;
+  return { printed, error };
+}
+
+/**
+ * The account a case traces: the first account of a scenario that projects, or that parses and
+ * then fails with `not_finite`. A scenario that fails to parse has no trace.
+ */
+function tracedAccount(scenarioText: string, projection: Captured): string | undefined {
+  const parsed = projection.error === undefined || projection.error.code === 'not_finite';
+  return parsed ? firstAccountId(scenarioText) : undefined;
 }
 
 function writeCase(root: string, input: GoldenInput) {
@@ -152,32 +169,52 @@ function writeCase(root: string, input: GoldenInput) {
   writeFileSync(join(dir, 'today'), `${input.today}\n`);
   const args = ['--scenario', scenarioPath, '--today', input.today];
   const label = `${input.group}/${input.name}`;
-  writeFileSync(join(dir, 'projection.json'), capture(args, label));
-  const accountId = input.traceable ? firstAccountId(input.scenarioText) : undefined;
+  const projection = capture(args, label);
+  writeFileSync(join(dir, 'projection.json'), projection.printed);
+  const accountId = tracedAccount(input.scenarioText, projection);
   if (accountId !== undefined) {
     writeFileSync(join(dir, 'trace'), `${accountId}\n`);
-    writeFileSync(join(dir, 'trace.json'), capture([...args, '--trace', accountId], label));
+    writeFileSync(join(dir, 'trace.json'), capture([...args, '--trace', accountId], label).printed);
   }
 }
 
-/** Puts `staged` in place of the golden folder, or leaves the old folder and throws. */
-function publish(staged: string) {
-  const parent = join(GOLDEN, '..');
-  const retired = mkdtempSync(join(parent, '.golden-old-'));
-  const hadGolden = existsSync(GOLDEN);
-  if (hadGolden) {
-    renameSync(GOLDEN, join(retired, 'golden'));
+/** One line per case, `group/name`, sorted. */
+function manifestOf(inputs: ReadonlyArray<GoldenInput>): string {
+  return inputs
+    .map(({ group, name }) => `${group}/${name}\n`)
+    .toSorted()
+    .join('');
+}
+
+/**
+ * Puts the old set back if a run stopped between its two renames, then removes what is left of the
+ * staged and the old set. The old set goes only once a set is in place.
+ */
+function settle() {
+  if (!existsSync(GOLDEN) && existsSync(RETIRED)) {
+    renameSync(RETIRED, GOLDEN);
   }
-  try {
-    renameSync(staged, GOLDEN);
-  } catch (error) {
-    if (hadGolden) {
-      renameSync(join(retired, 'golden'), GOLDEN);
-    }
-    throw error;
-  } finally {
-    rmSync(retired, { recursive: true, force: true });
+  rmSync(STAGED, { recursive: true, force: true });
+  if (existsSync(GOLDEN)) {
+    rmSync(RETIRED, { recursive: true, force: true });
   }
+}
+
+/**
+ * Moves the old set aside and the staged set in. A signal that arrives meanwhile waits for both
+ * renames, then settles and exits.
+ */
+function publish() {
+  for (const signal of SIGNALS) {
+    process.on(signal, () => {
+      settle();
+      process.exit(128 + constants.signals[signal]);
+    });
+  }
+  if (existsSync(GOLDEN)) {
+    renameSync(GOLDEN, RETIRED);
+  }
+  renameSync(STAGED, GOLDEN);
 }
 
 function main(args: Array<string>): number {
@@ -192,15 +229,17 @@ function main(args: Array<string>): number {
     ...handComputed(),
     ...generated(Number(lastText))
   ];
-  mkdirSync(join(GOLDEN, '..'), { recursive: true });
-  const staged = mkdtempSync(join(GOLDEN, '..', '.golden-new-'));
+  mkdirSync(TESTS, { recursive: true });
+  settle();
   try {
+    mkdirSync(STAGED);
     for (const input of inputs) {
-      writeCase(staged, input);
+      writeCase(STAGED, input);
     }
-    publish(staged);
+    writeFileSync(join(STAGED, MANIFEST), manifestOf(inputs));
+    publish();
   } finally {
-    rmSync(staged, { recursive: true, force: true });
+    settle();
   }
   process.stderr.write(`Wrote ${String(inputs.length)} golden cases to ${GOLDEN}.\n`);
   return 0;

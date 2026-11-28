@@ -1,0 +1,28 @@
+{
+  "scenario": {
+    "accounts": [],
+    "endDate": "2028-01-01",
+    "interest": {
+      "annualRate": 0.05,
+      "compounding": "monthly",
+      "variance": 0
+    },
+    "salary": {
+      "annualBase": 0,
+      "asOf": "2026-01-01"
+    },
+    "version": 1
+  },
+  "today": "2026-01-01",
+  "traits": [
+    "accounts:0",
+    "all_excluded",
+    "compounding:monthly",
+    "end:jan_1",
+    "raise:zero",
+    "salary_as_of:in_range",
+    "salary_zero",
+    "today:first_of_month",
+    "zero_variance"
+  ]
+}
