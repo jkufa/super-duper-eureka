@@ -37,4 +37,3 @@ The repo runs on Vite+ (`vp`) with Bun as the package manager. Tasks are defined
 - CLI examples:
   - `vp run retirement-calc --config packages/cli/examples/basic.json`
   - `vp run retirement-calc --config packages/cli/examples/daily-debug.json --debug`
-- Use the btca CLI to ask questions about external TypeScript codebases such as chrono.

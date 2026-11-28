@@ -97,7 +97,8 @@ One PR per part. Each PR targets `rust-redesign`, or the PR below it in a stack.
 - Today's engine credits a full first month of interest whatever the start day. On $250,000 at 6% starting on the 27th, that is about $1,200 where about $160 is due.
 - Today's monthly growth counts from January of the start year, even when the projection starts in July.
 - The legacy form already works in calendar years and months 1 to 12 and converts to offsets before it calls the engine.
-- `main` has not moved since 2026-02-15. The repo holds no link to a Vercel project. The legacy app had a `vercel.json` and local build output only. Which branch the live site builds from can only be checked in the Vercel dashboard, and nobody has.
+- `main` last moved on 2026-11-21, at `ddbb779`. `rust-redesign` contains every commit on it.
+- The live site builds from `main`. GitHub's deployment records show every Production deployment came from a commit on `main`, the latest from `ddbb779`. Pushes to the gpuix and redesign branches produce Preview deployments only, and those fail once spec 1 deletes the app.
 - Lint research, read on 2026-11-27 from the repos' own files. Codex lists 36 Clippy rules as errors and enables no whole group. Zed lists 5 and switches the `style` group off. Turso lists 10. Goose uses the defaults. Codex and Zed pin the compiler and use `cargo-shear`. Codex uses `cargo-nextest` and `cargo-deny`.
 
 ## For the GPUI interview

@@ -10,7 +10,9 @@ Blocks: spec 2
 
 ## Before deleting
 
-The repo holds no link to a Vercel project. `apps/webapp-legacy/.vercel` contained local build output only, and `vercel.json` set the install and build commands. So the owner checks the Vercel dashboard: the production branch must be `main`. If the project builds previews for other branches, switch previews off for `rust-redesign` or accept failing preview builds. Record the result in the PR. As of 2026-11-27 nobody has checked.
+The live site must build from `main`. The repo holds no Vercel project link, so check GitHub's deployment records: `gh api repos/jkufa/super-duper-eureka/deployments`. On 2026-11-27 every Production deployment came from a commit on `main`, and every other branch got Preview deployments only.
+
+Preview builds for `rust-redesign` and its PRs fail once the app is deleted. That is expected. The owner can switch previews off for these branches in the Vercel dashboard or leave the failed check in place.
 
 ## Delete
 
