@@ -1,4 +1,5 @@
-//! An account's balance, contributions and interest over a range of days, month by month.
+//! An account's balance, contributions and interest over a range of days, month by month, and a
+//! whole scenario's accounts, totals and rates.
 
 mod error;
 mod scenario;
@@ -10,8 +11,9 @@ use crate::schedule::build_account_schedule;
 
 pub use error::ProjectionError;
 pub use scenario::{
-    AccountProjection, Band, BandProjection, Bands, RolledForward, ScenarioProjection,
-    StaleAccount, YearSalary, project_scenario,
+    AccountProjection, Band, BandProjection, Bands, BaselineProjection, RolledForward,
+    ScenarioProjection, StaleAccount, WeightedSeries, WeightedYearlyRow, YearSalary,
+    project_scenario,
 };
 
 const LAST_MONTH: i8 = 12;

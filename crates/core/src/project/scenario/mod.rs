@@ -1,10 +1,16 @@
 //! Every account of a scenario rolled forward to today and projected to the end date, in three
 //! bands, with the included accounts' total.
 
+mod effective_rate;
+mod weighted;
+
 use super::{MonthlyRow, ProjectionError, Series, project_account, yearly_rows};
 use crate::date::CalendarDate;
 use crate::scenario::{Account, AccountId, Scenario};
 use crate::schedule::{month_segments, salary_in_year};
+use effective_rate::effective_rate;
+
+pub use weighted::{BaselineProjection, WeightedSeries, WeightedYearlyRow};
 
 /// The rates an account is projected at.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -33,6 +39,7 @@ impl Band {
 pub struct ScenarioProjection<'a> {
     today: CalendarDate,
     end_date: CalendarDate,
+    effective_rate: f64,
     stale_accounts: Vec<StaleAccount<'a>>,
     salary_by_year: Vec<YearSalary>,
     bands: Bands<'a>,
@@ -45,6 +52,12 @@ impl<'a> ScenarioProjection<'a> {
 
     pub fn end_date(&self) -> CalendarDate {
         self.end_date
+    }
+
+    /// The one rate at which the included accounts, pooled at today at their baseline balances,
+    /// end on the baseline total. A fraction: 0.06 is 6 percent.
+    pub fn effective_rate(&self) -> f64 {
+        self.effective_rate
     }
 
     /// Included accounts whose balance is dated before today, in file order.
@@ -97,13 +110,13 @@ impl YearSalary {
 
 #[derive(Debug, PartialEq)]
 pub struct Bands<'a> {
-    baseline: BandProjection<'a>,
+    baseline: BaselineProjection<'a>,
     positive: BandProjection<'a>,
     negative: BandProjection<'a>,
 }
 
 impl<'a> Bands<'a> {
-    pub fn baseline(&self) -> &BandProjection<'a> {
+    pub fn baseline(&self) -> &BaselineProjection<'a> {
         &self.baseline
     }
 
@@ -191,15 +204,20 @@ impl RolledForward {
 pub fn project_scenario(
     scenario: &Scenario,
 ) -> Result<ScenarioProjection<'_>, ProjectionError<'_>> {
+    let baseline = project_band(scenario, Band::Baseline)?;
+    let positive = project_band(scenario, Band::Positive)?;
+    let negative = project_band(scenario, Band::Negative)?;
+    let effective_rate = effective_rate(scenario, &baseline)?;
     let bands = Bands {
-        baseline: project_band(scenario, Band::Baseline)?,
-        positive: project_band(scenario, Band::Positive)?,
-        negative: project_band(scenario, Band::Negative)?,
+        baseline: baseline.with_weighted_rates(),
+        positive,
+        negative,
     };
     let today = scenario.today();
     Ok(ScenarioProjection {
         today,
         end_date: scenario.end_date(),
+        effective_rate,
         stale_accounts: scenario
             .accounts()
             .iter()
@@ -211,12 +229,15 @@ pub fn project_scenario(
             .collect(),
         salary_by_year: bands
             .baseline
-            .total
-            .yearly
+            .total()
+            .yearly()
             .iter()
-            .map(|row| YearSalary {
-                year: row.year,
-                salary: salary_in_year(scenario, row.year),
+            .map(|row| {
+                let year = row.row().year();
+                YearSalary {
+                    year,
+                    salary: salary_in_year(scenario, year),
+                }
             })
             .collect(),
         bands,

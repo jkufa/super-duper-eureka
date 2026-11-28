@@ -103,6 +103,10 @@ impl<'a> ScheduledMonth<'a> {
     pub fn deposits(&self) -> &[Deposit<'a>] {
         &self.deposits
     }
+
+    pub(crate) fn into_deposits(self) -> Vec<Deposit<'a>> {
+        self.deposits
+    }
 }
 
 /// One month per calendar month from `from` up to, and not including, `to`. Empty when `from` is

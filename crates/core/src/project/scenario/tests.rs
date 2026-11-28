@@ -1,6 +1,8 @@
 use serde_json::json;
 
-use super::{AccountProjection, BandProjection, ScenarioProjection, project_scenario};
+use super::{
+    AccountProjection, ScenarioProjection, WeightedSeries, WeightedYearlyRow, project_scenario,
+};
 use crate::fixture::{Setup, date, doubling_daily_rate, flat, monthly, monthly_end};
 use crate::project::{MonthlyRow, ProjectionError, Series, YearlyRow};
 use crate::scenario::Scenario;
@@ -30,18 +32,39 @@ fn year_row(year: i16, balance: f64, contributions: f64, interest: f64) -> Yearl
     }
 }
 
-fn only_account<'p, 'a>(band: &'p BandProjection<'a>) -> &'p AccountProjection<'a> {
-    let [account] = band.accounts() else {
+fn only_account<'p, 'a>(accounts: &'p [AccountProjection<'a>]) -> &'p AccountProjection<'a> {
+    let [account] = accounts else {
         panic!("expected one account");
     };
     account
 }
 
-fn account_in<'p, 'a>(band: &'p BandProjection<'a>, id: &str) -> &'p AccountProjection<'a> {
-    band.accounts()
+fn account_in<'p, 'a>(
+    accounts: &'p [AccountProjection<'a>],
+    id: &str,
+) -> &'p AccountProjection<'a> {
+    accounts
         .iter()
         .find(|account| account.account_id().as_str() == id)
         .unwrap()
+}
+
+/// The total with its weighted rates left out.
+fn unweighted(total: &WeightedSeries) -> Series {
+    Series {
+        start_balance: total.start_balance(),
+        final_balance: total.final_balance(),
+        total_contributions: total.total_contributions(),
+        total_interest: total.total_interest(),
+        monthly: total.monthly().to_vec(),
+        yearly: total.yearly().iter().map(|row| row.row()).collect(),
+    }
+}
+
+fn weighted(rows: &[WeightedYearlyRow]) -> Vec<(YearlyRow, Option<f64>)> {
+    rows.iter()
+        .map(|row| (row.row(), row.weighted_rate()))
+        .collect()
 }
 
 fn stale_list(projection: &ScenarioProjection<'_>) -> Vec<(String, String)> {
@@ -164,7 +187,7 @@ mod a_stale_account {
      {
         let scenario = monthly_setup().scenario();
         let projection = project(&scenario);
-        let account = only_account(projection.bands().baseline());
+        let account = only_account(projection.bands().baseline().accounts());
 
         assert_eq!(
             (
@@ -212,7 +235,7 @@ mod a_stale_account {
         }
         .scenario();
         let projection = project(&scenario);
-        let account = only_account(projection.bands().baseline());
+        let account = only_account(projection.bands().baseline().accounts());
 
         assert_eq!(
             (
@@ -232,7 +255,7 @@ mod a_stale_account {
     fn starts_at_balance_plus_contributions_plus_interest_added_in_that_order() {
         let scenario = monthly_setup().scenario();
         let projection = project(&scenario);
-        let account = only_account(projection.bands().baseline());
+        let account = only_account(projection.bands().baseline().accounts());
         let rolled = account.rolled_forward();
 
         assert_eq!(
@@ -256,7 +279,7 @@ mod a_stale_account {
         )
         .scenario();
         let projection = project(&scenario);
-        let account = only_account(projection.bands().baseline());
+        let account = only_account(projection.bands().baseline().accounts());
 
         assert_eq!(
             (
@@ -307,8 +330,11 @@ mod accounts_and_the_total {
             [("kept", true), ("excluded", false)]
         );
         assert_eq!(excluded.series().final_balance(), 200.0);
-        assert_eq!(band.total(), kept.series());
-        assert_eq!(band.total().yearly(), [year_row(2026, 2000.0, 0.0, 1000.0)]);
+        assert_eq!(&unweighted(band.total()), kept.series());
+        assert_eq!(
+            weighted(band.total().yearly()),
+            [(year_row(2026, 2000.0, 0.0, 1000.0), Some(4095.0))]
+        );
         assert_eq!(band.total().final_balance(), 2000.0);
         assert_eq!(stale_list(&projection), []);
     }
@@ -410,7 +436,7 @@ mod accounts_and_the_total {
         .scenario();
         let projection = project(&scenario);
         let band = projection.bands().baseline();
-        let total = band.total();
+        let total = unweighted(band.total());
 
         assert_eq!(total.monthly().len(), 17);
         assert_eq!(total.monthly()[0], month_row(2026, 11, 1700.0, 100.0, 0.0));
@@ -419,11 +445,11 @@ mod accounts_and_the_total {
             Some(&month_row(2028, 3, 3374.0, 1774.0, 0.0))
         );
         assert_eq!(
-            total.yearly(),
+            weighted(band.total().yearly()),
             [
-                year_row(2026, 1810.0, 210.0, 0.0),
-                year_row(2027, 3137.0, 1537.0, 0.0),
-                year_row(2028, 3374.0, 1774.0, 0.0),
+                (year_row(2026, 1810.0, 210.0, 0.0), Some(0.0)),
+                (year_row(2027, 3137.0, 1537.0, 0.0), Some(0.0)),
+                (year_row(2028, 3374.0, 1774.0, 0.0), Some(0.0)),
             ]
         );
         for account in band.accounts() {
@@ -441,9 +467,10 @@ mod accounts_and_the_total {
             let scenario = Setup::new("2026-11-16", "2027-02-01", accounts).scenario();
             let projection = project(&scenario);
 
+            let total = projection.bands().baseline().total();
             assert_eq!(
-                projection.bands().baseline().total(),
-                &Series {
+                unweighted(total),
+                Series {
                     start_balance: 0.0,
                     final_balance: 0.0,
                     total_contributions: 0.0,
@@ -456,6 +483,12 @@ mod accounts_and_the_total {
                     yearly: vec![year_row(2026, 0.0, 0.0, 0.0), year_row(2027, 0.0, 0.0, 0.0)],
                 }
             );
+            let rates: Vec<Option<f64>> = total
+                .yearly()
+                .iter()
+                .map(|row| row.weighted_rate())
+                .collect();
+            assert_eq!(rates, [None, None]);
             let salary_years: Vec<i16> = projection
                 .salary_by_year()
                 .iter()
@@ -526,18 +559,29 @@ mod accounts_and_the_total {
             .scenario();
             let single = project(&single);
             let split = project(&split);
-            for (single, split) in [
-                (single.bands().baseline(), split.bands().baseline()),
-                (single.bands().positive(), split.bands().positive()),
-                (single.bands().negative(), split.bands().negative()),
+            let (single, split) = (single.bands(), split.bands());
+            for (expected, actual, months) in [
+                (
+                    single.baseline().total().final_balance(),
+                    split.baseline().total().final_balance(),
+                    split.baseline().total().monthly().len(),
+                ),
+                (
+                    single.positive().total().final_balance(),
+                    split.positive().total().final_balance(),
+                    split.positive().total().monthly().len(),
+                ),
+                (
+                    single.negative().total().final_balance(),
+                    split.negative().total().final_balance(),
+                    split.negative().total().monthly().len(),
+                ),
             ] {
-                let expected = single.total().final_balance();
-                let actual = split.total().final_balance();
                 assert!(
                     ((actual - expected).abs() / expected) < 1e-9,
                     "{compounding}"
                 );
-                assert_eq!(split.total().monthly().len(), 121);
+                assert_eq!(months, 121);
             }
         }
     }
@@ -560,11 +604,17 @@ mod bands {
 
         assert_eq!(
             &projection.bands().baseline().accounts()[0],
-            account_in(project(&override_alone).bands().baseline(), "override")
+            account_in(
+                project(&override_alone).bands().baseline().accounts(),
+                "override"
+            )
         );
         assert_eq!(
             &projection.bands().baseline().accounts()[1],
-            account_in(project(&default_alone).bands().baseline(), "default")
+            account_in(
+                project(&default_alone).bands().baseline().accounts(),
+                "default"
+            )
         );
     }
 
@@ -574,33 +624,48 @@ mod bands {
         let scenario = setup.scenario();
         let projection = project(&scenario);
         let bands = projection.bands();
-        let rates = |band: &BandProjection<'_>| -> Vec<f64> {
-            band.accounts()
+        let rates = |accounts: &[AccountProjection<'_>]| -> Vec<f64> {
+            accounts
                 .iter()
                 .map(AccountProjection::annual_rate)
                 .collect()
         };
 
-        assert_eq!(rates(bands.baseline()), [0.08, 0.05]);
-        assert_eq!(rates(bands.positive()), [0.08 + 0.01, 0.05 + 0.01]);
-        assert_eq!(rates(bands.negative()), [0.08 - 0.01, 0.05 - 0.01]);
-        for (band, offset) in [(bands.positive(), 0.01), (bands.negative(), -0.01)] {
+        assert_eq!(rates(bands.baseline().accounts()), [0.08, 0.05]);
+        assert_eq!(
+            rates(bands.positive().accounts()),
+            [0.08 + 0.01, 0.05 + 0.01]
+        );
+        assert_eq!(
+            rates(bands.negative().accounts()),
+            [0.08 - 0.01, 0.05 - 0.01]
+        );
+        for (band, offset) in [
+            (bands.positive().accounts(), 0.01),
+            (bands.negative().accounts(), -0.01),
+        ] {
             let override_alone = account_alone(&setup, "override", 0.08 + offset);
             let default_alone = account_alone(&setup, "default", 0.05 + offset);
             assert_eq!(
                 account_in(band, "override"),
-                account_in(project(&override_alone).bands().baseline(), "override")
+                account_in(
+                    project(&override_alone).bands().baseline().accounts(),
+                    "override"
+                )
             );
             assert_eq!(
                 account_in(band, "default"),
-                account_in(project(&default_alone).bands().baseline(), "default")
+                account_in(
+                    project(&default_alone).bands().baseline().accounts(),
+                    "default"
+                )
             );
         }
         assert!(
-            account_in(bands.positive(), "override")
+            account_in(bands.positive().accounts(), "override")
                 .rolled_forward()
                 .interest()
-                > account_in(bands.baseline(), "override")
+                > account_in(bands.baseline().accounts(), "override")
                     .rolled_forward()
                     .interest()
         );
@@ -612,8 +677,11 @@ mod bands {
         let projection = project(&scenario);
         let bands = projection.bands();
 
-        assert_eq!(bands.positive(), bands.baseline());
-        assert_eq!(bands.negative(), bands.baseline());
+        let baseline_total = unweighted(bands.baseline().total());
+        for band in [bands.positive(), bands.negative()] {
+            assert_eq!(band.total(), &baseline_total);
+            assert_eq!(band.accounts(), bands.baseline().accounts());
+        }
     }
 }
 
