@@ -7,4 +7,8 @@ pub mod scenario;
 pub mod schedule;
 
 #[cfg(test)]
+mod arbitrary;
+#[cfg(test)]
 mod fixture;
+#[cfg(test)]
+mod properties;

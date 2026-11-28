@@ -713,3 +713,33 @@ mod weighted_rate {
         assert!(weighted_rates(&projection).iter().all(Option::is_some));
     }
 }
+
+mod properties {
+    use proptest::prelude::*;
+
+    use super::included_pool;
+    use crate::arbitrary::any_case;
+    use crate::project::project_scenario;
+
+    const CASES: u32 = 256;
+    const TOLERANCE: f64 = 1e-9;
+
+    proptest! {
+        #![proptest_config(ProptestConfig::with_cases(CASES))]
+
+        #[test]
+        fn the_pool_at_the_effective_rate_ends_on_the_total(case in any_case()) {
+            let scenario = case.scenario();
+            let projection = project_scenario(&scenario).unwrap();
+            let target = projection.bands().baseline().total().final_balance();
+            let pooled = included_pool(&scenario)
+                .final_balance(scenario.interest().compounding(), projection.effective_rate());
+            prop_assert!(
+                (pooled - target).abs() <= TOLERANCE * 1.0_f64.max(pooled.abs()).max(target.abs()),
+                "pool {} against total {}",
+                pooled,
+                target
+            );
+        }
+    }
+}
