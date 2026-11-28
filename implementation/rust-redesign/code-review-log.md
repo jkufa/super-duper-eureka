@@ -639,5 +639,26 @@ For PR review agents only. Orchestration and implementation agents do not read t
 - Where: `packages/calculator/src/lib/effective-rate.ts:82`, PR #19
 - What: Spreading every included rate into Math.min and Math.max ties the public Node entry point to a function argument limit. A standalone reduction over 250000 values raises RangeError on Node 24.13.0.
 - Better: Find both bounds in one iteration over included accounts.
+### 2026-11-28, spec 4, a float test still passes after the formula is rearranged
+
+- Where: `crates/core/src/compound/mod.rs`, `crates/core/src/project/mod.rs`, `crates/core/src/project/scenario/effective_rate/mod.rs`, PR #20 and PR #22
+- What: Regrouping monthly interest as `balance * (rate * fraction)` left all 142 core tests passing. So did changing the bisection midpoint to `(lo + hi) / 2`, and deleting the `total_interest.is_finite()` check. The partial-month test uses a monthly rate of exactly 1, so the association does not change the bits. The midpoint tests use brackets such as 0 to 1 and 0 to 4095, where both expressions match, including the one that records the first three midpoints. The interest check is what rejects a balance of 1e308 at a rate just above -1 with an end deposit of 1e307 from January to November: cumulative interest is `-inf` while the balance and the contributions stay finite, and no test builds that case.
+- Better: Pin each formula with an input on which the wrong association, the rearranged midpoint, or a dropped finiteness check produces a different result.
+- Seen before: 2026-11-27, spec 2 part C, an inclusive range end survives every test; 2026-11-28, spec 3, equal rule dates survive every test
+- Promoted: yes, the float-formula guideline in AGENTS.md
+
+### 2026-11-28, spec 4, a jiff parser reads the zone database without a ban entry
+
+- Where: `crates/core/clippy.toml`, PR #26
+- What: With the workspace feature unification, `jiff::fmt::temporal::DateTimeParser::parse_time_zone` and `BrokenDownTime::to_zoned_datetime` compile in `retirement-core` and `cargo clippy --workspace --all-targets -- -D warnings` allows both. Each calls `jiff::tz::db()`. The same is true of `DateTimeParser::parse_zoned_datetime`, `Pieces::to_time_zone` and `TimeZoneAnnotation::to_time_zone`. The type ban on `ZonedDateTime` fires only when the source names that type, so a call whose return type is inferred is not covered. `Timestamp::now` and a named `ZonedDateTime::try_from(SystemTime)` are rejected.
+- Better: Ban those parser methods. Probe them with `--workspace`, because `cargo clippy -p retirement-core` does not turn on the features that compile the clock.
+- Seen before: 2026-11-28, spec 3, clock and environment bans name one function and miss its siblings; 2026-11-28, spec 3, jiff clock ban names a type this crate does not have
+- Promoted: yes, the clock-ban guideline in AGENTS.md
+
+### 2026-11-28, spec 4, the account projection is public and accepts a non-finite opening
+
+- Where: `crates/core/src/project/mod.rs`, `crates/core/src/project/trace.rs`, `crates/core/src/schedule/mod.rs`, `crates/core/src/schedule/amount.rs`
+- What: `project_account`, `trace_account_range`, `build_account_schedule` and `salary_in_year` are public. An empty range skips the finiteness check, so `project_account` returns `Ok` with a non-finite start and final balance when the opening balance is not finite. A rate at or below -1 is accepted on a non-empty range and comes back as `NotFinite` or as a finite negative balance.
+- Better: Keep `project_scenario` and `trace_account` as the public entry points. Make the others `pub(crate)`.
 - Seen before: no
 - Promoted: no

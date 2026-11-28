@@ -74,6 +74,8 @@ Specs live in `implementation/rust-redesign/`. Read its `README.md` first, then 
 - Test documented machine-readable commands as subprocesses, including the launcher, stdout, stderr and exit status.
 - Check temporal and arithmetic claims at their boundaries, including intermediate overflow before a reciprocal.
 - Exercise equivalent ways to read the clock when a source guard promises clock independence.
+- Ban a dependency's clock and I/O paths from the version in the lockfile, including the sibling that does the work and a parser or trait method that reaches them without naming the banned type, and show that calling each one fails `just check`.
+- Pin a float formula with an input on which the wrong association, an algebraically rearranged expression, or a dropped finiteness check produces a different result.
 
 ### Rust Guidelines
 
