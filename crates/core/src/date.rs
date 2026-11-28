@@ -4,6 +4,7 @@ use jiff::Span;
 use jiff::civil::Date;
 
 const FIRST_YEAR: i16 = 1;
+const LAST_YEAR: i16 = 9999;
 
 /// A day in the proleptic Gregorian calendar with no time or timezone, in years 0001 to 9999.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
@@ -62,7 +63,9 @@ impl CalendarDate {
     }
 
     fn in_range(date: Date) -> Option<Self> {
-        (date.year() >= FIRST_YEAR).then_some(Self(date))
+        (FIRST_YEAR..=LAST_YEAR)
+            .contains(&date.year())
+            .then_some(Self(date))
     }
 }
 

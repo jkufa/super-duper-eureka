@@ -415,7 +415,7 @@ For PR review agents only. Orchestration and implementation agents do not read t
 - What: Changing the upper-bound guard from >= to > passes all 870 tests. For a January 15 to 20 schedule it credits a January 20 deposit. A range ending on day 1 never visits the end month.
 - Better: Test the schedule builder directly with a mid-month end and a deposit on that day.
 - Seen before: no
-- Promoted: no
+- Promoted: yes, the comparison-boundary guideline in AGENTS.md
 
 ### 2026-11-27, spec 2 part C, partial-month wording conflates dates with buckets
 
@@ -447,7 +447,7 @@ For PR review agents only. Orchestration and implementation agents do not read t
 - What: The ban list names `SystemTime::now`, `Instant::now`, and `std::env::var`. `SystemTime::UNIX_EPOCH.elapsed()`, `Instant::elapsed`, `std::env::var_os`, `std::env::vars`, and `std::fs::read` all pass `just check`. So does an `async fn` and an `unsafe` block.
 - Better: Ban each sibling path that reads the clock, the environment, the filesystem, or the network, and forbid `unsafe` in `core`. There is no lint that forbids `async fn`.
 - Seen before: no
-- Promoted: no
+- Promoted: yes, the clock-ban guideline in AGENTS.md
 
 ### 2026-11-28, spec 3, unpublished-crate licence skip is not limited to the workspace
 
@@ -456,3 +456,43 @@ For PR review agents only. Orchestration and implementation agents do not read t
 - Better: Do not treat `publish = false` as proof that a crate is ours. Keep the licence check on path dependencies.
 - Seen before: no
 - Promoted: no
+
+### 2026-11-28, spec 3, one-time bounds are only rejected while deserialising
+
+- Where: `crates/core/src/scenario/raw.rs`, `crates/core/src/scenario/rule.rs`, PR #15
+- What: `ContributionRuleFile` fields are public, and the check that a one-time rule has no `startDate` or `endDate` lives only in `Deserialize`. `Scenario::parse` copies those dates onto the validated rule. A struct literal with a one-time rule, start `2027-01-01` and end `2027-12-01` parses successfully, and both accessors return those dates. The same JSON fails to deserialise. The doc comment says both accessors are always `None` on a one-time rule.
+- Better: Run that check in the conversion to the validated rule, and keep the raw fields visible only inside the scenario module. `pub(crate)` still lets the schedule builder build the bad value. JSON deserialisation already rejects it, so the wire codes stay the same.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-28, spec 3, id newtypes hide their fields differently
+
+- Where: `crates/core/src/scenario/account.rs`, `crates/core/src/scenario/rule.rs`, PR #15
+- What: `AccountId`'s field is private. `RuleId`'s field is `pub(super)`. Outside the crate both constructors are private. Inside the scenario module, any sibling can build a `RuleId` from an arbitrary string, and only `account.rs` can build an `AccountId`.
+- Better: Keep both fields private. Give `RuleId` a `pub(super)` constructor for the duplicate check, so the next id type has one pattern to copy.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-28, spec 3, equal rule dates survive every test
+
+- Where: `crates/core/src/scenario/rule.rs`, `crates/core/src/scenario/tests.rs`, PR #15
+- What: The end-before-start test uses 2027-01-02 and 2027-01-01. Changing `end < start` to `end <= start` leaves all 29 `retirement-core` tests passing. A rule whose start and end are both 2027-05-05 is valid in both languages.
+- Better: Accept that equal pair in a test, beside the pair that fails.
+- Seen before: 2026-11-27, spec 2 part C, an inclusive range end survives every test
+- Promoted: yes, the comparison-boundary guideline in AGENTS.md
+
+### 2026-11-28, spec 3, unknown-field tests skip three raw structs
+
+- Where: `crates/core/src/scenario/raw.rs`, `crates/core/src/scenario/tests.rs`, PR #15
+- What: Removing `deny_unknown_fields` from `InterestFile`, from `SalaryFile`, or from `GrowthFile` leaves all 29 tests passing. The shape test sends an extra key to the scenario, an account, a rule and a timing variant, and it never sends one to these three.
+- Better: Give each raw struct an unknown-key case.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-28, spec 3, jiff clock ban names a type this crate does not have
+
+- Where: `crates/core/clippy.toml`, PR #15
+- What: The list bans `jiff::Zoned::now`. jiff 1.0.3 has no `Zoned` type. The clock method is `jiff::ZonedDateTime::now`, and it is not banned. `jiff::tz::TimeZone::try_system` compiles in `retirement-core` and Clippy allows it. `TimeZone::system` is banned. With the features in `Cargo.toml`, `try_system` returns an error and `now` is not compiled, so this is not a live clock read.
+- Better: Ban `jiff::ZonedDateTime::now` and `jiff::tz::TimeZone::try_system`. Confirm each call fails `just check` when the method is actually in the build.
+- Seen before: 2026-11-28, spec 3, clock and environment bans name one function and miss its siblings
+- Promoted: yes, the clock-ban guideline in AGENTS.md
