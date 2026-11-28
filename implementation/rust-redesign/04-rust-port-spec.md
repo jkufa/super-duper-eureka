@@ -94,7 +94,7 @@ Use the traits in `<seed>.json`:
 
 - A failing case names its expected code and ids. Both CLIs must report them, and the harness checks each against the traits as well as against the other.
 - Report results grouped by trait, so a difference that only shows with one edge is visible as such.
-- Cases with `negative_salary_power` or `growth_periods_over_1000` are where the two languages are known to differ in the last bit. Report the largest relative difference inside those cases and outside them separately. Outside them the expectation is zero.
+- Cases with `growth_periods_over_1000` are where the two languages are known to differ in the last bit. Report the largest relative difference inside those cases and outside them separately. Outside them the expectation is zero.
 
 Rules for the run:
 

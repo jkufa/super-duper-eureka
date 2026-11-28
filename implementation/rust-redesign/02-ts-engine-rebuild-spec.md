@@ -376,10 +376,10 @@ Tests:
 Computed for the baseline band, over `today` to `endDate`, across included accounts.
 
 1. If there are no included accounts, return the scenario's default rate.
-2. Let `lo` be the lowest included account rate and `hi` the highest. If they are equal, return that rate.
+2. Let `lo` be the lowest included account rate and `hi` the highest. If they are equal, return that rate. `0` and `-0` are equal rates. When both appear, `lo` is `-0` and `hi` is `0`, as `Math.min` and `Math.max` give.
 3. Pool the accounts. The pooled opening balance is the baseline total's `startBalance`, so a stale account enters at its rolled-forward balance. The pooled schedule takes each month's deposits account by account in file order, and inside an account in rule order. Total each month's buckets once, before any pass.
 4. If the pooled balance is 0 and the pooled schedule has no deposits, return the default rate. This is the one case where the result can fall outside `lo` and `hi`, when every account overrides the default.
-5. Compound the pool at `lo` and at `hi`. If `atHi - atLo <= 1e-9 * atHi`, return `lo`. The rate does not move the final balance by more than the parity tolerance, so the data do not determine it. This happens when no money is exposed to interest: zero balances and deposits that land at the end of the last month. Without this step the answer depended on rounding: the same two accounts returned 4% in one file order and 10% in the other.
+5. Compound the pool at `lo` and at `hi`. If `atHi - atLo <= 1e-9 * atLo`, return `lo`. The scale is `atLo`, which is always finite, because the pool at the lowest rate is no larger than the total. Scaling by `atHi` would return `lo` whenever the pool overflows at `hi`, since infinity is at or below infinity. With `atLo`, an overflow at `hi` makes the left side infinite, the test fails, and the bisection runs. When both are 0 the test passes and `lo` is returned. The rate does not move the final balance by more than the parity tolerance, so the data do not determine it. This happens when no money is exposed to interest: zero balances and deposits that land at the end of the last month. Without this step the answer depended on rounding: the same two accounts returned 4% in one file order and 10% in the other.
 6. The target is the baseline total's `finalBalance`.
 7. Repeat exactly 60 times: take `mid = lo + (hi - lo) / 2`, compound the pool at `mid`, and set `lo = mid` if the result is below the target, else `hi = mid`. Written as `if (result < target)`, so a result that equals the target, or is infinite or `NaN` after an overflow, moves `hi` down.
 8. Return `lo + (hi - lo) / 2`.
@@ -432,7 +432,7 @@ A seeded generator of new-contract cases, in `src/lib/corpus/`, built on `random
 
 Each seed writes two files. `<seed>.json` is the case, `{ scenario, today, traits }`. `<seed>.scenario.json` is the scenario alone, for `--scenario`. A harness runs each CLI with `--scenario <seed>.scenario.json --today <today>`. Both files print keys in sorted order with a two-space indent, and are byte-identical on Node and Bun in any time zone.
 
-`traits` is a sorted list of facts about the case, read back from the parsed scenario and its schedules, not from what the generator meant to build. It names every edge the case hits, the two known power differences (`negative_salary_power`, `growth_periods_over_1000`), and for a failing case the fault, the expected error code and the expected ids.
+`traits` is a sorted list of facts about the case, read back from the parsed scenario and its schedules, not from what the generator meant to build. It names every edge the case hits, the known power difference `growth_periods_over_1000`, and `salary_before_as_of` for a salary computed for a year before `salary.asOf`, and for a failing case the fault, the expected error code and the expected ids.
 
 - Keep `createSeededRandom`. The same seed must always give the same case.
 - 1 to 6 accounts per case, with mixed rates, kinds and `included` flags.
