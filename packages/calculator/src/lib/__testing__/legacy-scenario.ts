@@ -5,6 +5,7 @@ import { addMonths, daysInMonth, formatPlainDate, parsePlainDate } from '../plai
 import type { PlainDate } from '../plain-date';
 import { parseScenario } from '../parse-scenario';
 import { projectAccount, traceAccountRange } from '../project-account';
+import { projectScenario, traceAccount } from '../project-scenario';
 import type { Row, Series, TraceSegment } from '../project-account';
 import type {
   ContributionRuleFile,
@@ -236,11 +237,10 @@ export function runThroughScenario(config: RetirementConfig): LegacyRows {
   const { scenario: file, today } = legacyToScenario(config);
   const scenario = parseScenario(file, { today });
   const [account] = scenario.accounts;
-  const from = parsePlainDate(today);
-  if (!account || !from) {
-    throw new Error('The adapter produced no account or no start date.');
+  if (!account) {
+    throw new Error('The adapter produced no account.');
   }
-  const to = scenario.endDate;
+  const { today: from, endDate: to } = scenario;
   const { annualRate, variance } = scenario.interest;
   const project = (rate: number) =>
     projectAccount(scenario, account, from, to, account.balance, rate);
@@ -256,4 +256,16 @@ export function runThroughScenario(config: RetirementConfig): LegacyRows {
         };
   const trace = traceAccountRange(scenario, account, from, to, account.balance, annualRate);
   return toLegacyRows(config, scenario, bands, trace);
+}
+
+export function runThroughProjectScenario(config: RetirementConfig): LegacyRows {
+  const { scenario: file, today } = legacyToScenario(config);
+  const scenario = parseScenario(file, { today });
+  const { baseline, positive, negative } = projectScenario(scenario).bands;
+  return toLegacyRows(
+    config,
+    scenario,
+    { baseline: baseline.total, positive: positive.total, negative: negative.total },
+    traceAccount(scenario, LEGACY_ACCOUNT_ID, 'baseline')
+  );
 }

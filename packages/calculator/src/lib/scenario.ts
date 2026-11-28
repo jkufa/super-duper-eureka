@@ -79,6 +79,8 @@ export interface RunOptions {
 }
 
 export interface Scenario {
+  /** Results start at the start of this day. Every balanceAsOf is on or before it. */
+  readonly today: PlainDate;
   readonly endDate: PlainDate;
   readonly interest: {
     readonly annualRate: number;

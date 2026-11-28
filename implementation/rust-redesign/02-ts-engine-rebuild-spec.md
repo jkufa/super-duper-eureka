@@ -167,7 +167,7 @@ export interface RunOptions {
 }
 ```
 
-Part C implements and validates all of these types. Its `projectAccount` works on one account at a time, and part E adds the scenario-level result.
+The validated `Scenario` keeps `today` as a read-only date. Part C implements and validates all of these types. Its `projectAccount` works on one account at a time, and part E adds the scenario-level result.
 
 ### Dates
 
@@ -208,7 +208,8 @@ Part C implements and validates all of these types. Its `projectAccount` works o
 | `growth_on_one_time`           | A one-time rule has `growth`. A one-time amount is what it says                                                                                                                               |
 | `rule_end_before_start`        | A rule's `endDate` is before its `startDate`                                                                                                                                                  |
 | `per_contribution_on_one_time` | A one-time rule uses `salaryBasis: 'perContribution'`                                                                                                                                         |
-| `not_finite`                   | Raised by the engine, not the parser. A balance, contribution or interest figure it computed is not finite. Carries the account's id                                                          |
+| `not_finite`                   | Raised by the engine, not the parser. A balance, contribution or interest figure it computed is not finite. Carries the account's id, or no id when the figure is in the total                |
+| `unknown_account`              | Raised by `traceAccount`. The scenario has no account with the id asked for. Carries that id and no path                                                                                      |
 
 ### Deposits
 
@@ -293,12 +294,13 @@ New tests, each with a hand-computed expected value:
 
 ## Part E: accounts
 
-`projectScenario(scenario, options)` returns the full result.
+`projectScenario(scenario)` returns the full result. It takes no options. The validated `Scenario` carries `today`, because the parser checked every as-of date and the end date against it, and projecting with another `today` would break those checks.
 
 - Roll forward. An account with `balanceAsOf` before `today` is first projected from `balanceAsOf` to `today`. Its balance at `today` is the result. This is the same `projectAccount`, called on an earlier range.
-- Projection. Each included account is then projected from `today` to `endDate`.
-- Total. The total series is the sum of the included accounts, row by row. Sum in the order the accounts appear in the file.
-- Bands. `baseline` uses each account's own rate, or the scenario default. `positive` adds the variance to every account's rate, and `negative` subtracts it. With no variance, all three are the baseline.
+- Projection. Each account is then projected from `today` to `endDate`, with the rolled-forward balance as its opening balance. That includes accounts with `included: false`.
+- Total. The total series is the sum of the included accounts, row by row. Each figure is summed from 0 in the order the accounts appear in the file. The total's months and years come from the range, not from an account, so with no included accounts the total is zeros with one row per month and year. A total that is not finite throws `not_finite` with no account id, which can happen while every account is finite.
+- Bands. `baseline` uses each account's own rate, or the scenario default. `positive` adds the variance to every account's rate, and `negative` subtracts it. Each band runs its own roll forward at its own rate. With no variance, all three hold the same numbers.
+- `staleAccounts` lists included accounts only, in file order. `salaryByYear` has one entry per year of the total's yearly rows.
 - An account with `included: false` is projected and returned, flagged, and left out of the total.
 
 ```ts
@@ -354,14 +356,14 @@ export interface Row {
 }
 ```
 
-`traceAccount(scenario, options, accountId, band)` returns the account's `TraceSegment`s from part C, covering the roll forward and then the projection.
+`traceAccount(scenario, accountId, band)` returns the account's `TraceSegment`s from part C, covering the roll forward and then the projection. When `today` is mid-month, that month appears twice: once ending the roll forward and once starting the projection. An id the scenario does not have throws `unknown_account`.
 
 Tests:
 
 - A scenario with one account, not stale, matches the baseline through the adapter. This is the baseline test again, now through `projectScenario`.
 - One account split into three with the same rate and its rules divided among them. The total matches the single account within one part in 10^9.
 - Two accounts with different rates. Each account's series matches a single-account run of the same account exactly.
-- A stale account. Its `startBalance` equals `balance` plus both `rolledForward` figures, and it appears in `staleAccounts`.
+- A stale account. Its `startBalance` is the roll forward's final balance, and it appears in `staleAccounts`. `startBalance` equals `(balance + contributions) + interest` when no figure rounds. It is not an identity in floats: a balance of 2^53 with two deposits of 1 at a rate of 0 has a `startBalance` of 2^53.
 - An account with `included: false` is absent from the total and present in `accounts`.
 - Every validation code has a test that raises it.
 
