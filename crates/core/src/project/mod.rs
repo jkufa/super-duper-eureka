@@ -5,6 +5,8 @@ mod error;
 mod scenario;
 mod trace;
 
+use serde::Serialize;
+
 use crate::compound::{BucketTotals, Compounded, compound_segment};
 use crate::date::CalendarDate;
 use crate::scenario::{Account, Scenario};
@@ -21,7 +23,8 @@ pub use trace::{TraceSegment, trace_account_range};
 const LAST_MONTH: i8 = 12;
 
 /// The figures at the end of one month's segment.
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct MonthlyRow {
     year: i16,
     month: i8,
@@ -56,7 +59,8 @@ impl MonthlyRow {
 }
 
 /// The figures at the end of a calendar year's last counted segment.
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct YearlyRow {
     year: i16,
     balance: f64,
@@ -95,7 +99,8 @@ impl From<MonthlyRow> for YearlyRow {
     }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Series {
     start_balance: f64,
     final_balance: f64,
