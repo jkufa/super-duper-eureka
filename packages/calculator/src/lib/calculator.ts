@@ -1,22 +1,25 @@
+import { compound, compoundMonth, groupByMonth, totalByBucket } from './compound';
+import type { Compounded } from './compound';
+import { buildSchedule } from './schedule';
+import type { Schedule } from './schedule';
 import type {
   AnnualProjection,
-  ContributionRule,
   ContributionTiming,
   ContributionType,
   MonthlyProjection,
   Projection,
   ProjectionByVariance,
-  RetirementConfig,
-  SalaryConfig
+  RetirementConfig
 } from './types';
 
 const MONTHS_PER_YEAR = 12;
-const DEFAULT_DAYS_PER_YEAR = 365;
 
 export function calculateRetirement(config: RetirementConfig): ProjectionByVariance {
-  const baseline = calculateProjection(config, config.interest.annualRate);
+  const { annualRate, variance } = config.interest;
+  const schedule = buildSchedule(config);
+  const baseline = projectSchedule(config.currentBalance, schedule, annualRate);
 
-  if (config.interest.variance === undefined || config.interest.variance === 0) {
+  if (variance === undefined || variance === 0) {
     return {
       baseline,
       positive: baseline,
@@ -24,19 +27,14 @@ export function calculateRetirement(config: RetirementConfig): ProjectionByVaria
     };
   }
 
-  const positive = calculateProjection(
-    config,
-    config.interest.annualRate + config.interest.variance
-  );
-  const negative = calculateProjection(
-    config,
-    config.interest.annualRate - config.interest.variance
-  );
+  const positive = projectSchedule(config.currentBalance, schedule, annualRate + variance);
+  const negative = projectSchedule(config.currentBalance, schedule, annualRate - variance);
   return { baseline, positive, negative };
 }
 
 export function calculateProjection(config: RetirementConfig, annualRate: number): Projection {
-  return runProjection(config, annualRate).projection;
+  const schedule = buildSchedule(config);
+  return projectSchedule(config.currentBalance, schedule, annualRate);
 }
 
 export interface ProjectionStep {
@@ -78,145 +76,26 @@ export function calculateProjectionWithSteps(
   annualRate: number,
   options?: { includeContributionDetails?: boolean }
 ): ProjectionRun {
-  return runProjection(config, annualRate, options);
-}
-
-function runProjection(
-  config: RetirementConfig,
-  annualRate: number,
-  options?: { includeContributionDetails?: boolean }
-): ProjectionRun {
-  if (!Number.isFinite(config.timeHorizonYears) || config.timeHorizonYears < 0) {
-    throw new Error(
-      `timeHorizonYears must be 0 or greater (received ${String(config.timeHorizonYears)}).`
-    );
-  }
-
-  const startDate = normalizeStartDate(config.startDate);
-  const totalMonths = config.timeHorizonYears * MONTHS_PER_YEAR;
-  const compounding = config.interest.compounding ?? 'monthly';
-  validateContributionRules(config.contributions);
-
-  let runningBalance = config.currentBalance;
-  let totalContributions = 0;
-  let totalInterest = 0;
-
-  const steps: Array<ProjectionStep> = [];
-  const monthlyProjections: Array<MonthlyProjection> = [];
-  const yearlyProjections: Array<AnnualProjection> = [];
-
-  for (let monthOffset = 0; monthOffset < totalMonths; monthOffset++) {
-    const monthStart = addMonths(startDate, monthOffset);
-    const { yearIndex, monthIndex } = resolveYearMonth(startDate, monthOffset);
-    const salary = calculateSalary(config.salary, yearIndex);
-
-    const monthContributions = resolveMonthlyContributions({
-      rules: config.contributions,
-      yearIndex,
-      monthIndex,
-      timeHorizonYears: config.timeHorizonYears,
-      salary,
-      compounding,
-      monthStart,
-      projectionStartDate: startDate,
-      includeDetails: options?.includeContributionDetails ?? true
-    });
-
-    const balanceStart = runningBalance;
-    const compoundingParams = {
-      balance: runningBalance,
-      annualRate,
-      contributions: monthContributions,
-      monthStart
-    };
-    const { balance, contributions, interest } =
-      compounding === 'daily'
-        ? applyDailyCompounding(compoundingParams)
-        : applyMonthlyCompounding(compoundingParams);
-    const stepInterest = interest;
-    const stepContributions = contributions;
-    runningBalance = balance;
-    totalContributions += contributions;
-    totalInterest += interest;
-
-    steps.push({
-      stepIndex: monthOffset,
-      yearIndex,
-      monthIndex,
-      balanceStart,
-      balanceEnd: runningBalance,
-      interestEarned: stepInterest,
-      contributionsThisStep: stepContributions,
-      totalContributions,
-      totalInterest,
-      contributionsStart: monthContributions.start,
-      contributionsEnd: monthContributions.end,
-      contributionsByDay: { ...monthContributions.byDay },
-      salary,
-      compounding,
-      annualRate,
-      daysInMonth: getDaysInMonth(monthStart),
-      daysInYear: getDaysInYear(monthStart),
-      activeContributions: monthContributions.details ?? []
-    });
-
-    monthlyProjections.push({
-      month: monthIndex,
-      year: yearIndex,
-      balance: runningBalance,
-      contributions: totalContributions,
-      interest: totalInterest,
-      salary
-    });
-
-    if (monthIndex === MONTHS_PER_YEAR - 1 || monthOffset + 1 >= totalMonths) {
-      yearlyProjections.push({
-        year: yearIndex,
-        balance: runningBalance,
-        contributions: totalContributions,
-        interest: totalInterest,
-        salary
-      });
-    }
-  }
-
-  const projection = {
-    finalBalance: runningBalance,
-    totalContributions,
-    totalGrowth: totalInterest,
-    yearlyProjections,
-    monthlyProjections
-  };
+  const schedule = buildSchedule(config);
+  const startBalance = config.currentBalance;
+  const projection = projectSchedule(startBalance, schedule, annualRate);
+  const steps = traceSteps(
+    startBalance,
+    schedule,
+    annualRate,
+    options?.includeContributionDetails ?? true
+  );
 
   return {
     projection,
     steps,
     summary: {
       totalSteps: steps.length,
-      totalContributions,
-      totalInterest,
-      finalBalance: runningBalance
+      totalContributions: projection.totalContributions,
+      totalInterest: projection.totalGrowth,
+      finalBalance: projection.finalBalance
     }
   };
-}
-
-interface ResolveMonthlyContributionsParams {
-  rules: Array<ContributionRule>;
-  yearIndex: number;
-  monthIndex: number; // 0-11
-  timeHorizonYears: number;
-  salary: number;
-  compounding: 'monthly' | 'daily';
-  monthStart: Date;
-  projectionStartDate: Date;
-  includeDetails?: boolean;
-}
-
-interface MonthlyContributionBucket {
-  start: number;
-  end: number;
-  byDay: Record<number, number>;
-  details?: Array<ContributionDetail>;
 }
 
 interface ContributionDetail {
@@ -226,352 +105,91 @@ interface ContributionDetail {
   timing: ContributionTiming;
 }
 
-function resolveMonthlyContributions(
-  params: ResolveMonthlyContributionsParams
-): MonthlyContributionBucket {
-  const {
-    rules,
-    yearIndex,
-    monthIndex,
-    timeHorizonYears,
-    salary,
-    compounding,
-    monthStart,
-    includeDetails
-  } = params;
-  const bucket: MonthlyContributionBucket = {
-    start: 0,
-    end: 0,
-    byDay: {},
-    details: includeDetails ? [] : undefined
-  };
+function projectSchedule(startBalance: number, schedule: Schedule, annualRate: number): Projection {
+  return toProjection(compound(startBalance, schedule, annualRate));
+}
 
-  for (const rule of rules) {
-    if (
-      !isContributionActive(
-        rule,
-        yearIndex,
-        monthIndex,
-        timeHorizonYears,
-        monthStart,
-        params.projectionStartDate
-      )
-    ) {
-      continue;
-    }
+function toProjection(compounded: Compounded): Projection {
+  const monthlyProjections: Array<MonthlyProjection> = [];
+  const yearlyProjections: Array<AnnualProjection> = [];
 
-    const amount = resolveContributionAmount(rule, salary, yearIndex, monthIndex);
-    if (amount === 0) {
-      continue;
-    }
+  for (const [monthOffset, row] of compounded.monthly.entries()) {
+    const { month, balance, contributions, interest } = row;
+    monthlyProjections.push({
+      month: month.monthIndex,
+      year: month.yearIndex,
+      balance,
+      contributions,
+      interest,
+      salary: month.salary
+    });
 
-    if (bucket.details) {
-      bucket.details.push({
-        id: rule.id,
-        type: rule.type,
-        amount,
-        timing: rule.timing
+    if (month.monthIndex === MONTHS_PER_YEAR - 1 || monthOffset + 1 >= compounded.monthly.length) {
+      yearlyProjections.push({
+        year: month.yearIndex,
+        balance,
+        contributions,
+        interest,
+        salary: month.salary
       });
     }
-
-    const day = resolveContributionDay(rule.timing, compounding, monthStart);
-    if (day === 'start') {
-      bucket.start += amount;
-    } else if (day === 'end') {
-      bucket.end += amount;
-    } else {
-      bucket.byDay[day] = (bucket.byDay[day] ?? 0) + amount;
-    }
   }
-
-  return bucket;
-}
-
-function isContributionActive(
-  rule: ContributionRule,
-  yearIndex: number,
-  monthIndex: number,
-  timeHorizonYears: number,
-  monthStart: Date,
-  projectionStartDate: Date
-) {
-  if (rule.enabled === false) {
-    return false;
-  }
-
-  const timing = rule.timing;
-  const isStartMonth =
-    monthStart.getFullYear() === projectionStartDate.getFullYear() &&
-    monthStart.getMonth() === projectionStartDate.getMonth();
-  const startDay = projectionStartDate.getDate();
-  const isPastStartDay = (day: number) => clampDay(day, getDaysInMonth(monthStart)) < startDay;
-
-  if (timing.frequency === 'oneTime') {
-    if (timing.on.year !== yearIndex || timing.on.month !== monthIndex) {
-      return false;
-    }
-    if (!isStartMonth || yearIndex !== 0) {
-      return true;
-    }
-    if (!timing.on.day) {
-      return true;
-    }
-    return !isPastStartDay(timing.on.day);
-  }
-
-  const rangeStart = rule.yearRange?.start ?? 0;
-  const rangeEnd = rule.yearRange?.end ?? timeHorizonYears;
-  if (yearIndex < rangeStart || yearIndex > rangeEnd) {
-    return false;
-  }
-
-  if (timing.frequency === 'annual') {
-    if (timing.month !== monthIndex) {
-      return false;
-    }
-    if (!isStartMonth || yearIndex !== 0) {
-      return true;
-    }
-    if (!timing.day) {
-      return true;
-    }
-    return !isPastStartDay(timing.day);
-  }
-
-  if (isStartMonth && yearIndex === 0 && timing.day) {
-    return !isPastStartDay(timing.day);
-  }
-
-  return true;
-}
-
-function resolveContributionAmount(
-  rule: ContributionRule,
-  salary: number,
-  yearIndex: number,
-  monthIndex: number
-) {
-  const effectiveAmount = resolveEffectiveRuleAmount(rule, yearIndex, monthIndex);
-
-  if (rule.type === 'salaryPercent') {
-    const basis = rule.salaryBasis ?? 'annual';
-    const annualSalary = salary;
-
-    if (basis === 'annual') {
-      return annualSalary * (effectiveAmount / 100);
-    }
-    if (basis === 'monthly') {
-      return (annualSalary / 12) * (effectiveAmount / 100);
-    }
-    if (basis === 'biweekly') {
-      return (annualSalary / 26) * (effectiveAmount / 100);
-    }
-    if (basis === 'weekly') {
-      return (annualSalary / 52) * (effectiveAmount / 100);
-    }
-    if (basis === 'daily') {
-      return (annualSalary / DEFAULT_DAYS_PER_YEAR) * (effectiveAmount / 100);
-    }
-
-    if (rule.timing.frequency === 'annual') {
-      return annualSalary * (effectiveAmount / 100);
-    }
-    if (rule.timing.frequency === 'monthly') {
-      return (annualSalary / 12) * (effectiveAmount / 100);
-    }
-    throw new Error(
-      `salaryBasis "perContribution" is not supported for oneTime contributions (id: ${rule.id}).`
-    );
-  }
-
-  return effectiveAmount;
-}
-
-function resolveEffectiveRuleAmount(rule: ContributionRule, yearIndex: number, monthIndex: number) {
-  const baseAmount = rule.amount;
-  const growth = rule.growth;
-  if (!growth) {
-    return Math.max(0, baseAmount);
-  }
-
-  const growthPeriods =
-    growth.cadence === 'annual' ? yearIndex : yearIndex * MONTHS_PER_YEAR + monthIndex;
-
-  if (growth.type === 'percent') {
-    const rate = growth.amount / 100;
-    return Math.max(0, baseAmount * (1 + rate) ** growthPeriods);
-  }
-
-  return Math.max(0, baseAmount + growth.amount * growthPeriods);
-}
-
-function validateContributionRules(rules: Array<ContributionRule>) {
-  for (const rule of rules) {
-    if (!rule.growth) {
-      continue;
-    }
-    if (!Number.isFinite(rule.growth.amount) || rule.growth.amount < 0) {
-      throw new Error(`growth.amount must be 0 or greater for contribution "${rule.id}".`);
-    }
-  }
-}
-
-function resolveContributionDay(
-  timing: ContributionTiming,
-  compounding: 'monthly' | 'daily',
-  monthStart: Date
-): 'start' | 'end' | number {
-  const daysInMonth = getDaysInMonth(monthStart);
-  if (compounding === 'daily') {
-    if (timing.frequency === 'oneTime') {
-      return clampDay(timing.on.day ?? 1, daysInMonth);
-    }
-    if (timing.day) {
-      return clampDay(timing.day, daysInMonth);
-    }
-  }
-
-  const placement = timing.frequency === 'oneTime' ? 'start' : (timing.placement ?? 'start');
-  if (timing.frequency === 'annual' || timing.frequency === 'monthly') {
-    if (timing.day && compounding === 'monthly') {
-      const midpoint = Math.ceil(daysInMonth / 2);
-      return timing.day <= midpoint ? 'start' : 'end';
-    }
-  }
-
-  return placement;
-}
-
-function applyMonthlyCompounding(params: {
-  balance: number;
-  annualRate: number;
-  contributions: MonthlyContributionBucket;
-  monthStart?: Date;
-}) {
-  const monthlyRate = annualToMonthlyRate(params.annualRate);
-  const daysInMonth = params.monthStart ? getDaysInMonth(params.monthStart) : 30;
-  const midpoint = Math.ceil(daysInMonth / 2);
-  const startContribution =
-    params.contributions.start + sumByDay(params.contributions.byDay, 1, midpoint);
-  const endContribution =
-    params.contributions.end + sumByDay(params.contributions.byDay, midpoint + 1, daysInMonth);
-
-  const balanceAfterStart = params.balance + startContribution;
-  const interest = balanceAfterStart * monthlyRate;
-  const balance = balanceAfterStart + interest + endContribution;
 
   return {
-    balance,
-    contributions: startContribution + endContribution,
-    interest
+    finalBalance: compounded.finalBalance,
+    totalContributions: compounded.totalContributions,
+    totalGrowth: compounded.totalInterest,
+    yearlyProjections,
+    monthlyProjections
   };
 }
 
-function applyDailyCompounding(params: {
-  balance: number;
-  annualRate: number;
-  contributions: MonthlyContributionBucket;
-  monthStart: Date;
-}) {
-  const daysInMonth = getDaysInMonth(params.monthStart);
-  const daysInYear = getDaysInYear(params.monthStart);
-  const dailyRate = annualToDailyRate(params.annualRate, daysInYear);
-  let balance = params.balance;
-  let contributions = 0;
-  let interest = 0;
+function traceSteps(
+  startBalance: number,
+  schedule: Schedule,
+  annualRate: number,
+  includeContributionDetails: boolean
+): Array<ProjectionStep> {
+  const steps: Array<ProjectionStep> = [];
+  let balance = startBalance;
+  let totalContributions = 0;
+  let totalInterest = 0;
 
-  const dailyContributions = toDailyMap(params.contributions, daysInMonth);
+  for (const [monthOffset, { month, deposits }] of groupByMonth(schedule).entries()) {
+    const totals = totalByBucket(deposits);
+    const result = compoundMonth(balance, totals, month, schedule.compounding, annualRate);
+    totalContributions += result.contributions;
+    totalInterest += result.interest;
 
-  for (let day = 1; day <= daysInMonth; day++) {
-    const added = dailyContributions[day] ?? 0;
-    if (added) {
-      balance += added;
-      contributions += added;
-    }
-    const dailyInterest = balance * dailyRate;
-    balance += dailyInterest;
-    interest += dailyInterest;
+    steps.push({
+      stepIndex: monthOffset,
+      yearIndex: month.yearIndex,
+      monthIndex: month.monthIndex,
+      balanceStart: balance,
+      balanceEnd: result.balance,
+      interestEarned: result.interest,
+      contributionsThisStep: result.contributions,
+      totalContributions,
+      totalInterest,
+      contributionsStart: totals.start,
+      contributionsEnd: totals.end,
+      contributionsByDay: Object.fromEntries(totals.byDay),
+      salary: month.salary,
+      compounding: schedule.compounding,
+      annualRate,
+      daysInMonth: month.daysInMonth,
+      daysInYear: month.daysInYear,
+      activeContributions: includeContributionDetails
+        ? deposits.map((deposit): ContributionDetail => ({
+            id: deposit.ruleId,
+            type: deposit.ruleType,
+            amount: deposit.amount,
+            timing: deposit.timing
+          }))
+        : []
+    });
+    balance = result.balance;
   }
 
-  return { balance, contributions, interest };
-}
-
-function toDailyMap(bucket: MonthlyContributionBucket, daysInMonth: number) {
-  const daily = { ...bucket.byDay };
-  if (bucket.start) {
-    daily[1] = (daily[1] ?? 0) + bucket.start;
-  }
-  if (bucket.end) {
-    daily[daysInMonth] = (daily[daysInMonth] ?? 0) + bucket.end;
-  }
-  return daily;
-}
-
-function sumByDay(byDay: Record<number, number>, start: number, end: number) {
-  let total = 0;
-  for (let day = start; day <= end; day++) {
-    total += byDay[day] ?? 0;
-  }
-  return total;
-}
-
-function resolveYearMonth(startDate: Date, monthOffset: number) {
-  const startMonthIndex = startDate.getMonth();
-  const startYear = startDate.getFullYear();
-  const absoluteMonthIndex = startMonthIndex + monthOffset;
-  const yearIndex = Math.floor(absoluteMonthIndex / MONTHS_PER_YEAR);
-  const monthIndex = absoluteMonthIndex % MONTHS_PER_YEAR;
-
-  return { yearIndex, monthIndex, absoluteYear: startYear + yearIndex };
-}
-
-function normalizeStartDate(startDate?: Date | string) {
-  if (!startDate) {
-    const now = new Date();
-    return new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  }
-
-  if (typeof startDate === 'string') {
-    const parsed = new Date(startDate);
-    return new Date(parsed.getUTCFullYear(), parsed.getUTCMonth(), parsed.getUTCDate());
-  }
-
-  return new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
-}
-
-function calculateSalary(salary: SalaryConfig, yearIndex: number) {
-  const raiseRate = salary.annualRaiseRate ?? 0;
-  return salary.annualBase * (1 + raiseRate) ** yearIndex;
-}
-
-function annualToMonthlyRate(annualRate: number) {
-  return (1 + annualRate) ** (1 / MONTHS_PER_YEAR) - 1;
-}
-
-function annualToDailyRate(annualRate: number, daysInYear: number) {
-  return (1 + annualRate) ** (1 / daysInYear) - 1;
-}
-
-function clampDay(day: number, daysInMonth: number) {
-  if (day < 1) {
-    return 1;
-  }
-  if (day > daysInMonth) {
-    return daysInMonth;
-  }
-  return day;
-}
-
-function addMonths(date: Date, monthsToAdd: number) {
-  return new Date(date.getFullYear(), date.getMonth() + monthsToAdd, 1);
-}
-
-function getDaysInMonth(date: Date) {
-  return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-}
-
-function getDaysInYear(date: Date) {
-  const year = date.getFullYear();
-  const isLeap = new Date(year, 1, 29).getDate() === 29;
-  return isLeap ? 366 : 365;
+  return steps;
 }

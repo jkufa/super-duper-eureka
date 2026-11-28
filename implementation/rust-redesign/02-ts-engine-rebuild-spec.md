@@ -25,6 +25,17 @@ Eight parts, one PR each, in this order. Parts B to D must reproduce today's num
 | G    | CLI, examples, logger            |
 | H    | Parity corpus generator          |
 
+## Two engines until part G
+
+Parts C to F build the new engine next to the old one. They do not replace it.
+
+- The old entry points, `calculateRetirement`, `calculateProjection` and `calculateProjectionWithSteps`, keep taking today's config and keep passing today's tests and the baseline test. The CLI keeps using them. Nothing in parts C to F changes their results.
+- The new engine lives in its own modules and takes a `Scenario`. It shares `compound` and its helpers with the old one. It has its own schedule builder, written on plain dates.
+- From part C on, the baseline is checked twice: once against the old engine, as today, and once against the new engine through the adapter.
+- Part G switches the CLI to the new engine, then deletes the old entry points, the old schedule builder, the old types, the adapter's use outside the baseline test, and the tests that only the old contract could express.
+
+The old contract accepts inputs the new one rejects, such as a day of 0 or a rule that starts late but grows from an earlier date. Keeping both avoids a compatibility layer that would have to fake them.
+
 ## Part A: capture the baseline
 
 Before any engine change, save today's outputs.
@@ -56,7 +67,7 @@ Before any engine change, save today's outputs.
 
 Same public contract as today. Only the inside changes.
 
-1. `buildSchedule` takes the rules, salary, dates and compounding mode and returns a flat list of deposits. Each deposit has a rule id, a date, an amount and a bucket: `start`, `end` or a day number. It takes no rate.
+1. `buildSchedule` takes the rules, salary, dates and compounding mode and returns a flat list of deposits. Each deposit has a rule id, the rule's position, a date, an amount and a bucket: `start`, `end` or a day number. The date and the bucket are separate facts. In monthly mode a deposit on the 2nd and one on the 15th share the `start` bucket, and parts C and D need the date to decide whether a deposit falls inside a range. It takes no rate. The position is there because today's contract lets two rules share an id. Part C makes that an error.
 2. `compound` takes a starting balance, a schedule and an annual rate, and returns the monthly balances, cumulative contributions and cumulative interest. It makes no decisions about rules.
 
 - `calculateRetirement` builds the schedule once and compounds it three times.
@@ -75,14 +86,20 @@ The split must add numbers in the order today's engine does. A different order c
   - Monthly mode. A recurring rule with a day is in `start` when the day is at or before `Math.ceil(daysInMonth / 2)`, and in `end` otherwise. So day 16 of a 31-day month is in `start`. The day decides even when the rule also has a placement. A recurring rule without a day uses its placement, or `start` when it has none. A one-time rule is in `start` whatever its day. No deposit has a numbered day.
   - Daily mode. A recurring rule with a day is on that day, clamped to the month. A recurring rule without a day keeps its placement bucket, or `start` when it has none. It is not moved to a numbered day. A one-time rule is on its day, or on day 1 when it has none.
 - Bucket totals. For each month, the `start` total, the `end` total and each numbered day's total are each summed from 0 in schedule order.
-- Monthly compounding. `balanceAfterStart = balance + startTotal`. `interest = balanceAfterStart * monthlyRate`. `balance = balanceAfterStart + interest + endTotal`. The month's contributions are `startTotal + endTotal`.
-- Daily compounding. Day 1's deposit is its numbered-day total plus `startTotal`, in that order. The last day's deposit is its numbered-day total plus `endTotal`. On each day, add the day's deposit to the balance once if it is not 0, then compute `balance * dailyRate` and add that to the balance. The month's contributions and the month's interest are each summed from 0, day by day.
+- Monthly compounding. `monthlyRate = (1 + annualRate) ** (1 / 12) - 1`. `balanceAfterStart = balance + startTotal`. `interest = balanceAfterStart * monthlyRate`. `balance = balanceAfterStart + interest + endTotal`. The month's contributions are `startTotal + endTotal`.
+- Daily compounding. `dailyRate = (1 + annualRate) ** (1 / daysInYear) - 1`. Day 1's deposit is its numbered-day total plus `startTotal`, in that order. The last day's deposit is its numbered-day total plus `endTotal`. A placement total of 0 is not added. On each day, add the day's deposit to the balance once if it is not 0, then compute `balance * dailyRate` and add that to the balance. The month's contributions and the month's interest are each summed from 0, day by day.
 - Running totals. The month's contributions and the month's interest are each added to the cumulative totals once per month.
 - A step reports `contributionsStart` as `startTotal`, `contributionsEnd` as `endTotal`, and `contributionsByDay` as the numbered-day totals before the placement totals are merged in.
+- Days outside 1 to 31. Today's contract accepts them, and part B must keep what the engine does with them. A recurring rule's day of 0 counts as no day, so the rule uses its placement in both modes. In daily mode a one-time rule's day is clamped into the month: 0 becomes 1, and a day past the end becomes the last day. Part C rejects these days as `invalid_day`, so none of this reaches the Rust port.
+- Values that are not finite. The two guards in daily compounding, on a placement total and on a day's deposit, are truthiness checks, so they skip `NaN` as well as 0. Part B keeps them as they are. Part C rejects input that is not finite, and for finite values adding a total of 0 changes nothing.
 
 ## Part C: calendar contract
 
-The engine switches to the new input types, still with one account's worth of maths. Add a test-only adapter, `legacyToScenario`, that maps a baseline config to a new scenario with one account. The baseline test runs through it and still passes exactly.
+Build the new engine's input side and its first entry point, still with one account's worth of maths.
+
+- `projectAccount(scenario, account, from, to, annualRate)` returns the account's `Series`, and `traceAccountRange` with the same arguments returns its trace. Part E defines both shapes. In part C, `from` and `to` must each be the 1st of a month, and anything else throws. Part D lifts that.
+- Add a test-only adapter, `legacyToScenario`, that maps a baseline config to a new scenario with one account. A second baseline test runs every stored case through the adapter and `projectAccount`, once per band, and must reproduce the stored yearly rows and digests exactly.
+- The old engine and its tests are untouched. See "Two engines until part G".
 
 ### Types
 
@@ -149,12 +166,13 @@ export interface RunOptions {
 }
 ```
 
-Part C implements these types but reads only `accounts[0]`. Part E adds the rest.
+Part C implements and validates all of these types. Its `projectAccount` works on one account at a time, and part E adds the scenario-level result.
 
 ### Dates
 
 - Inside the engine a date is `{ year, month, day }` with months 1 to 12. Write a small `plain-date.ts` with integer maths: days in a month, leap years, compare, add months, parse and format.
-- No `Date` object appears in the engine. No function reads the clock or the timezone.
+- No `Date` object appears in the new engine. No function in it reads the clock or the timezone. The old engine keeps its `Date` code until part G deletes it.
+- Validation guarantees a day is a whole number from 1 to 31. So the new engine keys day totals by number. The old engine keys them by the day's string form, because today's CLI accepts a quoted day.
 
 ### Validation
 
@@ -204,7 +222,7 @@ The adapter has a second half, `toLegacyRows`. It takes the legacy config along 
 
 ## Part D: day-accurate ranges
 
-`projectAccount(account, from, to, rate)` projects over the days from `from` up to, and not including, `to`. Each calendar month contributes one segment: the days of that month inside the range.
+`projectAccount(scenario, account, from, to, annualRate)` now projects over the days from `from` up to, and not including, `to`, for any two dates. Each calendar month contributes one segment: the days of that month inside the range.
 
 - Daily mode. For each day in the segment, add that day's deposits, then add the day's interest. The daily rate is unchanged: `(1 + r)^(1 / daysInYear) - 1`.
 - Monthly mode. Interest for a segment is `(balance + startDeposits) * monthlyRate * (segmentDays / daysInMonth)`, evaluated as written: the product first, then times the fraction, with the division done inside its own parentheses. Then add the `end` deposits. A full month multiplies by exactly 1, so full months match today. Multiplying by the days and then dividing does not: it changes the last digit.
@@ -320,7 +338,7 @@ Tests:
 - The effective rate is at or between the lowest and highest account rate.
 - Compounding the pool at the effective rate gives the total's `finalBalance` within one part in 10^9.
 - The README's example: $180,000 at 6% and $20,000 at 10%, no contributions, 30 years. The effective rate rounds to 6.66% and the last yearly weighted rate rounds to 7.0%.
-- The benchmark from part B, extended: one effective-rate solve on the reference case takes under 1 ms in monthly mode and under 5 ms in daily mode on this machine.
+- The benchmark from part B, extended: one effective-rate solve on the reference case takes under 1 ms in monthly mode and under 5 ms in daily mode on this machine. After part B, 60 full `compound` passes take 1.1 to 2.1 ms in monthly mode, because each pass also builds the monthly rows. The solver needs only the final balance, so give it a pass that returns only that.
 
 ## Part G: CLI, examples, logger
 
@@ -329,6 +347,9 @@ Tests:
 - `--today` defaults to the machine's local date. The CLI may read the clock. The engine may not.
 - On a `ScenarioError` it prints `{ "error": { "code": "...", "accountId": "...", "ruleId": "..." } }` and exits with status 2.
 - Rewrite the four example files to the new shape, each with at least two accounts. Add one with a stale account.
+- Delete the old engine once the CLI no longer uses it: the old entry points, the old schedule builder, `debug.ts` and the old config types in `src`.
+- Port each test in `calculator.test.ts` that the new contract can express to the new engine, with the same expected numbers where the start is on the 1st. List the ones it cannot express in the PR, with the reason for each.
+- The baseline stays, checked through the adapter only. Its stored inputs are old configs, so the old config type and `legacyToScenario` move into the test folder. Delete the baseline writer. Nothing can regenerate the baseline once the old engine is gone, which is the point.
 - Delete `packages/logger` and the `build*WideEvent` functions. The trace is plain data now.
 - Delete `custom-variable.ts`, `custom-variable-timing.ts` and their tests. They were form logic for the deleted app.
 - Rewrite `makeConfig` and `makeContribution` for the new types. Keep them as test helpers. Do not export them from the package.
