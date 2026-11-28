@@ -2,6 +2,7 @@ use serde_json::{Value, json};
 
 use super::{Bucket, ScheduledMonth, build_account_schedule, salary_in_year};
 use crate::date::CalendarDate;
+use crate::project::project_account;
 use crate::scenario::Scenario;
 
 const TODAY: &str = "2026-01-01";
@@ -73,6 +74,17 @@ impl Setup {
                 bucket: deposit.bucket(),
             })
             .collect()
+    }
+
+    /// At a rate of 0 from an opening balance of 0.
+    fn final_balance(&self, from: &str, to: &str) -> f64 {
+        let scenario = self.scenario();
+        let [account] = scenario.accounts() else {
+            panic!("expected one account");
+        };
+        project_account(&scenario, account, date(from), date(to), 0.0, 0.0)
+            .unwrap()
+            .final_balance()
     }
 }
 
@@ -735,14 +747,17 @@ fn lists_a_month_by_rule_position_not_by_day() {
         ),
     ]);
 
+    let setup = Setup::new(rules);
+
     assert_eq!(
-        Setup::new(rules).deposits("2026-01-01", "2026-02-01"),
+        setup.deposits("2026-01-01", "2026-02-01"),
         [
             listed("big", "2026-01-15", 1e16, Bucket::Start),
             listed("third", "2026-01-03", 1.0, Bucket::Start),
             listed("second", "2026-01-02", 1.0, Bucket::Start),
         ]
     );
+    assert_eq!(setup.final_balance("2026-01-01", "2026-02-01"), 1e16);
 }
 
 #[test]
@@ -765,16 +780,17 @@ fn lists_rules_sharing_a_day_of_daily_mode_in_rule_order() {
         ),
     ]);
 
+    let setup = Setup::new(rules).daily();
+
     assert_eq!(
-        Setup::new(rules)
-            .daily()
-            .deposits("2026-01-01", "2026-02-01"),
+        setup.deposits("2026-01-01", "2026-02-01"),
         [
             listed("big", "2026-01-05", 1e16, Bucket::Day(5)),
             listed("small-a", "2026-01-05", 1.0, Bucket::Day(5)),
             listed("small-b", "2026-01-05", 1.0, Bucket::Day(5)),
         ]
     );
+    assert_eq!(setup.final_balance("2026-01-01", "2026-02-01"), 1e16);
 }
 
 #[test]
