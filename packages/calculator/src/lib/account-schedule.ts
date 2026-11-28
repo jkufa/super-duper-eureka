@@ -29,7 +29,10 @@ export interface ScheduledMonth {
 
 export function salaryInYear(scenario: Scenario, year: number): number {
   const { annualBase, annualRaiseRate, asOf } = scenario.salary;
-  return annualBase * (1 + annualRaiseRate) ** (year - asOf.year);
+  const n = year - asOf.year;
+  return n >= 0
+    ? annualBase * (1 + annualRaiseRate) ** n
+    : annualBase / (1 + annualRaiseRate) ** -n;
 }
 
 export function buildAccountSchedule(
@@ -72,28 +75,25 @@ export function buildAccountSchedule(
 /** One segment per calendar month from `from` up to `to`, with no deposits. Empty when `from` is on or after `to`. */
 export function monthSegments(from: PlainDate, to: PlainDate): Array<ScheduledMonth> {
   const months: Array<ScheduledMonth> = [];
-  if (compareDates(from, to) >= 0) {
-    return months;
-  }
-  for (let first = { ...from, day: 1 }; compareDates(first, to) < 0; first = addMonths(first, 1)) {
-    months.push(monthSegment(first, from, to));
+  for (let start = from; compareDates(start, to) < 0;) {
+    const month = monthSegment(start, to);
+    months.push(month);
+    start = month.to;
   }
   return months;
 }
 
-function monthSegment(first: PlainDate, from: PlainDate, to: PlainDate): ScheduledMonth {
-  const next = addMonths(first, 1);
-  const segmentFrom = compareDates(from, first) > 0 ? from : first;
-  const endsInMonth = compareDates(to, next) < 0;
-  const monthDays = daysInMonth(first.year, first.month);
+function monthSegment(from: PlainDate, to: PlainDate): ScheduledMonth {
+  const endsInMonth = to.year === from.year && to.month === from.month;
+  const monthDays = daysInMonth(from.year, from.month);
   const lastDay = endsInMonth ? to.day - 1 : monthDays;
   return {
-    from: segmentFrom,
-    to: endsInMonth ? to : next,
-    firstDay: segmentFrom.day,
-    days: lastDay - segmentFrom.day + 1,
+    from,
+    to: endsInMonth ? to : addMonths({ ...from, day: 1 }, 1),
+    firstDay: from.day,
+    days: lastDay - from.day + 1,
     daysInMonth: monthDays,
-    daysInYear: daysInYear(first.year),
+    daysInYear: daysInYear(from.year),
     deposits: []
   };
 }

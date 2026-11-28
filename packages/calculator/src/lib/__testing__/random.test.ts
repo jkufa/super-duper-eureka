@@ -10,4 +10,10 @@ describe('createSeededRandom', () => {
     expect(rngA()).toBeCloseTo(rngB(), 12);
     expect(rngA()).toBeCloseTo(rngB(), 12);
   });
+
+  it('draws 0.6011037519201636 and then 0.44829055899754167 from seed 42', () => {
+    const random = createSeededRandom(42);
+
+    expect([random(), random()]).toStrictEqual([0.6011037519201636, 0.44829055899754167]);
+  });
 });

@@ -11,7 +11,7 @@ This file is temporary. The TypeScript code is the reference for the Rust port a
   - `src/lib/corpus/`: the parity corpus generator from spec 2 part H. `generateCase(seed)` in `case.ts`, valid cases in `valid.ts`, invalid and engine-failure cases in `faults.ts`, traits in `traits.ts`, and `stableJson` in `json.ts`. Not exported from the package. `no-clock.test.ts` scans it like engine code.
   - `src/lib/__testing__/`: Vitest tests and their helpers. `factories.ts` holds `makeScenarioFile`, `makeAccount` and `makeRule`. `baseline/` holds the stored baseline, which `legacy-scenario.ts` and `legacy-config.ts` read through the adapter.
   - `scripts/bench.ts`: the benchmark. `scripts/write-corpus.ts`: writes corpus cases to a folder.
-- `packages/cli/`: the `retirement-calc` CLI (`src/index.ts`) and example scenarios (`examples/`).
+- `packages/cli/`: the `retirement-calc` CLI (`src/index.ts`), its subprocess tests (`src/__testing__/cli.test.ts`) and example scenarios (`examples/`).
 
 ## Build, Test, and Development Commands
 
@@ -19,10 +19,10 @@ The repo runs on Vite+ (`vp`) with Bun as the package manager. Tasks are defined
 
 - `vp install`: install dependencies (runs Bun).
 - `vp run build`: build every package in dependency order (same as `vp run -r build`). Unchanged packages replay from cache.
-- `vp test`: run the calculator's unit tests. `vp run test` runs the same thing through the task cache.
+- `vp test`: run the calculator's unit tests and the CLI's subprocess tests, the two Vitest projects in the root config. `vp run test` runs the same thing through the task cache.
 - `vp check`: format check, lint, type-aware lint and TypeScript type check for the whole repo.
 - `vp lint` / `vp fmt`: lint or format on their own. `vp check --fix` applies fixes from both.
-- `vp run retirement-calc --scenario <file> [--today YYYY-MM-DD] [--trace <accountId>] [--band baseline|positive|negative]`: run the CLI on the Bun runtime. It prints one JSON document to stdout. It exits 1 on bad usage or a file that cannot be read or is not JSON, and 2 on a `ScenarioError`, with `{ "error": { "code", "accountId"?, "ruleId"? } }` on stdout.
+- `bun packages/cli/src/index.ts --scenario <file> [--today YYYY-MM-DD] [--trace <accountId>] [--band baseline|positive|negative]`: run the CLI on the Bun runtime. It prints one JSON document to stdout, and nothing else. Programs and the parity harness call it this way. `vp run retirement-calc` with the same options runs it too, for reading by eye: it prints a line of its own to stdout before the JSON. It exits 1 on bad usage or a file that cannot be read or is not JSON, and 2 on a `ScenarioError`, with `{ "error": { "code", "accountId"?, "ruleId"? } }` on stdout.
 - `vp run parity-corpus <outputDir> <firstSeed> <lastSeed>`: write the parity corpus. Each seed gives `<seed>.json`, the case `{ scenario, today, traits }`, and `<seed>.scenario.json`, its scenario alone, which a CLI reads with `--scenario <seed>.scenario.json --today <today>`. `traits` is a sorted list of the edges the case reaches; a failing case has `invalid` or `engine_error`, `fault:<name>`, `error:<code>` and, when the error carries them, `error_account:<id>` and `error_rule:<id>`. Nothing generated is committed.
 - `vp run @retirement/calculator#bench`: time one effective-rate solve and one `projectScenario` on the 30-year, three-account reference case, on Node and then on Bun.
 
@@ -35,6 +35,7 @@ The repo runs on Vite+ (`vp`) with Bun as the package manager. Tasks are defined
 ## Testing Guidelines
 
 - Unit tests: Vitest through `vp test`, in `packages/calculator/src/lib/__testing__`. Import test APIs from `vite-plus/test`.
+- CLI tests: `packages/cli/src/__testing__/cli.test.ts` runs the real CLI with `bun` as a subprocess and checks stdout, stderr and the exit status. They need `bun` on the `PATH`.
 - Add/adjust tests for behavioral changes.
 - Build test scenarios with `makeScenarioFile`, `makeAccount` and `makeRule` from `__testing__/factories.ts`, or as JSON objects, and run them through `parseScenario` with a fixed `today`.
 - The baseline in `__testing__/baseline/` is fixed. Never edit it. `baseline-scenario.test.ts` and `baseline-project-scenario.test.ts` must reproduce it exactly through the adapter. Nothing can regenerate it.
@@ -44,8 +45,8 @@ The repo runs on Vite+ (`vp`) with Bun as the package manager. Tasks are defined
 ## Agent Notes
 
 - CLI examples, each with the `today` its test uses:
-  - `vp run retirement-calc --scenario packages/cli/examples/basic.json --today 2026-01-01`
-  - `vp run retirement-calc --scenario packages/cli/examples/custom-growth.json --today 2026-01-01`
-  - `vp run retirement-calc --scenario packages/cli/examples/daily.json --today 2026-02-01 --trace brokerage`
-  - `vp run retirement-calc --scenario packages/cli/examples/one-time.json --today 2026-01-01`
-  - `vp run retirement-calc --scenario packages/cli/examples/stale-and-excluded.json --today 2026-06-15`
+  - `bun packages/cli/src/index.ts --scenario packages/cli/examples/basic.json --today 2026-01-01`
+  - `bun packages/cli/src/index.ts --scenario packages/cli/examples/custom-growth.json --today 2026-01-01`
+  - `bun packages/cli/src/index.ts --scenario packages/cli/examples/daily.json --today 2026-02-01 --trace brokerage`
+  - `bun packages/cli/src/index.ts --scenario packages/cli/examples/one-time.json --today 2026-01-01`
+  - `bun packages/cli/src/index.ts --scenario packages/cli/examples/stale-and-excluded.json --today 2026-06-15`

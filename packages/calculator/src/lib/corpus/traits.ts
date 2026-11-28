@@ -76,7 +76,7 @@ function scenarioTraits(file: ScenarioFile, scenario: Scenario, note: Note) {
   note(!isBefore(salary.asOf, today) && isBefore(salary.asOf, endDate), 'salary_as_of:in_range');
   note(!isBefore(salary.asOf, endDate), 'salary_as_of:after_range');
   note(isLeapDay(salary.asOf), 'salary_as_of_feb_29');
-  note(hasSalaryPower(salary) && salary.asOf.year > today.year, 'negative_salary_power');
+  note(hasSalaryPower(salary) && salary.asOf.year > today.year, 'salary_before_as_of');
 
   note(true, `accounts:${String(accounts.length)}`);
   note(
@@ -198,7 +198,7 @@ function depositTraits(scenario: Scenario, account: Account, note: Note) {
         rule.type === 'salaryPercent' &&
           hasSalaryPower(scenario.salary) &&
           deposit.date.year < scenario.salary.asOf.year,
-        'negative_salary_power'
+        'salary_before_as_of'
       );
       if (rule.growth && rule.startDate) {
         const periods = growthPeriods(rule.startDate, deposit.date, rule.growth.cadence);

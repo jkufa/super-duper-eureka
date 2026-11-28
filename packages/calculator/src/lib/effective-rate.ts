@@ -75,12 +75,15 @@ export function effectiveRate(
   included: ReadonlyArray<RatedAccount>,
   total: Series
 ): number {
-  const rates = included.map(({ annualRate }) => annualRate);
-  if (rates.length === 0) {
+  if (included.length === 0) {
     return scenario.interest.annualRate;
   }
-  const lowest = Math.min(...rates);
-  const highest = Math.max(...rates);
+  let lowest = Number.POSITIVE_INFINITY;
+  let highest = Number.NEGATIVE_INFINITY;
+  for (const { annualRate } of included) {
+    lowest = Math.min(lowest, annualRate);
+    highest = Math.max(highest, annualRate);
+  }
   if (lowest === highest) {
     return lowest;
   }
@@ -93,6 +96,11 @@ export function effectiveRate(
     return scenario.interest.annualRate;
   }
   const { compounding } = scenario.interest;
+  const atLo = poolFinalBalance(pool, compounding, lowest);
+  const atHi = poolFinalBalance(pool, compounding, highest);
+  if (atHi - atLo <= 1e-9 * atLo) {
+    return lowest;
+  }
   return bisectRate(lowest, highest, total.finalBalance, (rate) =>
     poolFinalBalance(pool, compounding, rate)
   );
