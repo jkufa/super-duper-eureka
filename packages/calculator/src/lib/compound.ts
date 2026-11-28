@@ -23,6 +23,14 @@ export interface MonthDeposits {
 }
 
 type MonthDays = Pick<ScheduleMonth, 'daysInMonth' | 'daysInYear'>;
+
+export interface SegmentDays extends MonthDays {
+  /** The first day of the month counted. */
+  firstDay: number;
+  /** How many days from firstDay are counted. */
+  days: number;
+}
+
 type BucketedAmount = Pick<Deposit, 'amount' | 'bucket'>;
 
 export interface BucketTotals {
@@ -90,15 +98,36 @@ export function compoundMonth(
   compounding: CompoundingFrequency,
   annualRate: number
 ) {
-  return compounding === 'daily'
-    ? compoundDaily(balance, totals, month, annualRate)
-    : compoundMonthly(balance, totals, annualRate);
+  return compoundSegment(
+    balance,
+    totals,
+    { ...month, firstDay: 1, days: month.daysInMonth },
+    compounding,
+    annualRate
+  );
 }
 
-function compoundMonthly(balance: number, totals: BucketTotals, annualRate: number) {
+export function compoundSegment(
+  balance: number,
+  totals: BucketTotals,
+  segment: SegmentDays,
+  compounding: CompoundingFrequency,
+  annualRate: number
+) {
+  return compounding === 'daily'
+    ? compoundDaily(balance, totals, segment, annualRate)
+    : compoundMonthly(balance, totals, segment, annualRate);
+}
+
+function compoundMonthly(
+  balance: number,
+  totals: BucketTotals,
+  segment: SegmentDays,
+  annualRate: number
+) {
   const monthlyRate = (1 + annualRate) ** (1 / MONTHS_PER_YEAR) - 1;
   const balanceAfterStart = balance + totals.start;
-  const interest = balanceAfterStart * monthlyRate;
+  const interest = balanceAfterStart * monthlyRate * (segment.days / segment.daysInMonth);
 
   return {
     balance: balanceAfterStart + interest + totals.end,
@@ -110,16 +139,16 @@ function compoundMonthly(balance: number, totals: BucketTotals, annualRate: numb
 function compoundDaily(
   startBalance: number,
   totals: BucketTotals,
-  month: MonthDays,
+  segment: SegmentDays,
   annualRate: number
 ) {
-  const dailyRate = (1 + annualRate) ** (1 / month.daysInYear) - 1;
+  const dailyRate = (1 + annualRate) ** (1 / segment.daysInYear) - 1;
   let balance = startBalance;
   let contributions = 0;
   let interest = 0;
 
-  for (let day = 1; day <= month.daysInMonth; day++) {
-    const added = depositOn(day, totals, month.daysInMonth);
+  for (let day = segment.firstDay; day < segment.firstDay + segment.days; day++) {
+    const added = depositOn(day, totals, segment.daysInMonth);
     if (added) {
       balance += added;
       contributions += added;

@@ -14,8 +14,13 @@ export interface ScheduledDeposit {
 }
 
 export interface ScheduledMonth {
-  /** The 1st of the month. */
-  start: PlainDate;
+  /** The first day counted. */
+  from: PlainDate;
+  /** The first day not counted. */
+  to: PlainDate;
+  /** The first day of the month counted. */
+  firstDay: number;
+  days: number;
   daysInMonth: number;
   daysInYear: number;
   deposits: Array<ScheduledDeposit>;
@@ -34,16 +39,11 @@ export function buildAccountSchedule(
 ): Array<ScheduledMonth> {
   const rules = account.contributions.filter((rule) => rule.enabled);
   const months: Array<ScheduledMonth> = [];
-  for (let start = { ...from, day: 1 }; compareDates(start, to) < 0; start = addMonths(start, 1)) {
-    const month: ScheduledMonth = {
-      start,
-      daysInMonth: daysInMonth(start.year, start.month),
-      daysInYear: daysInYear(start.year),
-      deposits: []
-    };
+  for (let first = { ...from, day: 1 }; compareDates(first, to) < 0; first = addMonths(first, 1)) {
+    const month = monthSegment(first, from, to);
     for (const rule of rules) {
       const date = depositDate(rule, month);
-      if (!date || compareDates(date, from) < 0 || compareDates(date, to) >= 0) {
+      if (!date || compareDates(date, month.from) < 0 || compareDates(date, month.to) >= 0) {
         continue;
       }
       const amount = depositAmount(scenario, rule, date);
@@ -62,17 +62,35 @@ export function buildAccountSchedule(
   return months;
 }
 
+function monthSegment(first: PlainDate, from: PlainDate, to: PlainDate): ScheduledMonth {
+  const next = addMonths(first, 1);
+  const segmentFrom = compareDates(from, first) > 0 ? from : first;
+  const endsInMonth = compareDates(to, next) < 0;
+  const monthDays = daysInMonth(first.year, first.month);
+  const lastDay = endsInMonth ? to.day - 1 : monthDays;
+  return {
+    from: segmentFrom,
+    to: endsInMonth ? to : next,
+    firstDay: segmentFrom.day,
+    days: lastDay - segmentFrom.day + 1,
+    daysInMonth: monthDays,
+    daysInYear: daysInYear(first.year),
+    deposits: []
+  };
+}
+
 function depositDate(rule: Rule, month: ScheduledMonth): PlainDate | undefined {
   const { timing } = rule;
+  const { year, month: monthNumber } = month.from;
   if (timing.frequency === 'oneTime') {
     const { on } = timing;
-    return on.year === month.start.year && on.month === month.start.month ? on : undefined;
+    return on.year === year && on.month === monthNumber ? on : undefined;
   }
-  if (timing.frequency === 'annual' && timing.month !== month.start.month) {
+  if (timing.frequency === 'annual' && timing.month !== monthNumber) {
     return undefined;
   }
 
-  const date = { ...month.start, day: recurringDay(timing, month.daysInMonth) };
+  const date = { year, month: monthNumber, day: recurringDay(timing, month.daysInMonth) };
   const afterStart = !rule.startDate || compareDates(date, rule.startDate) >= 0;
   const beforeEnd = !rule.endDate || compareDates(date, rule.endDate) <= 0;
   return afterStart && beforeEnd ? date : undefined;

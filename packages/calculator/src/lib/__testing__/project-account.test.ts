@@ -103,19 +103,6 @@ describe('projectAccount', () => {
   });
 
   it.each([
-    ['from', { year: 2026, month: 11, day: 2 }, { year: 2027, month: 1, day: 1 }, '2026-11-02'],
-    ['to', { year: 2026, month: 11, day: 1 }, { year: 2027, month: 1, day: 31 }, '2027-01-31']
-  ])('rejects a %s date that is not the 1st of a month', (name, from, to, received) => {
-    const { scenario, account } = scenarioFor('monthly');
-    const expected = new RangeError(
-      `${name} must be the 1st of a month until day-accurate ranges land (received ${received}).`
-    );
-
-    expect(() => projectAccount(scenario, account, from, to, 0, 0)).toThrow(expected);
-    expect(() => traceAccountRange(scenario, account, from, to, 0, 0)).toThrow(expected);
-  });
-
-  it.each([
     [
       'a deposit that overflows the balance',
       [{ id: 'huge', type: 'flat', amount: 1e308, timing: { frequency: 'monthly' } }],

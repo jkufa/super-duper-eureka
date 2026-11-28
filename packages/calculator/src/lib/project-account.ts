@@ -1,8 +1,8 @@
 import { buildAccountSchedule } from './account-schedule';
 import type { ScheduledMonth } from './account-schedule';
-import { compoundMonth, totalByBucket } from './compound';
+import { compoundSegment, totalByBucket } from './compound';
 import { ScenarioError } from './parse-scenario';
-import { addMonths, formatPlainDate } from './plain-date';
+import { formatPlainDate } from './plain-date';
 import type { PlainDate } from './plain-date';
 import type { Account, PlainDateString, Scenario } from './scenario';
 import type { DepositBucket } from './schedule';
@@ -28,7 +28,7 @@ export interface Series {
   totalContributions: number;
   totalInterest: number;
   monthly: Array<Row>;
-  /** One row per calendar year, at its last counted month. */
+  /** One row per calendar year, at its last counted day. */
   yearly: Array<Row>;
 }
 
@@ -77,8 +77,8 @@ export function projectAccount(
   const compounded = compoundRange(scenario, account, from, to, openingBalance, annualRate);
   const monthly = compounded.map(
     ({ month, balanceEnd, totalContributions, totalInterest }): Row => ({
-      year: month.start.year,
-      month: month.start.month,
+      year: month.from.year,
+      month: month.from.month,
       balance: balanceEnd,
       contributions: totalContributions,
       interest: totalInterest
@@ -110,9 +110,9 @@ export function traceAccountRange(
 ): Array<TraceSegment> {
   return compoundRange(scenario, account, from, to, openingBalance, annualRate).map(
     ({ month, balanceStart, balanceEnd, contributions, interest }) => ({
-      from: formatPlainDate(month.start),
-      to: formatPlainDate(addMonths(month.start, 1)),
-      days: month.daysInMonth,
+      from: formatPlainDate(month.from),
+      to: formatPlainDate(month.to),
+      days: month.days,
       daysInMonth: month.daysInMonth,
       daysInYear: month.daysInYear,
       balanceStart,
@@ -138,15 +138,13 @@ function compoundRange(
   openingBalance: number,
   annualRate: number
 ): Array<CompoundedMonth> {
-  checkFirstOfMonth('from', from);
-  checkFirstOfMonth('to', to);
   const compounded: Array<CompoundedMonth> = [];
   let balance = openingBalance;
   let totalContributions = 0;
   let totalInterest = 0;
 
   for (const month of buildAccountSchedule(scenario, account, from, to)) {
-    const result = compoundMonth(
+    const result = compoundSegment(
       balance,
       totalByBucket(month.deposits),
       month,
@@ -170,21 +168,13 @@ function compoundRange(
   return compounded;
 }
 
-function checkFirstOfMonth(name: string, date: PlainDate) {
-  if (date.day !== 1) {
-    throw new RangeError(
-      `${name} must be the 1st of a month until day-accurate ranges land (received ${formatPlainDate(date)}).`
-    );
-  }
-}
-
 function checkFinite(account: Account, month: ScheduledMonth, figures: Record<string, number>) {
   const overflowed = Object.entries(figures).find(([, value]) => !Number.isFinite(value));
   if (overflowed) {
     throw new ScenarioError(
       'not_finite',
       '',
-      `the ${overflowed[0]} after ${formatPlainDate(month.start)} is ${String(overflowed[1])}`,
+      `the ${overflowed[0]} after ${formatPlainDate(month.from)} is ${String(overflowed[1])}`,
       { accountId: account.id }
     );
   }
