@@ -1,5 +1,5 @@
 //! Interest on one month's segment of a schedule, in the order of arithmetic the TypeScript
-//! engine uses.
+//! engine used.
 
 use crate::scenario::Compounding;
 use crate::schedule::{Bucket, Deposit, ScheduledMonth};

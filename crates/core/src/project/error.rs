@@ -17,7 +17,7 @@ pub enum ProjectionError<'a> {
 }
 
 impl<'a> ProjectionError<'a> {
-    /// The same code the TypeScript engine reports.
+    /// The same code the TypeScript engine reported.
     pub fn code(&self) -> &'static str {
         match self {
             Self::NotFinite { .. } | Self::ScenarioNotFinite => "not_finite",

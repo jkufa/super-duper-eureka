@@ -72,7 +72,7 @@ pub enum ScenarioError {
 }
 
 impl ScenarioError {
-    /// The same code the TypeScript engine reports.
+    /// The same code the TypeScript engine reported.
     pub fn code(&self) -> &'static str {
         match self {
             Self::UnsupportedVersion => "unsupported_version",
