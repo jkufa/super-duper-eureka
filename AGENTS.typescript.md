@@ -6,8 +6,11 @@ This file is temporary. The TypeScript code is the reference for the Rust port a
 
 ## Project Structure & Module Organization
 
-- `packages/calculator/`: core calculator + domain utilities (`src/lib/__testing__` for Vitest).
-- `packages/cli/`: CLI wrapper and examples (`packages/cli/examples/`).
+- `packages/calculator/`: the projection engine. `src/index.ts` exports `parseScenario`, `projectScenario`, `traceAccount`, `ScenarioError` and the file and result types, nothing else.
+  - `src/lib/`: `plain-date.ts`, `scenario.ts` (file and validated types), `parse-scenario.ts`, `account-schedule.ts`, `compound.ts`, `project-account.ts`, `project-scenario.ts`, `effective-rate.ts`, and `random.ts` (`createSeededRandom` for spec 2 part H).
+  - `src/lib/__testing__/`: Vitest tests and their helpers. `factories.ts` holds `makeScenarioFile`, `makeAccount` and `makeRule`. `baseline/` holds the stored baseline, which `legacy-scenario.ts` and `legacy-config.ts` read through the adapter.
+  - `scripts/bench.ts`: the benchmark.
+- `packages/cli/`: the `retirement-calc` CLI (`src/index.ts`) and example scenarios (`examples/`).
 
 ## Build, Test, and Development Commands
 
@@ -18,8 +21,8 @@ The repo runs on Vite+ (`vp`) with Bun as the package manager. Tasks are defined
 - `vp test`: run the calculator's unit tests. `vp run test` runs the same thing through the task cache.
 - `vp check`: format check, lint, type-aware lint and TypeScript type check for the whole repo.
 - `vp lint` / `vp fmt`: lint or format on their own. `vp check --fix` applies fixes from both.
-- `vp run retirement-calc --config <file>`: run the CLI on the Bun runtime.
-- `vp run @retirement/calculator#bench`: time 60 `compound` passes and 60 `calculateProjection` runs on the 30-year, five-rule reference case, on Node and then on Bun.
+- `vp run retirement-calc --scenario <file> [--today YYYY-MM-DD] [--trace <accountId>] [--band baseline|positive|negative]`: run the CLI on the Bun runtime. It prints one JSON document to stdout. It exits 1 on bad usage or a file that cannot be read or is not JSON, and 2 on a `ScenarioError`, with `{ "error": { "code", "accountId"?, "ruleId"? } }` on stdout.
+- `vp run @retirement/calculator#bench`: time one effective-rate solve and one `projectScenario` on the 30-year, three-account reference case, on Node and then on Bun.
 
 ## Coding Style & Naming Conventions
 
@@ -31,9 +34,16 @@ The repo runs on Vite+ (`vp`) with Bun as the package manager. Tasks are defined
 
 - Unit tests: Vitest through `vp test`, in `packages/calculator/src/lib/__testing__`. Import test APIs from `vite-plus/test`.
 - Add/adjust tests for behavioral changes.
+- Build test scenarios with `makeScenarioFile`, `makeAccount` and `makeRule` from `__testing__/factories.ts`, or as JSON objects, and run them through `parseScenario` with a fixed `today`.
+- The baseline in `__testing__/baseline/` is fixed. Never edit it. `baseline-scenario.test.ts` and `baseline-project-scenario.test.ts` must reproduce it exactly through the adapter. Nothing can regenerate it.
+- `examples.test.ts` projects every file in `packages/cli/examples/` with a fixed `today`. A new example needs an entry there.
+- `no-clock.test.ts` fails if engine source outside the test folder contains `new Date`, `Date.now` or `Math.random`. The CLI is the only code that reads the clock.
 
 ## Agent Notes
 
-- CLI examples:
-  - `vp run retirement-calc --config packages/cli/examples/basic.json`
-  - `vp run retirement-calc --config packages/cli/examples/daily-debug.json --debug`
+- CLI examples, each with the `today` its test uses:
+  - `vp run retirement-calc --scenario packages/cli/examples/basic.json --today 2026-01-01`
+  - `vp run retirement-calc --scenario packages/cli/examples/custom-growth.json --today 2026-01-01`
+  - `vp run retirement-calc --scenario packages/cli/examples/daily.json --today 2026-02-01 --trace brokerage`
+  - `vp run retirement-calc --scenario packages/cli/examples/one-time.json --today 2026-01-01`
+  - `vp run retirement-calc --scenario packages/cli/examples/stale-and-excluded.json --today 2026-06-15`
