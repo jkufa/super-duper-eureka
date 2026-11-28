@@ -94,7 +94,7 @@ Process:
 - The comment rule under "Coding Style" applies, and so does silencing a lint with `#[expect]` and a reason. Find the way that needs neither.
 - A doc comment that states a field's unit or invariant is a fact about the data, not a justification. Write those. A field that needs neither gets none.
 - A bug fix comes with a test that fails without the fix.
-- Before writing a new module, read the exemplar and match it. The exemplar is named here once it exists.
+- Before writing a new module, read the exemplar and match it: `crates/core/src/date.rs` and `crates/core/src/scenario/` (`raw.rs`, `mod.rs`, `account.rs`, `rule.rs`, `error.rs`, `tests.rs`). Imitate how the raw file types become validated types with private fields and accessors, how each validator returns an error that names the account or rule at fault without cloning ids, and how the tests build input from JSON text and edit one field per case.
 - Review agents check each of these rules on every Rust PR and log repeats in the code review log.
 
 ### Finishing Work

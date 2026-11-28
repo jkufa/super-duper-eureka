@@ -33,7 +33,7 @@ Port `buildSchedule` and the deposit and amount rules from spec 2 part C.
 - The schedule is a `Vec` of deposits in a fixed order: by month, then by account position, then by the rule's position in its account. It is not ordered by day within a month. Bucket totals are summed in that order. See "Grouping and order" in spec 2 part B, which this part ports line for line.
 - Use the built-in `f64::powi` for whole-number powers and `f64::powf` for the rest. On 200,000 samples `powi` matched Bun's `**` every time, and `powf` matched it on the fractional roots every time. Do not use `powf` for a whole-number power, and do not write a power function of our own.
 - Port the TypeScript unit tests for deposits and amounts one for one, with the same inputs and expected values.
-- Count growth periods the way spec 2 defines them: the largest `n` for which the rule's start plus `n` months, with the day clamped, is on or before the deposit. Do not read the months from a date library's difference. In `jiff` 0.2.46, 31 January plus one month is 28 February, but the month-unit difference between those two dates is 28 days and no months, which would undercount.
+- Count growth periods the way spec 2 defines them: the largest `n` for which the rule's start plus `n` months, with the day clamped, is on or before the deposit. Do not read the months from a date library's difference. A reviewer measured this on `jiff`: 31 January plus one month is 28 February, but the month-unit difference between those two dates came back as 28 days and no months, which would undercount. `CalendarDate` exposes no difference for that reason.
 - The date type accepts only spec 2's file grammar: ten ASCII characters and years 0001 to 9999. `jiff`'s own parser also accepts year 0000 and a timestamp such as `2026-01-01T00:00:00`, so wrap it.
 
 ## Part B: compounding and account projection
@@ -62,6 +62,8 @@ Port `traceAccount`. Same records, same field names.
 
 - Argument parsing uses `clap`. JSON uses `serde_json` with its `float_roundtrip` feature, so a number read from a file is the nearest float, as it is in JavaScript.
 - `--today` defaults to the machine's local date. This is the only place in the workspace that reads the clock.
+- `core` takes `today` as a `CalendarDate`, so the CLI owns reading it. A `--today` value that is not a date in the file grammar is `invalid_date`, the code TypeScript gives for a bad `today` in its options.
+- The CLI reads the file in two steps: the version on its own through `VersionFile` and `Version::check`, then the whole file into `ScenarioFile`. Any failure to deserialise is `invalid_field`.
 - A catch-all error type is fine here. Errors from `core` still print as the JSON error object and exit with status 2.
 - Run every example file from spec 2 through both CLIs and compare by eye before part F automates it.
 
