@@ -70,71 +70,71 @@ pub struct VersionFile {
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct ScenarioFile {
-    pub version: Version,
+    pub(super) version: Version,
     /// `YYYY-MM-DD`. A boundary: the last day counted is the day before it.
-    pub end_date: String,
-    pub interest: InterestFile,
-    pub salary: SalaryFile,
-    pub accounts: Vec<AccountFile>,
+    pub(super) end_date: String,
+    pub(super) interest: InterestFile,
+    pub(super) salary: SalaryFile,
+    pub(super) accounts: Vec<AccountFile>,
 }
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct InterestFile {
-    pub annual_rate: f64,
+    pub(super) annual_rate: f64,
     #[serde(default, deserialize_with = "present")]
-    pub variance: Option<f64>,
+    pub(super) variance: Option<f64>,
     #[serde(default, deserialize_with = "present")]
-    pub compounding: Option<Compounding>,
+    pub(super) compounding: Option<Compounding>,
 }
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct SalaryFile {
-    pub annual_base: Finite,
+    pub(super) annual_base: Finite,
     #[serde(default, deserialize_with = "present")]
-    pub annual_raise_rate: Option<f64>,
+    pub(super) annual_raise_rate: Option<f64>,
     /// `YYYY-MM-DD`. The date `annual_base` was true.
-    pub as_of: String,
+    pub(super) as_of: String,
 }
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct AccountFile {
-    pub id: String,
-    pub name: String,
-    pub kind: AccountKind,
-    pub included: bool,
-    pub balance: Finite,
+    pub(super) id: String,
+    pub(super) name: String,
+    pub(super) kind: AccountKind,
+    pub(super) included: bool,
+    pub(super) balance: Finite,
     /// `YYYY-MM-DD`. The balance is true at the start of this day.
-    pub balance_as_of: String,
+    pub(super) balance_as_of: String,
     #[serde(default, deserialize_with = "present")]
-    pub annual_rate: Option<f64>,
-    pub contributions: Vec<ContributionRuleFile>,
+    pub(super) annual_rate: Option<f64>,
+    pub(super) contributions: Vec<ContributionRuleFile>,
 }
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields, remote = "Self")]
 pub struct ContributionRuleFile {
-    pub id: String,
+    pub(super) id: String,
     #[serde(default, deserialize_with = "present")]
-    pub name: Option<String>,
+    pub(super) name: Option<String>,
     #[serde(default, deserialize_with = "present")]
-    pub enabled: Option<bool>,
+    pub(super) enabled: Option<bool>,
     #[serde(rename = "type")]
-    pub contribution_type: ContributionType,
-    pub amount: Finite,
+    pub(super) contribution_type: ContributionType,
+    pub(super) amount: Finite,
     #[serde(default, deserialize_with = "present")]
-    pub salary_basis: Option<SalaryBasis>,
+    pub(super) salary_basis: Option<SalaryBasis>,
     #[serde(default, deserialize_with = "present")]
-    pub growth: Option<GrowthFile>,
-    pub timing: TimingFile,
+    pub(super) growth: Option<GrowthFile>,
+    pub(super) timing: TimingFile,
     /// `YYYY-MM-DD`. Recurring rules only.
     #[serde(default, deserialize_with = "present")]
-    pub start_date: Option<String>,
+    pub(super) start_date: Option<String>,
     /// `YYYY-MM-DD`. Recurring rules only.
     #[serde(default, deserialize_with = "present")]
-    pub end_date: Option<String>,
+    pub(super) end_date: Option<String>,
 }
 
 impl<'de> Deserialize<'de> for ContributionRuleFile {
@@ -154,9 +154,9 @@ impl<'de> Deserialize<'de> for ContributionRuleFile {
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct GrowthFile {
     #[serde(rename = "type")]
-    pub kind: GrowthKind,
-    pub amount: Finite,
-    pub cadence: GrowthCadence,
+    pub(super) kind: GrowthKind,
+    pub(super) amount: Finite,
+    pub(super) cadence: GrowthCadence,
 }
 
 #[derive(Debug, Deserialize)]

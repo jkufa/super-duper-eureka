@@ -517,6 +517,34 @@ fn per_contribution_on_one_time() {
 }
 
 #[test]
+fn gives_only_a_recurring_rule_start_and_end_dates() {
+    let bounded = |frequency: Value| {
+        let mut file = valid_file();
+        let gift = &mut file["accounts"][1]["contributions"][0];
+        gift["timing"] = frequency;
+        gift["startDate"] = json!("2027-01-01");
+        gift["endDate"] = json!("2027-12-31");
+        read(file)
+    };
+
+    assert!(bounded(json!({ "frequency": "oneTime", "on": "2027-06-30" })).is_err());
+    for timing in [
+        json!({ "frequency": "monthly" }),
+        json!({ "frequency": "annual", "month": 6 }),
+    ] {
+        let scenario = parse(bounded(timing).unwrap()).unwrap();
+        let gift = &scenario.accounts()[1].contributions()[0];
+        assert_eq!(
+            (gift.start_date(), gift.end_date()),
+            (Some(date("2027-01-01")), Some(date("2027-12-31")))
+        );
+    }
+    let scenario = parse(read(valid_file()).unwrap()).unwrap();
+    let gift = &scenario.accounts()[1].contributions()[0];
+    assert_eq!((gift.start_date(), gift.end_date()), (None, None));
+}
+
+#[test]
 fn refuses_to_deserialise_a_file_of_the_wrong_shape() {
     let edits: [fn(&mut Value); 15] = [
         |file| file["extra"] = json!(1),
