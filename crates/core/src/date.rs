@@ -51,6 +51,16 @@ impl CalendarDate {
         self.0.checked_add(span).ok().and_then(Self::in_range)
     }
 
+    /// The same year and month on `day`, or on the month's last day when it has no such day.
+    /// A `day` below 1 means the 1st.
+    pub fn with_day_clamped(self, day: i8) -> Self {
+        self.0
+            .with()
+            .day(day.max(1))
+            .build()
+            .map_or_else(|_| Self(self.0.last_of_month()), Self)
+    }
+
     fn in_range(date: Date) -> Option<Self> {
         (date.year() >= FIRST_YEAR).then_some(Self(date))
     }
@@ -143,6 +153,30 @@ mod tests {
                 date(from).checked_add_months(months).unwrap().to_string(),
                 expected,
                 "{from} plus {months} months"
+            );
+        }
+    }
+
+    #[test]
+    fn moves_to_another_day_of_the_same_month_clamping_to_its_end() {
+        for (from, day, expected) in [
+            ("2026-04-15", 1, "2026-04-01"),
+            ("2026-04-15", 30, "2026-04-30"),
+            ("2026-04-15", 31, "2026-04-30"),
+            ("2026-01-01", 31, "2026-01-31"),
+            ("2026-02-10", 29, "2026-02-28"),
+            ("2026-02-10", 31, "2026-02-28"),
+            ("2024-02-10", 29, "2024-02-29"),
+            ("2024-02-10", 31, "2024-02-29"),
+            ("2026-03-09", 9, "2026-03-09"),
+            ("2026-03-09", 0, "2026-03-01"),
+            ("9999-12-01", 31, "9999-12-31"),
+            ("0001-01-31", 1, "0001-01-01"),
+        ] {
+            assert_eq!(
+                date(from).with_day_clamped(day).to_string(),
+                expected,
+                "{from} on day {day}"
             );
         }
     }
