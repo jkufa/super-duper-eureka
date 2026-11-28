@@ -716,6 +716,15 @@ fn divides_by_a_positive_power_before_salary_as_of_and_multiplies_by_one_from_it
 }
 
 #[test]
+fn raises_salary_by_a_whole_power_90000_at_3_percent_after_4_years_is_101295_79289999999() {
+    let salary = json!({ "annualBase": 90_000, "annualRaiseRate": 0.03, "asOf": "2026-07-01" });
+    let scenario = Setup::new(json!([])).with_salary(salary).scenario();
+
+    assert_eq!(salary_in_year(&scenario, 2030), 101_295.792_899_999_99);
+    assert_eq!(90_000.0 * 1.03_f64.powf(4.0), 101_295.792_900_000_01);
+}
+
+#[test]
 fn gives_0_for_a_salary_before_as_of_whose_undone_raises_overflow_1e308_over_infinity() {
     let salary = json!({ "annualBase": 1e308, "annualRaiseRate": 1e155, "asOf": "2028-01-01" });
     let scenario = Setup::new(json!([])).with_salary(salary).scenario();

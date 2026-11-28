@@ -6,7 +6,8 @@ use super::{
 };
 use crate::date::CalendarDate;
 use crate::fixture::{
-    Segment, Setup, date, doubling_daily_rate, flat, monthly, monthly_end, segments, traced_deposit,
+    Segment, Setup, date, doubling_daily_rate, flat, monthly, monthly_end, one_time, segments,
+    traced_deposit,
 };
 use crate::project::{MonthlyRow, ProjectionError, Series, YearlyRow};
 use crate::scenario::Scenario;
@@ -300,6 +301,39 @@ mod a_stale_account {
 
 mod accounts_and_the_total {
     use super::*;
+
+    #[test]
+    fn adds_a_month_of_deposits_to_the_running_contributions_as_one_total_1e16_plus_2_not_1e16_plus_1_plus_1()
+     {
+        let from_february = |mut rule: serde_json::Value| {
+            rule["startDate"] = json!("2026-02-01");
+            rule
+        };
+        let scenario = Setup::new(
+            "2026-01-01",
+            "2026-03-01",
+            vec![json!({
+                "id": "big",
+                "contributions": [
+                    one_time("first", 1e16, "2026-01-15"),
+                    from_february(monthly("at start", 1.0)),
+                    from_february(monthly_end("at end", 1.0)),
+                ]
+            })],
+        )
+        .scenario();
+        let projection = project(&scenario);
+        let account = only_account(projection.bands().baseline().accounts());
+        let contributions: Vec<f64> = account
+            .series()
+            .monthly()
+            .iter()
+            .map(|row| row.contributions())
+            .collect();
+
+        assert_eq!(contributions, [1e16, 10_000_000_000_000_002.0]);
+        assert_eq!(1e16 + 1.0 + 1.0, 1e16);
+    }
 
     #[test]
     fn projects_an_excluded_account_but_leaves_it_out_of_the_total_and_the_stale_list_kept_1000_to_2000_excluded_50_to_100_then_200()
