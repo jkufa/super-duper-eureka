@@ -56,7 +56,7 @@ Before any engine change, save today's outputs.
 
 Same public contract as today. Only the inside changes.
 
-1. `buildSchedule` takes the rules, salary, dates and compounding mode and returns a flat list of deposits. Each deposit has a rule id, a date, an amount and a bucket: `start`, `end` or a day number. It takes no rate.
+1. `buildSchedule` takes the rules, salary, dates and compounding mode and returns a flat list of deposits. Each deposit has a rule id, the rule's position, a date, an amount and a bucket: `start`, `end` or a day number. It takes no rate. The position is there because today's contract lets two rules share an id. Part C makes that an error.
 2. `compound` takes a starting balance, a schedule and an annual rate, and returns the monthly balances, cumulative contributions and cumulative interest. It makes no decisions about rules.
 
 - `calculateRetirement` builds the schedule once and compounds it three times.
@@ -75,8 +75,8 @@ The split must add numbers in the order today's engine does. A different order c
   - Monthly mode. A recurring rule with a day is in `start` when the day is at or before `Math.ceil(daysInMonth / 2)`, and in `end` otherwise. So day 16 of a 31-day month is in `start`. The day decides even when the rule also has a placement. A recurring rule without a day uses its placement, or `start` when it has none. A one-time rule is in `start` whatever its day. No deposit has a numbered day.
   - Daily mode. A recurring rule with a day is on that day, clamped to the month. A recurring rule without a day keeps its placement bucket, or `start` when it has none. It is not moved to a numbered day. A one-time rule is on its day, or on day 1 when it has none.
 - Bucket totals. For each month, the `start` total, the `end` total and each numbered day's total are each summed from 0 in schedule order.
-- Monthly compounding. `balanceAfterStart = balance + startTotal`. `interest = balanceAfterStart * monthlyRate`. `balance = balanceAfterStart + interest + endTotal`. The month's contributions are `startTotal + endTotal`.
-- Daily compounding. Day 1's deposit is its numbered-day total plus `startTotal`, in that order. The last day's deposit is its numbered-day total plus `endTotal`. On each day, add the day's deposit to the balance once if it is not 0, then compute `balance * dailyRate` and add that to the balance. The month's contributions and the month's interest are each summed from 0, day by day.
+- Monthly compounding. `monthlyRate = (1 + annualRate) ** (1 / 12) - 1`. `balanceAfterStart = balance + startTotal`. `interest = balanceAfterStart * monthlyRate`. `balance = balanceAfterStart + interest + endTotal`. The month's contributions are `startTotal + endTotal`.
+- Daily compounding. `dailyRate = (1 + annualRate) ** (1 / daysInYear) - 1`. Day 1's deposit is its numbered-day total plus `startTotal`, in that order. The last day's deposit is its numbered-day total plus `endTotal`. A placement total of 0 is not added. On each day, add the day's deposit to the balance once if it is not 0, then compute `balance * dailyRate` and add that to the balance. The month's contributions and the month's interest are each summed from 0, day by day.
 - Running totals. The month's contributions and the month's interest are each added to the cumulative totals once per month.
 - A step reports `contributionsStart` as `startTotal`, `contributionsEnd` as `endTotal`, and `contributionsByDay` as the numbered-day totals before the placement totals are merged in.
 
@@ -320,7 +320,7 @@ Tests:
 - The effective rate is at or between the lowest and highest account rate.
 - Compounding the pool at the effective rate gives the total's `finalBalance` within one part in 10^9.
 - The README's example: $180,000 at 6% and $20,000 at 10%, no contributions, 30 years. The effective rate rounds to 6.66% and the last yearly weighted rate rounds to 7.0%.
-- The benchmark from part B, extended: one effective-rate solve on the reference case takes under 1 ms in monthly mode and under 5 ms in daily mode on this machine.
+- The benchmark from part B, extended: one effective-rate solve on the reference case takes under 1 ms in monthly mode and under 5 ms in daily mode on this machine. After part B, 60 full `compound` passes take 1.1 to 2.1 ms in monthly mode, because each pass also builds the monthly rows. The solver needs only the final balance, so give it a pass that returns only that.
 
 ## Part G: CLI, examples, logger
 
