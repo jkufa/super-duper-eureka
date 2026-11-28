@@ -450,6 +450,7 @@ export function parseScenario(file: unknown, options: RunOptions): Scenario {
   checkUniqueIds(accounts);
 
   return {
+    today,
     endDate,
     interest: { annualRate, variance, compounding },
     salary: { annualBase, annualRaiseRate, asOf },
