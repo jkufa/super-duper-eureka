@@ -30,11 +30,7 @@ export default defineConfig({
   lint: {
     extends: [cloudflare],
     env: cloudflare.env,
-    ignorePatterns: [
-      ...cloudflare.ignorePatterns,
-      // Reference code for later specs. Its imports only resolve once it moves into a package.
-      'implementation/**'
-    ],
+    ignorePatterns: [...cloudflare.ignorePatterns],
     options: { typeCheck: true },
     overrides: [
       {
