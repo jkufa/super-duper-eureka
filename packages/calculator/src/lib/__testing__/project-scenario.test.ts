@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vite-plus/test';
 
 import { parseScenario, ScenarioError } from '../parse-scenario';
 import { projectScenario, traceAccount } from '../project-scenario';
-import type { Band } from '../project-scenario';
+import type { Band, BandProjection } from '../project-scenario';
 import type { AccountFile, Compounding, ContributionRuleFile, ScenarioFile } from '../scenario';
 
 const DOUBLING_MONTHLY_RATE = 4095;
@@ -136,6 +136,11 @@ function twoAccounts(variance: number, override: number): Setup {
       }
     ]
   };
+}
+
+function withoutWeightedRates(band: BandProjection): BandProjection {
+  const yearly = band.total.yearly.map(({ weightedRate: _, ...row }) => row);
+  return { ...band, total: { ...band.total, yearly } };
 }
 
 function alone(setup: Setup, accountId: string, annualRate: number): Setup {
@@ -340,7 +345,10 @@ describe('projectScenario: accounts and the total', () => {
       ['excluded', false]
     ]);
     expect(accounts[1]?.series.finalBalance).toBe(200);
-    expect(total).toStrictEqual(accounts[0]?.series);
+    expect(total).toStrictEqual({
+      ...accounts[0]?.series,
+      yearly: [{ year: 2026, balance: 2000, contributions: 0, interest: 1000, weightedRate: 4095 }]
+    });
     expect(total.finalBalance).toBe(2000);
     expect(projection.staleAccounts).toStrictEqual([]);
   });
@@ -429,9 +437,9 @@ describe('projectScenario: accounts and the total', () => {
       interest: 0
     });
     expect(total.yearly).toStrictEqual([
-      { year: 2026, balance: 1810, contributions: 210, interest: 0 },
-      { year: 2027, balance: 3137, contributions: 1537, interest: 0 },
-      { year: 2028, balance: 3374, contributions: 1774, interest: 0 }
+      { year: 2026, balance: 1810, contributions: 210, interest: 0, weightedRate: 0 },
+      { year: 2027, balance: 3137, contributions: 1537, interest: 0, weightedRate: 0 },
+      { year: 2028, balance: 3374, contributions: 1774, interest: 0, weightedRate: 0 }
     ]);
     for (const { series } of accounts) {
       expect(months(series.monthly)).toStrictEqual(months(total.monthly));
@@ -459,8 +467,8 @@ describe('projectScenario: accounts and the total', () => {
           { year: 2027, month: 1, ...zero }
         ],
         yearly: [
-          { year: 2026, ...zero },
-          { year: 2027, ...zero }
+          { year: 2026, ...zero, weightedRate: null },
+          { year: 2027, ...zero, weightedRate: null }
         ]
       });
       expect(projection.salaryByYear.map(({ year }) => year)).toStrictEqual([2026, 2027]);
@@ -559,8 +567,8 @@ describe('projectScenario: bands', () => {
   it('holds the same numbers in all three bands when there is no variance', () => {
     const { bands } = project(twoAccounts(0, 0.08));
 
-    expect(bands.positive).toStrictEqual(bands.baseline);
-    expect(bands.negative).toStrictEqual(bands.baseline);
+    expect(bands.positive).toStrictEqual(withoutWeightedRates(bands.baseline));
+    expect(bands.negative).toStrictEqual(withoutWeightedRates(bands.baseline));
   });
 });
 

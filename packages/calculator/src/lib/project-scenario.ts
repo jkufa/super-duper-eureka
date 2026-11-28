@@ -1,4 +1,5 @@
 import { monthSegments, salaryInYear } from './account-schedule';
+import { effectiveRate } from './effective-rate';
 import { ScenarioError } from './parse-scenario';
 import { compareDates, formatPlainDate } from './plain-date';
 import { projectAccount, traceAccountRange, yearlyRows } from './project-account';
@@ -10,6 +11,8 @@ export type Band = 'baseline' | 'positive' | 'negative';
 export interface ScenarioProjection {
   today: PlainDateString;
   endDate: PlainDateString;
+  /** Baseline only. The one rate at which the included accounts, pooled at today, end on the total. */
+  effectiveRate: number;
   /** Included accounts whose balanceAsOf is before today, in scenario order. */
   staleAccounts: Array<{ accountId: string; balanceAsOf: PlainDateString }>;
   salaryByYear: Array<{ year: number; salary: number }>;
@@ -35,13 +38,17 @@ export interface AccountProjection {
 
 export function projectScenario(scenario: Scenario): ScenarioProjection {
   const bands = {
-    baseline: projectBand(scenario, 'baseline'),
+    baseline: withWeightedRates(projectBand(scenario, 'baseline')),
     positive: projectBand(scenario, 'positive'),
     negative: projectBand(scenario, 'negative')
   };
+  const included = scenario.accounts
+    .filter((account) => account.included)
+    .map((account) => ({ account, annualRate: bandRate(scenario, account, 'baseline') }));
   return {
     today: formatPlainDate(scenario.today),
     endDate: formatPlainDate(scenario.endDate),
+    effectiveRate: effectiveRate(scenario, included, bands.baseline.total),
     staleAccounts: scenario.accounts
       .filter((account) => account.included && isStale(scenario, account))
       .map((account) => ({
@@ -136,6 +143,43 @@ function projectBand(scenario: Scenario, band: Band): BandProjection {
   });
   const included = accounts.filter((account) => account.included).map(({ series }) => series);
   return { total: sumSeries(scenario, included), accounts };
+}
+
+function withWeightedRates(band: BandProjection): BandProjection {
+  const included = band.accounts.filter((account) => account.included);
+  const yearly = band.total.yearly.map((row, index): Row => ({
+    ...row,
+    weightedRate: weightedRate(included, row.balance, index)
+  }));
+  return { ...band, total: { ...band.total, yearly } };
+}
+
+function weightedRate(
+  included: ReadonlyArray<AccountProjection>,
+  totalBalance: number,
+  index: number
+): number | null {
+  if (totalBalance === 0) {
+    return null;
+  }
+  const [first, ...others] = included;
+  if (first && others.every(({ annualRate }) => annualRate === first.annualRate)) {
+    return first.annualRate;
+  }
+  return (
+    included.reduce(
+      (sum, { annualRate, series }) => sum + annualRate * yearlyAt(series, index).balance,
+      0
+    ) / totalBalance
+  );
+}
+
+function yearlyAt(series: Series, index: number): Row {
+  const row = series.yearly[index];
+  if (!row) {
+    throw new RangeError(`An account has no yearly row ${String(index)}.`);
+  }
+  return row;
 }
 
 function sumSeries(scenario: Scenario, series: ReadonlyArray<Series>): Series {

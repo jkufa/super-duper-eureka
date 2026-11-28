@@ -19,6 +19,8 @@ export interface Row {
   contributions: number;
   /** Cumulative since the start of the range. */
   interest: number;
+  /** Baseline total, yearly rows only. Null when the balance is 0. */
+  weightedRate?: number | null;
 }
 
 export interface Series {

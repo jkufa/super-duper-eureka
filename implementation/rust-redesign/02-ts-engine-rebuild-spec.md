@@ -375,17 +375,21 @@ Computed for the baseline band, over `today` to `endDate`, across included accou
 
 1. If there are no included accounts, return the scenario's default rate.
 2. Let `lo` be the lowest included account rate and `hi` the highest. If they are equal, return that rate.
-3. Pool the accounts: add up their balances at `today`, and merge their schedules from `today`. The pooled schedule is ordered by month, then by the account's position in the file, then by the rule's position in the account.
-4. If the pooled balance is 0 and the pooled schedule is empty, return the default rate.
+3. Pool the accounts. The pooled opening balance is the baseline total's `startBalance`, so a stale account enters at its rolled-forward balance. The pooled schedule takes each month's deposits account by account in file order, and inside an account in rule order. Total each month's buckets once, before any pass.
+4. If the pooled balance is 0 and the pooled schedule has no deposits, return the default rate. This is the one case where the result can fall outside `lo` and `hi`, when every account overrides the default.
 5. The target is the baseline total's `finalBalance`.
-6. Repeat exactly 60 times: take the midpoint of `lo` and `hi`, compound the pool at it, and move `lo` up if the result is below the target, else move `hi` down.
-7. Return the midpoint of `lo` and `hi`.
+6. Repeat exactly 60 times: take `mid = lo + (hi - lo) / 2`, compound the pool at `mid`, and set `lo = mid` if the result is below the target, else `hi = mid`. Written as `if (result < target)`, so a result that equals the target, or is infinite or `NaN` after an overflow, moves `hi` down.
+7. Return `lo + (hi - lo) / 2`.
 
 There is no "close enough" test. The fixed count is what lets TS and Rust follow the same steps. The answer lies between `lo` and `hi` because balances and deposits are never negative, so the final balance only rises with the rate.
 
+Each pass walks the pooled months with the same segment function `projectAccount` uses and keeps only the final balance, so the solver and the series cannot drift apart. The pool at the returned rate reproduces the total's final balance within one part in 10^9 for realistic rates. Sixty halvings of a bracket as wide as 0 to 1e100 do not get that close, and nothing here claims they do.
+
+The README's example pins the port: $180,000 at 6% and $20,000 at 10%, no contributions, 30 years from a 1 January, monthly compounding. The effective rate is `0.06657439005940458` and the last yearly weighted rate is `0.07009499254183038`.
+
 ### Weighted rate
 
-On each yearly row of the baseline total: the sum of each included account's rate times its balance on that row, divided by the total balance. `null` when the total balance is 0. The other bands leave it out.
+On each yearly row of the baseline total: the sum, from 0 in file order, of each included account's baseline rate times its balance on that row, divided by the total balance. When every included account has the same rate, it is that rate, without the division: `0.1 * 3 / 3` is `0.10000000000000002`. `null` when the total balance is 0. Every other row leaves the key out. It is not present as `null` or `undefined`.
 
 Tests:
 
@@ -393,7 +397,7 @@ Tests:
 - The effective rate is at or between the lowest and highest account rate.
 - Compounding the pool at the effective rate gives the total's `finalBalance` within one part in 10^9.
 - The README's example: $180,000 at 6% and $20,000 at 10%, no contributions, 30 years. The effective rate rounds to 6.66% and the last yearly weighted rate rounds to 7.0%.
-- The benchmark from part B, extended: one effective-rate solve on the reference case takes under 1 ms in monthly mode and under 5 ms in daily mode on this machine. After part B, 60 full `compound` passes take 1.1 to 2.1 ms in monthly mode, because each pass also builds the monthly rows. The solver needs only the final balance, so give it a pass that returns only that.
+- The benchmark from part B, extended: one effective-rate solve on the reference case takes under 1 ms in monthly mode and under 5 ms in daily mode on this machine. Measured after part F: 0.37 ms and 3.5 ms on Bun, 0.47 ms and 10.7 ms on Node. The Node daily figure misses because day totals are still keyed by string for the old engine's sake. Part G's switch to number keys should close it, and part G measures again. After part B, 60 full `compound` passes take 1.1 to 2.1 ms in monthly mode, because each pass also builds the monthly rows. The solver needs only the final balance, so give it a pass that returns only that.
 
 ## Part G: CLI, examples, logger
 

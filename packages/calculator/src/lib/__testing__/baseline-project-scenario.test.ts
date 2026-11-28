@@ -34,11 +34,15 @@ describe('engine baseline through projectScenario', () => {
     const projection = projectScenario(parseScenario(file, { today }));
 
     expect(projection.staleAccounts).toStrictEqual([]);
-    for (const band of Object.values(projection.bands)) {
+    for (const [name, band] of Object.entries(projection.bands)) {
       const [account, ...others] = band.accounts;
+      const yearly = band.total.yearly.map(({ weightedRate, ...row }) => {
+        expect(weightedRate).toBe(name === 'baseline' ? account?.annualRate : undefined);
+        return row;
+      });
       expect(others).toStrictEqual([]);
       expect(account?.rolledForward).toStrictEqual({ contributions: 0, interest: 0 });
-      expect(account?.series).toStrictEqual(band.total);
+      expect(account?.series).toStrictEqual({ ...band.total, yearly });
     }
   });
 });
