@@ -44,6 +44,8 @@ Port `compound` and `projectAccount` from spec 2 parts B and D, both modes, with
 - Keep the order of arithmetic the same as TypeScript. Where the order matters, a test pins it.
 - Do not use `mul_add` or other fused forms. They change the last digit, and plain expressions are easier to compare with the TypeScript. If a Clippy rule in our set asks for one, stop and report it. Do not silence it.
 - Port the hand-computed tests from spec 2 part D with the same expected values.
+- The daily guards test for "not 0". TypeScript's truthiness also skips `NaN`, and the first Rust version copied that with a helper. Once the schedule builder rejects a deposit amount that is not finite, as spec 2 part C now says, no `NaN` can reach the guards, so the helper goes and the guard is `!= 0.0`.
+- Day totals are a fixed array of 31, indexed by the day minus 1.
 
 ## Part C: scenario projection
 
