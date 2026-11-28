@@ -122,6 +122,7 @@ fn expect_error(raw: ScenarioFile, code: &str, account: Option<&str>, rule: Opti
 fn returns_the_scenario_with_dates_parsed_and_defaults_filled_in() {
     let scenario = parse(read(valid_file()).unwrap()).unwrap();
 
+    assert_eq!(scenario.today(), date(TODAY));
     assert_eq!(scenario.end_date(), date("2036-01-01"));
     let interest = scenario.interest();
     assert_eq!(
