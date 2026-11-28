@@ -68,7 +68,7 @@ Port `traceAccount`. Same records, same field names.
 A script that proves the two engines agree.
 
 1. Generate cases with spec 2's generator, seeds 1 to N.
-2. Run each case through the TypeScript CLI on Bun and the Rust CLI, with `--today` set from the case. Bun is the reference runtime. Node computes whole-number powers differently in the last digit and agrees with `powf`, not `powi`.
+2. Run each case through the TypeScript CLI on Bun and the Rust CLI, with `--today` set from the case. Bun is the reference runtime. Node computes whole-number powers differently in the last digit. On 200,000 samples it matched `powf` on all but 5 and disagreed with `powi` on 163,875.
 3. Compare the two JSON documents.
 
 The comparison:

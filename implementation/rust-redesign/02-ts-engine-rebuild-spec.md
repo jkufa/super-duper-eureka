@@ -34,16 +34,19 @@ Before any engine change, save today's outputs.
 - The generator never emits `growth`, `yearRange` or a one-time rule. Add at least 20 hand-written configs that cover them: both growth types on both cadences, a `yearRange` with a late start and an early end, one-time rules with and without a day, every `salaryBasis`, and both compounding modes.
 - Do not write a rule with both `growth` and a `yearRange.start` above 0. The new contract cannot express that pair. See "Amounts" in part C.
 - Store every input as JSON with its fixed `startDate`, so no test depends on the generator or the clock.
+- Add raw cases that leave optional fields out, written as plain objects and not through `makeConfig`: no `compounding`, no `annualRaiseRate`, no `variance`, a salary-percent rule with no `salaryBasis`, a recurring rule with neither `day` nor `placement`, and a `yearRange` with only a start.
 - Keep the outputs small. Full outputs for every input would run to tens of megabytes. For each input save:
   - the yearly rows of all three bands;
-  - `monthlyDigest`, the SHA-256 of the monthly number stream;
-  - `stepsDigest`, the SHA-256 of the step number stream at the baseline rate.
-- A number stream is a fixed order of numbers, each written with `String(n)` and joined with commas. `String` prints the shortest text that reads back as the same float, so two streams match only when every number is identical.
-  - Monthly stream: for each band in the order baseline, positive, negative, and for each monthly row, the balance, the contributions and the interest.
-  - Step stream: for each step, `balanceStart`, `contributionsThisStep`, `interestEarned` and `balanceEnd`.
-- Put the two stream builders in one test helper. Parts B to E call the same helper on the new output.
-- For the four example files also save the full `calculateRetirement` result and the full step result. They are the readable reference when a digest fails.
-- Everything goes under `packages/calculator/src/lib/__testing__/baseline/`. Keep the folder under 5 MB and report its size.
+  - `monthlyDigest`, the SHA-256 of the monthly stream;
+  - `stepsDigest`, the SHA-256 of the step stream.
+- A stream is a fixed order of values written as text and joined with commas. A number is written with `String(n)`, which prints the shortest text that reads back as the same float. Negative zero is written `-0`, because `String` prints it as `0`. Two streams match only when every value is identical.
+- The streams cover every number the engine computes, so no output can change unnoticed.
+  - Monthly stream. For each band in the order baseline, positive, negative: `finalBalance`, `totalContributions` and `totalGrowth`, then for each monthly row its `year`, `month`, `balance`, `contributions`, `interest` and `salary`.
+  - Step stream. Run at the baseline rate with contribution details on. First the summary: `totalSteps`, `totalContributions`, `totalInterest` and `finalBalance`. Then for each step: `stepIndex`, `yearIndex`, `monthIndex`, `balanceStart`, `balanceEnd`, `interestEarned`, `contributionsThisStep`, `totalContributions`, `totalInterest`, `contributionsStart`, `contributionsEnd`, `salary`, `annualRate`, `daysInMonth`, `daysInYear` and `compounding`. Then its `contributionsByDay` as day and amount pairs in day order. Then each active contribution's `id`, `type` and `amount`, in rule order. A contribution's `timing` is left out. It is a copy of the input.
+- Put the stream builders in one test helper. Parts B to E call the same helper on the new output. Part C says how the new output maps back to these fields.
+- For the four example files also save the full `calculateRetirement` result and the full step result. They are the readable reference when a digest fails, and the test compares them too.
+- Everything goes under `packages/calculator/src/lib/__testing__/baseline/`. Keep the folder under 8 MB and report its size.
+- The writer builds and checks every case in memory before it replaces any file, so a rejected input cannot leave half a baseline behind.
 - Add a test that reruns today's engine on every stored input. The yearly numbers must be identical and both digests must match. It passes trivially now. It is the check for part B.
 - Write and test the baseline on Node, which is where Vitest runs. Bun computes whole-number powers differently in the last digit, so a baseline written on Bun fails on Node. The CLI runs on Bun. That is fine as long as each check stays on one runtime.
 
@@ -56,7 +59,8 @@ Same public contract as today. Only the inside changes.
 
 - `calculateRetirement` builds the schedule once and compounds it three times.
 - Step detail comes from a separate function that takes the same schedule. A normal run builds no step records.
-- Keep the order of arithmetic. The baseline test still passes unchanged. If an exact match proves impossible, compare within one part in 10^12 and explain why in the PR.
+- Keep the order of arithmetic. That includes the order deposits are added into a bucket, which is the order of the rules. The baseline test still passes unchanged.
+- There is no tolerance to fall back on. A digest either matches or it does not. If an exact match proves impossible, stop and report what differs.
 - Add a benchmark script with the reference case from the README: 30 years, five rules. Record the time for 60 `compound` passes in both modes.
 
 ## Part C: calendar contract
@@ -161,7 +165,7 @@ Part C implements these types but reads only `accounts[0]`. Part E adds the rest
 - A recurring rule deposits only on dates from its `startDate` to its `endDate`, both inclusive. A missing bound is open.
 - A deposit is in range when its date is on or after the range start and before the range end.
 - For that test, a rule with `placement: 'start'` and no day counts as day 1, and `placement: 'end'` counts as the last day. This differs from today, where a start-placed rule in the first month always deposits. It only shows when a range starts after the 1st.
-- Buckets are unchanged. Daily mode uses the day. Monthly mode puts a recurring rule's day at or before the midpoint in `start` and a later day in `end`. A one-time deposit in monthly mode goes in `start` whatever its day, as it does today.
+- Buckets are unchanged. Daily mode uses the day. In monthly mode the midpoint is `Math.ceil(daysInMonth / 2)`. A recurring rule's day at or before it goes in `start` and a later day in `end`, so day 16 of a 31-day month is in `start`. A recurring rule's day decides the bucket even when the rule also has a placement. A one-time deposit in monthly mode goes in `start` whatever its day, as it does today.
 
 ### Amounts
 
@@ -171,14 +175,16 @@ Part C implements these types but reads only `accounts[0]`. Part E adds the rest
 
 ### The adapter
 
-`legacyToScenario` lives in the test folder only. It sets `balanceAsOf`, `today` and `salary.asOf` to the old start date, and `endDate` to the old start date plus the horizon. A rule's `startDate` is 1 January of the start year plus `yearRange.start`. Its `endDate` is 31 December of the start year plus `yearRange.end`. A one-time rule's `on` uses day 1 when the old rule had no day.
+`legacyToScenario` lives in the test folder only. It sets `balanceAsOf`, `today` and `salary.asOf` to the old start date, and `endDate` to the old start date plus the horizon. A rule's `startDate` is 1 January of the start year plus `yearRange.start`. Its `endDate` is 31 December of the start year plus `yearRange.end`. A one-time rule's `on` uses day 1 when the old rule had no day. An explicit day past the end of its month is clamped to the last day before the date is written, so 31 April becomes the 30th. Today's engine ignores `yearRange` on a one-time rule, and the new contract gives one-time rules no bounds, so the adapter drops it.
+
+The adapter has a second half, `toLegacyRows`. It maps the new output and trace back to the rows and steps the stream builders take: `yearIndex` is the calendar year minus the start year, `monthIndex` is the month minus 1, the start, end and by-day figures come from the trace's deposits by bucket, and the active contributions come from the trace's deposits by rule.
 
 ## Part D: day-accurate ranges
 
 `projectAccount(account, from, to, rate)` projects over the days from `from` up to, and not including, `to`. Each calendar month contributes one segment: the days of that month inside the range.
 
 - Daily mode. For each day in the segment, add that day's deposits, then add the day's interest. The daily rate is unchanged: `(1 + r)^(1 / daysInYear) - 1`.
-- Monthly mode. Interest for a segment is the balance plus the `start` deposits, times the monthly rate, times the segment's days divided by the days in the month. Then add the `end` deposits. A full month multiplies by exactly 1, so full months match today.
+- Monthly mode. Interest for a segment is `(balance + startDeposits) * monthlyRate * (segmentDays / daysInMonth)`, evaluated as written: the product first, then times the fraction, with the division done inside its own parentheses. Then add the `end` deposits. A full month multiplies by exactly 1, so full months match today. Multiplying by the days and then dividing does not: it changes the last digit.
 
 The baseline test still passes exactly, because every baseline range starts on the 1st and ends on a 1st.
 
@@ -318,7 +324,7 @@ Replace `random.ts` with a seeded generator of new-contract cases. Each case is 
 ## Acceptance criteria
 
 - `vp check` and `vp test` pass.
-- The baseline test passes exactly through `projectScenario` and the adapter, or within the tolerance a PR justified in part B.
+- The baseline test passes exactly through `projectScenario` and the adapter.
 - Every test listed under parts D, E and F exists and passes.
 - No file in `packages/calculator/src` outside tests contains `new Date`, `Date.now` or `Math.random`. A test enforces it.
 - The CLI runs every example file and prints valid JSON.
