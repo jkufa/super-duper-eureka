@@ -1,10 +1,9 @@
 import { compound, compoundMonth, groupByMonth, totalByBucket } from './compound';
 import type { Compounded } from './compound';
 import { buildSchedule } from './schedule';
-import type { Deposit, Schedule } from './schedule';
+import type { Schedule } from './schedule';
 import type {
   AnnualProjection,
-  ContributionRule,
   ContributionTiming,
   ContributionType,
   MonthlyProjection,
@@ -18,7 +17,7 @@ const MONTHS_PER_YEAR = 12;
 export function calculateRetirement(config: RetirementConfig): ProjectionByVariance {
   const { annualRate, variance } = config.interest;
   const schedule = buildSchedule(config);
-  const baseline = projectSchedule(config, schedule, annualRate);
+  const baseline = projectSchedule(config.currentBalance, schedule, annualRate);
 
   if (variance === undefined || variance === 0) {
     return {
@@ -28,13 +27,14 @@ export function calculateRetirement(config: RetirementConfig): ProjectionByVaria
     };
   }
 
-  const positive = projectSchedule(config, schedule, annualRate + variance);
-  const negative = projectSchedule(config, schedule, annualRate - variance);
+  const positive = projectSchedule(config.currentBalance, schedule, annualRate + variance);
+  const negative = projectSchedule(config.currentBalance, schedule, annualRate - variance);
   return { baseline, positive, negative };
 }
 
 export function calculateProjection(config: RetirementConfig, annualRate: number): Projection {
-  return projectSchedule(config, buildSchedule(config), annualRate);
+  const schedule = buildSchedule(config);
+  return projectSchedule(config.currentBalance, schedule, annualRate);
 }
 
 export interface ProjectionStep {
@@ -77,9 +77,10 @@ export function calculateProjectionWithSteps(
   options?: { includeContributionDetails?: boolean }
 ): ProjectionRun {
   const schedule = buildSchedule(config);
-  const projection = projectSchedule(config, schedule, annualRate);
+  const startBalance = config.currentBalance;
+  const projection = projectSchedule(startBalance, schedule, annualRate);
   const steps = traceSteps(
-    config,
+    startBalance,
     schedule,
     annualRate,
     options?.includeContributionDetails ?? true
@@ -104,12 +105,8 @@ interface ContributionDetail {
   timing: ContributionTiming;
 }
 
-function projectSchedule(
-  config: RetirementConfig,
-  schedule: Schedule,
-  annualRate: number
-): Projection {
-  return toProjection(compound(config.currentBalance, schedule, annualRate));
+function projectSchedule(startBalance: number, schedule: Schedule, annualRate: number): Projection {
+  return toProjection(compound(startBalance, schedule, annualRate));
 }
 
 function toProjection(compounded: Compounded): Projection {
@@ -148,13 +145,13 @@ function toProjection(compounded: Compounded): Projection {
 }
 
 function traceSteps(
-  config: RetirementConfig,
+  startBalance: number,
   schedule: Schedule,
   annualRate: number,
   includeContributionDetails: boolean
 ): Array<ProjectionStep> {
   const steps: Array<ProjectionStep> = [];
-  let balance = config.currentBalance;
+  let balance = startBalance;
   let totalContributions = 0;
   let totalInterest = 0;
 
@@ -183,21 +180,16 @@ function traceSteps(
       daysInMonth: month.daysInMonth,
       daysInYear: month.daysInYear,
       activeContributions: includeContributionDetails
-        ? deposits.map((deposit) => contributionDetail(config.contributions, deposit))
+        ? deposits.map((deposit): ContributionDetail => ({
+            id: deposit.ruleId,
+            type: deposit.ruleType,
+            amount: deposit.amount,
+            timing: deposit.timing
+          }))
         : []
     });
     balance = result.balance;
   }
 
   return steps;
-}
-
-function contributionDetail(rules: Array<ContributionRule>, deposit: Deposit): ContributionDetail {
-  const rule = rules[deposit.ruleIndex];
-  if (!rule) {
-    throw new Error(
-      `Deposit for rule "${deposit.ruleId}" points at rule ${String(deposit.ruleIndex)}, which does not exist.`
-    );
-  }
-  return { id: deposit.ruleId, type: rule.type, amount: deposit.amount, timing: rule.timing };
 }

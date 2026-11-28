@@ -2,6 +2,7 @@ import type {
   CompoundingFrequency,
   ContributionRule,
   ContributionTiming,
+  ContributionType,
   Interest,
   RetirementConfig,
   SalaryConfig
@@ -20,7 +21,10 @@ export type DepositBucket = 'start' | 'end' | number;
 export interface Deposit {
   ruleId: string;
   ruleIndex: number;
+  ruleType: ContributionType;
+  timing: ContributionTiming;
   monthOffset: number;
+  dayOfMonth: number;
   amount: number;
   bucket: DepositBucket;
 }
@@ -28,6 +32,7 @@ export interface Deposit {
 export interface ScheduleMonth {
   yearIndex: number;
   monthIndex: number;
+  calendarYear: number;
   daysInMonth: number;
   daysInYear: number;
   salary: number;
@@ -62,6 +67,7 @@ export function buildSchedule(config: ScheduleConfig): Schedule {
     months.push({
       yearIndex,
       monthIndex,
+      calendarYear: monthStart.getFullYear(),
       daysInMonth,
       daysInYear: getDaysInYear(monthStart),
       salary
@@ -86,12 +92,16 @@ export function buildSchedule(config: ScheduleConfig): Schedule {
         continue;
       }
 
+      const timing = rule.timing;
       deposits.push({
         ruleId: rule.id,
         ruleIndex,
+        ruleType: rule.type,
+        timing,
         monthOffset,
+        dayOfMonth: resolveDayOfMonth(timing, daysInMonth),
         amount,
-        bucket: resolveBucket(rule.timing, compounding, daysInMonth)
+        bucket: resolveBucket(timing, compounding, daysInMonth)
       });
     }
   }
@@ -226,6 +236,16 @@ function validateContributionRules(rules: Array<ContributionRule>) {
       throw new Error(`growth.amount must be 0 or greater for contribution "${rule.id}".`);
     }
   }
+}
+
+function resolveDayOfMonth(timing: ContributionTiming, daysInMonth: number) {
+  if (timing.frequency === 'oneTime') {
+    return clampDay(timing.on.day ?? 1, daysInMonth);
+  }
+  if (timing.day) {
+    return clampDay(timing.day, daysInMonth);
+  }
+  return timing.placement === 'end' ? daysInMonth : 1;
 }
 
 function resolveBucket(

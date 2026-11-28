@@ -7,11 +7,32 @@ const DOUBLING_MONTHLY_RATE = 4095;
 const DOUBLING_DAILY_RATE = 2 ** 365 - 1;
 
 function month(daysInMonth: number): ScheduleMonth {
-  return { yearIndex: 0, monthIndex: 0, daysInMonth, daysInYear: 365, salary: 0 };
+  return {
+    yearIndex: 0,
+    monthIndex: 0,
+    calendarYear: 2026,
+    daysInMonth,
+    daysInYear: 365,
+    salary: 0
+  };
 }
 
-function deposit(monthOffset: number, amount: number, bucket: DepositBucket): Deposit {
-  return { ruleId: `rule-${String(amount)}`, ruleIndex: 0, monthOffset, amount, bucket };
+function deposit(
+  monthOffset: number,
+  amount: number,
+  bucket: DepositBucket,
+  dayOfMonth = typeof bucket === 'number' ? bucket : 1
+): Deposit {
+  return {
+    ruleId: `rule-${String(amount)}`,
+    ruleIndex: 0,
+    ruleType: 'flat',
+    timing: { frequency: 'monthly', day: dayOfMonth },
+    monthOffset,
+    dayOfMonth,
+    amount,
+    bucket
+  };
 }
 
 describe('compound', () => {
@@ -60,6 +81,20 @@ describe('compound', () => {
       expect(compound(1e16, schedule, 0).finalBalance).toBe(10_000_000_000_000_002);
     }
   );
+
+  it('totals a bucket in rule order, not in date order', () => {
+    const schedule: Schedule = {
+      compounding: 'monthly',
+      months: [month(31)],
+      deposits: [
+        deposit(0, 1e16, 'start', 15),
+        deposit(0, 1, 'start', 3),
+        deposit(0, 1, 'start', 2)
+      ]
+    };
+
+    expect(compound(0, schedule, 0).finalBalance).toBe(10_000_000_000_000_000);
+  });
 
   it('returns the starting balance when the schedule has no months', () => {
     expect(compound(500, { compounding: 'monthly', months: [], deposits: [] }, 0.05)).toStrictEqual(
