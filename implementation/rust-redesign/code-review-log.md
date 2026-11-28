@@ -663,3 +663,59 @@ For PR review agents only. Orchestration and implementation agents do not read t
 - Better: Keep `project_scenario` and `trace_account` as the public entry points. Make the others `pub(crate)`.
 - Seen before: no
 - Promoted: no
+
+### 2026-11-28, spec 4 part G, golden numbers use the cross-language tolerance
+
+- Where: `crates/cli/tests/golden.rs` lines 16 and 169, PR #31
+- What: `numbers_agree` accepts a difference of `1e-9 * max(1, |a|, |b|)`. For a rate or any other value at most 1, that is an absolute `1e-9`, about 1.4e8 ulps at 0.05. Changing `examples/basic` `effectiveRate` from `0.05` to `0.0500000005` left both golden tests passing. `0.050000002` failed, so the test does read the file. On `generated/seed-01766`, a `growth_periods_over_1000` case, the release CLI and the committed projection already disagree in 46 numbers. The largest relative difference in the first mismatches was 5.87e-14, and the test accepts all of them. The test has no exact-match rule for cases outside that trait.
+- Better: Once the stored files are this platform's Rust CLI output, compare each number with `to_bits`. Regenerate and explain the 18 growth cases whose last digits still differ from the TypeScript capture.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-28, spec 4 part G, an error document matches on code and ids only
+
+- Where: `crates/cli/tests/golden.rs` lines 224 and 247, PR #31
+- What: Success documents are walked in full. An error document is compared only by `code`, and by `accountId` and `ruleId` under the parity exceptions. Replacing `regressions/today-not-a-date/projection.json` with `{"error":{}}` left the golden test passing, because a missing code makes `error_difference` return `None`. Adding `"extra": true` ahead of `code` in `regressions/interest-is-an-array/projection.json` passed the same run. Key order and extra fields are not checked.
+- Better: Walk the error object with the same key, order and value rules as any other document, then apply the `invalid_field` and `not_finite` id exceptions. A missing `code` is a mismatch.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-28, spec 4 part G, deleting a trace removes the trace check
+
+- Where: `crates/cli/tests/golden.rs` lines 278 and 299, PR #31
+- What: `trace` and `trace.json` are required only when `trace` already exists. Deleting both from `hand-computed/deposits-around-a-mid-month-range` left `golden_groups_hold_the_pinned_cases` and `rust_cli_reproduces_every_golden_case` passing. `just golden` rewrites `trace.json` only when `trace` is present, so the deletion would stick.
+- Better: Require both trace files whenever `projection.json` is not an error document.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-28, spec 4 part G, golden publish deletes the only copy if killed between the renames
+
+- Where: `justfile` lines 29 and 48, PR #31
+- What: The recipe moves the live `golden` directory into `retired`, then moves `staged` into place. The EXIT trap is `rm -rf` of both directories. A copy of that sequence, killed with SIGTERM after the first `mv` and during the sleep before the second, left the live path missing and removed the retired copy. A kill during the write loop, before either `mv`, left the original files in place. A write that exits 1 before the swap also left them in place.
+- Better: Restore the retired directory when the live path is missing, and delete the backup only after the new directory is in place.
+- Seen before: 2026-11-27, spec 2 part A, staged fixture publication still drops the live path
+- Promoted: yes, the fixture publication guideline in AGENTS.md
+
+### 2026-11-28, spec 4 part G, property tests take a random seed and open a regression file
+
+- Where: `crates/core/src/properties.rs` line 22, `crates/core/src/project/scenario/effective_rate/tests.rs` line 761, workspace `Cargo.toml` `proptest` 1.12.0, PR #31
+- What: `ProptestConfig::with_cases` copies `Config::default()`. With the `std` feature that default seed is `RngSeed::Random`, drawn from `getrandom`, and the failure store is `FileFailurePersistence::SourceParallel("proptest-regressions")`, which opens a file next to the test. `fork` and `timeout` are off, so the process and clock features stay out. Passing tests still call `File::open`. A failure is written into the source tree and is not replayed on CI unless that file or `PROPTEST_RNG_SEED` is kept. The next CI run draws a new seed.
+- Better: Set a fixed `RngSeed` and `failure_persistence: None`, and ban the proptest file and environment entry points in `crates/core/clippy.toml` the same way jiff is banned.
+- Seen before: 2026-11-28, spec 4, a jiff parser reads the zone database without a ban entry
+- Promoted: yes, the clock-ban guideline in AGENTS.md
+
+### 2026-11-28, spec 4 part G, an empty pool may return any rate inside the bracket
+
+- Where: `crates/core/src/properties.rs` lines 282 to 305, PR #31
+- What: The assertion passes when `lowest <= rate && rate <= highest`, before it looks at the empty-pool exception. An included account at rate 0.02, balance 0 and no contributions, with a scenario rate of 0.05, has an empty pool. The spec says the result is the scenario rate. A wrong result of 0.02 still satisfies the bracket clause. The unit test `returns_the_default_rate_when_the_pool_has_no_balance_and_no_deposits` checks the real engine. This property would not.
+- Better: When no account is included or the pool is empty, require `rate.to_bits() == default_rate.to_bits()`. Use the bracket only for a pool that has money.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-28, spec 4 part G, property generators leave many cases with nothing to prove
+
+- Where: `crates/core/src/arbitrary.rs` lines 14 to 19 and 243, PR #31
+- What: On 1000 draws from `any_case` with seed 1, 206 scenarios had no accounts, 252 set daily compounding, 341 had a growing rule, 511 had a start or end date, and 530 had an included account with a positive balance. The horizon is at most 120 months and account rates stay inside about -0.05 to 0.15. Raising a rate on an empty or excluded account cannot lower the total, so property 3 holds without exercising compounding. No draw reaches a growth exponent past 1000.
+- Better: Reject empty scenarios in the properties that need an account, and draw the raised-rate property from an included account that has a balance or a deposit. Keep a few long horizons if that edge should stay covered after the corpus is gone.
+- Seen before: no
+- Promoted: no
