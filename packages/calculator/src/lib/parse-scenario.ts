@@ -379,6 +379,7 @@ export function parseScenario(file: unknown, options: RunOptions): Scenario {
   const interest = objectAt(source, 'interest', INTEREST_KEYS);
   const annualRate = rateAt(interest, 'annualRate');
   const variance = interest.fields.has('variance') ? rateAt(interest, 'variance') : 0;
+  checkNotNegative('invalid_rate', interest, 'variance', variance);
   checkRateAgainstVariance(interest, 'annualRate', annualRate, variance);
   const compounding = interest.fields.has('compounding')
     ? oneOfAt(interest, 'compounding', ['monthly', 'daily'] as const)

@@ -255,6 +255,12 @@ describe('parseScenario', () => {
       );
       expectError(
         edited((file) => {
+          file.interest.variance = -0.01;
+        }),
+        'invalid_rate'
+      );
+      expectError(
+        edited((file) => {
           const roth = file.accounts[1];
           if (roth) {
             roth.annualRate = -0.99;
