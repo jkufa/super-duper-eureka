@@ -12,7 +12,7 @@ const MONTHS_PER_YEAR: i8 = 12;
 const MAX_DAY: i8 = 31;
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
-pub struct RuleId(pub(super) String);
+pub struct RuleId(String);
 
 impl RuleId {
     pub fn as_str(&self) -> &str {
@@ -216,8 +216,14 @@ impl ContributionRule {
         self.timing.bounds().and_then(|bounds| bounds.end)
     }
 
-    pub(super) fn parse(raw: ContributionRuleFile) -> Result<Self, RuleError> {
-        match Checked::from_file(&raw) {
+    /// `id_taken` when an earlier rule in the scenario has this rule's id.
+    pub(super) fn parse(raw: ContributionRuleFile, id_taken: bool) -> Result<Self, RuleError> {
+        let checked = if id_taken {
+            Err(Fault::DuplicateId)
+        } else {
+            Checked::from_file(&raw)
+        };
+        match checked {
             Ok(checked) => Ok(Self {
                 id: RuleId(raw.id),
                 name: raw.name,
@@ -246,6 +252,7 @@ impl RuleError {
     pub(super) fn in_account(self, account: AccountId) -> ScenarioError {
         let rule = self.rule;
         match self.fault {
+            Fault::DuplicateId => ScenarioError::DuplicateId(Subject::Rule { account, rule }),
             Fault::InvalidDate => ScenarioError::InvalidDate(Subject::Rule { account, rule }),
             Fault::NegativeAmount => ScenarioError::NegativeAmount(Subject::Rule { account, rule }),
             Fault::InvalidDay => ScenarioError::InvalidDay { account, rule },
@@ -260,6 +267,7 @@ impl RuleError {
 }
 
 enum Fault {
+    DuplicateId,
     InvalidDate,
     NegativeAmount,
     InvalidDay,

@@ -5,7 +5,7 @@ use serde::Deserialize;
 use super::error::{ScenarioError, Subject};
 use super::rates_are_valid;
 use super::raw::AccountFile;
-use super::rule::{ContributionRule, RuleId};
+use super::rule::ContributionRule;
 use crate::date::CalendarDate;
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
@@ -116,14 +116,7 @@ impl Account {
                 .flat_map(Self::contributions)
                 .chain(&contributions)
                 .any(|rule| rule.id().as_str() == raw_rule.id);
-            if taken {
-                let rule = RuleId(raw_rule.id);
-                return Err(ScenarioError::DuplicateId(Subject::Rule {
-                    account: id,
-                    rule,
-                }));
-            }
-            match ContributionRule::parse(raw_rule) {
+            match ContributionRule::parse(raw_rule, taken) {
                 Ok(rule) => contributions.push(rule),
                 Err(error) => return Err(error.in_account(id)),
             }
