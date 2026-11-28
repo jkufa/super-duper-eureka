@@ -199,20 +199,30 @@ impl RolledForward {
     }
 }
 
-/// Fails on the first account, in band order and then file order, whose series is not finite,
-/// then on a band total that is not finite.
+/// Fails on the first figure that is not finite, in this order: each band's accounts in file
+/// order and then its total, the baseline band before its weighted rates and the positive and
+/// negative bands after them, then the salaries.
 pub fn project_scenario(
     scenario: &Scenario,
 ) -> Result<ScenarioProjection<'_>, ProjectionError<'_>> {
-    let baseline = project_band(scenario, Band::Baseline)?;
+    let baseline = project_band(scenario, Band::Baseline)?.with_weighted_rates()?;
     let positive = project_band(scenario, Band::Positive)?;
     let negative = project_band(scenario, Band::Negative)?;
     let effective_rate = effective_rate(scenario, &baseline)?;
-    let bands = Bands {
-        baseline: baseline.with_weighted_rates(),
-        positive,
-        negative,
-    };
+    let salary_by_year = baseline
+        .total()
+        .yearly()
+        .iter()
+        .map(|row| {
+            let year = row.row().year();
+            let salary = salary_in_year(scenario, year);
+            if salary.is_finite() {
+                Ok(YearSalary { year, salary })
+            } else {
+                Err(ProjectionError::ScenarioNotFinite)
+            }
+        })
+        .collect::<Result<_, _>>()?;
     let today = scenario.today();
     Ok(ScenarioProjection {
         today,
@@ -227,20 +237,12 @@ pub fn project_scenario(
                 balance_as_of: account.balance_as_of(),
             })
             .collect(),
-        salary_by_year: bands
-            .baseline
-            .total()
-            .yearly()
-            .iter()
-            .map(|row| {
-                let year = row.row().year();
-                YearSalary {
-                    year,
-                    salary: salary_in_year(scenario, year),
-                }
-            })
-            .collect(),
-        bands,
+        salary_by_year,
+        bands: Bands {
+            baseline,
+            positive,
+            negative,
+        },
     })
 }
 
@@ -334,7 +336,7 @@ fn total_of<'a>(
         row.balance.is_finite() && row.contributions.is_finite() && row.interest.is_finite()
     });
     if !(total.start_balance.is_finite() && rows_are_finite) {
-        return Err(ProjectionError::TotalNotFinite);
+        return Err(ProjectionError::ScenarioNotFinite);
     }
     total.yearly = yearly_rows(&total.monthly);
     Ok(total)

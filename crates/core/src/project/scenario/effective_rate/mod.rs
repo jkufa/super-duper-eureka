@@ -2,7 +2,7 @@
 
 use std::cmp;
 
-use super::BandProjection;
+use super::BaselineProjection;
 use crate::compound::{BucketTotals, compound_segment};
 use crate::project::ProjectionError;
 use crate::scenario::{Account, Compounding, Scenario};
@@ -10,17 +10,17 @@ use crate::schedule::{Deposit, ScheduledMonth, build_account_schedule, month_seg
 
 const BISECTION_PASSES: usize = 60;
 
-/// `baseline` is the baseline band before its weighted rates are added. With no included
-/// account, or a pool with no balance and no deposits, the result is the scenario's rate.
+/// With no included account, or a pool with no balance and no deposits, the result is the
+/// scenario's rate.
 pub(super) fn effective_rate<'a>(
     scenario: &'a Scenario,
-    baseline: &BandProjection<'a>,
+    baseline: &BaselineProjection<'a>,
 ) -> Result<f64, ProjectionError<'a>> {
     let default_rate = scenario.interest().annual_rate();
     let included: Vec<(&'a Account, f64)> = scenario
         .accounts()
         .iter()
-        .zip(&baseline.accounts)
+        .zip(baseline.accounts())
         .filter(|(account, _)| account.included())
         .map(|(account, projection)| (account, projection.annual_rate))
         .collect();
@@ -39,7 +39,7 @@ pub(super) fn effective_rate<'a>(
     }
 
     let accounts: Vec<&'a Account> = included.iter().map(|&(account, _)| account).collect();
-    let pool = Pool::of(scenario, &accounts, baseline.total.start_balance)?;
+    let pool = Pool::of(scenario, &accounts, baseline.total().start_balance())?;
     if pool.opening_balance == 0.0 && !pool.has_deposits {
         return Ok(default_rate);
     }
@@ -47,7 +47,7 @@ pub(super) fn effective_rate<'a>(
     Ok(bisect_rate(
         lowest,
         highest,
-        baseline.total.final_balance,
+        baseline.total().final_balance(),
         |rate| pool.final_balance(compounding, rate),
     ))
 }

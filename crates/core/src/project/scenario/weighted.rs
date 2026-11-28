@@ -1,5 +1,5 @@
 use super::{AccountProjection, BandProjection};
-use crate::project::{MonthlyRow, YearlyRow};
+use crate::project::{MonthlyRow, ProjectionError, YearlyRow};
 
 /// The baseline band, whose total's yearly rows carry the balance-weighted rate.
 #[derive(Debug, PartialEq)]
@@ -81,8 +81,8 @@ impl WeightedYearlyRow {
 impl<'a> BandProjection<'a> {
     /// When every included account has the same rate, the weighted rate is that rate. Otherwise
     /// it is the sum, from 0 in file order, of each rate times the account's balance on the row,
-    /// divided by the total's balance.
-    pub(super) fn with_weighted_rates(self) -> BaselineProjection<'a> {
+    /// divided by the total's balance. A weighted rate that is not finite is `not_finite`.
+    pub(super) fn with_weighted_rates(self) -> Result<BaselineProjection<'a>, ProjectionError<'a>> {
         let Self { total, accounts } = self;
         let included: Vec<&AccountProjection<'a>> =
             accounts.iter().filter(|account| account.included).collect();
@@ -106,13 +106,16 @@ impl<'a> BandProjection<'a> {
             .yearly
             .iter()
             .zip(weighted_sums)
-            .map(|(&row, weighted_sum)| WeightedYearlyRow {
-                row,
-                weighted_rate: (row.balance != 0.0)
-                    .then(|| shared_rate.unwrap_or(weighted_sum / row.balance)),
+            .map(|(&row, weighted_sum)| {
+                let weighted_rate =
+                    (row.balance != 0.0).then(|| shared_rate.unwrap_or(weighted_sum / row.balance));
+                if weighted_rate.is_some_and(|rate| !rate.is_finite()) {
+                    return Err(ProjectionError::ScenarioNotFinite);
+                }
+                Ok(WeightedYearlyRow { row, weighted_rate })
             })
-            .collect();
-        BaselineProjection {
+            .collect::<Result<_, _>>()?;
+        Ok(BaselineProjection {
             total: WeightedSeries {
                 start_balance: total.start_balance,
                 final_balance: total.final_balance,
@@ -122,6 +125,6 @@ impl<'a> BandProjection<'a> {
                 yearly,
             },
             accounts,
-        }
+        })
     }
 }

@@ -744,7 +744,45 @@ mod errors {
         .scenario();
         let error = project_scenario(&scenario).unwrap_err();
 
-        assert_eq!(error, ProjectionError::TotalNotFinite);
+        assert_eq!(error, ProjectionError::ScenarioNotFinite);
         assert_eq!((error.code(), error.account_id()), ("not_finite", None));
+    }
+
+    #[test]
+    fn fails_with_not_finite_and_no_account_id_when_a_salary_overflows_1e308_doubled_in_2027() {
+        let scenario = Setup {
+            salary: Some(
+                json!({ "annualBase": 1e308, "annualRaiseRate": 1, "asOf": "2026-01-01" }),
+            ),
+            ..Setup::new("2026-01-01", "2028-01-01", vec![])
+        }
+        .scenario();
+
+        assert_eq!(
+            project_scenario(&scenario),
+            Err(ProjectionError::ScenarioNotFinite)
+        );
+    }
+
+    #[test]
+    fn fails_with_not_finite_and_no_account_id_when_a_rate_times_a_balance_overflows_the_weighted_rate()
+     {
+        let scenario = Setup::new(
+            "2026-12-01",
+            "2027-01-01",
+            vec![
+                json!({ "id": "big", "balance": 1e306, "annualRate": 1000 }),
+                json!({ "id": "small", "balance": 1 }),
+            ],
+        )
+        .scenario();
+        let big = scenario.accounts()[0].balance() * 1001.0_f64.powf(1.0 / 12.0);
+
+        assert!(big.is_finite());
+        assert_eq!(1000.0 * big, f64::INFINITY);
+        assert_eq!(
+            project_scenario(&scenario),
+            Err(ProjectionError::ScenarioNotFinite)
+        );
     }
 }
