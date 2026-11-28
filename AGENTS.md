@@ -41,6 +41,7 @@ Specs live in `implementation/rust-redesign/`. Read its `README.md` first, then 
 - Orchestration agent: Fable 5.2.
 - Implementation agents: Opus 5.5.
 - Code review agents: GPT 6.2 Sol when the work under review is low or medium effort, GPT 6.2 Astra when it is high effort. The orchestrator states the effort level when it hands work to review.
+- If the GPT reviewer is out of usage, review with Grok 4.7 through Cursor at the same effort level. Go back to GPT 6.2 when its limit resets. Do not switch reviewers for any other reason without asking.
 - The effort level for each part of each spec is in the "Orchestration" table of `implementation/rust-redesign/README.md`.
 
 ### Code Review Log
