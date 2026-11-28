@@ -1,15 +1,23 @@
-//! Proptest generators of valid scenario files, as JSON, with the `today` each is valid for.
+//! Proptest generators of valid scenario files, as JSON, with the `today` each is valid for, and
+//! the runner every property uses.
 
+use std::any::Any;
 use std::fmt;
 use std::ops::RangeInclusive;
+use std::panic::{self, AssertUnwindSafe};
 
 use proptest::prelude::*;
+use proptest::test_runner::{Config, RngAlgorithm, TestCaseResult, TestRng, TestRunner};
 use serde::Deserialize;
 use serde_json::{Value, json};
 
 use crate::date::CalendarDate;
 use crate::scenario::Scenario;
 use crate::scenario::raw::ScenarioFile;
+
+const CASES: u32 = 256;
+/// The ChaCha seed of every property run.
+const SEED: [u8; 32] = *b"retirement-core property seed v1";
 
 /// Up to this many months from `today` to the end date.
 const MAX_HORIZON_MONTHS: i32 = 120;
@@ -237,6 +245,33 @@ fn scenario_with(
                 },
             )
     })
+}
+
+/// The text of a panic's payload.
+fn panic_text(payload: &(dyn Any + Send)) -> String {
+    let text = payload
+        .downcast_ref::<&str>()
+        .copied()
+        .or_else(|| payload.downcast_ref::<String>().map(String::as_str))
+        .unwrap_or("a panic without a message");
+    format!("panicked: {text}")
+}
+
+/// Runs `test` on [`CASES`] values of `strategy` drawn from [`SEED`], with no failure file. A
+/// failure, including a panic in `test`, is shrunk, and the panic names the reason and the
+/// smallest failing value.
+pub(crate) fn check<S: Strategy>(strategy: &S, test: impl Fn(S::Value) -> TestCaseResult) {
+    let mut runner = TestRunner::new_with_rng(
+        Config::with_cases(CASES),
+        TestRng::from_seed(RngAlgorithm::ChaCha, &SEED),
+    );
+    let result = runner.run(strategy, |value| {
+        panic::catch_unwind(AssertUnwindSafe(|| test(value)))
+            .unwrap_or_else(|payload| Err(TestCaseError::fail(panic_text(payload.as_ref()))))
+    });
+    if let Err(error) = result {
+        panic!("{error}");
+    }
 }
 
 /// A valid scenario of 0 to 4 accounts, stale or not, over up to ten years.

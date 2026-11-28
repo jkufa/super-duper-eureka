@@ -23,6 +23,11 @@ deny = [
   ], reason = "core uses jiff-core; only the CLI reads the clock" }
 ]
 
+[[bans.features]]
+crate = "proptest"
+deny = ["std", "fork", "timeout", "handle-panics", "hardware-rng"]
+reason = "these read the OS random source, PROPTEST_* variables, the clock or files; core's properties use a fixed seed and no failure file"
+
 [sources]
 unknown-registry = "deny"
 unknown-git = "deny"
