@@ -67,13 +67,14 @@ Specs live in `implementation/rust-redesign/`. Read its `README.md` first, then 
 - In partial ranges, filter deposits by their resolved dates before totalling the retained deposits by bucket.
 - Write salary-share formulas with explicit parentheses around the basis division and the percentage conversion.
 - Test a comparison at the equal value, not only on the side that fails.
-- Ban a dependency's clock and I/O paths from the version in the lockfile, including the sibling that does the work, and show that calling each one fails `just check`.
 - Exercise a nonempty projection in the last supported month through the public entry point.
 - Compare golden figures to the public output wherever it supplies them. Pin the expected fixture groups as well as their total count.
 - If several accounts can overflow, specify which error subjects parity compares or use single-fault inputs.
 - Test documented machine-readable commands as subprocesses, including the launcher, stdout, stderr and exit status.
 - Check temporal and arithmetic claims at their boundaries, including intermediate overflow before a reciprocal.
 - Exercise equivalent ways to read the clock when a source guard promises clock independence.
+- Ban a dependency's clock and I/O paths from the version in the lockfile, including the sibling that does the work and a parser or trait method that reaches them without naming the banned type, and show that calling each one fails `just check`.
+- Pin a float formula with an input on which the wrong association, an algebraically rearranged expression, or a dropped finiteness check produces a different result.
 
 ### Rust Guidelines
 
