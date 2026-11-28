@@ -87,7 +87,9 @@ describe('projectAccount', () => {
 
   it.each([
     ['on', DECEMBER, DECEMBER],
-    ['after', FEBRUARY, DECEMBER]
+    ['after', FEBRUARY, DECEMBER],
+    ['on, mid-month,', { ...DECEMBER, day: 15 }, { ...DECEMBER, day: 15 }],
+    ['after, in the same month,', { ...DECEMBER, day: 20 }, { ...DECEMBER, day: 15 }]
   ])('returns the opening balance and no rows when from is %s to', (_, from, to) => {
     const { scenario, account } = scenarioFor('daily');
 

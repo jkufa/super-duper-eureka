@@ -77,6 +77,10 @@ disallowed-types = [
 ]
 ```
 
+The lists above are where the bans started. Review found that `core` could still read the clock through `elapsed`, the environment through `std::env::args` and its siblings, the file system through `std::fs`, and the network through `std::net`, and pass every check. The committed file bans each of those by path, along with spawning a process, the `include_str!` family through `disallowed-macros`, and the date crate's clock and system time zone calls. Clippy cannot ban a module, so each function is listed. When a dependency of `core` gains a way to do I/O or read the clock, ban it in the commit that adds the dependency.
+
+`unsafe_code` is `forbid` for the whole workspace, in `[workspace.lints.rust]`. `async fn` in `core` stays a review rule, since no lint forbids it.
+
 Prove the split works. A `SystemTime::now()` call must fail the check in `core` and pass in `cli`. If Clippy does not pick up a per-crate file on the pinned version, find the supported way and record it in the PR.
 
 ### Formatting
@@ -91,7 +95,7 @@ Prove the split works. A `SystemTime::now()` call must fail the check in `core` 
 | `cargo-deny`    | Fails on known vulnerabilities, licences off the allow list, and sources other than crates.io |
 | `cargo-shear`   | Fails on declared dependencies nothing uses                                                   |
 
-`deny.toml` allows the licences Codex allows that our dependencies need, and no more. Start from MIT, Apache-2.0, BSD-2-Clause, BSD-3-Clause, ISC, Unicode-3.0 and Zlib, and add one only when a dependency requires it. `multiple-versions` is a warning.
+`deny.toml` allows the licences Codex allows that our dependencies need, and no more. Start from MIT, Apache-2.0, BSD-2-Clause, BSD-3-Clause, ISC, Unicode-3.0 and Zlib, and add one only when a dependency requires it. `multiple-versions` is a warning. `allow-wildcard-paths` is on, so `cli` can depend on `core` by path. `[licenses.private] ignore = true` skips every crate with `publish = false`, not only ours. A path dependency from outside the workspace could use that to skip the licence check, so adding one needs a reviewer's eye. The alternative is a licence on our own crates, which is the owner's to choose.
 
 ### The check command
 

@@ -14,6 +14,9 @@ serde = { version = "1.0.229", features = ["derive"] }
 serde_json = "1.0.154"
 thiserror = "2.0.21"
 
+[workspace.lints.rust]
+unsafe_code = "forbid"
+
 [workspace.lints.clippy]
 expect_used = "deny"
 unwrap_used = "deny"
@@ -54,3 +57,4 @@ todo = "deny"
 assigning_clones = "deny"
 large_types_passed_by_value = "deny"
 disallowed_types = "deny"
+disallowed_macros = "deny"

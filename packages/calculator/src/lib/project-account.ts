@@ -92,12 +92,16 @@ export function projectAccount(
     totalContributions: last ? last.totalContributions : 0,
     totalInterest: last ? last.totalInterest : 0,
     monthly,
-    yearly: monthly.flatMap(({ year, month, balance, contributions, interest }, index) =>
-      month === LAST_MONTH || index === monthly.length - 1
-        ? [{ year, balance, contributions, interest }]
-        : []
-    )
+    yearly: yearlyRows(monthly)
   };
+}
+
+export function yearlyRows(monthly: ReadonlyArray<Row>): Array<Row> {
+  return monthly.flatMap(({ year, month, balance, contributions, interest }, index) =>
+    month === LAST_MONTH || index === monthly.length - 1
+      ? [{ year, balance, contributions, interest }]
+      : []
+  );
 }
 
 export function traceAccountRange(

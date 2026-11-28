@@ -115,6 +115,7 @@ describe('parseScenario', () => {
   it('returns the scenario with dates parsed and defaults filled in', () => {
     const scenario = parseScenario(validFile(), { today: TODAY });
 
+    expect(scenario.today).toStrictEqual({ year: 2026, month: 3, day: 1 });
     expect(scenario.endDate).toStrictEqual({ year: 2036, month: 1, day: 1 });
     expect(scenario.interest).toStrictEqual({
       annualRate: 0.06,
@@ -177,6 +178,10 @@ describe('parseScenario', () => {
     scenario.accounts[1] = account;
     // @ts-expect-error A parsed date is read-only.
     scenario.endDate.year = 2040;
+    // @ts-expect-error A parsed scenario's today is read-only.
+    scenario.today = scenario.endDate;
+    // @ts-expect-error A parsed today's fields are read-only.
+    scenario.today.day = 2;
   });
 
   it('fills in a missing variance, raise and compounding', () => {
