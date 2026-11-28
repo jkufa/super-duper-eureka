@@ -30,7 +30,7 @@ One PR per part.
 Port `buildSchedule` and the deposit and amount rules from spec 2 part C.
 
 - This is the second exemplar. Review it at high effort, then name it in "Rust Guidelines" next to the first.
-- The schedule is a `Vec` of deposits in a fixed order: by date, then by the rule's position in the file. Compounding and the effective rate depend on that order.
+- The schedule is a `Vec` of deposits in a fixed order: by month, then by account position, then by the rule's position in its account. It is not ordered by day within a month. Bucket totals are summed in that order. See "Grouping and order" in spec 2 part B, which this part ports line for line.
 - Use the built-in `f64::powi` for whole-number powers and `f64::powf` for the rest. On 200,000 samples `powi` matched Bun's `**` every time, and `powf` matched it on the fractional roots every time. Do not use `powf` for a whole-number power, and do not write a power function of our own.
 - Port the TypeScript unit tests for deposits and amounts one for one, with the same inputs and expected values.
 

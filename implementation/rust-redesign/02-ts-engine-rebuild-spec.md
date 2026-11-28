@@ -59,9 +59,24 @@ Same public contract as today. Only the inside changes.
 
 - `calculateRetirement` builds the schedule once and compounds it three times.
 - Step detail comes from a separate function that takes the same schedule. A normal run builds no step records.
-- Keep the order of arithmetic. That includes the order deposits are added into a bucket, which is the order of the rules. The baseline test still passes unchanged.
+- Keep the order of arithmetic, as "Grouping and order" below states it. The baseline test still passes unchanged.
 - There is no tolerance to fall back on. A digest either matches or it does not. If an exact match proves impossible, stop and report what differs.
 - Add a benchmark script with the reference case from the README: 30 years, five rules. Record the time for 60 `compound` passes in both modes.
+
+### Grouping and order
+
+The split must add numbers in the order today's engine does. A different order changes the last digit. Adding a month's deposits to the balance one at a time, where today's engine adds their total once, changed six stored step balances.
+
+- Schedule order. Deposits are ordered by month, then by the rule's position in the config. They are not ordered by day within the month.
+- A deposit whose amount is 0 is left out of the schedule.
+- Buckets. A deposit is in `start`, in `end`, or on a numbered day.
+  - Monthly mode. A recurring rule with a day is in `start` when the day is at or before `Math.ceil(daysInMonth / 2)`, and in `end` otherwise. So day 16 of a 31-day month is in `start`. The day decides even when the rule also has a placement. A recurring rule without a day uses its placement, or `start` when it has none. A one-time rule is in `start` whatever its day. No deposit has a numbered day.
+  - Daily mode. A recurring rule with a day is on that day, clamped to the month. A recurring rule without a day keeps its placement bucket, or `start` when it has none. It is not moved to a numbered day. A one-time rule is on its day, or on day 1 when it has none.
+- Bucket totals. For each month, the `start` total, the `end` total and each numbered day's total are each summed from 0 in schedule order.
+- Monthly compounding. `balanceAfterStart = balance + startTotal`. `interest = balanceAfterStart * monthlyRate`. `balance = balanceAfterStart + interest + endTotal`. The month's contributions are `startTotal + endTotal`.
+- Daily compounding. Day 1's deposit is its numbered-day total plus `startTotal`, in that order. The last day's deposit is its numbered-day total plus `endTotal`. On each day, add the day's deposit to the balance once if it is not 0, then compute `balance * dailyRate` and add that to the balance. The month's contributions and the month's interest are each summed from 0, day by day.
+- Running totals. The month's contributions and the month's interest are each added to the cumulative totals once per month.
+- A step reports `contributionsStart` as `startTotal`, `contributionsEnd` as `endTotal`, and `contributionsByDay` as the numbered-day totals before the placement totals are merged in.
 
 ## Part C: calendar contract
 
@@ -165,7 +180,7 @@ Part C implements these types but reads only `accounts[0]`. Part E adds the rest
 - A recurring rule deposits only on dates from its `startDate` to its `endDate`, both inclusive. A missing bound is open.
 - A deposit is in range when its date is on or after the range start and before the range end.
 - For that test, a rule with `placement: 'start'` and no day counts as day 1, and `placement: 'end'` counts as the last day. This differs from today, where a start-placed rule in the first month always deposits. It only shows when a range starts after the 1st.
-- Buckets are unchanged. Daily mode uses the day. In monthly mode the midpoint is `Math.ceil(daysInMonth / 2)`. A recurring rule's day at or before it goes in `start` and a later day in `end`, so day 16 of a 31-day month is in `start`. A recurring rule's day decides the bucket even when the rule also has a placement. A one-time deposit in monthly mode goes in `start` whatever its day, as it does today.
+- Buckets, bucket totals and the order of arithmetic are unchanged from part B's "Grouping and order". In daily mode a rule with a placement and no day keeps its `start` or `end` bucket. Counting it as day 1 or the last day applies to the range test above and nothing else.
 
 ### Amounts
 
@@ -175,9 +190,15 @@ Part C implements these types but reads only `accounts[0]`. Part E adds the rest
 
 ### The adapter
 
-`legacyToScenario` lives in the test folder only. It sets `balanceAsOf`, `today` and `salary.asOf` to the old start date, and `endDate` to the old start date plus the horizon. A rule's `startDate` is 1 January of the start year plus `yearRange.start`. Its `endDate` is 31 December of the start year plus `yearRange.end`. A one-time rule's `on` uses day 1 when the old rule had no day. An explicit day past the end of its month is clamped to the last day before the date is written, so 31 April becomes the 30th. Today's engine ignores `yearRange` on a one-time rule, and the new contract gives one-time rules no bounds, so the adapter drops it.
+`legacyToScenario` lives in the test folder only. It sets `balanceAsOf`, `today` and `salary.asOf` to the old start date, and `endDate` to the old start date plus the horizon. A rule's `startDate` is 1 January of the start year plus `yearRange.start`, which defaults to 0. Its `endDate` is 31 December of the start year plus `yearRange.end`, which defaults to the horizon. Every recurring rule gets both, so a rule with growth and no range grows from 1 January of the start year, as it does today. A one-time rule's `on` uses day 1 when the old rule had no day. An explicit day past the end of its month is clamped to the last day before the date is written, so 31 April becomes the 30th. Today's engine ignores `yearRange` on a one-time rule, and the new contract gives one-time rules no bounds, so the adapter drops it.
 
-The adapter has a second half, `toLegacyRows`. It maps the new output and trace back to the rows and steps the stream builders take: `yearIndex` is the calendar year minus the start year, `monthIndex` is the month minus 1, the start, end and by-day figures come from the trace's deposits by bucket, and the active contributions come from the trace's deposits by rule.
+The adapter has a second half, `toLegacyRows`. It takes the legacy config along with the new output and trace, and maps them back to the rows and steps the stream builders take.
+
+- `yearIndex` is the calendar year minus the start year, and `monthIndex` is the month minus 1.
+- `compounding` comes from the config. Each active contribution's `type` and its position come from the config too, matched by rule id.
+- The trace's rate is the annual rate.
+- The start, end and by-day figures are the trace's deposits totalled by bucket, as part B groups them.
+- `contributionsThisStep` is the sum of those bucket totals. It is not a difference of two cumulative figures, which can lose a small deposit.
 
 ## Part D: day-accurate ranges
 
@@ -185,6 +206,7 @@ The adapter has a second half, `toLegacyRows`. It maps the new output and trace 
 
 - Daily mode. For each day in the segment, add that day's deposits, then add the day's interest. The daily rate is unchanged: `(1 + r)^(1 / daysInYear) - 1`.
 - Monthly mode. Interest for a segment is `(balance + startDeposits) * monthlyRate * (segmentDays / daysInMonth)`, evaluated as written: the product first, then times the fraction, with the division done inside its own parentheses. Then add the `end` deposits. A full month multiplies by exactly 1, so full months match today. Multiplying by the days and then dividing does not: it changes the last digit.
+- Grouping is as in part B. `startTotal` belongs to day 1 and `endTotal` to the last day of the month, so a segment that leaves that day out leaves that total out.
 
 The baseline test still passes exactly, because every baseline range starts on the 1st and ends on a 1st.
 
@@ -259,7 +281,7 @@ export interface Row {
 }
 ```
 
-`traceAccount(scenario, options, accountId, band)` returns one record per segment, covering the roll forward and the projection: the segment's dates, its days, the days in its month and year, the balance before and after, the interest, the rate, and each deposit with its rule id, date, amount and bucket.
+`traceAccount(scenario, options, accountId, band)` returns one record per segment, covering the roll forward and the projection: the segment's dates, its days, the days in its month and year, the balance before and after, the interest, the annual rate, and each deposit with its rule id, date, amount and bucket. Deposits are listed in schedule order, and a bucket is `start`, `end` or a day number as part B defines them.
 
 Tests:
 
@@ -278,7 +300,7 @@ Computed for the baseline band, over `today` to `endDate`, across included accou
 
 1. If there are no included accounts, return the scenario's default rate.
 2. Let `lo` be the lowest included account rate and `hi` the highest. If they are equal, return that rate.
-3. Pool the accounts: add up their balances at `today`, and concatenate their schedules from `today`.
+3. Pool the accounts: add up their balances at `today`, and merge their schedules from `today`. The pooled schedule is ordered by month, then by the account's position in the file, then by the rule's position in the account.
 4. If the pooled balance is 0 and the pooled schedule is empty, return the default rate.
 5. The target is the baseline total's `finalBalance`.
 6. Repeat exactly 60 times: take the midpoint of `lo` and `hi`, compound the pool at it, and move `lo` up if the result is below the target, else move `hi` down.
