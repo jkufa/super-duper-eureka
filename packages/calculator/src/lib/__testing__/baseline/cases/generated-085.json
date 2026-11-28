@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 65600,
     "timeHorizonYears": 36,
-    "startDate": "2026-01-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.059205605061418844,
       "variance": 0.018614381546340146,
@@ -16,19 +15,18 @@
     "contributions": [
       {
         "id": "401k-roth",
-        "name": "Roth 401(k) contribution",
         "type": "salaryPercent",
         "amount": 5.99,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "Roth 401(k) contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "ira",
-        "name": "IRA contribution",
         "type": "flat",
         "amount": 5197,
         "timing": {
@@ -36,24 +34,24 @@
           "month": 10,
           "placement": "end"
         },
+        "name": "IRA contribution",
         "enabled": true
       },
       {
         "id": "annual-bonus",
-        "name": "Annual bonus contribution",
         "type": "salaryPercent",
         "amount": 7.84,
-        "salaryBasis": "annual",
         "timing": {
           "frequency": "annual",
           "month": 4,
           "placement": "end"
         },
-        "enabled": true
+        "name": "Annual bonus contribution",
+        "enabled": true,
+        "salaryBasis": "annual"
       },
       {
         "id": "rsu-vesting",
-        "name": "RSU vesting proceeds",
         "type": "flat",
         "amount": 12487,
         "timing": {
@@ -61,31 +59,33 @@
           "month": 1,
           "placement": "start"
         },
+        "name": "RSU vesting proceeds",
         "enabled": true
       },
       {
         "id": "college-529",
-        "name": "529 contribution",
         "type": "flat",
         "amount": 242,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "529 contribution",
         "enabled": true
       },
       {
         "id": "crypto",
-        "name": "Crypto allocation",
         "type": "flat",
         "amount": 106,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Crypto allocation",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-01-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -851,6 +851,6 @@
       }
     ]
   },
-  "monthlyDigest": "7ed4d682d2e8c7b4098490facb4bd2620800865c1f1e10bf49a9ca2b4ea03f77",
-  "stepsDigest": "1008bf496879ebf80407a42aef06717f23b1e989f0675a0c0ccaccfe5375f5c3"
+  "monthlyDigest": "6ef36f4e72065ad2aae8a338d544f79f8d777c81e531590c0f9306a662e0d03f",
+  "stepsDigest": "13e9ccd8e62d2373a3f5816f0c2792b8a2b36e5b63dbc311889b1531bb3aecb3"
 }

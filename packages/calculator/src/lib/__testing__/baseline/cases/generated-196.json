@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 110200,
     "timeHorizonYears": 35,
-    "startDate": "2026-04-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.0456365472979242,
       "variance": 0.014462931980258643,
@@ -16,19 +15,18 @@
     "contributions": [
       {
         "id": "401k-employee",
-        "name": "401(k) employee contribution",
         "type": "salaryPercent",
         "amount": 3.71,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employee contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "hsa-employee",
-        "name": "HSA employee contribution",
         "type": "flat",
         "amount": 768,
         "timing": {
@@ -36,33 +34,35 @@
           "month": 4,
           "placement": "end"
         },
+        "name": "HSA employee contribution",
         "enabled": true
       },
       {
         "id": "hsa-employer",
-        "name": "HSA employer contribution",
         "type": "flat",
         "amount": 26,
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
+        "name": "HSA employer contribution",
         "enabled": true
       },
       {
         "id": "annual-bonus",
-        "name": "Annual bonus contribution",
         "type": "salaryPercent",
         "amount": 10.31,
-        "salaryBasis": "annual",
         "timing": {
           "frequency": "annual",
           "month": 11,
           "placement": "end"
         },
-        "enabled": true
+        "name": "Annual bonus contribution",
+        "enabled": true,
+        "salaryBasis": "annual"
       }
-    ]
+    ],
+    "startDate": "2026-04-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -828,6 +828,6 @@
       }
     ]
   },
-  "monthlyDigest": "b4e46dd91887c65cdd3648d2ecbff608efeb411d7656c5dcafd0bfe826e1b223",
-  "stepsDigest": "d48721a3121b44b10dd0241314c5f097912f9e7f03a8ed17aab6b6fba0df8f86"
+  "monthlyDigest": "8cb98624e6f2d10e4e85d90bde4f75dbbb97e1e96fc0a93aa557aa12a0b8e9d3",
+  "stepsDigest": "f5a759635d802c08ca6c3747f5be80a1c9197b37a068e1d6117e4217eee816c4"
 }

@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 36000,
     "timeHorizonYears": 40,
-    "startDate": "2026-12-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.07261889036929152,
       "variance": 0.019599542653947248,
@@ -16,42 +15,41 @@
     "contributions": [
       {
         "id": "401k-employee",
-        "name": "401(k) employee contribution",
         "type": "salaryPercent",
         "amount": 8.69,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employee contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-match",
-        "name": "401(k) employer match",
         "type": "salaryPercent",
         "amount": 3.47,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employer match",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "hsa-employer",
-        "name": "HSA employer contribution",
         "type": "flat",
         "amount": 90,
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
+        "name": "HSA employer contribution",
         "enabled": true
       },
       {
         "id": "ira",
-        "name": "IRA contribution",
         "type": "flat",
         "amount": 3799,
         "timing": {
@@ -59,34 +57,34 @@
           "month": 10,
           "placement": "end"
         },
+        "name": "IRA contribution",
         "enabled": false
       },
       {
         "id": "brokerage",
-        "name": "Brokerage auto-invest",
         "type": "flat",
         "amount": 995,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Brokerage auto-invest",
         "enabled": true
       },
       {
         "id": "espp",
-        "name": "ESPP contribution",
         "type": "salaryPercent",
         "amount": 3.18,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "ESPP contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "rsu-vesting",
-        "name": "RSU vesting proceeds",
         "type": "flat",
         "amount": 9706,
         "timing": {
@@ -94,9 +92,11 @@
           "month": 8,
           "placement": "start"
         },
+        "name": "RSU vesting proceeds",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-12-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -967,6 +967,6 @@
       }
     ]
   },
-  "monthlyDigest": "4a7f36b9f6b812b3fb58e29c42512a0fa792742676736ef1b33bd55d83812423",
-  "stepsDigest": "7488a56dc55f2aeeab24957ef95b0ec366b278413e4490d5c98bee74f830f06d"
+  "monthlyDigest": "b12ee0e72de47fc7b94bd29490bde84ca668f42c6323690c115921769a358a4b",
+  "stepsDigest": "d7ca0d01afeeabd632a3d4be2b67854d469ba9694bcddba106e5f3aac1151f4f"
 }

@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 75500,
     "timeHorizonYears": 35,
-    "startDate": "2026-09-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.06562569067569564,
       "variance": 0.020662688449698006,
@@ -16,7 +15,6 @@
     "contributions": [
       {
         "id": "ira",
-        "name": "IRA contribution",
         "type": "flat",
         "amount": 4055,
         "timing": {
@@ -24,45 +22,47 @@
           "month": 8,
           "placement": "end"
         },
+        "name": "IRA contribution",
         "enabled": true
       },
       {
         "id": "brokerage",
-        "name": "Brokerage auto-invest",
         "type": "flat",
         "amount": 201,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Brokerage auto-invest",
         "enabled": true
       },
       {
         "id": "espp",
-        "name": "ESPP contribution",
         "type": "salaryPercent",
         "amount": 1.63,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "ESPP contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "annual-bonus",
-        "name": "Annual bonus contribution",
         "type": "salaryPercent",
         "amount": 13.95,
-        "salaryBasis": "annual",
         "timing": {
           "frequency": "annual",
           "month": 6,
           "placement": "end"
         },
-        "enabled": true
+        "name": "Annual bonus contribution",
+        "enabled": true,
+        "salaryBasis": "annual"
       }
-    ]
+    ],
+    "startDate": "2026-09-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -828,6 +828,6 @@
       }
     ]
   },
-  "monthlyDigest": "8a68522792c3efc468a5d6aa12d328360655a3064e21592875258dbc9ad965f4",
-  "stepsDigest": "5586efdeacdf08b205c51157b136c4afe7b607dbccdb701d6f8343d9e1af55e3"
+  "monthlyDigest": "416fa624ed406c4110119e689375b92440040197cfa04b7c89cbfd1769af195d",
+  "stepsDigest": "1023782e264d7ec70b77be8f72a7da7f46fe1792d4644f4651119a70b0481ee9"
 }

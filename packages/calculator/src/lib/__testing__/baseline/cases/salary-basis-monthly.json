@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 18000,
     "timeHorizonYears": 10,
-    "startDate": "2026-06-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.055,
       "variance": 0.02,
@@ -16,16 +15,17 @@
     "contributions": [
       {
         "id": "401k",
-        "enabled": true,
         "type": "salaryPercent",
         "amount": 7,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "day": 12
-        }
+        },
+        "enabled": true,
+        "salaryBasis": "monthly"
       }
-    ]
+    ],
+    "startDate": "2026-06-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -266,6 +266,6 @@
       }
     ]
   },
-  "monthlyDigest": "934fabe33e819c7563f7428afb5c5d37dac0237120a4b993f64f996d4c814e9f",
-  "stepsDigest": "767cdc7e4c899b4480ce17a7e66fd3ca232feb4745716e6cb6ddeba54abfc3e6"
+  "monthlyDigest": "6e867bf6bf814deed587fbcf0feef97f191a3b837f27898e9088ab8b1a689b22",
+  "stepsDigest": "2b76d09498f84fc3cefff825573f9afb689491d703be3ab16259fe56b79fbfc4"
 }

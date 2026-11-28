@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 267700,
     "timeHorizonYears": 9,
-    "startDate": "2026-11-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.05560625587339555,
       "variance": 0.020121356996466534,
@@ -16,30 +15,29 @@
     "contributions": [
       {
         "id": "401k-roth",
-        "name": "Roth 401(k) contribution",
         "type": "salaryPercent",
         "amount": 1.86,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": false
+        "name": "Roth 401(k) contribution",
+        "enabled": false,
+        "salaryBasis": "monthly"
       },
       {
         "id": "hsa-employee",
-        "name": "HSA employee contribution",
         "type": "flat",
         "amount": 158,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "HSA employee contribution",
         "enabled": true
       },
       {
         "id": "ira",
-        "name": "IRA contribution",
         "type": "flat",
         "amount": 1164,
         "timing": {
@@ -47,20 +45,22 @@
           "month": 9,
           "placement": "end"
         },
+        "name": "IRA contribution",
         "enabled": true
       },
       {
         "id": "brokerage",
-        "name": "Brokerage auto-invest",
         "type": "flat",
         "amount": 635,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Brokerage auto-invest",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-11-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -280,6 +280,6 @@
       }
     ]
   },
-  "monthlyDigest": "e3514b098664086d0a03f8a35e359cb9b3a985b5a8386df4949d4a0f34b7f756",
-  "stepsDigest": "ae850fff9efbd2493833f73dc5182d26156f90a77ede48894edb5387f8f781b1"
+  "monthlyDigest": "42f0f155bca8c3da753a4b37f26ec5af14e9139b4c83b88ecaa8a97a354748cd",
+  "stepsDigest": "db40a373b05d301affc4e977e687d31dff3ad5bd10f258ff0b1b320723674991"
 }

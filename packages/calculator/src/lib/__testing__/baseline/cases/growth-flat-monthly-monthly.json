@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 5000,
     "timeHorizonYears": 7,
-    "startDate": "2026-11-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.06,
       "variance": 0.03,
@@ -16,36 +15,37 @@
     "contributions": [
       {
         "id": "savings",
-        "enabled": true,
         "type": "flat",
         "amount": 100,
+        "timing": {
+          "frequency": "monthly",
+          "placement": "start"
+        },
+        "enabled": true,
         "growth": {
           "type": "flat",
           "amount": 5,
           "cadence": "monthly"
-        },
-        "timing": {
-          "frequency": "monthly",
-          "placement": "start"
         }
       },
       {
         "id": "401k",
-        "enabled": true,
         "type": "salaryPercent",
         "amount": 3,
+        "timing": {
+          "frequency": "monthly",
+          "placement": "end"
+        },
+        "enabled": true,
         "growth": {
           "type": "flat",
           "amount": 0.01,
           "cadence": "monthly"
         },
-        "salaryBasis": "monthly",
-        "timing": {
-          "frequency": "monthly",
-          "placement": "end"
-        }
+        "salaryBasis": "monthly"
       }
-    ]
+    ],
+    "startDate": "2026-11-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -223,6 +223,6 @@
       }
     ]
   },
-  "monthlyDigest": "9fd3a3c47d3013c9b2019e8c02d34f74fc69e673576755bd51101a076e158df1",
-  "stepsDigest": "a93ad7c2d0f58f70d7963942d54be404f40932b842e5b32238f438a867f5827d"
+  "monthlyDigest": "71978e77ef80c47003d9bc60cc36061dcb04fa3472e9b8cf5cf2c1b2fb65ff42",
+  "stepsDigest": "8cc23d4670157f54437d7c64ae8055312259daa0b5ba5b9c86b6ea24cf1949a8"
 }

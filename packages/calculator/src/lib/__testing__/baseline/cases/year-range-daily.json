@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 80000,
     "timeHorizonYears": 12,
-    "startDate": "2026-10-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.05,
       "variance": 0.01,
@@ -16,13 +15,13 @@
     "contributions": [
       {
         "id": "auto-invest",
-        "enabled": true,
         "type": "flat",
         "amount": 300,
         "timing": {
           "frequency": "monthly",
           "day": 5
         },
+        "enabled": true,
         "yearRange": {
           "start": 3,
           "end": 8
@@ -30,7 +29,6 @@
       },
       {
         "id": "new-year",
-        "enabled": true,
         "type": "flat",
         "amount": 5000,
         "timing": {
@@ -38,12 +36,14 @@
           "month": 0,
           "day": 2
         },
+        "enabled": true,
         "yearRange": {
           "start": 1,
           "end": 4
         }
       }
-    ]
+    ],
+    "startDate": "2026-10-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -326,6 +326,6 @@
       }
     ]
   },
-  "monthlyDigest": "40c6209813e56f949d10d288b11880f94323c85426f878e5fd7d92aa05926703",
-  "stepsDigest": "9b1e96885a873df59f53a4df91a8e514dc1e5c83462aa5975bb88ff8607fc79c"
+  "monthlyDigest": "808409d7c7f5616fa5d899f0a1ab9ecae966756f1c7b17ec2dfa3e1fcb64a613",
+  "stepsDigest": "5ea0e6aed9dbf1dd054a582ed21788a5dbe12a8efdf03227378abc2f9de95b7a"
 }

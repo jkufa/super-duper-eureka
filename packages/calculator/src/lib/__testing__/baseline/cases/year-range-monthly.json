@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 50000,
     "timeHorizonYears": 20,
-    "startDate": "2026-07-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.06,
       "variance": 0.02,
@@ -16,13 +15,13 @@
     "contributions": [
       {
         "id": "mid-career",
-        "enabled": true,
         "type": "flat",
         "amount": 1000,
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
+        "enabled": true,
         "yearRange": {
           "start": 4,
           "end": 11
@@ -30,21 +29,22 @@
       },
       {
         "id": "bonus",
-        "enabled": true,
         "type": "salaryPercent",
         "amount": 10,
-        "salaryBasis": "annual",
         "timing": {
           "frequency": "annual",
           "month": 1,
           "placement": "end"
         },
+        "enabled": true,
+        "salaryBasis": "annual",
         "yearRange": {
           "start": 2,
           "end": 6
         }
       }
-    ]
+    ],
+    "startDate": "2026-07-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -495,6 +495,6 @@
       }
     ]
   },
-  "monthlyDigest": "da13a62af315164bce6d0cb5d51663e37261d4d87dd8bb35e2f04af03e178886",
-  "stepsDigest": "68370c1fa6a759ff4044e2d383b3f2c87d3839b58ffc712804a7ccb7953c2d45"
+  "monthlyDigest": "63ecdb69fe443627ed1c9cf94028081d863514bf97b805b39d61c75ff200c09b",
+  "stepsDigest": "1625eb2d8362dfd1e364bb34373f06b2497c234a6063117e286af407c066ebf3"
 }

@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 116300,
     "timeHorizonYears": 31,
-    "startDate": "2026-02-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.06913818006114712,
       "variance": 0.015255960626523509,
@@ -16,54 +15,53 @@
     "contributions": [
       {
         "id": "401k-employee",
-        "name": "401(k) employee contribution",
         "type": "salaryPercent",
         "amount": 9.72,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employee contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-match",
-        "name": "401(k) employer match",
         "type": "salaryPercent",
         "amount": 4.38,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employer match",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "brokerage",
-        "name": "Brokerage auto-invest",
         "type": "flat",
         "amount": 575,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Brokerage auto-invest",
         "enabled": true
       },
       {
         "id": "espp",
-        "name": "ESPP contribution",
         "type": "salaryPercent",
         "amount": 0.88,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "ESPP contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "crypto",
-        "name": "Crypto allocation",
         "type": "flat",
         "amount": 1848,
         "timing": {
@@ -71,9 +69,11 @@
           "month": 2,
           "placement": "start"
         },
+        "name": "Crypto allocation",
         "enabled": false
       }
-    ]
+    ],
+    "startDate": "2026-02-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -755,6 +755,6 @@
       }
     ]
   },
-  "monthlyDigest": "60aecaec7007f0f90c10df8092f63f82614cabb0fa2c7c5f24190c75614db739",
-  "stepsDigest": "6a5c045e49a64c940a7084fcfce80b222e7d03927fb098f02d708299b4095219"
+  "monthlyDigest": "71c53d13ac6a85aa45eee12970a018d4927876ff561ee81c93ec33536bc7f255",
+  "stepsDigest": "c306f7d8ab29e5ccf585a55faa863d729dd972a226b3d360104ad43f912f69b7"
 }

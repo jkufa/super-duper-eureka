@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 112200,
     "timeHorizonYears": 19,
-    "startDate": "2026-07-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.06755375225347865,
       "variance": 0.019688266403699656,
@@ -16,18 +15,17 @@
     "contributions": [
       {
         "id": "hsa-employee",
-        "name": "HSA employee contribution",
         "type": "flat",
         "amount": 235,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "HSA employee contribution",
         "enabled": true
       },
       {
         "id": "hsa-employer",
-        "name": "HSA employer contribution",
         "type": "flat",
         "amount": 168,
         "timing": {
@@ -35,23 +33,23 @@
           "month": 8,
           "placement": "start"
         },
+        "name": "HSA employer contribution",
         "enabled": false
       },
       {
         "id": "espp",
-        "name": "ESPP contribution",
         "type": "salaryPercent",
         "amount": 4.79,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "ESPP contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "rsu-vesting",
-        "name": "RSU vesting proceeds",
         "type": "flat",
         "amount": 10105,
         "timing": {
@@ -59,9 +57,11 @@
           "month": 6,
           "placement": "end"
         },
+        "name": "RSU vesting proceeds",
         "enabled": false
       }
-    ]
+    ],
+    "startDate": "2026-07-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -491,6 +491,6 @@
       }
     ]
   },
-  "monthlyDigest": "509900c894c03bf9dfedaa9b269f2c7b87321595ff3ae51fec51d2b00708fb61",
-  "stepsDigest": "5f81e222cd24fca88f0959ea6a730d10afb44c742c1a7e5b488b5a8438fa9491"
+  "monthlyDigest": "1fd29f9909b21eaee1b339d2cc834fb15eab7b341dd16e08ad0be17fd18b25ff",
+  "stepsDigest": "6dce457ca6ffc914fe3c75bd7b711ae8a9dc72f6b4ccd466968710412858bee7"
 }

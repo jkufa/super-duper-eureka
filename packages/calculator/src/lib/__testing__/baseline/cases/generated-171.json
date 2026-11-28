@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 63000,
     "timeHorizonYears": 35,
-    "startDate": "2026-03-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.061271768572177164,
       "variance": 0.017820602155584002,
@@ -16,7 +15,6 @@
     "contributions": [
       {
         "id": "hsa-employer",
-        "name": "HSA employer contribution",
         "type": "flat",
         "amount": 576,
         "timing": {
@@ -24,11 +22,11 @@
           "month": 2,
           "placement": "start"
         },
+        "name": "HSA employer contribution",
         "enabled": true
       },
       {
         "id": "ira",
-        "name": "IRA contribution",
         "type": "flat",
         "amount": 4766,
         "timing": {
@@ -36,32 +34,34 @@
           "month": 8,
           "placement": "end"
         },
+        "name": "IRA contribution",
         "enabled": false
       },
       {
         "id": "brokerage",
-        "name": "Brokerage auto-invest",
         "type": "flat",
         "amount": 239,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Brokerage auto-invest",
         "enabled": false
       },
       {
         "id": "espp",
-        "name": "ESPP contribution",
         "type": "salaryPercent",
         "amount": 4.96,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "ESPP contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       }
-    ]
+    ],
+    "startDate": "2026-03-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -827,6 +827,6 @@
       }
     ]
   },
-  "monthlyDigest": "7b33ebbd1ce607cc267fdecda779e6e3280a711def6419c698653604e9173a76",
-  "stepsDigest": "b1f82befabbb80e54eb9fbf591e7c70d7b0310013bc25cde693a09b60a7deaca"
+  "monthlyDigest": "3a61cc5030c4b26219bd3e4383156a3539ad138f0bb79b0f1d5c8f0a35865858",
+  "stepsDigest": "530dc2f19de33094d8b69ec63b60684c3aad698118aba39922f1ec836944f510"
 }

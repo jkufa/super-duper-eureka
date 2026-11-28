@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 412000,
     "timeHorizonYears": 33,
-    "startDate": "2026-01-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.046885790536958016,
       "variance": 0.014271005758700018,
@@ -16,30 +15,29 @@
     "contributions": [
       {
         "id": "401k-roth",
-        "name": "Roth 401(k) contribution",
         "type": "salaryPercent",
         "amount": 3.41,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "Roth 401(k) contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "hsa-employer",
-        "name": "HSA employer contribution",
         "type": "flat",
         "amount": 56,
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
+        "name": "HSA employer contribution",
         "enabled": true
       },
       {
         "id": "ira",
-        "name": "IRA contribution",
         "type": "flat",
         "amount": 3931,
         "timing": {
@@ -47,55 +45,57 @@
           "month": 0,
           "placement": "start"
         },
+        "name": "IRA contribution",
         "enabled": true
       },
       {
         "id": "brokerage",
-        "name": "Brokerage auto-invest",
         "type": "flat",
         "amount": 271,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Brokerage auto-invest",
         "enabled": true
       },
       {
         "id": "annual-bonus",
-        "name": "Annual bonus contribution",
         "type": "salaryPercent",
         "amount": 5.16,
-        "salaryBasis": "annual",
         "timing": {
           "frequency": "annual",
           "month": 4,
           "placement": "start"
         },
-        "enabled": false
+        "name": "Annual bonus contribution",
+        "enabled": false,
+        "salaryBasis": "annual"
       },
       {
         "id": "college-529",
-        "name": "529 contribution",
         "type": "flat",
         "amount": 172,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "529 contribution",
         "enabled": true
       },
       {
         "id": "crypto",
-        "name": "Crypto allocation",
         "type": "flat",
         "amount": 102,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Crypto allocation",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-01-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -798,6 +798,6 @@
       }
     ]
   },
-  "monthlyDigest": "95a3bbf93099ab9b3ae1c356ece36eeb0d096705cbb9f840df50075b86c83356",
-  "stepsDigest": "69c7913b3cbd7fc72617a5dc1ab9b3b855a23acfe7e2d17b1600fdaf63c3ccd0"
+  "monthlyDigest": "319a07705ee45339804fa832dd59b3ffbe16a7e3884b4bacdeeffbd7be361f62",
+  "stepsDigest": "3c210d6ec168fd446320f2d5e183b776d5129e7ac3d0b4bf606b86d967ca07c9"
 }

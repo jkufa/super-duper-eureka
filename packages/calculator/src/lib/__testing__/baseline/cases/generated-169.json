@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 459600,
     "timeHorizonYears": 15,
-    "startDate": "2026-01-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.05249433568637417,
       "variance": 0.019672043969796035,
@@ -16,42 +15,41 @@
     "contributions": [
       {
         "id": "401k-employee",
-        "name": "401(k) employee contribution",
         "type": "salaryPercent",
         "amount": 4.35,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employee contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-match",
-        "name": "401(k) employer match",
         "type": "salaryPercent",
         "amount": 2.26,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employer match",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "hsa-employee",
-        "name": "HSA employee contribution",
         "type": "flat",
         "amount": 213,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "HSA employee contribution",
         "enabled": true
       },
       {
         "id": "ira",
-        "name": "IRA contribution",
         "type": "flat",
         "amount": 3258,
         "timing": {
@@ -59,34 +57,34 @@
           "month": 0,
           "placement": "end"
         },
+        "name": "IRA contribution",
         "enabled": true
       },
       {
         "id": "brokerage",
-        "name": "Brokerage auto-invest",
         "type": "flat",
         "amount": 610,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Brokerage auto-invest",
         "enabled": false
       },
       {
         "id": "espp",
-        "name": "ESPP contribution",
         "type": "salaryPercent",
         "amount": 6.79,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "ESPP contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "rsu-vesting",
-        "name": "RSU vesting proceeds",
         "type": "flat",
         "amount": 5258,
         "timing": {
@@ -94,22 +92,22 @@
           "month": 10,
           "placement": "end"
         },
+        "name": "RSU vesting proceeds",
         "enabled": true
       },
       {
         "id": "college-529",
-        "name": "529 contribution",
         "type": "flat",
         "amount": 297,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "529 contribution",
         "enabled": true
       },
       {
         "id": "crypto",
-        "name": "Crypto allocation",
         "type": "flat",
         "amount": 1512,
         "timing": {
@@ -117,9 +115,11 @@
           "month": 10,
           "placement": "end"
         },
+        "name": "Crypto allocation",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-01-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -444,6 +444,6 @@
       }
     ]
   },
-  "monthlyDigest": "8beac30a3d624809deb9bd3dbd2818821160b40bca946f827138feba7310f1f5",
-  "stepsDigest": "a9392245b0695fb1343fca0fbd348c27528e4295778711870c9b4f1b9aa8105d"
+  "monthlyDigest": "136138ad31bea69e0ff8b861e311464e78ad52f5a11ffe045290e0b1abf83b10",
+  "stepsDigest": "4865bba2a4d9359307bbd5674574708243662ce93ce0cbb1a24e188272eea013"
 }

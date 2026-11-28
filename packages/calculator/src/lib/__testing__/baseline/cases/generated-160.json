@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 167800,
     "timeHorizonYears": 26,
-    "startDate": "2026-04-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.06145012675489044,
       "variance": 0.018289885556249774,
@@ -16,31 +15,30 @@
     "contributions": [
       {
         "id": "401k-employee",
-        "name": "401(k) employee contribution",
         "type": "salaryPercent",
         "amount": 10.44,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employee contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-match",
-        "name": "401(k) employer match",
         "type": "salaryPercent",
         "amount": 2.45,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employer match",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "hsa-employee",
-        "name": "HSA employee contribution",
         "type": "flat",
         "amount": 2232,
         "timing": {
@@ -48,21 +46,23 @@
           "month": 5,
           "placement": "start"
         },
+        "name": "HSA employee contribution",
         "enabled": true
       },
       {
         "id": "espp",
-        "name": "ESPP contribution",
         "type": "salaryPercent",
         "amount": 6.46,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "ESPP contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       }
-    ]
+    ],
+    "startDate": "2026-04-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -639,6 +639,6 @@
       }
     ]
   },
-  "monthlyDigest": "6825eda3227f246046da0e5b1d2e8736ba6f6cb7f4b4cf3310e468271826df34",
-  "stepsDigest": "df095d9c38be742c7df935b1c88a288f7ed0b963e31b604b6031f7729649b0e9"
+  "monthlyDigest": "9136ac4a05daa320b2e8d381199f93be29b5f5a5f382cdbc956dd9125dc942ce",
+  "stepsDigest": "7641c2090e9dface4ea2b969b0cbdd56735a523756b3c586e5fc76b1ac28b100"
 }

@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 70000,
     "timeHorizonYears": 6,
-    "startDate": "2026-02-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.05,
       "variance": 0.01,
@@ -16,33 +15,34 @@
     "contributions": [
       {
         "id": "inheritance",
-        "enabled": true,
         "type": "flat",
         "amount": 10000,
         "timing": {
           "frequency": "oneTime",
           "on": {
-            "year": 0,
             "month": 5,
+            "year": 0,
             "day": 10
           }
-        }
+        },
+        "enabled": true
       },
       {
         "id": "sale",
-        "enabled": true,
         "type": "flat",
         "amount": 25000,
         "timing": {
           "frequency": "oneTime",
           "on": {
-            "year": 3,
             "month": 0,
+            "year": 3,
             "day": 14
           }
-        }
+        },
+        "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-02-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -199,6 +199,6 @@
       }
     ]
   },
-  "monthlyDigest": "2f5fd87cbafcbf61a3776cf314dc26b93586378713ac5d7601e93c1e58467599",
-  "stepsDigest": "7a8dfb9878a82fafcecfbb3aea6eddf20f479cf68f49a98bd17210a3616734f1"
+  "monthlyDigest": "db3a4f9d0074f4b5523822ab69a057c5fff58e0cb677db162d3450fe0606e57d",
+  "stepsDigest": "13f32c36d60a7e71a146d96482514fa604748b8d391b4940bbeecd0d02557099"
 }

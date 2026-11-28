@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 118000,
     "timeHorizonYears": 24,
-    "startDate": "2026-10-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.05886574846595022,
       "variance": 0.026132221628304055,
@@ -16,85 +15,86 @@
     "contributions": [
       {
         "id": "401k-employee",
-        "name": "401(k) employee contribution",
         "type": "salaryPercent",
         "amount": 7.84,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employee contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-match",
-        "name": "401(k) employer match",
         "type": "salaryPercent",
         "amount": 4.98,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employer match",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-roth",
-        "name": "Roth 401(k) contribution",
         "type": "salaryPercent",
         "amount": 4.71,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "Roth 401(k) contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "hsa-employee",
-        "name": "HSA employee contribution",
         "type": "flat",
         "amount": 193,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "HSA employee contribution",
         "enabled": false
       },
       {
         "id": "hsa-employer",
-        "name": "HSA employer contribution",
         "type": "flat",
         "amount": 43,
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
+        "name": "HSA employer contribution",
         "enabled": true
       },
       {
         "id": "brokerage",
-        "name": "Brokerage auto-invest",
         "type": "flat",
         "amount": 246,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Brokerage auto-invest",
         "enabled": true
       },
       {
         "id": "crypto",
-        "name": "Crypto allocation",
         "type": "flat",
         "amount": 84,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Crypto allocation",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-10-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -629,6 +629,6 @@
       }
     ]
   },
-  "monthlyDigest": "80727667ad2246f81cf0887fbea4e22a92f493c5afa5c85cf25b127f1471155e",
-  "stepsDigest": "4e988d609bb01ee6efec2239a16708024ccccd031a56aa01272d3e19ba78f8d3"
+  "monthlyDigest": "e6a21e4d0c82a78bdd10522d8c691b6e1238b7ef8ac151bcaa71a17ae9a41a7b",
+  "stepsDigest": "a9f2d2033579af9ff14a473cfa420d8e43eab5dbe8f933d4bee45c3c6f623aaa"
 }

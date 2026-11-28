@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 38500,
     "timeHorizonYears": 32,
-    "startDate": "2026-11-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.057748649172364545,
       "variance": 0.023195875460483937,
@@ -16,54 +15,53 @@
     "contributions": [
       {
         "id": "401k-employee",
-        "name": "401(k) employee contribution",
         "type": "salaryPercent",
         "amount": 8.19,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": false
+        "name": "401(k) employee contribution",
+        "enabled": false,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-match",
-        "name": "401(k) employer match",
         "type": "salaryPercent",
         "amount": 1.74,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employer match",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-roth",
-        "name": "Roth 401(k) contribution",
         "type": "salaryPercent",
         "amount": 2.49,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "Roth 401(k) contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "hsa-employee",
-        "name": "HSA employee contribution",
         "type": "flat",
         "amount": 131,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "HSA employee contribution",
         "enabled": true
       },
       {
         "id": "ira",
-        "name": "IRA contribution",
         "type": "flat",
         "amount": 2229,
         "timing": {
@@ -71,11 +69,11 @@
           "month": 1,
           "placement": "end"
         },
+        "name": "IRA contribution",
         "enabled": true
       },
       {
         "id": "rsu-vesting",
-        "name": "RSU vesting proceeds",
         "type": "flat",
         "amount": 9292,
         "timing": {
@@ -83,20 +81,22 @@
           "month": 1,
           "placement": "end"
         },
+        "name": "RSU vesting proceeds",
         "enabled": false
       },
       {
         "id": "crypto",
-        "name": "Crypto allocation",
         "type": "flat",
         "amount": 63,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Crypto allocation",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-11-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -799,6 +799,6 @@
       }
     ]
   },
-  "monthlyDigest": "e2ad7fd1a6738cf2af194735381205fbfc38a06078a239d6d3719bd20ddbb286",
-  "stepsDigest": "0706cd11f408e9cec2f34fa139b55abd0533c985cb97aa17f5fad15e0d608b65"
+  "monthlyDigest": "613718e0afe6dbbef7e938d47af01305dd0841c25d62d2696ccb7e70ac3c7472",
+  "stepsDigest": "1f8c4c493f72a5ef5ff84dbd15aea23c1f27f716f57462c97801a3d03870fc85"
 }

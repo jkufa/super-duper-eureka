@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 50100,
     "timeHorizonYears": 27,
-    "startDate": "2026-03-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.06715639086554616,
       "variance": 0.019079567921266607,
@@ -16,43 +15,42 @@
     "contributions": [
       {
         "id": "401k-employee",
-        "name": "401(k) employee contribution",
         "type": "salaryPercent",
         "amount": 9.9,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employee contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-match",
-        "name": "401(k) employer match",
         "type": "salaryPercent",
         "amount": 2.65,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employer match",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-roth",
-        "name": "Roth 401(k) contribution",
         "type": "salaryPercent",
         "amount": 4.58,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "Roth 401(k) contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "hsa-employee",
-        "name": "HSA employee contribution",
         "type": "flat",
         "amount": 1632,
         "timing": {
@@ -60,22 +58,22 @@
           "month": 8,
           "placement": "start"
         },
+        "name": "HSA employee contribution",
         "enabled": false
       },
       {
         "id": "hsa-employer",
-        "name": "HSA employer contribution",
         "type": "flat",
         "amount": 70,
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
+        "name": "HSA employer contribution",
         "enabled": true
       },
       {
         "id": "ira",
-        "name": "IRA contribution",
         "type": "flat",
         "amount": 2199,
         "timing": {
@@ -83,45 +81,47 @@
           "month": 4,
           "placement": "end"
         },
+        "name": "IRA contribution",
         "enabled": true
       },
       {
         "id": "brokerage",
-        "name": "Brokerage auto-invest",
         "type": "flat",
         "amount": 1404,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Brokerage auto-invest",
         "enabled": true
       },
       {
         "id": "espp",
-        "name": "ESPP contribution",
         "type": "salaryPercent",
         "amount": 1.92,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": false
+        "name": "ESPP contribution",
+        "enabled": false,
+        "salaryBasis": "monthly"
       },
       {
         "id": "annual-bonus",
-        "name": "Annual bonus contribution",
         "type": "salaryPercent",
         "amount": 13.17,
-        "salaryBasis": "annual",
         "timing": {
           "frequency": "annual",
           "month": 7,
           "placement": "start"
         },
-        "enabled": false
+        "name": "Annual bonus contribution",
+        "enabled": false,
+        "salaryBasis": "annual"
       }
-    ]
+    ],
+    "startDate": "2026-03-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -719,6 +719,6 @@
       }
     ]
   },
-  "monthlyDigest": "c1c164707fdfeeec02370dc25ede7bb5a120a48527ed50062585201b0aed8626",
-  "stepsDigest": "2b2b802782b81d9100e706f5b219e28b3244095b85837df3a1f8279a1fbe0656"
+  "monthlyDigest": "65cf0b7c74250491e53aa8a95a8068b5ae1f3edeb2b3989d02656cef970132ca",
+  "stepsDigest": "c8513ea28d0fa875a9623549e592967b6ce8b0e9043164eee56c9d25cf18f647"
 }

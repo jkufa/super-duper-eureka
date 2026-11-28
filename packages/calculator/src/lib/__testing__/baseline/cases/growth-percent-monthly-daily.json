@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 22000,
     "timeHorizonYears": 9,
-    "startDate": "2026-09-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.045,
       "variance": 0.01,
@@ -16,36 +15,37 @@
     "contributions": [
       {
         "id": "auto-invest",
-        "enabled": true,
         "type": "flat",
         "amount": 200,
+        "timing": {
+          "frequency": "monthly",
+          "day": 20
+        },
+        "enabled": true,
         "growth": {
           "type": "percent",
           "amount": 0.25,
           "cadence": "monthly"
-        },
-        "timing": {
-          "frequency": "monthly",
-          "day": 20
         }
       },
       {
         "id": "year-end",
-        "enabled": true,
         "type": "flat",
         "amount": 1000,
-        "growth": {
-          "type": "percent",
-          "amount": 0.5,
-          "cadence": "monthly"
-        },
         "timing": {
           "frequency": "annual",
           "month": 11,
           "day": 15
+        },
+        "enabled": true,
+        "growth": {
+          "type": "percent",
+          "amount": 0.5,
+          "cadence": "monthly"
         }
       }
-    ]
+    ],
+    "startDate": "2026-09-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -265,6 +265,6 @@
       }
     ]
   },
-  "monthlyDigest": "ee574ab0dff0ecc3c05494470f1cfd0489d6548809b90a35808a6a093fdabb3a",
-  "stepsDigest": "0e4882a92752f95e7f1dbcac3dab77bac376b5a2d88df5c57592faabc064ae48"
+  "monthlyDigest": "e26e48645f5facd6e6142aeadbd5c97f8d242c9fa287d724958ad7b3d2db2019",
+  "stepsDigest": "00263aa8fbff2e4b05ca43eb3066733844acaed1d2760e2b5adf348e2cfc1f90"
 }

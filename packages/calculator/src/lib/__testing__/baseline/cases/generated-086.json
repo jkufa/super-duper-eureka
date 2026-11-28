@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 793700,
     "timeHorizonYears": 5,
-    "startDate": "2026-02-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.04849509028666617,
       "variance": 0.01902955706962261,
@@ -16,42 +15,41 @@
     "contributions": [
       {
         "id": "401k-employee",
-        "name": "401(k) employee contribution",
         "type": "salaryPercent",
         "amount": 2.22,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employee contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-roth",
-        "name": "Roth 401(k) contribution",
         "type": "salaryPercent",
         "amount": 4.66,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "Roth 401(k) contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "hsa-employee",
-        "name": "HSA employee contribution",
         "type": "flat",
         "amount": 82,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "HSA employee contribution",
         "enabled": true
       },
       {
         "id": "hsa-employer",
-        "name": "HSA employer contribution",
         "type": "flat",
         "amount": 660,
         "timing": {
@@ -59,11 +57,11 @@
           "month": 2,
           "placement": "end"
         },
+        "name": "HSA employer contribution",
         "enabled": true
       },
       {
         "id": "ira",
-        "name": "IRA contribution",
         "type": "flat",
         "amount": 4401,
         "timing": {
@@ -71,45 +69,47 @@
           "month": 6,
           "placement": "start"
         },
+        "name": "IRA contribution",
         "enabled": true
       },
       {
         "id": "brokerage",
-        "name": "Brokerage auto-invest",
         "type": "flat",
         "amount": 279,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Brokerage auto-invest",
         "enabled": true
       },
       {
         "id": "espp",
-        "name": "ESPP contribution",
         "type": "salaryPercent",
         "amount": 3.89,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "ESPP contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "annual-bonus",
-        "name": "Annual bonus contribution",
         "type": "salaryPercent",
         "amount": 7.08,
-        "salaryBasis": "annual",
         "timing": {
           "frequency": "annual",
           "month": 8,
           "placement": "start"
         },
-        "enabled": true
+        "name": "Annual bonus contribution",
+        "enabled": true,
+        "salaryBasis": "annual"
       }
-    ]
+    ],
+    "startDate": "2026-02-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -245,6 +245,6 @@
       }
     ]
   },
-  "monthlyDigest": "7e15995bd9130633e82d7394a10c2c1a5d478553618bbc674b10f00895ce07ed",
-  "stepsDigest": "a8231efe97743cc541fe2da75abfd8a5d541ef92f3b203932650f1ff91154c4c"
+  "monthlyDigest": "37f348fa35900dbc5b88200dd13feb6d99a15839afbcd5880de7eadd07e97b99",
+  "stepsDigest": "48323a3209a4615b33cda0532aa43bd5ed348a70368bbb88ce94b4619c03cdd6"
 }

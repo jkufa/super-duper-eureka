@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 73900,
     "timeHorizonYears": 23,
-    "startDate": "2026-10-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.06730724427311771,
       "variance": 0.01946721526827488,
@@ -16,19 +15,18 @@
     "contributions": [
       {
         "id": "401k-roth",
-        "name": "Roth 401(k) contribution",
         "type": "salaryPercent",
         "amount": 0.84,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "Roth 401(k) contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "ira",
-        "name": "IRA contribution",
         "type": "flat",
         "amount": 3238,
         "timing": {
@@ -36,33 +34,35 @@
           "month": 8,
           "placement": "end"
         },
+        "name": "IRA contribution",
         "enabled": true
       },
       {
         "id": "annual-bonus",
-        "name": "Annual bonus contribution",
         "type": "salaryPercent",
         "amount": 4.72,
-        "salaryBasis": "annual",
         "timing": {
           "frequency": "annual",
           "month": 11,
           "placement": "start"
         },
-        "enabled": true
+        "name": "Annual bonus contribution",
+        "enabled": true,
+        "salaryBasis": "annual"
       },
       {
         "id": "college-529",
-        "name": "529 contribution",
         "type": "flat",
         "amount": 118,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "529 contribution",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-10-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -576,6 +576,6 @@
       }
     ]
   },
-  "monthlyDigest": "faa472f414a44e861213c1e841fb9db2b669b383d87d24cc9d98ae71c87ae6ec",
-  "stepsDigest": "e8103582e644f7e080da0640c5c43fa121a8d312187a69e9a5f5c0af580d49aa"
+  "monthlyDigest": "c0f51f624874e6481eac2ca64de6c5cce3b9b7e5d144f5d68d9604063c84b245",
+  "stepsDigest": "e6878ee53dd9ec850c89ad592560b9bb9742c4f0fbf35a43da4f41ff2b602c1c"
 }

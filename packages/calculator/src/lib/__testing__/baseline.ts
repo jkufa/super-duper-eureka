@@ -1,8 +1,16 @@
 import { readdirSync, readFileSync } from 'node:fs';
 
 import { calculateProjectionWithSteps, calculateRetirement } from '../calculator';
-import type { AnnualProjection, RetirementConfig } from '../types';
+import type { ProjectionRun } from '../calculator';
+import type {
+  AnnualProjection,
+  Projection,
+  ProjectionByVariance,
+  RetirementConfig
+} from '../types';
 import { digest, monthlyStream, stepStream } from './number-streams';
+import type { MonthlyStreamBand } from './number-streams';
+import { parseRetirementConfig } from './parse-config';
 
 export const BASELINE_DIR = new URL('baseline/', import.meta.url);
 export const BASELINE_CASES_DIR = new URL('cases/', BASELINE_DIR);
@@ -19,11 +27,43 @@ export interface BaselineCase extends BaselineOutputs {
   input: RetirementConfig;
 }
 
+export interface StoredCase {
+  name: string;
+  input: RetirementConfig;
+  yearly: unknown;
+  monthlyDigest: unknown;
+  stepsDigest: unknown;
+}
+
+export interface StoredFullExample {
+  result: unknown;
+  steps: unknown;
+}
+
+export interface FullExample {
+  result: ProjectionByVariance;
+  steps: ProjectionRun;
+}
+
+export function runFullExample(input: RetirementConfig): FullExample {
+  return {
+    result: calculateRetirement(input),
+    steps: calculateProjectionWithSteps(input, input.interest.annualRate)
+  };
+}
+
+function toStreamBand(projection: Projection): MonthlyStreamBand {
+  return {
+    finalBalance: projection.finalBalance,
+    totalContributions: projection.totalContributions,
+    totalGrowth: projection.totalGrowth,
+    monthly: projection.monthlyProjections
+  };
+}
+
 export function projectBaseline(input: RetirementConfig): BaselineOutputs {
-  const { baseline, positive, negative } = calculateRetirement(input);
-  const { steps } = calculateProjectionWithSteps(input, input.interest.annualRate, {
-    includeContributionDetails: false
-  });
+  const { result, steps } = runFullExample(input);
+  const { baseline, positive, negative } = result;
 
   return {
     yearly: {
@@ -33,72 +73,56 @@ export function projectBaseline(input: RetirementConfig): BaselineOutputs {
     },
     monthlyDigest: digest(
       monthlyStream({
-        baseline: baseline.monthlyProjections,
-        positive: positive.monthlyProjections,
-        negative: negative.monthlyProjections
+        baseline: toStreamBand(baseline),
+        positive: toStreamBand(positive),
+        negative: toStreamBand(negative)
       })
     ),
     stepsDigest: digest(stepStream(steps))
   };
 }
 
-function isObject(value: unknown): value is object {
-  return typeof value === 'object' && value !== null;
+function toStoredCase(file: string, value: unknown): StoredCase {
+  if (
+    typeof value !== 'object' ||
+    value === null ||
+    !('name' in value) ||
+    typeof value.name !== 'string' ||
+    !('input' in value) ||
+    !('yearly' in value) ||
+    !('monthlyDigest' in value) ||
+    !('stepsDigest' in value)
+  ) {
+    throw new Error(`${file} is not a baseline case.`);
+  }
+  return {
+    name: value.name,
+    input: parseRetirementConfig(value.input),
+    yearly: value.yearly,
+    monthlyDigest: value.monthlyDigest,
+    stepsDigest: value.stepsDigest
+  };
 }
 
-export function isRetirementConfig(value: unknown): value is RetirementConfig {
-  return (
-    isObject(value) &&
-    'currentBalance' in value &&
-    typeof value.currentBalance === 'number' &&
-    'timeHorizonYears' in value &&
-    typeof value.timeHorizonYears === 'number' &&
-    'startDate' in value &&
-    typeof value.startDate === 'string' &&
-    'interest' in value &&
-    isObject(value.interest) &&
-    'annualRate' in value.interest &&
-    typeof value.interest.annualRate === 'number' &&
-    'salary' in value &&
-    isObject(value.salary) &&
-    'annualBase' in value.salary &&
-    typeof value.salary.annualBase === 'number' &&
-    'contributions' in value &&
-    Array.isArray(value.contributions)
-  );
-}
-
-function isBaselineCase(value: unknown): value is BaselineCase {
-  return (
-    isObject(value) &&
-    'name' in value &&
-    typeof value.name === 'string' &&
-    'input' in value &&
-    isRetirementConfig(value.input) &&
-    'yearly' in value &&
-    isObject(value.yearly) &&
-    'baseline' in value.yearly &&
-    Array.isArray(value.yearly.baseline) &&
-    'positive' in value.yearly &&
-    Array.isArray(value.yearly.positive) &&
-    'negative' in value.yearly &&
-    Array.isArray(value.yearly.negative) &&
-    'monthlyDigest' in value &&
-    typeof value.monthlyDigest === 'string' &&
-    'stepsDigest' in value &&
-    typeof value.stepsDigest === 'string'
-  );
-}
-
-export function readBaselineCases(): Array<BaselineCase> {
+export function readBaselineCases(): Array<StoredCase> {
   return readdirSync(BASELINE_CASES_DIR)
     .filter((file) => file.endsWith('.json'))
     .toSorted()
     .map((file) => {
       const parsed: unknown = JSON.parse(readFileSync(new URL(file, BASELINE_CASES_DIR), 'utf8'));
-      if (!isBaselineCase(parsed)) {
-        throw new Error(`${file} is not a baseline case.`);
-      }
-      return parsed;
+      return toStoredCase(file, parsed);
     });
+}
+
+export function fullExampleFiles(name: string): Record<keyof FullExample, string> {
+  return { result: `${name}.result.json`, steps: `${name}.steps.json` };
+}
+
+export function readFullExample(name: string): StoredFullExample {
+  const files = fullExampleFiles(name);
+  const result: unknown = JSON.parse(
+    readFileSync(new URL(files.result, BASELINE_FULL_DIR), 'utf8')
+  );
+  const steps: unknown = JSON.parse(readFileSync(new URL(files.steps, BASELINE_FULL_DIR), 'utf8'));
+  return { result, steps };
 }

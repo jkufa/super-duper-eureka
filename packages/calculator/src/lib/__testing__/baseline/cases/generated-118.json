@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 62600,
     "timeHorizonYears": 39,
-    "startDate": "2026-10-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.05372737674455748,
       "variance": 0.022475367526972215,
@@ -16,18 +15,17 @@
     "contributions": [
       {
         "id": "hsa-employer",
-        "name": "HSA employer contribution",
         "type": "flat",
         "amount": 54,
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
+        "name": "HSA employer contribution",
         "enabled": true
       },
       {
         "id": "ira",
-        "name": "IRA contribution",
         "type": "flat",
         "amount": 4925,
         "timing": {
@@ -35,45 +33,45 @@
           "month": 4,
           "placement": "end"
         },
+        "name": "IRA contribution",
         "enabled": true
       },
       {
         "id": "brokerage",
-        "name": "Brokerage auto-invest",
         "type": "flat",
         "amount": 192,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Brokerage auto-invest",
         "enabled": true
       },
       {
         "id": "espp",
-        "name": "ESPP contribution",
         "type": "salaryPercent",
         "amount": 2.02,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "ESPP contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "college-529",
-        "name": "529 contribution",
         "type": "flat",
         "amount": 205,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "529 contribution",
         "enabled": true
       },
       {
         "id": "crypto",
-        "name": "Crypto allocation",
         "type": "flat",
         "amount": 540,
         "timing": {
@@ -81,9 +79,11 @@
           "month": 6,
           "placement": "end"
         },
+        "name": "Crypto allocation",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-10-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -933,6 +933,6 @@
       }
     ]
   },
-  "monthlyDigest": "e7a666c7b43a3120fb7643993636a567d06d86b00a9a1fe52900557b2e881191",
-  "stepsDigest": "01b1a2f89646f865fed366a4190842c05a17a598ed53bff62ab0b9d03d56b655"
+  "monthlyDigest": "21916a2dae1e126de3fc37964fb43544503c722abdf0f21388e8b7d51b7366b0",
+  "stepsDigest": "1804ed6b636a741aebe2d882829c4dc8bfd6df82b91117226c95cc2831f53994"
 }

@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 228600,
     "timeHorizonYears": 28,
-    "startDate": "2026-02-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.06361279739956677,
       "variance": 0.024661484641822263,
@@ -16,51 +15,52 @@
     "contributions": [
       {
         "id": "401k-employee",
-        "name": "401(k) employee contribution",
         "type": "salaryPercent",
         "amount": 10.12,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employee contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-match",
-        "name": "401(k) employer match",
         "type": "salaryPercent",
         "amount": 5.15,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employer match",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "brokerage",
-        "name": "Brokerage auto-invest",
         "type": "flat",
         "amount": 1566,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Brokerage auto-invest",
         "enabled": true
       },
       {
         "id": "college-529",
-        "name": "529 contribution",
         "type": "flat",
         "amount": 90,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "529 contribution",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-02-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -679,6 +679,6 @@
       }
     ]
   },
-  "monthlyDigest": "3fe1c0d4ea4a601d2b89ef0c978884f62993fee65a145f394c6578626cd7ceaf",
-  "stepsDigest": "08fc60d3e045ebb2f0e6d8b4023d821b135f23ffdad34cbbd56c6497efdfd26f"
+  "monthlyDigest": "2e803c26c7a7a4d0c58c9e8bc7f73ace8e24a0813e32147a79930a5a94da23c3",
+  "stepsDigest": "a5638207a3b47c72c7d42738c9d0bddf207d41236514d8e58c74c229c631014e"
 }

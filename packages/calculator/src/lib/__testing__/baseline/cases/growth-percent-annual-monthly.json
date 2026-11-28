@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 40000,
     "timeHorizonYears": 12,
-    "startDate": "2026-03-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.06,
       "variance": 0.02,
@@ -16,36 +15,37 @@
     "contributions": [
       {
         "id": "brokerage",
-        "enabled": true,
         "type": "flat",
         "amount": 500,
+        "timing": {
+          "frequency": "monthly",
+          "placement": "start"
+        },
+        "enabled": true,
         "growth": {
           "type": "percent",
           "amount": 3,
           "cadence": "annual"
-        },
-        "timing": {
-          "frequency": "monthly",
-          "placement": "start"
         }
       },
       {
         "id": "401k",
-        "enabled": true,
         "type": "salaryPercent",
         "amount": 5,
+        "timing": {
+          "frequency": "monthly",
+          "placement": "end"
+        },
+        "enabled": true,
         "growth": {
           "type": "percent",
           "amount": 2,
           "cadence": "annual"
         },
-        "salaryBasis": "monthly",
-        "timing": {
-          "frequency": "monthly",
-          "placement": "end"
-        }
+        "salaryBasis": "monthly"
       }
-    ]
+    ],
+    "startDate": "2026-03-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -328,6 +328,6 @@
       }
     ]
   },
-  "monthlyDigest": "43839459c58174f96625140d88b62ab70f25ce8f0061fff629ba463ac38a3129",
-  "stepsDigest": "b0313ccc5504d88d2f60ed41ed51a3e38c2bceca856ab2d64806a32afc9378ef"
+  "monthlyDigest": "b9a32435f2d1a851997b6d3bdbb6d4f36d734c94fbc11fcfe2458ca9c22794d6",
+  "stepsDigest": "3a8741fe07a56e9f9aca312bf8f28f5bb178dc8b0b3c03607df337669d9455d6"
 }

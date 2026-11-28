@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 100600,
     "timeHorizonYears": 28,
-    "startDate": "2026-04-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.06659179160652348,
       "variance": 0.01682652196272935,
@@ -16,66 +15,65 @@
     "contributions": [
       {
         "id": "401k-employee",
-        "name": "401(k) employee contribution",
         "type": "salaryPercent",
         "amount": 11.64,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employee contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-match",
-        "name": "401(k) employer match",
         "type": "salaryPercent",
         "amount": 5.15,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employer match",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "hsa-employee",
-        "name": "HSA employee contribution",
         "type": "flat",
         "amount": 228,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "HSA employee contribution",
         "enabled": true
       },
       {
         "id": "hsa-employer",
-        "name": "HSA employer contribution",
         "type": "flat",
         "amount": 45,
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
+        "name": "HSA employer contribution",
         "enabled": true
       },
       {
         "id": "annual-bonus",
-        "name": "Annual bonus contribution",
         "type": "salaryPercent",
         "amount": 8.88,
-        "salaryBasis": "annual",
         "timing": {
           "frequency": "annual",
           "month": 10,
           "placement": "start"
         },
-        "enabled": true
+        "name": "Annual bonus contribution",
+        "enabled": true,
+        "salaryBasis": "annual"
       },
       {
         "id": "crypto",
-        "name": "Crypto allocation",
         "type": "flat",
         "amount": 1020,
         "timing": {
@@ -83,9 +81,11 @@
           "month": 9,
           "placement": "start"
         },
+        "name": "Crypto allocation",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-04-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -704,6 +704,6 @@
       }
     ]
   },
-  "monthlyDigest": "c475dc71324ce238b54793cda4baa938570fb15e07e1ac2ccc98561af4013734",
-  "stepsDigest": "9f848755050f0f135f71b309ddb9a9eea10a03f39cc4ea4d65fa0d0a8ba0bd99"
+  "monthlyDigest": "3ca12d695a252de1f3c087cadc6f4e3a33ac382103ffbef0e45872a14680e04b",
+  "stepsDigest": "54b5524c007b1b2efe912da828773355ff51a9909f53c043f6ec1e5dd83b0679"
 }

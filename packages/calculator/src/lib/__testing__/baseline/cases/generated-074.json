@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 116800,
     "timeHorizonYears": 30,
-    "startDate": "2026-02-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.05809497640287334,
       "variance": 0.02507004753528641,
@@ -16,52 +15,53 @@
     "contributions": [
       {
         "id": "brokerage",
-        "name": "Brokerage auto-invest",
         "type": "flat",
         "amount": 880,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Brokerage auto-invest",
         "enabled": true
       },
       {
         "id": "espp",
-        "name": "ESPP contribution",
         "type": "salaryPercent",
         "amount": 4.17,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "ESPP contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "annual-bonus",
-        "name": "Annual bonus contribution",
         "type": "salaryPercent",
         "amount": 6.27,
-        "salaryBasis": "annual",
         "timing": {
           "frequency": "annual",
           "month": 3,
           "placement": "start"
         },
-        "enabled": true
+        "name": "Annual bonus contribution",
+        "enabled": true,
+        "salaryBasis": "annual"
       },
       {
         "id": "crypto",
-        "name": "Crypto allocation",
         "type": "flat",
         "amount": 44,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Crypto allocation",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-02-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -722,6 +722,6 @@
       }
     ]
   },
-  "monthlyDigest": "438c78eca94d12e8fe3a0d4a2bfbf954e5112f53d14b030672c5ee67ea157207",
-  "stepsDigest": "5036cfc092164f566b1df2ce5d9b4edc89348b9524103d158bba27577b14cd7f"
+  "monthlyDigest": "f8ee397f3d5260e5229c9222fdf494baa39caae954b9fe22043b0b6e02edfa71",
+  "stepsDigest": "fa6759bc71049c09b7834b44f7df30c375a39d7793e64bea73b96adc2502fc3b"
 }

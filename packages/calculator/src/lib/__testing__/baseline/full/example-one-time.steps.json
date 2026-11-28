@@ -1196,8 +1196,8 @@
           "timing": {
             "frequency": "oneTime",
             "on": {
-              "year": 0,
               "month": 6,
+              "year": 0,
               "day": 1
             }
           }

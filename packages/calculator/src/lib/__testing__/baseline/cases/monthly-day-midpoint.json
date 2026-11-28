@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 48000,
     "timeHorizonYears": 3,
-    "startDate": "2026-01-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.06,
       "variance": 0.02,
@@ -16,47 +15,46 @@
     "contributions": [
       {
         "id": "day-14",
-        "enabled": true,
         "type": "flat",
         "amount": 140,
         "timing": {
           "frequency": "monthly",
           "day": 14
-        }
+        },
+        "enabled": true
       },
       {
         "id": "day-15",
-        "enabled": true,
         "type": "flat",
         "amount": 150,
         "timing": {
           "frequency": "monthly",
           "day": 15
-        }
+        },
+        "enabled": true
       },
       {
         "id": "day-16",
-        "enabled": true,
         "type": "flat",
         "amount": 160,
         "timing": {
           "frequency": "monthly",
           "day": 16
-        }
+        },
+        "enabled": true
       },
       {
         "id": "day-31",
-        "enabled": true,
         "type": "flat",
         "amount": 310,
         "timing": {
           "frequency": "monthly",
           "day": 31
-        }
+        },
+        "enabled": true
       },
       {
         "id": "annual-late",
-        "enabled": true,
         "type": "flat",
         "amount": 1200,
         "timing": {
@@ -64,9 +62,11 @@
           "month": 1,
           "day": 20,
           "placement": "start"
-        }
+        },
+        "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-01-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -139,6 +139,6 @@
       }
     ]
   },
-  "monthlyDigest": "a96e7f8311d1298c8289297a86d8b0d1284954e0d37a180525fea6d2601af602",
-  "stepsDigest": "be159c66a9de3e89f41a2b0ad9b3c22cee7406c33bd1c5ab75cc46e648006c4f"
+  "monthlyDigest": "796b2c3ded94e8bd96baba80380e47abde2c0bea786c0e88ba69a79888fe1054",
+  "stepsDigest": "affa7d15626c481c699a6f265b802a44a4e811ef205d58e9c3d1c8ef28880c65"
 }

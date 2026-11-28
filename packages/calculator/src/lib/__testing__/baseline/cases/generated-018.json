@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 45000,
     "timeHorizonYears": 37,
-    "startDate": "2026-06-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.06190431390913413,
       "variance": 0.022441203603084946,
@@ -16,30 +15,29 @@
     "contributions": [
       {
         "id": "401k-employee",
-        "name": "401(k) employee contribution",
         "type": "salaryPercent",
         "amount": 7.52,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employee contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "hsa-employer",
-        "name": "HSA employer contribution",
         "type": "flat",
         "amount": 96,
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
+        "name": "HSA employer contribution",
         "enabled": false
       },
       {
         "id": "ira",
-        "name": "IRA contribution",
         "type": "flat",
         "amount": 4258,
         "timing": {
@@ -47,22 +45,24 @@
           "month": 3,
           "placement": "start"
         },
+        "name": "IRA contribution",
         "enabled": false
       },
       {
         "id": "annual-bonus",
-        "name": "Annual bonus contribution",
         "type": "salaryPercent",
         "amount": 8.73,
-        "salaryBasis": "annual",
         "timing": {
           "frequency": "annual",
           "month": 2,
           "placement": "end"
         },
-        "enabled": true
+        "name": "Annual bonus contribution",
+        "enabled": true,
+        "salaryBasis": "annual"
       }
-    ]
+    ],
+    "startDate": "2026-06-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -870,6 +870,6 @@
       }
     ]
   },
-  "monthlyDigest": "5859fb2054a65dbccefc05d656208b714abe23d008969271b1c078038ca934ba",
-  "stepsDigest": "b02ac303184f81fd7576729980f071af6980ea981063c3d3e968d28b27afe75e"
+  "monthlyDigest": "e78efde8d0b973739b7c5ee1eccb5543bc3eeec15ca4ad2a91ed406faf9deaa4",
+  "stepsDigest": "c239f8cb1ff71d4d0e15071fb8903fcced39fea5f8be8ec0829cc6f588730965"
 }

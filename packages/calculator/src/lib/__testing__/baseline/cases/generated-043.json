@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 138200,
     "timeHorizonYears": 27,
-    "startDate": "2026-07-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.06662434167851305,
       "variance": 0.01295201351521208,
@@ -16,31 +15,30 @@
     "contributions": [
       {
         "id": "401k-employee",
-        "name": "401(k) employee contribution",
         "type": "salaryPercent",
         "amount": 6.5,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employee contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-roth",
-        "name": "Roth 401(k) contribution",
         "type": "salaryPercent",
         "amount": 8.02,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "Roth 401(k) contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "rsu-vesting",
-        "name": "RSU vesting proceeds",
         "type": "flat",
         "amount": 25093,
         "timing": {
@@ -48,20 +46,22 @@
           "month": 7,
           "placement": "start"
         },
+        "name": "RSU vesting proceeds",
         "enabled": true
       },
       {
         "id": "college-529",
-        "name": "529 contribution",
         "type": "flat",
         "amount": 120,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "529 contribution",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-07-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -659,6 +659,6 @@
       }
     ]
   },
-  "monthlyDigest": "007340e6f8f811ae47aecda0c14057fdb931c1c6bb94c45a0a36e08309b35ff2",
-  "stepsDigest": "8b032a3678085ea9c1ef408059b5fbbae870aef363bf24729ef02be258342b89"
+  "monthlyDigest": "e1bce546880f6920a02a0bb375bee91f67c834fe6989d6235bd9a1820d5c153f",
+  "stepsDigest": "921dc11775a772399344d6030b0ba237f27ee3749d2f31b6570263b0f4665d06"
 }

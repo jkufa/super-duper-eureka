@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 90000,
     "timeHorizonYears": 15,
-    "startDate": "2026-01-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.05,
       "variance": 0.01,
@@ -16,37 +15,38 @@
     "contributions": [
       {
         "id": "ira",
-        "enabled": true,
         "type": "flat",
         "amount": 2000,
-        "growth": {
-          "type": "flat",
-          "amount": 250,
-          "cadence": "annual"
-        },
         "timing": {
           "frequency": "annual",
           "month": 3,
           "placement": "end"
+        },
+        "enabled": true,
+        "growth": {
+          "type": "flat",
+          "amount": 250,
+          "cadence": "annual"
         }
       },
       {
         "id": "espp",
-        "enabled": true,
         "type": "salaryPercent",
         "amount": 3,
+        "timing": {
+          "frequency": "monthly",
+          "placement": "start"
+        },
+        "enabled": true,
         "growth": {
           "type": "flat",
           "amount": 0.5,
           "cadence": "annual"
         },
-        "salaryBasis": "monthly",
-        "timing": {
-          "frequency": "monthly",
-          "placement": "start"
-        }
+        "salaryBasis": "monthly"
       }
-    ]
+    ],
+    "startDate": "2026-01-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -371,6 +371,6 @@
       }
     ]
   },
-  "monthlyDigest": "e24c0b14dbaaaea767836935f4fe6f9ae9fa88b5123860d42174627494b9e270",
-  "stepsDigest": "c0a74daf8c463b2efd4a30f24fe9c0239120a1228e8a4d5716b64e958513e555"
+  "monthlyDigest": "ef3c5a4e259b419306f055837d1dfa249c429c7b717e56e3318ad888691a0a79",
+  "stepsDigest": "c218cc928b73e07a68532a8f3e7a3c511e47fea87c3cbfa25ea236c26fa4847d"
 }

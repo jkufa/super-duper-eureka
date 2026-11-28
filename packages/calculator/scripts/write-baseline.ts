@@ -1,15 +1,24 @@
-import { mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import {
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  renameSync,
+  rmSync,
+  writeFileSync
+} from 'node:fs';
+import { isDeepStrictEqual } from 'node:util';
 
-import { calculateProjectionWithSteps, calculateRetirement } from '../src/lib/calculator';
 import { generateRandomRetirementConfig } from '../src/lib/random';
 import type { RetirementConfig } from '../src/lib/types';
 import {
-  BASELINE_CASES_DIR,
-  BASELINE_FULL_DIR,
-  isRetirementConfig,
-  projectBaseline
+  BASELINE_DIR,
+  fullExampleFiles,
+  projectBaseline,
+  runFullExample
 } from '../src/lib/__testing__/baseline';
 import type { BaselineCase } from '../src/lib/__testing__/baseline';
+import { parseRetirementConfig } from '../src/lib/__testing__/parse-config';
 import { handWrittenConfigs } from './hand-written-configs';
 
 const EXAMPLES_DIR = new URL('../../cli/examples/', import.meta.url);
@@ -21,10 +30,7 @@ function exampleConfigs(): Array<[string, RetirementConfig]> {
     .toSorted()
     .map((file) => {
       const parsed: unknown = JSON.parse(readFileSync(new URL(file, EXAMPLES_DIR), 'utf8'));
-      if (!isRetirementConfig(parsed)) {
-        throw new Error(`${file} is not a retirement config.`);
-      }
-      return [`example-${file.replace(/\.json$/, '')}`, parsed];
+      return [`example-${file.replace(/\.json$/, '')}`, parseRetirementConfig(parsed)];
     });
 }
 
@@ -53,22 +59,22 @@ function requireFirstOfMonth(name: string, config: RetirementConfig) {
   }
 }
 
-function requireCanonicalNumbers(name: string, value: unknown) {
-  if (typeof value === 'number') {
-    if (!Number.isFinite(value) || Object.is(value, -0)) {
-      throw new Error(`${name}: the engine produced ${String(value)}.`);
-    }
-    return;
+function toExactJson(name: string, value: unknown): string {
+  const text = `${JSON.stringify(value, null, 2)}\n`;
+  if (!isDeepStrictEqual(JSON.parse(text), value)) {
+    throw new Error(`${name} does not survive a JSON round trip unchanged.`);
   }
-  if (typeof value === 'object' && value !== null) {
-    for (const item of Object.values(value)) {
-      requireCanonicalNumbers(name, item);
-    }
-  }
+  return text;
 }
 
-function writeJson(dir: URL, file: string, value: unknown) {
-  writeFileSync(new URL(file, dir), `${JSON.stringify(value, null, 2)}\n`);
+function toStoredInput(name: string, config: RetirementConfig): RetirementConfig {
+  const text = JSON.stringify(config);
+  const json: unknown = JSON.parse(text);
+  const input = parseRetirementConfig(json);
+  if (!isDeepStrictEqual(input, json)) {
+    throw new Error(`${name}: the config parser does not read this input back unchanged.`);
+  }
+  return input;
 }
 
 if (process.versions.bun !== undefined) {
@@ -80,24 +86,31 @@ if (process.versions.bun !== undefined) {
 const examples = exampleConfigs();
 const inputs = [...examples, ...generatedConfigs(), ...Object.entries(handWrittenConfigs)];
 
-rmSync(BASELINE_CASES_DIR, { recursive: true, force: true });
-rmSync(BASELINE_FULL_DIR, { recursive: true, force: true });
-mkdirSync(BASELINE_CASES_DIR, { recursive: true });
-mkdirSync(BASELINE_FULL_DIR, { recursive: true });
-
-for (const [name, input] of inputs) {
+const files = new Map<string, string>();
+for (const [name, config] of inputs) {
+  const input = toStoredInput(name, config);
   requireFirstOfMonth(name, input);
-  requireCanonicalNumbers(name, calculateRetirement(input));
-  requireCanonicalNumbers(name, calculateProjectionWithSteps(input, input.interest.annualRate));
   const baselineCase: BaselineCase = { name, input, ...projectBaseline(input) };
-  writeJson(BASELINE_CASES_DIR, `${name}.json`, baselineCase);
+  files.set(`cases/${name}.json`, toExactJson(name, baselineCase));
+}
+for (const [name, input] of examples) {
+  const full = runFullExample(input);
+  const fullFiles = fullExampleFiles(name);
+  files.set(`full/${fullFiles.result}`, toExactJson(fullFiles.result, full.result));
+  files.set(`full/${fullFiles.steps}`, toExactJson(fullFiles.steps, full.steps));
 }
 
-for (const [name, input] of examples) {
-  writeJson(BASELINE_FULL_DIR, `${name}.result.json`, calculateRetirement(input));
-  writeJson(
-    BASELINE_FULL_DIR,
-    `${name}.steps.json`,
-    calculateProjectionWithSteps(input, input.interest.annualRate)
-  );
+const staging = new URL('../baseline.next/', BASELINE_DIR);
+const retired = new URL('../baseline.old/', BASELINE_DIR);
+rmSync(staging, { recursive: true, force: true });
+rmSync(retired, { recursive: true, force: true });
+mkdirSync(new URL('cases/', staging), { recursive: true });
+mkdirSync(new URL('full/', staging), { recursive: true });
+for (const [path, text] of files) {
+  writeFileSync(new URL(path, staging), text);
 }
+if (existsSync(BASELINE_DIR)) {
+  renameSync(BASELINE_DIR, retired);
+}
+renameSync(staging, BASELINE_DIR);
+rmSync(retired, { recursive: true, force: true });

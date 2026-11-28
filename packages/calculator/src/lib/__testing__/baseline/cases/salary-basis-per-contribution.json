@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 64000,
     "timeHorizonYears": 11,
-    "startDate": "2026-09-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.06,
       "variance": 0.02,
@@ -16,28 +15,29 @@
     "contributions": [
       {
         "id": "per-month",
-        "enabled": true,
         "type": "salaryPercent",
         "amount": 6,
-        "salaryBasis": "perContribution",
         "timing": {
           "frequency": "monthly",
           "day": 1
-        }
+        },
+        "enabled": true,
+        "salaryBasis": "perContribution"
       },
       {
         "id": "per-year",
-        "enabled": true,
         "type": "salaryPercent",
         "amount": 4,
-        "salaryBasis": "perContribution",
         "timing": {
           "frequency": "annual",
           "month": 5,
           "day": 30
-        }
+        },
+        "enabled": true,
+        "salaryBasis": "perContribution"
       }
-    ]
+    ],
+    "startDate": "2026-09-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -299,6 +299,6 @@
       }
     ]
   },
-  "monthlyDigest": "a9a58a585fa57cc996c27571925fc48c66ec783b5b9546f857dada89d5c6171d",
-  "stepsDigest": "181144198922f4ad8f6df3b0558a47b742db601b494d9fbf58015cd395de4487"
+  "monthlyDigest": "cd0e16c26ca4ea2c0fed8a0528e5705b359a25ff8f0212ed1b1e87b8147b5a82",
+  "stepsDigest": "165976e83007b6c2ee54795eedb5448bab0e20287e9cf8cf75025483d7569454"
 }

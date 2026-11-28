@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 322900,
     "timeHorizonYears": 12,
-    "startDate": "2026-07-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.060857112745732425,
       "variance": 0.02220116911667725,
@@ -16,18 +15,17 @@
     "contributions": [
       {
         "id": "hsa-employer",
-        "name": "HSA employer contribution",
         "type": "flat",
         "amount": 54,
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
+        "name": "HSA employer contribution",
         "enabled": true
       },
       {
         "id": "ira",
-        "name": "IRA contribution",
         "type": "flat",
         "amount": 3525,
         "timing": {
@@ -35,31 +33,33 @@
           "month": 8,
           "placement": "start"
         },
+        "name": "IRA contribution",
         "enabled": true
       },
       {
         "id": "brokerage",
-        "name": "Brokerage auto-invest",
         "type": "flat",
         "amount": 792,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Brokerage auto-invest",
         "enabled": true
       },
       {
         "id": "crypto",
-        "name": "Crypto allocation",
         "type": "flat",
         "amount": 51,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Crypto allocation",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-07-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -342,6 +342,6 @@
       }
     ]
   },
-  "monthlyDigest": "e74fc96030db61bde0df4525b7095254753ac7f6c872b712f514dad9232646fd",
-  "stepsDigest": "3c80e074a38db249b0adc901b8130ed1f79a1579ae910943d3cbf73888f839e3"
+  "monthlyDigest": "fa53854d0c143128a17c4c15aeecf40d55cb9688d477f2f96edd7ad659c2430b",
+  "stepsDigest": "5687817d682377187fe58e15409a3bd07175b7512cd8853e2f7679fdf3548fa7"
 }

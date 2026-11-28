@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 25000,
     "timeHorizonYears": 3,
-    "startDate": "2026-02-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.04,
       "variance": 0,
@@ -16,19 +15,17 @@
     "contributions": [
       {
         "id": "auto-invest",
-        "name": "Auto Invest",
-        "enabled": true,
         "type": "flat",
         "amount": 200,
         "timing": {
           "frequency": "monthly",
           "day": 15
-        }
+        },
+        "name": "Auto Invest",
+        "enabled": true
       },
       {
         "id": "bonus",
-        "name": "Annual Bonus",
-        "enabled": true,
         "type": "flat",
         "amount": 3000,
         "timing": {
@@ -36,9 +33,12 @@
           "month": 11,
           "day": 15,
           "placement": "start"
-        }
+        },
+        "name": "Annual Bonus",
+        "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-02-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -132,6 +132,6 @@
       }
     ]
   },
-  "monthlyDigest": "a8fa183f35006c552805a02574195c8119021c7cd21f9c20323df3c27e833129",
-  "stepsDigest": "78b14ba406dd44e0bd77c5376de4afb128c9ef254ac15e1e9619879c885b5b64"
+  "monthlyDigest": "8572d2d513004aaad00b98334b54a478f8ee99551d63ce7809c98e152bbb3e3e",
+  "stepsDigest": "77e93ba4f1a49fb291b8b9fb83ffaaf9772879aac399940069f68c206c21e020"
 }

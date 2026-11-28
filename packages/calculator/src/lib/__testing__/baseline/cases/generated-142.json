@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 206000,
     "timeHorizonYears": 34,
-    "startDate": "2026-10-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.05580628648809509,
       "variance": 0.021368509858850998,
@@ -16,19 +15,18 @@
     "contributions": [
       {
         "id": "401k-employee",
-        "name": "401(k) employee contribution",
         "type": "salaryPercent",
         "amount": 12.17,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employee contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "ira",
-        "name": "IRA contribution",
         "type": "flat",
         "amount": 2841,
         "timing": {
@@ -36,36 +34,36 @@
           "month": 11,
           "placement": "start"
         },
+        "name": "IRA contribution",
         "enabled": true
       },
       {
         "id": "espp",
-        "name": "ESPP contribution",
         "type": "salaryPercent",
         "amount": 6.35,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "ESPP contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "annual-bonus",
-        "name": "Annual bonus contribution",
         "type": "salaryPercent",
         "amount": 15.87,
-        "salaryBasis": "annual",
         "timing": {
           "frequency": "annual",
           "month": 2,
           "placement": "end"
         },
-        "enabled": true
+        "name": "Annual bonus contribution",
+        "enabled": true,
+        "salaryBasis": "annual"
       },
       {
         "id": "rsu-vesting",
-        "name": "RSU vesting proceeds",
         "type": "flat",
         "amount": 12136,
         "timing": {
@@ -73,9 +71,11 @@
           "month": 5,
           "placement": "end"
         },
+        "name": "RSU vesting proceeds",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-10-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -820,6 +820,6 @@
       }
     ]
   },
-  "monthlyDigest": "ab33b9a12a3ef27fff1d8f70b62b398d9bbceeba2feb816eef8e44d1007bd0ae",
-  "stepsDigest": "4478eca5f6747238fa0925cbd8e6e8e5643af885b968dca9a203b8501f6f76b9"
+  "monthlyDigest": "488359c68ab4dfe0db04454f2f160d244f0916b0e3546ad9860a3813ca8b820c",
+  "stepsDigest": "d971be9f71847b972da48bd5b4f6e6085aceb6ca5200226e787afda4f6c34131"
 }

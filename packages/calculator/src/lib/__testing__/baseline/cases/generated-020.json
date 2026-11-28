@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 182500,
     "timeHorizonYears": 32,
-    "startDate": "2026-08-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.055034570682001224,
       "variance": 0.022619409958745913,
@@ -16,63 +15,64 @@
     "contributions": [
       {
         "id": "401k-employee",
-        "name": "401(k) employee contribution",
         "type": "salaryPercent",
         "amount": 6.39,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employee contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-match",
-        "name": "401(k) employer match",
         "type": "salaryPercent",
         "amount": 2.29,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employer match",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-roth",
-        "name": "Roth 401(k) contribution",
         "type": "salaryPercent",
         "amount": 3.34,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "Roth 401(k) contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "hsa-employer",
-        "name": "HSA employer contribution",
         "type": "flat",
         "amount": 103,
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
+        "name": "HSA employer contribution",
         "enabled": true
       },
       {
         "id": "crypto",
-        "name": "Crypto allocation",
         "type": "flat",
         "amount": 61,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Crypto allocation",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-08-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -775,6 +775,6 @@
       }
     ]
   },
-  "monthlyDigest": "3f130e3096adc5d37925839dd68e616b716ec25ca95715bcabf7b4f56951e1c5",
-  "stepsDigest": "a7dbc3572023084221d21d127caa4ad8b98dff7c65d5b6e704c7ba3cd54ee0d3"
+  "monthlyDigest": "17575a12119c38f4db2062986042a8bdd84db315c15042dbd5c2e9cdc9aa5de9",
+  "stepsDigest": "5548f9e5f379b675437e38e0846605ec323120040f0f680cea05186e4663dd87"
 }

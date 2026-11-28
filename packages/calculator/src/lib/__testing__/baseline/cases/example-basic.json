@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 75000,
     "timeHorizonYears": 20,
-    "startDate": "2026-01-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.05,
       "variance": 0.01,
@@ -16,15 +15,15 @@
     "contributions": [
       {
         "id": "401k",
-        "name": "401k",
-        "enabled": true,
         "type": "salaryPercent",
         "amount": 6,
-        "salaryBasis": "perContribution",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
+        "name": "401k",
+        "enabled": true,
+        "salaryBasis": "perContribution",
         "yearRange": {
           "start": 0,
           "end": 20
@@ -32,16 +31,17 @@
       },
       {
         "id": "roth",
-        "name": "Roth IRA",
-        "enabled": true,
         "type": "flat",
         "amount": 500,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
-        }
+        },
+        "name": "Roth IRA",
+        "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-01-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -471,6 +471,6 @@
       }
     ]
   },
-  "monthlyDigest": "a6f961e61624f7d6af56b3c270d6abdb69137e090d79a16a556f467ae230f35f",
-  "stepsDigest": "81be67cc0a3894c709580e5de39a25a5bc9cc5ae94f68e6ee2416d64cd777fb7"
+  "monthlyDigest": "d865bc7817b285df6119ee3b649851f43bd3307a37ec00f0dcd534c3d534535a",
+  "stepsDigest": "924e2ec9c3697a909d5b7b5165c3dc14d7876bd7305bf3afe56df77451223e65"
 }

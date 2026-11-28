@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 241200,
     "timeHorizonYears": 22,
-    "startDate": "2026-12-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.06715222596527401,
       "variance": 0.024603417412971257,
@@ -16,42 +15,41 @@
     "contributions": [
       {
         "id": "401k-employee",
-        "name": "401(k) employee contribution",
         "type": "salaryPercent",
         "amount": 4.57,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employee contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-match",
-        "name": "401(k) employer match",
         "type": "salaryPercent",
         "amount": 3.43,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employer match",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "brokerage",
-        "name": "Brokerage auto-invest",
         "type": "flat",
         "amount": 609,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Brokerage auto-invest",
         "enabled": true
       },
       {
         "id": "rsu-vesting",
-        "name": "RSU vesting proceeds",
         "type": "flat",
         "amount": 4264,
         "timing": {
@@ -59,20 +57,22 @@
           "month": 3,
           "placement": "end"
         },
+        "name": "RSU vesting proceeds",
         "enabled": true
       },
       {
         "id": "college-529",
-        "name": "529 contribution",
         "type": "flat",
         "amount": 296,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "529 contribution",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-12-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -565,6 +565,6 @@
       }
     ]
   },
-  "monthlyDigest": "17f1ca506f07b9431b605b390293477f5b925899b2406eafbede2f30a006c23a",
-  "stepsDigest": "d931dd919a759b51e1652add6973bf339f360d201374a7184026c8fabeb1ce99"
+  "monthlyDigest": "b48b2f277c092dcdb6dda526c3c02ac81c6c035ac5ed965c32f4e31dd1284024",
+  "stepsDigest": "30ca5fc53058c1f578740d91b681f004c5b5699d20cba4e2f1b044b09b9919df"
 }

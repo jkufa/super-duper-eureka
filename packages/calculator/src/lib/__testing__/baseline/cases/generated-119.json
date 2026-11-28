@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 274700,
     "timeHorizonYears": 28,
-    "startDate": "2026-11-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.06974542345012638,
       "variance": 0.02225178867045353,
@@ -16,19 +15,18 @@
     "contributions": [
       {
         "id": "401k-roth",
-        "name": "Roth 401(k) contribution",
         "type": "salaryPercent",
         "amount": 4.53,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "Roth 401(k) contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "ira",
-        "name": "IRA contribution",
         "type": "flat",
         "amount": 4590,
         "timing": {
@@ -36,24 +34,24 @@
           "month": 3,
           "placement": "end"
         },
+        "name": "IRA contribution",
         "enabled": true
       },
       {
         "id": "annual-bonus",
-        "name": "Annual bonus contribution",
         "type": "salaryPercent",
         "amount": 5.33,
-        "salaryBasis": "annual",
         "timing": {
           "frequency": "annual",
           "month": 0,
           "placement": "end"
         },
-        "enabled": true
+        "name": "Annual bonus contribution",
+        "enabled": true,
+        "salaryBasis": "annual"
       },
       {
         "id": "rsu-vesting",
-        "name": "RSU vesting proceeds",
         "type": "flat",
         "amount": 24032,
         "timing": {
@@ -61,9 +59,11 @@
           "month": 6,
           "placement": "start"
         },
+        "name": "RSU vesting proceeds",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-11-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -682,6 +682,6 @@
       }
     ]
   },
-  "monthlyDigest": "7412540e5a474651a9bc8a8e126ab752de7fb397ed8779bc7fab0f3d3dddc97a",
-  "stepsDigest": "0546450c9a0f592518eb8ad3657385c1c047d312f3e1274eef6a4b003df6999e"
+  "monthlyDigest": "fce3ae95e5bf6ae8f0a029221bf52e776d54ebcc44f765d52208421f2d0d2082",
+  "stepsDigest": "efc6f8d3c4180d2d889d172a41820fa7036baffbb96cf6bd3cf5b2c30457caed"
 }

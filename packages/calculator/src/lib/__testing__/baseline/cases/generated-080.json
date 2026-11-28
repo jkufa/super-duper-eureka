@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 113300,
     "timeHorizonYears": 29,
-    "startDate": "2026-08-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.07098663354747405,
       "variance": 0.021536723561346838,
@@ -16,54 +15,53 @@
     "contributions": [
       {
         "id": "401k-employee",
-        "name": "401(k) employee contribution",
         "type": "salaryPercent",
         "amount": 9.11,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": false
+        "name": "401(k) employee contribution",
+        "enabled": false,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-match",
-        "name": "401(k) employer match",
         "type": "salaryPercent",
         "amount": 1.02,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employer match",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "brokerage",
-        "name": "Brokerage auto-invest",
         "type": "flat",
         "amount": 422,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Brokerage auto-invest",
         "enabled": true
       },
       {
         "id": "espp",
-        "name": "ESPP contribution",
         "type": "salaryPercent",
         "amount": 4.61,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "ESPP contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "rsu-vesting",
-        "name": "RSU vesting proceeds",
         "type": "flat",
         "amount": 9314,
         "timing": {
@@ -71,11 +69,11 @@
           "month": 9,
           "placement": "start"
         },
+        "name": "RSU vesting proceeds",
         "enabled": false
       },
       {
         "id": "crypto",
-        "name": "Crypto allocation",
         "type": "flat",
         "amount": 816,
         "timing": {
@@ -83,9 +81,11 @@
           "month": 11,
           "placement": "start"
         },
+        "name": "Crypto allocation",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-08-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -725,6 +725,6 @@
       }
     ]
   },
-  "monthlyDigest": "9a92b27ed8c12996bc62fade3dfc3e722989fd74302d97ecf8e3801adfa65fac",
-  "stepsDigest": "2848f5541eec5bd6aaf31b69bfc261f8c1bd23322bffddc840531f17cb86fc22"
+  "monthlyDigest": "0584204a9a68c21eb7b32de5baea0bfcd06003cf94dad01fe3b4b1e9f6c66ada",
+  "stepsDigest": "a4f3768f890d164e7b5c8502c9557725a765be4321e1bac6b4afafb968dea485"
 }

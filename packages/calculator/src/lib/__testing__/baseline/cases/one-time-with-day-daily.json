@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 45000,
     "timeHorizonYears": 5,
-    "startDate": "2026-05-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.06,
       "variance": 0.02,
@@ -16,48 +15,49 @@
     "contributions": [
       {
         "id": "windfall",
-        "enabled": true,
         "type": "flat",
         "amount": 8000,
         "timing": {
           "frequency": "oneTime",
           "on": {
-            "year": 1,
             "month": 10,
+            "year": 1,
             "day": 25
           }
-        }
+        },
+        "enabled": true
       },
       {
         "id": "leap-day",
-        "enabled": true,
         "type": "flat",
         "amount": 2900,
         "timing": {
           "frequency": "oneTime",
           "on": {
-            "year": 2,
             "month": 1,
+            "year": 2,
             "day": 29
           }
-        }
+        },
+        "enabled": true
       },
       {
         "id": "signing-bonus",
-        "enabled": true,
         "type": "salaryPercent",
         "amount": 15,
-        "salaryBasis": "annual",
         "timing": {
           "frequency": "oneTime",
           "on": {
-            "year": 0,
             "month": 6,
+            "year": 0,
             "day": 31
           }
-        }
+        },
+        "enabled": true,
+        "salaryBasis": "annual"
       }
-    ]
+    ],
+    "startDate": "2026-05-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -193,6 +193,6 @@
       }
     ]
   },
-  "monthlyDigest": "74d551057226c569f664c075d89fdeafaa215132f8c9ffa233844ba1eacfd50a",
-  "stepsDigest": "75b88a647735c5cecda9e12b831e7a167f434b926f9fdd071969cb23f565cc4b"
+  "monthlyDigest": "2b3b8d064d8c1206dc0b941041b178bc02db728ecea29650803063849c2f923c",
+  "stepsDigest": "c1f46cd591b34bb225aa16358cbaab20bb49f1bd8cf9d9f02078b94778c63035"
 }

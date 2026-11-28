@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 106500,
     "timeHorizonYears": 16,
-    "startDate": "2026-05-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.06896712774940672,
       "variance": 0.02516571613237691,
@@ -16,90 +15,89 @@
     "contributions": [
       {
         "id": "401k-employee",
-        "name": "401(k) employee contribution",
         "type": "salaryPercent",
         "amount": 12.13,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": false
+        "name": "401(k) employee contribution",
+        "enabled": false,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-match",
-        "name": "401(k) employer match",
         "type": "salaryPercent",
         "amount": 3.5,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employer match",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-roth",
-        "name": "Roth 401(k) contribution",
         "type": "salaryPercent",
         "amount": 4.5,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": false
+        "name": "Roth 401(k) contribution",
+        "enabled": false,
+        "salaryBasis": "monthly"
       },
       {
         "id": "hsa-employer",
-        "name": "HSA employer contribution",
         "type": "flat",
         "amount": 25,
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
+        "name": "HSA employer contribution",
         "enabled": true
       },
       {
         "id": "brokerage",
-        "name": "Brokerage auto-invest",
         "type": "flat",
         "amount": 592,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Brokerage auto-invest",
         "enabled": true
       },
       {
         "id": "espp",
-        "name": "ESPP contribution",
         "type": "salaryPercent",
         "amount": 4.11,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "ESPP contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "annual-bonus",
-        "name": "Annual bonus contribution",
         "type": "salaryPercent",
         "amount": 11.37,
-        "salaryBasis": "annual",
         "timing": {
           "frequency": "annual",
           "month": 3,
           "placement": "start"
         },
-        "enabled": true
+        "name": "Annual bonus contribution",
+        "enabled": true,
+        "salaryBasis": "annual"
       },
       {
         "id": "rsu-vesting",
-        "name": "RSU vesting proceeds",
         "type": "flat",
         "amount": 4495,
         "timing": {
@@ -107,11 +105,11 @@
           "month": 1,
           "placement": "start"
         },
+        "name": "RSU vesting proceeds",
         "enabled": true
       },
       {
         "id": "crypto",
-        "name": "Crypto allocation",
         "type": "flat",
         "amount": 312,
         "timing": {
@@ -119,9 +117,11 @@
           "month": 7,
           "placement": "start"
         },
+        "name": "Crypto allocation",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-05-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -488,6 +488,6 @@
       }
     ]
   },
-  "monthlyDigest": "1c78b2c091d2babb302fd55775b88ca2b3cf40d7814bb0764a2bffbe3d59e5d7",
-  "stepsDigest": "acd80744f371d9e61c17bfccfdd237e4085267095f4b24233f75cf14055a729f"
+  "monthlyDigest": "40624184624acf21544336e8c813521ee24aa7ba060e07b649813180fbf57983",
+  "stepsDigest": "e2bead6ac76fbd0d0dbe09e8c468fe90096053438181ab2f0175336a48e964f5"
 }

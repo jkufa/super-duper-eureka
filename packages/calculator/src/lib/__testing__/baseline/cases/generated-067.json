@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 51100,
     "timeHorizonYears": 29,
-    "startDate": "2026-07-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.06702925854358871,
       "variance": 0.02015973340561023,
@@ -16,19 +15,18 @@
     "contributions": [
       {
         "id": "401k-match",
-        "name": "401(k) employer match",
         "type": "salaryPercent",
         "amount": 2.87,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employer match",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "ira",
-        "name": "IRA contribution",
         "type": "flat",
         "amount": 1274,
         "timing": {
@@ -36,22 +34,22 @@
           "month": 9,
           "placement": "start"
         },
+        "name": "IRA contribution",
         "enabled": true
       },
       {
         "id": "college-529",
-        "name": "529 contribution",
         "type": "flat",
         "amount": 225,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "529 contribution",
         "enabled": true
       },
       {
         "id": "crypto",
-        "name": "Crypto allocation",
         "type": "flat",
         "amount": 816,
         "timing": {
@@ -59,9 +57,11 @@
           "month": 2,
           "placement": "start"
         },
+        "name": "Crypto allocation",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-07-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -701,6 +701,6 @@
       }
     ]
   },
-  "monthlyDigest": "592fe8d46077aa2d66a02425c7c8e54233d29b6774201fd83f07cf222c785b50",
-  "stepsDigest": "dbe12fdf9e6463bb859d3ef5a90a4abfce9af89e44664736efe8a2de6c43436e"
+  "monthlyDigest": "febb6fc65a04503d0ee66594ad99afa6fbe882a0bab8b844aecd3c1bd9f3ae47",
+  "stepsDigest": "9e2affb6c92c9378298f9bab43eee7862ed1d50b86ffcd6ac772ccdd8ed0108a"
 }

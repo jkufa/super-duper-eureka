@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 52600,
     "timeHorizonYears": 36,
-    "startDate": "2026-10-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.0644765400585525,
       "variance": 0.01990109065646316,
@@ -16,30 +15,29 @@
     "contributions": [
       {
         "id": "401k-roth",
-        "name": "Roth 401(k) contribution",
         "type": "salaryPercent",
         "amount": 7.86,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "Roth 401(k) contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "hsa-employer",
-        "name": "HSA employer contribution",
         "type": "flat",
         "amount": 36,
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
+        "name": "HSA employer contribution",
         "enabled": true
       },
       {
         "id": "ira",
-        "name": "IRA contribution",
         "type": "flat",
         "amount": 6391,
         "timing": {
@@ -47,56 +45,58 @@
           "month": 11,
           "placement": "start"
         },
+        "name": "IRA contribution",
         "enabled": true
       },
       {
         "id": "brokerage",
-        "name": "Brokerage auto-invest",
         "type": "flat",
         "amount": 645,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Brokerage auto-invest",
         "enabled": true
       },
       {
         "id": "espp",
-        "name": "ESPP contribution",
         "type": "salaryPercent",
         "amount": 1.57,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "ESPP contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "annual-bonus",
-        "name": "Annual bonus contribution",
         "type": "salaryPercent",
         "amount": 8.83,
-        "salaryBasis": "annual",
         "timing": {
           "frequency": "annual",
           "month": 6,
           "placement": "end"
         },
-        "enabled": true
+        "name": "Annual bonus contribution",
+        "enabled": true,
+        "salaryBasis": "annual"
       },
       {
         "id": "college-529",
-        "name": "529 contribution",
         "type": "flat",
         "amount": 104,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "529 contribution",
         "enabled": false
       }
-    ]
+    ],
+    "startDate": "2026-10-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -883,6 +883,6 @@
       }
     ]
   },
-  "monthlyDigest": "a3b8f96ed1050787a92c0deded7872b73e0ef6993a0d543b349df1b8ef1e6e20",
-  "stepsDigest": "5bc41367eae635536400803d91db4bcacadc4e36ffcda86e48131fd3a75d1d19"
+  "monthlyDigest": "71f3bd0623ba88f7a42a74bec0382bc5fc1c94f9ea7026bbe77d19c3a1a01a1f",
+  "stepsDigest": "d0dbfb9751246f7b1471405e5ace04f51bc69471ea7fca7fcf31b022910ea950"
 }

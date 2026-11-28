@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 134200,
     "timeHorizonYears": 33,
-    "startDate": "2026-04-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.0651867742581691,
       "variance": 0.011667804616696292,
@@ -16,42 +15,41 @@
     "contributions": [
       {
         "id": "401k-employee",
-        "name": "401(k) employee contribution",
         "type": "salaryPercent",
         "amount": 9.21,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employee contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-match",
-        "name": "401(k) employer match",
         "type": "salaryPercent",
         "amount": 2.39,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": false
+        "name": "401(k) employer match",
+        "enabled": false,
+        "salaryBasis": "monthly"
       },
       {
         "id": "hsa-employee",
-        "name": "HSA employee contribution",
         "type": "flat",
         "amount": 300,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "HSA employee contribution",
         "enabled": true
       },
       {
         "id": "ira",
-        "name": "IRA contribution",
         "type": "flat",
         "amount": 3518,
         "timing": {
@@ -59,20 +57,22 @@
           "month": 0,
           "placement": "end"
         },
+        "name": "IRA contribution",
         "enabled": true
       },
       {
         "id": "college-529",
-        "name": "529 contribution",
         "type": "flat",
         "amount": 269,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "529 contribution",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-04-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -796,6 +796,6 @@
       }
     ]
   },
-  "monthlyDigest": "bf2e55684136928d72006936ca33e7ec3b54cf9832c115b6a6cd3f28b23f0e00",
-  "stepsDigest": "d75350c4babbbb01e35603a8841d5709b168d475e556dccf1c86b6815e0e4018"
+  "monthlyDigest": "5f0d34d68966ed915bc05f3b1c0a481b02082a2082ad38da3764f5e5ce7312b4",
+  "stepsDigest": "616dae31665232ef9e1ea1b040920b4d625dcc1dc7c2974cb6ff6bcc2c5dd146"
 }

@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 123800,
     "timeHorizonYears": 32,
-    "startDate": "2026-04-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.07774664808682168,
       "variance": 0.023460974775013806,
@@ -16,43 +15,42 @@
     "contributions": [
       {
         "id": "401k-employee",
-        "name": "401(k) employee contribution",
         "type": "salaryPercent",
         "amount": 9.09,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employee contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-match",
-        "name": "401(k) employer match",
         "type": "salaryPercent",
         "amount": 4.57,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employer match",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-roth",
-        "name": "Roth 401(k) contribution",
         "type": "salaryPercent",
         "amount": 2.08,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "Roth 401(k) contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "hsa-employee",
-        "name": "HSA employee contribution",
         "type": "flat",
         "amount": 2844,
         "timing": {
@@ -60,11 +58,11 @@
           "month": 1,
           "placement": "end"
         },
+        "name": "HSA employee contribution",
         "enabled": true
       },
       {
         "id": "hsa-employer",
-        "name": "HSA employer contribution",
         "type": "flat",
         "amount": 372,
         "timing": {
@@ -72,47 +70,47 @@
           "month": 1,
           "placement": "start"
         },
+        "name": "HSA employer contribution",
         "enabled": true
       },
       {
         "id": "brokerage",
-        "name": "Brokerage auto-invest",
         "type": "flat",
         "amount": 1181,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Brokerage auto-invest",
         "enabled": true
       },
       {
         "id": "espp",
-        "name": "ESPP contribution",
         "type": "salaryPercent",
         "amount": 1.19,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": false
+        "name": "ESPP contribution",
+        "enabled": false,
+        "salaryBasis": "monthly"
       },
       {
         "id": "annual-bonus",
-        "name": "Annual bonus contribution",
         "type": "salaryPercent",
         "amount": 9.81,
-        "salaryBasis": "annual",
         "timing": {
           "frequency": "annual",
           "month": 8,
           "placement": "start"
         },
-        "enabled": true
+        "name": "Annual bonus contribution",
+        "enabled": true,
+        "salaryBasis": "annual"
       },
       {
         "id": "rsu-vesting",
-        "name": "RSU vesting proceeds",
         "type": "flat",
         "amount": 5937,
         "timing": {
@@ -120,22 +118,22 @@
           "month": 11,
           "placement": "start"
         },
+        "name": "RSU vesting proceeds",
         "enabled": false
       },
       {
         "id": "college-529",
-        "name": "529 contribution",
         "type": "flat",
         "amount": 390,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "529 contribution",
         "enabled": true
       },
       {
         "id": "crypto",
-        "name": "Crypto allocation",
         "type": "flat",
         "amount": 1584,
         "timing": {
@@ -143,9 +141,11 @@
           "month": 11,
           "placement": "start"
         },
+        "name": "Crypto allocation",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-04-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -848,6 +848,6 @@
       }
     ]
   },
-  "monthlyDigest": "fc3f273c302772ae9e934d3f64f4f49f1a7b457b876f3f3c84a8d21157ecce4d",
-  "stepsDigest": "7cbda3200a3571cca4523de5e3a95ab5396df29ebe76fec84d4fb25cbf22334c"
+  "monthlyDigest": "328369d195d4eefda9017e1e169e2e076f05388ac7dcc1c0302a5dc0319beaf5",
+  "stepsDigest": "629047ebea7b5d9869c1face6e558d0809773a6c493820aab40b558487d5a170"
 }

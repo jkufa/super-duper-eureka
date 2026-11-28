@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 60000,
     "timeHorizonYears": 10,
-    "startDate": "2026-06-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.055,
       "variance": 0.015,
@@ -16,37 +15,38 @@
     "contributions": [
       {
         "id": "brokerage",
-        "enabled": true,
         "type": "flat",
         "amount": 400,
+        "timing": {
+          "frequency": "monthly",
+          "day": 10
+        },
+        "enabled": true,
         "growth": {
           "type": "percent",
           "amount": 4,
           "cadence": "annual"
-        },
-        "timing": {
-          "frequency": "monthly",
-          "day": 10
         }
       },
       {
         "id": "bonus",
-        "enabled": true,
         "type": "salaryPercent",
         "amount": 6,
+        "timing": {
+          "frequency": "annual",
+          "month": 2,
+          "day": 15
+        },
+        "enabled": true,
         "growth": {
           "type": "percent",
           "amount": 1.5,
           "cadence": "annual"
         },
-        "salaryBasis": "annual",
-        "timing": {
-          "frequency": "annual",
-          "month": 2,
-          "day": 15
-        }
+        "salaryBasis": "annual"
       }
-    ]
+    ],
+    "startDate": "2026-06-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -287,6 +287,6 @@
       }
     ]
   },
-  "monthlyDigest": "b6b3fb777af16ed358292c964ad700acf5b9c05b5b0f5f910a459c40ea6e4855",
-  "stepsDigest": "c9ffceac5dfe46cdd7fc7eaa494c9fb68b2b45d5c36cb07bcf47c3fe77027e22"
+  "monthlyDigest": "99a03cfff9fbac1b71e19ac23c420dd54a187c4b7b19d2c7cecdfb4df31614c6",
+  "stepsDigest": "31a7f0b1da93eb79d720f78a25c2c23b1a5c96a91a94ff19ba7e467211a0209b"
 }

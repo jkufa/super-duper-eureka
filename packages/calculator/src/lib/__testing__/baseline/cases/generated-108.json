@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 89400,
     "timeHorizonYears": 35,
-    "startDate": "2026-12-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.05715220035236278,
       "variance": 0.018996385569607727,
@@ -16,19 +15,18 @@
     "contributions": [
       {
         "id": "401k-roth",
-        "name": "Roth 401(k) contribution",
         "type": "salaryPercent",
         "amount": 3.26,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "Roth 401(k) contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "ira",
-        "name": "IRA contribution",
         "type": "flat",
         "amount": 3100,
         "timing": {
@@ -36,43 +34,45 @@
           "month": 7,
           "placement": "start"
         },
+        "name": "IRA contribution",
         "enabled": true
       },
       {
         "id": "brokerage",
-        "name": "Brokerage auto-invest",
         "type": "flat",
         "amount": 451,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Brokerage auto-invest",
         "enabled": true
       },
       {
         "id": "espp",
-        "name": "ESPP contribution",
         "type": "salaryPercent",
         "amount": 1.63,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "ESPP contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "college-529",
-        "name": "529 contribution",
         "type": "flat",
         "amount": 395,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "529 contribution",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-12-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -838,6 +838,6 @@
       }
     ]
   },
-  "monthlyDigest": "66c9b05027662bc94c48e3f509c8c87c4554531ad98b22171257f7a6bbac2875",
-  "stepsDigest": "0ab40a408930f913fe15d1c578ad78fb11e7757923bfb537918dd74395a992fa"
+  "monthlyDigest": "ab53e25c1bb1ab2ac21eda16889a69ca0e5848f57b41fcbe94407c6082481a23",
+  "stepsDigest": "ee913dcc08d4f88583015a1f9a2da3c89d6590a570c92fc0b0ade14257fb4259"
 }

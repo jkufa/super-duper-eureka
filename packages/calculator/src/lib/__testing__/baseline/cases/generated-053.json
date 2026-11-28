@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 1648200,
     "timeHorizonYears": 18,
-    "startDate": "2026-05-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.06191349366371461,
       "variance": 0.013852765060970938,
@@ -16,31 +15,30 @@
     "contributions": [
       {
         "id": "401k-employee",
-        "name": "401(k) employee contribution",
         "type": "salaryPercent",
         "amount": 9.33,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": false
+        "name": "401(k) employee contribution",
+        "enabled": false,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-roth",
-        "name": "Roth 401(k) contribution",
         "type": "salaryPercent",
         "amount": 6.01,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "Roth 401(k) contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "ira",
-        "name": "IRA contribution",
         "type": "flat",
         "amount": 4958,
         "timing": {
@@ -48,24 +46,24 @@
           "month": 7,
           "placement": "start"
         },
+        "name": "IRA contribution",
         "enabled": true
       },
       {
         "id": "annual-bonus",
-        "name": "Annual bonus contribution",
         "type": "salaryPercent",
         "amount": 13.63,
-        "salaryBasis": "annual",
         "timing": {
           "frequency": "annual",
           "month": 9,
           "placement": "end"
         },
-        "enabled": true
+        "name": "Annual bonus contribution",
+        "enabled": true,
+        "salaryBasis": "annual"
       },
       {
         "id": "rsu-vesting",
-        "name": "RSU vesting proceeds",
         "type": "flat",
         "amount": 26271,
         "timing": {
@@ -73,31 +71,33 @@
           "month": 2,
           "placement": "end"
         },
+        "name": "RSU vesting proceeds",
         "enabled": false
       },
       {
         "id": "college-529",
-        "name": "529 contribution",
         "type": "flat",
         "amount": 190,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "529 contribution",
         "enabled": true
       },
       {
         "id": "crypto",
-        "name": "Crypto allocation",
         "type": "flat",
         "amount": 161,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Crypto allocation",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-05-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -506,6 +506,6 @@
       }
     ]
   },
-  "monthlyDigest": "088bf4e814ba504734252bd80a91efafa276077286002c1b5bae634c3f2f6172",
-  "stepsDigest": "ac530cbbe643736e6202d6b0a8236386369dc15060d331b1af35d45e22d841fc"
+  "monthlyDigest": "c3e87bcb7ab301ca2ee82ace0e2f5f7ba5aa4c4c7eb16a7aa92a8ea95466ee37",
+  "stepsDigest": "773294a901200097e6a83c4f0bf61633d442b96d3d48ce9eadc07167956daed0"
 }

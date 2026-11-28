@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 34700,
     "timeHorizonYears": 30,
-    "startDate": "2026-02-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.06392465674957551,
       "variance": 0.01999201254667269,
@@ -16,30 +15,29 @@
     "contributions": [
       {
         "id": "401k-employee",
-        "name": "401(k) employee contribution",
         "type": "salaryPercent",
         "amount": 10.59,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": false
+        "name": "401(k) employee contribution",
+        "enabled": false,
+        "salaryBasis": "monthly"
       },
       {
         "id": "hsa-employee",
-        "name": "HSA employee contribution",
         "type": "flat",
         "amount": 86,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "HSA employee contribution",
         "enabled": true
       },
       {
         "id": "ira",
-        "name": "IRA contribution",
         "type": "flat",
         "amount": 2997,
         "timing": {
@@ -47,33 +45,35 @@
           "month": 4,
           "placement": "start"
         },
+        "name": "IRA contribution",
         "enabled": true
       },
       {
         "id": "annual-bonus",
-        "name": "Annual bonus contribution",
         "type": "salaryPercent",
         "amount": 13.71,
-        "salaryBasis": "annual",
         "timing": {
           "frequency": "annual",
           "month": 1,
           "placement": "start"
         },
-        "enabled": false
+        "name": "Annual bonus contribution",
+        "enabled": false,
+        "salaryBasis": "annual"
       },
       {
         "id": "college-529",
-        "name": "529 contribution",
         "type": "flat",
         "amount": 373,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "529 contribution",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-02-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -734,6 +734,6 @@
       }
     ]
   },
-  "monthlyDigest": "0cb4040026e998a2d55a67be4602995880a7be3cd69718e070b3e5461350aa66",
-  "stepsDigest": "ee1e1ed72169133421f4a3e21fe27e04b21f6d7b213841b5e242a96dbc6e9b84"
+  "monthlyDigest": "6712605badb0291c4956c7e2705271a5407b5b07a98e6106c3a423c01a8fad7b",
+  "stepsDigest": "c92f6322fb543ecb4ed320319ce1e7ce3541e0d931dc271f34d26b21be21468d"
 }

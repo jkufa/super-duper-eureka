@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 27000,
     "timeHorizonYears": 9,
-    "startDate": "2026-12-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.05,
       "variance": 0.01,
@@ -16,16 +15,17 @@
     "contributions": [
       {
         "id": "day-rate",
-        "enabled": true,
         "type": "salaryPercent",
         "amount": 20,
-        "salaryBasis": "daily",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
-        }
+        },
+        "enabled": true,
+        "salaryBasis": "daily"
       }
-    ]
+    ],
+    "startDate": "2026-12-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -245,6 +245,6 @@
       }
     ]
   },
-  "monthlyDigest": "173b11d672eb79206debb88eb8aac7784bb5a22b99a06a053c4d8cd7f8b4ba2f",
-  "stepsDigest": "5cf7c75f72b18c9f6a598359383e04a9c9cd140bddbed66b6bd12deaaeb668d0"
+  "monthlyDigest": "f3ac765d84de2f5a4c7058e1668c62999361870655792afb3b2d020f215ccbaf",
+  "stepsDigest": "6534059e32428c9d123f4c6b9010a80e9d1ae15e1cfcfca779a036ccb26cce22"
 }

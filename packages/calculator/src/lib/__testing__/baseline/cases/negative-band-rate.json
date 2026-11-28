@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 25000,
     "timeHorizonYears": 6,
-    "startDate": "2026-11-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.02,
       "variance": 0.05,
@@ -16,15 +15,16 @@
     "contributions": [
       {
         "id": "savings",
-        "enabled": true,
         "type": "flat",
         "amount": 400,
         "timing": {
           "frequency": "monthly",
           "day": 18
-        }
+        },
+        "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-11-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -181,6 +181,6 @@
       }
     ]
   },
-  "monthlyDigest": "13d43f16c10b8bb4f3a27c89120feb00f236ade3a16ce4ae98984c97c9751c6f",
-  "stepsDigest": "9cf5b747701e6bf88fb91d68fc5699d4d869ad19c70a7c5302c7a311fdfb53af"
+  "monthlyDigest": "a62d8ec3f1ca074fc1c203d3a4fe54cb13f614c0b6e0e7a9679fbcb08e959415",
+  "stepsDigest": "0818ddd6797a932adf1eb367f8996a0ff71a6feb32d7e20cc71ed48ef20feb78"
 }

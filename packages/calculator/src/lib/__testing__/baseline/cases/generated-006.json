@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 404100,
     "timeHorizonYears": 17,
-    "startDate": "2026-06-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.051095164556360026,
       "variance": 0.010952663795676873,
@@ -16,30 +15,29 @@
     "contributions": [
       {
         "id": "401k-roth",
-        "name": "Roth 401(k) contribution",
         "type": "salaryPercent",
         "amount": 0.95,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "Roth 401(k) contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "brokerage",
-        "name": "Brokerage auto-invest",
         "type": "flat",
         "amount": 580,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Brokerage auto-invest",
         "enabled": true
       },
       {
         "id": "rsu-vesting",
-        "name": "RSU vesting proceeds",
         "type": "flat",
         "amount": 4806,
         "timing": {
@@ -47,20 +45,22 @@
           "month": 10,
           "placement": "end"
         },
+        "name": "RSU vesting proceeds",
         "enabled": true
       },
       {
         "id": "college-529",
-        "name": "529 contribution",
         "type": "flat",
         "amount": 452,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "529 contribution",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-06-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -448,6 +448,6 @@
       }
     ]
   },
-  "monthlyDigest": "a87ece2e20fd18c95507f8f14e871786a27d09374017d529eb81557c1f0b051b",
-  "stepsDigest": "aed8dc7437bb320d73fcc3c23dd9f5a6b0e3698b98b40a1015c212835183c615"
+  "monthlyDigest": "14873a19b885b3e9bab76034680339d031c946d05c95b17d534043524a5fb6f6",
+  "stepsDigest": "da20ff686d9763896b485818196625802f732fdb6aa4e70672b0d5818d867c89"
 }

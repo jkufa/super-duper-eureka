@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 154800,
     "timeHorizonYears": 23,
-    "startDate": "2026-11-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.05483823137264056,
       "variance": 0.01575010740025006,
@@ -16,31 +15,30 @@
     "contributions": [
       {
         "id": "401k-employee",
-        "name": "401(k) employee contribution",
         "type": "salaryPercent",
         "amount": 8.86,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employee contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-match",
-        "name": "401(k) employer match",
         "type": "salaryPercent",
         "amount": 3.45,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employer match",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "ira",
-        "name": "IRA contribution",
         "type": "flat",
         "amount": 5307,
         "timing": {
@@ -48,31 +46,33 @@
           "month": 8,
           "placement": "end"
         },
+        "name": "IRA contribution",
         "enabled": true
       },
       {
         "id": "brokerage",
-        "name": "Brokerage auto-invest",
         "type": "flat",
         "amount": 121,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Brokerage auto-invest",
         "enabled": false
       },
       {
         "id": "college-529",
-        "name": "529 contribution",
         "type": "flat",
         "amount": 210,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "529 contribution",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-11-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -586,6 +586,6 @@
       }
     ]
   },
-  "monthlyDigest": "1ee63958685b070d77efd2d6c4ad00042163c3c9802af072537111efec7f1b20",
-  "stepsDigest": "f28340d244d918b9a82cc20300c6bb1973961437c28c9410843e023a18fe9921"
+  "monthlyDigest": "04ee1b484a051b3e4bb498a4af1cf834b840842b8ca81d44f0173001dd945ab0",
+  "stepsDigest": "bfebfe1e9711adddb4ab37381df4b2cfdf56331e1241d44e7cfdaea2fc5f4793"
 }

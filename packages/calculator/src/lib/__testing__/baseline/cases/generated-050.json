@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 344100,
     "timeHorizonYears": 19,
-    "startDate": "2026-02-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.07612021019718478,
       "variance": 0.01579416976351224,
@@ -16,63 +15,64 @@
     "contributions": [
       {
         "id": "hsa-employee",
-        "name": "HSA employee contribution",
         "type": "flat",
         "amount": 228,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "HSA employee contribution",
         "enabled": true
       },
       {
         "id": "hsa-employer",
-        "name": "HSA employer contribution",
         "type": "flat",
         "amount": 48,
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
+        "name": "HSA employer contribution",
         "enabled": true
       },
       {
         "id": "brokerage",
-        "name": "Brokerage auto-invest",
         "type": "flat",
         "amount": 890,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Brokerage auto-invest",
         "enabled": true
       },
       {
         "id": "espp",
-        "name": "ESPP contribution",
         "type": "salaryPercent",
         "amount": 1.44,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "ESPP contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "annual-bonus",
-        "name": "Annual bonus contribution",
         "type": "salaryPercent",
         "amount": 16.19,
-        "salaryBasis": "annual",
         "timing": {
           "frequency": "annual",
           "month": 11,
           "placement": "end"
         },
-        "enabled": true
+        "name": "Annual bonus contribution",
+        "enabled": true,
+        "salaryBasis": "annual"
       }
-    ]
+    ],
+    "startDate": "2026-02-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -502,6 +502,6 @@
       }
     ]
   },
-  "monthlyDigest": "666a5b56aa3d01ddf1a634fd67b20d0f5d3f32ebfe3b381104631c0ef1d37fcc",
-  "stepsDigest": "6128a333ce0de7220090c8bdc2ab8207de575d52ab4bddb27d77d6a61edb9458"
+  "monthlyDigest": "acb270602eac5f56f81f03c163e4e885e6fcf9749c55e528c9dda372ed4d3d26",
+  "stepsDigest": "70d90077126242ca99d7763063c8a74a86307ed4b0b7ffacd76caa1753da2dc9"
 }

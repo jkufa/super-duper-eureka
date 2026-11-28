@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 174300,
     "timeHorizonYears": 29,
-    "startDate": "2026-05-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.05332606383691655,
       "variance": 0.019951666912310338,
@@ -16,73 +15,74 @@
     "contributions": [
       {
         "id": "401k-employee",
-        "name": "401(k) employee contribution",
         "type": "salaryPercent",
         "amount": 10.97,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employee contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-roth",
-        "name": "Roth 401(k) contribution",
         "type": "salaryPercent",
         "amount": 5.78,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "Roth 401(k) contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "hsa-employee",
-        "name": "HSA employee contribution",
         "type": "flat",
         "amount": 119,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "HSA employee contribution",
         "enabled": true
       },
       {
         "id": "hsa-employer",
-        "name": "HSA employer contribution",
         "type": "flat",
         "amount": 43,
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
+        "name": "HSA employer contribution",
         "enabled": true
       },
       {
         "id": "brokerage",
-        "name": "Brokerage auto-invest",
         "type": "flat",
         "amount": 444,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Brokerage auto-invest",
         "enabled": true
       },
       {
         "id": "college-529",
-        "name": "529 contribution",
         "type": "flat",
         "amount": 316,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "529 contribution",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-05-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -722,6 +722,6 @@
       }
     ]
   },
-  "monthlyDigest": "c42c3af097c2e468e79613121ec5635336aac6380b6b41361cd3d6dbb3b8f8dc",
-  "stepsDigest": "b6e6ccf7ec7587c74df65ac56247107f872d55c6e521fb71198e2472f1ef693e"
+  "monthlyDigest": "ed217a32b7b16574021c82701c87c33e7188cfe1875624f880e9f6fd22aa73be",
+  "stepsDigest": "3f6e60ec65f96f68005fb845bb2e98f4a482aaca586c8c6b18343dc8ad3b76a3"
 }

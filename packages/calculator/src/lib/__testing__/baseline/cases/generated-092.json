@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 77400,
     "timeHorizonYears": 35,
-    "startDate": "2026-08-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.06611832332081861,
       "variance": 0.026988333564005405,
@@ -16,43 +15,42 @@
     "contributions": [
       {
         "id": "401k-employee",
-        "name": "401(k) employee contribution",
         "type": "salaryPercent",
         "amount": 11.85,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": false
+        "name": "401(k) employee contribution",
+        "enabled": false,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-match",
-        "name": "401(k) employer match",
         "type": "salaryPercent",
         "amount": 4.24,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employer match",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-roth",
-        "name": "Roth 401(k) contribution",
         "type": "salaryPercent",
         "amount": 7.34,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "Roth 401(k) contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "hsa-employee",
-        "name": "HSA employee contribution",
         "type": "flat",
         "amount": 2304,
         "timing": {
@@ -60,22 +58,22 @@
           "month": 9,
           "placement": "end"
         },
+        "name": "HSA employee contribution",
         "enabled": true
       },
       {
         "id": "hsa-employer",
-        "name": "HSA employer contribution",
         "type": "flat",
         "amount": 35,
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
+        "name": "HSA employer contribution",
         "enabled": true
       },
       {
         "id": "ira",
-        "name": "IRA contribution",
         "type": "flat",
         "amount": 2217,
         "timing": {
@@ -83,33 +81,35 @@
           "month": 8,
           "placement": "end"
         },
+        "name": "IRA contribution",
         "enabled": true
       },
       {
         "id": "annual-bonus",
-        "name": "Annual bonus contribution",
         "type": "salaryPercent",
         "amount": 16.84,
-        "salaryBasis": "annual",
         "timing": {
           "frequency": "annual",
           "month": 10,
           "placement": "end"
         },
-        "enabled": true
+        "name": "Annual bonus contribution",
+        "enabled": true,
+        "salaryBasis": "annual"
       },
       {
         "id": "college-529",
-        "name": "529 contribution",
         "type": "flat",
         "amount": 123,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "529 contribution",
         "enabled": false
       }
-    ]
+    ],
+    "startDate": "2026-08-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -875,6 +875,6 @@
       }
     ]
   },
-  "monthlyDigest": "ce159e66c95e4a9bbac11970c50675391031241ad2dd647f90c3be9dc9bac940",
-  "stepsDigest": "df2036220763217c15ab6da3d9f6b65f1b67e278bc0eb3bb5c1fece52137df33"
+  "monthlyDigest": "2c09c11926c97d3727cb8cbddd61367a9ba4bd84c0db59217483da504bf6076f",
+  "stepsDigest": "9bfc09235ece9473f468e66f58946830c35858cd13f5852cbede4830f52a2fc7"
 }

@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 9000,
     "timeHorizonYears": 8,
-    "startDate": "2026-10-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.065,
       "variance": 0.015,
@@ -16,16 +15,17 @@
     "contributions": [
       {
         "id": "weekly-save",
-        "enabled": true,
         "type": "salaryPercent",
         "amount": 12,
-        "salaryBasis": "weekly",
         "timing": {
           "frequency": "monthly",
           "day": 28
-        }
+        },
+        "enabled": true,
+        "salaryBasis": "weekly"
       }
-    ]
+    ],
+    "startDate": "2026-10-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -224,6 +224,6 @@
       }
     ]
   },
-  "monthlyDigest": "e7aa0fa46caad56e3419b406b2e60d5dcbffa839cd2e576aa1c58dda2d96b196",
-  "stepsDigest": "fcedd43c58225f78c48f7209eec9d7d323f16baaee7f7fe87b9549e53ac52877"
+  "monthlyDigest": "06ac57eff51348a05e33a3bea5139bb1f9af0f2ce0c0268c47b4b62a3e387bb4",
+  "stepsDigest": "7e6441afeec40f08f50bbfac00bedd0d454f03f068a932d291c1df776bd81278"
 }

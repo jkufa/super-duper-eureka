@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 33000,
     "timeHorizonYears": 11,
-    "startDate": "2026-04-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.065,
       "variance": 0.02,
@@ -16,36 +15,37 @@
     "contributions": [
       {
         "id": "summer",
-        "enabled": true,
         "type": "flat",
         "amount": 1500,
-        "growth": {
-          "type": "flat",
-          "amount": 100,
-          "cadence": "annual"
-        },
         "timing": {
           "frequency": "annual",
           "month": 7,
           "day": 31
+        },
+        "enabled": true,
+        "growth": {
+          "type": "flat",
+          "amount": 100,
+          "cadence": "annual"
         }
       },
       {
         "id": "hsa",
-        "enabled": true,
         "type": "flat",
         "amount": 150,
+        "timing": {
+          "frequency": "monthly",
+          "placement": "end"
+        },
+        "enabled": true,
         "growth": {
           "type": "flat",
           "amount": 10,
           "cadence": "annual"
-        },
-        "timing": {
-          "frequency": "monthly",
-          "placement": "end"
         }
       }
-    ]
+    ],
+    "startDate": "2026-04-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -307,6 +307,6 @@
       }
     ]
   },
-  "monthlyDigest": "2b2d0b5714696d3a7b4d7c49ba7366d254cdc52c1f7761910de179d5e781ca74",
-  "stepsDigest": "600e9ba8592196558978c0873d1012efba5697608ca4cfe130fff2ee1326a00b"
+  "monthlyDigest": "25536d17e3bc9fe51db06b574ccb71353e0bba62e16b6aa8e0d4f7a0304d13e2",
+  "stepsDigest": "19d885870b9c822a1296ed79517662a6fd1b63e07044ab0b00db62d0a1a7994a"
 }

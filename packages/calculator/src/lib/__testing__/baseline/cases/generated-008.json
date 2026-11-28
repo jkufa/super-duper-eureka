@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 13200,
     "timeHorizonYears": 39,
-    "startDate": "2026-08-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.06036786566181524,
       "variance": 0.023979361377754197,
@@ -16,19 +15,18 @@
     "contributions": [
       {
         "id": "401k-roth",
-        "name": "Roth 401(k) contribution",
         "type": "salaryPercent",
         "amount": 4.92,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "Roth 401(k) contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "ira",
-        "name": "IRA contribution",
         "type": "flat",
         "amount": 1493,
         "timing": {
@@ -36,11 +34,11 @@
           "month": 6,
           "placement": "start"
         },
+        "name": "IRA contribution",
         "enabled": false
       },
       {
         "id": "rsu-vesting",
-        "name": "RSU vesting proceeds",
         "type": "flat",
         "amount": 1390,
         "timing": {
@@ -48,31 +46,33 @@
           "month": 0,
           "placement": "start"
         },
+        "name": "RSU vesting proceeds",
         "enabled": true
       },
       {
         "id": "college-529",
-        "name": "529 contribution",
         "type": "flat",
         "amount": 210,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "529 contribution",
         "enabled": true
       },
       {
         "id": "crypto",
-        "name": "Crypto allocation",
         "type": "flat",
         "amount": 75,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Crypto allocation",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-08-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -922,6 +922,6 @@
       }
     ]
   },
-  "monthlyDigest": "38ff3794223023010436f5281576346d8dc675d89b6be15f7b6ed21b0c783c66",
-  "stepsDigest": "4bc14a7cbf91a0ee6f4aecde1803f8171f897ceaeb03b2b017dbc09d9d677419"
+  "monthlyDigest": "6262dfdaab152446939fb26d59965b6cd235edc89ea8711963abe798464b4141",
+  "stepsDigest": "1c3106bcf0885d9e77dcbe40a758cee06a7c10b74d3b3e3bddd60fdc875c447a"
 }

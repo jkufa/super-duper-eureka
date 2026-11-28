@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 52000,
     "timeHorizonYears": 5,
-    "startDate": "2026-04-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.06,
       "variance": 0.015,
@@ -16,33 +15,34 @@
     "contributions": [
       {
         "id": "bonus",
-        "enabled": true,
         "type": "flat",
         "amount": 12000,
         "timing": {
           "frequency": "oneTime",
           "on": {
-            "year": 1,
             "month": 8,
+            "year": 1,
             "day": 20
           }
-        }
+        },
+        "enabled": true
       },
       {
         "id": "gift",
-        "enabled": true,
         "type": "flat",
         "amount": 4000,
         "timing": {
           "frequency": "oneTime",
           "on": {
-            "year": 2,
             "month": 3,
+            "year": 2,
             "day": 31
           }
-        }
+        },
+        "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-04-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -178,6 +178,6 @@
       }
     ]
   },
-  "monthlyDigest": "4bef22119bcb0c7f50462df256c5a2056187f3dc2a4dbe473eeb02c5863c7a59",
-  "stepsDigest": "1c9f42fc3a9ae33dbe323206a9cadc1379c3f892f75f5621cbdb5616d49e20e1"
+  "monthlyDigest": "9921663f8fb6db8faa1d97b3860125ae90222f60386d783334b1706ee66ecfbd",
+  "stepsDigest": "d86572478fa8c4070717279bd3a9bae33411cbef9042bb94813c529c9c1cc3fa"
 }

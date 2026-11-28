@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 27900,
     "timeHorizonYears": 38,
-    "startDate": "2026-09-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.07130473471975252,
       "variance": 0.024902626713205804,
@@ -16,31 +15,30 @@
     "contributions": [
       {
         "id": "401k-employee",
-        "name": "401(k) employee contribution",
         "type": "salaryPercent",
         "amount": 5.84,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employee contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-match",
-        "name": "401(k) employer match",
         "type": "salaryPercent",
         "amount": 2.84,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employer match",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "ira",
-        "name": "IRA contribution",
         "type": "flat",
         "amount": 3696,
         "timing": {
@@ -48,20 +46,22 @@
           "month": 3,
           "placement": "end"
         },
+        "name": "IRA contribution",
         "enabled": true
       },
       {
         "id": "college-529",
-        "name": "529 contribution",
         "type": "flat",
         "amount": 188,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "529 contribution",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-09-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -890,6 +890,6 @@
       }
     ]
   },
-  "monthlyDigest": "81117199ec17edddd929a5442d0a8c726f2b1ebe5f223f9acb044744513fbebb",
-  "stepsDigest": "d191b741e4d75dd39405f491a45642a49db7e050e91b2983d5932c7353ed8a09"
+  "monthlyDigest": "d5e1e523195a97265429061a955ad1bb115a3bc174a9801a18c89ba4c41e21f1",
+  "stepsDigest": "24b71dba21df291538e62c1bf2fac6c3570cbcb812a1aa98697ecacbeee4449a"
 }

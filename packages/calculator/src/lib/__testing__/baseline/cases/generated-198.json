@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 99300,
     "timeHorizonYears": 29,
-    "startDate": "2026-06-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.060782981207654005,
       "variance": 0.01709691565228799,
@@ -16,44 +15,43 @@
     "contributions": [
       {
         "id": "401k-roth",
-        "name": "Roth 401(k) contribution",
         "type": "salaryPercent",
         "amount": 1.99,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "Roth 401(k) contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "espp",
-        "name": "ESPP contribution",
         "type": "salaryPercent",
         "amount": 1.94,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": false
+        "name": "ESPP contribution",
+        "enabled": false,
+        "salaryBasis": "monthly"
       },
       {
         "id": "annual-bonus",
-        "name": "Annual bonus contribution",
         "type": "salaryPercent",
         "amount": 2.58,
-        "salaryBasis": "annual",
         "timing": {
           "frequency": "annual",
           "month": 3,
           "placement": "start"
         },
-        "enabled": true
+        "name": "Annual bonus contribution",
+        "enabled": true,
+        "salaryBasis": "annual"
       },
       {
         "id": "rsu-vesting",
-        "name": "RSU vesting proceeds",
         "type": "flat",
         "amount": 9927,
         "timing": {
@@ -61,9 +59,11 @@
           "month": 11,
           "placement": "end"
         },
+        "name": "RSU vesting proceeds",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-06-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -703,6 +703,6 @@
       }
     ]
   },
-  "monthlyDigest": "4dae0fae88c559034390d79113b21d6e8fea08c4e891c9864d65e4fd4879b39e",
-  "stepsDigest": "c085ba89b56834ed65dbd2fb75c71edaa626210524ca459c6566289a92136262"
+  "monthlyDigest": "83187429859d47c3d53935d77a78740c53df89f540a1d95e1fe79b562bc2e7f0",
+  "stepsDigest": "e0b52b6ddf180cf0ae72a0f26db6778cd3b63477131ad685acd2bf3ab518554d"
 }

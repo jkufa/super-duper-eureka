@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 35000,
     "timeHorizonYears": 4,
-    "startDate": "2026-01-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.05,
       "variance": 0.02,
@@ -16,66 +15,67 @@
     "contributions": [
       {
         "id": "day-31",
-        "enabled": true,
         "type": "flat",
         "amount": 310,
         "timing": {
           "frequency": "monthly",
           "day": 31
-        }
+        },
+        "enabled": true
       },
       {
         "id": "day-29",
-        "enabled": true,
         "type": "flat",
         "amount": 290,
         "timing": {
           "frequency": "monthly",
           "day": 29
-        }
+        },
+        "enabled": true
       },
       {
         "id": "day-1",
-        "enabled": true,
         "type": "flat",
         "amount": 100,
         "timing": {
           "frequency": "monthly",
           "day": 1
-        }
+        },
+        "enabled": true
       },
       {
         "id": "placed-end",
-        "enabled": true,
         "type": "flat",
         "amount": 220,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
-        }
+        },
+        "enabled": true
       },
       {
         "id": "placed-start",
-        "enabled": true,
         "type": "flat",
         "amount": 110,
         "timing": {
           "frequency": "monthly",
           "placement": "start"
-        }
+        },
+        "enabled": true
       },
       {
         "id": "feb-29",
-        "enabled": true,
         "type": "flat",
         "amount": 2900,
         "timing": {
           "frequency": "annual",
           "month": 1,
           "day": 29
-        }
+        },
+        "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-01-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -169,6 +169,6 @@
       }
     ]
   },
-  "monthlyDigest": "70e8f90539ceb7cffc012bed4887d64b57be13bf70cb92eb0866f9e06ea4dd45",
-  "stepsDigest": "ecb5418e07e248a549d710ce74a7d7b0d19f374f1f6e91ae0897d5e7b03a966e"
+  "monthlyDigest": "c00badf20e4b5491df839fcd355e1b9586cf15e709dc5744ed4df861aa8043f6",
+  "stepsDigest": "bc3404a77d2dbde2c5f74a109ea38a0931bce569eb614ce964f4def8726e6b7f"
 }

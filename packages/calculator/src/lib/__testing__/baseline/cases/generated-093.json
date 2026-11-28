@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 29800,
     "timeHorizonYears": 41,
-    "startDate": "2026-09-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.06189828928528409,
       "variance": 0.017937728341405744,
@@ -16,18 +15,17 @@
     "contributions": [
       {
         "id": "hsa-employee",
-        "name": "HSA employee contribution",
         "type": "flat",
         "amount": 147,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "HSA employee contribution",
         "enabled": true
       },
       {
         "id": "ira",
-        "name": "IRA contribution",
         "type": "flat",
         "amount": 3556,
         "timing": {
@@ -35,44 +33,46 @@
           "month": 3,
           "placement": "end"
         },
+        "name": "IRA contribution",
         "enabled": true
       },
       {
         "id": "brokerage",
-        "name": "Brokerage auto-invest",
         "type": "flat",
         "amount": 1389,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Brokerage auto-invest",
         "enabled": true
       },
       {
         "id": "annual-bonus",
-        "name": "Annual bonus contribution",
         "type": "salaryPercent",
         "amount": 6.72,
-        "salaryBasis": "annual",
         "timing": {
           "frequency": "annual",
           "month": 8,
           "placement": "start"
         },
-        "enabled": true
+        "name": "Annual bonus contribution",
+        "enabled": true,
+        "salaryBasis": "annual"
       },
       {
         "id": "college-529",
-        "name": "529 contribution",
         "type": "flat",
         "amount": 61,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "529 contribution",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-09-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -964,6 +964,6 @@
       }
     ]
   },
-  "monthlyDigest": "62b6cbc21072354a7c41d2524c84d25d819064150cf7efd706ba28bd4385d06f",
-  "stepsDigest": "61e6ee3b4871d94f6a7090a7b4ff511f885625d057b440ce190652312e11adef"
+  "monthlyDigest": "6076a8f14d32b84a392e8d8174dd61f6d952c4a731a0bff74abf90d34faf5781",
+  "stepsDigest": "536ccdb45f948c5f4388bcd3b6f6159a267cc27b062c085c6cbf1539196a83dd"
 }

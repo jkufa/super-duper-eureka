@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 269800,
     "timeHorizonYears": 20,
-    "startDate": "2026-03-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.06094288302161001,
       "variance": 0.019866403342886266,
@@ -16,31 +15,30 @@
     "contributions": [
       {
         "id": "401k-employee",
-        "name": "401(k) employee contribution",
         "type": "salaryPercent",
         "amount": 5.9,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employee contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-roth",
-        "name": "Roth 401(k) contribution",
         "type": "salaryPercent",
         "amount": 5.86,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "Roth 401(k) contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "ira",
-        "name": "IRA contribution",
         "type": "flat",
         "amount": 4247,
         "timing": {
@@ -48,45 +46,47 @@
           "month": 0,
           "placement": "start"
         },
+        "name": "IRA contribution",
         "enabled": true
       },
       {
         "id": "brokerage",
-        "name": "Brokerage auto-invest",
         "type": "flat",
         "amount": 443,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Brokerage auto-invest",
         "enabled": true
       },
       {
         "id": "espp",
-        "name": "ESPP contribution",
         "type": "salaryPercent",
         "amount": 6.48,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": false
+        "name": "ESPP contribution",
+        "enabled": false,
+        "salaryBasis": "monthly"
       },
       {
         "id": "annual-bonus",
-        "name": "Annual bonus contribution",
         "type": "salaryPercent",
         "amount": 8.79,
-        "salaryBasis": "annual",
         "timing": {
           "frequency": "annual",
           "month": 6,
           "placement": "start"
         },
-        "enabled": true
+        "name": "Annual bonus contribution",
+        "enabled": true,
+        "salaryBasis": "annual"
       }
-    ]
+    ],
+    "startDate": "2026-03-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -537,6 +537,6 @@
       }
     ]
   },
-  "monthlyDigest": "8db5ac79332340b4d07f6235dd4d5dacef4c85a792e78f470260beb2a7580c10",
-  "stepsDigest": "53826c296a3720af8c6b4aeb21a5c33bcf2c3ae4bfa38cb1d281694e630454db"
+  "monthlyDigest": "890365880e9080b858aad31d9e153b1986507b8ce4ec93b4db7595368b281f63",
+  "stepsDigest": "d28d206d0721e66492627d24072ed15be99a5f58336e72379cd8eec709efbbae"
 }

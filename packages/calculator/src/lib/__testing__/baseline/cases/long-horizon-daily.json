@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 150000,
     "timeHorizonYears": 40,
-    "startDate": "2026-07-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.06,
       "variance": 0.02,
@@ -16,46 +15,47 @@
     "contributions": [
       {
         "id": "401k",
-        "enabled": true,
         "type": "salaryPercent",
         "amount": 8,
-        "salaryBasis": "perContribution",
         "timing": {
           "frequency": "monthly",
           "day": 15
-        }
+        },
+        "enabled": true,
+        "salaryBasis": "perContribution"
       },
       {
         "id": "ira",
-        "enabled": true,
         "type": "flat",
         "amount": 7000,
-        "growth": {
-          "type": "percent",
-          "amount": 2,
-          "cadence": "annual"
-        },
         "timing": {
           "frequency": "annual",
           "month": 3,
           "day": 15
+        },
+        "enabled": true,
+        "growth": {
+          "type": "percent",
+          "amount": 2,
+          "cadence": "annual"
         }
       },
       {
         "id": "brokerage",
-        "enabled": true,
         "type": "flat",
         "amount": 500,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "enabled": true,
         "yearRange": {
           "start": 10,
           "end": 25
         }
       }
-    ]
+    ],
+    "startDate": "2026-07-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -926,6 +926,6 @@
       }
     ]
   },
-  "monthlyDigest": "05433edefaf2c1782d4c6c2f3c795873d0c1f8188fd1d471d1b4061aec070ce2",
-  "stepsDigest": "2f044c42bf59af075370b41fadf51c1ec3339b93f70cb943d158b8b48fcc7318"
+  "monthlyDigest": "d44fbd8381087fa3cb1fbf78f7ad10079ba9b11e423390a439297e63bbdbc64d",
+  "stepsDigest": "28fb021041b24b6aa747457bc8851cf92b904a69667ad6fb8957a517b3dde55a"
 }

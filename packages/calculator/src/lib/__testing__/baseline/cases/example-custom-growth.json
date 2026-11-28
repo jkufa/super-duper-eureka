@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 50000,
     "timeHorizonYears": 5,
-    "startDate": "2026-01-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.05,
       "variance": 0.01,
@@ -16,39 +15,40 @@
     "contributions": [
       {
         "id": "bonus",
-        "name": "Annual Bonus",
-        "enabled": true,
         "type": "flat",
         "amount": 2000,
-        "growth": {
-          "type": "percent",
-          "amount": 5,
-          "cadence": "annual"
-        },
         "timing": {
           "frequency": "annual",
           "month": 11,
           "placement": "start"
+        },
+        "name": "Annual Bonus",
+        "enabled": true,
+        "growth": {
+          "type": "percent",
+          "amount": 5,
+          "cadence": "annual"
         }
       },
       {
         "id": "espp",
-        "name": "ESPP",
-        "enabled": true,
         "type": "salaryPercent",
         "amount": 4,
-        "salaryBasis": "monthly",
+        "timing": {
+          "frequency": "monthly",
+          "placement": "end"
+        },
+        "name": "ESPP",
+        "enabled": true,
         "growth": {
           "type": "flat",
           "amount": 0.05,
           "cadence": "monthly"
         },
-        "timing": {
-          "frequency": "monthly",
-          "placement": "end"
-        }
+        "salaryBasis": "monthly"
       }
-    ]
+    ],
+    "startDate": "2026-01-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -163,6 +163,6 @@
       }
     ]
   },
-  "monthlyDigest": "fc0f5d9447b8473995e24e53d4ea043e498e00e87e96c70df3c91c695444e399",
-  "stepsDigest": "9a3a58b1f522fe951f0b6a736019d0c58a57684220b4cde119f542bdf18ca625"
+  "monthlyDigest": "fc2bb07d027e331faf5447cb4a110084bf80e3775de579ce3074068ce6ad972e",
+  "stepsDigest": "bc029082d771b86dc4aaef1d4cf89b7039c298da366606d3442f6e61424b6959"
 }

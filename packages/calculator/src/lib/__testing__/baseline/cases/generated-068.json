@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 812300,
     "timeHorizonYears": 30,
-    "startDate": "2026-08-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.061752081649066794,
       "variance": 0.019233973993027433,
@@ -16,66 +15,65 @@
     "contributions": [
       {
         "id": "401k-roth",
-        "name": "Roth 401(k) contribution",
         "type": "salaryPercent",
         "amount": 4.61,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "Roth 401(k) contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "hsa-employer",
-        "name": "HSA employer contribution",
         "type": "flat",
         "amount": 43,
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
+        "name": "HSA employer contribution",
         "enabled": true
       },
       {
         "id": "brokerage",
-        "name": "Brokerage auto-invest",
         "type": "flat",
         "amount": 413,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Brokerage auto-invest",
         "enabled": false
       },
       {
         "id": "espp",
-        "name": "ESPP contribution",
         "type": "salaryPercent",
         "amount": 5.91,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "ESPP contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "annual-bonus",
-        "name": "Annual bonus contribution",
         "type": "salaryPercent",
         "amount": 9.58,
-        "salaryBasis": "annual",
         "timing": {
           "frequency": "annual",
           "month": 9,
           "placement": "start"
         },
-        "enabled": false
+        "name": "Annual bonus contribution",
+        "enabled": false,
+        "salaryBasis": "annual"
       },
       {
         "id": "rsu-vesting",
-        "name": "RSU vesting proceeds",
         "type": "flat",
         "amount": 35272,
         "timing": {
@@ -83,20 +81,22 @@
           "month": 0,
           "placement": "end"
         },
+        "name": "RSU vesting proceeds",
         "enabled": true
       },
       {
         "id": "crypto",
-        "name": "Crypto allocation",
         "type": "flat",
         "amount": 70,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Crypto allocation",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-08-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -757,6 +757,6 @@
       }
     ]
   },
-  "monthlyDigest": "87b54ac5e8bb509da94a6fa619f6f672b8fc947e00a8455529322b8f992574db",
-  "stepsDigest": "47dbf83b1dbc0af4af070bb79676fe81dd9e4909bfa586f967867036a15d0ee8"
+  "monthlyDigest": "b7f409b367ed6aff9c7335321e18d9dc4e1ee434bb010122a4c22f6184d48630",
+  "stepsDigest": "e51d75fc57ef02011574eac6a19cd6e4b7e408d55116084c20558d1df927f183"
 }

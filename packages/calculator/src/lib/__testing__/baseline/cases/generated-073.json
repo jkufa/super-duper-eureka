@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 146000,
     "timeHorizonYears": 22,
-    "startDate": "2026-01-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.05074551234887507,
       "variance": 0.016731845487833033,
@@ -16,31 +15,30 @@
     "contributions": [
       {
         "id": "401k-employee",
-        "name": "401(k) employee contribution",
         "type": "salaryPercent",
         "amount": 5.12,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employee contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-match",
-        "name": "401(k) employer match",
         "type": "salaryPercent",
         "amount": 3.32,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employer match",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "hsa-employer",
-        "name": "HSA employer contribution",
         "type": "flat",
         "amount": 192,
         "timing": {
@@ -48,11 +46,11 @@
           "month": 9,
           "placement": "start"
         },
+        "name": "HSA employer contribution",
         "enabled": false
       },
       {
         "id": "ira",
-        "name": "IRA contribution",
         "type": "flat",
         "amount": 3021,
         "timing": {
@@ -60,34 +58,36 @@
           "month": 11,
           "placement": "end"
         },
+        "name": "IRA contribution",
         "enabled": true
       },
       {
         "id": "espp",
-        "name": "ESPP contribution",
         "type": "salaryPercent",
         "amount": 5.13,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": false
+        "name": "ESPP contribution",
+        "enabled": false,
+        "salaryBasis": "monthly"
       },
       {
         "id": "annual-bonus",
-        "name": "Annual bonus contribution",
         "type": "salaryPercent",
         "amount": 8.17,
-        "salaryBasis": "annual",
         "timing": {
           "frequency": "annual",
           "month": 3,
           "placement": "end"
         },
-        "enabled": true
+        "name": "Annual bonus contribution",
+        "enabled": true,
+        "salaryBasis": "annual"
       }
-    ]
+    ],
+    "startDate": "2026-01-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -559,6 +559,6 @@
       }
     ]
   },
-  "monthlyDigest": "d1004f19220d20634e4eec910c61233061febaeeddf9a06edaeb162dfd00c719",
-  "stepsDigest": "38b4a854a64be990d6fc8353062b19de7fb7723c230d36da67d5f3bb7e12d014"
+  "monthlyDigest": "dea5055027fc7575d869317246c15f2b8be1bb7abbd4eeb332c74fc04958ef0e",
+  "stepsDigest": "f73218afe871dff6a7336e6e9461c2573deb851a746f3cb813e72ca0d5b6659c"
 }

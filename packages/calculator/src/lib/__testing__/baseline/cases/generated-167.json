@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 68700,
     "timeHorizonYears": 24,
-    "startDate": "2026-11-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.05641043009571401,
       "variance": 0.014762732686335536,
@@ -16,43 +15,42 @@
     "contributions": [
       {
         "id": "401k-employee",
-        "name": "401(k) employee contribution",
         "type": "salaryPercent",
         "amount": 7.73,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employee contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-match",
-        "name": "401(k) employer match",
         "type": "salaryPercent",
         "amount": 5.08,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employer match",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-roth",
-        "name": "Roth 401(k) contribution",
         "type": "salaryPercent",
         "amount": 9.75,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "Roth 401(k) contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "ira",
-        "name": "IRA contribution",
         "type": "flat",
         "amount": 6230,
         "timing": {
@@ -60,35 +58,35 @@
           "month": 8,
           "placement": "start"
         },
+        "name": "IRA contribution",
         "enabled": true
       },
       {
         "id": "brokerage",
-        "name": "Brokerage auto-invest",
         "type": "flat",
         "amount": 574,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "Brokerage auto-invest",
         "enabled": true
       },
       {
         "id": "annual-bonus",
-        "name": "Annual bonus contribution",
         "type": "salaryPercent",
         "amount": 4.62,
-        "salaryBasis": "annual",
         "timing": {
           "frequency": "annual",
           "month": 9,
           "placement": "start"
         },
-        "enabled": false
+        "name": "Annual bonus contribution",
+        "enabled": false,
+        "salaryBasis": "annual"
       },
       {
         "id": "rsu-vesting",
-        "name": "RSU vesting proceeds",
         "type": "flat",
         "amount": 4119,
         "timing": {
@@ -96,11 +94,11 @@
           "month": 2,
           "placement": "start"
         },
+        "name": "RSU vesting proceeds",
         "enabled": true
       },
       {
         "id": "crypto",
-        "name": "Crypto allocation",
         "type": "flat",
         "amount": 324,
         "timing": {
@@ -108,9 +106,11 @@
           "month": 2,
           "placement": "start"
         },
+        "name": "Crypto allocation",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-11-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -645,6 +645,6 @@
       }
     ]
   },
-  "monthlyDigest": "bebc525b79e11cf51cf3c9193d6f981a6dba806d85643151e6bf558a0be81b2d",
-  "stepsDigest": "f41ba7ec502ee6896313f4973ca90e84ff031ab3c3cc6af026223b9929bf1e2c"
+  "monthlyDigest": "d49943220b7549e6fbb6cd22f54ceb900743d77bc81fd96e0c00358a31d560b8",
+  "stepsDigest": "307f9be30fe473a01fec51a31249ba8230f1eed11dffd9d55f69b8720c08b4e4"
 }

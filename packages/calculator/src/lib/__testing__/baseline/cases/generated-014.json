@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 31600,
     "timeHorizonYears": 37,
-    "startDate": "2026-02-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.05994676306768791,
       "variance": 0.021903159727001166,
@@ -16,54 +15,53 @@
     "contributions": [
       {
         "id": "401k-employee",
-        "name": "401(k) employee contribution",
         "type": "salaryPercent",
         "amount": 7.31,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employee contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-match",
-        "name": "401(k) employer match",
         "type": "salaryPercent",
         "amount": 1.79,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "401(k) employer match",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "401k-roth",
-        "name": "Roth 401(k) contribution",
         "type": "salaryPercent",
         "amount": 6.2,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "Roth 401(k) contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "hsa-employee",
-        "name": "HSA employee contribution",
         "type": "flat",
         "amount": 133,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "HSA employee contribution",
         "enabled": true
       },
       {
         "id": "ira",
-        "name": "IRA contribution",
         "type": "flat",
         "amount": 5708,
         "timing": {
@@ -71,11 +69,11 @@
           "month": 7,
           "placement": "start"
         },
+        "name": "IRA contribution",
         "enabled": true
       },
       {
         "id": "rsu-vesting",
-        "name": "RSU vesting proceeds",
         "type": "flat",
         "amount": 5974,
         "timing": {
@@ -83,9 +81,11 @@
           "month": 7,
           "placement": "end"
         },
+        "name": "RSU vesting proceeds",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-02-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -893,6 +893,6 @@
       }
     ]
   },
-  "monthlyDigest": "dfd3d58e25b38048e3f9e14f913a8bb292d66b709f1c964784a08f9cfe874046",
-  "stepsDigest": "4c494ec81e779fe23617e00490d93f6839febcc2f2dfa58d7c713b92a51947ae"
+  "monthlyDigest": "cd47fbb96e52cbf37ff7f77ce403500b297edea611f081e36f8db9ff1a2c3b3d",
+  "stepsDigest": "9c448cfbaed5b594f8e370606098b417e9b20ee505c28f59ed7963ae5628a777"
 }

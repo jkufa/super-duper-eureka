@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 72400,
     "timeHorizonYears": 29,
-    "startDate": "2026-05-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.05591135662733673,
       "variance": 0.020354168788800378,
@@ -16,30 +15,29 @@
     "contributions": [
       {
         "id": "hsa-employer",
-        "name": "HSA employer contribution",
         "type": "flat",
         "amount": 103,
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
+        "name": "HSA employer contribution",
         "enabled": true
       },
       {
         "id": "espp",
-        "name": "ESPP contribution",
         "type": "salaryPercent",
         "amount": 5.77,
-        "salaryBasis": "monthly",
         "timing": {
           "frequency": "monthly",
           "placement": "start"
         },
-        "enabled": true
+        "name": "ESPP contribution",
+        "enabled": true,
+        "salaryBasis": "monthly"
       },
       {
         "id": "rsu-vesting",
-        "name": "RSU vesting proceeds",
         "type": "flat",
         "amount": 17157,
         "timing": {
@@ -47,20 +45,22 @@
           "month": 1,
           "placement": "start"
         },
+        "name": "RSU vesting proceeds",
         "enabled": true
       },
       {
         "id": "college-529",
-        "name": "529 contribution",
         "type": "flat",
         "amount": 137,
         "timing": {
           "frequency": "monthly",
           "placement": "end"
         },
+        "name": "529 contribution",
         "enabled": true
       }
-    ]
+    ],
+    "startDate": "2026-05-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -700,6 +700,6 @@
       }
     ]
   },
-  "monthlyDigest": "f7d66eadf711a11bbc7c4d254fc1bfee0b4f16b36453804471f909cc4cf4c99d",
-  "stepsDigest": "d40f402b9ee4fbfb8a41d70522ab66200dbdc9ecc3884488383550e92c9bcfe8"
+  "monthlyDigest": "b80534e21fe467fb2efe092666a4044c5698fc867e35bab353a9395eaa0ac371",
+  "stepsDigest": "60a69e715f1d375ab34f13e4912f019a99fdfddcb13d0bce398418f5865e245f"
 }

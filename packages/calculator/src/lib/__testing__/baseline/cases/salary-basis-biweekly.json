@@ -3,7 +3,6 @@
   "input": {
     "currentBalance": 42000,
     "timeHorizonYears": 9,
-    "startDate": "2026-08-01T00:00:00.000Z",
     "interest": {
       "annualRate": 0.05,
       "variance": 0.02,
@@ -16,16 +15,17 @@
     "contributions": [
       {
         "id": "paycheck",
-        "enabled": true,
         "type": "salaryPercent",
         "amount": 10,
-        "salaryBasis": "biweekly",
         "timing": {
           "frequency": "monthly",
           "placement": "end"
-        }
+        },
+        "enabled": true,
+        "salaryBasis": "biweekly"
       }
-    ]
+    ],
+    "startDate": "2026-08-01T00:00:00.000Z"
   },
   "yearly": {
     "baseline": [
@@ -245,6 +245,6 @@
       }
     ]
   },
-  "monthlyDigest": "5c6b641903d4b3752f452d007b6b271cfe01d1d91dccc84707bdc9c4599692fa",
-  "stepsDigest": "673a11bf83b36c6ed34c5cf1556282d425285126916b290a5c3f2b54bc4a68f5"
+  "monthlyDigest": "c3e229a871e28c16e851f22e1f4b14daf464861ac3a5c67d60fc764c40cbc637",
+  "stepsDigest": "414e58c9cd4bc77a1816c12639ea9350de39a41ecb731bfc16a1eeb4f67f1e4d"
 }
