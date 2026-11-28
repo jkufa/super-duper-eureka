@@ -1,0 +1,80 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.0656,
+      "balance": 0,
+      "balanceAsOf": "2054-10-03",
+      "contributions": [
+        {
+          "amount": 18.35,
+          "endDate": "2055-11-24",
+          "id": "a1r1",
+          "salaryBasis": "weekly",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 845.55,
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "salaryBasis": "perContribution",
+          "timing": {
+            "day": 14,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1105.84,
+          "id": "a1r3",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2054-10-03"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 13.2,
+          "enabled": false,
+          "id": "a1r4",
+          "salaryBasis": "perContribution",
+          "startDate": "2050-10-31",
+          "timing": {
+            "day": 14,
+            "frequency": "annual",
+            "month": 9,
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 1051.65,
+          "id": "a1r5",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2054-10-09"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": false,
+      "kind": "pretax",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2054-10-09",
+  "interest": {
+    "annualRate": 0.0913,
+    "compounding": "daily",
+    "variance": 0.0109
+  },
+  "salary": {
+    "annualBase": 184072.79,
+    "annualRaiseRate": 0,
+    "asOf": "2051-03-24"
+  },
+  "version": 1
+}

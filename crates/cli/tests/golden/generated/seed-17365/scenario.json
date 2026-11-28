@@ -1,0 +1,93 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.0277,
+      "balance": 72742.15,
+      "balanceAsOf": "2052-11-01",
+      "contributions": [
+        {
+          "amount": 11.07,
+          "endDate": "2065-04-15",
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "salaryBasis": "daily",
+          "startDate": "2053-06-10",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 8.02,
+          "id": "a1r2",
+          "salaryBasis": "perContribution",
+          "startDate": "2045-10-10",
+          "timing": {
+            "frequency": "annual",
+            "month": 5
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 2546.35,
+          "growth": {
+            "amount": 2.74,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a1r3",
+          "startDate": "2050-06-29",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 12.24,
+          "growth": {
+            "amount": 5.73,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a1r4",
+          "salaryBasis": "perContribution",
+          "startDate": "2045-12-31",
+          "timing": {
+            "day": 20,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 2.98,
+          "endDate": "2053-03-02",
+          "id": "a1r5",
+          "salaryBasis": "annual",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2052-11-02",
+  "interest": {
+    "annualRate": 0.0079,
+    "compounding": "daily"
+  },
+  "salary": {
+    "annualBase": 18073.41,
+    "annualRaiseRate": 0.0574,
+    "asOf": "2046-05-27"
+  },
+  "version": 1
+}

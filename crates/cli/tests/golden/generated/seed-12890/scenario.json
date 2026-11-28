@@ -1,0 +1,79 @@
+{
+  "accounts": [
+    {
+      "balance": 427288.4,
+      "balanceAsOf": "2052-12-22",
+      "contributions": [
+        {
+          "amount": 2867.43,
+          "id": "a1r1",
+          "startDate": "2052-12-31",
+          "timing": {
+            "frequency": "annual",
+            "month": 2
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1.32,
+          "id": "a1r2",
+          "timing": {
+            "day": 4,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 4710.91,
+          "id": "a1r3",
+          "timing": {
+            "day": 31,
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0,
+          "enabled": true,
+          "id": "a1r4",
+          "name": "Rule a1r4",
+          "startDate": "2053-03-03",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 13.19,
+          "enabled": false,
+          "id": "a1r5",
+          "startDate": "2053-01-30",
+          "timing": {
+            "day": 18,
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2053-01-01",
+  "interest": {
+    "annualRate": 0.0569,
+    "compounding": "daily",
+    "variance": 0.038
+  },
+  "salary": {
+    "annualBase": 28445.24,
+    "annualRaiseRate": -0.1294,
+    "asOf": "2052-02-29"
+  },
+  "version": 1
+}

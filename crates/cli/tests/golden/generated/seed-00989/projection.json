@@ -1,0 +1,192 @@
+{
+  "today": "2007-05-01",
+  "endDate": "2007-05-16",
+  "effectiveRate": 0.1134,
+  "staleAccounts": [],
+  "salaryByYear": [
+    {
+      "year": 2007,
+      "salary": 0.0
+    }
+  ],
+  "bands": {
+    "baseline": {
+      "total": {
+        "startBalance": 0.53,
+        "finalBalance": 0.5323059405458368,
+        "totalContributions": 0.0,
+        "totalInterest": 0.002305940545836816,
+        "monthly": [
+          {
+            "year": 2007,
+            "month": 5,
+            "balance": 0.5323059405458368,
+            "contributions": 0.0,
+            "interest": 0.002305940545836816
+          }
+        ],
+        "yearly": [
+          {
+            "year": 2007,
+            "balance": 0.5323059405458368,
+            "contributions": 0.0,
+            "interest": 0.002305940545836816,
+            "weightedRate": 0.1134
+          }
+        ]
+      },
+      "accounts": [
+        {
+          "accountId": "a1",
+          "included": true,
+          "annualRate": 0.1134,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 0.53,
+            "finalBalance": 0.5323059405458368,
+            "totalContributions": 0.0,
+            "totalInterest": 0.002305940545836816,
+            "monthly": [
+              {
+                "year": 2007,
+                "month": 5,
+                "balance": 0.5323059405458368,
+                "contributions": 0.0,
+                "interest": 0.002305940545836816
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2007,
+                "balance": 0.5323059405458368,
+                "contributions": 0.0,
+                "interest": 0.002305940545836816
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "positive": {
+      "total": {
+        "startBalance": 0.53,
+        "finalBalance": 0.5323059405458368,
+        "totalContributions": 0.0,
+        "totalInterest": 0.002305940545836816,
+        "monthly": [
+          {
+            "year": 2007,
+            "month": 5,
+            "balance": 0.5323059405458368,
+            "contributions": 0.0,
+            "interest": 0.002305940545836816
+          }
+        ],
+        "yearly": [
+          {
+            "year": 2007,
+            "balance": 0.5323059405458368,
+            "contributions": 0.0,
+            "interest": 0.002305940545836816
+          }
+        ]
+      },
+      "accounts": [
+        {
+          "accountId": "a1",
+          "included": true,
+          "annualRate": 0.1134,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 0.53,
+            "finalBalance": 0.5323059405458368,
+            "totalContributions": 0.0,
+            "totalInterest": 0.002305940545836816,
+            "monthly": [
+              {
+                "year": 2007,
+                "month": 5,
+                "balance": 0.5323059405458368,
+                "contributions": 0.0,
+                "interest": 0.002305940545836816
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2007,
+                "balance": 0.5323059405458368,
+                "contributions": 0.0,
+                "interest": 0.002305940545836816
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "negative": {
+      "total": {
+        "startBalance": 0.53,
+        "finalBalance": 0.5323059405458368,
+        "totalContributions": 0.0,
+        "totalInterest": 0.002305940545836816,
+        "monthly": [
+          {
+            "year": 2007,
+            "month": 5,
+            "balance": 0.5323059405458368,
+            "contributions": 0.0,
+            "interest": 0.002305940545836816
+          }
+        ],
+        "yearly": [
+          {
+            "year": 2007,
+            "balance": 0.5323059405458368,
+            "contributions": 0.0,
+            "interest": 0.002305940545836816
+          }
+        ]
+      },
+      "accounts": [
+        {
+          "accountId": "a1",
+          "included": true,
+          "annualRate": 0.1134,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 0.53,
+            "finalBalance": 0.5323059405458368,
+            "totalContributions": 0.0,
+            "totalInterest": 0.002305940545836816,
+            "monthly": [
+              {
+                "year": 2007,
+                "month": 5,
+                "balance": 0.5323059405458368,
+                "contributions": 0.0,
+                "interest": 0.002305940545836816
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2007,
+                "balance": 0.5323059405458368,
+                "contributions": 0.0,
+                "interest": 0.002305940545836816
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

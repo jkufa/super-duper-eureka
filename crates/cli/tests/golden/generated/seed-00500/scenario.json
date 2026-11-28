@@ -1,0 +1,186 @@
+{
+  "accounts": [
+    {
+      "balance": 379687.54,
+      "balanceAsOf": "2043-05-26",
+      "contributions": [],
+      "id": "a1",
+      "included": false,
+      "kind": "other",
+      "name": "Account 1"
+    },
+    {
+      "annualRate": 0.0576,
+      "balance": 262000.95,
+      "balanceAsOf": "2033-08-16",
+      "contributions": [
+        {
+          "amount": 3228.18,
+          "enabled": true,
+          "id": "a2r1",
+          "timing": {
+            "day": 30,
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 100,
+          "growth": {
+            "amount": 3,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a2x",
+          "timing": {
+            "frequency": "annual",
+            "month": 5
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2794.63,
+          "enabled": true,
+          "id": "a2r2",
+          "timing": {
+            "day": 14,
+            "frequency": "annual",
+            "month": 1
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2887.17,
+          "enabled": true,
+          "growth": {
+            "amount": 9.22,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a2r3",
+          "startDate": "2043-06-10",
+          "timing": {
+            "day": 20,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 4719.91,
+          "enabled": false,
+          "id": "a2r4",
+          "name": "Rule a2r4",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2043-05-27"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 3357.93,
+          "id": "a2r5",
+          "startDate": "2037-08-12",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a2",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 2"
+    },
+    {
+      "annualRate": 0.0576,
+      "balance": 193405.54,
+      "balanceAsOf": "2043-05-27",
+      "contributions": [
+        {
+          "amount": 0,
+          "enabled": true,
+          "growth": {
+            "amount": 4.96,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a3r1",
+          "name": "Rule a3r1",
+          "startDate": "2037-07-31",
+          "timing": {
+            "frequency": "annual",
+            "month": 2,
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a3",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 3"
+    },
+    {
+      "annualRate": 0.0576,
+      "balance": 490237.38,
+      "balanceAsOf": "2037-09-01",
+      "contributions": [
+        {
+          "amount": 218.92,
+          "enabled": true,
+          "id": "a4r1",
+          "name": "Rule a4r1",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 3140.96,
+          "id": "a4r2",
+          "name": "Rule a4r2",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2043-05-27"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 4331.46,
+          "id": "a4r3",
+          "name": "Rule a4r3",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2043-05-27"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a4",
+      "included": true,
+      "kind": "other",
+      "name": "Account 4"
+    },
+    {
+      "balance": 513000234218.55,
+      "balanceAsOf": "2040-02-29",
+      "contributions": [],
+      "id": "a5",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 5"
+    }
+  ],
+  "endDate": "2043-05-28",
+  "interest": {
+    "annualRate": 0.0576
+  },
+  "salary": {
+    "annualBase": 259402.21,
+    "annualRaiseRate": -0.1659,
+    "asOf": "2040-10-18"
+  },
+  "version": 1
+}

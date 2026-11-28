@@ -1,0 +1,146 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.0551,
+      "balance": 697660636277.17,
+      "balanceAsOf": "2018-12-24",
+      "contributions": [
+        {
+          "amount": 4704.19,
+          "enabled": true,
+          "id": "a1r1",
+          "salaryBasis": "weekly",
+          "startDate": "2019-08-20",
+          "timing": {
+            "day": 30,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 13.61,
+          "growth": {
+            "amount": 7.84,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "salaryBasis": "annual",
+          "startDate": "2012-08-18",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 14.7,
+          "id": "a1r3",
+          "timing": {
+            "frequency": "annual",
+            "month": 1
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 519.08,
+          "id": "a1r4",
+          "name": "Rule a1r4",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 1"
+    },
+    {
+      "balance": 222732.73,
+      "balanceAsOf": "2014-07-07",
+      "contributions": [
+        {
+          "amount": 0,
+          "id": "a2r1",
+          "name": "Rule a2r1",
+          "timing": {
+            "frequency": "annual",
+            "month": 7,
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 329.87,
+          "endDate": "2013-01-02",
+          "id": "a2r2",
+          "name": "Rule a2r2",
+          "timing": {
+            "day": 1,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 3384.97,
+          "id": "a2r3",
+          "name": "Rule a2r3",
+          "timing": {
+            "day": 30,
+            "frequency": "annual",
+            "month": 11
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2632.92,
+          "growth": {
+            "amount": 4.61,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a2r4",
+          "name": "Rule a2r4",
+          "startDate": "2015-04-30",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0,
+          "endDate": "2017-04-03",
+          "id": "a2r5",
+          "salaryBasis": "perContribution",
+          "startDate": "2016-10-23",
+          "timing": {
+            "day": 28,
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a2",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 2"
+    }
+  ],
+  "endDate": "2018-12-29",
+  "interest": {
+    "annualRate": 0.1488,
+    "compounding": "monthly",
+    "variance": 0.0349
+  },
+  "salary": {
+    "annualBase": 0,
+    "annualRaiseRate": 0,
+    "asOf": "2017-08-21"
+  },
+  "version": 1
+}

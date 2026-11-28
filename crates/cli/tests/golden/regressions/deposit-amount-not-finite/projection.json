@@ -1,0 +1,6 @@
+{
+  "error": {
+    "code": "not_finite",
+    "accountId": "nan"
+  }
+}

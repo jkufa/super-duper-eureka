@@ -1,0 +1,41 @@
+[
+  {
+    "from": "2033-07-11",
+    "to": "2033-08-01",
+    "days": 21,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 274574.87,
+    "balanceEnd": 275912.58412773925,
+    "contributions": 0.0,
+    "interest": 1337.7141277392373,
+    "annualRate": 0.0898,
+    "deposits": []
+  },
+  {
+    "from": "2033-08-01",
+    "to": "2033-08-10",
+    "days": 9,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 275912.58412773925,
+    "balanceEnd": 276488.68329901766,
+    "contributions": 0.0,
+    "interest": 576.0991712784169,
+    "annualRate": 0.0898,
+    "deposits": []
+  },
+  {
+    "from": "2033-08-10",
+    "to": "2033-08-15",
+    "days": 5,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 276488.68329901766,
+    "balanceEnd": 276809.406661898,
+    "contributions": 0.0,
+    "interest": 320.7233628803578,
+    "annualRate": 0.0898,
+    "deposits": []
+  }
+]

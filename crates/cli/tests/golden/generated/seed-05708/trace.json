@@ -1,0 +1,15 @@
+[
+  {
+    "from": "2013-11-04",
+    "to": "2013-11-27",
+    "days": 23,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 0.2,
+    "balanceEnd": 0.20090173627083763,
+    "contributions": 0.0,
+    "interest": 0.0009017362708376187,
+    "annualRate": 0.074,
+    "deposits": []
+  }
+]

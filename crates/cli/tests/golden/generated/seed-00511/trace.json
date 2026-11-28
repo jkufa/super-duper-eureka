@@ -1,0 +1,15 @@
+[
+  {
+    "from": "2016-07-01",
+    "to": "2016-07-03",
+    "days": 2,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 164765.11,
+    "balanceEnd": 164743.1471431709,
+    "contributions": 0.0,
+    "interest": -21.96285682907858,
+    "annualRate": -0.0241,
+    "deposits": []
+  }
+]

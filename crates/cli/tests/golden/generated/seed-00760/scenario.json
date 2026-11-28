@@ -1,0 +1,143 @@
+{
+  "accounts": [
+    {
+      "balance": 0,
+      "balanceAsOf": "2057-06-01",
+      "contributions": [
+        {
+          "amount": 691.5,
+          "id": "a1r1",
+          "startDate": "2049-03-15",
+          "timing": {
+            "day": 29,
+            "frequency": "annual",
+            "month": 2
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 100,
+          "id": "a1x",
+          "timing": {
+            "day": 25.5,
+            "frequency": "annual",
+            "month": 5
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 6.88,
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "salaryBasis": "annual",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2086-12-31"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 12.97,
+          "id": "a1r3",
+          "name": "Rule a1r3",
+          "salaryBasis": "weekly",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2087-08-16"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 2693.86,
+          "id": "a1r4",
+          "name": "Rule a1r4",
+          "timing": {
+            "day": 7,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "other",
+      "name": "Account 1"
+    },
+    {
+      "annualRate": 0.1023,
+      "balance": 141917.47,
+      "balanceAsOf": "2057-06-01",
+      "contributions": [
+        {
+          "amount": 2213.08,
+          "id": "a2r1",
+          "salaryBasis": "daily",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2057-06-01"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 565.13,
+          "id": "a2r2",
+          "name": "Rule a2r2",
+          "salaryBasis": "daily",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2057-06-01"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2244.39,
+          "id": "a2r3",
+          "name": "Rule a2r3",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2056-03-16"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 17.6,
+          "id": "a2r4",
+          "name": "Rule a2r4",
+          "salaryBasis": "monthly",
+          "timing": {
+            "day": 1,
+            "frequency": "annual",
+            "month": 9,
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a2",
+      "included": true,
+      "kind": "other",
+      "name": "Account 2"
+    },
+    {
+      "annualRate": 0.0205,
+      "balance": 488624.75,
+      "balanceAsOf": "2057-06-01",
+      "contributions": [],
+      "id": "a3",
+      "included": true,
+      "kind": "other",
+      "name": "Account 3"
+    }
+  ],
+  "endDate": "2087-01-01",
+  "interest": {
+    "annualRate": 0.0438,
+    "compounding": "monthly"
+  },
+  "salary": {
+    "annualBase": 271140.75,
+    "annualRaiseRate": 0.0409,
+    "asOf": "2054-07-03"
+  },
+  "version": 1
+}

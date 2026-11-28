@@ -1,0 +1,28 @@
+[
+  {
+    "from": "2040-04-30",
+    "to": "2040-05-01",
+    "days": 1,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 420119.88,
+    "balanceEnd": 421709.83560447633,
+    "contributions": 1468.6652469166665,
+    "interest": 121.2903575596171,
+    "annualRate": 0.1088,
+    "deposits": [
+      {
+        "ruleId": "a1r2",
+        "date": "2040-04-30",
+        "amount": 620.3707939166667,
+        "bucket": "end"
+      },
+      {
+        "ruleId": "a1r5",
+        "date": "2040-04-30",
+        "amount": 848.294453,
+        "bucket": "start"
+      }
+    ]
+  }
+]

@@ -1,0 +1,71 @@
+{
+  "accounts": [
+    {
+      "balance": 6985.93,
+      "balanceAsOf": "2060-10-29",
+      "contributions": [
+        {
+          "amount": 2.31,
+          "growth": {
+            "amount": 58.68,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a1r1",
+          "startDate": "2056-11-13",
+          "timing": {
+            "frequency": "annual",
+            "month": 12
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 2683.44,
+          "id": "a1r2",
+          "timing": {
+            "day": 31,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 18.48,
+          "enabled": false,
+          "id": "a1r3",
+          "name": "Rule a1r3",
+          "salaryBasis": "monthly",
+          "startDate": "2060-10-31",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 9.49,
+          "id": "a1r4",
+          "name": "Rule a1r4",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2060-10-30"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2060-10-31",
+  "interest": {
+    "annualRate": 0.1296,
+    "compounding": "monthly"
+  },
+  "salary": {
+    "annualBase": 170585.39,
+    "annualRaiseRate": 0,
+    "asOf": "2060-02-29"
+  },
+  "version": 1
+}

@@ -1,0 +1,161 @@
+[
+  {
+    "from": "2033-03-03",
+    "to": "2033-04-01",
+    "days": 29,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 16534.13,
+    "balanceEnd": 21631.661838567845,
+    "contributions": 4919.8,
+    "interest": 177.73183856784564,
+    "annualRate": 0.1116,
+    "deposits": [
+      {
+        "ruleId": "a1r2",
+        "date": "2033-03-07",
+        "amount": 4919.8,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2033-04-01",
+    "to": "2033-05-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 21631.661838567845,
+    "balanceEnd": 21823.224982163647,
+    "contributions": 0.0,
+    "interest": 191.56314359580094,
+    "annualRate": 0.1116,
+    "deposits": []
+  },
+  {
+    "from": "2033-05-01",
+    "to": "2033-06-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 21823.224982163647,
+    "balanceEnd": 22151.469438673015,
+    "contributions": 133.8,
+    "interest": 194.44445650936999,
+    "annualRate": 0.1116,
+    "deposits": [
+      {
+        "ruleId": "a1r3",
+        "date": "2033-05-18",
+        "amount": 133.8,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2033-06-01",
+    "to": "2033-07-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 22151.469438673015,
+    "balanceEnd": 22347.635833682612,
+    "contributions": 0.0,
+    "interest": 196.16639500959653,
+    "annualRate": 0.1116,
+    "deposits": []
+  },
+  {
+    "from": "2033-07-01",
+    "to": "2033-08-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 22347.635833682612,
+    "balanceEnd": 22545.539416134226,
+    "contributions": 0.0,
+    "interest": 197.9035824516124,
+    "annualRate": 0.1116,
+    "deposits": []
+  },
+  {
+    "from": "2033-08-01",
+    "to": "2033-09-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 22545.539416134226,
+    "balanceEnd": 27688.396734942904,
+    "contributions": 4899.81,
+    "interest": 243.04731880867524,
+    "annualRate": 0.1116,
+    "deposits": [
+      {
+        "ruleId": "a1r4",
+        "date": "2033-08-01",
+        "amount": 4899.81,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2033-09-01",
+    "to": "2033-10-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 27688.396734942904,
+    "balanceEnd": 32876.79756873475,
+    "contributions": 4899.81,
+    "interest": 288.5908337918444,
+    "annualRate": 0.1116,
+    "deposits": [
+      {
+        "ruleId": "a1r4",
+        "date": "2033-09-01",
+        "amount": 4899.81,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2033-10-01",
+    "to": "2033-11-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 32876.79756873475,
+    "balanceEnd": 38111.14523644872,
+    "contributions": 4899.81,
+    "interest": 334.5376677139691,
+    "annualRate": 0.1116,
+    "deposits": [
+      {
+        "ruleId": "a1r4",
+        "date": "2033-10-01",
+        "amount": 4899.81,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2033-11-01",
+    "to": "2033-11-04",
+    "days": 3,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 38111.14523644872,
+    "balanceEnd": 43049.044375672696,
+    "contributions": 4899.81,
+    "interest": 38.08913922397877,
+    "annualRate": 0.1116,
+    "deposits": [
+      {
+        "ruleId": "a1r4",
+        "date": "2033-11-01",
+        "amount": 4899.81,
+        "bucket": "start"
+      }
+    ]
+  }
+]

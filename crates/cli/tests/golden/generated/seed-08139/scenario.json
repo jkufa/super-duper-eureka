@@ -1,0 +1,68 @@
+{
+  "accounts": [
+    {
+      "annualRate": -0.0101,
+      "balance": 29812.98,
+      "balanceAsOf": "2014-12-31",
+      "contributions": [
+        {
+          "amount": 1146.94,
+          "endDate": "2028-04-16",
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "startDate": "2014-12-31",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 3028.67,
+          "enabled": true,
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2014-12-31"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 18.98,
+          "id": "a1r3",
+          "salaryBasis": "monthly",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2014-12-31"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 2451.88,
+          "id": "a1r4",
+          "timing": {
+            "day": 28,
+            "frequency": "annual",
+            "month": 6
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2015-01-01",
+  "interest": {
+    "annualRate": -0.0101,
+    "compounding": "daily",
+    "variance": 0
+  },
+  "salary": {
+    "annualBase": 284370.87,
+    "asOf": "2014-12-31"
+  },
+  "version": 1
+}

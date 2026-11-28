@@ -1,0 +1,114 @@
+{
+  "accounts": [
+    {
+      "balance": 0,
+      "balanceAsOf": "2017-03-18",
+      "contributions": [
+        {
+          "amount": 1153.74,
+          "enabled": true,
+          "growth": {
+            "amount": 403.94,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a1r1",
+          "startDate": "2019-11-14",
+          "timing": {
+            "frequency": "annual",
+            "month": 11,
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0,
+          "id": "a1r2",
+          "salaryBasis": "perContribution",
+          "timing": {
+            "day": 29,
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 1"
+    },
+    {
+      "annualRate": 0.0145,
+      "balance": 0,
+      "balanceAsOf": "2020-08-31",
+      "contributions": [
+        {
+          "amount": 4518.1,
+          "enabled": true,
+          "growth": {
+            "amount": 8.2,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a2r1",
+          "startDate": "2023-03-29",
+          "timing": {
+            "frequency": "annual",
+            "month": 12
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 15.57,
+          "id": "a2r2",
+          "name": "Rule a2r2",
+          "salaryBasis": "annual",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2020-08-31"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 4950.51,
+          "id": "a2r3",
+          "name": "Rule a2r3",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2021-06-28"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 6.23,
+          "endDate": "2034-05-20",
+          "id": "a2r4",
+          "name": "Rule a2r4",
+          "salaryBasis": "annual",
+          "startDate": "2019-10-01",
+          "timing": {
+            "day": 2,
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a2",
+      "included": false,
+      "kind": "taxable",
+      "name": "Account 2"
+    }
+  ],
+  "endDate": "2022-02-12",
+  "interest": {
+    "annualRate": 0.0145,
+    "compounding": "daily",
+    "variance": 0.0173
+  },
+  "salary": {
+    "annualBase": 117000.24,
+    "annualRaiseRate": -0.1136,
+    "asOf": "2018-12-04"
+  },
+  "version": 2
+}

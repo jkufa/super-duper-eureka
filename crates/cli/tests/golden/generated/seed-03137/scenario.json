@@ -1,0 +1,72 @@
+{
+  "accounts": [
+    {
+      "annualRate": -0.024,
+      "balance": 270318.01,
+      "balanceAsOf": "2036-02-29",
+      "contributions": [
+        {
+          "amount": 4.1,
+          "enabled": false,
+          "id": "a1r1",
+          "salaryBasis": "biweekly",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 2.48,
+          "id": "a1r2",
+          "salaryBasis": "biweekly",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2033-11-26"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 6.79,
+          "enabled": false,
+          "id": "a1r3",
+          "salaryBasis": "monthly",
+          "timing": {
+            "frequency": "annual",
+            "month": 6,
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 4.96,
+          "enabled": true,
+          "id": "a1r4",
+          "name": "Rule a1r4",
+          "salaryBasis": "annual",
+          "startDate": "2033-08-15",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a1",
+      "included": false,
+      "kind": "pretax",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2036-03-01",
+  "interest": {
+    "annualRate": 0.0333,
+    "compounding": "daily",
+    "variance": 0.0114
+  },
+  "salary": {
+    "annualBase": 0,
+    "annualRaiseRate": 0.0528,
+    "asOf": "2036-11-02"
+  },
+  "version": 1
+}

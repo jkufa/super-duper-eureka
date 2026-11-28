@@ -1,0 +1,85 @@
+{
+  "accounts": [
+    {
+      "balance": 220378.37,
+      "balanceAsOf": "2059-07-21",
+      "contributions": [
+        {
+          "amount": 18.02,
+          "id": "a1r1",
+          "salaryBasis": "weekly",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2059-07-21"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 1823.48,
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 15.16,
+          "id": "a1r3",
+          "name": "Rule a1r3",
+          "salaryBasis": "perContribution",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 4322.54,
+          "endDate": "2055-07-21",
+          "growth": {
+            "amount": 490.95,
+            "cadence": "monthly",
+            "type": "flat"
+          },
+          "id": "a1r4",
+          "startDate": "2053-07-29",
+          "timing": {
+            "day": 28,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0.47,
+          "enabled": false,
+          "id": "a1r5",
+          "salaryBasis": "perContribution",
+          "startDate": "2053-03-31",
+          "timing": {
+            "day": 10,
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2059-07-25",
+  "interest": {
+    "annualRate": 0.1165,
+    "compounding": "daily",
+    "variance": 0
+  },
+  "salary": {
+    "annualBase": 0,
+    "annualRaiseRate": -0.1706,
+    "asOf": "2062-08-28"
+  },
+  "version": 1
+}

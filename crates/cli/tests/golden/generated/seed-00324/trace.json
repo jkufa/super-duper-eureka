@@ -1,0 +1,54 @@
+[
+  {
+    "from": "1996-02-18",
+    "to": "1996-03-01",
+    "days": 12,
+    "daysInMonth": 29,
+    "daysInYear": 366,
+    "balanceStart": 200663847428.05,
+    "balanceEnd": 200625695838.78113,
+    "contributions": 1620.97,
+    "interest": -38153210.23887513,
+    "annualRate": -0.0055,
+    "deposits": [
+      {
+        "ruleId": "a1r1",
+        "date": "1996-02-29",
+        "amount": 1620.97,
+        "bucket": "end"
+      }
+    ]
+  },
+  {
+    "from": "1996-03-01",
+    "to": "1996-03-09",
+    "days": 8,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 200625695838.78113,
+    "balanceEnd": 9999014814056818.0,
+    "contributions": 1e+16,
+    "interest": -1185811639019.1167,
+    "annualRate": -0.0055,
+    "deposits": [
+      {
+        "ruleId": "a1s1",
+        "date": "1996-03-01",
+        "amount": 1e+16,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "a1s2",
+        "date": "1996-03-01",
+        "amount": 1.0,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "a1s3",
+        "date": "1996-03-01",
+        "amount": 1.0,
+        "bucket": "start"
+      }
+    ]
+  }
+]

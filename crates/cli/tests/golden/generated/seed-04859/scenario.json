@@ -1,0 +1,91 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.1485,
+      "balance": 49951.98,
+      "balanceAsOf": "2012-02-29",
+      "contributions": [
+        {
+          "amount": 940.29,
+          "enabled": true,
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "timing": {
+            "day": 29,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 4564.42,
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "startDate": "2010-01-22",
+          "timing": {
+            "day": 4,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 3.63,
+          "growth": {
+            "amount": 347.87,
+            "cadence": "monthly",
+            "type": "flat"
+          },
+          "id": "a1r3",
+          "name": "Rule a1r3",
+          "salaryBasis": "perContribution",
+          "startDate": "2006-05-29",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 0.3,
+          "id": "a1s1",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0.6,
+          "id": "a1s2",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0.1,
+          "id": "a1s3",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2012-03-07",
+  "interest": {
+    "annualRate": -0.0035,
+    "compounding": "monthly"
+  },
+  "salary": {
+    "annualBase": 0,
+    "annualRaiseRate": 0.0533,
+    "asOf": "2012-02-29"
+  },
+  "version": 1
+}

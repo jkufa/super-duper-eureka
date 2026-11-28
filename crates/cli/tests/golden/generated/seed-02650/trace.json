@@ -1,0 +1,15 @@
+[
+  {
+    "from": "2026-07-28",
+    "to": "2026-07-31",
+    "days": 3,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 1e+308,
+    "balanceEnd": 1e+308,
+    "contributions": 0.0,
+    "interest": 0.0,
+    "annualRate": 0.0,
+    "deposits": []
+  }
+]

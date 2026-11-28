@@ -1,0 +1,47 @@
+[
+  {
+    "from": "2009-03-31",
+    "to": "2009-04-01",
+    "days": 1,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 24277.8,
+    "balanceEnd": 24284.824162275858,
+    "contributions": 0.0,
+    "interest": 7.024162275858675,
+    "annualRate": 0.1131,
+    "deposits": []
+  },
+  {
+    "from": "2009-04-01",
+    "to": "2009-04-07",
+    "days": 6,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 24284.824162275858,
+    "balanceEnd": 1.0017938118844948e+16,
+    "contributions": 1e+16,
+    "interest": 17938118820663.137,
+    "annualRate": 0.1131,
+    "deposits": [
+      {
+        "ruleId": "a1s1",
+        "date": "2009-04-01",
+        "amount": 1e+16,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "a1s2",
+        "date": "2009-04-01",
+        "amount": 1.0,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "a1s3",
+        "date": "2009-04-01",
+        "amount": 1.0,
+        "bucket": "start"
+      }
+    ]
+  }
+]

@@ -1,0 +1,15 @@
+[
+  {
+    "from": "2024-02-29",
+    "to": "2024-03-01",
+    "days": 1,
+    "daysInMonth": 29,
+    "daysInYear": 366,
+    "balanceStart": 427388.85,
+    "balanceEnd": 427399.8912066436,
+    "contributions": 0.0,
+    "interest": 11.041206643621912,
+    "annualRate": 0.0095,
+    "deposits": []
+  }
+]

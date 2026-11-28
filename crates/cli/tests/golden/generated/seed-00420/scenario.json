@@ -1,0 +1,23 @@
+{
+  "accounts": [
+    {
+      "balance": 0,
+      "balanceAsOf": "2032-05-09",
+      "contributions": [],
+      "id": "a1",
+      "included": false,
+      "kind": "pretax",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2032-09-01",
+  "interest": {
+    "annualRate": -1.47,
+    "variance": 0.0658
+  },
+  "salary": {
+    "annualBase": 220403.42,
+    "asOf": "2032-05-21"
+  },
+  "version": 1
+}

@@ -1,0 +1,121 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.1414,
+      "balance": 342213.63,
+      "balanceAsOf": "1996-07-20",
+      "contributions": [
+        {
+          "amount": 3553.72,
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "1996-08-03"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2259.6,
+          "growth": {
+            "amount": 0.62,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a1r2",
+          "startDate": "1996-07-29",
+          "timing": {
+            "frequency": "annual",
+            "month": 9
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 12.92,
+          "enabled": true,
+          "growth": {
+            "amount": 1.27,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a1r3",
+          "salaryBasis": "annual",
+          "startDate": "1996-07-30",
+          "timing": {
+            "frequency": "annual",
+            "month": 2
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 13.16,
+          "id": "a1r4",
+          "name": "Rule a1r4",
+          "salaryBasis": "weekly",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 2893.17,
+          "id": "a1r5",
+          "timing": {
+            "day": 31,
+            "frequency": "annual",
+            "month": 7,
+            "placement": "start"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 1"
+    },
+    {
+      "balance": 332446.29,
+      "balanceAsOf": "1990-04-23",
+      "contributions": [
+        {
+          "amount": 1595.15,
+          "id": "a2r1",
+          "name": "Rule a2r1",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "1994-08-01"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 4.95,
+          "endDate": "1997-09-11",
+          "id": "a2r2",
+          "name": "Rule a2r2",
+          "salaryBasis": "biweekly",
+          "timing": {
+            "day": 30,
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a2",
+      "included": true,
+      "kind": "other",
+      "name": "Account 2"
+    }
+  ],
+  "endDate": "1996-08-04",
+  "interest": {
+    "annualRate": 0.0743,
+    "compounding": "daily",
+    "variance": 0.0301
+  },
+  "salary": {
+    "annualBase": 176213.13,
+    "asOf": "1988-06-14"
+  },
+  "version": 1
+}

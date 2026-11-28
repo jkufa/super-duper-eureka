@@ -1,0 +1,61 @@
+{
+  "accounts": [
+    {
+      "balance": 19064.93,
+      "balanceAsOf": "1998-02-10",
+      "contributions": [
+        {
+          "amount": -196.8,
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "startDate": "2012-04-29",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 12.2,
+          "endDate": "2017-06-29",
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "salaryBasis": "daily",
+          "timing": {
+            "day": 12,
+            "frequency": "annual",
+            "month": 7,
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 3.08,
+          "id": "a1r3",
+          "salaryBasis": "annual",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2001-09-22"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a1",
+      "included": false,
+      "kind": "taxable",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2018-07-08",
+  "interest": {
+    "annualRate": 0.0077,
+    "compounding": "daily",
+    "variance": 0.0493
+  },
+  "salary": {
+    "annualBase": 204900.46,
+    "annualRaiseRate": -0.2741,
+    "asOf": "1999-07-05"
+  },
+  "version": 1
+}

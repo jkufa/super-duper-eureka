@@ -1,0 +1,84 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.1367,
+      "balance": 0,
+      "balanceAsOf": "2020-12-01",
+      "contributions": [
+        {
+          "amount": 2793.86,
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2020-12-01"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 1"
+    },
+    {
+      "annualRate": 0.1474,
+      "balance": 133165.56,
+      "balanceAsOf": "2017-06-09",
+      "contributions": [
+        {
+          "amount": 776.86,
+          "id": "a2r1",
+          "startDate": "2011-01-31",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 4725.49,
+          "id": "a2r2",
+          "name": "Rule a2r2",
+          "startDate": "2020-12-31",
+          "timing": {
+            "day": 28,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 817.39,
+          "growth": {
+            "amount": 0.22,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a2g",
+          "startDate": "1930-12-26",
+          "timing": {
+            "day": 29,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a2",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 2"
+    }
+  ],
+  "endDate": "2020-12-23",
+  "interest": {
+    "annualRate": -0.0114,
+    "variance": 0
+  },
+  "salary": {
+    "annualBase": 170600.92,
+    "annualRaiseRate": 0.0683,
+    "asOf": "2017-12-05"
+  },
+  "version": 1
+}

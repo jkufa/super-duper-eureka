@@ -1,0 +1,171 @@
+{
+  "accounts": [
+    {
+      "balance": 386326.93,
+      "balanceAsOf": "2027-06-01",
+      "contributions": [],
+      "id": "a1",
+      "included": false,
+      "kind": "other",
+      "name": "Account 1"
+    },
+    {
+      "annualRate": 0.0402,
+      "balance": 0.13,
+      "balanceAsOf": "2027-05-12",
+      "contributions": [
+        {
+          "amount": 15.91,
+          "id": "a2r1",
+          "name": "Rule a2r1",
+          "salaryBasis": "monthly",
+          "startDate": "2027-10-18",
+          "timing": {
+            "day": 20,
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 2921.93,
+          "id": "a2r2",
+          "name": "Rule a2r2",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2027-06-08"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1986.09,
+          "enabled": true,
+          "endDate": "2027-08-02",
+          "id": "a2r3",
+          "name": "Rule a2r3",
+          "timing": {
+            "day": 12,
+            "frequency": "annual",
+            "month": 7
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 9.44,
+          "enabled": false,
+          "id": "a2r4",
+          "name": "Rule a2r4",
+          "startDate": "2028-08-12",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 5.79,
+          "enabled": true,
+          "endDate": "2024-06-16",
+          "growth": {
+            "amount": 9.15,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a2r5",
+          "name": "Rule a2r5",
+          "salaryBasis": "monthly",
+          "startDate": "2022-04-30",
+          "timing": {
+            "day": 29,
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a2",
+      "included": false,
+      "kind": "other",
+      "name": "Account 2"
+    },
+    {
+      "balance": 0,
+      "balanceAsOf": "2024-02-29",
+      "contributions": [
+        {
+          "amount": 4144.51,
+          "enabled": true,
+          "id": "a3r1",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2027-06-08"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 17.32,
+          "endDate": "2030-01-06",
+          "growth": {
+            "amount": 5.09,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a3r2",
+          "name": "Rule a3r2",
+          "startDate": "2022-09-25",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 3.53,
+          "id": "a3r3",
+          "salaryBasis": "monthly",
+          "timing": {
+            "day": 30,
+            "frequency": "annual",
+            "month": 8
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 4902.27,
+          "id": "a3r4",
+          "name": "Rule a3r4",
+          "timing": {
+            "day": 16,
+            "frequency": "annual",
+            "month": 11
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1632.64,
+          "id": "a3r5",
+          "name": "Rule a3r5",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2027-06-08"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a3",
+      "included": false,
+      "kind": "other",
+      "name": "Account 3"
+    }
+  ],
+  "endDate": "2027-06-08",
+  "interest": {
+    "annualRate": 0.0402,
+    "compounding": "monthly",
+    "variance": 0.0148
+  },
+  "salary": {
+    "annualBase": 68058.34,
+    "annualRaiseRate": -0.2021,
+    "asOf": "2020-05-13"
+  },
+  "version": 1
+}

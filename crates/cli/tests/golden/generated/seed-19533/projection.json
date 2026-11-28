@@ -1,0 +1,234 @@
+{
+  "today": "2009-03-31",
+  "endDate": "2009-04-07",
+  "effectiveRate": -0.0239,
+  "staleAccounts": [],
+  "salaryByYear": [
+    {
+      "year": 2009,
+      "salary": 0.00003396822558084002
+    }
+  ],
+  "bands": {
+    "baseline": {
+      "total": {
+        "startBalance": 0.0,
+        "finalBalance": 0.0,
+        "totalContributions": 0.0,
+        "totalInterest": 0.0,
+        "monthly": [
+          {
+            "year": 2009,
+            "month": 3,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2009,
+            "month": 4,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          }
+        ],
+        "yearly": [
+          {
+            "year": 2009,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0,
+            "weightedRate": null
+          }
+        ]
+      },
+      "accounts": [
+        {
+          "accountId": "a1",
+          "included": false,
+          "annualRate": 0.1131,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 24277.8,
+            "finalBalance": 1.0017938118844948e+16,
+            "totalContributions": 1e+16,
+            "totalInterest": 17938118820670.16,
+            "monthly": [
+              {
+                "year": 2009,
+                "month": 3,
+                "balance": 24284.824162275858,
+                "contributions": 0.0,
+                "interest": 7.024162275858675
+              },
+              {
+                "year": 2009,
+                "month": 4,
+                "balance": 1.0017938118844948e+16,
+                "contributions": 1e+16,
+                "interest": 17938118820670.16
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2009,
+                "balance": 1.0017938118844948e+16,
+                "contributions": 1e+16,
+                "interest": 17938118820670.16
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "positive": {
+      "total": {
+        "startBalance": 0.0,
+        "finalBalance": 0.0,
+        "totalContributions": 0.0,
+        "totalInterest": 0.0,
+        "monthly": [
+          {
+            "year": 2009,
+            "month": 3,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2009,
+            "month": 4,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          }
+        ],
+        "yearly": [
+          {
+            "year": 2009,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          }
+        ]
+      },
+      "accounts": [
+        {
+          "accountId": "a1",
+          "included": false,
+          "annualRate": 0.182,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 24277.8,
+            "finalBalance": 1.0028063047629932e+16,
+            "totalContributions": 1e+16,
+            "totalInterest": 28063047605654.137,
+            "monthly": [
+              {
+                "year": 2009,
+                "month": 3,
+                "balance": 24288.788855760624,
+                "contributions": 0.0,
+                "interest": 10.98885576062304
+              },
+              {
+                "year": 2009,
+                "month": 4,
+                "balance": 1.0028063047629932e+16,
+                "contributions": 1e+16,
+                "interest": 28063047605654.137
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2009,
+                "balance": 1.0028063047629932e+16,
+                "contributions": 1e+16,
+                "interest": 28063047605654.137
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "negative": {
+      "total": {
+        "startBalance": 0.0,
+        "finalBalance": 0.0,
+        "totalContributions": 0.0,
+        "totalInterest": 0.0,
+        "monthly": [
+          {
+            "year": 2009,
+            "month": 3,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2009,
+            "month": 4,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          }
+        ],
+        "yearly": [
+          {
+            "year": 2009,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          }
+        ]
+      },
+      "accounts": [
+        {
+          "accountId": "a1",
+          "included": false,
+          "annualRate": 0.0442,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 24277.8,
+            "finalBalance": 1.0007221513287902e+16,
+            "totalContributions": 1e+16,
+            "totalInterest": 7221513263625.234,
+            "monthly": [
+              {
+                "year": 2009,
+                "month": 3,
+                "balance": 24280.627781527597,
+                "contributions": 0.0,
+                "interest": 2.827781527599135
+              },
+              {
+                "year": 2009,
+                "month": 4,
+                "balance": 1.0007221513287902e+16,
+                "contributions": 1e+16,
+                "interest": 7221513263625.234
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2009,
+                "balance": 1.0007221513287902e+16,
+                "contributions": 1e+16,
+                "interest": 7221513263625.234
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

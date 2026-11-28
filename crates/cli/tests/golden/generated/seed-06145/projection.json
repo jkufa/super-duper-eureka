@@ -1,0 +1,389 @@
+{
+  "today": "2051-10-11",
+  "endDate": "2051-10-16",
+  "effectiveRate": 0.0335,
+  "staleAccounts": [
+    {
+      "accountId": "a2",
+      "balanceAsOf": "2042-12-14"
+    }
+  ],
+  "salaryByYear": [
+    {
+      "year": 2051,
+      "salary": 132331.11
+    }
+  ],
+  "bands": {
+    "baseline": {
+      "total": {
+        "startBalance": 12309022.780221427,
+        "finalBalance": 12314580.141809827,
+        "totalContributions": 0.0,
+        "totalInterest": 5557.361588401437,
+        "monthly": [
+          {
+            "year": 2051,
+            "month": 10,
+            "balance": 12314580.141809827,
+            "contributions": 0.0,
+            "interest": 5557.361588401437
+          }
+        ],
+        "yearly": [
+          {
+            "year": 2051,
+            "balance": 12314580.141809827,
+            "contributions": 0.0,
+            "interest": 5557.361588401437,
+            "weightedRate": 0.0335
+          }
+        ]
+      },
+      "accounts": [
+        {
+          "accountId": "a1",
+          "included": true,
+          "annualRate": 0.0335,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 400052.14,
+            "finalBalance": 400232.7582696945,
+            "totalContributions": 0.0,
+            "totalInterest": 180.6182696945013,
+            "monthly": [
+              {
+                "year": 2051,
+                "month": 10,
+                "balance": 400232.7582696945,
+                "contributions": 0.0,
+                "interest": 180.6182696945013
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2051,
+                "balance": 400232.7582696945,
+                "contributions": 0.0,
+                "interest": 180.6182696945013
+              }
+            ]
+          }
+        },
+        {
+          "accountId": "a2",
+          "included": true,
+          "annualRate": 0.0335,
+          "rolledForward": {
+            "contributions": 10696793.620399997,
+            "interest": 732577.8698214062
+          },
+          "series": {
+            "startBalance": 11791220.190221427,
+            "finalBalance": 11796543.770763565,
+            "totalContributions": 0.0,
+            "totalInterest": 5323.580542137989,
+            "monthly": [
+              {
+                "year": 2051,
+                "month": 10,
+                "balance": 11796543.770763565,
+                "contributions": 0.0,
+                "interest": 5323.580542137989
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2051,
+                "balance": 11796543.770763565,
+                "contributions": 0.0,
+                "interest": 5323.580542137989
+              }
+            ]
+          }
+        },
+        {
+          "accountId": "a3",
+          "included": true,
+          "annualRate": 0.0335,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 117750.45,
+            "finalBalance": 117803.61277656895,
+            "totalContributions": 0.0,
+            "totalInterest": 53.16277656894646,
+            "monthly": [
+              {
+                "year": 2051,
+                "month": 10,
+                "balance": 117803.61277656895,
+                "contributions": 0.0,
+                "interest": 53.16277656894646
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2051,
+                "balance": 117803.61277656895,
+                "contributions": 0.0,
+                "interest": 53.16277656894646
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "positive": {
+      "total": {
+        "startBalance": 13702717.866200658,
+        "finalBalance": 13718903.701128216,
+        "totalContributions": 0.0,
+        "totalInterest": 16185.834927560034,
+        "monthly": [
+          {
+            "year": 2051,
+            "month": 10,
+            "balance": 13718903.701128216,
+            "contributions": 0.0,
+            "interest": 16185.834927560034
+          }
+        ],
+        "yearly": [
+          {
+            "year": 2051,
+            "balance": 13718903.701128216,
+            "contributions": 0.0,
+            "interest": 16185.834927560034
+          }
+        ]
+      },
+      "accounts": [
+        {
+          "accountId": "a1",
+          "included": true,
+          "annualRate": 0.09,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 400052.14,
+            "finalBalance": 400524.68697671546,
+            "totalContributions": 0.0,
+            "totalInterest": 472.5469767153941,
+            "monthly": [
+              {
+                "year": 2051,
+                "month": 10,
+                "balance": 400524.68697671546,
+                "contributions": 0.0,
+                "interest": 472.5469767153941
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2051,
+                "balance": 400524.68697671546,
+                "contributions": 0.0,
+                "interest": 472.5469767153941
+              }
+            ]
+          }
+        },
+        {
+          "accountId": "a2",
+          "included": true,
+          "annualRate": 0.09,
+          "rolledForward": {
+            "contributions": 10696793.620399997,
+            "interest": 2126272.9558006893
+          },
+          "series": {
+            "startBalance": 13184915.276200658,
+            "finalBalance": 13200489.47573379,
+            "totalContributions": 0.0,
+            "totalInterest": 15574.199533133946,
+            "monthly": [
+              {
+                "year": 2051,
+                "month": 10,
+                "balance": 13200489.47573379,
+                "contributions": 0.0,
+                "interest": 15574.199533133946
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2051,
+                "balance": 13200489.47573379,
+                "contributions": 0.0,
+                "interest": 15574.199533133946
+              }
+            ]
+          }
+        },
+        {
+          "accountId": "a3",
+          "included": true,
+          "annualRate": 0.09,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 117750.45,
+            "finalBalance": 117889.53841771069,
+            "totalContributions": 0.0,
+            "totalInterest": 139.08841771069433,
+            "monthly": [
+              {
+                "year": 2051,
+                "month": 10,
+                "balance": 117889.53841771069,
+                "contributions": 0.0,
+                "interest": 139.08841771069433
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2051,
+                "balance": 117889.53841771069,
+                "contributions": 0.0,
+                "interest": 139.08841771069433
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "negative": {
+      "total": {
+        "startBalance": 11108002.347177625,
+        "finalBalance": 11104462.25438419,
+        "totalContributions": 0.0,
+        "totalInterest": -3540.0927934362917,
+        "monthly": [
+          {
+            "year": 2051,
+            "month": 10,
+            "balance": 11104462.25438419,
+            "contributions": 0.0,
+            "interest": -3540.0927934362917
+          }
+        ],
+        "yearly": [
+          {
+            "year": 2051,
+            "balance": 11104462.25438419,
+            "contributions": 0.0,
+            "interest": -3540.0927934362917
+          }
+        ]
+      },
+      "accounts": [
+        {
+          "accountId": "a1",
+          "included": true,
+          "annualRate": -0.023,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 400052.14,
+            "finalBalance": 399924.64437535487,
+            "totalContributions": 0.0,
+            "totalInterest": -127.49562464511061,
+            "monthly": [
+              {
+                "year": 2051,
+                "month": 10,
+                "balance": 399924.64437535487,
+                "contributions": 0.0,
+                "interest": -127.49562464511061
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2051,
+                "balance": 399924.64437535487,
+                "contributions": 0.0,
+                "interest": -127.49562464511061
+              }
+            ]
+          }
+        },
+        {
+          "accountId": "a2",
+          "included": true,
+          "annualRate": -0.023,
+          "rolledForward": {
+            "contributions": 10696793.620399997,
+            "interest": -468442.56322236976
+          },
+          "series": {
+            "startBalance": 10590199.757177625,
+            "finalBalance": 10586824.686785158,
+            "totalContributions": 0.0,
+            "totalInterest": -3375.0703924689924,
+            "monthly": [
+              {
+                "year": 2051,
+                "month": 10,
+                "balance": 10586824.686785158,
+                "contributions": 0.0,
+                "interest": -3375.0703924689924
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2051,
+                "balance": 10586824.686785158,
+                "contributions": 0.0,
+                "interest": -3375.0703924689924
+              }
+            ]
+          }
+        },
+        {
+          "accountId": "a3",
+          "included": true,
+          "annualRate": -0.023,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 117750.45,
+            "finalBalance": 117712.92322367782,
+            "totalContributions": 0.0,
+            "totalInterest": -37.52677632218857,
+            "monthly": [
+              {
+                "year": 2051,
+                "month": 10,
+                "balance": 117712.92322367782,
+                "contributions": 0.0,
+                "interest": -37.52677632218857
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2051,
+                "balance": 117712.92322367782,
+                "contributions": 0.0,
+                "interest": -37.52677632218857
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

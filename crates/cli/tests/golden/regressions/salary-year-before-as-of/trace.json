@@ -1,0 +1,722 @@
+[
+  {
+    "from": "2026-01-01",
+    "to": "2026-02-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 1000.0,
+    "balanceEnd": 1676.4931627565923,
+    "contributions": 669.6906364234046,
+    "interest": 6.802526333187549,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2026-01-15",
+        "amount": 669.6906364234046,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-02-01",
+    "to": "2026-03-01",
+    "days": 28,
+    "daysInMonth": 28,
+    "daysInYear": 365,
+    "balanceStart": 1676.4931627565923,
+    "balanceEnd": 2353.0140398475073,
+    "contributions": 669.6906364234046,
+    "interest": 6.830240667510482,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2026-02-15",
+        "amount": 669.6906364234046,
+        "bucket": "end"
+      }
+    ]
+  },
+  {
+    "from": "2026-03-01",
+    "to": "2026-04-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 2353.0140398475073,
+    "balanceEnd": 3035.0195492834523,
+    "contributions": 669.6906364234046,
+    "interest": 12.314873012540419,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2026-03-15",
+        "amount": 669.6906364234046,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-04-01",
+    "to": "2026-05-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 3035.0195492834523,
+    "balanceEnd": 3719.8036335859697,
+    "contributions": 669.6906364234046,
+    "interest": 15.093447879112615,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2026-04-15",
+        "amount": 669.6906364234046,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-05-01",
+    "to": "2026-06-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 3719.8036335859697,
+    "balanceEnd": 4407.377613013007,
+    "contributions": 669.6906364234046,
+    "interest": 17.88334300363336,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2026-05-15",
+        "amount": 669.6906364234046,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-06-01",
+    "to": "2026-07-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 4407.377613013007,
+    "balanceEnd": 5097.752853942647,
+    "contributions": 669.6906364234046,
+    "interest": 20.6846045062348,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2026-06-15",
+        "amount": 669.6906364234046,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-07-01",
+    "to": "2026-08-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 5097.752853942647,
+    "balanceEnd": 5790.940769061,
+    "contributions": 669.6906364234046,
+    "interest": 23.497278694948204,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2026-07-15",
+        "amount": 669.6906364234046,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-08-01",
+    "to": "2026-09-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 5790.940769061,
+    "balanceEnd": 6486.952817550874,
+    "contributions": 669.6906364234046,
+    "interest": 26.321412066469502,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2026-08-15",
+        "amount": 669.6906364234046,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-09-01",
+    "to": "2026-10-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 6486.952817550874,
+    "balanceEnd": 7185.800505281207,
+    "contributions": 669.6906364234046,
+    "interest": 29.157051306927908,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2026-09-15",
+        "amount": 669.6906364234046,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-10-01",
+    "to": "2026-11-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 7185.800505281207,
+    "balanceEnd": 7887.495384997269,
+    "contributions": 669.6906364234046,
+    "interest": 32.00424329265772,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2026-10-15",
+        "amount": 669.6906364234046,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-11-01",
+    "to": "2026-12-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 7887.495384997269,
+    "balanceEnd": 8592.049056511647,
+    "contributions": 669.6906364234046,
+    "interest": 34.86303509097319,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2026-11-15",
+        "amount": 669.6906364234046,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-12-01",
+    "to": "2027-01-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 8592.049056511647,
+    "balanceEnd": 9299.473166895998,
+    "contributions": 669.6906364234046,
+    "interest": 37.73347396094669,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2026-12-15",
+        "amount": 669.6906364234046,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2027-01-01",
+    "to": "2027-02-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 9299.473166895998,
+    "balanceEnd": 10034.658915115591,
+    "contributions": 694.4691899710705,
+    "interest": 40.7165582485228,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2027-01-15",
+        "amount": 694.4691899710705,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2027-02-01",
+    "to": "2027-03-01",
+    "days": 28,
+    "daysInMonth": 28,
+    "daysInYear": 365,
+    "balanceStart": 10034.658915115591,
+    "balanceEnd": 10770.010547633534,
+    "contributions": 694.4691899710705,
+    "interest": 40.88244254687142,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2027-02-15",
+        "amount": 694.4691899710705,
+        "bucket": "end"
+      }
+    ]
+  },
+  {
+    "from": "2027-03-01",
+    "to": "2027-04-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 10770.010547633534,
+    "balanceEnd": 11511.187447170734,
+    "contributions": 694.4691899710705,
+    "interest": 46.70770956612955,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2027-03-15",
+        "amount": 694.4691899710705,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2027-04-01",
+    "to": "2027-05-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 11511.187447170734,
+    "balanceEnd": 12255.38399314223,
+    "contributions": 694.4691899710705,
+    "interest": 49.727356000424805,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2027-04-15",
+        "amount": 694.4691899710705,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2027-05-01",
+    "to": "2027-06-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 12255.38399314223,
+    "balanceEnd": 13002.612487961376,
+    "contributions": 694.4691899710705,
+    "interest": 52.75930484807623,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2027-05-15",
+        "amount": 694.4691899710705,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2027-06-01",
+    "to": "2027-07-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 13002.612487961376,
+    "balanceEnd": 13752.885284163085,
+    "contributions": 694.4691899710705,
+    "interest": 55.80360623063868,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2027-06-15",
+        "amount": 694.4691899710705,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2027-07-01",
+    "to": "2027-08-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 13752.885284163085,
+    "balanceEnd": 14506.214784608024,
+    "contributions": 694.4691899710705,
+    "interest": 58.86031047386842,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2027-07-15",
+        "amount": 694.4691899710705,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2027-08-01",
+    "to": "2027-09-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 14506.214784608024,
+    "balanceEnd": 15262.61344268765,
+    "contributions": 694.4691899710705,
+    "interest": 61.92946810855507,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2027-08-15",
+        "amount": 694.4691899710705,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2027-09-01",
+    "to": "2027-10-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 15262.61344268765,
+    "balanceEnd": 16022.093762530078,
+    "contributions": 694.4691899710705,
+    "interest": 65.01112987135699,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2027-09-15",
+        "amount": 694.4691899710705,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2027-10-01",
+    "to": "2027-11-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 16022.093762530078,
+    "balanceEnd": 16784.668299206787,
+    "contributions": 694.4691899710705,
+    "interest": 68.10534670563986,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2027-10-15",
+        "amount": 694.4691899710705,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2027-11-01",
+    "to": "2027-12-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 16784.668299206787,
+    "balanceEnd": 17550.349658940177,
+    "contributions": 694.4691899710705,
+    "interest": 71.21216976231908,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2027-11-15",
+        "amount": 694.4691899710705,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2027-12-01",
+    "to": "2028-01-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 17550.349658940177,
+    "balanceEnd": 18319.150499311952,
+    "contributions": 694.4691899710705,
+    "interest": 74.33165040070509,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2027-12-15",
+        "amount": 694.4691899710705,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2028-01-01",
+    "to": "2028-02-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 18319.150499311952,
+    "balanceEnd": 19116.88357557873,
+    "contributions": 720.1645500000001,
+    "interest": 77.56852626677585,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2028-01-15",
+        "amount": 720.1645500000001,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2028-02-01",
+    "to": "2028-03-01",
+    "days": 29,
+    "daysInMonth": 29,
+    "daysInYear": 366,
+    "balanceStart": 19116.88357557873,
+    "balanceEnd": 19917.86671514453,
+    "contributions": 720.1645500000001,
+    "interest": 80.8185895657973,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2028-02-15",
+        "amount": 720.1645500000001,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2028-03-01",
+    "to": "2028-04-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 19917.86671514453,
+    "balanceEnd": 20722.113159169534,
+    "contributions": 720.1645500000001,
+    "interest": 84.08189402500365,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2028-03-15",
+        "amount": 720.1645500000001,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2028-04-01",
+    "to": "2028-05-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 20722.113159169534,
+    "balanceEnd": 21529.636202760055,
+    "contributions": 720.1645500000001,
+    "interest": 87.35849359052054,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2028-04-15",
+        "amount": 720.1645500000001,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2028-05-01",
+    "to": "2028-06-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 21529.636202760055,
+    "balanceEnd": 22340.449195188314,
+    "contributions": 720.1645500000001,
+    "interest": 90.64844242825679,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2028-05-15",
+        "amount": 720.1645500000001,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2028-06-01",
+    "to": "2028-07-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 22340.449195188314,
+    "balanceEnd": 23154.565540113115,
+    "contributions": 720.1645500000001,
+    "interest": 93.95179492479984,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2028-06-15",
+        "amount": 720.1645500000001,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2028-07-01",
+    "to": "2028-08-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 23154.565540113115,
+    "balanceEnd": 23971.99869580143,
+    "contributions": 720.1645500000001,
+    "interest": 97.26860568831485,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2028-07-15",
+        "amount": 720.1645500000001,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2028-08-01",
+    "to": "2028-09-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 23971.99869580143,
+    "balanceEnd": 24792.76217535088,
+    "contributions": 720.1645500000001,
+    "interest": 100.59892954944733,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2028-08-15",
+        "amount": 720.1645500000001,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2028-09-01",
+    "to": "2028-10-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 24792.76217535088,
+    "balanceEnd": 25616.86954691311,
+    "contributions": 720.1645500000001,
+    "interest": 103.94282156222972,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2028-09-15",
+        "amount": 720.1645500000001,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2028-10-01",
+    "to": "2028-11-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 25616.86954691311,
+    "balanceEnd": 26444.334433918102,
+    "contributions": 720.1645500000001,
+    "interest": 107.30033700499133,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2028-10-15",
+        "amount": 720.1645500000001,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2028-11-01",
+    "to": "2028-12-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 26444.334433918102,
+    "balanceEnd": 27275.170515299375,
+    "contributions": 720.1645500000001,
+    "interest": 110.67153138127227,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2028-11-15",
+        "amount": 720.1645500000001,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2028-12-01",
+    "to": "2029-01-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 27275.170515299375,
+    "balanceEnd": 28109.391525720115,
+    "contributions": 720.1645500000001,
+    "interest": 114.05646042074092,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "share",
+        "date": "2028-12-15",
+        "amount": 720.1645500000001,
+        "bucket": "start"
+      }
+    ]
+  }
+]

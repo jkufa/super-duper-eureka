@@ -1,0 +1,112 @@
+{
+  "accounts": [
+    {
+      "balance": 454140.24,
+      "balanceAsOf": "2054-10-21",
+      "contributions": [],
+      "id": "a1",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 1"
+    },
+    {
+      "annualRate": 0.1292,
+      "balance": 0,
+      "balanceAsOf": "2052-02-29",
+      "contributions": [
+        {
+          "amount": 3491.93,
+          "enabled": false,
+          "growth": {
+            "amount": 8.72,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a2r1",
+          "name": "Rule a2r1",
+          "startDate": "2052-12-11",
+          "timing": {
+            "day": 8,
+            "frequency": "annual",
+            "month": 5
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 951.12,
+          "id": "a2r2",
+          "name": "Rule a2r2",
+          "timing": {
+            "day": 29,
+            "frequency": "annual",
+            "month": 2,
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 125.08,
+          "growth": {
+            "amount": 0.6,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a2r3",
+          "name": "Rule a2r3",
+          "startDate": "2053-04-08",
+          "timing": {
+            "day": 31,
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1332.09,
+          "id": "a2r4",
+          "name": "Rule a2r4",
+          "startDate": "2046-03-25",
+          "timing": {
+            "frequency": "annual",
+            "month": 5
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 590.91,
+          "endDate": "2066-08-06",
+          "growth": {
+            "amount": 7.91,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a2r5",
+          "name": "Rule a2r5",
+          "startDate": "2052-10-06",
+          "timing": {
+            "day": 26,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a2",
+      "included": true,
+      "kind": "other",
+      "name": "Account 2"
+    }
+  ],
+  "endDate": "2054-10-24",
+  "interest": {
+    "annualRate": 0.0846,
+    "compounding": "monthly",
+    "variance": 0.0354
+  },
+  "salary": {
+    "annualBase": 65603.54,
+    "annualRaiseRate": 0,
+    "asOf": "2052-02-29"
+  },
+  "version": 1
+}

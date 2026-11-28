@@ -1,0 +1,15 @@
+[
+  {
+    "from": "9999-12-30",
+    "to": "9999-12-31",
+    "days": 1,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 1000.0,
+    "balanceEnd": 1000.1314233478596,
+    "contributions": 0.0,
+    "interest": 0.1314233478596243,
+    "annualRate": 0.05,
+    "deposits": []
+  }
+]

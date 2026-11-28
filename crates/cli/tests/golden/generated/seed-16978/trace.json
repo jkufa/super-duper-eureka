@@ -1,0 +1,41 @@
+[
+  {
+    "from": "2057-02-05",
+    "to": "2057-02-08",
+    "days": 3,
+    "daysInMonth": 28,
+    "daysInYear": 365,
+    "balanceStart": 0.0,
+    "balanceEnd": 0.0,
+    "contributions": 0.0,
+    "interest": 0.0,
+    "annualRate": 0.0772,
+    "deposits": []
+  },
+  {
+    "from": "2057-02-08",
+    "to": "2057-02-13",
+    "days": 5,
+    "daysInMonth": 28,
+    "daysInYear": 365,
+    "balanceStart": 0.0,
+    "balanceEnd": 2508.100948311155,
+    "contributions": 2507.5899999999997,
+    "interest": 0.5109483111553559,
+    "annualRate": 0.0772,
+    "deposits": [
+      {
+        "ruleId": "a1r2",
+        "date": "2057-02-12",
+        "amount": 278.89,
+        "bucket": 12
+      },
+      {
+        "ruleId": "a1r4",
+        "date": "2057-02-12",
+        "amount": 2228.7,
+        "bucket": 12
+      }
+    ]
+  }
+]

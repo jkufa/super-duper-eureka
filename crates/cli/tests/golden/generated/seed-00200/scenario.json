@@ -1,0 +1,298 @@
+{
+  "accounts": [
+    {
+      "balance": 0.64,
+      "balanceAsOf": "2027-09-06",
+      "contributions": [
+        {
+          "amount": 0,
+          "id": "a1r1",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 4055.87,
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "startDate": "2022-04-30",
+          "timing": {
+            "frequency": "annual",
+            "month": 11
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 3288.27,
+          "growth": {
+            "amount": 0,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a1r3",
+          "startDate": "2064-07-27",
+          "timing": {
+            "frequency": "annual",
+            "month": 6,
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 4379.67,
+          "endDate": "2027-09-09",
+          "id": "a1r4",
+          "name": "Rule a1r4",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 338.31,
+          "enabled": false,
+          "id": "a1r5",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2063-12-31"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 1"
+    },
+    {
+      "annualRate": 0.0217,
+      "balance": 0.95,
+      "balanceAsOf": "2035-06-18",
+      "contributions": [
+        {
+          "amount": 2813.59,
+          "id": "a2r1",
+          "startDate": "2027-08-04",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2466.81,
+          "id": "a2r2",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a2",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 2"
+    },
+    {
+      "annualRate": 0.0832,
+      "balance": 164178.61,
+      "balanceAsOf": "2035-06-12",
+      "contributions": [
+        {
+          "amount": 3987.41,
+          "id": "a3r1",
+          "timing": {
+            "frequency": "annual",
+            "month": 12,
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2866.74,
+          "enabled": true,
+          "id": "a3r2",
+          "name": "Rule a3r2",
+          "timing": {
+            "day": 12,
+            "frequency": "annual",
+            "month": 1,
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 13.75,
+          "id": "a3r3",
+          "name": "Rule a3r3",
+          "salaryBasis": "biweekly",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2035-06-20"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 1165.12,
+          "enabled": true,
+          "id": "a3r4",
+          "startDate": "2036-11-30",
+          "timing": {
+            "day": 1,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a3",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 3"
+    },
+    {
+      "balance": 117751.35,
+      "balanceAsOf": "2035-06-20",
+      "contributions": [
+        {
+          "amount": 1837.85,
+          "growth": {
+            "amount": 3.46,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a4r1",
+          "name": "Rule a4r1",
+          "startDate": "2030-09-11",
+          "timing": {
+            "frequency": "annual",
+            "month": 10
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 721.54,
+          "enabled": true,
+          "id": "a4r2",
+          "name": "Rule a4r2",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2063-12-31"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a4",
+      "included": true,
+      "kind": "other",
+      "name": "Account 4"
+    },
+    {
+      "balance": 457853.73,
+      "balanceAsOf": "2026-02-24",
+      "contributions": [
+        {
+          "amount": 16.19,
+          "id": "a5r1",
+          "timing": {
+            "day": 2,
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 4426.39,
+          "endDate": "2035-08-24",
+          "id": "a5r2",
+          "name": "Rule a5r2",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a5",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 5"
+    },
+    {
+      "annualRate": 0.1289,
+      "balance": 493092.86,
+      "balanceAsOf": "2035-06-20",
+      "contributions": [
+        {
+          "amount": 446.34,
+          "endDate": "2053-11-09",
+          "id": "a6r1",
+          "name": "Rule a6r1",
+          "startDate": "2053-11-09",
+          "timing": {
+            "day": 9,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 3875.1,
+          "endDate": "2029-08-09",
+          "id": "a6r2",
+          "name": "Rule a6r2",
+          "timing": {
+            "frequency": "annual",
+            "month": 12,
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 12.19,
+          "id": "a6r3",
+          "salaryBasis": "daily",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2054-12-10"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 100,
+          "id": "a6x",
+          "timing": {
+            "day": 0,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0,
+          "id": "a6r4",
+          "name": "Rule a6r4",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2035-06-20"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a6",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 6"
+    }
+  ],
+  "endDate": "2064-01-01",
+  "interest": {
+    "annualRate": 0.0276,
+    "compounding": "daily",
+    "variance": 0.0211
+  },
+  "salary": {
+    "annualBase": 0,
+    "annualRaiseRate": -0.1784,
+    "asOf": "2035-03-24"
+  },
+  "version": 1
+}

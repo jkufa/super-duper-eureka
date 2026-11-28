@@ -1,0 +1,15 @@
+[
+  {
+    "from": "2025-06-14",
+    "to": "2025-06-30",
+    "days": 16,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 93679.2,
+    "balanceEnd": 94084.84906638197,
+    "contributions": 0.0,
+    "interest": 405.6490663819645,
+    "annualRate": 0.1019,
+    "deposits": []
+  }
+]

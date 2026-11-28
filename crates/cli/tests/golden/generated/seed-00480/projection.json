@@ -1,0 +1,7 @@
+{
+  "error": {
+    "code": "invalid_day",
+    "accountId": "a1",
+    "ruleId": "a1x"
+  }
+}

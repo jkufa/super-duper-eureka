@@ -1,0 +1,28 @@
+[
+  {
+    "from": "2060-12-08",
+    "to": "2060-12-31",
+    "days": 23,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 378496.8,
+    "balanceEnd": 381400.12504057446,
+    "contributions": 0.0,
+    "interest": 2903.3250405744384,
+    "annualRate": 0.1293,
+    "deposits": []
+  },
+  {
+    "from": "2060-12-31",
+    "to": "2061-01-01",
+    "days": 1,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 381400.12504057446,
+    "balanceEnd": 381526.8605230644,
+    "contributions": 0.0,
+    "interest": 126.7354824899077,
+    "annualRate": 0.1293,
+    "deposits": []
+  }
+]

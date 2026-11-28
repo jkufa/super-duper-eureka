@@ -1,0 +1,288 @@
+{
+  "today": "2020-12-01",
+  "endDate": "2020-12-07",
+  "effectiveRate": -0.005699999992531624,
+  "staleAccounts": [],
+  "salaryByYear": [
+    {
+      "year": 2020,
+      "salary": 68500.93
+    }
+  ],
+  "bands": {
+    "baseline": {
+      "total": {
+        "startBalance": 229897374575.69998,
+        "finalBalance": 229875840554.79474,
+        "totalContributions": 8641.696975,
+        "totalInterest": -21542662.602245215,
+        "monthly": [
+          {
+            "year": 2020,
+            "month": 12,
+            "balance": 229875840554.79474,
+            "contributions": 8641.696975,
+            "interest": -21542662.602245215
+          }
+        ],
+        "yearly": [
+          {
+            "year": 2020,
+            "balance": 229875840554.79474,
+            "contributions": 8641.696975,
+            "interest": -21542662.602245215,
+            "weightedRate": -0.005699999981889448
+          }
+        ]
+      },
+      "accounts": [
+        {
+          "accountId": "a1",
+          "included": true,
+          "annualRate": -0.0051,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 2040.27,
+            "finalBalance": 6938.63055739553,
+            "totalContributions": 4898.6,
+            "totalInterest": -0.2394426044705208,
+            "monthly": [
+              {
+                "year": 2020,
+                "month": 12,
+                "balance": 6938.63055739553,
+                "contributions": 4898.6,
+                "interest": -0.2394426044705208
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2020,
+                "balance": 6938.63055739553,
+                "contributions": 4898.6,
+                "interest": -0.2394426044705208
+              }
+            ]
+          }
+        },
+        {
+          "accountId": "a2",
+          "included": true,
+          "annualRate": -0.0057,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 229897372535.43,
+            "finalBalance": 229875833616.16418,
+            "totalContributions": 3743.096975,
+            "totalInterest": -21542662.36280261,
+            "monthly": [
+              {
+                "year": 2020,
+                "month": 12,
+                "balance": 229875833616.16418,
+                "contributions": 3743.096975,
+                "interest": -21542662.36280261
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2020,
+                "balance": 229875833616.16418,
+                "contributions": 3743.096975,
+                "interest": -21542662.36280261
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "positive": {
+      "total": {
+        "startBalance": 229897374575.69998,
+        "finalBalance": 230030713892.69287,
+        "totalContributions": 8641.696975,
+        "totalInterest": 133330675.29587053,
+        "monthly": [
+          {
+            "year": 2020,
+            "month": 12,
+            "balance": 230030713892.69287,
+            "contributions": 8641.696975,
+            "interest": 133330675.29587053
+          }
+        ],
+        "yearly": [
+          {
+            "year": 2020,
+            "balance": 230030713892.69287,
+            "contributions": 8641.696975,
+            "interest": 133330675.29587053
+          }
+        ]
+      },
+      "accounts": [
+        {
+          "accountId": "a1",
+          "included": true,
+          "annualRate": 0.0366,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 2040.27,
+            "finalBalance": 6940.553778270492,
+            "totalContributions": 4898.6,
+            "totalInterest": 1.6837782704913282,
+            "monthly": [
+              {
+                "year": 2020,
+                "month": 12,
+                "balance": 6940.553778270492,
+                "contributions": 4898.6,
+                "interest": 1.6837782704913282
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2020,
+                "balance": 6940.553778270492,
+                "contributions": 4898.6,
+                "interest": 1.6837782704913282
+              }
+            ]
+          }
+        },
+        {
+          "accountId": "a2",
+          "included": true,
+          "annualRate": 0.036000000000000004,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 229897372535.43,
+            "finalBalance": 230030706952.1391,
+            "totalContributions": 3743.096975,
+            "totalInterest": 133330673.61209226,
+            "monthly": [
+              {
+                "year": 2020,
+                "month": 12,
+                "balance": 230030706952.1391,
+                "contributions": 3743.096975,
+                "interest": 133330673.61209226
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2020,
+                "balance": 230030706952.1391,
+                "contributions": 3743.096975,
+                "interest": 133330673.61209226
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "negative": {
+      "total": {
+        "startBalance": 229897374575.69998,
+        "finalBalance": 229714441937.00665,
+        "totalContributions": 8641.696975,
+        "totalInterest": -182941280.39030635,
+        "monthly": [
+          {
+            "year": 2020,
+            "month": 12,
+            "balance": 229714441937.00665,
+            "contributions": 8641.696975,
+            "interest": -182941280.39030635
+          }
+        ],
+        "yearly": [
+          {
+            "year": 2020,
+            "balance": 229714441937.00665,
+            "contributions": 8641.696975,
+            "interest": -182941280.39030635
+          }
+        ]
+      },
+      "accounts": [
+        {
+          "accountId": "a1",
+          "included": true,
+          "annualRate": -0.0468,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 2040.27,
+            "finalBalance": 6936.626027150079,
+            "totalContributions": 4898.6,
+            "totalInterest": -2.243972849921484,
+            "monthly": [
+              {
+                "year": 2020,
+                "month": 12,
+                "balance": 6936.626027150079,
+                "contributions": 4898.6,
+                "interest": -2.243972849921484
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2020,
+                "balance": 6936.626027150079,
+                "contributions": 4898.6,
+                "interest": -2.243972849921484
+              }
+            ]
+          }
+        },
+        {
+          "accountId": "a2",
+          "included": true,
+          "annualRate": -0.0474,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 229897372535.43,
+            "finalBalance": 229714435000.3806,
+            "totalContributions": 3743.096975,
+            "totalInterest": -182941278.14633352,
+            "monthly": [
+              {
+                "year": 2020,
+                "month": 12,
+                "balance": 229714435000.3806,
+                "contributions": 3743.096975,
+                "interest": -182941278.14633352
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2020,
+                "balance": 229714435000.3806,
+                "contributions": 3743.096975,
+                "interest": -182941278.14633352
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

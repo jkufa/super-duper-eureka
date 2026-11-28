@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "endDate": "2036-01-01",
+  "interest": {
+    "annualRate": 0.06,
+    "variance": 0.015,
+    "compounding": "monthly"
+  },
+  "salary": {
+    "annualBase": 130000,
+    "annualRaiseRate": 0,
+    "asOf": "2026-01-01"
+  },
+  "accounts": [
+    {
+      "id": "brokerage",
+      "name": "Brokerage",
+      "kind": "taxable",
+      "included": true,
+      "balance": 40000,
+      "balanceAsOf": "2026-01-01",
+      "contributions": [
+        {
+          "id": "inheritance",
+          "name": "Inheritance",
+          "type": "flat",
+          "amount": 10000,
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2026-07-01"
+          }
+        }
+      ]
+    },
+    {
+      "id": "401k",
+      "name": "401k",
+      "kind": "pretax",
+      "included": true,
+      "balance": 80000,
+      "balanceAsOf": "2026-01-01",
+      "contributions": [
+        {
+          "id": "annual-match",
+          "name": "Annual Match",
+          "type": "salaryPercent",
+          "amount": 2,
+          "salaryBasis": "annual",
+          "timing": {
+            "frequency": "annual",
+            "month": 1,
+            "placement": "end"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.1293,
+      "balance": 378496.8,
+      "balanceAsOf": "2060-12-08",
+      "contributions": [],
+      "id": "a1",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 1"
+    },
+    {
+      "balance": 198025.07,
+      "balanceAsOf": "2056-05-25",
+      "contributions": [
+        {
+          "amount": 4377.17,
+          "id": "a2r1",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2060-12-31"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1812.92,
+          "enabled": false,
+          "id": "a2r2",
+          "name": "Rule a2r2",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2060-12-31"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a2",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 2"
+    },
+    {
+      "balance": 0.17,
+      "balanceAsOf": "2060-12-31",
+      "contributions": [],
+      "id": "a3",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 3"
+    },
+    {
+      "annualRate": 0.1293,
+      "balance": 294575.04,
+      "balanceAsOf": "2060-12-24",
+      "contributions": [],
+      "id": "a4",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 4"
+    },
+    {
+      "annualRate": 0.1293,
+      "balance": 383442.59,
+      "balanceAsOf": "2060-12-31",
+      "contributions": [
+        {
+          "amount": 15.44,
+          "id": "a5r1",
+          "timing": {
+            "day": 29,
+            "frequency": "annual",
+            "month": 2
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 5.75,
+          "growth": {
+            "amount": 5.13,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a5r2",
+          "name": "Rule a5r2",
+          "startDate": "2060-12-31",
+          "timing": {
+            "frequency": "annual",
+            "month": 2
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 7.66,
+          "growth": {
+            "amount": 47.91,
+            "cadence": "monthly",
+            "type": "flat"
+          },
+          "id": "a5r3",
+          "name": "Rule a5r3",
+          "startDate": "2060-12-31",
+          "timing": {
+            "day": 29,
+            "frequency": "annual",
+            "month": 2,
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a5",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 5"
+    }
+  ],
+  "endDate": "2061-01-01",
+  "interest": {
+    "annualRate": 0.1293,
+    "compounding": "daily",
+    "variance": 0
+  },
+  "salary": {
+    "annualBase": 75373.42,
+    "asOf": "2056-11-04"
+  },
+  "version": 1
+}

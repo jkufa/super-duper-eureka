@@ -1,0 +1,105 @@
+{
+  "accounts": [
+    {
+      "balance": 181563.8,
+      "balanceAsOf": "2041-11-30",
+      "contributions": [
+        {
+          "amount": 1331.58,
+          "enabled": true,
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "timing": {
+            "day": 12,
+            "frequency": "annual",
+            "month": 6
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 3088.02,
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2041-11-30"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2999.11,
+          "enabled": true,
+          "id": "a1r3",
+          "timing": {
+            "frequency": "annual",
+            "month": 1
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": false,
+      "kind": "pretax",
+      "name": "Account 1"
+    },
+    {
+      "annualRate": 0.0534,
+      "balance": 485497.71,
+      "balanceAsOf": "2041-11-26",
+      "contributions": [
+        {
+          "amount": 8.18,
+          "id": "a2r1",
+          "salaryBasis": "weekly",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2042-03-28"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 18.68,
+          "endDate": "2050-08-08",
+          "growth": {
+            "amount": 158.65,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a2r2",
+          "salaryBasis": "perContribution",
+          "startDate": "2039-11-18",
+          "timing": {
+            "day": 30,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a2",
+      "included": false,
+      "kind": "roth",
+      "name": "Account 2"
+    },
+    {
+      "balance": 0,
+      "balanceAsOf": "2040-02-29",
+      "contributions": [],
+      "id": "a3",
+      "included": false,
+      "kind": "roth",
+      "name": "Account 3"
+    }
+  ],
+  "endDate": "2042-03-26",
+  "interest": {
+    "annualRate": 0.0534,
+    "compounding": "monthly",
+    "variance": 0.0524
+  },
+  "salary": {
+    "annualBase": 1e+308,
+    "annualRaiseRate": 1,
+    "asOf": "2041-11-30"
+  },
+  "version": 1
+}

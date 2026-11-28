@@ -1,0 +1,81 @@
+{
+  "accounts": [
+    {
+      "balance": 86530.28,
+      "balanceAsOf": "2023-04-11",
+      "contributions": [],
+      "id": "a1",
+      "included": false,
+      "kind": "taxable",
+      "name": "Account 1"
+    },
+    {
+      "annualRate": 0.1191,
+      "balance": 0.36,
+      "balanceAsOf": "2014-11-23",
+      "contributions": [
+        {
+          "amount": 8.56,
+          "growth": {
+            "amount": 2.73,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a2r1",
+          "salaryBasis": "perContribution",
+          "startDate": "2012-05-12",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 1138.91,
+          "enabled": false,
+          "growth": {
+            "amount": 0,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a2r2",
+          "name": "Rule a2r2",
+          "startDate": "2016-06-17",
+          "timing": {
+            "day": 12,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 470.08,
+          "endDate": "2023-07-23",
+          "id": "a2r3",
+          "name": "Rule a2r3",
+          "salaryBasis": "daily",
+          "timing": {
+            "day": 29,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a2",
+      "included": false,
+      "kind": "other",
+      "name": "Account 2"
+    }
+  ],
+  "endDate": "2023-04-15",
+  "interest": {
+    "annualRate": 0.1191,
+    "compounding": "monthly",
+    "variance": 0.0349
+  },
+  "salary": {
+    "annualBase": 0,
+    "asOf": "2023-04-11"
+  },
+  "version": 1
+}

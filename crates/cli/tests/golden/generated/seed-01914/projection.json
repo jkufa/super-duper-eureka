@@ -1,0 +1,192 @@
+{
+  "today": "2008-02-29",
+  "endDate": "2008-03-01",
+  "effectiveRate": -0.0136,
+  "staleAccounts": [],
+  "salaryByYear": [
+    {
+      "year": 2008,
+      "salary": 48612.8
+    }
+  ],
+  "bands": {
+    "baseline": {
+      "total": {
+        "startBalance": 79162.71,
+        "finalBalance": 79159.74830435294,
+        "totalContributions": 0.0,
+        "totalInterest": -2.961695647065245,
+        "monthly": [
+          {
+            "year": 2008,
+            "month": 2,
+            "balance": 79159.74830435294,
+            "contributions": 0.0,
+            "interest": -2.961695647065245
+          }
+        ],
+        "yearly": [
+          {
+            "year": 2008,
+            "balance": 79159.74830435294,
+            "contributions": 0.0,
+            "interest": -2.961695647065245,
+            "weightedRate": -0.0136
+          }
+        ]
+      },
+      "accounts": [
+        {
+          "accountId": "a1",
+          "included": true,
+          "annualRate": -0.0136,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 79162.71,
+            "finalBalance": 79159.74830435294,
+            "totalContributions": 0.0,
+            "totalInterest": -2.961695647065245,
+            "monthly": [
+              {
+                "year": 2008,
+                "month": 2,
+                "balance": 79159.74830435294,
+                "contributions": 0.0,
+                "interest": -2.961695647065245
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2008,
+                "balance": 79159.74830435294,
+                "contributions": 0.0,
+                "interest": -2.961695647065245
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "positive": {
+      "total": {
+        "startBalance": 79162.71,
+        "finalBalance": 79160.25202950895,
+        "totalContributions": 0.0,
+        "totalInterest": -2.4579704910504283,
+        "monthly": [
+          {
+            "year": 2008,
+            "month": 2,
+            "balance": 79160.25202950895,
+            "contributions": 0.0,
+            "interest": -2.4579704910504283
+          }
+        ],
+        "yearly": [
+          {
+            "year": 2008,
+            "balance": 79160.25202950895,
+            "contributions": 0.0,
+            "interest": -2.4579704910504283
+          }
+        ]
+      },
+      "accounts": [
+        {
+          "accountId": "a1",
+          "included": true,
+          "annualRate": -0.0113,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 79162.71,
+            "finalBalance": 79160.25202950895,
+            "totalContributions": 0.0,
+            "totalInterest": -2.4579704910504283,
+            "monthly": [
+              {
+                "year": 2008,
+                "month": 2,
+                "balance": 79160.25202950895,
+                "contributions": 0.0,
+                "interest": -2.4579704910504283
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2008,
+                "balance": 79160.25202950895,
+                "contributions": 0.0,
+                "interest": -2.4579704910504283
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "negative": {
+      "total": {
+        "startBalance": 79162.71,
+        "finalBalance": 79159.24340649991,
+        "totalContributions": 0.0,
+        "totalInterest": -3.4665935000975407,
+        "monthly": [
+          {
+            "year": 2008,
+            "month": 2,
+            "balance": 79159.24340649991,
+            "contributions": 0.0,
+            "interest": -3.4665935000975407
+          }
+        ],
+        "yearly": [
+          {
+            "year": 2008,
+            "balance": 79159.24340649991,
+            "contributions": 0.0,
+            "interest": -3.4665935000975407
+          }
+        ]
+      },
+      "accounts": [
+        {
+          "accountId": "a1",
+          "included": true,
+          "annualRate": -0.015899999999999997,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 79162.71,
+            "finalBalance": 79159.24340649991,
+            "totalContributions": 0.0,
+            "totalInterest": -3.4665935000975407,
+            "monthly": [
+              {
+                "year": 2008,
+                "month": 2,
+                "balance": 79159.24340649991,
+                "contributions": 0.0,
+                "interest": -3.4665935000975407
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2008,
+                "balance": 79159.24340649991,
+                "contributions": 0.0,
+                "interest": -3.4665935000975407
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

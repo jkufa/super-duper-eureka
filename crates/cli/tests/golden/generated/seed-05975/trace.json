@@ -1,0 +1,22 @@
+[
+  {
+    "from": "2048-05-21",
+    "to": "2048-05-22",
+    "days": 1,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 48491.49,
+    "balanceEnd": 49151.40432197042,
+    "contributions": 661.59,
+    "interest": -1.675678029572862,
+    "annualRate": -0.0124,
+    "deposits": [
+      {
+        "ruleId": "a1r3",
+        "date": "2048-05-21",
+        "amount": 661.59,
+        "bucket": 21
+      }
+    ]
+  }
+]

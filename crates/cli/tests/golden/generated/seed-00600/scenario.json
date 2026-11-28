@@ -1,0 +1,141 @@
+{
+  "accounts": [
+    {
+      "balance": 247279054018.2,
+      "balanceAsOf": "2024-02-29",
+      "contributions": [
+        {
+          "amount": 353.72,
+          "endDate": "2026-04-03",
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 9.05,
+          "id": "a1r2",
+          "salaryBasis": "daily",
+          "timing": {
+            "day": 8,
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 1"
+    },
+    {
+      "balance": 432238.33,
+      "balanceAsOf": "2025-01-10",
+      "contributions": [
+        {
+          "amount": 6.68,
+          "id": "a2r1",
+          "salaryBasis": "perContribution",
+          "timing": {
+            "day": 10,
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 4223.32,
+          "id": "a2r2",
+          "name": "Rule a2r2",
+          "startDate": "2025-10-30",
+          "timing": {
+            "day": 17,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 3755.35,
+          "id": "a2r3",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2022-11-19"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a2",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 2"
+    },
+    {
+      "balance": 489083.68,
+      "balanceAsOf": "2024-12-19",
+      "contributions": [
+        {
+          "amount": 100,
+          "id": "a3x",
+          "startDate": "2025-01-10",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2025-01-10"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1233.57,
+          "enabled": true,
+          "growth": {
+            "amount": 3.67,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a3r1",
+          "name": "Rule a3r1",
+          "startDate": "2019-09-28",
+          "timing": {
+            "frequency": "annual",
+            "month": 2
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 8.01,
+          "growth": {
+            "amount": 6.73,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a3r2",
+          "name": "Rule a3r2",
+          "salaryBasis": "perContribution",
+          "startDate": "2025-03-26",
+          "timing": {
+            "frequency": "annual",
+            "month": 1
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a3",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 3"
+    }
+  ],
+  "endDate": "2025-11-01",
+  "interest": {
+    "annualRate": -0.009,
+    "variance": 0.0775
+  },
+  "salary": {
+    "annualBase": 62719.05,
+    "annualRaiseRate": -0.1095,
+    "asOf": "2016-12-14"
+  },
+  "version": 1
+}

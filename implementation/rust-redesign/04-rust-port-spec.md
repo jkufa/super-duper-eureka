@@ -115,8 +115,8 @@ These keep the engine honest after TypeScript is gone.
 Golden files:
 
 - Take the outputs of the TypeScript CLI for the example files, every regression case, the hand-computed cases and 200 generated cases.
-- Commit each as an input and an expected output under `crates/core/tests/golden/`.
-- A Rust test runs every input and compares with the same rule as the parity harness.
+- Commit each as an input and an expected output under `crates/cli/tests/golden/`.
+- A Rust test, `crates/cli/tests/golden.rs`, runs the CLI on every input and compares with the same rule as the parity harness. The files sit beside it because `core` may not read files, in its tests either.
 - A second command regenerates the expected files from the Rust engine. After part H it is the only way they change, and a PR that regenerates them must explain every number that moved.
 
 Property tests, with `proptest`:
@@ -124,11 +124,11 @@ Property tests, with `proptest`:
 - A scenario with one fresh account equals `projectAccount` on that account.
 - The total equals the sum of the included accounts on every row.
 - Raising any account's rate never lowers the total's final balance.
-- The effective rate is at or between the lowest and highest included rate, except when the pool is empty and the default rate is returned.
+- The effective rate is at or between the lowest and highest included rate, except when no account is included or the pool is empty, and the default rate is returned.
 - Compounding the pool at the effective rate gives the total's final balance within tolerance, for rates in a realistic range. Sixty halvings of a very wide bracket do not get that close.
 - An account that is not stale has zero `rolledForward`.
 - Moving `today` forward one day never changes a deposit's date or amount.
-- Parsing a serialised valid scenario gives back the same scenario.
+- Writing a parsed scenario back to a file with every field stated, and parsing that, gives back the same scenario. The writer is test-only.
 
 ## Part H: delete TypeScript
 

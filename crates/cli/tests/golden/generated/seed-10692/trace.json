@@ -1,0 +1,47 @@
+[
+  {
+    "from": "2041-02-13",
+    "to": "2041-02-17",
+    "days": 4,
+    "daysInMonth": 28,
+    "daysInYear": 365,
+    "balanceStart": 426701.43,
+    "balanceEnd": 426819.7378567441,
+    "contributions": 0.9999999999999999,
+    "interest": 117.30785674408153,
+    "annualRate": 0.0254,
+    "deposits": [
+      {
+        "ruleId": "a1s1",
+        "date": "2041-02-15",
+        "amount": 0.7,
+        "bucket": 15
+      },
+      {
+        "ruleId": "a1s2",
+        "date": "2041-02-15",
+        "amount": 0.2,
+        "bucket": 15
+      },
+      {
+        "ruleId": "a1s3",
+        "date": "2041-02-15",
+        "amount": 0.1,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2041-02-17",
+    "to": "2041-02-20",
+    "days": 3,
+    "daysInMonth": 28,
+    "daysInYear": 365,
+    "balanceStart": 426819.7378567441,
+    "balanceEnd": 426907.74001597136,
+    "contributions": 0.0,
+    "interest": 88.00215922723584,
+    "annualRate": 0.0254,
+    "deposits": []
+  }
+]

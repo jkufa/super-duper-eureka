@@ -1,0 +1,15 @@
+[
+  {
+    "from": "2014-12-31",
+    "to": "2015-01-01",
+    "days": 1,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 502140288616.06,
+    "balanceEnd": 502208070079.7813,
+    "contributions": 0.0,
+    "interest": 67781463.7212912,
+    "annualRate": 0.0505,
+    "deposits": []
+  }
+]

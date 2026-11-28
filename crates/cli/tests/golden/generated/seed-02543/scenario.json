@@ -1,0 +1,25 @@
+{
+  "accounts": [
+    {
+      "balance": 427388.85,
+      "balanceAsOf": "2024-02-29",
+      "contributions": [],
+      "id": "a1",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2024-03-01",
+  "interest": {
+    "annualRate": 0.0095,
+    "compounding": "daily",
+    "variance": 0.0117
+  },
+  "salary": {
+    "annualBase": 169910.53,
+    "annualRaiseRate": 0.0018,
+    "asOf": "2026-12-09"
+  },
+  "version": 1
+}

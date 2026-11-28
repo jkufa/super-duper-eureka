@@ -1,0 +1,186 @@
+{
+  "accounts": [
+    {
+      "balance": 744103157831.59,
+      "balanceAsOf": "2041-12-20",
+      "contributions": [],
+      "id": "a1",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 1"
+    },
+    {
+      "annualRate": -0.0158,
+      "balance": 17058.6,
+      "balanceAsOf": "2032-04-12",
+      "contributions": [
+        {
+          "amount": 4975.74,
+          "growth": {
+            "amount": 24.83,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a2r1",
+          "name": "Rule a2r1",
+          "startDate": "2028-07-20",
+          "timing": {
+            "day": 28,
+            "frequency": "annual",
+            "month": 9,
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 949.09,
+          "growth": {
+            "amount": 254.16,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a2r2",
+          "name": "Rule a2r2",
+          "startDate": "2039-09-14",
+          "timing": {
+            "day": 30,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a2",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 2"
+    },
+    {
+      "annualRate": 0.003,
+      "balance": 0.92,
+      "balanceAsOf": "2041-12-20",
+      "contributions": [
+        {
+          "amount": 2262.18,
+          "id": "a3r1",
+          "salaryBasis": "biweekly",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2042-02-27"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1400.66,
+          "id": "a3r2",
+          "startDate": "2041-12-29",
+          "timing": {
+            "day": 1,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2540.84,
+          "endDate": "2051-02-22",
+          "id": "a3r3",
+          "name": "Rule a3r3",
+          "startDate": "2043-02-06",
+          "timing": {
+            "day": 31,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 18.2,
+          "enabled": true,
+          "growth": {
+            "amount": 3.15,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a3r4",
+          "name": "Rule a3r4",
+          "salaryBasis": "biweekly",
+          "startDate": "2041-12-25",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a3",
+      "included": true,
+      "kind": "other",
+      "name": "Account 3"
+    },
+    {
+      "balance": 0,
+      "balanceAsOf": "2041-12-20",
+      "contributions": [
+        {
+          "amount": 4930.17,
+          "growth": {
+            "amount": 7.63,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a4r1",
+          "startDate": "2041-12-30",
+          "timing": {
+            "day": 20,
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 13.68,
+          "growth": {
+            "amount": 0.28,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a4r2",
+          "salaryBasis": "weekly",
+          "startDate": "2041-12-31",
+          "timing": {
+            "day": 30,
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 6.95,
+          "enabled": true,
+          "id": "a4r3",
+          "name": "Rule a4r3",
+          "salaryBasis": "biweekly",
+          "timing": {
+            "day": 12,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a4",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 4"
+    }
+  ],
+  "endDate": "2041-12-28",
+  "interest": {
+    "annualRate": 0.0499,
+    "compounding": "daily",
+    "variance": 0.0663
+  },
+  "salary": {
+    "annualBase": 272842.3,
+    "annualRaiseRate": -0.1819,
+    "asOf": "2041-12-27"
+  },
+  "version": 1
+}

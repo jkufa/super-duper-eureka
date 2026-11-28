@@ -1,0 +1,15 @@
+[
+  {
+    "from": "2005-06-05",
+    "to": "2005-06-16",
+    "days": 11,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 0.68,
+    "balanceEnd": 0.6817855032981929,
+    "contributions": 0.0,
+    "interest": 0.0017855032981927714,
+    "annualRate": 0.0894,
+    "deposits": []
+  }
+]

@@ -1,0 +1,15 @@
+[
+  {
+    "from": "2010-07-01",
+    "to": "2010-07-06",
+    "days": 5,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 77953.89,
+    "balanceEnd": 77940.5052646886,
+    "contributions": 0.0,
+    "interest": -13.384735311398101,
+    "annualRate": -0.0127,
+    "deposits": []
+  }
+]

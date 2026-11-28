@@ -1,0 +1,65 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.0199,
+      "balance": 285938.43,
+      "balanceAsOf": "2043-12-16",
+      "contributions": [
+        {
+          "amount": 12.14,
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "salaryBasis": "annual",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2044-12-18"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 0.7,
+          "id": "a1s1",
+          "timing": {
+            "day": 15,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0.2,
+          "id": "a1s2",
+          "timing": {
+            "day": 15,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0.1,
+          "id": "a1s3",
+          "timing": {
+            "day": 15,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": false,
+      "kind": "other",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2044-01-01",
+  "interest": {
+    "annualRate": 0.09,
+    "compounding": "daily",
+    "variance": 0
+  },
+  "salary": {
+    "annualBase": 260454.17,
+    "annualRaiseRate": -0.9742,
+    "asOf": "2040-02-29"
+  },
+  "version": 1
+}

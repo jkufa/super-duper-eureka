@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "endDate": "2029-02-01",
+  "interest": {
+    "annualRate": 0.04,
+    "variance": 0,
+    "compounding": "daily"
+  },
+  "salary": {
+    "annualBase": 90000,
+    "annualRaiseRate": 0.02,
+    "asOf": "2026-02-01"
+  },
+  "accounts": [
+    {
+      "id": "brokerage",
+      "name": "Brokerage",
+      "kind": "taxable",
+      "included": true,
+      "balance": 20000,
+      "balanceAsOf": "2026-02-01",
+      "contributions": [
+        {
+          "id": "auto-invest",
+          "name": "Auto Invest",
+          "type": "flat",
+          "amount": 200,
+          "timing": {
+            "frequency": "monthly",
+            "day": 15
+          }
+        }
+      ]
+    },
+    {
+      "id": "savings",
+      "name": "Savings",
+      "kind": "other",
+      "included": true,
+      "balance": 5000,
+      "balanceAsOf": "2026-02-01",
+      "annualRate": 0.03,
+      "contributions": [
+        {
+          "id": "bonus",
+          "name": "Annual Bonus",
+          "type": "flat",
+          "amount": 3000,
+          "timing": {
+            "frequency": "annual",
+            "month": 12,
+            "day": 15
+          }
+        }
+      ]
+    }
+  ]
+}

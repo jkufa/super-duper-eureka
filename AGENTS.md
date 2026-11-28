@@ -84,6 +84,7 @@ Commands:
 
 - `just check`: format check, Clippy, tests, `cargo deny check` and `cargo shear`, stopping at the first failure. Run it before handing work to review.
 - `just fix`: apply rustfmt and Clippy's automatic fixes.
+- `just golden`: rewrite the golden expected files from the release Rust CLI, all at once. See the process list below before running it.
 - While TypeScript exists, `vp check` and `vp test` still cover it. `just check` covers Rust only.
 
 Design:
@@ -104,6 +105,7 @@ Process:
 - The comment rule under "Coding Style" applies, and so does silencing a lint with `#[expect]` and a reason. Find the way that needs neither.
 - A doc comment that states a field's unit or invariant is a fact about the data, not a justification. Write those. A field that needs neither gets none.
 - A bug fix comes with a test that fails without the fix.
+- The golden cases in `crates/cli/tests/golden/` are the engine's expected output, and `crates/cli/tests/golden.rs` checks the CLI against them. `just golden` rewrites the expected files from the Rust CLI. Regenerate only when behaviour is meant to change, and in the PR explain every number that moved: which case, which field, the old and new value, and why. A regeneration that moves a number nobody can explain is a bug.
 - Before writing a new module, read the exemplar and match it: `crates/core/src/date.rs` and `crates/core/src/scenario/` (`raw.rs`, `mod.rs`, `account.rs`, `rule.rs`, `error.rs`, `tests.rs`). Imitate how the raw file types become validated types with private fields and accessors, how each validator returns an error that names the account or rule at fault without cloning ids, and how the tests build input from JSON text and edit one field per case.
 - Review agents check each of these rules on every Rust PR and log repeats in the code review log.
 

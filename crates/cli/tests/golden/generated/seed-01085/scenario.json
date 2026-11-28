@@ -1,0 +1,319 @@
+{
+  "accounts": [
+    {
+      "balance": 771446009987.74,
+      "balanceAsOf": "2030-08-15",
+      "contributions": [
+        {
+          "amount": 3.08,
+          "enabled": false,
+          "id": "a1r1",
+          "salaryBasis": "monthly",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2030-08-19"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 4586.09,
+          "id": "a1r2",
+          "timing": {
+            "frequency": "annual",
+            "month": 12
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2258.76,
+          "id": "a1r3",
+          "name": "Rule a1r3",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 4421.27,
+          "id": "a1r4",
+          "name": "Rule a1r4",
+          "salaryBasis": "daily",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2030-08-24"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "other",
+      "name": "Account 1"
+    },
+    {
+      "annualRate": 0.1234,
+      "balance": 385601.4,
+      "balanceAsOf": "2030-07-17",
+      "contributions": [
+        {
+          "amount": 7.23,
+          "id": "a2r1",
+          "timing": {
+            "day": 28,
+            "frequency": "annual",
+            "month": 12,
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 1212,
+          "id": "a2r2",
+          "name": "Rule a2r2",
+          "timing": {
+            "frequency": "annual",
+            "month": 6,
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 313.68,
+          "growth": {
+            "amount": 0,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a2r3",
+          "startDate": "2023-06-30",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 971.22,
+          "enabled": true,
+          "id": "a2r4",
+          "startDate": "2027-05-14",
+          "timing": {
+            "day": 29,
+            "frequency": "annual",
+            "month": 2
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 12.33,
+          "id": "a2r5",
+          "salaryBasis": "perContribution",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a2",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 2"
+    },
+    {
+      "balance": 0.91,
+      "balanceAsOf": "2028-01-05",
+      "contributions": [
+        {
+          "amount": 4.58,
+          "endDate": "2027-04-20",
+          "id": "a3r1",
+          "name": "Rule a3r1",
+          "salaryBasis": "perContribution",
+          "timing": {
+            "day": 28,
+            "frequency": "annual",
+            "month": 2
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a3",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 3"
+    },
+    {
+      "annualRate": 0.1234,
+      "balance": 0.6,
+      "balanceAsOf": "2030-08-15",
+      "contributions": [
+        {
+          "amount": 7.09,
+          "id": "a4r1",
+          "salaryBasis": "monthly",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 4035.48,
+          "id": "a4r2",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2030-08-15"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 4.28,
+          "enabled": true,
+          "id": "a4r3",
+          "name": "Rule a4r3",
+          "salaryBasis": "biweekly",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2027-12-27"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 0.3,
+          "growth": {
+            "amount": 1.62,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a4r4",
+          "startDate": "2025-05-30",
+          "timing": {
+            "day": 1,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 735.24,
+          "id": "a4r5",
+          "name": "Rule a4r5",
+          "timing": {
+            "frequency": "annual",
+            "month": 11,
+            "placement": "start"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a4",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 4"
+    },
+    {
+      "annualRate": 0.1234,
+      "balance": 33426.55,
+      "balanceAsOf": "2030-07-20",
+      "contributions": [
+        {
+          "amount": 2876.4,
+          "id": "a5r1",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2030-08-15"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a5",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 5"
+    },
+    {
+      "balance": 309537.61,
+      "balanceAsOf": "2030-08-15",
+      "contributions": [
+        {
+          "amount": 6.32,
+          "id": "a6r1",
+          "name": "Rule a6r1",
+          "timing": {
+            "frequency": "annual",
+            "month": 4,
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 0.84,
+          "id": "a6r2",
+          "salaryBasis": "monthly",
+          "startDate": "2026-07-28",
+          "timing": {
+            "frequency": "annual",
+            "month": 1,
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 12.17,
+          "id": "a6r3",
+          "salaryBasis": "daily",
+          "timing": {
+            "day": 28,
+            "frequency": "annual",
+            "month": 9,
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 0.7,
+          "id": "a6s1",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0.2,
+          "id": "a6s2",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0.1,
+          "id": "a6s3",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a6",
+      "included": false,
+      "kind": "pretax",
+      "name": "Account 6"
+    }
+  ],
+  "endDate": "2030-08-25",
+  "interest": {
+    "annualRate": 0.1234,
+    "compounding": "monthly",
+    "variance": 0.0532
+  },
+  "salary": {
+    "annualBase": 11983.9,
+    "annualRaiseRate": -0.1071,
+    "asOf": "2029-12-03"
+  },
+  "version": 1
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "from": "2000-09-07",
+    "to": "2000-09-29",
+    "days": 22,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 438629.53,
+    "balanceEnd": 441800.66699006443,
+    "contributions": 1668.74,
+    "interest": 1502.3969900643767,
+    "annualRate": 0.0584,
+    "deposits": [
+      {
+        "ruleId": "a1r4",
+        "date": "2000-09-16",
+        "amount": 1668.74,
+        "bucket": 16
+      }
+    ]
+  }
+]

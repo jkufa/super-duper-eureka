@@ -1,0 +1,22 @@
+[
+  {
+    "from": "2060-10-29",
+    "to": "2060-10-31",
+    "days": 2,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 6985.93,
+    "balanceEnd": 23189.744340521822,
+    "contributions": 16188.553511000002,
+    "interest": 15.260829521817998,
+    "annualRate": 0.1296,
+    "deposits": [
+      {
+        "ruleId": "a1r4",
+        "date": "2060-10-30",
+        "amount": 16188.553511000002,
+        "bucket": "start"
+      }
+    ]
+  }
+]

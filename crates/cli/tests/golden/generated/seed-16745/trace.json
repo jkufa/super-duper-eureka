@@ -1,0 +1,41 @@
+[
+  {
+    "from": "2012-02-29",
+    "to": "2012-03-01",
+    "days": 1,
+    "daysInMonth": 29,
+    "daysInYear": 366,
+    "balanceStart": 0.51,
+    "balanceEnd": 0.5101622905552411,
+    "contributions": 0.0,
+    "interest": 0.00016229055524104918,
+    "annualRate": 0.1235,
+    "deposits": []
+  },
+  {
+    "from": "2012-03-01",
+    "to": "2012-04-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 0.5101622905552411,
+    "balanceEnd": 0.5152189946822527,
+    "contributions": 0.0,
+    "interest": 0.0050567041270116585,
+    "annualRate": 0.1235,
+    "deposits": []
+  },
+  {
+    "from": "2012-04-01",
+    "to": "2012-04-11",
+    "days": 10,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 0.5152189946822527,
+    "balanceEnd": 0.5168608576873931,
+    "contributions": 0.0,
+    "interest": 0.0016418630051402553,
+    "annualRate": 0.1235,
+    "deposits": []
+  }
+]

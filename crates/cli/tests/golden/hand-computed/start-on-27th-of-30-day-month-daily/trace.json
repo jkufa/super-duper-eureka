@@ -1,0 +1,41 @@
+[
+  {
+    "from": "2026-11-27",
+    "to": "2026-12-01",
+    "days": 4,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 3000.0,
+    "balanceEnd": 48000.0,
+    "contributions": 0.0,
+    "interest": 45000.0,
+    "annualRate": 7.515336264876266e+109,
+    "deposits": []
+  },
+  {
+    "from": "2026-12-01",
+    "to": "2027-01-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 48000.0,
+    "balanceEnd": 103132902236160.0,
+    "contributions": 110.0,
+    "interest": 103132902188050.0,
+    "annualRate": 7.515336264876266e+109,
+    "deposits": [
+      {
+        "ruleId": "early",
+        "date": "2026-12-03",
+        "amount": 100.0,
+        "bucket": 3
+      },
+      {
+        "ruleId": "late",
+        "date": "2026-12-20",
+        "amount": 10.0,
+        "bucket": 20
+      }
+    ]
+  }
+]

@@ -1,0 +1,188 @@
+{
+  "accounts": [
+    {
+      "balance": 166717.9,
+      "balanceAsOf": "2016-02-01",
+      "contributions": [
+        {
+          "amount": 14.8,
+          "enabled": true,
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "salaryBasis": "perContribution",
+          "timing": {
+            "day": 18,
+            "frequency": "annual",
+            "month": 2
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 16.11,
+          "growth": {
+            "amount": 6.18,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "salaryBasis": "monthly",
+          "startDate": "2035-12-11",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 4175.83,
+          "id": "a1r3",
+          "startDate": "2040-12-29",
+          "timing": {
+            "day": 23,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 3944.64,
+          "growth": {
+            "amount": 312.91,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a1r4",
+          "name": "Rule a1r4",
+          "startDate": "2040-03-12",
+          "timing": {
+            "day": 12,
+            "frequency": "annual",
+            "month": 11
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": false,
+      "kind": "other",
+      "name": "Account 1"
+    },
+    {
+      "annualRate": 0.1309,
+      "balance": 78241.43,
+      "balanceAsOf": "2011-01-24",
+      "contributions": [],
+      "id": "a2",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 2"
+    },
+    {
+      "balance": 68719.14,
+      "balanceAsOf": "2020-01-05",
+      "contributions": [
+        {
+          "amount": 634.9,
+          "id": "a3r1",
+          "name": "Rule a3r1",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2074.05,
+          "id": "a3r2",
+          "name": "Rule a3r2",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2020-01-05"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2811.97,
+          "id": "a3r3",
+          "name": "Rule a3r3",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1684.38,
+          "enabled": true,
+          "endDate": "2032-04-29",
+          "growth": {
+            "amount": 0.45,
+            "cadence": "monthly",
+            "type": "flat"
+          },
+          "id": "a3r4",
+          "startDate": "2022-06-29",
+          "timing": {
+            "day": 6,
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 3.94,
+          "endDate": "2027-01-22",
+          "id": "a3r5",
+          "name": "Rule a3r5",
+          "salaryBasis": "perContribution",
+          "timing": {
+            "day": 24,
+            "frequency": "annual",
+            "month": 3
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a3",
+      "included": true,
+      "kind": "other",
+      "name": "Account 3"
+    },
+    {
+      "annualRate": 0.1309,
+      "balance": 0,
+      "balanceAsOf": "2014-03-29",
+      "contributions": [
+        {
+          "amount": 15.54,
+          "enabled": true,
+          "endDate": "2019-12-26",
+          "id": "a4r1",
+          "name": "Rule a4r1",
+          "salaryBasis": "daily",
+          "startDate": "2013-07-30",
+          "timing": {
+            "frequency": "annual",
+            "month": 2,
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a4",
+      "included": true,
+      "kind": "other",
+      "name": "Account 4"
+    }
+  ],
+  "endDate": "2013-01-30",
+  "interest": {
+    "annualRate": 0.1309,
+    "compounding": "daily",
+    "variance": 0.0152
+  },
+  "salary": {
+    "annualBase": 86993.56,
+    "asOf": "2020-01-11"
+  },
+  "version": 1
+}

@@ -1,0 +1,83 @@
+{
+  "accounts": [
+    {
+      "balance": 176217.71,
+      "balanceAsOf": "2063-04-07",
+      "contributions": [
+        {
+          "amount": 4924.82,
+          "enabled": true,
+          "growth": {
+            "amount": 6.69,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "startDate": "2056-09-05",
+          "timing": {
+            "day": 28,
+            "frequency": "annual",
+            "month": 9,
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1.44,
+          "id": "a1r2",
+          "salaryBasis": "daily",
+          "startDate": "2053-03-02",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 1"
+    },
+    {
+      "annualRate": -0.0168,
+      "balance": 315921.71,
+      "balanceAsOf": "2060-07-12",
+      "contributions": [
+        {
+          "amount": 11.39,
+          "growth": {
+            "amount": 4.54,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a2r1",
+          "name": "Rule a2r1",
+          "salaryBasis": "weekly",
+          "startDate": "2061-03-31",
+          "timing": {
+            "frequency": "annual",
+            "month": 12,
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a2",
+      "included": false,
+      "kind": "roth",
+      "name": "Account 2"
+    }
+  ],
+  "endDate": "2061-12-01",
+  "interest": {
+    "annualRate": 0.055,
+    "compounding": "daily",
+    "variance": 0
+  },
+  "salary": {
+    "annualBase": 78023.73,
+    "asOf": "2066-01-20"
+  },
+  "version": 1
+}

@@ -1,0 +1,15 @@
+[
+  {
+    "from": "2052-12-31",
+    "to": "2053-01-01",
+    "days": 1,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 0.9,
+    "balanceEnd": 0.900098076415268,
+    "contributions": 0.0,
+    "interest": 0.00009807641526793007,
+    "annualRate": 0.0413,
+    "deposits": []
+  }
+]

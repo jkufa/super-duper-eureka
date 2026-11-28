@@ -1,0 +1,182 @@
+{
+  "accounts": [
+    {
+      "balance": 159823.11,
+      "balanceAsOf": "2028-09-26",
+      "contributions": [
+        {
+          "amount": 2172.64,
+          "enabled": false,
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2968.45,
+          "enabled": false,
+          "id": "a1r2",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 5.6,
+          "growth": {
+            "amount": 250.47,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a1r3",
+          "name": "Rule a1r3",
+          "salaryBasis": "annual",
+          "startDate": "2023-06-30",
+          "timing": {
+            "frequency": "annual",
+            "month": 6,
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 1"
+    },
+    {
+      "balance": 112681.6,
+      "balanceAsOf": "2028-09-04",
+      "contributions": [],
+      "id": "a2",
+      "included": false,
+      "kind": "other",
+      "name": "Account 2"
+    },
+    {
+      "balance": 81146.26,
+      "balanceAsOf": "2028-10-01",
+      "contributions": [
+        {
+          "amount": 3150.42,
+          "enabled": true,
+          "endDate": "2023-12-27",
+          "id": "a3r1",
+          "timing": {
+            "day": 29,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2962.03,
+          "id": "a3r2",
+          "name": "Rule a3r2",
+          "timing": {
+            "frequency": "annual",
+            "month": 8,
+            "placement": "start"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a3",
+      "included": true,
+      "kind": "other",
+      "name": "Account 3"
+    },
+    {
+      "balance": 329568.01,
+      "balanceAsOf": "2028-10-01",
+      "contributions": [],
+      "id": "a4",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 4"
+    },
+    {
+      "annualRate": 0.0237,
+      "balance": 407656.87,
+      "balanceAsOf": "2025-03-14",
+      "contributions": [
+        {
+          "amount": 4212.54,
+          "id": "a5r1",
+          "timing": {
+            "day": 31,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2104.73,
+          "id": "a5r2",
+          "timing": {
+            "day": 8,
+            "frequency": "annual",
+            "month": 7
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2520.75,
+          "growth": {
+            "amount": 450.99,
+            "cadence": "monthly",
+            "type": "flat"
+          },
+          "id": "a5r3",
+          "startDate": "2025-01-21",
+          "timing": {
+            "day": 29,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 4722.16,
+          "id": "a5r4",
+          "name": "Rule a5r4",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2028-10-01"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 664.32,
+          "growth": {
+            "amount": 0.12,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a5g",
+          "startDate": "1942-02-18",
+          "timing": {
+            "day": 27,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a5",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 5"
+    }
+  ],
+  "endDate": "2028-10-07",
+  "interest": {
+    "annualRate": 0.0219,
+    "variance": 0.0293
+  },
+  "salary": {
+    "annualBase": 28952.96,
+    "annualRaiseRate": 0.0189,
+    "asOf": "2028-10-01"
+  },
+  "version": 1
+}

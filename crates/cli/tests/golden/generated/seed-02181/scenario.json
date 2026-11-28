@@ -1,0 +1,116 @@
+{
+  "accounts": [
+    {
+      "annualRate": -0.026,
+      "balance": 0.65,
+      "balanceAsOf": "2019-05-01",
+      "contributions": [],
+      "id": "a1",
+      "included": true,
+      "kind": "other",
+      "name": "Account 1"
+    },
+    {
+      "balance": 226276.98,
+      "balanceAsOf": "2019-05-01",
+      "contributions": [
+        {
+          "amount": 499.31,
+          "growth": {
+            "amount": 4.87,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a2r1",
+          "name": "Rule a2r1",
+          "startDate": "2019-05-01",
+          "timing": {
+            "day": 28,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 15.75,
+          "endDate": "2011-06-06",
+          "id": "a2r2",
+          "name": "Rule a2r2",
+          "salaryBasis": "biweekly",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 3757.57,
+          "id": "a2r3",
+          "startDate": "2018-09-25",
+          "timing": {
+            "frequency": "annual",
+            "month": 12,
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 17.58,
+          "id": "a2r4",
+          "salaryBasis": "monthly",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a2",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 2"
+    },
+    {
+      "balance": 0,
+      "balanceAsOf": "2012-01-20",
+      "contributions": [
+        {
+          "amount": 3626.73,
+          "id": "a3r1",
+          "startDate": "2020-06-01",
+          "timing": {
+            "day": 29,
+            "frequency": "annual",
+            "month": 3,
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 4119.18,
+          "id": "a3r2",
+          "timing": {
+            "day": 8,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a3",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 3"
+    }
+  ],
+  "endDate": "2019-05-08",
+  "interest": {
+    "annualRate": -0.026,
+    "compounding": "daily",
+    "variance": 0.048
+  },
+  "salary": {
+    "annualBase": 0,
+    "annualRaiseRate": 0,
+    "asOf": "2016-02-29"
+  },
+  "version": 1
+}

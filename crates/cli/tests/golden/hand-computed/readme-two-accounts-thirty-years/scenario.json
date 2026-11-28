@@ -1,0 +1,35 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.06,
+      "balance": 180000,
+      "balanceAsOf": "2026-01-01",
+      "contributions": [],
+      "id": "six",
+      "included": true,
+      "kind": "other",
+      "name": "Account"
+    },
+    {
+      "annualRate": 0.1,
+      "balance": 20000,
+      "balanceAsOf": "2026-01-01",
+      "contributions": [],
+      "id": "ten",
+      "included": true,
+      "kind": "other",
+      "name": "Account"
+    }
+  ],
+  "endDate": "2056-01-01",
+  "interest": {
+    "annualRate": 0,
+    "compounding": "monthly",
+    "variance": 0
+  },
+  "salary": {
+    "annualBase": 0,
+    "asOf": "2026-01-01"
+  },
+  "version": 1
+}

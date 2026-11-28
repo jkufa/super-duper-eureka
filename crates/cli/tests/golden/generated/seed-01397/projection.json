@@ -1,0 +1,197 @@
+{
+  "today": "1995-11-02",
+  "endDate": "1995-11-06",
+  "effectiveRate": 0.0557,
+  "staleAccounts": [
+    {
+      "accountId": "a1",
+      "balanceAsOf": "1995-10-26"
+    }
+  ],
+  "salaryByYear": [
+    {
+      "year": 1995,
+      "salary": 191038.69980284822
+    }
+  ],
+  "bands": {
+    "baseline": {
+      "total": {
+        "startBalance": 149973.21531826016,
+        "finalBalance": 150431.7668401007,
+        "totalContributions": 369.21902558050476,
+        "totalInterest": 89.33249626001596,
+        "monthly": [
+          {
+            "year": 1995,
+            "month": 11,
+            "balance": 150431.7668401007,
+            "contributions": 369.21902558050476,
+            "interest": 89.33249626001596
+          }
+        ],
+        "yearly": [
+          {
+            "year": 1995,
+            "balance": 150431.7668401007,
+            "contributions": 369.21902558050476,
+            "interest": 89.33249626001596,
+            "weightedRate": 0.0557
+          }
+        ]
+      },
+      "accounts": [
+        {
+          "accountId": "a1",
+          "included": true,
+          "annualRate": 0.0557,
+          "rolledForward": {
+            "contributions": 604.3435791840102,
+            "interest": 155.46173907616105
+          },
+          "series": {
+            "startBalance": 149973.21531826016,
+            "finalBalance": 150431.7668401007,
+            "totalContributions": 369.21902558050476,
+            "totalInterest": 89.33249626001596,
+            "monthly": [
+              {
+                "year": 1995,
+                "month": 11,
+                "balance": 150431.7668401007,
+                "contributions": 369.21902558050476,
+                "interest": 89.33249626001596
+              }
+            ],
+            "yearly": [
+              {
+                "year": 1995,
+                "balance": 150431.7668401007,
+                "contributions": 369.21902558050476,
+                "interest": 89.33249626001596
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "positive": {
+      "total": {
+        "startBalance": 150130.12060592836,
+        "finalBalance": 150678.98118217572,
+        "totalContributions": 369.21902558050476,
+        "totalInterest": 179.6415506668411,
+        "monthly": [
+          {
+            "year": 1995,
+            "month": 11,
+            "balance": 150678.98118217572,
+            "contributions": 369.21902558050476,
+            "interest": 179.6415506668411
+          }
+        ],
+        "yearly": [
+          {
+            "year": 1995,
+            "balance": 150678.98118217572,
+            "contributions": 369.21902558050476,
+            "interest": 179.6415506668411
+          }
+        ]
+      },
+      "accounts": [
+        {
+          "accountId": "a1",
+          "included": true,
+          "annualRate": 0.11499999999999999,
+          "rolledForward": {
+            "contributions": 604.3435791840102,
+            "interest": 312.3670267443868
+          },
+          "series": {
+            "startBalance": 150130.12060592836,
+            "finalBalance": 150678.98118217572,
+            "totalContributions": 369.21902558050476,
+            "totalInterest": 179.6415506668411,
+            "monthly": [
+              {
+                "year": 1995,
+                "month": 11,
+                "balance": 150678.98118217572,
+                "contributions": 369.21902558050476,
+                "interest": 179.6415506668411
+              }
+            ],
+            "yearly": [
+              {
+                "year": 1995,
+                "balance": 150678.98118217572,
+                "contributions": 369.21902558050476,
+                "interest": 179.6415506668411
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "negative": {
+      "total": {
+        "startBalance": 149807.4155768239,
+        "finalBalance": 150170.69925261752,
+        "totalContributions": 369.21902558050476,
+        "totalInterest": -5.935349786888041,
+        "monthly": [
+          {
+            "year": 1995,
+            "month": 11,
+            "balance": 150170.69925261752,
+            "contributions": 369.21902558050476,
+            "interest": -5.935349786888041
+          }
+        ],
+        "yearly": [
+          {
+            "year": 1995,
+            "balance": 150170.69925261752,
+            "contributions": 369.21902558050476,
+            "interest": -5.935349786888041
+          }
+        ]
+      },
+      "accounts": [
+        {
+          "accountId": "a1",
+          "included": true,
+          "annualRate": -0.003599999999999999,
+          "rolledForward": {
+            "contributions": 604.3435791840102,
+            "interest": -10.338002360105211
+          },
+          "series": {
+            "startBalance": 149807.4155768239,
+            "finalBalance": 150170.69925261752,
+            "totalContributions": 369.21902558050476,
+            "totalInterest": -5.935349786888041,
+            "monthly": [
+              {
+                "year": 1995,
+                "month": 11,
+                "balance": 150170.69925261752,
+                "contributions": 369.21902558050476,
+                "interest": -5.935349786888041
+              }
+            ],
+            "yearly": [
+              {
+                "year": 1995,
+                "balance": 150170.69925261752,
+                "contributions": 369.21902558050476,
+                "interest": -5.935349786888041
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

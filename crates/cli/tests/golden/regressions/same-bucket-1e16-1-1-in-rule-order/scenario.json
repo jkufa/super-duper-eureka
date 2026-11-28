@@ -1,0 +1,53 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.05,
+      "balance": 0,
+      "balanceAsOf": "2026-01-01",
+      "contributions": [
+        {
+          "amount": 10000000000000000,
+          "id": "huge",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1,
+          "id": "one-a",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1,
+          "id": "one-b",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "big",
+      "included": true,
+      "kind": "other",
+      "name": "big"
+    }
+  ],
+  "endDate": "2027-01-01",
+  "interest": {
+    "annualRate": 0,
+    "compounding": "monthly",
+    "variance": 0
+  },
+  "salary": {
+    "annualBase": 0,
+    "asOf": "2026-01-01"
+  },
+  "version": 1
+}

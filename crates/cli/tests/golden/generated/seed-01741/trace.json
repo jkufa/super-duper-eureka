@@ -1,0 +1,22 @@
+[
+  {
+    "from": "2021-04-14",
+    "to": "2021-04-23",
+    "days": 9,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 239525.38,
+    "balanceEnd": 243616.3891398297,
+    "contributions": 3568.13,
+    "interest": 522.8791398296756,
+    "annualRate": 0.0909,
+    "deposits": [
+      {
+        "ruleId": "a1r1",
+        "date": "2021-04-20",
+        "amount": 3568.13,
+        "bucket": "end"
+      }
+    ]
+  }
+]

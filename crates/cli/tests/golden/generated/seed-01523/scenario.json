@@ -1,0 +1,239 @@
+{
+  "accounts": [
+    {
+      "balance": 466187.26,
+      "balanceAsOf": "2012-01-04",
+      "contributions": [
+        {
+          "amount": 17.96,
+          "enabled": true,
+          "endDate": "2010-10-10",
+          "id": "a1r1",
+          "salaryBasis": "perContribution",
+          "timing": {
+            "day": 1,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 3.77,
+          "endDate": "2012-01-04",
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "salaryBasis": "monthly",
+          "timing": {
+            "day": 29,
+            "frequency": "annual",
+            "month": 2
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 1366.23,
+          "endDate": "2020-07-23",
+          "id": "a1r3",
+          "salaryBasis": "daily",
+          "startDate": "2012-02-05",
+          "timing": {
+            "frequency": "annual",
+            "month": 8
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "other",
+      "name": "Account 1"
+    },
+    {
+      "balance": 369494.55,
+      "balanceAsOf": "2012-01-04",
+      "contributions": [
+        {
+          "amount": 3309.12,
+          "id": "a2r1",
+          "name": "Rule a2r1",
+          "timing": {
+            "day": 29,
+            "frequency": "annual",
+            "month": 2,
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 16.22,
+          "id": "a2r2",
+          "salaryBasis": "monthly",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2012-02-23"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 1059.11,
+          "id": "a2r3",
+          "timing": {
+            "day": 30,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 15,
+          "id": "a2r4",
+          "salaryBasis": "biweekly",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a2",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 2"
+    },
+    {
+      "annualRate": 0.0969,
+      "balance": 0,
+      "balanceAsOf": "2012-01-04",
+      "contributions": [
+        {
+          "amount": 19.26,
+          "id": "a3r1",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 14.7,
+          "id": "a3r2",
+          "timing": {
+            "day": 29,
+            "frequency": "annual",
+            "month": 1
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 3576.35,
+          "id": "a3r3",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2008-04-21"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 5.03,
+          "id": "a3r4",
+          "name": "Rule a3r4",
+          "salaryBasis": "monthly",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2012-01-04"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a3",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 3"
+    },
+    {
+      "balance": 106112.39,
+      "balanceAsOf": "2012-01-04",
+      "contributions": [],
+      "id": "a4",
+      "included": false,
+      "kind": "roth",
+      "name": "Account 4"
+    },
+    {
+      "balance": 147722.67,
+      "balanceAsOf": "2003-04-18",
+      "contributions": [
+        {
+          "amount": 1918.75,
+          "growth": {
+            "amount": 2.54,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a5r1",
+          "name": "Rule a5r1",
+          "startDate": "1998-08-30",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 6.23,
+          "enabled": true,
+          "id": "a5r2",
+          "salaryBasis": "perContribution",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 2550.03,
+          "id": "a5r3",
+          "name": "Rule a5r3",
+          "startDate": "1996-09-05",
+          "timing": {
+            "frequency": "annual",
+            "month": 5
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 4815.63,
+          "endDate": "2010-05-06",
+          "id": "a5r4",
+          "startDate": "2010-05-06",
+          "timing": {
+            "frequency": "annual",
+            "month": 6,
+            "placement": "start"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a5",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 5"
+    },
+    {
+      "balance": 90485.26,
+      "balanceAsOf": "2012-01-04",
+      "contributions": [],
+      "id": "a6",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 6"
+    }
+  ],
+  "endDate": "2012-01-07",
+  "interest": {
+    "annualRate": 0.0969,
+    "compounding": "daily"
+  },
+  "salary": {
+    "annualBase": 295315.81,
+    "annualRaiseRate": -0.2224,
+    "asOf": "2005-11-05"
+  },
+  "version": 1
+}

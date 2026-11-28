@@ -1,0 +1,273 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.0894,
+      "balance": 0.68,
+      "balanceAsOf": "2005-06-05",
+      "contributions": [
+        {
+          "amount": 4904.71,
+          "enabled": true,
+          "id": "a1r1",
+          "timing": {
+            "day": 5,
+            "frequency": "annual",
+            "month": 1,
+            "placement": "end"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": false,
+      "kind": "pretax",
+      "name": "Account 1"
+    },
+    {
+      "balance": 413265.09,
+      "balanceAsOf": "1997-12-25",
+      "contributions": [
+        {
+          "amount": 15.74,
+          "id": "a2r1",
+          "salaryBasis": "weekly",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2005-06-16"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 1938.94,
+          "enabled": true,
+          "endDate": "2002-10-15",
+          "id": "a2r2",
+          "startDate": "2002-10-15",
+          "timing": {
+            "day": 21,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2129.85,
+          "enabled": true,
+          "endDate": "2019-05-29",
+          "id": "a2r3",
+          "startDate": "2004-08-11",
+          "timing": {
+            "frequency": "annual",
+            "month": 7
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 4924.41,
+          "enabled": false,
+          "id": "a2r4",
+          "name": "Rule a2r4",
+          "startDate": "1994-08-08",
+          "timing": {
+            "day": 31,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 15.06,
+          "endDate": "1999-04-03",
+          "id": "a2r5",
+          "salaryBasis": "perContribution",
+          "timing": {
+            "day": 18,
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a2",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 2"
+    },
+    {
+      "annualRate": -0.027,
+      "balance": 304070.45,
+      "balanceAsOf": "2005-06-05",
+      "contributions": [
+        {
+          "amount": 3292.83,
+          "id": "a3r1",
+          "startDate": "1999-10-05",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2776.62,
+          "enabled": true,
+          "growth": {
+            "amount": 360.42,
+            "cadence": "monthly",
+            "type": "flat"
+          },
+          "id": "a3r2",
+          "name": "Rule a3r2",
+          "startDate": "2005-07-31",
+          "timing": {
+            "frequency": "annual",
+            "month": 7
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a3",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 3"
+    },
+    {
+      "balance": 71912.85,
+      "balanceAsOf": "2004-02-29",
+      "contributions": [
+        {
+          "amount": 0,
+          "id": "a4r1",
+          "name": "Rule a4r1",
+          "startDate": "2001-12-29",
+          "timing": {
+            "day": 30,
+            "frequency": "annual",
+            "month": 12,
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 3949.68,
+          "id": "a4r2",
+          "timing": {
+            "day": 29,
+            "frequency": "annual",
+            "month": 2
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2982.68,
+          "id": "a4r3",
+          "salaryBasis": "biweekly",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2005-04-17"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a4",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 4"
+    },
+    {
+      "annualRate": 0.0914,
+      "balance": 409875.81,
+      "balanceAsOf": "2005-06-05",
+      "contributions": [
+        {
+          "amount": 9.79,
+          "enabled": true,
+          "id": "a5r1",
+          "name": "Rule a5r1",
+          "salaryBasis": "daily",
+          "timing": {
+            "day": 28,
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 3084.07,
+          "growth": {
+            "amount": 246.33,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a5r2",
+          "name": "Rule a5r2",
+          "startDate": "2003-08-29",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a5",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 5"
+    },
+    {
+      "annualRate": 0.0498,
+      "balance": 585319911883.45,
+      "balanceAsOf": "2004-02-29",
+      "contributions": [
+        {
+          "amount": 213.46,
+          "growth": {
+            "amount": 487.58,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a6r1",
+          "name": "Rule a6r1",
+          "salaryBasis": "perContribution",
+          "startDate": "2001-09-30",
+          "timing": {
+            "day": 9,
+            "frequency": "annual",
+            "month": 6,
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2054.26,
+          "enabled": false,
+          "growth": {
+            "amount": 3.3,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a6r2",
+          "name": "Rule a6r2",
+          "startDate": "1995-12-31",
+          "timing": {
+            "day": 30,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a6",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 6"
+    }
+  ],
+  "endDate": "2005-06-16",
+  "interest": {
+    "annualRate": 0.0389,
+    "compounding": "monthly",
+    "variance": 0.0161
+  },
+  "salary": {
+    "annualBase": 159262.47,
+    "annualRaiseRate": -0.0783,
+    "asOf": "1999-08-09"
+  },
+  "version": 1
+}

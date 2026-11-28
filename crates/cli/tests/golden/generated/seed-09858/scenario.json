@@ -1,0 +1,100 @@
+{
+  "accounts": [
+    {
+      "balance": 77953.89,
+      "balanceAsOf": "2010-07-01",
+      "contributions": [
+        {
+          "amount": 4550.17,
+          "enabled": false,
+          "id": "a1r1",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2010-07-01"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 9.81,
+          "growth": {
+            "amount": 1.63,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a1r2",
+          "startDate": "2010-03-31",
+          "timing": {
+            "day": 22,
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 2811.67,
+          "id": "a1r3",
+          "name": "Rule a1r3",
+          "timing": {
+            "frequency": "annual",
+            "month": 10,
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 11.4,
+          "endDate": "2011-06-07",
+          "growth": {
+            "amount": 0.82,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a1r4",
+          "name": "Rule a1r4",
+          "salaryBasis": "monthly",
+          "startDate": "2004-03-17",
+          "timing": {
+            "day": 28,
+            "frequency": "annual",
+            "month": 2,
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 3416.66,
+          "enabled": false,
+          "id": "a1r5",
+          "timing": {
+            "day": 30,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 1"
+    },
+    {
+      "balance": 222849.69,
+      "balanceAsOf": "2008-02-29",
+      "contributions": [],
+      "id": "a2",
+      "included": true,
+      "kind": "other",
+      "name": "Account 2"
+    }
+  ],
+  "endDate": "2010-07-06",
+  "interest": {
+    "annualRate": -0.0127,
+    "variance": 0.0748
+  },
+  "salary": {
+    "annualBase": 172354.71,
+    "annualRaiseRate": 0.0597,
+    "asOf": "2010-07-03"
+  },
+  "version": 1
+}

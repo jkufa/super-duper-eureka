@@ -1,0 +1,89 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.0557,
+      "balance": 149213.41,
+      "balanceAsOf": "1995-10-26",
+      "contributions": [
+        {
+          "amount": 4195.8,
+          "enabled": true,
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "timing": {
+            "frequency": "annual",
+            "month": 9
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 10.05,
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "salaryBasis": "weekly",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "1995-11-02"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 10.25,
+          "endDate": "2001-08-15",
+          "id": "a1r3",
+          "name": "Rule a1r3",
+          "salaryBasis": "perContribution",
+          "startDate": "1993-03-29",
+          "timing": {
+            "day": 29,
+            "frequency": "annual",
+            "month": 2,
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 16.45,
+          "endDate": "1996-03-04",
+          "id": "a1r4",
+          "name": "Rule a1r4",
+          "salaryBasis": "weekly",
+          "timing": {
+            "day": 30,
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 3281.5,
+          "enabled": true,
+          "endDate": "1989-04-08",
+          "id": "a1r5",
+          "timing": {
+            "frequency": "annual",
+            "month": 9,
+            "placement": "start"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "1995-11-06",
+  "interest": {
+    "annualRate": 0.0557,
+    "compounding": "daily",
+    "variance": 0.0593
+  },
+  "salary": {
+    "annualBase": 57534.09,
+    "annualRaiseRate": -0.2592,
+    "asOf": "1999-04-28"
+  },
+  "version": 1
+}

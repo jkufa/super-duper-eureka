@@ -1,0 +1,114 @@
+{
+  "accounts": [
+    {
+      "balance": 0.55,
+      "balanceAsOf": "2041-11-16",
+      "contributions": [
+        {
+          "amount": 163.2,
+          "enabled": true,
+          "endDate": "2041-11-17",
+          "id": "a1r1",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 1"
+    },
+    {
+      "annualRate": 0.1087,
+      "balance": 188065.62,
+      "balanceAsOf": "2040-02-29",
+      "contributions": [],
+      "id": "a2",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 2"
+    },
+    {
+      "balance": 265100.13,
+      "balanceAsOf": "2036-03-29",
+      "contributions": [
+        {
+          "amount": 0,
+          "id": "a3r1",
+          "salaryBasis": "perContribution",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a3",
+      "included": false,
+      "kind": "roth",
+      "name": "Account 3"
+    },
+    {
+      "annualRate": 0.1087,
+      "balance": 43657.53,
+      "balanceAsOf": "2037-03-20",
+      "contributions": [
+        {
+          "amount": 3920,
+          "growth": {
+            "amount": 8.93,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a4r1",
+          "name": "Rule a4r1",
+          "startDate": "2039-09-29",
+          "timing": {
+            "day": 17,
+            "frequency": "annual",
+            "month": 7
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 3431.71,
+          "id": "a4r2",
+          "name": "Rule a4r2",
+          "timing": {
+            "frequency": "annual",
+            "month": 5,
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 657.59,
+          "id": "a4r3",
+          "startDate": "2035-09-18",
+          "timing": {
+            "frequency": "annual",
+            "month": 3,
+            "placement": "end"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a4",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 4"
+    }
+  ],
+  "endDate": "2041-11-20",
+  "interest": {
+    "annualRate": 0.1087,
+    "compounding": "monthly"
+  },
+  "salary": {
+    "annualBase": 0,
+    "annualRaiseRate": -0.2732,
+    "asOf": "2036-01-07"
+  },
+  "version": 1
+}

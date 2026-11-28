@@ -1,0 +1,15 @@
+[
+  {
+    "from": "1996-12-01",
+    "to": "1996-12-08",
+    "days": 7,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 33361.83,
+    "balanceEnd": 33384.09604007904,
+    "contributions": 0.0,
+    "interest": 22.26604007903997,
+    "annualRate": 0.0355,
+    "deposits": []
+  }
+]

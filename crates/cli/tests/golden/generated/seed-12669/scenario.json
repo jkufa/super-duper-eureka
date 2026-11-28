@@ -1,0 +1,77 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.1425,
+      "balance": 0,
+      "balanceAsOf": "2017-11-30",
+      "contributions": [
+        {
+          "amount": 5.16,
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "salaryBasis": "annual",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2017-11-30"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 0.7,
+          "id": "a1s1",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0.2,
+          "id": "a1s2",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0.1,
+          "id": "a1s3",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 861.67,
+          "growth": {
+            "amount": 0.12,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a1g",
+          "startDate": "1931-03-22",
+          "timing": {
+            "day": 30,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2017-12-01",
+  "interest": {
+    "annualRate": 0.1425,
+    "compounding": "daily",
+    "variance": 0.0007
+  },
+  "salary": {
+    "annualBase": 58095.34,
+    "annualRaiseRate": -0.0493,
+    "asOf": "2008-07-30"
+  },
+  "version": 1
+}

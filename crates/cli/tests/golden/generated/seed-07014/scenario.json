@@ -1,0 +1,63 @@
+{
+  "accounts": [
+    {
+      "balance": 269899.3,
+      "balanceAsOf": "2027-09-01",
+      "contributions": [
+        {
+          "amount": 16.5,
+          "endDate": "2033-11-07",
+          "growth": {
+            "amount": 457.18,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a1r1",
+          "salaryBasis": "monthly",
+          "startDate": "2020-07-31",
+          "timing": {
+            "frequency": "annual",
+            "month": 1
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 3.22,
+          "id": "a1r2",
+          "salaryBasis": "daily",
+          "startDate": "2019-12-30",
+          "timing": {
+            "day": 5,
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 927.71,
+          "enabled": false,
+          "id": "a1r3",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2027-09-01"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": false,
+      "kind": "taxable",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2027-09-06",
+  "interest": {
+    "annualRate": 0.0049,
+    "compounding": "daily"
+  },
+  "salary": {
+    "annualBase": 296448.14,
+    "annualRaiseRate": -0.9837,
+    "asOf": "2027-09-04"
+  },
+  "version": 1
+}

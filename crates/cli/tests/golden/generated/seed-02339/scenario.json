@@ -1,0 +1,206 @@
+{
+  "accounts": [
+    {
+      "balance": 303517.87,
+      "balanceAsOf": "2057-12-19",
+      "contributions": [
+        {
+          "amount": 2565.52,
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "timing": {
+            "frequency": "annual",
+            "month": 1,
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 7.67,
+          "id": "a1r2",
+          "salaryBasis": "biweekly",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2057-12-24"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 1196.29,
+          "id": "a1r3",
+          "name": "Rule a1r3",
+          "timing": {
+            "day": 12,
+            "frequency": "annual",
+            "month": 10
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 5.55,
+          "enabled": false,
+          "id": "a1r4",
+          "name": "Rule a1r4",
+          "salaryBasis": "perContribution",
+          "startDate": "2050-04-30",
+          "timing": {
+            "day": 27,
+            "frequency": "annual",
+            "month": 10,
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 1"
+    },
+    {
+      "balance": 51471.28,
+      "balanceAsOf": "2057-12-19",
+      "contributions": [],
+      "id": "a2",
+      "included": false,
+      "kind": "roth",
+      "name": "Account 2"
+    },
+    {
+      "balance": 38881.82,
+      "balanceAsOf": "2053-07-28",
+      "contributions": [
+        {
+          "amount": 10.33,
+          "enabled": true,
+          "id": "a3r1",
+          "salaryBasis": "weekly",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2056-01-30"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 10.84,
+          "id": "a3r2",
+          "name": "Rule a3r2",
+          "salaryBasis": "biweekly",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 0.49,
+          "id": "a3r3",
+          "name": "Rule a3r3",
+          "salaryBasis": "annual",
+          "startDate": "2048-09-29",
+          "timing": {
+            "day": 31,
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a3",
+      "included": false,
+      "kind": "pretax",
+      "name": "Account 3"
+    },
+    {
+      "balance": 0,
+      "balanceAsOf": "2055-08-16",
+      "contributions": [
+        {
+          "amount": 13.43,
+          "id": "a4r1",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2057-12-23"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 4.55,
+          "endDate": "2055-10-29",
+          "growth": {
+            "amount": 353.78,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a4r2",
+          "name": "Rule a4r2",
+          "startDate": "2055-10-29",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 15.13,
+          "enabled": false,
+          "endDate": "2068-10-02",
+          "growth": {
+            "amount": 284.3,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a4r3",
+          "name": "Rule a4r3",
+          "salaryBasis": "biweekly",
+          "startDate": "2056-01-11",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 934.59,
+          "enabled": false,
+          "id": "a4r4",
+          "startDate": "2057-09-29",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0,
+          "growth": {
+            "amount": 89.31,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a4r5",
+          "startDate": "2056-03-31",
+          "timing": {
+            "frequency": "annual",
+            "month": 10,
+            "placement": "start"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a4",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 4"
+    }
+  ],
+  "endDate": "2057-12-25",
+  "interest": {
+    "annualRate": 0.1436,
+    "compounding": "daily"
+  },
+  "salary": {
+    "annualBase": 0,
+    "annualRaiseRate": 0.0608,
+    "asOf": "2051-06-12"
+  },
+  "version": 1
+}

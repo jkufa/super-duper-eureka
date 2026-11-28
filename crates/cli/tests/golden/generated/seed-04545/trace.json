@@ -1,0 +1,28 @@
+[
+  {
+    "from": "2047-01-14",
+    "to": "2047-01-20",
+    "days": 6,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 0.34,
+    "balanceEnd": 8182.002514593284,
+    "contributions": 8168.900000000001,
+    "interest": 12.762514593284259,
+    "annualRate": 0.1257,
+    "deposits": [
+      {
+        "ruleId": "a1r2",
+        "date": "2047-01-14",
+        "amount": 3316.3,
+        "bucket": 14
+      },
+      {
+        "ruleId": "a1r4",
+        "date": "2047-01-16",
+        "amount": 4852.6,
+        "bucket": 16
+      }
+    ]
+  }
+]

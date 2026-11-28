@@ -1,0 +1,15 @@
+[
+  {
+    "from": "2059-07-21",
+    "to": "2059-07-25",
+    "days": 4,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 220378.37,
+    "balanceEnd": 220644.6724698581,
+    "contributions": 0.0,
+    "interest": 266.3024698581058,
+    "annualRate": 0.1165,
+    "deposits": []
+  }
+]

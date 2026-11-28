@@ -1,0 +1,22 @@
+[
+  {
+    "from": "2026-11-27",
+    "to": "2026-12-01",
+    "days": 4,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 2500.0,
+    "balanceEnd": 3400.0,
+    "contributions": 500.0,
+    "interest": 400.0,
+    "annualRate": 4095.0,
+    "deposits": [
+      {
+        "ruleId": "late-november",
+        "date": "2026-11-28",
+        "amount": 500.0,
+        "bucket": "start"
+      }
+    ]
+  }
+]

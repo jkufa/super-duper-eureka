@@ -1,0 +1,22 @@
+[
+  {
+    "from": "2030-08-15",
+    "to": "2030-08-25",
+    "days": 10,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 771446009987.74,
+    "balanceEnd": 773870797374.0177,
+    "contributions": 4421.27,
+    "interest": 2424782965.007736,
+    "annualRate": 0.1234,
+    "deposits": [
+      {
+        "ruleId": "a1r4",
+        "date": "2030-08-24",
+        "amount": 4421.27,
+        "bucket": "start"
+      }
+    ]
+  }
+]

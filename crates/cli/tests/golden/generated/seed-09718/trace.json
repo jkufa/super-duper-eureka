@@ -1,0 +1,15 @@
+[
+  {
+    "from": "2044-10-01",
+    "to": "2044-10-06",
+    "days": 5,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 338329.06,
+    "balanceEnd": 338667.8554807567,
+    "contributions": 0.0,
+    "interest": 338.79548075673966,
+    "annualRate": 0.0771,
+    "deposits": []
+  }
+]

@@ -1,0 +1,111 @@
+{
+  "accounts": [
+    {
+      "balance": 475009.09,
+      "balanceAsOf": "2035-10-03",
+      "contributions": [
+        {
+          "amount": 7.51,
+          "growth": {
+            "amount": 8.35,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "salaryBasis": "monthly",
+          "startDate": "2038-06-30",
+          "timing": {
+            "day": 28,
+            "frequency": "annual",
+            "month": 8,
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 6.61,
+          "id": "a1r2",
+          "salaryBasis": "monthly",
+          "timing": {
+            "day": 12,
+            "frequency": "annual",
+            "month": 1
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 15.28,
+          "enabled": true,
+          "endDate": "2041-07-02",
+          "id": "a1r3",
+          "salaryBasis": "weekly",
+          "startDate": "2035-01-25",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 5.74,
+          "id": "a1r4",
+          "name": "Rule a1r4",
+          "salaryBasis": "weekly",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 3408.92,
+          "enabled": false,
+          "id": "a1r5",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2031-12-12"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": false,
+      "kind": "taxable",
+      "name": "Account 1"
+    },
+    {
+      "annualRate": 0.0363,
+      "balance": 120751.08,
+      "balanceAsOf": "2035-10-03",
+      "contributions": [
+        {
+          "amount": 1010.29,
+          "enabled": false,
+          "id": "a2r1",
+          "name": "Rule a2r1",
+          "startDate": "2038-05-31",
+          "timing": {
+            "frequency": "annual",
+            "month": 8,
+            "placement": "start"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a2",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 2"
+    }
+  ],
+  "endDate": "2052-01-01",
+  "interest": {
+    "annualRate": 0.0363,
+    "variance": 0.0167
+  },
+  "salary": {
+    "annualBase": 208329.69,
+    "annualRaiseRate": 0.0021,
+    "asOf": "2035-10-03"
+  },
+  "version": -1
+}

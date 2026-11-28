@@ -1,0 +1,15 @@
+[
+  {
+    "from": "2036-02-29",
+    "to": "2036-03-01",
+    "days": 1,
+    "daysInMonth": 29,
+    "daysInYear": 366,
+    "balanceStart": 270318.01,
+    "balanceEnd": 270300.06864921167,
+    "contributions": 0.0,
+    "interest": -17.941350788344444,
+    "annualRate": -0.024,
+    "deposits": []
+  }
+]

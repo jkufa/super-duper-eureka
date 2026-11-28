@@ -1,0 +1,39 @@
+{
+  "accounts": [
+    {
+      "balance": 0,
+      "balanceAsOf": "2017-12-10",
+      "contributions": [
+        {
+          "amount": 458.5,
+          "endDate": "2024-11-13",
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "startDate": "2010-12-31",
+          "timing": {
+            "day": 22,
+            "frequency": "annual",
+            "month": 7
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2018-01-01",
+  "interest": {
+    "annualRate": 0.0605,
+    "compounding": "daily",
+    "variance": 0.016
+  },
+  "salary": {
+    "annualBase": 164905.74,
+    "annualRaiseRate": 0.0103,
+    "asOf": "2016-02-29"
+  },
+  "version": 1
+}

@@ -1,0 +1,51 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.1262,
+      "balance": 422563.1,
+      "balanceAsOf": "2038-08-07",
+      "contributions": [
+        {
+          "amount": 15.85,
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "salaryBasis": "daily",
+          "startDate": "2048-07-02",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 100,
+          "growth": {
+            "amount": -1,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a1x",
+          "startDate": "2048-02-29",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": false,
+      "kind": "other",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2051-01-01",
+  "interest": {
+    "annualRate": 0.1262,
+    "compounding": "monthly",
+    "variance": 0.0172
+  },
+  "salary": {
+    "annualBase": 164175.94,
+    "asOf": "2048-02-29"
+  },
+  "version": 1
+}

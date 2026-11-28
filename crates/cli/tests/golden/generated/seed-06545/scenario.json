@@ -1,0 +1,25 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.1349,
+      "balance": 117089.01,
+      "balanceAsOf": "1998-06-12",
+      "contributions": [],
+      "id": "a1",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "1999-01-01",
+  "interest": {
+    "annualRate": 0.0657,
+    "variance": 0
+  },
+  "salary": {
+    "annualBase": 169264.13,
+    "annualRaiseRate": -0.1935,
+    "asOf": "1995-05-23"
+  },
+  "version": 1
+}

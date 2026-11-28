@@ -1,0 +1,25 @@
+{
+  "accounts": [
+    {
+      "balance": 1313.94,
+      "balanceAsOf": "2056-02-29",
+      "contributions": [],
+      "id": "a1",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2056-03-04",
+  "interest": {
+    "annualRate": 0.0594,
+    "compounding": "monthly",
+    "variance": 0.0439
+  },
+  "salary": {
+    "annualBase": 141310.93,
+    "annualRaiseRate": -0.9257,
+    "asOf": "2048-08-09"
+  },
+  "version": 1
+}

@@ -1,0 +1,61 @@
+[
+  {
+    "from": "1995-03-15",
+    "to": "1995-03-30",
+    "days": 15,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 356364.39,
+    "balanceEnd": 358716.60354251193,
+    "contributions": 2359.399955474363,
+    "interest": -7.186412962444131,
+    "annualRate": -0.0005,
+    "deposits": [
+      {
+        "ruleId": "a1g",
+        "date": "1995-03-28",
+        "amount": 2359.399955474363,
+        "bucket": "end"
+      }
+    ]
+  },
+  {
+    "from": "1995-03-30",
+    "to": "1995-04-01",
+    "days": 2,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 358716.60354251193,
+    "balanceEnd": 372541.61489507277,
+    "contributions": 13825.975865560004,
+    "interest": -0.9645129991960719,
+    "annualRate": -0.0005,
+    "deposits": [
+      {
+        "ruleId": "a1r1",
+        "date": "1995-03-30",
+        "amount": 3139.09,
+        "bucket": "end"
+      },
+      {
+        "ruleId": "a1r5",
+        "date": "1995-03-31",
+        "amount": 10686.885865560003,
+        "bucket": "end"
+      }
+    ]
+  },
+  {
+    "from": "1995-04-01",
+    "to": "1995-04-06",
+    "days": 5,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 372541.61489507277,
+    "balanceEnd": 372539.0272074596,
+    "contributions": 0.0,
+    "interest": -2.5876876131786353,
+    "annualRate": -0.0005,
+    "deposits": []
+  }
+]

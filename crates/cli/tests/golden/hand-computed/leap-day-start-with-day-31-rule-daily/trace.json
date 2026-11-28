@@ -1,0 +1,102 @@
+[
+  {
+    "from": "2028-02-29",
+    "to": "2028-03-01",
+    "days": 1,
+    "daysInMonth": 29,
+    "daysInYear": 366,
+    "balanceStart": 1.0,
+    "balanceEnd": 4.0,
+    "contributions": 1.0,
+    "interest": 2.0,
+    "annualRate": 1.5030672529752533e+110,
+    "deposits": [
+      {
+        "ruleId": "day-31",
+        "date": "2028-02-29",
+        "amount": 1.0,
+        "bucket": 29
+      }
+    ]
+  },
+  {
+    "from": "2028-03-01",
+    "to": "2028-04-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 4.0,
+    "balanceEnd": 8589934594.0,
+    "contributions": 1.0,
+    "interest": 8589934589.0,
+    "annualRate": 1.5030672529752533e+110,
+    "deposits": [
+      {
+        "ruleId": "day-31",
+        "date": "2028-03-31",
+        "amount": 1.0,
+        "bucket": 31
+      }
+    ]
+  },
+  {
+    "from": "2028-04-01",
+    "to": "2028-05-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 8589934594.0,
+    "balanceEnd": 9.22337203900226e+18,
+    "contributions": 1.0,
+    "interest": 9.223372030412325e+18,
+    "annualRate": 1.5030672529752533e+110,
+    "deposits": [
+      {
+        "ruleId": "day-31",
+        "date": "2028-04-30",
+        "amount": 1.0,
+        "bucket": 30
+      }
+    ]
+  },
+  {
+    "from": "2028-05-01",
+    "to": "2028-06-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 9.22337203900226e+18,
+    "balanceEnd": 1.980704063317777e+28,
+    "contributions": 1.0,
+    "interest": 1.9807040623954398e+28,
+    "annualRate": 1.5030672529752533e+110,
+    "deposits": [
+      {
+        "ruleId": "day-31",
+        "date": "2028-05-31",
+        "amount": 1.0,
+        "bucket": 31
+      }
+    ]
+  },
+  {
+    "from": "2028-06-01",
+    "to": "2028-07-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 1.980704063317777e+28,
+    "balanceEnd": 2.1267647937510414e+37,
+    "contributions": 1.0,
+    "interest": 2.1267647917703373e+37,
+    "annualRate": 1.5030672529752533e+110,
+    "deposits": [
+      {
+        "ruleId": "day-31",
+        "date": "2028-06-30",
+        "amount": 1.0,
+        "bucket": 30
+      }
+    ]
+  }
+]

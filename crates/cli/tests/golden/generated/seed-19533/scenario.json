@@ -1,0 +1,93 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.1131,
+      "balance": 24277.8,
+      "balanceAsOf": "2009-03-31",
+      "contributions": [
+        {
+          "amount": 2102.51,
+          "enabled": false,
+          "id": "a1r1",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2008-07-15"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0,
+          "enabled": false,
+          "id": "a1r2",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2009-04-07"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0.98,
+          "enabled": false,
+          "id": "a1r3",
+          "name": "Rule a1r3",
+          "salaryBasis": "annual",
+          "timing": {
+            "frequency": "annual",
+            "month": 2
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 8.22,
+          "id": "a1r4",
+          "salaryBasis": "monthly",
+          "timing": {
+            "frequency": "annual",
+            "month": 8,
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 10000000000000000,
+          "id": "a1s1",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1,
+          "id": "a1s2",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1,
+          "id": "a1s3",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": false,
+      "kind": "roth",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2009-04-07",
+  "interest": {
+    "annualRate": -0.0239,
+    "variance": 0.0689
+  },
+  "salary": {
+    "annualBase": 50503.63,
+    "annualRaiseRate": -0.9704,
+    "asOf": "2003-12-13"
+  },
+  "version": 1
+}

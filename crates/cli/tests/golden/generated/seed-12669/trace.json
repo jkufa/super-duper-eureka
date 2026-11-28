@@ -1,0 +1,28 @@
+[
+  {
+    "from": "2017-11-30",
+    "to": "2017-12-01",
+    "days": 1,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 0.0,
+    "balanceEnd": 4902.936123572035,
+    "contributions": 4901.146961108438,
+    "interest": 1.7891624635974062,
+    "annualRate": 0.1425,
+    "deposits": [
+      {
+        "ruleId": "a1r1",
+        "date": "2017-11-30",
+        "amount": 1901.877079478192,
+        "bucket": 30
+      },
+      {
+        "ruleId": "a1g",
+        "date": "2017-11-30",
+        "amount": 2999.2698816302454,
+        "bucket": 30
+      }
+    ]
+  }
+]

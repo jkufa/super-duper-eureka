@@ -1,0 +1,119 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.0858,
+      "balance": 7627.91,
+      "balanceAsOf": "2002-03-15",
+      "contributions": [
+        {
+          "amount": 9.09,
+          "id": "a1r1",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2002-03-15"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 3673.67,
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "salaryBasis": "weekly",
+          "timing": {
+            "day": 1,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 1"
+    },
+    {
+      "annualRate": 0.0258,
+      "balance": 333630.19,
+      "balanceAsOf": "2001-01-28",
+      "contributions": [
+        {
+          "amount": 3378.53,
+          "enabled": false,
+          "id": "a2r1",
+          "name": "Rule a2r1",
+          "timing": {
+            "day": 29,
+            "frequency": "annual",
+            "month": 2,
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 4661.33,
+          "endDate": "2003-09-08",
+          "id": "a2r2",
+          "startDate": "2002-02-01",
+          "timing": {
+            "day": 31,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 17.55,
+          "id": "a2r3",
+          "salaryBasis": "biweekly",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2002-03-15"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 9.13,
+          "id": "a2r4",
+          "name": "Rule a2r4",
+          "startDate": "1997-03-31",
+          "timing": {
+            "day": 29,
+            "frequency": "annual",
+            "month": 7,
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 5.25,
+          "id": "a2r5",
+          "name": "Rule a2r5",
+          "salaryBasis": "monthly",
+          "startDate": "1999-04-27",
+          "timing": {
+            "day": 30,
+            "frequency": "annual",
+            "month": 7
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a2",
+      "included": false,
+      "kind": "taxable",
+      "name": "Account 2"
+    }
+  ],
+  "endDate": "2002-03-16",
+  "interest": {
+    "annualRate": 0.0932,
+    "compounding": "monthly",
+    "variance": 0
+  },
+  "salary": {
+    "annualBase": 123926.23,
+    "annualRaiseRate": 0.0597,
+    "asOf": "2002-03-15"
+  },
+  "version": 1
+}

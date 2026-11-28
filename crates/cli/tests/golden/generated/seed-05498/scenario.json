@@ -1,0 +1,60 @@
+{
+  "accounts": [
+    {
+      "annualRate": -0.0237,
+      "balance": 432298.86,
+      "balanceAsOf": "2020-02-29",
+      "contributions": [
+        {
+          "amount": 439.42,
+          "enabled": false,
+          "id": "a1r1",
+          "timing": {
+            "day": 1,
+            "frequency": "annual",
+            "month": 2,
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1296.02,
+          "enabled": true,
+          "id": "a1r2",
+          "salaryBasis": "daily",
+          "timing": {
+            "day": 29,
+            "frequency": "annual",
+            "month": 2,
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 956.08,
+          "id": "a1r3",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2020-03-01",
+  "interest": {
+    "annualRate": -0.0015,
+    "compounding": "monthly",
+    "variance": 0.0481
+  },
+  "salary": {
+    "annualBase": 226733.19,
+    "annualRaiseRate": -0.0328,
+    "asOf": "2014-01-01"
+  },
+  "version": 1
+}

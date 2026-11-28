@@ -1,0 +1,22 @@
+[
+  {
+    "from": "2026-01-01",
+    "to": "2026-02-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 0.0,
+    "balanceEnd": 50.0,
+    "contributions": 50.0,
+    "interest": 0.0,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "fifty",
+        "date": "2026-01-31",
+        "amount": 50.0,
+        "bucket": "end"
+      }
+    ]
+  }
+]

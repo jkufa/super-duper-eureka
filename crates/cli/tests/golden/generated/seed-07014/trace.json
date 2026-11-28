@@ -1,0 +1,22 @@
+[
+  {
+    "from": "2027-09-01",
+    "to": "2027-09-06",
+    "days": 5,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 269899.3,
+    "balanceEnd": 269943.52565387863,
+    "contributions": 26.152411254794522,
+    "interest": 18.073242623832193,
+    "annualRate": 0.0049,
+    "deposits": [
+      {
+        "ruleId": "a1r2",
+        "date": "2027-09-05",
+        "amount": 26.152411254794522,
+        "bucket": 5
+      }
+    ]
+  }
+]

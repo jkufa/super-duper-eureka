@@ -1,0 +1,93 @@
+{
+  "accounts": [
+    {
+      "balance": 426701.43,
+      "balanceAsOf": "2041-02-13",
+      "contributions": [
+        {
+          "amount": 0.69,
+          "id": "a1r1",
+          "salaryBasis": "weekly",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 17.65,
+          "endDate": "2037-01-05",
+          "id": "a1r2",
+          "salaryBasis": "daily",
+          "timing": {
+            "day": 8,
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 1841,
+          "enabled": true,
+          "growth": {
+            "amount": 387.47,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a1r3",
+          "name": "Rule a1r3",
+          "startDate": "2037-01-31",
+          "timing": {
+            "day": 29,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0.7,
+          "id": "a1s1",
+          "timing": {
+            "day": 15,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0.2,
+          "id": "a1s2",
+          "timing": {
+            "day": 15,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0.1,
+          "id": "a1s3",
+          "timing": {
+            "day": 15,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2041-02-20",
+  "interest": {
+    "annualRate": 0.0254,
+    "compounding": "daily",
+    "variance": 0.0104
+  },
+  "salary": {
+    "annualBase": 50088.26,
+    "annualRaiseRate": 0.0524,
+    "asOf": "2044-03-07"
+  },
+  "version": 1
+}

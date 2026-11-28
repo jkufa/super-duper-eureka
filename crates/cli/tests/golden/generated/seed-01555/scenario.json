@@ -1,0 +1,75 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.0242,
+      "balance": 0,
+      "balanceAsOf": "2035-11-30",
+      "contributions": [
+        {
+          "amount": 4668.5,
+          "id": "a1r1",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2035-12-07"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 122.3,
+          "enabled": true,
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "startDate": "2035-12-07",
+          "timing": {
+            "day": 30,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 10000000000000000,
+          "id": "a1s1",
+          "timing": {
+            "day": 15,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1,
+          "id": "a1s2",
+          "timing": {
+            "day": 15,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1,
+          "id": "a1s3",
+          "timing": {
+            "day": 15,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": false,
+      "kind": "pretax",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2035-12-16",
+  "interest": {
+    "annualRate": 0.1293,
+    "compounding": "daily",
+    "variance": 0.0399
+  },
+  "salary": {
+    "annualBase": 27136.81,
+    "annualRaiseRate": 0.0167,
+    "asOf": "2039-12-15"
+  },
+  "version": 1
+}

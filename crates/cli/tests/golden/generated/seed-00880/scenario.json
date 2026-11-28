@@ -1,0 +1,89 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.0305,
+      "balance": 325420.53,
+      "balanceAsOf": "2059-01-04",
+      "contributions": [
+        {
+          "amount": 3318.11,
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "timing": {
+            "day": 31,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0.83,
+          "endDate": "2063-11-21",
+          "growth": {
+            "amount": 122.99,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a1r2",
+          "salaryBasis": "biweekly",
+          "startDate": "2053-11-26",
+          "timing": {
+            "day": 29,
+            "frequency": "annual",
+            "month": 6
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 10.54,
+          "id": "a1r3",
+          "salaryBasis": "annual",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 100,
+          "id": "a1x",
+          "timing": {
+            "day": "15",
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 3392.31,
+          "growth": {
+            "amount": 0,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a1r4",
+          "name": "Rule a1r4",
+          "startDate": "2052-01-06",
+          "timing": {
+            "day": 31,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2062-09-07",
+  "interest": {
+    "annualRate": 0.1226,
+    "compounding": "daily",
+    "variance": 0
+  },
+  "salary": {
+    "annualBase": 141938.56,
+    "annualRaiseRate": -0.0953,
+    "asOf": "2057-03-21"
+  },
+  "version": 1
+}

@@ -1,0 +1,53 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.0683,
+      "balance": 63611429434.03,
+      "balanceAsOf": "2053-11-01",
+      "contributions": [
+        {
+          "amount": 4078.35,
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1079.64,
+          "id": "a1r2",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2053-11-01"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 3049.31,
+          "enabled": false,
+          "id": "a1r3",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2053-11-18"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": false,
+      "kind": "roth",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2053-11-18",
+  "interest": {
+    "annualRate": -0.0118,
+    "compounding": "daily"
+  },
+  "salary": {
+    "annualBase": 170582.58,
+    "asOf": "2045-10-07"
+  },
+  "version": 1
+}

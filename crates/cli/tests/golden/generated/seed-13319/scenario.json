@@ -1,0 +1,49 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.038,
+      "balance": 438503.21,
+      "balanceAsOf": "2021-12-31",
+      "contributions": [
+        {
+          "amount": 11.24,
+          "id": "a1r1",
+          "salaryBasis": "monthly",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2021-12-31"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 8.28,
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "salaryBasis": "biweekly",
+          "timing": {
+            "frequency": "annual",
+            "month": 7,
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2051-02-09",
+  "interest": {
+    "annualRate": 0.1082,
+    "compounding": "daily",
+    "variance": 0.0628
+  },
+  "salary": {
+    "annualBase": 260113.94,
+    "annualRaiseRate": 0.0014,
+    "asOf": "2011-01-19"
+  },
+  "version": 1
+}

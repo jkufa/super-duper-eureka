@@ -1,0 +1,7 @@
+{
+  "error": {
+    "code": "negative_amount",
+    "accountId": "a1",
+    "ruleId": "a1r1"
+  }
+}

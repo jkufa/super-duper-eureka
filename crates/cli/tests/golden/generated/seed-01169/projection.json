@@ -1,0 +1,393 @@
+{
+  "today": "2030-01-11",
+  "endDate": "2030-01-18",
+  "effectiveRate": 0.0443,
+  "staleAccounts": [
+    {
+      "accountId": "a2",
+      "balanceAsOf": "2022-05-12"
+    },
+    {
+      "accountId": "a3",
+      "balanceAsOf": "2025-06-30"
+    }
+  ],
+  "salaryByYear": [
+    {
+      "year": 2030,
+      "salary": 75767.83485276
+    }
+  ],
+  "bands": {
+    "baseline": {
+      "total": {
+        "startBalance": 637865485988.2693,
+        "finalBalance": 638395969506.5485,
+        "totalContributions": 0.0,
+        "totalInterest": 530483518.2792156,
+        "monthly": [
+          {
+            "year": 2030,
+            "month": 1,
+            "balance": 638395969506.5485,
+            "contributions": 0.0,
+            "interest": 530483518.2792156
+          }
+        ],
+        "yearly": [
+          {
+            "year": 2030,
+            "balance": 638395969506.5485,
+            "contributions": 0.0,
+            "interest": 530483518.2792156,
+            "weightedRate": 0.0443
+          }
+        ]
+      },
+      "accounts": [
+        {
+          "accountId": "a1",
+          "included": false,
+          "annualRate": 0.0443,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 5398.48,
+            "finalBalance": 5698.875555516213,
+            "totalContributions": 295.66,
+            "totalInterest": 4.73555551621422,
+            "monthly": [
+              {
+                "year": 2030,
+                "month": 1,
+                "balance": 5698.875555516213,
+                "contributions": 295.66,
+                "interest": 4.73555551621422
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2030,
+                "balance": 5698.875555516213,
+                "contributions": 295.66,
+                "interest": 4.73555551621422
+              }
+            ]
+          }
+        },
+        {
+          "accountId": "a2",
+          "included": true,
+          "annualRate": 0.0443,
+          "rolledForward": {
+            "contributions": 413480.9546666307,
+            "interest": 228911.59383566468
+          },
+          "series": {
+            "startBalance": 1028372.3685022931,
+            "finalBalance": 1029227.6187143327,
+            "totalContributions": 0.0,
+            "totalInterest": 855.2502120396263,
+            "monthly": [
+              {
+                "year": 2030,
+                "month": 1,
+                "balance": 1029227.6187143327,
+                "contributions": 0.0,
+                "interest": 855.2502120396263
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2030,
+                "balance": 1029227.6187143327,
+                "contributions": 0.0,
+                "interest": 855.2502120396263
+              }
+            ]
+          }
+        },
+        {
+          "accountId": "a3",
+          "included": true,
+          "annualRate": 0.0443,
+          "rolledForward": {
+            "contributions": 106865.24233752808,
+            "interest": 113817794721.41924
+          },
+          "series": {
+            "startBalance": 637864457615.9008,
+            "finalBalance": 638394940278.9297,
+            "totalContributions": 0.0,
+            "totalInterest": 530482663.02900356,
+            "monthly": [
+              {
+                "year": 2030,
+                "month": 1,
+                "balance": 638394940278.9297,
+                "contributions": 0.0,
+                "interest": 530482663.02900356
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2030,
+                "balance": 638394940278.9297,
+                "contributions": 0.0,
+                "interest": 530482663.02900356
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "positive": {
+      "total": {
+        "startBalance": 637865485988.2693,
+        "finalBalance": 638395969506.5485,
+        "totalContributions": 0.0,
+        "totalInterest": 530483518.2792156,
+        "monthly": [
+          {
+            "year": 2030,
+            "month": 1,
+            "balance": 638395969506.5485,
+            "contributions": 0.0,
+            "interest": 530483518.2792156
+          }
+        ],
+        "yearly": [
+          {
+            "year": 2030,
+            "balance": 638395969506.5485,
+            "contributions": 0.0,
+            "interest": 530483518.2792156
+          }
+        ]
+      },
+      "accounts": [
+        {
+          "accountId": "a1",
+          "included": false,
+          "annualRate": 0.0443,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 5398.48,
+            "finalBalance": 5698.875555516213,
+            "totalContributions": 295.66,
+            "totalInterest": 4.73555551621422,
+            "monthly": [
+              {
+                "year": 2030,
+                "month": 1,
+                "balance": 5698.875555516213,
+                "contributions": 295.66,
+                "interest": 4.73555551621422
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2030,
+                "balance": 5698.875555516213,
+                "contributions": 295.66,
+                "interest": 4.73555551621422
+              }
+            ]
+          }
+        },
+        {
+          "accountId": "a2",
+          "included": true,
+          "annualRate": 0.0443,
+          "rolledForward": {
+            "contributions": 413480.9546666307,
+            "interest": 228911.59383566468
+          },
+          "series": {
+            "startBalance": 1028372.3685022931,
+            "finalBalance": 1029227.6187143327,
+            "totalContributions": 0.0,
+            "totalInterest": 855.2502120396263,
+            "monthly": [
+              {
+                "year": 2030,
+                "month": 1,
+                "balance": 1029227.6187143327,
+                "contributions": 0.0,
+                "interest": 855.2502120396263
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2030,
+                "balance": 1029227.6187143327,
+                "contributions": 0.0,
+                "interest": 855.2502120396263
+              }
+            ]
+          }
+        },
+        {
+          "accountId": "a3",
+          "included": true,
+          "annualRate": 0.0443,
+          "rolledForward": {
+            "contributions": 106865.24233752808,
+            "interest": 113817794721.41924
+          },
+          "series": {
+            "startBalance": 637864457615.9008,
+            "finalBalance": 638394940278.9297,
+            "totalContributions": 0.0,
+            "totalInterest": 530482663.02900356,
+            "monthly": [
+              {
+                "year": 2030,
+                "month": 1,
+                "balance": 638394940278.9297,
+                "contributions": 0.0,
+                "interest": 530482663.02900356
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2030,
+                "balance": 638394940278.9297,
+                "contributions": 0.0,
+                "interest": 530482663.02900356
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "negative": {
+      "total": {
+        "startBalance": 637865485988.2693,
+        "finalBalance": 638395969506.5485,
+        "totalContributions": 0.0,
+        "totalInterest": 530483518.2792156,
+        "monthly": [
+          {
+            "year": 2030,
+            "month": 1,
+            "balance": 638395969506.5485,
+            "contributions": 0.0,
+            "interest": 530483518.2792156
+          }
+        ],
+        "yearly": [
+          {
+            "year": 2030,
+            "balance": 638395969506.5485,
+            "contributions": 0.0,
+            "interest": 530483518.2792156
+          }
+        ]
+      },
+      "accounts": [
+        {
+          "accountId": "a1",
+          "included": false,
+          "annualRate": 0.0443,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 5398.48,
+            "finalBalance": 5698.875555516213,
+            "totalContributions": 295.66,
+            "totalInterest": 4.73555551621422,
+            "monthly": [
+              {
+                "year": 2030,
+                "month": 1,
+                "balance": 5698.875555516213,
+                "contributions": 295.66,
+                "interest": 4.73555551621422
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2030,
+                "balance": 5698.875555516213,
+                "contributions": 295.66,
+                "interest": 4.73555551621422
+              }
+            ]
+          }
+        },
+        {
+          "accountId": "a2",
+          "included": true,
+          "annualRate": 0.0443,
+          "rolledForward": {
+            "contributions": 413480.9546666307,
+            "interest": 228911.59383566468
+          },
+          "series": {
+            "startBalance": 1028372.3685022931,
+            "finalBalance": 1029227.6187143327,
+            "totalContributions": 0.0,
+            "totalInterest": 855.2502120396263,
+            "monthly": [
+              {
+                "year": 2030,
+                "month": 1,
+                "balance": 1029227.6187143327,
+                "contributions": 0.0,
+                "interest": 855.2502120396263
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2030,
+                "balance": 1029227.6187143327,
+                "contributions": 0.0,
+                "interest": 855.2502120396263
+              }
+            ]
+          }
+        },
+        {
+          "accountId": "a3",
+          "included": true,
+          "annualRate": 0.0443,
+          "rolledForward": {
+            "contributions": 106865.24233752808,
+            "interest": 113817794721.41924
+          },
+          "series": {
+            "startBalance": 637864457615.9008,
+            "finalBalance": 638394940278.9297,
+            "totalContributions": 0.0,
+            "totalInterest": 530482663.02900356,
+            "monthly": [
+              {
+                "year": 2030,
+                "month": 1,
+                "balance": 638394940278.9297,
+                "contributions": 0.0,
+                "interest": 530482663.02900356
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2030,
+                "balance": 638394940278.9297,
+                "contributions": 0.0,
+                "interest": 530482663.02900356
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

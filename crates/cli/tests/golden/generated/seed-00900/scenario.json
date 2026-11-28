@@ -1,0 +1,111 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.1153,
+      "balance": 187219150254.97,
+      "balanceAsOf": "2007-07-31",
+      "contributions": [
+        {
+          "amount": 135.21,
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2457.95,
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "startDate": "2004-01-17",
+          "timing": {
+            "day": 28,
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 12.46,
+          "endDate": "2007-11-10",
+          "id": "a1r3",
+          "salaryBasis": "daily",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 1"
+    },
+    {
+      "balance": 166367.82,
+      "balanceAsOf": "1998-12-10",
+      "contributions": [
+        {
+          "amount": 5.5,
+          "id": "a2r1",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 19.47,
+          "enabled": true,
+          "id": "a2r2",
+          "name": "Rule a2r2",
+          "startDate": "1991-01-27",
+          "timing": {
+            "day": 22,
+            "frequency": "annual",
+            "month": 10,
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 4358.6,
+          "id": "a2r3",
+          "name": "Rule a2r3",
+          "timing": {
+            "frequency": "annual",
+            "month": 4,
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 3440.2,
+          "id": "a2r4",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2008-09-22"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a2",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 2"
+    }
+  ],
+  "endDate": "2008-01-01",
+  "interest": {
+    "annualRate": 0.0593,
+    "compounding": "daily"
+  },
+  "salary": {
+    "annualBase": 261729.3,
+    "annualRaiseRate": 0.0354,
+    "asOf": "2004-11-08"
+  },
+  "version": 1
+}

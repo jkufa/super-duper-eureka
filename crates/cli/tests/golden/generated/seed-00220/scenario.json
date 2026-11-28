@@ -1,0 +1,72 @@
+{
+  "accounts": [
+    {
+      "balance": 0.09,
+      "balanceAsOf": "2060-02-29",
+      "contributions": [
+        {
+          "amount": 100,
+          "growth": {
+            "amount": 3,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a1x",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 3154.57,
+          "enabled": false,
+          "endDate": "2085-08-14",
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "timing": {
+            "day": 28,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 19.98,
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "timing": {
+            "day": 28,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 2945,
+          "id": "a1r3",
+          "name": "Rule a1r3",
+          "timing": {
+            "day": 29,
+            "frequency": "annual",
+            "month": 2
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": false,
+      "kind": "taxable",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2085-01-01",
+  "interest": {
+    "annualRate": 0.0149,
+    "compounding": "daily"
+  },
+  "salary": {
+    "annualBase": 160479.35,
+    "annualRaiseRate": -0.0198,
+    "asOf": "2052-09-04"
+  },
+  "version": 1
+}

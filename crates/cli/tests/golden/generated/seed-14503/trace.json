@@ -1,0 +1,22 @@
+[
+  {
+    "from": "2020-12-01",
+    "to": "2020-12-07",
+    "days": 6,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 2040.27,
+    "balanceEnd": 6938.63055739553,
+    "contributions": 4898.6,
+    "interest": -0.2394426044705208,
+    "annualRate": -0.0051,
+    "deposits": [
+      {
+        "ruleId": "a1r4",
+        "date": "2020-12-06",
+        "amount": 4898.6,
+        "bucket": 6
+      }
+    ]
+  }
+]

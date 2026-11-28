@@ -1,0 +1,35 @@
+[
+  {
+    "from": "2043-10-31",
+    "to": "2043-11-01",
+    "days": 1,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 368508.68,
+    "balanceEnd": 368899.6465051263,
+    "contributions": 393.0911792502391,
+    "interest": -2.124674123906887,
+    "annualRate": -0.0021,
+    "deposits": [
+      {
+        "ruleId": "a1g",
+        "date": "2043-10-31",
+        "amount": 393.0911792502391,
+        "bucket": 31
+      }
+    ]
+  },
+  {
+    "from": "2043-11-01",
+    "to": "2043-11-04",
+    "days": 3,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 368899.6465051263,
+    "balanceEnd": 368893.2725561762,
+    "contributions": 0.0,
+    "interest": -6.3739489501788995,
+    "annualRate": -0.0021,
+    "deposits": []
+  }
+]

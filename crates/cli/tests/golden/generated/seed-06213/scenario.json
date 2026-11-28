@@ -1,0 +1,61 @@
+{
+  "accounts": [
+    {
+      "balance": 76664.02,
+      "balanceAsOf": "2036-02-29",
+      "contributions": [
+        {
+          "amount": 3770.75,
+          "id": "a1r1",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0.52,
+          "id": "a1r2",
+          "salaryBasis": "biweekly",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 3117.9,
+          "enabled": true,
+          "endDate": "2039-11-30",
+          "growth": {
+            "amount": 2.86,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a1r3",
+          "name": "Rule a1r3",
+          "startDate": "2029-11-30",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": false,
+      "kind": "roth",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2036-03-01",
+  "interest": {
+    "annualRate": 0.0348,
+    "compounding": "daily",
+    "variance": 0.0107
+  },
+  "salary": {
+    "annualBase": 135118.59,
+    "annualRaiseRate": -0.2077,
+    "asOf": "2036-02-29"
+  },
+  "version": 1
+}

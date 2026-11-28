@@ -1,0 +1,34 @@
+{
+  "accounts": [
+    {
+      "balance": 1,
+      "balanceAsOf": "2028-02-29",
+      "contributions": [
+        {
+          "amount": 1,
+          "id": "day-31",
+          "timing": {
+            "day": 31,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "account",
+      "included": true,
+      "kind": "other",
+      "name": "Account"
+    }
+  ],
+  "endDate": "2028-07-01",
+  "interest": {
+    "annualRate": 1.5030672529752533e+110,
+    "compounding": "daily",
+    "variance": 0
+  },
+  "salary": {
+    "annualBase": 0,
+    "asOf": "2028-02-29"
+  },
+  "version": 1
+}

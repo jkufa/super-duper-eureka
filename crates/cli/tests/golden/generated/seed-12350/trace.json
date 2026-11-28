@@ -1,0 +1,81 @@
+[
+  {
+    "from": "2041-11-30",
+    "to": "2041-12-01",
+    "days": 1,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 181563.8,
+    "balanceEnd": 184678.56166520188,
+    "contributions": 3088.02,
+    "interest": 26.741665201913218,
+    "annualRate": 0.0534,
+    "deposits": [
+      {
+        "ruleId": "a1r2",
+        "date": "2041-11-30",
+        "amount": 3088.02,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2041-12-01",
+    "to": "2042-01-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 184678.56166520188,
+    "balanceEnd": 185480.92780478636,
+    "contributions": 0.0,
+    "interest": 802.366139584497,
+    "annualRate": 0.0534,
+    "deposits": []
+  },
+  {
+    "from": "2042-01-01",
+    "to": "2042-02-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 185480.92780478636,
+    "balanceEnd": 189298.92007763145,
+    "contributions": 2999.11,
+    "interest": 818.8822728451108,
+    "annualRate": 0.0534,
+    "deposits": [
+      {
+        "ruleId": "a1r3",
+        "date": "2042-01-01",
+        "amount": 2999.11,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2042-02-01",
+    "to": "2042-03-01",
+    "days": 28,
+    "daysInMonth": 28,
+    "daysInYear": 365,
+    "balanceStart": 189298.92007763145,
+    "balanceEnd": 190121.36011810327,
+    "contributions": 0.0,
+    "interest": 822.4400404718051,
+    "annualRate": 0.0534,
+    "deposits": []
+  },
+  {
+    "from": "2042-03-01",
+    "to": "2042-03-26",
+    "days": 25,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 190121.36011810327,
+    "balanceEnd": 190787.49984826485,
+    "contributions": 0.0,
+    "interest": 666.1397301615864,
+    "annualRate": 0.0534,
+    "deposits": []
+  }
+]

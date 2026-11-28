@@ -1,0 +1,197 @@
+{
+  "accounts": [
+    {
+      "balance": 0,
+      "balanceAsOf": "1997-12-25",
+      "contributions": [],
+      "id": "a1",
+      "included": false,
+      "kind": "roth",
+      "name": "Account 1"
+    },
+    {
+      "annualRate": 0.054,
+      "balance": 379529.81,
+      "balanceAsOf": "1997-12-07",
+      "contributions": [
+        {
+          "amount": 9.53,
+          "enabled": false,
+          "growth": {
+            "amount": 5.95,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a2r1",
+          "name": "Rule a2r1",
+          "salaryBasis": "annual",
+          "startDate": "1998-03-27",
+          "timing": {
+            "day": 14,
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 4889.61,
+          "enabled": true,
+          "id": "a2r2",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "1998-01-01"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a2",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 2"
+    },
+    {
+      "annualRate": 0.054,
+      "balance": 147136.77,
+      "balanceAsOf": "1997-12-31",
+      "contributions": [
+        {
+          "amount": 1157.81,
+          "enabled": true,
+          "endDate": "2001-06-25",
+          "growth": {
+            "amount": 5.31,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a3r1",
+          "name": "Rule a3r1",
+          "startDate": "1998-02-25",
+          "timing": {
+            "day": 5,
+            "frequency": "annual",
+            "month": 6,
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 8.42,
+          "endDate": "2014-11-03",
+          "growth": {
+            "amount": 78.76,
+            "cadence": "monthly",
+            "type": "flat"
+          },
+          "id": "a3r2",
+          "salaryBasis": "biweekly",
+          "startDate": "1998-11-27",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a3",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 3"
+    },
+    {
+      "balance": 403324.92,
+      "balanceAsOf": "1996-05-02",
+      "contributions": [
+        {
+          "amount": 2727.54,
+          "enabled": true,
+          "id": "a4r1",
+          "name": "Rule a4r1",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "1997-12-31"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 458.33,
+          "id": "a4r2",
+          "name": "Rule a4r2",
+          "startDate": "1996-08-17",
+          "timing": {
+            "day": 29,
+            "frequency": "annual",
+            "month": 3,
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0,
+          "id": "a4r3",
+          "name": "Rule a4r3",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "1993-11-11"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 3458,
+          "id": "a4r4",
+          "timing": {
+            "frequency": "annual",
+            "month": 12
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 3.89,
+          "enabled": false,
+          "id": "a4r5",
+          "name": "Rule a4r5",
+          "salaryBasis": "daily",
+          "startDate": "1997-09-29",
+          "timing": {
+            "day": 3,
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a4",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 4"
+    },
+    {
+      "annualRate": 0.054,
+      "balance": 471393.88,
+      "balanceAsOf": "1997-12-31",
+      "contributions": [
+        {
+          "amount": 11.29,
+          "id": "a5r1",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "1998-01-01"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a5",
+      "included": false,
+      "kind": "roth",
+      "name": "Account 5"
+    }
+  ],
+  "endDate": "1998-01-01",
+  "interest": {
+    "annualRate": 0.054,
+    "compounding": "monthly"
+  },
+  "salary": {
+    "annualBase": 102495.12,
+    "annualRaiseRate": -0.0891,
+    "asOf": "1997-12-31"
+  },
+  "version": 1
+}

@@ -1,0 +1,35 @@
+[
+  {
+    "from": "2040-02-29",
+    "to": "2040-03-01",
+    "days": 1,
+    "daysInMonth": 29,
+    "daysInYear": 366,
+    "balanceStart": 78784.37,
+    "balanceEnd": 78795.52828179873,
+    "contributions": 0.0,
+    "interest": 11.158281798734713,
+    "annualRate": 0.0532,
+    "deposits": []
+  },
+  {
+    "from": "2040-03-01",
+    "to": "2040-03-02",
+    "days": 1,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 78795.52828179873,
+    "balanceEnd": 82674.36584810079,
+    "contributions": 3867.13,
+    "interest": 11.707566302057403,
+    "annualRate": 0.0532,
+    "deposits": [
+      {
+        "ruleId": "a1r1",
+        "date": "2040-03-01",
+        "amount": 3867.13,
+        "bucket": 1
+      }
+    ]
+  }
+]

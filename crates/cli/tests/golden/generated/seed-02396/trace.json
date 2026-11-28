@@ -1,0 +1,15 @@
+[
+  {
+    "from": "2041-12-20",
+    "to": "2041-12-28",
+    "days": 8,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 744103157831.59,
+    "balanceEnd": 744897752632.9441,
+    "contributions": 0.0,
+    "interest": 794594801.3540674,
+    "annualRate": 0.0499,
+    "deposits": []
+  }
+]

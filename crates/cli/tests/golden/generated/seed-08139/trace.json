@@ -1,0 +1,28 @@
+[
+  {
+    "from": "2014-12-31",
+    "to": "2015-01-01",
+    "days": 1,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 29812.98,
+    "balanceEnd": 37338.410793139046,
+    "contributions": 7526.4692605,
+    "interest": -1.0384673609499953,
+    "annualRate": -0.0101,
+    "deposits": [
+      {
+        "ruleId": "a1r2",
+        "date": "2014-12-31",
+        "amount": 3028.67,
+        "bucket": 31
+      },
+      {
+        "ruleId": "a1r3",
+        "date": "2014-12-31",
+        "amount": 4497.7992605,
+        "bucket": 31
+      }
+    ]
+  }
+]

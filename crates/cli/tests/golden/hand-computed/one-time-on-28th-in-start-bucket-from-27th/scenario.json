@@ -1,0 +1,34 @@
+{
+  "accounts": [
+    {
+      "balance": 2500,
+      "balanceAsOf": "2026-11-27",
+      "contributions": [
+        {
+          "amount": 500,
+          "id": "late-november",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2026-11-28"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "account",
+      "included": true,
+      "kind": "other",
+      "name": "Account"
+    }
+  ],
+  "endDate": "2026-12-01",
+  "interest": {
+    "annualRate": 4095,
+    "compounding": "monthly",
+    "variance": 0
+  },
+  "salary": {
+    "annualBase": 0,
+    "asOf": "2026-11-27"
+  },
+  "version": 1
+}

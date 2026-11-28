@@ -1,0 +1,63 @@
+{
+  "accounts": [
+    {
+      "annualRate": -0.0003,
+      "balance": 66267.02,
+      "balanceAsOf": "2032-02-29",
+      "contributions": [
+        {
+          "amount": 252.33,
+          "enabled": false,
+          "growth": {
+            "amount": 9.63,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a1r1",
+          "startDate": "2024-09-13",
+          "timing": {
+            "day": 13,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 13.16,
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "salaryBasis": "monthly",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2032-03-01"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 3832.25,
+          "enabled": false,
+          "id": "a1r3",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2032-07-04"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2032-03-01",
+  "interest": {
+    "annualRate": 0.1253,
+    "variance": 0.0489
+  },
+  "salary": {
+    "annualBase": 182546.79,
+    "annualRaiseRate": -0.1268,
+    "asOf": "2032-02-29"
+  },
+  "version": 1
+}
