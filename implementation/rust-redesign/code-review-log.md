@@ -719,3 +719,35 @@ For PR review agents only. Orchestration and implementation agents do not read t
 - Better: Reject empty scenarios in the properties that need an account, and draw the raised-rate property from an included account that has a balance or a deposit. Keep a few long horizons if that edge should stay covered after the corpus is gone.
 - Seen before: no
 - Promoted: no
+
+### 2026-11-28, spec 4, the port spec still says December 9999 throws
+
+- Where: `implementation/rust-redesign/04-rust-port-spec.md:35`, PR #27
+- What: The schedule section still says the TypeScript builder throws when a range reaches December 9999. PR #27 stopped calling `addMonths` for a segment that ends inside that month, and both CLIs now project a range ending on 9999-12-31. `bun packages/cli/src/index.ts` and the release `retirement-calc` both exit 0, with the same JSON, for today 9999-12-01 end 9999-12-31, today 9999-11-20 end 9999-12-31, and today 9999-12-30 end 9999-12-31.
+- Better: Delete the clause that says the TypeScript builder throws. The previous sentence already says the last segment ends at `to`.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-28, spec 4, salary powers are not pinned against powf
+
+- Where: `crates/core/src/schedule/amount.rs:15`, PR #28
+- What: Replacing the future-year `raise.powi` with `raise.powf` left all 182 `retirement-core` lib tests passing. Annual base 90000, raise 0.03, four years after `asOf`: `powi` gives 101295.79289999998582 and `powf` gives 101295.79290000001492. Percent growth already pins `powi` against `powf` for `1.007` to the third. Salary does not.
+- Better: Assert `salary_in_year` for that input, and the past-year division, against the `powf` result.
+- Seen before: 2026-11-28, spec 4, a float test still passes after the formula is rearranged
+- Promoted: yes, the float-formula guideline in AGENTS.md
+
+### 2026-11-28, spec 4, a later month can add its buckets onto a huge cumulative total
+
+- Where: `crates/core/src/project/mod.rs:222`, PR #29
+- What: Monthly cumulative contributions add the segment total, which is the start-bucket sum plus the end-bucket sum. Adding those two bucket sums onto the running total instead left all 182 lib tests passing. A one-time deposit of 1e16 on 2026-01-15, then 1 on 2026-02-01 and 1 on 2026-02-28, rate 0, today 2026-01-01, end 2026-03-01: both CLIs report February contributions of 10000000000000002. Adding the February amounts onto the January total one at a time yields 10000000000000000.
+- Better: Pin that February contributions figure through `project_scenario`.
+- Seen before: 2026-11-28, spec 4, a float test still passes after the formula is rearranged
+- Promoted: yes, the float-formula guideline in AGENTS.md
+
+### 2026-11-28, spec 4, std and unix socket bans still miss sibling calls
+
+- Where: `crates/core/clippy.toml`, PR #32
+- What: A probe under `cargo clippy -p retirement-core --all-targets -- -D warnings` was not rejected for `std::env::set_current_dir`, `std::path::Path::try_exists`, `std::os::unix::net::UnixListener::bind`, or `UnixDatagram::bind`. The same probe was rejected for `File::create_new`, `TcpStream::connect_timeout`, `SystemTime::UNIX_EPOCH`, `Command::new`, and a `UdpSocket` parameter, because those name a banned type or method. `std::io::stdin`, `stdout`, and `stderr` were also allowed.
+- Better: Ban `set_current_dir`, `Path::try_exists`, `UnixListener`, and `UnixDatagram` next to the siblings already on the list.
+- Seen before: 2026-11-28, spec 3, clock and environment bans name one function and miss its siblings
+- Promoted: yes, the clock-ban guideline in AGENTS.md
