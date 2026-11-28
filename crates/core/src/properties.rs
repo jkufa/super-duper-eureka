@@ -5,7 +5,10 @@ use proptest::prelude::*;
 use serde::Deserialize;
 use serde_json::{Value, json};
 
-use crate::arbitrary::{Case, any_case, check, fresh_cases};
+use crate::arbitrary::{
+    Case, any_case, case_with_accounts, case_with_empty_pools, case_with_money_at_interest, check,
+    fresh_case,
+};
 use crate::date::CalendarDate;
 use crate::project::{
     AccountProjection, Band, MonthlyRow, Series, TraceSegment, YearlyRow, project_account,
@@ -223,7 +226,7 @@ fn with_raised_rate(case: &Case, scenario: &Scenario, index: usize, raise: f64) 
 
 #[test]
 fn one_fresh_account_projects_as_project_account() {
-    check(&fresh_cases(1..=1), |case| {
+    check(&fresh_case(), |case| {
         let scenario = case.scenario();
         let projection = project_scenario(&scenario).unwrap();
         let account = &scenario.accounts()[0];
@@ -267,26 +270,35 @@ fn total_is_the_sum_of_included_accounts_on_every_row() {
 }
 
 #[test]
-fn raising_an_account_rate_never_lowers_the_final_total() {
-    let strategy = (any_case(), any::<prop::sample::Index>(), 0.0001..0.1_f64);
-    check(&strategy, |(case, pick, raise)| {
+fn raising_the_rate_of_an_account_with_money_never_lowers_the_final_total() {
+    let strategy = (
+        case_with_money_at_interest(),
+        any::<prop::sample::Index>(),
+        0.0001..0.1_f64,
+    );
+    check(&strategy, |((case, earning), pick, raise)| {
         let scenario = case.scenario();
-        prop_assume!(!scenario.accounts().is_empty());
-        let index = pick.index(scenario.accounts().len());
+        let index = earning[pick.index(earning.len())];
         let raised = with_raised_rate(&case, &scenario, index, raise);
         let before = project_scenario(&scenario).unwrap();
         let after = project_scenario(&raised).unwrap();
+        let before = before.bands().baseline().total().final_balance();
+        let after = after.bands().baseline().total().final_balance();
         prop_assert!(
-            after.bands().baseline().total().final_balance()
-                >= before.bands().baseline().total().final_balance()
+            after >= before,
+            "raising a{} by {} moved the final total from {} to {}",
+            index,
+            raise,
+            before,
+            after
         );
         Ok(())
     });
 }
 
 #[test]
-fn effective_rate_lies_within_the_included_rates_unless_the_pool_is_empty() {
-    check(&any_case(), |case| {
+fn effective_rate_is_the_default_without_a_pool_and_otherwise_within_the_included_rates() {
+    check(&case_with_empty_pools(), |case| {
         let scenario = case.scenario();
         let projection = project_scenario(&scenario).unwrap();
         let rates: Vec<f64> = (0..scenario.accounts().len())
@@ -297,24 +309,42 @@ fn effective_rate_lies_within_the_included_rates_unless_the_pool_is_empty() {
         let empty_pool = total.start_balance() == 0.0 && total.total_contributions() == 0.0;
         let rate = projection.effective_rate();
         let default_rate = scenario.interest().annual_rate();
-        let lowest = rates.iter().copied().fold(f64::INFINITY, f64::min);
-        let highest = rates.iter().copied().fold(f64::NEG_INFINITY, f64::max);
-        prop_assert!(
-            (lowest <= rate && rate <= highest)
-                || ((rates.is_empty() || empty_pool) && rate.to_bits() == default_rate.to_bits()),
-            "rate {} outside {}..={} with default {}",
-            rate,
-            lowest,
-            highest,
-            default_rate
-        );
+        let lowest = rates.iter().copied().min_by(f64::total_cmp);
+        let highest = rates.iter().copied().max_by(f64::total_cmp);
+        match lowest.zip(highest) {
+            None => prop_assert!(
+                rate.to_bits() == default_rate.to_bits(),
+                "rate {} is not the default {} with no included account",
+                rate,
+                default_rate
+            ),
+            Some((lowest, highest)) if lowest == highest => prop_assert!(
+                rate.to_bits() == lowest.to_bits(),
+                "rate {} is not {}, the rate of every included account",
+                rate,
+                lowest
+            ),
+            Some(_) if empty_pool => prop_assert!(
+                rate.to_bits() == default_rate.to_bits(),
+                "rate {} is not the default {} with an empty pool",
+                rate,
+                default_rate
+            ),
+            Some((lowest, highest)) => prop_assert!(
+                lowest <= rate && rate <= highest,
+                "rate {} outside {}..={}",
+                rate,
+                lowest,
+                highest
+            ),
+        }
         Ok(())
     });
 }
 
 #[test]
 fn an_account_that_is_not_stale_rolls_forward_nothing() {
-    check(&any_case(), |case| {
+    check(&case_with_accounts(), |case| {
         let scenario = case.scenario();
         let projection = project_scenario(&scenario).unwrap();
         let bands = projection.bands();
@@ -336,7 +366,7 @@ fn an_account_that_is_not_stale_rolls_forward_nothing() {
 
 #[test]
 fn moving_today_one_day_later_keeps_every_deposit() {
-    check(&any_case(), |case| {
+    check(&case_with_accounts(), |case| {
         let later = next_day(case.today);
         let scenario = case.scenario();
         prop_assume!(later < scenario.end_date());

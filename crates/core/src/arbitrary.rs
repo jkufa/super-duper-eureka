@@ -12,6 +12,7 @@ use serde::Deserialize;
 use serde_json::{Value, json};
 
 use crate::date::CalendarDate;
+use crate::project::{Band, TraceSegment, trace_account};
 use crate::scenario::Scenario;
 use crate::scenario::raw::ScenarioFile;
 
@@ -48,6 +49,17 @@ impl Case {
     pub(crate) fn scenario_on(&self, today: CalendarDate) -> Scenario {
         let file = ScenarioFile::deserialize(&self.file).unwrap();
         Scenario::parse(file, today).unwrap()
+    }
+
+    /// The case with every account's balance 0 and its rules removed.
+    fn without_money(mut self) -> Self {
+        if let Some(accounts) = self.file["accounts"].as_array_mut() {
+            for account in accounts {
+                account["balance"] = json!(0.0);
+                account["contributions"] = json!([]);
+            }
+        }
+        self
     }
 }
 
@@ -274,24 +286,63 @@ pub(crate) fn check<S: Strategy>(strategy: &S, test: impl Fn(S::Value) -> TestCa
     }
 }
 
-/// A valid scenario of 0 to 4 accounts, stale or not, over up to ten years.
-pub(crate) fn any_case() -> impl Strategy<Value = Case> {
-    scenario_with(|today, end| prop::collection::vec(account(today, end), 0..=MAX_ACCOUNTS).boxed())
+fn cases_of(accounts: RangeInclusive<usize>) -> impl Strategy<Value = Case> {
+    let (fewest, most) = accounts.into_inner();
+    scenario_with(move |today, end| {
+        prop::collection::vec(account(today, end), fewest..=most).boxed()
+    })
 }
 
-/// A valid scenario of `count` accounts whose balances are all dated `today`.
-pub(crate) fn fresh_cases(count: RangeInclusive<usize>) -> impl Strategy<Value = Case> {
-    scenario_with(move |today, end| {
-        prop::collection::vec(account(today, end), count.clone())
-            .prop_map(move |accounts| {
-                accounts
-                    .into_iter()
-                    .map(|mut account| {
-                        account["balanceAsOf"] = json!(text(today));
-                        account
-                    })
-                    .collect()
-            })
-            .boxed()
+/// A valid scenario of 0 to 4 accounts, stale or not, over up to ten years.
+pub(crate) fn any_case() -> impl Strategy<Value = Case> {
+    cases_of(0..=MAX_ACCOUNTS)
+}
+
+/// A valid scenario of 1 to 4 accounts, stale or not, over up to ten years.
+pub(crate) fn case_with_accounts() -> impl Strategy<Value = Case> {
+    cases_of(1..=MAX_ACCOUNTS)
+}
+
+/// [`any_case`], and one time in four the same with every balance 0 and no rules, so the
+/// included accounts pool no money.
+pub(crate) fn case_with_empty_pools() -> impl Strategy<Value = Case> {
+    prop_oneof![
+        3 => any_case(),
+        1 => any_case().prop_map(Case::without_money),
+    ]
+}
+
+/// A case with at least one account and the indexes of the accounts that are included and either
+/// hold a positive balance or receive a deposit from their balance's date to the end date.
+pub(crate) fn case_with_money_at_interest() -> impl Strategy<Value = (Case, Vec<usize>)> {
+    case_with_accounts().prop_filter_map("no included account holds money", |case| {
+        let scenario = case.scenario();
+        let earning: Vec<usize> = (0..scenario.accounts().len())
+            .filter(|&index| holds_money(&scenario, index))
+            .collect();
+        (!earning.is_empty()).then_some((case, earning))
+    })
+}
+
+fn holds_money(scenario: &Scenario, index: usize) -> bool {
+    let account = &scenario.accounts()[index];
+    account.included()
+        && (account.balance() > 0.0
+            || trace_account(scenario, account.id().as_str(), Band::Baseline)
+                .unwrap()
+                .iter()
+                .any(|segment: &TraceSegment<'_>| !segment.deposits().is_empty()))
+}
+
+/// A valid scenario of one account whose balance is dated `today`.
+pub(crate) fn fresh_case() -> impl Strategy<Value = Case> {
+    cases_of(1..=1).prop_map(|mut case| {
+        let today = case.today;
+        if let Some(accounts) = case.file["accounts"].as_array_mut() {
+            for account in accounts {
+                account["balanceAsOf"] = json!(text(today));
+            }
+        }
+        case
     })
 }
