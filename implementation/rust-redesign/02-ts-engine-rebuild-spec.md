@@ -194,7 +194,7 @@ The validated `Scenario` keeps `today` as a read-only date. Part C implements an
 
 | Code                           | Raised when                                                                                                                                                                                                                                                                        |
 | ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `unsupported_version`          | `version` is not 1                                                                                                                                                                                                                                                                 |
+| `unsupported_version`          | `version` is a whole number other than 1. A missing `version`, or one that is not a whole number, is `invalid_field`                                                                                                                                                               |
 | `invalid_field`                | A key is unknown or misplaced, a required field is missing, or a value has the wrong type or is not finite. Rates raise `invalid_rate`. The message names the field's path                                                                                                         |
 | `invalid_date`                 | A date string is not a real calendar date                                                                                                                                                                                                                                          |
 | `end_not_after_today`          | `endDate` is on or before `today`                                                                                                                                                                                                                                                  |
@@ -223,7 +223,7 @@ The validated `Scenario` keeps `today` as a read-only date. Part C implements an
 ### Amounts
 
 - Growth. Periods are the whole years, or whole months for a monthly cadence, from the rule's `startDate` to the deposit date. Whole months are the largest `n` for which `startDate` plus `n` months is on or before the deposit date, where adding months clamps the day to the end of the month. Whole years are that count divided by 12, rounded down. So a rule that starts on 31 January completes its first month on 28 February, and one that starts on 29 February 2024 completes its first year on 28 February 2025. Percent growth multiplies `amount` by `(1 + g/100)` to the power of the periods. Flat growth adds `g` times the periods. Today's engine counts periods from January of the projection's start year, which is why a rule can no longer start late and grow from an earlier date.
-- Salary. The salary on a deposit date is `annualBase` times `(1 + annualRaiseRate)` to the power of the deposit's year minus the year of `salary.asOf`. The difference can be negative, when `asOf` is in a later year than the deposit. Write this once as `salaryInYear(scenario, year)`. The adapter uses it for the monthly rows, and part E uses it for `salaryByYear`.
+- Salary. Let `n` be the deposit's year minus the year of `salary.asOf`. For `n` at or above 0 the salary is `annualBase * (1 + annualRaiseRate) ** n`. For an earlier year it is `annualBase / (1 + annualRaiseRate) ** -n`: the raises are undone by dividing by a positive whole power. No power in the engine has a negative exponent. Bun and Rust's `powi` disagree on those in the last bit, and with large values the two can differ entirely, because one overflows before taking the reciprocal. Write this once as `salaryInYear(scenario, year)`. The adapter uses it for the monthly rows, and part E uses it for `salaryByYear`.
 - Salary share. Grow the rule's amount first. A divided basis is `(salary / divisor) * (grownAmount / 100)`, with both pairs of parentheses. The divisors are 12 for monthly, 26 for biweekly, 52 for weekly and 365 for daily, and `perContribution` on a monthly rule uses 12. The annual basis, and `perContribution` on an annual rule, is `salary * (grownAmount / 100)` with no division. The order matters: a salary of 100 on a monthly basis at 7 percent gives `0.5833333333333335` this way and `0.5833333333333334` with the percentage applied first.
 - Results that are not finite. After compounding an account, if any balance, cumulative contribution or cumulative interest in its series is not finite, the engine throws `not_finite` with the account's id. Inputs are finite, but a large rate, raise or growth over a long horizon can still overflow.
 - A deposit amount that is not finite. Valid input can still produce one: an amount of 0 with enough percent growth is 0 times infinity. The schedule builder throws `not_finite` with the account's id when a deposit's amount is not finite, in both modes. Without this, daily mode would skip the deposit silently, because its guard on a day's deposit also skips `NaN`, while monthly mode would fail later. With it, the guards only ever see finite values, and "not 0" is all they need to test.
@@ -279,7 +279,7 @@ The adapter has a second half, `toLegacyRows`. It takes the legacy config along 
 - Daily mode. For each day in the segment, add that day's deposit as part B builds it, then add the day's interest. The deposit is the day's numbered-day total, plus the start total on day 1 of the month and the end total on the month's last day. The daily rate is unchanged, `(1 + r)^(1 / daysInYear) - 1`, with the day count of the segment's own calendar year.
 - Monthly mode. Interest for a segment is `(balance + startDeposits) * monthlyRate * (segmentDays / daysInMonth)`, evaluated as written: the product first, then times the fraction, with the division done inside its own parentheses. Then add the `end` deposits. A full month multiplies by exactly 1, so full months match today. Multiplying by the days and then dividing does not: it changes the last digit.
 - A segment's contributions are the kept start and end totals in monthly mode, and the sum of the days' deposits in daily mode.
-- Splitting a range. In daily mode, projecting from `a` to `c` equals projecting from `a` to `b` and then from `b` to `c` with the first result as the opening balance, for any `b`, exactly. In monthly mode that holds only when `b` is the 1st of a month. A month split in two earns interest as two products, which compounds it. At a monthly rate of 1, a whole November takes 1,000 to 2,000, and the same November split on the 16th takes it to 2,250. Part E's roll forward ends at `today`, so a stale account in monthly mode gets this small extra within the month of `today`.
+- Splitting a range. In daily mode, projecting from `a` to `c` and projecting from `a` to `b` then from `b` to `c`, with the first result as the opening balance, end on the same balance for any `b`, exactly. The cumulative contributions and interest are accumulated separately in each piece, so their sums may round differently from the unsplit run. In monthly mode the final balances agree only when `b` is the 1st of a month. A month split in two earns interest as two products, and a deposit kept in the second piece earns for that piece's days only, so the split result can be higher or lower. Measured on $250,000 at 6% split on 16 April: with no deposits the split run is $1.48 higher after the month and $4.73 higher after 20 years. With a $20,000 one-time deposit on 28 April it is $47.19 lower after the month and $150.63 lower after 20 years, because that deposit sits in the `start` bucket and earns half a month where the unsplit run gives it the whole month. Part E's roll forward ends at `today`, so a stale account in monthly mode meets this in the month of `today`. Daily mode does not.
 - The old engine shares the compounding helper. Its full months now multiply by `daysInMonth / daysInMonth`, which is exactly 1, so its results do not change.
 - Filter by date first, then total by bucket. Keep the month's deposits whose resolved date is inside the segment, in schedule order. Total the kept deposits by bucket and compound them as part B says. In monthly mode a one-time deposit dated 28 January is in `start`, and a segment from 27 January to 1 February keeps it and adds it before that segment's interest. In daily mode a start placement is dated day 1, so a segment that starts later has already dropped it.
 
@@ -295,14 +295,14 @@ New tests, each with a hand-computed expected value:
 
 ## Part E: accounts
 
-`projectScenario(scenario)` returns the full result. It takes no options. The validated `Scenario` carries `today`, because the parser checked every as-of date and the end date against it, and projecting with another `today` would break those checks.
+`projectScenario(scenario)` returns the full result. It takes no options. The validated `Scenario` carries `today`, because the parser checked every account's `balanceAsOf` and the end date against it, and projecting with another `today` would break those checks. `salary.asOf` is not checked against `today` and may be in a later year. Accounts are returned in file order.
 
 - Roll forward. An account with `balanceAsOf` before `today` is first projected from `balanceAsOf` to `today`. Its balance at `today` is the result. This is the same `projectAccount`, called on an earlier range.
 - Projection. Each account is then projected from `today` to `endDate`, with the rolled-forward balance as its opening balance. That includes accounts with `included: false`.
 - Total. The total series is the sum of the included accounts, row by row. Each figure is summed from 0 in the order the accounts appear in the file. The total's months and years come from the range, not from an account, so with no included accounts the total is zeros with one row per month and year. A total that is not finite throws `not_finite` with no account id, which can happen while every account is finite.
 - Bands. `baseline` uses each account's own rate, or the scenario default. `positive` adds the variance to every account's rate, and `negative` subtracts it. Each band runs its own roll forward at its own rate. With no variance, all three hold the same numbers.
 - `staleAccounts` lists included accounts only, in file order. `salaryByYear` has one entry per year of the total's yearly rows.
-- When more than one figure is not finite, which `not_finite` is reported is not part of the contract. The parity run compares the code, and the id only when both engines report one.
+- An account's own figures that are not finite carry its id. A total, a salary or a weighted rate carries none. When more than one figure is not finite, which is reported is not part of the contract. The parity run compares the subject only on cases built to overflow in one place, and the code alone otherwise.
 - An account with `included: false` is projected and returned, flagged, and left out of the total.
 
 ```ts
@@ -358,7 +358,7 @@ export interface Row {
 }
 ```
 
-`traceAccount(scenario, accountId, band)` returns the account's `TraceSegment`s from part C, covering the roll forward and then the projection. When `today` is mid-month, that month appears twice: once ending the roll forward and once starting the projection. An id the scenario does not have throws `unknown_account`.
+`traceAccount(scenario, accountId, band)` returns the account's `TraceSegment`s from part C, covering the roll forward and then the projection. A month appears twice only when the roll forward and the projection each count days in it: a stale account with `today` mid-month. An account whose as-of date is `today` has one segment for that month. An id the scenario does not have throws `unknown_account`.
 
 Tests:
 
@@ -379,9 +379,10 @@ Computed for the baseline band, over `today` to `endDate`, across included accou
 2. Let `lo` be the lowest included account rate and `hi` the highest. If they are equal, return that rate.
 3. Pool the accounts. The pooled opening balance is the baseline total's `startBalance`, so a stale account enters at its rolled-forward balance. The pooled schedule takes each month's deposits account by account in file order, and inside an account in rule order. Total each month's buckets once, before any pass.
 4. If the pooled balance is 0 and the pooled schedule has no deposits, return the default rate. This is the one case where the result can fall outside `lo` and `hi`, when every account overrides the default.
-5. The target is the baseline total's `finalBalance`.
-6. Repeat exactly 60 times: take `mid = lo + (hi - lo) / 2`, compound the pool at `mid`, and set `lo = mid` if the result is below the target, else `hi = mid`. Written as `if (result < target)`, so a result that equals the target, or is infinite or `NaN` after an overflow, moves `hi` down.
-7. Return `lo + (hi - lo) / 2`.
+5. Compound the pool at `lo` and at `hi`. If `atHi - atLo <= 1e-9 * atHi`, return `lo`. The rate does not move the final balance by more than the parity tolerance, so the data do not determine it. This happens when no money is exposed to interest: zero balances and deposits that land at the end of the last month. Without this step the answer depended on rounding: the same two accounts returned 4% in one file order and 10% in the other.
+6. The target is the baseline total's `finalBalance`.
+7. Repeat exactly 60 times: take `mid = lo + (hi - lo) / 2`, compound the pool at `mid`, and set `lo = mid` if the result is below the target, else `hi = mid`. Written as `if (result < target)`, so a result that equals the target, or is infinite or `NaN` after an overflow, moves `hi` down.
+8. Return `lo + (hi - lo) / 2`.
 
 There is no "close enough" test. The fixed count is what lets TS and Rust follow the same steps. The answer lies between `lo` and `hi` because balances and deposits are never negative, so the final balance only rises with the rate.
 
@@ -396,6 +397,9 @@ On each yearly row of the baseline total: the sum, from 0 in file order, of each
 Tests:
 
 - Accounts that share one rate return it exactly.
+- The first midpoint for a bracket of 0.01 to 0.03 is `0.019999999999999997`. `(lo + hi) / 2` would give `0.02`.
+- A pool with no exposure to interest returns the lowest rate, in both file orders: two accounts with zero balances at 4% and 10%, one month, deposits of 50 in one and 10.01 and 1.23 in the other, all in the `end` bucket.
+- The weighted rate's numerator is summed in file order: rates `[0.5, 1, 1]` with row balances `[2e16, 1, 1]` give exactly `0.5`. Reversed it is `0.5000000000000001`.
 - The effective rate is at or between the lowest and highest account rate.
 - Compounding the pool at the effective rate gives the total's `finalBalance` within one part in 10^9.
 - The README's example: $180,000 at 6% and $20,000 at 10%, no contributions, 30 years. The effective rate rounds to 6.66% and the last yearly weighted rate rounds to 7.0%.
@@ -408,6 +412,9 @@ Tests:
 - `--band` applies to `--trace` and defaults to `baseline`. `--band` without `--trace` is a usage error.
 - Exit status 0 is success. Status 1 is bad usage, or a file that cannot be read or is not JSON, with a message on stderr and nothing on stdout. Status 2 is a `ScenarioError`, including a bad `--today`.
 - `--today` defaults to the machine's local date. The CLI may read the clock. The engine may not.
+- `--help` prints the usage text to stdout and exits 0. A scalar option given twice takes its last value.
+- Programs call the CLI directly, as `bun packages/cli/src/index.ts`. `vp run retirement-calc` prints a line of its own before the JSON.
+- The file is read as UTF-8 JSON. Parity between the two CLIs is claimed for files with unique member names and well-formed strings, which is what the corpus generates. A file with a repeated key or a malformed byte may be read differently by the two.
 - On a `ScenarioError` it prints `{ "error": { "code": "...", "accountId": "...", "ruleId": "..." } }` to stdout, with each id present only when the error carries it, writes the message to stderr and exits with status 2.
 - Rewrite the four example files to the new shape, each with at least two accounts. Add one with a stale account. The baseline keeps its own stored copies of the old examples, so this does not touch it.
 - Switch the shared compounding helpers to number keys for day totals.

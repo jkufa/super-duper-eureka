@@ -497,6 +497,7 @@ For PR review agents only. Orchestration and implementation agents do not read t
 - Better: Ban `jiff::ZonedDateTime::now` and `jiff::tz::TimeZone::try_system`. Confirm each call fails `just check` when the method is actually in the build.
 - Seen before: 2026-11-28, spec 3, clock and environment bans name one function and miss its siblings
 - Promoted: yes, the clock-ban guideline in AGENTS.md
+
 ### 2026-11-28, spec 2 part F, a rate-independent pool produces two different headline rates
 
 - Where: `packages/calculator/src/lib/effective-rate.ts:92`, PR #19
