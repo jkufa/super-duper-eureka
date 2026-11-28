@@ -89,6 +89,7 @@ impl Run {
             date(self.from),
             date(self.to),
         )
+        .unwrap()
         .iter()
         .map(|month| {
             (
@@ -111,6 +112,7 @@ impl Run {
             date(self.from),
             date(self.to),
         )
+        .unwrap()
         .iter()
         .flat_map(ScheduledMonth::deposits)
         .map(|deposit| {
@@ -820,7 +822,7 @@ mod yearly_rows_over_a_range_that_starts_mid_year_and_ends_mid_month {
     }
 }
 
-mod values_javascript_treats_as_false {
+mod deposit_amounts_that_are_not_finite {
     use super::*;
 
     /// A zero amount grown by `(1 + 10000)^months` for over 77 months is `0 × ∞`, which is NaN.
@@ -835,43 +837,66 @@ mod values_javascript_treats_as_false {
         }])
     }
 
-    #[test]
-    fn skips_a_nan_day_deposit_in_daily_mode_as_the_typescript_truthiness_check_does() {
-        let run = run("daily", "2026-11-01", "2026-12-01", 1000.0).rules(nan_deposit());
-
-        let [(_, _, amount, _)] = run.deposits()[..] else {
-            panic!("expected one deposit");
-        };
-        assert!(amount.is_nan());
-        assert_eq!(
-            run.project().monthly(),
-            [month_row(
-                2026,
-                11,
-                1000.0 * 2.0_f64.powi(30),
-                0.0,
-                1000.0 * 2.0_f64.powi(30) - 1000.0
-            )]
-        );
+    /// One grown by `(1 + 10000)^months` for over 77 months is infinite.
+    fn infinite_deposit() -> Value {
+        json!([{
+            "id": "infinite",
+            "type": "flat",
+            "amount": 1,
+            "growth": { "type": "percent", "amount": 1_000_000, "cadence": "monthly" },
+            "timing": { "frequency": "monthly", "placement": "end" },
+            "startDate": "2010-01-01"
+        }])
     }
 
     #[test]
-    fn fails_with_not_finite_on_a_nan_deposit_in_monthly_mode() {
-        let scenario = scenario("monthly", nan_deposit());
-        let account = only_account(&scenario);
+    fn fails_with_not_finite_and_the_account_id_in_both_modes() {
+        for compounding in ["monthly", "daily"] {
+            for rules in [nan_deposit(), infinite_deposit()] {
+                let scenario = scenario(compounding, rules);
+                let account = only_account(&scenario);
 
-        assert_eq!(
-            project_account(
-                &scenario,
-                account,
-                date("2026-11-01"),
-                date("2026-12-01"),
-                1000.0,
-                0.05
-            ),
-            Err(ProjectionError::NotFinite {
-                account: account.id()
-            })
-        );
+                assert_eq!(
+                    build_account_schedule(
+                        &scenario,
+                        account,
+                        date("2026-11-01"),
+                        date("2026-12-01")
+                    ),
+                    Err(ProjectionError::NotFinite {
+                        account: account.id()
+                    }),
+                    "{compounding}"
+                );
+                assert_eq!(
+                    project_account(
+                        &scenario,
+                        account,
+                        date("2026-11-01"),
+                        date("2026-12-01"),
+                        1000.0,
+                        0.05
+                    ),
+                    Err(ProjectionError::NotFinite {
+                        account: account.id()
+                    }),
+                    "{compounding}"
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn schedules_the_same_rules_before_their_amounts_overflow() {
+        for compounding in ["monthly", "daily"] {
+            let scenario = scenario(compounding, infinite_deposit());
+            let account = only_account(&scenario);
+
+            assert!(
+                build_account_schedule(&scenario, account, date("2010-01-01"), date("2010-03-01"))
+                    .is_ok(),
+                "{compounding}"
+            );
+        }
     }
 }

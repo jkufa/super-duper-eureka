@@ -12,7 +12,7 @@ const MONTHS_PER_YEAR: i8 = 12;
 const MAX_DAY: i8 = 31;
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
-pub struct RuleId(pub(super) String);
+pub struct RuleId(String);
 
 impl RuleId {
     pub fn as_str(&self) -> &str {
@@ -100,10 +100,28 @@ pub enum Timing {
     Annual(AnnualTiming),
 }
 
+impl Timing {
+    fn bounds(self) -> Option<Bounds> {
+        match self {
+            Self::OneTime(_) => None,
+            Self::Monthly(timing) => Some(timing.bounds),
+            Self::Annual(timing) => Some(timing.bounds),
+        }
+    }
+}
+
+/// The days a recurring rule can deposit on, both ends inclusive.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+struct Bounds {
+    start: Option<CalendarDate>,
+    end: Option<CalendarDate>,
+}
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct MonthlyTiming {
     day: Option<i8>,
     placement: Placement,
+    bounds: Bounds,
 }
 
 impl MonthlyTiming {
@@ -122,6 +140,7 @@ pub struct AnnualTiming {
     month: i8,
     day: Option<i8>,
     placement: Placement,
+    bounds: Bounds,
 }
 
 impl AnnualTiming {
@@ -150,8 +169,6 @@ pub struct ContributionRule {
     salary_basis: SalaryBasis,
     growth: Option<Growth>,
     timing: Timing,
-    start_date: Option<CalendarDate>,
-    end_date: Option<CalendarDate>,
 }
 
 impl ContributionRule {
@@ -191,16 +208,22 @@ impl ContributionRule {
 
     /// The first day a recurring rule can deposit. Always `None` on a one-time rule.
     pub fn start_date(&self) -> Option<CalendarDate> {
-        self.start_date
+        self.timing.bounds().and_then(|bounds| bounds.start)
     }
 
     /// The last day a recurring rule can deposit, inclusive. Always `None` on a one-time rule.
     pub fn end_date(&self) -> Option<CalendarDate> {
-        self.end_date
+        self.timing.bounds().and_then(|bounds| bounds.end)
     }
 
-    pub(super) fn parse(raw: ContributionRuleFile) -> Result<Self, RuleError> {
-        match Checked::from_file(&raw) {
+    /// `id_taken` when an earlier rule in the scenario has this rule's id.
+    pub(super) fn parse(raw: ContributionRuleFile, id_taken: bool) -> Result<Self, RuleError> {
+        let checked = if id_taken {
+            Err(Fault::DuplicateId)
+        } else {
+            Checked::from_file(&raw)
+        };
+        match checked {
             Ok(checked) => Ok(Self {
                 id: RuleId(raw.id),
                 name: raw.name,
@@ -210,8 +233,6 @@ impl ContributionRule {
                 salary_basis: checked.salary_basis,
                 growth: checked.growth,
                 timing: checked.timing,
-                start_date: checked.start_date,
-                end_date: checked.end_date,
             }),
             Err(fault) => Err(RuleError {
                 fault,
@@ -231,6 +252,7 @@ impl RuleError {
     pub(super) fn in_account(self, account: AccountId) -> ScenarioError {
         let rule = self.rule;
         match self.fault {
+            Fault::DuplicateId => ScenarioError::DuplicateId(Subject::Rule { account, rule }),
             Fault::InvalidDate => ScenarioError::InvalidDate(Subject::Rule { account, rule }),
             Fault::NegativeAmount => ScenarioError::NegativeAmount(Subject::Rule { account, rule }),
             Fault::InvalidDay => ScenarioError::InvalidDay { account, rule },
@@ -245,6 +267,7 @@ impl RuleError {
 }
 
 enum Fault {
+    DuplicateId,
     InvalidDate,
     NegativeAmount,
     InvalidDay,
@@ -258,15 +281,13 @@ struct Checked {
     salary_basis: SalaryBasis,
     growth: Option<Growth>,
     timing: Timing,
-    start_date: Option<CalendarDate>,
-    end_date: Option<CalendarDate>,
 }
 
 impl Checked {
     fn from_file(raw: &ContributionRuleFile) -> Result<Self, Fault> {
-        let timing = parse_timing(&raw.timing)?;
-        let start_date = raw.start_date.as_deref().map(parse_date).transpose()?;
-        let end_date = raw.end_date.as_deref().map(parse_date).transpose()?;
+        let timing = parse_timing(raw)?;
+        let bounds = timing.bounds();
+        let start_date = bounds.and_then(|bounds| bounds.start);
         let salary_basis = raw.salary_basis.unwrap_or(SalaryBasis::Annual);
         let is_one_time = matches!(timing, Timing::OneTime(_));
 
@@ -276,7 +297,10 @@ impl Checked {
         if is_one_time && salary_basis == SalaryBasis::PerContribution {
             return Err(Fault::PerContributionOnOneTime);
         }
-        if let (Some(start), Some(end)) = (start_date, end_date)
+        if let Some(Bounds {
+            start: Some(start),
+            end: Some(end),
+        }) = bounds
             && end < start
         {
             return Err(Fault::EndBeforeStart);
@@ -292,8 +316,6 @@ impl Checked {
             salary_basis,
             growth,
             timing,
-            start_date,
-            end_date,
         })
     }
 }
@@ -314,12 +336,13 @@ fn parse_growth(raw: &GrowthFile, start: CalendarDate) -> Result<Growth, Fault> 
     })
 }
 
-fn parse_timing(raw: &TimingFile) -> Result<Timing, Fault> {
-    match *raw {
+fn parse_timing(raw: &ContributionRuleFile) -> Result<Timing, Fault> {
+    match raw.timing {
         TimingFile::OneTime { ref on } => parse_date(on).map(Timing::OneTime),
         TimingFile::Monthly { day, placement } => Ok(Timing::Monthly(MonthlyTiming {
             day: day.map(|day| whole_number(day, MAX_DAY)).transpose()?,
             placement: placement.unwrap_or(Placement::Start),
+            bounds: parse_bounds(raw)?,
         })),
         TimingFile::Annual {
             month,
@@ -337,9 +360,17 @@ fn parse_timing(raw: &TimingFile) -> Result<Timing, Fault> {
                 month,
                 day,
                 placement: placement.unwrap_or(Placement::Start),
+                bounds: parse_bounds(raw)?,
             }))
         }
     }
+}
+
+fn parse_bounds(raw: &ContributionRuleFile) -> Result<Bounds, Fault> {
+    Ok(Bounds {
+        start: raw.start_date.as_deref().map(parse_date).transpose()?,
+        end: raw.end_date.as_deref().map(parse_date).transpose()?,
+    })
 }
 
 fn whole_number(value: Finite, max: i8) -> Result<i8, Fault> {

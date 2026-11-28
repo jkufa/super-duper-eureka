@@ -1,6 +1,8 @@
-//! An account's balance, contributions and interest over a range of days, month by month.
+//! An account's balance, contributions and interest over a range of days, month by month, and a
+//! whole scenario's accounts, totals and rates.
 
 mod error;
+mod scenario;
 
 use crate::compound::{BucketTotals, compound_segment};
 use crate::date::CalendarDate;
@@ -8,6 +10,11 @@ use crate::scenario::{Account, Scenario};
 use crate::schedule::build_account_schedule;
 
 pub use error::ProjectionError;
+pub use scenario::{
+    AccountProjection, Band, BandProjection, Bands, BaselineProjection, RolledForward,
+    ScenarioProjection, StaleAccount, WeightedSeries, WeightedYearlyRow, YearSalary,
+    project_scenario,
+};
 
 const LAST_MONTH: i8 = 12;
 
@@ -164,7 +171,7 @@ pub fn project_account<'a>(
     let mut balance = opening_balance;
     let mut total_contributions = 0.0;
     let mut total_interest = 0.0;
-    let schedule = build_account_schedule(scenario, account, from, to);
+    let schedule = build_account_schedule(scenario, account, from, to)?;
     let mut monthly = Vec::with_capacity(schedule.len());
 
     for month in schedule {

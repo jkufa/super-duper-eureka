@@ -7,19 +7,25 @@ pub enum ProjectionError<'a> {
         "not_finite in account {account}: a balance, contribution or interest figure is not finite"
     )]
     NotFinite { account: &'a AccountId },
+    #[error(
+        "not_finite in the scenario: a total, salary or weighted rate is not finite although \
+         every account's figures are"
+    )]
+    ScenarioNotFinite,
 }
 
 impl<'a> ProjectionError<'a> {
     /// The same code the TypeScript engine reports.
     pub fn code(&self) -> &'static str {
         match self {
-            Self::NotFinite { .. } => "not_finite",
+            Self::NotFinite { .. } | Self::ScenarioNotFinite => "not_finite",
         }
     }
 
     pub fn account_id(&self) -> Option<&'a str> {
         match self {
             Self::NotFinite { account } => Some(account.as_str()),
+            Self::ScenarioNotFinite => None,
         }
     }
 }

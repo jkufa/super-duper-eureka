@@ -5,6 +5,7 @@ mod amount;
 use std::iter;
 
 use crate::date::CalendarDate;
+use crate::project::ProjectionError;
 use crate::scenario::{
     Account, Compounding, ContributionRule, Placement, RuleId, Scenario, Timing,
 };
@@ -47,7 +48,7 @@ impl<'a> Deposit<'a> {
         self.date
     }
 
-    /// Dollars, never 0.
+    /// Dollars, finite and never 0.
     pub fn amount(&self) -> f64 {
         self.amount
     }
@@ -102,27 +103,40 @@ impl<'a> ScheduledMonth<'a> {
     pub fn deposits(&self) -> &[Deposit<'a>] {
         &self.deposits
     }
+
+    pub(crate) fn into_deposits(self) -> Vec<Deposit<'a>> {
+        self.deposits
+    }
 }
 
 /// One month per calendar month from `from` up to, and not including, `to`. Empty when `from` is
-/// not before `to`.
+/// not before `to`. `not_finite` with the account's id when a deposit's amount is not finite.
 pub fn build_account_schedule<'a>(
     scenario: &Scenario,
     account: &'a Account,
     from: CalendarDate,
     to: CalendarDate,
-) -> Vec<ScheduledMonth<'a>> {
-    let first_month = (from < to).then_some(from.with_day_clamped(1));
-    iter::successors(first_month, |first| first.checked_add_months(1))
-        .take_while(|&first| first < to)
-        .map(|first| {
-            let segment = month_segment(first, from, to);
-            ScheduledMonth {
-                deposits: month_deposits(scenario, account, segment.from, segment.to),
+) -> Result<Vec<ScheduledMonth<'a>>, ProjectionError<'a>> {
+    month_segments(from, to)
+        .map(|segment| {
+            let deposits = month_deposits(scenario, account, segment.from, segment.to)?;
+            Ok(ScheduledMonth {
+                deposits,
                 ..segment
-            }
+            })
         })
         .collect()
+}
+
+/// The months of [`build_account_schedule`] with no deposits.
+pub(crate) fn month_segments<'a>(
+    from: CalendarDate,
+    to: CalendarDate,
+) -> impl Iterator<Item = ScheduledMonth<'a>> {
+    let first_month = (from < to).then_some(from.with_day_clamped(1));
+    iter::successors(first_month, |first| first.checked_add_months(1))
+        .take_while(move |&first| first < to)
+        .map(move |first| month_segment(first, from, to))
 }
 
 fn month_segment<'a>(
@@ -151,23 +165,29 @@ fn month_deposits<'a>(
     account: &'a Account,
     from: CalendarDate,
     to: CalendarDate,
-) -> Vec<Deposit<'a>> {
+) -> Result<Vec<Deposit<'a>>, ProjectionError<'a>> {
     let compounding = scenario.interest().compounding();
-    account
-        .contributions()
-        .iter()
-        .filter(|rule| rule.enabled())
-        .filter_map(|rule| {
-            let date = deposit_date(rule, from).filter(|date| (from..to).contains(date))?;
-            let amount = amount::deposit_amount(scenario, rule, date);
-            (amount != 0.0).then(|| Deposit {
+    let mut deposits = Vec::new();
+    for rule in account.contributions().iter().filter(|rule| rule.enabled()) {
+        let Some(date) = deposit_date(rule, from).filter(|date| (from..to).contains(date)) else {
+            continue;
+        };
+        let amount = amount::deposit_amount(scenario, rule, date);
+        if !amount.is_finite() {
+            return Err(ProjectionError::NotFinite {
+                account: account.id(),
+            });
+        }
+        if amount != 0.0 {
+            deposits.push(Deposit {
                 rule_id: rule.id(),
                 date,
                 amount,
                 bucket: deposit_bucket(rule.timing(), date, compounding),
-            })
-        })
-        .collect()
+            });
+        }
+    }
+    Ok(deposits)
 }
 
 /// `in_month` is any day of the month.

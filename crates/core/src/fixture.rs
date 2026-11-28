@@ -48,3 +48,78 @@ pub(crate) fn one_time(id: &str, amount: f64, on: &str) -> Value {
 pub(crate) fn doubling_daily_rate(days_in_year: i32) -> f64 {
     2.0_f64.powi(days_in_year) - 1.0
 }
+
+/// A scenario of several accounts, at a scenario rate of 0, no variance, monthly compounding and
+/// a salary of 0 unless set.
+pub(crate) struct Setup {
+    pub(crate) today: &'static str,
+    pub(crate) end_date: &'static str,
+    pub(crate) compounding: &'static str,
+    pub(crate) annual_rate: f64,
+    pub(crate) variance: f64,
+    pub(crate) salary: Option<Value>,
+    pub(crate) accounts: Vec<Value>,
+}
+
+impl Setup {
+    pub(crate) fn new(today: &'static str, end_date: &'static str, accounts: Vec<Value>) -> Self {
+        Self {
+            today,
+            end_date,
+            compounding: "monthly",
+            annual_rate: 0.0,
+            variance: 0.0,
+            salary: None,
+            accounts,
+        }
+    }
+
+    pub(crate) fn scenario(&self) -> Scenario {
+        let accounts: Vec<Value> = self
+            .accounts
+            .iter()
+            .map(|fields| {
+                let mut account = json!({
+                    "name": fields["id"],
+                    "kind": "other",
+                    "included": true,
+                    "balance": 0,
+                    "balanceAsOf": self.today,
+                    "contributions": []
+                });
+                for (key, value) in fields.as_object().unwrap() {
+                    account[key] = value.clone();
+                }
+                account
+            })
+            .collect();
+        let file = json!({
+            "version": 1,
+            "endDate": self.end_date,
+            "interest": {
+                "annualRate": self.annual_rate,
+                "variance": self.variance,
+                "compounding": self.compounding
+            },
+            "salary": self.salary.clone().unwrap_or(json!({ "annualBase": 0, "asOf": self.today })),
+            "accounts": accounts
+        });
+        Scenario::parse(serde_json::from_value(file).unwrap(), date(self.today)).unwrap()
+    }
+}
+
+pub(crate) fn monthly(id: &str, amount: f64) -> Value {
+    flat(
+        id,
+        amount,
+        json!({ "frequency": "monthly", "placement": "start" }),
+    )
+}
+
+pub(crate) fn monthly_end(id: &str, amount: f64) -> Value {
+    flat(
+        id,
+        amount,
+        json!({ "frequency": "monthly", "placement": "end" }),
+    )
+}

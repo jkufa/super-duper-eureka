@@ -66,6 +66,8 @@ Specs live in `implementation/rust-redesign/`. Read its `README.md` first, then 
 - Translate legacy bounds by checking which dates could actually deposit. Preserve the growth anchor independently and normalize impossible recurring dates before validation.
 - In partial ranges, filter deposits by their resolved dates before totalling the retained deposits by bucket.
 - Write salary-share formulas with explicit parentheses around the basis division and the percentage conversion.
+- Test a comparison at the equal value, not only on the side that fails.
+- Ban a dependency's clock and I/O paths from the version in the lockfile, including the sibling that does the work, and show that calling each one fails `just check`.
 
 ### Rust Guidelines
 

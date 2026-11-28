@@ -120,7 +120,7 @@ fn compound_daily(
 
     for day in month.first_day()..month.first_day() + month.days() {
         let added = deposit_on(day, totals, month.days_in_month());
-        if is_truthy(added) {
+        if added != 0.0 {
             compounded.balance += added;
             compounded.contributions += added;
         }
@@ -134,18 +134,13 @@ fn compound_daily(
 
 fn deposit_on(day: i8, totals: &BucketTotals, days_in_month: i8) -> f64 {
     let mut deposit = totals.on_day(day);
-    if day == 1 && is_truthy(totals.start) {
+    if day == 1 && totals.start != 0.0 {
         deposit += totals.start;
     }
-    if day == days_in_month && is_truthy(totals.end) {
+    if day == days_in_month && totals.end != 0.0 {
         deposit += totals.end;
     }
     deposit
-}
-
-/// JavaScript's truthiness for a number: neither 0 nor NaN.
-fn is_truthy(value: f64) -> bool {
-    value != 0.0 && !value.is_nan()
 }
 
 #[cfg(test)]
