@@ -15,3 +15,39 @@ check:
 fix:
     cargo fmt --all
     cargo clippy --fix --workspace --all-targets --allow-dirty
+
+# Rewrites the expected files under crates/core/tests/golden/ from the release Rust CLI. The new
+# set replaces the old one whole, or the old one stays.
+golden:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    cargo build --release -p retirement-cli
+    cli=target/release/retirement-calc
+    golden=crates/core/tests/golden
+    staged=$(mktemp -d crates/core/tests/.golden-new-XXXXXX)
+    retired=$(mktemp -d crates/core/tests/.golden-old-XXXXXX)
+    trap 'rm -rf "$staged" "$retired"' EXIT
+    cp -R "$golden/." "$staged/"
+    write() {
+        local out=$1
+        shift
+        local status=0
+        "$cli" "$@" > "$out" 2>/dev/null || status=$?
+        if [[ $status != 0 && $status != 2 ]]; then
+            echo "$out: retirement-calc exited $status" >&2
+            exit 1
+        fi
+    }
+    for case in "$staged"/*/*/; do
+        args=(--scenario "${case}scenario.json" --today "$(<"${case}today")")
+        write "${case}projection.json" "${args[@]}"
+        if [[ -f "${case}trace" ]]; then
+            write "${case}trace.json" "${args[@]}" --trace "$(<"${case}trace")"
+        fi
+    done
+    mv "$golden" "$retired/golden"
+    if ! mv "$staged" "$golden"; then
+        mv "$retired/golden" "$golden"
+        exit 1
+    fi
+    echo "Rewrote the expected files in $golden." >&2
