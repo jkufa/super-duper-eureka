@@ -73,6 +73,7 @@ impl Salary {
 
 #[derive(Debug, PartialEq)]
 pub struct Scenario {
+    today: CalendarDate,
     end_date: CalendarDate,
     interest: Interest,
     salary: Salary,
@@ -80,6 +81,11 @@ pub struct Scenario {
 }
 
 impl Scenario {
+    /// The first day of the results.
+    pub fn today(&self) -> CalendarDate {
+        self.today
+    }
+
     /// A boundary after today: the last day counted is the day before it.
     pub fn end_date(&self) -> CalendarDate {
         self.end_date
@@ -117,6 +123,7 @@ impl Scenario {
         }
 
         Ok(Self {
+            today,
             end_date,
             interest,
             salary,
