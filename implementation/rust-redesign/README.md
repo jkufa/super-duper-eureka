@@ -51,20 +51,20 @@ Spec 3 touches no TypeScript, so it can run while spec 2 is in progress. Spec 4 
 
 The interview did not settle these. The specs assume them. Change them here first if they are wrong.
 
-| Question                                  | Assumed default                                                                                                            |
-| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| Account `kind`                            | A label with no effect on the maths: `pretax`, `roth`, `taxable` or `other`                                                |
-| Money in the saved file                   | Plain dollar numbers. The file has a `version` field                                                                       |
-| What the end date includes                | It is a boundary. The last day counted is the day before it                                                                |
-| What an as-of date means                  | The balance at the start of that day, so that day earns interest                                                           |
-| When salary raises apply                  | Salary has its own `asOf` date. A raise applies on each 1 January after it                                                 |
-| What growth on a rule counts from         | Whole years or months elapsed since the rule's `startDate`. A rule with growth must have one                               |
-| How a partial month earns in monthly mode | The month's interest times the share of its days inside the range                                                          |
-| Negative balances                         | A validation error. The effective rate needs balances and deposits at zero or above                                        |
-| Compiler version                          | Settled: latest stable from Homebrew, 1.100.0 on 2026-11-27. This machine was upgraded to it from 1.93.1 that day          |
-| Task runner for the Rust checks           | `just`, as Codex and Goose use                                                                                             |
-| Rust date type                            | An established crate's timezone-free date, `jiff` first and `time` second. No hand-written leap-year code                  |
-| The first exemplar module                 | The date and validated scenario types, in spec 3. The schedule builder is the second exemplar and the first unit of spec 4 |
+| Question                                  | Assumed default                                                                                                                                     |
+| ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Account `kind`                            | A label with no effect on the maths: `pretax`, `roth`, `taxable` or `other`                                                                         |
+| Money in the saved file                   | Plain dollar numbers. The file has a `version` field                                                                                                |
+| What the end date includes                | It is a boundary. The last day counted is the day before it                                                                                         |
+| What an as-of date means                  | The balance at the start of that day, so that day earns interest                                                                                    |
+| When salary raises apply                  | Salary has its own `asOf` date. A raise applies on each 1 January after it                                                                          |
+| What growth on a rule counts from         | Whole years or months elapsed since the rule's `startDate`. A rule with growth must have one                                                        |
+| How a partial month earns in monthly mode | The month's interest times the share of its days inside the range                                                                                   |
+| Negative balances                         | A validation error. The effective rate needs balances and deposits at zero or above                                                                 |
+| Compiler version                          | Settled: latest stable from Homebrew, 1.100.0 on 2026-11-27. This machine was upgraded to it from 1.93.1 that day                                   |
+| Task runner for the Rust checks           | `just`, as Codex and Goose use                                                                                                                      |
+| Rust date type                            | `jiff-core`'s civil date in `core`, so the engine cannot call a clock or time zone function. `jiff` in the CLI only. No hand-written leap-year code |
+| The first exemplar module                 | The date and validated scenario types, in spec 3. The schedule builder is the second exemplar and the first unit of spec 4                          |
 
 ## Accepted risk
 

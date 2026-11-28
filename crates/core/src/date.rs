@@ -1,8 +1,6 @@
 use std::fmt;
 
-use jiff::Span;
-use jiff::civil::Date;
-use jiff::fmt::temporal::DateTimeParser;
+use jiff_core::civil::Date;
 use serde::{Serialize, Serializer};
 
 const FIRST_YEAR: i16 = 1;
@@ -23,10 +21,10 @@ impl CalendarDate {
         if !has_file_shape(text) {
             return None;
         }
-        DateTimeParser::new()
-            .parse_date(text)
-            .ok()
-            .and_then(Self::in_range)
+        let bytes = text.as_bytes();
+        let month = i8::try_from(decimal(&bytes[5..7])).ok()?;
+        let day = i8::try_from(decimal(&bytes[8..10])).ok()?;
+        Self::new(decimal(&bytes[0..4]), month, day)
     }
 
     pub fn year(self) -> i16 {
@@ -53,17 +51,19 @@ impl CalendarDate {
     /// The day is clamped to the last day of the resulting month.
     /// `None` when the result falls outside years 0001 to 9999.
     pub(crate) fn checked_add_months(self, months: i32) -> Option<Self> {
-        let span = Span::new().try_months(months).ok()?;
-        self.0.checked_add(span).ok().and_then(Self::in_range)
+        let month_index =
+            i64::from(self.year()) * 12 + i64::from(self.month() - 1) + i64::from(months);
+        let year = i16::try_from(month_index.div_euclid(12)).ok()?;
+        let month = i8::try_from(month_index.rem_euclid(12) + 1).ok()?;
+        Date::new_constrain(year, month, self.day())
+            .ok()
+            .and_then(Self::in_range)
     }
 
     /// The same year and month on `day`, or on the month's last day when it has no such day.
     /// A `day` below 1 means the 1st.
     pub(crate) fn with_day_clamped(self, day: i8) -> Self {
-        self.0
-            .with()
-            .day(day.max(1))
-            .build()
+        Date::new(self.year(), self.month(), day.max(1))
             .map_or_else(|_| Self(self.0.last_of_month()), Self)
     }
 
@@ -80,6 +80,13 @@ fn has_file_shape(text: &str) -> bool {
             4 | 7 => byte == b'-',
             _ => byte.is_ascii_digit(),
         })
+}
+
+/// `digits` are at most four ASCII digits.
+fn decimal(digits: &[u8]) -> i16 {
+    digits
+        .iter()
+        .fold(0, |value, digit| value * 10 + i16::from(digit - b'0'))
 }
 
 impl fmt::Display for CalendarDate {
@@ -244,6 +251,114 @@ mod tests {
             "2026-12-31",
         ] {
             assert_eq!(date(text).to_string(), text);
+        }
+    }
+
+    #[test]
+    fn reads_every_digit_in_every_position() {
+        for (text, fields) in [
+            ("1234-05-06", (1234, 5, 6)),
+            ("5678-09-17", (5678, 9, 17)),
+            ("9012-10-28", (9012, 10, 28)),
+            ("3456-11-30", (3456, 11, 30)),
+            ("7890-12-19", (7890, 12, 19)),
+            ("0009-01-01", (9, 1, 1)),
+            ("0090-01-01", (90, 1, 1)),
+            ("0900-01-01", (900, 1, 1)),
+        ] {
+            let parsed = date(text);
+
+            assert_eq!(
+                (parsed.year(), parsed.month(), parsed.day()),
+                fields,
+                "{text}"
+            );
+            assert_eq!(parsed.to_string(), text);
+        }
+    }
+
+    #[test]
+    fn accepts_february_29_only_in_leap_years() {
+        for text in ["2024-02-29", "2000-02-29", "0004-02-29", "9996-02-29"] {
+            assert_eq!(date(text).to_string(), text);
+        }
+        for text in ["2023-02-29", "2100-02-29", "1900-02-29", "0001-02-29"] {
+            assert_eq!(CalendarDate::parse(text), None, "{text}");
+        }
+    }
+
+    #[test]
+    fn adds_months_across_year_boundaries() {
+        for (from, months, expected) in [
+            ("2026-12-31", 2, "2027-02-28"),
+            ("2027-02-28", -2, "2026-12-28"),
+            ("2026-11-30", 14, "2028-01-30"),
+            ("2028-01-31", -14, "2026-11-30"),
+            ("2026-06-15", -18, "2024-12-15"),
+            ("2026-06-15", 0, "2026-06-15"),
+            ("0001-12-31", -11, "0001-01-31"),
+            ("9999-01-31", 11, "9999-12-31"),
+            ("0001-01-01", 12 * 9998 + 11, "9999-12-01"),
+            ("9999-12-31", -(12 * 9998 + 11), "0001-01-31"),
+        ] {
+            assert_eq!(
+                date(from).checked_add_months(months).unwrap().to_string(),
+                expected,
+                "{from} plus {months} months"
+            );
+        }
+    }
+
+    #[test]
+    fn fails_to_add_months_just_past_either_end() {
+        for (from, months) in [
+            ("9999-12-01", 1),
+            ("9999-01-31", 12),
+            ("0001-12-31", -12),
+            ("0001-01-31", -1),
+            ("0001-01-01", 12 * 9999),
+            ("9999-12-31", -(12 * 9999)),
+        ] {
+            assert_eq!(
+                date(from).checked_add_months(months),
+                None,
+                "{from} plus {months}"
+            );
+        }
+    }
+
+    #[test]
+    fn rejects_years_outside_0001_to_9999_and_impossible_fields() {
+        for text in [
+            "0000-06-15",
+            "10000-01-01",
+            "2026-19-01",
+            "2026-99-99",
+            "2026-01-32",
+            "2026-06-31",
+            "2026-11-31",
+            "+2026-01-01",
+            "-2026-01-01",
+            "+026-01-01",
+            "-026-01-01",
+            "2026--1-01",
+            "2026-01--1",
+            "2026-+1-01",
+            "2026- 1-01",
+            " 026-01-01",
+            "2026-01-1 ",
+            "2026-01-001",
+            "2026-001-01",
+            "02026-01-01",
+            "2026-01-0",
+            "2026-01",
+            "2026",
+            "2026_01_01",
+            "2026-01-0\u{0661}",
+            "2026-01-é1",
+            "20\u{FF12}6-01-01",
+        ] {
+            assert_eq!(CalendarDate::parse(text), None, "{text:?}");
         }
     }
 

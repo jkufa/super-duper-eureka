@@ -35,7 +35,7 @@ Port `buildSchedule` and the deposit and amount rules from spec 2 part C.
 - Ranges at the edges. An empty or reversed range gives no months. A range that reaches December 9999 ends its last segment at `to`. The TypeScript builder throws there, and the parity corpus stays clear of year 9999.
 - Port the TypeScript unit tests for deposits and amounts one for one, with the same inputs and expected values.
 - Count growth periods the way spec 2 defines them: the largest `n` for which the rule's start plus `n` months, with the day clamped, is on or before the deposit. Do not read the months from a date library's difference. A reviewer measured this on `jiff`: 31 January plus one month is 28 February, but the month-unit difference between those two dates came back as 28 days and no months, which would undercount. `CalendarDate` exposes no difference for that reason.
-- The date type accepts only spec 2's file grammar: ten ASCII characters and years 0001 to 9999. `jiff`'s own parser also accepts year 0000 and a timestamp such as `2026-01-01T00:00:00`, so wrap it.
+- The date type accepts only spec 2's file grammar: ten ASCII characters and years 0001 to 9999. It checks that shape, reads the digits itself, and has `jiff-core` validate the date. `jiff-core` allows years from -9999, so the type rejects year 0000 and earlier itself.
 
 ## Part B: compounding and account projection
 
