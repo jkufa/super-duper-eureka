@@ -698,3 +698,229 @@ fn refuses_to_deserialise_a_number_that_is_not_finite() {
         assert!(finite.is_err() && version.is_err(), "{value}");
     }
 }
+
+/// The scenario `valid_file` gives with one edit.
+fn parsed_with(edit: impl FnOnce(&mut Value)) -> Scenario {
+    parse(edited(edit)).unwrap()
+}
+
+/// The scenario `valid_file` gives with one edit to its first rule, `deferral`.
+fn deferral_with(edit: impl FnOnce(&mut Value)) -> Scenario {
+    parsed_with(|file| edit(&mut file["accounts"][0]["contributions"][0]))
+}
+
+fn deferral(scenario: &Scenario) -> &super::ContributionRule {
+    &scenario.accounts()[0].contributions()[0]
+}
+
+#[test]
+fn reads_each_account_kind() {
+    for (spelling, kind) in [
+        ("pretax", AccountKind::Pretax),
+        ("roth", AccountKind::Roth),
+        ("taxable", AccountKind::Taxable),
+        ("other", AccountKind::Other),
+    ] {
+        let scenario = parsed_with(|file| file["accounts"][0]["kind"] = json!(spelling));
+        assert_eq!(scenario.accounts()[0].kind(), kind, "{spelling}");
+    }
+}
+
+#[test]
+fn reads_each_compounding_and_defaults_it_to_monthly() {
+    for (spelling, compounding) in [
+        ("monthly", Compounding::Monthly),
+        ("daily", Compounding::Daily),
+    ] {
+        let scenario = parsed_with(|file| file["interest"]["compounding"] = json!(spelling));
+        assert_eq!(scenario.interest().compounding(), compounding, "{spelling}");
+    }
+    let scenario = parsed_with(|file| remove(&mut file["interest"], "compounding"));
+    assert_eq!(scenario.interest().compounding(), Compounding::Monthly);
+}
+
+#[test]
+fn reads_each_contribution_type() {
+    for (spelling, contribution_type) in [
+        ("flat", ContributionType::Flat),
+        ("salaryPercent", ContributionType::SalaryPercent),
+    ] {
+        let rule = deferral_with(|rule| rule["type"] = json!(spelling));
+        let rule = deferral(&rule);
+        assert_eq!(rule.contribution_type(), contribution_type, "{spelling}");
+    }
+}
+
+#[test]
+fn reads_each_salary_basis_and_defaults_it_to_annual() {
+    for (spelling, basis) in [
+        ("annual", SalaryBasis::Annual),
+        ("monthly", SalaryBasis::Monthly),
+        ("biweekly", SalaryBasis::Biweekly),
+        ("weekly", SalaryBasis::Weekly),
+        ("daily", SalaryBasis::Daily),
+        ("perContribution", SalaryBasis::PerContribution),
+    ] {
+        let rule = deferral_with(|rule| rule["salaryBasis"] = json!(spelling));
+        let rule = deferral(&rule);
+        assert_eq!(rule.salary_basis(), basis, "{spelling}");
+    }
+    let rule = deferral_with(|rule| remove(rule, "salaryBasis"));
+    let rule = deferral(&rule);
+    assert_eq!(rule.salary_basis(), SalaryBasis::Annual);
+}
+
+#[test]
+fn reads_each_growth_kind_and_cadence() {
+    for (kind_spelling, kind) in [("percent", GrowthKind::Percent), ("flat", GrowthKind::Flat)] {
+        for (cadence_spelling, cadence) in [
+            ("annual", GrowthCadence::Annual),
+            ("monthly", GrowthCadence::Monthly),
+        ] {
+            let rule = deferral_with(|rule| {
+                rule["startDate"] = json!("2026-01-01");
+                rule["growth"] =
+                    json!({ "type": kind_spelling, "amount": 3, "cadence": cadence_spelling });
+            });
+            let rule = deferral(&rule);
+            let growth = rule.growth().unwrap();
+            assert_eq!(
+                (
+                    growth.kind(),
+                    growth.amount(),
+                    growth.cadence(),
+                    growth.start()
+                ),
+                (kind, 3.0, cadence, date("2026-01-01")),
+                "{kind_spelling} {cadence_spelling}"
+            );
+        }
+    }
+}
+
+#[test]
+fn reads_each_placement_in_each_recurring_timing_and_defaults_it_to_start() {
+    for (spelling, placement) in [("start", Placement::Start), ("end", Placement::End)] {
+        let monthly = deferral_with(|rule| {
+            rule["timing"] = json!({ "frequency": "monthly", "placement": spelling });
+        });
+        let monthly = deferral(&monthly);
+        let annual = deferral_with(|rule| {
+            rule["timing"] = json!({ "frequency": "annual", "month": 3, "placement": spelling });
+        });
+        let annual = deferral(&annual);
+        let (Timing::Monthly(monthly), Timing::Annual(annual)) =
+            (monthly.timing(), annual.timing())
+        else {
+            panic!("expected a monthly and an annual rule");
+        };
+        assert_eq!(
+            (monthly.placement(), annual.placement()),
+            (placement, placement)
+        );
+    }
+    let annual =
+        deferral_with(|rule| rule["timing"] = json!({ "frequency": "annual", "month": 3 }));
+    let Timing::Annual(annual) = deferral(&annual).timing() else {
+        panic!("expected an annual rule");
+    };
+    assert_eq!(
+        (annual.month(), annual.day(), annual.placement()),
+        (3, None, Placement::Start)
+    );
+}
+
+#[test]
+fn reads_each_timing_frequency() {
+    let one_time = deferral_with(|rule| {
+        remove(rule, "salaryBasis");
+        rule["timing"] = json!({ "frequency": "oneTime", "on": "2027-04-30" });
+    });
+    let one_time = deferral(&one_time);
+    let monthly = deferral_with(|rule| {
+        rule["timing"] = json!({ "frequency": "monthly", "day": 31 });
+    });
+    let monthly = deferral(&monthly);
+    let annual = deferral_with(|rule| {
+        rule["timing"] = json!({ "frequency": "annual", "month": 12, "day": 1 });
+    });
+    let annual = deferral(&annual);
+
+    assert_eq!(one_time.timing(), Timing::OneTime(date("2027-04-30")));
+    let Timing::Monthly(monthly) = monthly.timing() else {
+        panic!("expected a monthly rule");
+    };
+    assert_eq!(monthly.day(), Some(31));
+    let Timing::Annual(annual) = annual.timing() else {
+        panic!("expected an annual rule");
+    };
+    assert_eq!((annual.month(), annual.day()), (12, Some(1)));
+}
+
+#[test]
+fn reads_a_rule_name_and_enabled_flag_present_or_absent() {
+    let named = deferral_with(|rule| {
+        rule["name"] = json!("Deferral");
+        rule["enabled"] = json!(true);
+    });
+    let named = deferral(&named);
+    let disabled = deferral_with(|rule| rule["enabled"] = json!(false));
+    let disabled = deferral(&disabled);
+    let bare = deferral_with(|rule| {
+        remove(rule, "name");
+        remove(rule, "enabled");
+    });
+    let bare = deferral(&bare);
+
+    assert_eq!((named.name(), named.enabled()), (Some("Deferral"), true));
+    assert_eq!((disabled.name(), disabled.enabled()), (None, false));
+    assert_eq!((bare.name(), bare.enabled()), (None, true));
+}
+
+#[test]
+fn reads_a_start_or_an_end_date_on_its_own() {
+    let started = deferral_with(|rule| rule["startDate"] = json!("2026-05-01"));
+    let started = deferral(&started);
+    let ended = deferral_with(|rule| rule["endDate"] = json!("2029-05-31"));
+    let ended = deferral(&ended);
+
+    assert_eq!(
+        (started.start_date(), started.end_date()),
+        (Some(date("2026-05-01")), None)
+    );
+    assert_eq!(
+        (ended.start_date(), ended.end_date()),
+        (None, Some(date("2029-05-31")))
+    );
+}
+
+#[test]
+fn reads_each_optional_number_present_or_absent() {
+    let stated = parsed_with(|file| {
+        file["interest"]["variance"] = json!(0.015);
+        file["salary"]["annualRaiseRate"] = json!(0.025);
+        file["accounts"][0]["annualRate"] = json!(0.045);
+    });
+    let absent = parsed_with(|file| {
+        remove(&mut file["interest"], "variance");
+        remove(&mut file["salary"], "annualRaiseRate");
+        remove(&mut file["accounts"][1], "annualRate");
+    });
+
+    assert_eq!(
+        (
+            stated.interest().variance(),
+            stated.salary().annual_raise_rate(),
+            stated.accounts()[0].annual_rate()
+        ),
+        (0.015, 0.025, Some(0.045))
+    );
+    assert_eq!(
+        (
+            absent.interest().variance(),
+            absent.salary().annual_raise_rate(),
+            absent.accounts()[1].annual_rate()
+        ),
+        (0.0, 0.0, None)
+    );
+}
