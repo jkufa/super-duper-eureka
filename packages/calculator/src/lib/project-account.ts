@@ -5,7 +5,7 @@ import { ScenarioError } from './parse-scenario';
 import { formatPlainDate } from './plain-date';
 import type { PlainDate } from './plain-date';
 import type { Account, PlainDateString, Scenario } from './scenario';
-import type { DepositBucket } from './schedule';
+import type { DepositBucket } from './compound';
 
 const LAST_MONTH = 12;
 

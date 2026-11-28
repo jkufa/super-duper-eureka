@@ -27,8 +27,7 @@
     "noPropertyAccessFromIndexSignature": false,
 
     "paths": {
-      "@retirement/calculator": ["./packages/calculator/src/index.ts"],
-      "@retirement/logger": ["./packages/logger/src/index.ts"]
+      "@retirement/calculator": ["./packages/calculator/src/index.ts"]
     }
   }
 }

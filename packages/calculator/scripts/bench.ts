@@ -1,65 +1,12 @@
-import { calculateProjection } from '../src/lib/calculator';
-import { compound } from '../src/lib/compound';
 import { effectiveRate } from '../src/lib/effective-rate';
-import { makeConfig } from '../src/lib/factories';
 import { parseScenario } from '../src/lib/parse-scenario';
 import { projectScenario } from '../src/lib/project-scenario';
-import type { Scenario } from '../src/lib/scenario';
-import { buildSchedule } from '../src/lib/schedule';
-import type { CompoundingFrequency, RetirementConfig } from '../src/lib/types';
+import type { Compounding, Scenario } from '../src/lib/scenario';
 
-const PASSES = 60;
-const TRIALS = 25;
 const SOLVE_TRIALS = 201;
+const PROJECTION_TRIALS = 51;
 
-function referenceConfig(compounding: CompoundingFrequency): RetirementConfig {
-  return makeConfig({
-    currentBalance: 250_000,
-    timeHorizonYears: 30,
-    startDate: '2026-01-01T00:00:00.000Z',
-    interest: { annualRate: 0.06, variance: 0.02, compounding },
-    salary: { annualBase: 120_000, annualRaiseRate: 0.03 },
-    contributions: [
-      {
-        id: '401k',
-        type: 'salaryPercent',
-        amount: 8,
-        salaryBasis: 'perContribution',
-        timing: { frequency: 'monthly', day: 15 }
-      },
-      {
-        id: 'match',
-        type: 'salaryPercent',
-        amount: 4,
-        salaryBasis: 'perContribution',
-        timing: { frequency: 'monthly', placement: 'end' }
-      },
-      {
-        id: 'ira',
-        type: 'flat',
-        amount: 7000,
-        growth: { type: 'flat', amount: 100, cadence: 'annual' },
-        timing: { frequency: 'annual', month: 3, day: 1 }
-      },
-      {
-        id: 'brokerage',
-        type: 'flat',
-        amount: 500,
-        growth: { type: 'percent', amount: 2, cadence: 'annual' },
-        timing: { frequency: 'monthly', day: 28 }
-      },
-      {
-        id: 'bonus',
-        type: 'salaryPercent',
-        amount: 10,
-        salaryBasis: 'annual',
-        timing: { frequency: 'annual', month: 11, placement: 'end' }
-      }
-    ]
-  });
-}
-
-function referenceScenario(compounding: CompoundingFrequency): Scenario {
+function referenceScenario(compounding: Compounding): Scenario {
   const account = { kind: 'other', included: true, balanceAsOf: '2026-01-01' } as const;
   return parseScenario(
     {
@@ -137,7 +84,7 @@ function referenceScenario(compounding: CompoundingFrequency): Scenario {
   );
 }
 
-function medianMs(run: () => void, trials = TRIALS): number {
+function medianMs(run: () => void, trials: number): number {
   run();
   const times: Array<number> = [];
   for (let trial = 0; trial < trials; trial++) {
@@ -152,25 +99,10 @@ function medianMs(run: () => void, trials = TRIALS): number {
 const runtime =
   process.versions.bun === undefined ? `node ${process.version}` : `bun ${process.versions.bun}`;
 process.stdout.write(
-  `${runtime}: 30 years, 5 rules, median of ${String(TRIALS)} trials of ${String(PASSES)} passes\n`
+  `${runtime}: 30 years, 3 accounts, 5 rules; median of ${String(SOLVE_TRIALS)} solves and ${String(PROJECTION_TRIALS)} projections\n`
 );
 
 for (const compounding of ['monthly', 'daily'] as const) {
-  const config = referenceConfig(compounding);
-  const schedule = buildSchedule(config);
-  const rate = config.interest.annualRate;
-
-  const compoundMs = medianMs(() => {
-    for (let pass = 0; pass < PASSES; pass++) {
-      compound(config.currentBalance, schedule, rate);
-    }
-  });
-  const projectionMs = medianMs(() => {
-    for (let pass = 0; pass < PASSES; pass++) {
-      calculateProjection(config, rate);
-    }
-  });
-
   const scenario = referenceScenario(compounding);
   const { total } = projectScenario(scenario).bands.baseline;
   const included = scenario.accounts.map((account) => ({
@@ -178,8 +110,9 @@ for (const compounding of ['monthly', 'daily'] as const) {
     annualRate: account.annualRate ?? scenario.interest.annualRate
   }));
   const solveMs = medianMs(() => effectiveRate(scenario, included, total), SOLVE_TRIALS);
+  const projectionMs = medianMs(() => projectScenario(scenario), PROJECTION_TRIALS);
 
   process.stdout.write(
-    `${compounding.padEnd(7)}  compound ${compoundMs.toFixed(2)} ms  calculateProjection ${projectionMs.toFixed(2)} ms  (${String(schedule.deposits.length)} deposits)  one effective-rate solve ${solveMs.toFixed(3)} ms (median of ${String(SOLVE_TRIALS)})\n`
+    `${compounding.padEnd(7)}  one effective-rate solve ${solveMs.toFixed(3)} ms  one projectScenario ${projectionMs.toFixed(2)} ms\n`
   );
 }
