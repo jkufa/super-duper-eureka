@@ -8,7 +8,6 @@ This file is temporary. The TypeScript code is the reference for the Rust port a
 
 - `packages/calculator/`: core calculator + domain utilities (`src/lib/__testing__` for Vitest).
 - `packages/cli/`: CLI wrapper and examples (`packages/cli/examples/`).
-- `packages/logger/`: shared wide-event logging utilities.
 
 ## Build, Test, and Development Commands
 
@@ -21,7 +20,6 @@ The repo runs on Vite+ (`vp`) with Bun as the package manager. Tasks are defined
 - `vp lint` / `vp fmt`: lint or format on their own. `vp check --fix` applies fixes from both.
 - `vp run retirement-calc --config <file>`: run the CLI on the Bun runtime.
 - `vp run @retirement/calculator#bench`: time 60 `compound` passes and 60 `calculateProjection` runs on the 30-year, five-rule reference case, on Node and then on Bun.
-- `vp run @retirement/calculator#write-baseline`: rewrite the engine baseline in `packages/calculator/src/lib/__testing__/baseline/` on Node. Run it only on the engine from before spec 2 part B. After that, the baseline is what the engine must reproduce, and rewriting it would hide a change in the maths. Bun and Node compute some powers differently, so the baseline must be written on Node, which the tests run on. Do not run the tests while it runs: it swaps the folder at the end, and a test run at that moment can see no baseline.
 
 ## Coding Style & Naming Conventions
 

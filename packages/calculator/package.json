@@ -6,9 +6,6 @@
   "scripts": {
     "test": "vp test"
   },
-  "dependencies": {
-    "@retirement/logger": "workspace:*"
-  },
   "devDependencies": {
     "@types/bun": "latest",
     "@vitest/coverage-v8": "catalog:",

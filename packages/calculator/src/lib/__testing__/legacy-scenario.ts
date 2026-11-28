@@ -1,5 +1,4 @@
 import { salaryInYear } from '../account-schedule';
-import type { ProjectionRun, ProjectionStep } from '../calculator';
 import { totalByBucket } from '../compound';
 import { addMonths, daysInMonth, formatPlainDate, parsePlainDate } from '../plain-date';
 import type { PlainDate } from '../plain-date';
@@ -20,8 +19,10 @@ import type {
   ContributionTimingMonthly,
   Projection,
   ProjectionByVariance,
+  ProjectionRun,
+  ProjectionStep,
   RetirementConfig
-} from '../types';
+} from './legacy-config';
 
 const MONTHS_PER_YEAR = 12;
 const ANY_LEAP_YEAR = 2000;

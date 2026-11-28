@@ -5,8 +5,7 @@ Monorepo for a retirement projection toolkit.
 It includes:
 
 - A TypeScript calculator engine for monthly/daily compounding retirement projections.
-- A CLI package for running projections from JSON configs.
-- Shared logging utilities.
+- A CLI package for running projections from JSON scenario files.
 
 ## Tech Stack
 
@@ -19,7 +18,6 @@ It includes:
 
 - `packages/calculator`: core retirement projection engine
 - `packages/cli`: command-line interface (`retirement-calc`)
-- `packages/logger`: shared logging helpers
 - `implementation`: implementation notes/spec artifacts
 - `qa`: QA notes and rollout tracking
 
@@ -62,11 +60,11 @@ vp check --fix
 Run the CLI on the Bun runtime:
 
 ```bash
-vp run retirement-calc --config packages/cli/examples/basic.json
+vp run retirement-calc --scenario packages/cli/examples/basic.json --today 2026-01-01
 ```
 
-Example with debug output:
+Trace one account:
 
 ```bash
-vp run retirement-calc --config packages/cli/examples/daily-debug.json --debug
+vp run retirement-calc --scenario packages/cli/examples/daily.json --today 2026-02-01 --trace brokerage
 ```

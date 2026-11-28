@@ -31,15 +31,6 @@ export default defineConfig({
     extends: [cloudflare],
     env: cloudflare.env,
     ignorePatterns: [...cloudflare.ignorePatterns],
-    options: { typeCheck: true },
-    overrides: [
-      {
-        files: ['packages/logger/**'],
-        rules: {
-          // Wide events carry arbitrary caller fields by design; a JSON value type rejects interface-typed callers.
-          'quality/no-unsafe-dictionary-type': 'off'
-        }
-      }
-    ]
+    options: { typeCheck: true }
   }
 });

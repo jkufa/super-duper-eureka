@@ -1,7 +1,7 @@
 import { addMonths, compareDates, daysInMonth, daysInYear } from './plain-date';
 import type { PlainDate } from './plain-date';
 import type { Account, Compounding, Rule, Scenario, Timing } from './scenario';
-import type { DepositBucket } from './schedule';
+import type { DepositBucket } from './compound';
 
 const MONTHS_PER_YEAR = 12;
 const PERIODS_PER_YEAR = { monthly: 12, biweekly: 26, weekly: 52, daily: 365 } as const;
