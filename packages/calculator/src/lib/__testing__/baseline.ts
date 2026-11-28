@@ -10,7 +10,7 @@ import type {
 } from '../types';
 import { digest, monthlyStream, stepStream } from './number-streams';
 import type { MonthlyStreamBand } from './number-streams';
-import { parseRetirementConfig } from './parse-config';
+import { asObject, asString, childPath, parseRetirementConfig } from './parse-config';
 
 export const BASELINE_DIR = new URL('baseline/', import.meta.url);
 export const BASELINE_CASES_DIR = new URL('cases/', BASELINE_DIR);
@@ -83,24 +83,16 @@ export function projectBaseline(input: RetirementConfig): BaselineOutputs {
 }
 
 function toStoredCase(file: string, value: unknown): StoredCase {
-  if (
-    typeof value !== 'object' ||
-    value === null ||
-    !('name' in value) ||
-    typeof value.name !== 'string' ||
-    !('input' in value) ||
-    !('yearly' in value) ||
-    !('monthlyDigest' in value) ||
-    !('stepsDigest' in value)
-  ) {
-    throw new Error(`${file} is not a baseline case.`);
-  }
+  const stored = asObject(value, file, ['name', 'input', 'yearly', 'monthlyDigest', 'stepsDigest']);
   return {
-    name: value.name,
-    input: parseRetirementConfig(value.input),
-    yearly: value.yearly,
-    monthlyDigest: value.monthlyDigest,
-    stepsDigest: value.stepsDigest
+    name: asString('name' in stored ? stored.name : undefined, childPath(file, 'name')),
+    input: parseRetirementConfig(
+      'input' in stored ? stored.input : undefined,
+      childPath(file, 'input')
+    ),
+    yearly: 'yearly' in stored ? stored.yearly : undefined,
+    monthlyDigest: 'monthlyDigest' in stored ? stored.monthlyDigest : undefined,
+    stepsDigest: 'stepsDigest' in stored ? stored.stepsDigest : undefined
   };
 }
 
