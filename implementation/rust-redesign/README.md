@@ -1,7 +1,7 @@
 # Rust redesign
 
 Date: 2026-11-27
-Status: spec 1 and spec 2 parts A to G are built. The old engine is deleted, and the CLI runs the new one. Spec 3 is built. Spec 4 is in progress
+Status: spec 1 and all of spec 2 are built. The old engine is deleted, and the CLI runs the new one. Spec 3 is built. Spec 4 is in progress
 Replaces: the gpuix port plan. Its specs and the chart geometry PoC are in git history at `2f5b79d`, under `implementation/gpuix-port/`.
 
 The retirement calculator becomes a macOS desktop app written in Rust on GPUI. There is no web target. The data model changes from one lump-sum balance to many accounts, each with its own balance, return and contribution rules. SnapTrade sync comes last and uses the owner's own API key.

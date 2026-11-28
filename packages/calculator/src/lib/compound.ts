@@ -81,7 +81,7 @@ function compoundDaily(
 
   for (let day = segment.firstDay; day < segment.firstDay + segment.days; day++) {
     const added = depositOn(day, totals, segment.daysInMonth);
-    if (added) {
+    if (added !== 0) {
       balance += added;
       contributions += added;
     }
@@ -95,10 +95,10 @@ function compoundDaily(
 
 function depositOn(day: number, totals: BucketTotals, daysInMonth: number) {
   let deposit = totals.byDay.get(day) ?? 0;
-  if (day === 1 && totals.start) {
+  if (day === 1 && totals.start !== 0) {
     deposit += totals.start;
   }
-  if (day === daysInMonth && totals.end) {
+  if (day === daysInMonth && totals.end !== 0) {
     deposit += totals.end;
   }
   return deposit;
