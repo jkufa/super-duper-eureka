@@ -1,33 +1,27 @@
 import { readdirSync, readFileSync } from 'node:fs';
 
-import { calculateProjectionWithSteps, calculateRetirement } from '../calculator';
-import type { ProjectionRun } from '../calculator';
 import type {
   AnnualProjection,
   Projection,
   ProjectionByVariance,
+  ProjectionRun,
   RetirementConfig
-} from '../types';
+} from './legacy-config';
 import { digest, monthlyStream, stepStream } from './number-streams';
 import type { MonthlyStreamBand } from './number-streams';
 import { asObject, asString, childPath, parseRetirementConfig } from './parse-config';
 
-export const BASELINE_DIR = new URL('baseline/', import.meta.url);
-export const BASELINE_CASES_DIR = new URL('cases/', BASELINE_DIR);
-export const BASELINE_FULL_DIR = new URL('full/', BASELINE_DIR);
+const BASELINE_DIR = new URL('baseline/', import.meta.url);
+const BASELINE_CASES_DIR = new URL('cases/', BASELINE_DIR);
+const BASELINE_FULL_DIR = new URL('full/', BASELINE_DIR);
 
-export interface BaselineOutputs {
+interface BaselineOutputs {
   yearly: Record<'baseline' | 'positive' | 'negative', Array<AnnualProjection>>;
   monthlyDigest: string;
   stepsDigest: string;
 }
 
-export interface BaselineCase extends BaselineOutputs {
-  name: string;
-  input: RetirementConfig;
-}
-
-export interface StoredCase {
+interface StoredCase {
   name: string;
   input: RetirementConfig;
   yearly: unknown;
@@ -35,21 +29,14 @@ export interface StoredCase {
   stepsDigest: unknown;
 }
 
-export interface StoredFullExample {
+interface StoredFullExample {
   result: unknown;
   steps: unknown;
 }
 
-export interface FullExample {
+interface FullExample {
   result: ProjectionByVariance;
   steps: ProjectionRun;
-}
-
-export function runFullExample(input: RetirementConfig): FullExample {
-  return {
-    result: calculateRetirement(input),
-    steps: calculateProjectionWithSteps(input, input.interest.annualRate)
-  };
 }
 
 function toStreamBand(projection: Projection): MonthlyStreamBand {
@@ -59,10 +46,6 @@ function toStreamBand(projection: Projection): MonthlyStreamBand {
     totalGrowth: projection.totalGrowth,
     monthly: projection.monthlyProjections
   };
-}
-
-export function projectBaseline(input: RetirementConfig): BaselineOutputs {
-  return toBaselineOutputs(runFullExample(input));
 }
 
 export function toBaselineOutputs({ result, steps }: FullExample): BaselineOutputs {
@@ -109,7 +92,7 @@ export function readBaselineCases(): Array<StoredCase> {
     });
 }
 
-export function fullExampleFiles(name: string): Record<keyof FullExample, string> {
+function fullExampleFiles(name: string): Record<keyof FullExample, string> {
   return { result: `${name}.result.json`, steps: `${name}.steps.json` };
 }
 

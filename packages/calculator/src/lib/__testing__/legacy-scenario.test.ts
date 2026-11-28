@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vite-plus/test';
 
-import type { ContributionRule, RetirementConfig } from '../types';
-import { runFullExample, toBaselineOutputs } from './baseline';
+import type { ContributionRule, RetirementConfig } from './legacy-config';
 import { legacyToScenario, runThroughScenario } from './legacy-scenario';
 
 function oneYearConfig(rule: Partial<ContributionRule>): RetirementConfig {
@@ -34,15 +33,11 @@ describe('legacyToScenario', () => {
     ],
     ['an annual rule on 31 April', { timing: { frequency: 'annual', month: 3, day: 31 } }, 1]
   ] satisfies Array<[string, Partial<ContributionRule>, number]>)(
-    'matches the old engine for %s',
+    'reaches the final balance the old engine gave, for %s',
     (_, rule, finalBalance) => {
-      const config = oneYearConfig(rule);
-      const oldRun = runFullExample(config);
-      const newRun = runThroughScenario(config);
-
-      expect(oldRun.result.baseline.finalBalance).toBe(finalBalance);
-      expect(newRun.result.baseline.finalBalance).toBe(finalBalance);
-      expect(toBaselineOutputs(newRun)).toStrictEqual(toBaselineOutputs(oldRun));
+      expect(runThroughScenario(oneYearConfig(rule)).result.baseline.finalBalance).toBe(
+        finalBalance
+      );
     }
   );
 

@@ -37,3 +37,17 @@ The same command now also times one `effectiveRate` solve: pooling the schedules
 - Node daily misses its target by about 5.7 ms. Replacing the day-total lookup `totals.byDay.get(String(day))` with a constant 0, as a timing experiment only, brought it to 2.4 ms, so about 8.3 ms of the 10.7 is that string-keyed `Map` lookup, once per day per pass. Replacing the daily rate's power with a division saved about 0.3 ms.
 - Part G switches the day totals to number keys when it deletes the old engine. That should remove most of the gap. The solver shares `compoundSegment` with the series, so it was not given its own lookup.
 - The CLI and the parity run use Bun, where both modes meet their targets.
+
+## Number keys and the old engine deleted (spec 2 part G, 2026-11-28)
+
+Part G keyed the day totals by number, then deleted the old engine. `bench.ts` no longer times `compound` or `calculateProjection`, which are gone. It times one `effectiveRate` solve (median of 201) and one full `projectScenario` (median of 51) on the same three-account reference case. Figures from three runs of the command each.
+
+| Runtime    | Mode    | Solve, string keys (part F) | Solve, number keys | Solve, old engine deleted | Target | One `projectScenario` |
+| ---------- | ------- | --------------------------- | ------------------ | ------------------------- | ------ | --------------------- |
+| Node 24.13 | monthly | 0.47 to 0.49 ms             | 0.47 to 0.48 ms    | 0.45 ms                   | 1 ms   | 1.9 to 2.0 ms         |
+| Node 24.13 | daily   | 10.65 to 10.68 ms           | 4.46 to 4.48 ms    | 3.87 to 3.88 ms           | 5 ms   | 5.9 ms                |
+| Bun 1.4.5  | monthly | 0.37 ms                     | 0.37 ms            | 0.36 to 0.37 ms           | 1 ms   | 1.9 ms                |
+| Bun 1.4.5  | daily   | 3.47 to 3.54 ms             | 2.45 to 2.48 ms    | 2.40 to 2.42 ms           | 5 ms   | 4.2 ms                |
+
+- Both runtimes now meet both targets. The number keys removed most of Node's daily gap, as part F predicted.
+- Deleting the old engine saved a further 0.6 ms on Node daily. The "number keys" column was measured with the old engine still loaded in the same script.

@@ -442,4 +442,37 @@ describe('buildAccountSchedule', () => {
       projectAccount(scenario, account, date('2026-01-01'), date('2026-02-01'), 0, 0).finalBalance
     ).toBe(1e16);
   });
+
+  it('lets the day decide the monthly bucket over the placement: 16 January in start, 15 February in end', () => {
+    const rules = [
+      flat('january', { frequency: 'annual', month: 1, day: 16, placement: 'end' }),
+      flat('february', { frequency: 'annual', month: 2, day: 15, placement: 'start' })
+    ];
+
+    expect(deposits({ rules }, '2026-01-01', '2026-03-01')).toStrictEqual([
+      { ruleId: 'january', date: '2026-01-16', amount: 100, bucket: 'start' },
+      { ruleId: 'february', date: '2026-02-15', amount: 100, bucket: 'end' }
+    ]);
+  });
+
+  it.each(['monthly', 'daily'] as const)(
+    'adds a bucket total to the balance once in %s mode: 1e16 + (1 + 1)',
+    (compounding) => {
+      const rules = [
+        flat('first', { frequency: 'monthly', placement: 'start' }, { amount: 1 }),
+        flat('second', { frequency: 'monthly', placement: 'start' }, { amount: 1 })
+      ];
+      const scenario = scenarioWith({ rules, compounding });
+      const [account] = scenario.accounts;
+      if (!account) {
+        throw new Error('The fixture has no account.');
+      }
+
+      expect(1e16 + 1 + 1).toBe(1e16);
+      expect(
+        projectAccount(scenario, account, date('2026-01-01'), date('2026-02-01'), 1e16, 0)
+          .finalBalance
+      ).toBe(10_000_000_000_000_002);
+    }
+  );
 });

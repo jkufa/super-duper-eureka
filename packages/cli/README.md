@@ -1,36 +1,29 @@
 # @retirement/cli
 
-Command line tooling to run the retirement calculator and debug step by step behavior.
+Runs the retirement engine on a scenario file and prints the result as JSON.
 
 ## Usage
 
 ```bash
-retirement-calc --config packages/cli/examples/basic.json
+retirement-calc --scenario <file> [--today YYYY-MM-DD] [--trace <accountId>] [--band <band>]
 ```
 
-## Debug mode
-
-```bash
-retirement-calc --config packages/cli/examples/basic.json --debug
-```
-
-Debug mode emits wide events for every step and a final run summary. By default output is pretty printed JSON.
+From the repo root, `vp run retirement-calc --scenario packages/cli/examples/basic.json --today 2026-01-01` runs it on Bun.
 
 ## Options
 
-- `--config <path>`: Path to a JSON file that matches `RetirementConfig`.
-- `--debug`: Emit step wide events and a final run event.
-- `--no-interactive`: Do not pause between steps when `--debug` is enabled.
-- `--raw`: Emit raw JSON without pretty formatting.
-- `--skip <spec>`: Skip prompts for specific steps. Example `1,3-5,next:10`.
-- `--help`: Show help.
+- `--scenario <file>`: a version 1 scenario JSON file. Required.
+- `--today <date>`: the date results start from, `YYYY-MM-DD`. Default: this machine's local date.
+- `--trace <accountId>`: print the account's trace segments instead of the projection.
+- `--band <band>`: `baseline`, `positive` or `negative`. Only with `--trace`. Default: `baseline`.
+- `--help`: print the usage text.
 
-## Skip spec
+## Output
 
-The skip spec supports a flexible syntax:
+stdout holds exactly one JSON document, indented by two spaces and ending in a newline: the `ScenarioProjection`, or with `--trace` an array of `TraceSegment`. The same input and `--today` give byte-identical output.
 
-- `1,3,5` skips specific step indices
-- `3-7` skips a range of steps
-- `next:10` skips the next 10 steps
+## Exit status
 
-You can combine tokens with commas. For example `1,3-5,next:10`.
+- `0`: success.
+- `1`: bad usage, or the scenario file cannot be read or is not JSON. The message goes to stderr and nothing goes to stdout.
+- `2`: the scenario is invalid or cannot be projected. stdout holds `{ "error": { "code": "...", "accountId": "...", "ruleId": "..." } }`, with `accountId` and `ruleId` only when the error carries them, and stderr holds the message.

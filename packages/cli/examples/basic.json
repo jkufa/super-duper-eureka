@@ -1,7 +1,6 @@
 {
-  "currentBalance": 75000,
-  "timeHorizonYears": 20,
-  "startDate": "2026-01-01T00:00:00.000Z",
+  "version": 1,
+  "endDate": "2046-01-01",
   "interest": {
     "annualRate": 0.05,
     "variance": 0.01,
@@ -9,35 +8,50 @@
   },
   "salary": {
     "annualBase": 110000,
-    "annualRaiseRate": 0.03
+    "annualRaiseRate": 0.03,
+    "asOf": "2026-01-01"
   },
-  "contributions": [
+  "accounts": [
     {
       "id": "401k",
       "name": "401k",
-      "enabled": true,
-      "type": "salaryPercent",
-      "amount": 6,
-      "salaryBasis": "perContribution",
-      "timing": {
-        "frequency": "monthly",
-        "placement": "start"
-      },
-      "yearRange": {
-        "start": 0,
-        "end": 20
-      }
+      "kind": "pretax",
+      "included": true,
+      "balance": 60000,
+      "balanceAsOf": "2026-01-01",
+      "contributions": [
+        {
+          "id": "401k-salary",
+          "name": "401k",
+          "type": "salaryPercent",
+          "amount": 6,
+          "salaryBasis": "perContribution",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "start"
+          }
+        }
+      ]
     },
     {
       "id": "roth",
       "name": "Roth IRA",
-      "enabled": true,
-      "type": "flat",
-      "amount": 500,
-      "timing": {
-        "frequency": "monthly",
-        "placement": "end"
-      }
+      "kind": "roth",
+      "included": true,
+      "balance": 15000,
+      "balanceAsOf": "2026-01-01",
+      "contributions": [
+        {
+          "id": "roth-monthly",
+          "name": "Roth IRA",
+          "type": "flat",
+          "amount": 500,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          }
+        }
+      ]
     }
   ]
 }

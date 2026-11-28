@@ -1,7 +1,5 @@
 export type CompoundingFrequency = 'monthly' | 'daily';
-export type ContributionFrequency = 'monthly' | 'annual' | 'oneTime';
 export type ContributionType = 'flat' | 'salaryPercent';
-export type Placement = 'start' | 'end';
 
 export interface Interest {
   annualRate: number;
@@ -90,8 +88,8 @@ export interface RetirementConfig {
   currentBalance: number;
   /** Time horizon in years */
   timeHorizonYears: number;
-  /** Used to anchor the starting month for projection. Defaults to now. */
-  startDate?: Date | string;
+  /** Anchors the starting month of the projection, as an ISO date-time. */
+  startDate?: string;
   /** Interest rate and variance */
   interest: Interest;
   /** Salary assumptions, required for salaryPercent contributions */
@@ -128,3 +126,44 @@ export interface Projection {
 }
 
 export type ProjectionByVariance = Record<'baseline' | 'positive' | 'negative', Projection>;
+
+export interface ContributionDetail {
+  id: string;
+  type: ContributionType;
+  amount: number;
+  timing: ContributionTiming;
+}
+
+export interface ProjectionStep {
+  stepIndex: number;
+  yearIndex: number;
+  monthIndex: number;
+  balanceStart: number;
+  balanceEnd: number;
+  interestEarned: number;
+  contributionsThisStep: number;
+  totalContributions: number;
+  totalInterest: number;
+  contributionsStart: number;
+  contributionsEnd: number;
+  contributionsByDay: Record<number, number>;
+  salary: number;
+  compounding: CompoundingFrequency;
+  annualRate: number;
+  daysInMonth: number;
+  daysInYear: number;
+  activeContributions: Array<ContributionDetail>;
+}
+
+export interface ProjectionStepSummary {
+  totalSteps: number;
+  totalContributions: number;
+  totalInterest: number;
+  finalBalance: number;
+}
+
+export interface ProjectionRun {
+  projection: Projection;
+  steps: Array<ProjectionStep>;
+  summary: ProjectionStepSummary;
+}

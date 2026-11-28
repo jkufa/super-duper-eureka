@@ -10,7 +10,7 @@ import type {
   SalaryBasis,
   SalaryConfig,
   YearRange
-} from '../types';
+} from './legacy-config';
 
 const SALARY_BASES: ReadonlyArray<SalaryBasis> = [
   'annual',
