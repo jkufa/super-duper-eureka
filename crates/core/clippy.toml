@@ -63,6 +63,7 @@ disallowed-methods = [
   { path = "std::thread::available_parallelism", reason = "core takes its inputs as arguments" },
   { path = "std::process::id", reason = "core takes its inputs as arguments" },
   { path = "std::thread::sleep", reason = "core never reads or waits on the clock" },
+  { path = "std::thread::park_timeout", reason = "core never reads or waits on the clock" },
   { path = "std::fs::soft_link", reason = "core has no file access" },
   { path = "std::fs::DirBuilder::new", reason = "core has no file access" },
   { path = "std::fs::DirBuilder::create", reason = "core has no file access" },
