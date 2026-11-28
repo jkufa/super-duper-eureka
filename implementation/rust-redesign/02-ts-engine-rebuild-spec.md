@@ -182,7 +182,8 @@ Part C implements and validates all of these types. Its `projectAccount` works o
 `parseScenario(file, options)` checks the file once and returns a `Scenario` the engine trusts. Engine functions take only `Scenario`. On failure it throws a `ScenarioError` with a `code`, the path of the field and the id of the account or rule at fault. Spec 4 gives Rust the same codes, and the parity run compares them.
 
 - The returned `Scenario` is deeply read-only in its types and shares no object with the input.
-- `options` is checked as strictly as the file. Its only key is `today`.
+- `options` is checked as strictly as the file. Its only key is `today`. An error in it names a path under `options`, such as `options.today`.
+- `not_finite` comes from the engine, so it carries the account's id and no path.
 - An error on or inside an account carries that account's id, and one on or inside a rule carries the rule's id too, whenever the id itself is a readable string. That includes an unknown key directly on the account or rule.
 - Every element of `accounts` and `contributions` is checked, including a hole in an array.
 - Filled defaults: `variance` 0, `annualRaiseRate` 0, `compounding` `monthly`, a rule's `enabled` true, `placement` `start`, `salaryBasis` `annual`.
