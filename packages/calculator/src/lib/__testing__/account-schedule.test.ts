@@ -288,6 +288,48 @@ describe('buildAccountSchedule', () => {
     ]);
   });
 
+  it('applies raises on both sides of salary.asOf', () => {
+    const salary = { annualBase: 100_000, annualRaiseRate: 1, asOf: '2027-07-01' };
+    const rules: Array<ContributionRuleFile> = [
+      { id: 'match', type: 'salaryPercent', amount: 50, timing: { frequency: 'annual', month: 3 } }
+    ];
+    const scenario = scenarioWith({ rules, salary });
+
+    expect([2026, 2027, 2028].map((year) => salaryInYear(scenario, year))).toStrictEqual([
+      50_000, 100_000, 200_000
+    ]);
+    expect(deposits({ rules, salary }, '2026-01-01', '2029-01-01')).toStrictEqual([
+      { ruleId: 'match', date: '2026-03-01', amount: 25_000, bucket: 'start' },
+      { ruleId: 'match', date: '2027-03-01', amount: 50_000, bucket: 'start' },
+      { ruleId: 'match', date: '2028-03-01', amount: 100_000, bucket: 'start' }
+    ]);
+  });
+
+  it('divides by the basis before applying the percentage', () => {
+    const salary = { annualBase: 100, asOf: TODAY };
+    const rules: Array<ContributionRuleFile> = [
+      percentOfSalary('monthly', { amount: 7, salaryBasis: 'monthly' })
+    ];
+    const [deposit] = deposits({ rules, salary }, '2026-01-01', '2026-02-01');
+
+    expect(deposit?.amount).toBe(0.5833333333333335);
+  });
+
+  it('keeps a deposit on the range start and leaves out one on the range end', () => {
+    const rules = [
+      flat('before', { frequency: 'monthly', day: 14 }),
+      flat('on-start', { frequency: 'monthly', day: 15 }),
+      flat('inside', { frequency: 'monthly', day: 19 }),
+      flat('on-end', { frequency: 'monthly', day: 20 }),
+      flat('after', { frequency: 'monthly', day: 21 })
+    ];
+
+    expect(deposits({ rules }, '2026-03-15', '2026-03-20')).toStrictEqual([
+      { ruleId: 'on-start', date: '2026-03-15', amount: 100, bucket: 'start' },
+      { ruleId: 'inside', date: '2026-03-19', amount: 100, bucket: 'end' }
+    ]);
+  });
+
   it('leaves out a zero-amount deposit and a disabled rule', () => {
     const rules = [
       flat('zero', { frequency: 'monthly' }, { amount: 0 }),
@@ -317,7 +359,7 @@ describe('buildAccountSchedule', () => {
       deposits({ rules }, '2026-01-01', '2026-02-01').map(({ ruleId }) => ruleId)
     ).toStrictEqual(['big', 'third', 'second']);
     expect(
-      projectAccount(scenario, account, date('2026-01-01'), date('2026-02-01'), 0).finalBalance
+      projectAccount(scenario, account, date('2026-01-01'), date('2026-02-01'), 0, 0).finalBalance
     ).toBe(1e16);
   });
 
@@ -334,7 +376,7 @@ describe('buildAccountSchedule', () => {
     }
 
     expect(
-      projectAccount(scenario, account, date('2026-01-01'), date('2026-02-01'), 0).finalBalance
+      projectAccount(scenario, account, date('2026-01-01'), date('2026-02-01'), 0, 0).finalBalance
     ).toBe(1e16);
   });
 });

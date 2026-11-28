@@ -104,21 +104,21 @@ function depositBucket(
 }
 
 function depositAmount(scenario: Scenario, rule: Rule, date: PlainDate): number {
-  const amount = grownAmount(rule, date);
+  const grown = grownAmount(rule, date);
   if (rule.type === 'flat') {
-    return amount;
+    return grown;
   }
-  return salaryShare(salaryInYear(scenario, date.year), rule) * (amount / 100);
+  const salary = salaryInYear(scenario, date.year);
+  const divisor = salaryDivisor(rule);
+  return divisor === undefined ? salary * (grown / 100) : (salary / divisor) * (grown / 100);
 }
 
-function salaryShare(salary: number, rule: Rule): number {
-  const basis =
-    rule.salaryBasis === 'perContribution'
-      ? rule.timing.frequency === 'monthly'
-        ? 'monthly'
-        : 'annual'
-      : rule.salaryBasis;
-  return basis === 'annual' ? salary : salary / PERIODS_PER_YEAR[basis];
+function salaryDivisor(rule: Rule): number | undefined {
+  const { salaryBasis } = rule;
+  if (salaryBasis === 'perContribution') {
+    return rule.timing.frequency === 'monthly' ? PERIODS_PER_YEAR.monthly : undefined;
+  }
+  return salaryBasis === 'annual' ? undefined : PERIODS_PER_YEAR[salaryBasis];
 }
 
 function grownAmount(rule: Rule, date: PlainDate): number {
