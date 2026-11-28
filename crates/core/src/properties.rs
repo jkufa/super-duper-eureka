@@ -48,12 +48,42 @@ fn yearly_figures(row: YearlyRow) -> (f64, f64, f64) {
     (row.balance(), row.contributions(), row.interest())
 }
 
-/// Checks a band's total rows against its accounts summed row by row.
+/// The `(year, month)` of each month from today's to the one holding the day before the end
+/// date.
+fn months_of_range(scenario: &Scenario) -> Vec<(i16, i8)> {
+    let mut first_of_month = scenario.today().with_day_clamped(1);
+    let mut months = Vec::new();
+    while first_of_month < scenario.end_date() {
+        months.push((first_of_month.year(), first_of_month.month()));
+        first_of_month = first_of_month.checked_add_months(1).unwrap();
+    }
+    months
+}
+
+/// Checks a band's total rows against the months of the range and against its accounts summed
+/// row by row.
 fn check_total(
+    scenario: &Scenario,
     accounts: &[AccountProjection<'_>],
     monthly: &[MonthlyRow],
     yearly: &[YearlyRow],
 ) -> Result<(), TestCaseError> {
+    let months: Vec<(i16, i8)> = monthly
+        .iter()
+        .map(|row| (row.year(), row.month()))
+        .collect();
+    prop_assert_eq!(&months, &months_of_range(scenario));
+    let mut years: Vec<i16> = months.iter().map(|&(year, _)| year).collect();
+    years.dedup();
+    let yearly_years: Vec<i16> = yearly.iter().map(|row| row.year()).collect();
+    prop_assert_eq!(yearly_years, years);
+    for account in accounts {
+        let series = account.series();
+        prop_assert_eq!(
+            (series.monthly().len(), series.yearly().len()),
+            (monthly.len(), yearly.len())
+        );
+    }
     for (index, &row) in monthly.iter().enumerate() {
         let sum = summed(accounts, |series| monthly_figures(series.monthly()[index]));
         prop_assert_eq!(monthly_figures(row), sum, "monthly row {}", index);
@@ -257,9 +287,15 @@ fn total_is_the_sum_of_included_accounts_on_every_row() {
             .iter()
             .map(|row| row.row())
             .collect();
-        check_total(baseline.accounts(), baseline.total().monthly(), &yearly)?;
+        check_total(
+            &scenario,
+            baseline.accounts(),
+            baseline.total().monthly(),
+            &yearly,
+        )?;
         for band in [bands.positive(), bands.negative()] {
             check_total(
+                &scenario,
                 band.accounts(),
                 band.total().monthly(),
                 band.total().yearly(),

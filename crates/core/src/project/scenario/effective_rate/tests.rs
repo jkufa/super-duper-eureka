@@ -767,6 +767,12 @@ mod properties {
                 projection.effective_rate(),
             );
             prop_assert!(
+                pooled.is_finite() && target.is_finite(),
+                "pool {} against total {}",
+                pooled,
+                target
+            );
+            prop_assert!(
                 (pooled - target).abs() <= TOLERANCE * 1.0_f64.max(pooled.abs()).max(target.abs()),
                 "pool {} against total {}",
                 pooled,
