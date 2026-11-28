@@ -7,14 +7,14 @@
     "daysInYear": 365,
     "balanceStart": 368508.68,
     "balanceEnd": 368899.6465051263,
-    "contributions": 393.0911792502391,
+    "contributions": 393.09117925024293,
     "interest": -2.124674123906887,
     "annualRate": -0.0021,
     "deposits": [
       {
         "ruleId": "a1g",
         "date": "2043-10-31",
-        "amount": 393.0911792502391,
+        "amount": 393.09117925024293,
         "bucket": 31
       }
     ]

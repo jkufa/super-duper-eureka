@@ -73,29 +73,29 @@
           "included": false,
           "annualRate": 0.1088,
           "rolledForward": {
-            "contributions": 31561.432225491426,
-            "interest": 2359.531061043639
+            "contributions": 31561.43222549384,
+            "interest": 2359.53106104365
           },
           "series": {
-            "startBalance": 162146.08328653505,
-            "finalBalance": 162192.80120397446,
+            "startBalance": 162146.0832865375,
+            "finalBalance": 162192.8012039769,
             "totalContributions": 0.0,
-            "totalInterest": 46.71791743941211,
+            "totalInterest": 46.717917439412815,
             "monthly": [
               {
                 "year": 2040,
                 "month": 4,
-                "balance": 162192.80120397446,
+                "balance": 162192.8012039769,
                 "contributions": 0.0,
-                "interest": 46.71791743941211
+                "interest": 46.717917439412815
               }
             ],
             "yearly": [
               {
                 "year": 2040,
-                "balance": 162192.80120397446,
+                "balance": 162192.8012039769,
                 "contributions": 0.0,
-                "interest": 46.71791743941211
+                "interest": 46.717917439412815
               }
             ]
           }
@@ -164,29 +164,29 @@
           "included": false,
           "annualRate": 0.1447,
           "rolledForward": {
-            "contributions": 31561.432225491426,
-            "interest": 3095.6523271629176
+            "contributions": 31561.43222549384,
+            "interest": 3095.652327162931
           },
           "series": {
-            "startBalance": 162882.20455265432,
-            "finalBalance": 162943.69549807627,
+            "startBalance": 162882.20455265677,
+            "finalBalance": 162943.6954980787,
             "totalContributions": 0.0,
-            "totalInterest": 61.49094542193562,
+            "totalInterest": 61.49094542193654,
             "monthly": [
               {
                 "year": 2040,
                 "month": 4,
-                "balance": 162943.69549807627,
+                "balance": 162943.6954980787,
                 "contributions": 0.0,
-                "interest": 61.49094542193562
+                "interest": 61.49094542193654
               }
             ],
             "yearly": [
               {
                 "year": 2040,
-                "balance": 162943.69549807627,
+                "balance": 162943.6954980787,
                 "contributions": 0.0,
-                "interest": 61.49094542193562
+                "interest": 61.49094542193654
               }
             ]
           }
@@ -255,29 +255,29 @@
           "included": false,
           "annualRate": 0.07289999999999999,
           "rolledForward": {
-            "contributions": 31561.432225491426,
-            "interest": 1603.2259683046864
+            "contributions": 31561.43222549384,
+            "interest": 1603.2259683046932
           },
           "series": {
-            "startBalance": 161389.7781937961,
-            "finalBalance": 161421.41595626983,
+            "startBalance": 161389.77819379853,
+            "finalBalance": 161421.41595627225,
             "totalContributions": 0.0,
-            "totalInterest": 31.63776247371521,
+            "totalInterest": 31.637762473715682,
             "monthly": [
               {
                 "year": 2040,
                 "month": 4,
-                "balance": 161421.41595626983,
+                "balance": 161421.41595627225,
                 "contributions": 0.0,
-                "interest": 31.63776247371521
+                "interest": 31.637762473715682
               }
             ],
             "yearly": [
               {
                 "year": 2040,
-                "balance": 161421.41595626983,
+                "balance": 161421.41595627225,
                 "contributions": 0.0,
-                "interest": 31.63776247371521
+                "interest": 31.637762473715682
               }
             ]
           }

@@ -46,24 +46,24 @@
           },
           "series": {
             "startBalance": 0.0,
-            "finalBalance": 2130.803697098986,
-            "totalContributions": 2130.535209837025,
-            "totalInterest": 0.26848726196100564,
+            "finalBalance": 2130.8036970989615,
+            "totalContributions": 2130.5352098370004,
+            "totalInterest": 0.26848726196100253,
             "monthly": [
               {
                 "year": 2012,
                 "month": 2,
-                "balance": 2130.803697098986,
-                "contributions": 2130.535209837025,
-                "interest": 0.26848726196100564
+                "balance": 2130.8036970989615,
+                "contributions": 2130.5352098370004,
+                "interest": 0.26848726196100253
               }
             ],
             "yearly": [
               {
                 "year": 2012,
-                "balance": 2130.803697098986,
-                "contributions": 2130.535209837025,
-                "interest": 0.26848726196100564
+                "balance": 2130.8036970989615,
+                "contributions": 2130.5352098370004,
+                "interest": 0.26848726196100253
               }
             ]
           }
@@ -105,24 +105,24 @@
           },
           "series": {
             "startBalance": 0.0,
-            "finalBalance": 2130.803697098986,
-            "totalContributions": 2130.535209837025,
-            "totalInterest": 0.26848726196100564,
+            "finalBalance": 2130.8036970989615,
+            "totalContributions": 2130.5352098370004,
+            "totalInterest": 0.26848726196100253,
             "monthly": [
               {
                 "year": 2012,
                 "month": 2,
-                "balance": 2130.803697098986,
-                "contributions": 2130.535209837025,
-                "interest": 0.26848726196100564
+                "balance": 2130.8036970989615,
+                "contributions": 2130.5352098370004,
+                "interest": 0.26848726196100253
               }
             ],
             "yearly": [
               {
                 "year": 2012,
-                "balance": 2130.803697098986,
-                "contributions": 2130.535209837025,
-                "interest": 0.26848726196100564
+                "balance": 2130.8036970989615,
+                "contributions": 2130.5352098370004,
+                "interest": 0.26848726196100253
               }
             ]
           }
@@ -164,24 +164,24 @@
           },
           "series": {
             "startBalance": 0.0,
-            "finalBalance": 2130.803697098986,
-            "totalContributions": 2130.535209837025,
-            "totalInterest": 0.26848726196100564,
+            "finalBalance": 2130.8036970989615,
+            "totalContributions": 2130.5352098370004,
+            "totalInterest": 0.26848726196100253,
             "monthly": [
               {
                 "year": 2012,
                 "month": 2,
-                "balance": 2130.803697098986,
-                "contributions": 2130.535209837025,
-                "interest": 0.26848726196100564
+                "balance": 2130.8036970989615,
+                "contributions": 2130.5352098370004,
+                "interest": 0.26848726196100253
               }
             ],
             "yearly": [
               {
                 "year": 2012,
-                "balance": 2130.803697098986,
-                "contributions": 2130.535209837025,
-                "interest": 0.26848726196100564
+                "balance": 2130.8036970989615,
+                "contributions": 2130.5352098370004,
+                "interest": 0.26848726196100253
               }
             ]
           }

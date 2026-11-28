@@ -59,21 +59,21 @@
           "series": {
             "startBalance": 368508.68,
             "finalBalance": 368893.2725561762,
-            "totalContributions": 393.0911792502391,
+            "totalContributions": 393.09117925024293,
             "totalInterest": -8.498623074085787,
             "monthly": [
               {
                 "year": 2043,
                 "month": 10,
                 "balance": 368899.6465051263,
-                "contributions": 393.0911792502391,
+                "contributions": 393.09117925024293,
                 "interest": -2.124674123906887
               },
               {
                 "year": 2043,
                 "month": 11,
                 "balance": 368893.2725561762,
-                "contributions": 393.0911792502391,
+                "contributions": 393.09117925024293,
                 "interest": -8.498623074085787
               }
             ],
@@ -81,7 +81,7 @@
               {
                 "year": 2043,
                 "balance": 368893.2725561762,
-                "contributions": 393.0911792502391,
+                "contributions": 393.09117925024293,
                 "interest": -8.498623074085787
               }
             ]
@@ -249,21 +249,21 @@
           "series": {
             "startBalance": 368508.68,
             "finalBalance": 368924.75019586174,
-            "totalContributions": 393.0911792502391,
+            "totalContributions": 393.09117925024293,
             "totalInterest": 22.979016611527037,
             "monthly": [
               {
                 "year": 2043,
                 "month": 10,
                 "balance": 368907.515799217,
-                "contributions": 393.0911792502391,
+                "contributions": 393.09117925024293,
                 "interest": 5.744619966749822
               },
               {
                 "year": 2043,
                 "month": 11,
                 "balance": 368924.75019586174,
-                "contributions": 393.0911792502391,
+                "contributions": 393.09117925024293,
                 "interest": 22.979016611527037
               }
             ],
@@ -271,7 +271,7 @@
               {
                 "year": 2043,
                 "balance": 368924.75019586174,
-                "contributions": 393.0911792502391,
+                "contributions": 393.09117925024293,
                 "interest": 22.979016611527037
               }
             ]
@@ -439,21 +439,21 @@
           "series": {
             "startBalance": 368508.68,
             "finalBalance": 368861.5506237815,
-            "totalContributions": 393.0911792502391,
+            "totalContributions": 393.09117925024293,
             "totalInterest": -40.220555468691046,
             "monthly": [
               {
                 "year": 2043,
                 "month": 10,
                 "balance": 368891.7156292482,
-                "contributions": 393.0911792502391,
+                "contributions": 393.09117925024293,
                 "interest": -10.05555000201802
               },
               {
                 "year": 2043,
                 "month": 11,
                 "balance": 368861.5506237815,
-                "contributions": 393.0911792502391,
+                "contributions": 393.09117925024293,
                 "interest": -40.220555468691046
               }
             ],
@@ -461,7 +461,7 @@
               {
                 "year": 2043,
                 "balance": 368861.5506237815,
-                "contributions": 393.0911792502391,
+                "contributions": 393.09117925024293,
                 "interest": -40.220555468691046
               }
             ]
