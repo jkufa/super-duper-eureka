@@ -3,6 +3,8 @@ import type { ProjectionRun, ProjectionStep } from '../calculator';
 import { totalByBucket } from '../compound';
 import { addMonths, daysInMonth, formatPlainDate, parsePlainDate } from '../plain-date';
 import type { PlainDate } from '../plain-date';
+import { parseScenario } from '../parse-scenario';
+import { projectAccount, traceAccountRange } from '../project-account';
 import type { Row, Series, TraceSegment } from '../project-account';
 import type {
   ContributionRuleFile,
@@ -13,12 +15,15 @@ import type {
 } from '../scenario';
 import type {
   ContributionRule,
+  ContributionTimingAnnual,
+  ContributionTimingMonthly,
   Projection,
   ProjectionByVariance,
   RetirementConfig
 } from '../types';
 
 const MONTHS_PER_YEAR = 12;
+const ANY_LEAP_YEAR = 2000;
 export const LEGACY_ACCOUNT_ID = 'legacy';
 
 export interface LegacyScenario {
@@ -61,37 +66,60 @@ export function legacyToScenario(config: RetirementConfig): LegacyScenario {
           included: true,
           balance: config.currentBalance,
           balanceAsOf: today,
-          contributions: config.contributions.map((rule) => toRuleFile(rule, start.year, horizon))
+          contributions: config.contributions.flatMap((rule) =>
+            toRuleFiles(rule, start.year, horizon)
+          )
         }
       ]
     }
   };
 }
 
-function toRuleFile(
+function toRuleFiles(
   rule: ContributionRule,
   startYear: number,
   horizon: number
-): ContributionRuleFile {
+): Array<ContributionRuleFile> {
   const { timing, yearRange, ...shared } = rule;
   if (timing.frequency === 'oneTime') {
     const year = startYear + timing.on.year;
     const month = timing.on.month + 1;
     const day = Math.min(timing.on.day ?? 1, daysInMonth(year, month));
-    return {
-      ...shared,
-      timing: { frequency: 'oneTime', on: formatPlainDate({ year, month, day }) }
-    };
+    return [
+      { ...shared, timing: { frequency: 'oneTime', on: formatPlainDate({ year, month, day }) } }
+    ];
   }
 
-  const recurring: RuleTiming =
-    timing.frequency === 'annual' ? { ...timing, month: timing.month + 1 } : { ...timing };
-  return {
-    ...shared,
-    timing: recurring,
-    startDate: formatPlainDate({ year: startYear + (yearRange?.start ?? 0), month: 1, day: 1 }),
-    endDate: formatPlainDate({ year: startYear + (yearRange?.end ?? horizon), month: 12, day: 31 })
-  };
+  const firstYear = startYear + Math.max(0, Math.ceil(yearRange?.start ?? 0));
+  const lastYear = startYear + Math.floor(yearRange?.end ?? horizon);
+  if (lastYear < firstYear) {
+    return [];
+  }
+  if (rule.growth && firstYear > startYear) {
+    throw new RangeError(
+      `Rule "${rule.id}" grows from ${String(startYear)} but cannot deposit before ${String(firstYear)}, which the new contract cannot express.`
+    );
+  }
+  return [
+    {
+      ...shared,
+      timing: toRecurringTiming(timing),
+      startDate: formatPlainDate({ year: firstYear, month: 1, day: 1 }),
+      endDate: formatPlainDate({ year: lastYear, month: 12, day: 31 })
+    }
+  ];
+}
+
+function toRecurringTiming(
+  timing: ContributionTimingAnnual | ContributionTimingMonthly
+): RuleTiming {
+  if (timing.frequency === 'monthly') {
+    return { ...timing };
+  }
+  const month = timing.month + 1;
+  return timing.day === undefined
+    ? { ...timing, month }
+    : { ...timing, month, day: Math.min(timing.day, daysInMonth(ANY_LEAP_YEAR, month)) };
 }
 
 export type LegacyBands = Record<'baseline' | 'positive' | 'negative', Series>;
@@ -202,4 +230,30 @@ function ruleById(config: RetirementConfig, id: string): ContributionRule {
     throw new RangeError(`The trace names rule "${id}", which the config does not have.`);
   }
   return rule;
+}
+
+export function runThroughScenario(config: RetirementConfig): LegacyRows {
+  const { scenario: file, today } = legacyToScenario(config);
+  const scenario = parseScenario(file, { today });
+  const [account] = scenario.accounts;
+  const from = parsePlainDate(today);
+  if (!account || !from) {
+    throw new Error('The adapter produced no account or no start date.');
+  }
+  const to = scenario.endDate;
+  const { annualRate, variance } = scenario.interest;
+  const project = (rate: number) =>
+    projectAccount(scenario, account, from, to, account.balance, rate);
+
+  const baseline = project(annualRate);
+  const bands =
+    variance === 0
+      ? { baseline, positive: baseline, negative: baseline }
+      : {
+          baseline,
+          positive: project(annualRate + variance),
+          negative: project(annualRate - variance)
+        };
+  const trace = traceAccountRange(scenario, account, from, to, account.balance, annualRate);
+  return toLegacyRows(config, scenario, bands, trace);
 }
