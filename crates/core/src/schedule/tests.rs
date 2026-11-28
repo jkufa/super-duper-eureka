@@ -648,6 +648,41 @@ fn applies_raises_on_both_sides_of_salary_as_of() {
 }
 
 #[test]
+fn divides_by_a_positive_power_before_salary_as_of_and_multiplies_by_one_from_it() {
+    let salary = json!({ "annualBase": 90_000, "annualRaiseRate": 0.5, "asOf": "2029-07-01" });
+    let rules = json!([{
+        "id": "match",
+        "type": "salaryPercent",
+        "amount": 50,
+        "timing": { "frequency": "annual", "month": 3 }
+    }]);
+    let setup = Setup::new(rules).with_salary(salary);
+    let scenario = setup.scenario();
+    let salaries = [2026, 2027, 2028, 2029, 2030].map(|year| salary_in_year(&scenario, year));
+
+    assert_eq!(
+        salaries,
+        [80_000.0 / 3.0, 40_000.0, 60_000.0, 90_000.0, 135_000.0]
+    );
+    assert_eq!(salaries[0], 26_666.666_666_666_668);
+    assert_ne!(salaries[0], 90_000.0 * 1.5_f64.powi(-3));
+    assert_eq!(
+        setup.deposits("2026-01-01", "2027-01-01"),
+        [listed("match", "2026-03-01", 40_000.0 / 3.0, Bucket::Start)]
+    );
+}
+
+#[test]
+fn gives_0_for_a_salary_before_as_of_whose_undone_raises_overflow_1e308_over_infinity() {
+    let salary = json!({ "annualBase": 1e308, "annualRaiseRate": 1e155, "asOf": "2028-01-01" });
+    let scenario = Setup::new(json!([])).with_salary(salary).scenario();
+
+    assert_eq!((1.0 + 1e155_f64).powi(2), f64::INFINITY);
+    assert_eq!(salary_in_year(&scenario, 2026).to_bits(), 0.0_f64.to_bits());
+    assert_eq!(salary_in_year(&scenario, 2028), 1e308);
+}
+
+#[test]
 fn divides_by_the_basis_before_applying_the_percentage() {
     let salary = json!({ "annualBase": 100, "asOf": TODAY });
     let rules = json!([percent_of_salary(

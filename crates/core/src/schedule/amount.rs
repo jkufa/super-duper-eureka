@@ -5,11 +5,17 @@ use crate::scenario::{
 
 const MONTHS_PER_YEAR: i32 = 12;
 
-/// Dollars a year.
+/// Dollars a year. In a year before `salary.as_of`, the raises are undone by dividing by a
+/// positive whole power.
 pub fn salary_in_year(scenario: &Scenario, year: i16) -> f64 {
     let salary = scenario.salary();
-    let raises = i32::from(year) - i32::from(salary.as_of().year());
-    salary.annual_base() * (1.0 + salary.annual_raise_rate()).powi(raises)
+    let raise = 1.0 + salary.annual_raise_rate();
+    let years_after_as_of = i32::from(year) - i32::from(salary.as_of().year());
+    if years_after_as_of >= 0 {
+        salary.annual_base() * raise.powi(years_after_as_of)
+    } else {
+        salary.annual_base() / raise.powi(-years_after_as_of)
+    }
 }
 
 pub(super) fn deposit_amount(
