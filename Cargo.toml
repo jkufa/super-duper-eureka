@@ -8,6 +8,9 @@ edition = "2024"
 rust-version = "1.100.0"
 publish = false
 
+[workspace.dependencies]
+jiff = { version = "1.0.3", default-features = false }
+
 [workspace.lints.clippy]
 expect_used = "deny"
 unwrap_used = "deny"
