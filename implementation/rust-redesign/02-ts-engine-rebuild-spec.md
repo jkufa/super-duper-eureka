@@ -302,6 +302,7 @@ New tests, each with a hand-computed expected value:
 - Total. The total series is the sum of the included accounts, row by row. Each figure is summed from 0 in the order the accounts appear in the file. The total's months and years come from the range, not from an account, so with no included accounts the total is zeros with one row per month and year. A total that is not finite throws `not_finite` with no account id, which can happen while every account is finite.
 - Bands. `baseline` uses each account's own rate, or the scenario default. `positive` adds the variance to every account's rate, and `negative` subtracts it. Each band runs its own roll forward at its own rate. With no variance, all three hold the same numbers.
 - `staleAccounts` lists included accounts only, in file order. `salaryByYear` has one entry per year of the total's yearly rows.
+- When more than one figure is not finite, which `not_finite` is reported is not part of the contract. The parity run compares the code, and the id only when both engines report one.
 - An account with `included: false` is projected and returned, flagged, and left out of the total.
 
 ```ts
@@ -390,7 +391,7 @@ The README's example pins the port: $180,000 at 6% and $20,000 at 10%, no contri
 
 ### Weighted rate
 
-On each yearly row of the baseline total: the sum, from 0 in file order, of each included account's baseline rate times its balance on that row, divided by the total balance. When every included account has the same rate, it is that rate, without the division: `0.1 * 3 / 3` is `0.10000000000000002`. `null` when the total balance is 0. Every other row leaves the key out. It is not present as `null` or `undefined`.
+On each yearly row of the baseline total: the sum, from 0 in file order, of each included account's baseline rate times its balance on that row, divided by the total balance. When every included account has the same rate, it is that rate, without the division: `0.1 * 3 / 3` is `0.10000000000000002`. `null` when the total balance is 0, and that test comes first, before the equal-rates rule. Every other row leaves the key out. It is not present as `null` or `undefined`.
 
 Tests:
 

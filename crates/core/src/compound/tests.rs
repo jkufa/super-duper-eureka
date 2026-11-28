@@ -10,6 +10,7 @@ const DOUBLING_MONTHLY_RATE: f64 = 4095.0;
 fn totals(compounding: &str, rules: Value, from: &str, to: &str) -> Vec<BucketTotals> {
     let scenario = scenario(compounding, rules);
     build_account_schedule(&scenario, only_account(&scenario), date(from), date(to))
+        .unwrap()
         .iter()
         .map(|month| BucketTotals::of(month.deposits()))
         .collect()
@@ -25,7 +26,8 @@ fn on_days(days: &[(usize, f64)]) -> [f64; MAX_DAY] {
 
 fn compound_november(compounding: &str, rules: Value, from: &str, to: &str) -> Compounded {
     let scenario = scenario(compounding, rules);
-    let schedule = build_account_schedule(&scenario, only_account(&scenario), date(from), date(to));
+    let schedule =
+        build_account_schedule(&scenario, only_account(&scenario), date(from), date(to)).unwrap();
     let [month] = schedule.as_slice() else {
         panic!("expected one month");
     };
