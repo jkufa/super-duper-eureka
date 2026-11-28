@@ -36,7 +36,7 @@ type BucketedAmount = Pick<Deposit, 'amount' | 'bucket'>;
 export interface BucketTotals {
   start: number;
   end: number;
-  byDay: Map<string, number>;
+  byDay: Map<number, number>;
 }
 
 export function compound(startBalance: number, schedule: Schedule, annualRate: number): Compounded {
@@ -84,8 +84,7 @@ export function totalByBucket(deposits: ReadonlyArray<BucketedAmount>): BucketTo
     } else if (deposit.bucket === 'end') {
       totals.end += deposit.amount;
     } else {
-      const day = String(deposit.bucket);
-      totals.byDay.set(day, (totals.byDay.get(day) ?? 0) + deposit.amount);
+      totals.byDay.set(deposit.bucket, (totals.byDay.get(deposit.bucket) ?? 0) + deposit.amount);
     }
   }
   return totals;
@@ -162,7 +161,7 @@ function compoundDaily(
 }
 
 function depositOn(day: number, totals: BucketTotals, daysInMonth: number) {
-  let deposit = totals.byDay.get(String(day)) ?? 0;
+  let deposit = totals.byDay.get(day) ?? 0;
   if (day === 1 && totals.start) {
     deposit += totals.start;
   }
