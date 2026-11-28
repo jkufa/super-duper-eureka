@@ -85,7 +85,7 @@ A script that proves the two engines agree.
 The comparison:
 
 - Keys, array lengths, strings, booleans, `null`s, dates, ids and integers must be identical.
-- Two numbers `a` and `b` agree when `|a - b| <= 1e-9 * max(1, |a|, |b|)`.
+- Two numbers `a` and `b` agree when `|a - b| <= 1e-9 * max(1, |a|, |b|)`. Compare them as floats after parsing. `0` and `-0` agree: a zero-interest segment at a negative rate is `-0`, which JavaScript prints as `0` and Rust as `-0.0`. A large whole number such as `1588767481951509500` and `1.5887674819515095e18` are the same float printed two ways.
 - An invalid case must fail in both with the same error `code` and the same account or rule id. For `not_finite`, compare the id only when both report one, since the two may meet different overflowing figures first. For `invalid_field` compare the code alone. Rust's deserialiser reports a shape error without knowing which account it was in.
 - For every valid case with at least one account, also compare the trace of its first account in the baseline band.
 - `effectiveRate` is compared like any other number. Outside the cases marked `growth_periods_over_1000` the two engines do the same operations and it should match exactly. Inside them, a last-bit difference in a deposit can move a poorly conditioned rate by more than the tolerance. Report those separately, with the pool's sensitivity, and do not fail the run on them alone.
