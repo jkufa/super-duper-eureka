@@ -11,3 +11,10 @@ path = "src/main.rs"
 
 [lints]
 workspace = true
+
+[dependencies]
+clap.workspace = true
+jiff = { workspace = true, features = ["std", "tz-system", "tzdb-zoneinfo"] }
+retirement-core = { path = "../core" }
+serde.workspace = true
+serde_json = { workspace = true, features = ["float_roundtrip"] }
