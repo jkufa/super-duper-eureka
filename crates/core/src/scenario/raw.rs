@@ -44,10 +44,10 @@ impl TryFrom<f64> for Version {
 /// A finite number. Deserialising NaN or an infinity fails.
 #[derive(Clone, Copy, Debug, PartialEq, Deserialize)]
 #[serde(try_from = "f64")]
-pub struct Finite(f64);
+pub(super) struct Finite(f64);
 
 impl Finite {
-    pub fn get(self) -> f64 {
+    pub(super) fn get(self) -> f64 {
         self.0
     }
 }

@@ -38,24 +38,24 @@ impl CalendarDate {
         self.0.day()
     }
 
-    pub fn days_in_month(self) -> i8 {
+    pub(crate) fn days_in_month(self) -> i8 {
         self.0.days_in_month()
     }
 
-    pub fn days_in_year(self) -> i16 {
+    pub(crate) fn days_in_year(self) -> i16 {
         self.0.days_in_year()
     }
 
     /// The day is clamped to the last day of the resulting month.
     /// `None` when the result falls outside years 0001 to 9999.
-    pub fn checked_add_months(self, months: i32) -> Option<Self> {
+    pub(crate) fn checked_add_months(self, months: i32) -> Option<Self> {
         let span = Span::new().try_months(months).ok()?;
         self.0.checked_add(span).ok().and_then(Self::in_range)
     }
 
     /// The same year and month on `day`, or on the month's last day when it has no such day.
     /// A `day` below 1 means the 1st.
-    pub fn with_day_clamped(self, day: i8) -> Self {
+    pub(crate) fn with_day_clamped(self, day: i8) -> Self {
         self.0
             .with()
             .day(day.max(1))

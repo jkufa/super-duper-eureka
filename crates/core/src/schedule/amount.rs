@@ -7,7 +7,7 @@ const MONTHS_PER_YEAR: i32 = 12;
 
 /// Dollars a year. In a year before `salary.as_of`, the raises are undone by dividing by a
 /// positive whole power.
-pub fn salary_in_year(scenario: &Scenario, year: i16) -> f64 {
+pub(crate) fn salary_in_year(scenario: &Scenario, year: i16) -> f64 {
     let salary = scenario.salary();
     let raise = 1.0 + salary.annual_raise_rate();
     let years_after_as_of = i32::from(year) - i32::from(salary.as_of().year());
