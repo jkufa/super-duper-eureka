@@ -444,7 +444,7 @@ fn shipped_examples_are_the_golden_examples_byte_for_byte() -> TestResult {
     let tests = tests_dir();
     let _lock = lock_for_reading(&tests)?;
     let golden = generation(&tests).join("examples");
-    let shipped = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/cli/examples");
+    let shipped = Path::new(env!("CARGO_MANIFEST_DIR")).join("examples");
     let names = names_in(&golden)?;
     let files: Vec<String> = names.iter().map(|name| format!("{name}.json")).collect();
 

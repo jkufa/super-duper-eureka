@@ -20,7 +20,7 @@ const EXAMPLES: [&str; 5] = [
 
 fn example(name: &str) -> PathBuf {
     Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../packages/cli/examples")
+        .join("examples")
         .join(name)
 }
 
