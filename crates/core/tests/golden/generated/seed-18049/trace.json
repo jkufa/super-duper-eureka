@@ -1,0 +1,34 @@
+[
+  {
+    "from": "2050-06-01",
+    "to": "2050-06-06",
+    "days": 5,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 464554.24,
+    "balanceEnd": 477719.975822411,
+    "contributions": 12486.947399369865,
+    "interest": 678.7884230411997,
+    "annualRate": 0.1074,
+    "deposits": [
+      {
+        "ruleId": "a1r1",
+        "date": "2050-06-01",
+        "amount": 11309.210000000001,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "a1r3",
+        "date": "2050-06-05",
+        "amount": 1076.51,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "a1r5",
+        "date": "2050-06-01",
+        "amount": 101.22739936986301,
+        "bucket": "start"
+      }
+    ]
+  }
+]

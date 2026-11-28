@@ -1,0 +1,118 @@
+{
+  "accounts": [
+    {
+      "balance": 234669.37,
+      "balanceAsOf": "1998-12-14",
+      "contributions": [
+        {
+          "amount": 4221.98,
+          "growth": {
+            "amount": 4.43,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "startDate": "1990-12-30",
+          "timing": {
+            "day": 27,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 1"
+    },
+    {
+      "annualRate": 0.0617,
+      "balance": 409153.47,
+      "balanceAsOf": "1996-02-29",
+      "contributions": [
+        {
+          "amount": 3551.4,
+          "enabled": true,
+          "endDate": "1990-05-29",
+          "growth": {
+            "amount": 5.44,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a2r1",
+          "startDate": "1990-05-29",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2416.68,
+          "id": "a2r2",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "1998-12-16"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1153.9,
+          "growth": {
+            "amount": 277.48,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a2r3",
+          "name": "Rule a2r3",
+          "startDate": "1990-05-30",
+          "timing": {
+            "day": 1,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 3.78,
+          "enabled": true,
+          "endDate": "1997-10-03",
+          "id": "a2r4",
+          "name": "Rule a2r4",
+          "timing": {
+            "frequency": "annual",
+            "month": 6
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 2256.5,
+          "id": "a2r5",
+          "name": "Rule a2r5",
+          "timing": {
+            "day": 28,
+            "frequency": "annual",
+            "month": 6
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a2",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 2"
+    }
+  ],
+  "endDate": "1998-12-16",
+  "interest": {
+    "annualRate": 0.0617,
+    "compounding": "daily",
+    "variance": 0
+  },
+  "salary": {
+    "annualBase": 0,
+    "asOf": "1998-12-14"
+  },
+  "version": 1
+}

@@ -1,0 +1,124 @@
+{
+  "accounts": [
+    {
+      "balance": 0,
+      "balanceAsOf": "2012-02-29",
+      "contributions": [],
+      "id": "a1",
+      "included": true,
+      "kind": "other",
+      "name": "Account 1"
+    },
+    {
+      "balance": 207565.88,
+      "balanceAsOf": "2005-02-02",
+      "contributions": [
+        {
+          "amount": 4569.55,
+          "endDate": "2052-07-20",
+          "id": "a2r1",
+          "name": "Rule a2r1",
+          "timing": {
+            "day": 30,
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 100,
+          "id": "a2x",
+          "timing": null,
+          "type": "flat"
+        },
+        {
+          "amount": 15.83,
+          "id": "a2r2",
+          "salaryBasis": "monthly",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2051-10-17"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 3762.48,
+          "id": "a2r3",
+          "startDate": "2053-01-29",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 4.1,
+          "id": "a2r4",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a2",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 2"
+    },
+    {
+      "balance": 59025.83,
+      "balanceAsOf": "2014-06-19",
+      "contributions": [],
+      "id": "a3",
+      "included": false,
+      "kind": "taxable",
+      "name": "Account 3"
+    },
+    {
+      "annualRate": -0.0037,
+      "balance": 196359.49,
+      "balanceAsOf": "2014-07-18",
+      "contributions": [
+        {
+          "amount": 11.15,
+          "id": "a4r1",
+          "name": "Rule a4r1",
+          "salaryBasis": "perContribution",
+          "timing": {
+            "day": 25,
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 15.39,
+          "enabled": true,
+          "id": "a4r2",
+          "name": "Rule a4r2",
+          "salaryBasis": "weekly",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2034-03-08"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a4",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 4"
+    }
+  ],
+  "endDate": "2051-10-17",
+  "interest": {
+    "annualRate": -0.0037,
+    "compounding": "monthly",
+    "variance": 0.0126
+  },
+  "salary": {
+    "annualBase": 0,
+    "annualRaiseRate": 0.044,
+    "asOf": "2033-03-06"
+  },
+  "version": 1
+}

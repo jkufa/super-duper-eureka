@@ -1,0 +1,62 @@
+[
+  {
+    "from": "2026-09-01",
+    "to": "2026-10-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 9007199254740992.0,
+    "balanceEnd": 9007199254740992.0,
+    "contributions": 1.0,
+    "interest": 0.0,
+    "annualRate": 0.0,
+    "deposits": [
+      {
+        "ruleId": "one",
+        "date": "2026-09-01",
+        "amount": 1.0,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-10-01",
+    "to": "2026-11-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 9007199254740992.0,
+    "balanceEnd": 9007199254740992.0,
+    "contributions": 1.0,
+    "interest": 0.0,
+    "annualRate": 0.0,
+    "deposits": [
+      {
+        "ruleId": "one",
+        "date": "2026-10-01",
+        "amount": 1.0,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-11-01",
+    "to": "2026-12-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 9007199254740992.0,
+    "balanceEnd": 9007199254740992.0,
+    "contributions": 1.0,
+    "interest": 0.0,
+    "annualRate": 0.0,
+    "deposits": [
+      {
+        "ruleId": "one",
+        "date": "2026-11-01",
+        "amount": 1.0,
+        "bucket": "start"
+      }
+    ]
+  }
+]

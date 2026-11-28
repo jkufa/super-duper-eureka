@@ -1,0 +1,83 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.0198,
+      "balance": 96962.4,
+      "balanceAsOf": "2024-02-03",
+      "contributions": [
+        {
+          "amount": 7.33,
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "salaryBasis": "monthly",
+          "timing": {
+            "day": 29,
+            "frequency": "annual",
+            "month": 2,
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 2648.49,
+          "enabled": false,
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "timing": {
+            "day": 29,
+            "frequency": "annual",
+            "month": 2
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 7.3,
+          "id": "a1r3",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2023-09-14"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 19.83,
+          "endDate": "2024-09-19",
+          "id": "a1r4",
+          "name": "Rule a1r4",
+          "salaryBasis": "annual",
+          "startDate": "2024-02-14",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 2672.86,
+          "enabled": true,
+          "id": "a1r5",
+          "name": "Rule a1r5",
+          "salaryBasis": "annual",
+          "timing": {
+            "day": 16,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": false,
+      "kind": "roth",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2024-03-01",
+  "interest": {
+    "annualRate": 0.0159
+  },
+  "salary": {
+    "annualBase": 244747.8,
+    "annualRaiseRate": 0.0548,
+    "asOf": "2022-11-20"
+  },
+  "version": 1
+}

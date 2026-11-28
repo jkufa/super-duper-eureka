@@ -1,0 +1,22 @@
+[
+  {
+    "from": "2026-11-15",
+    "to": "2026-11-20",
+    "days": 5,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 1000.0,
+    "balanceEnd": 1178.3333333333333,
+    "contributions": 10.0,
+    "interest": 168.33333333333331,
+    "annualRate": 4095.0,
+    "deposits": [
+      {
+        "ruleId": "on-start",
+        "date": "2026-11-15",
+        "amount": 10.0,
+        "bucket": "start"
+      }
+    ]
+  }
+]

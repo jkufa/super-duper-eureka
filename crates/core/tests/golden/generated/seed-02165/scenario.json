@@ -1,0 +1,97 @@
+{
+  "accounts": [
+    {
+      "balance": 0.46,
+      "balanceAsOf": "2020-02-01",
+      "contributions": [
+        {
+          "amount": 4996.79,
+          "id": "a1r1",
+          "startDate": "2020-02-05",
+          "timing": {
+            "day": 1,
+            "frequency": "annual",
+            "month": 12,
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 9.28,
+          "growth": {
+            "amount": 4.94,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "salaryBasis": "daily",
+          "startDate": "2020-03-31",
+          "timing": {
+            "frequency": "annual",
+            "month": 4,
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 3683.54,
+          "enabled": false,
+          "growth": {
+            "amount": 78.04,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a1r3",
+          "startDate": "2014-04-30",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 558.02,
+          "endDate": "2021-03-25",
+          "id": "a1r4",
+          "name": "Rule a1r4",
+          "timing": {
+            "day": 28,
+            "frequency": "annual",
+            "month": 8
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 6.82,
+          "enabled": true,
+          "id": "a1r5",
+          "salaryBasis": "biweekly",
+          "timing": {
+            "day": 1,
+            "frequency": "annual",
+            "month": 9,
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2020-02-07",
+  "interest": {
+    "annualRate": 0.0213,
+    "compounding": "monthly",
+    "variance": 0.0753
+  },
+  "salary": {
+    "annualBase": 165383.86,
+    "annualRaiseRate": -0.0073,
+    "asOf": "2019-07-23"
+  },
+  "version": 1
+}

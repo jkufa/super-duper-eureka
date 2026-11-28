@@ -1,0 +1,15 @@
+[
+  {
+    "from": "2048-07-01",
+    "to": "2048-07-02",
+    "days": 1,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 344142.35,
+    "balanceEnd": 344199.62617033086,
+    "contributions": 0.0,
+    "interest": 57.276170330904485,
+    "annualRate": 0.0637,
+    "deposits": []
+  }
+]

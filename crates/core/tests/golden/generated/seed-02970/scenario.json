@@ -1,0 +1,104 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.1405,
+      "balance": 218301.12,
+      "balanceAsOf": "2048-02-29",
+      "contributions": [
+        {
+          "amount": 4594.5,
+          "id": "a1r1",
+          "startDate": "2048-03-04",
+          "timing": {
+            "day": 28,
+            "frequency": "annual",
+            "month": 4
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 4400.19,
+          "id": "a1r2",
+          "startDate": "2048-03-30",
+          "timing": {
+            "frequency": "annual",
+            "month": 5
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 3796.55,
+          "endDate": "2048-03-01",
+          "growth": {
+            "amount": 2.79,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a1r3",
+          "name": "Rule a1r3",
+          "startDate": "2048-03-01",
+          "timing": {
+            "day": 29,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2400.26,
+          "id": "a1r4",
+          "name": "Rule a1r4",
+          "salaryBasis": "biweekly",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2048-02-29"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 10000000000000000,
+          "id": "a1s1",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1,
+          "id": "a1s2",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1,
+          "id": "a1s3",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2048-03-07",
+  "interest": {
+    "annualRate": 0.0127,
+    "compounding": "daily",
+    "variance": 0.0128
+  },
+  "salary": {
+    "annualBase": 31299.9,
+    "annualRaiseRate": 0.0313,
+    "asOf": "2048-02-29"
+  },
+  "version": 1
+}

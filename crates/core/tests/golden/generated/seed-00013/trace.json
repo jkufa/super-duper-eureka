@@ -1,0 +1,15 @@
+[
+  {
+    "from": "2018-01-01",
+    "to": "2018-01-02",
+    "days": 1,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 0.0,
+    "balanceEnd": 0.0,
+    "contributions": 0.0,
+    "interest": 0.0,
+    "annualRate": 0.0705,
+    "deposits": []
+  }
+]

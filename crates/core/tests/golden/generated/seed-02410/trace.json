@@ -1,0 +1,35 @@
+[
+  {
+    "from": "2046-12-30",
+    "to": "2046-12-31",
+    "days": 1,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 46529.44,
+    "balanceEnd": 46530.8708837285,
+    "contributions": 0.0,
+    "interest": 1.4308837285001783,
+    "annualRate": 0.0115,
+    "deposits": []
+  },
+  {
+    "from": "2046-12-31",
+    "to": "2047-01-01",
+    "days": 1,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 46530.8708837285,
+    "balanceEnd": 49935.65181145986,
+    "contributions": 3403.35,
+    "interest": 1.430927731356101,
+    "annualRate": 0.0115,
+    "deposits": [
+      {
+        "ruleId": "a1r3",
+        "date": "2046-12-31",
+        "amount": 3403.35,
+        "bucket": "end"
+      }
+    ]
+  }
+]

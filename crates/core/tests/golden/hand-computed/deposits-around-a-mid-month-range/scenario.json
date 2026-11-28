@@ -1,0 +1,61 @@
+{
+  "accounts": [
+    {
+      "balance": 1000,
+      "balanceAsOf": "2026-11-15",
+      "contributions": [
+        {
+          "amount": 1,
+          "id": "before-start",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2026-11-14"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 10,
+          "id": "on-start",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2026-11-15"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 100,
+          "id": "on-end",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2026-11-20"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1000,
+          "id": "after-end",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2026-11-21"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "account",
+      "included": true,
+      "kind": "other",
+      "name": "Account"
+    }
+  ],
+  "endDate": "2026-11-20",
+  "interest": {
+    "annualRate": 4095,
+    "compounding": "monthly",
+    "variance": 0
+  },
+  "salary": {
+    "annualBase": 0,
+    "asOf": "2026-11-15"
+  },
+  "version": 1
+}

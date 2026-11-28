@@ -1,0 +1,94 @@
+{
+  "accounts": [
+    {
+      "balance": 0,
+      "balanceAsOf": "2012-02-29",
+      "contributions": [
+        {
+          "amount": 6.85,
+          "growth": {
+            "amount": 74.1,
+            "cadence": "monthly",
+            "type": "flat"
+          },
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "salaryBasis": "weekly",
+          "startDate": "2012-02-29",
+          "timing": {
+            "frequency": "annual",
+            "month": 7
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 3262.92,
+          "growth": {
+            "amount": 8.54,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "startDate": "2012-09-11",
+          "timing": {
+            "day": 15,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 604.7,
+          "id": "a1r3",
+          "name": "Rule a1r3",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2012-02-29"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 3620.89,
+          "id": "a1r4",
+          "name": "Rule a1r4",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2009-02-02"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 724.7,
+          "growth": {
+            "amount": 0.07,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a1g",
+          "startDate": "1923-06-07",
+          "timing": {
+            "day": 31,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": false,
+      "kind": "other",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2012-03-01",
+  "interest": {
+    "annualRate": 0.0472,
+    "compounding": "daily"
+  },
+  "salary": {
+    "annualBase": 185069.7,
+    "annualRaiseRate": -0.0166,
+    "asOf": "2006-04-02"
+  },
+  "version": 1
+}

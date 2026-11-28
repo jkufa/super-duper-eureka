@@ -1,0 +1,15 @@
+[
+  {
+    "from": "2045-04-04",
+    "to": "2045-04-06",
+    "days": 2,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 217435.82,
+    "balanceEnd": 217546.53152809237,
+    "contributions": 0.0,
+    "interest": 110.71152809237068,
+    "annualRate": 0.0956,
+    "deposits": []
+  }
+]

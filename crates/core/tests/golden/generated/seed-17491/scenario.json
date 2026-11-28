@@ -1,0 +1,196 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.1397,
+      "balance": 281018.87,
+      "balanceAsOf": "2019-02-01",
+      "contributions": [
+        {
+          "amount": 7.28,
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "salaryBasis": "monthly",
+          "startDate": "2019-02-06",
+          "timing": {
+            "day": 31,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 17.43,
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "salaryBasis": "biweekly",
+          "timing": {
+            "day": 1,
+            "frequency": "annual",
+            "month": 5,
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 1034.58,
+          "growth": {
+            "amount": 416.29,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a1r3",
+          "startDate": "2014-04-30",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 1"
+    },
+    {
+      "annualRate": 0.0436,
+      "balance": 281536.41,
+      "balanceAsOf": "2019-02-01",
+      "contributions": [
+        {
+          "amount": 4986.32,
+          "id": "a2r1",
+          "startDate": "2018-08-30",
+          "timing": {
+            "day": 29,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 17.46,
+          "id": "a2r2",
+          "timing": {
+            "frequency": "annual",
+            "month": 8
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 3894.7,
+          "id": "a2r3",
+          "name": "Rule a2r3",
+          "salaryBasis": "monthly",
+          "startDate": "2019-02-07",
+          "timing": {
+            "frequency": "annual",
+            "month": 5,
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2878.62,
+          "endDate": "2031-12-31",
+          "id": "a2r4",
+          "name": "Rule a2r4",
+          "startDate": "2019-03-29",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a2",
+      "included": false,
+      "kind": "other",
+      "name": "Account 2"
+    },
+    {
+      "annualRate": 0.0407,
+      "balance": 430556.72,
+      "balanceAsOf": "2012-08-12",
+      "contributions": [],
+      "id": "a3",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 3"
+    },
+    {
+      "annualRate": -0.0171,
+      "balance": 189275.22,
+      "balanceAsOf": "2019-01-17",
+      "contributions": [
+        {
+          "amount": 0.12,
+          "id": "a4r1",
+          "salaryBasis": "daily",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2019-04-29"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 9.02,
+          "endDate": "2012-05-13",
+          "id": "a4r2",
+          "name": "Rule a4r2",
+          "salaryBasis": "perContribution",
+          "timing": {
+            "day": 30,
+            "frequency": "annual",
+            "month": 4,
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 3595.33,
+          "endDate": "2019-01-27",
+          "id": "a4r3",
+          "salaryBasis": "annual",
+          "timing": {
+            "day": 31,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1103.06,
+          "enabled": true,
+          "id": "a4r4",
+          "timing": {
+            "day": 28,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 4618.7,
+          "id": "a4r5",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2019-02-07"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a4",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 4"
+    }
+  ],
+  "endDate": "2019-02-08",
+  "interest": {
+    "annualRate": -0.006,
+    "variance": 0
+  },
+  "salary": {
+    "annualBase": 145341.89,
+    "annualRaiseRate": 0.0334,
+    "asOf": "2022-08-26"
+  },
+  "version": 1
+}

@@ -1,0 +1,28 @@
+[
+  {
+    "from": "2028-09-26",
+    "to": "2028-10-01",
+    "days": 5,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 159823.11,
+    "balanceEnd": 159871.24163108724,
+    "contributions": 0.0,
+    "interest": 48.13163108724315,
+    "annualRate": 0.0219,
+    "deposits": []
+  },
+  {
+    "from": "2028-10-01",
+    "to": "2028-10-07",
+    "days": 6,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 159871.24163108724,
+    "balanceEnd": 159927.1532615124,
+    "contributions": 0.0,
+    "interest": 55.91163042515627,
+    "annualRate": 0.0219,
+    "deposits": []
+  }
+]

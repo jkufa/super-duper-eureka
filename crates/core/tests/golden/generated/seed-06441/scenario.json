@@ -1,0 +1,177 @@
+{
+  "accounts": [
+    {
+      "balance": 297080.24,
+      "balanceAsOf": "2006-09-01",
+      "contributions": [],
+      "id": "a1",
+      "included": true,
+      "kind": "other",
+      "name": "Account 1"
+    },
+    {
+      "annualRate": 0.0317,
+      "balance": 190622.18,
+      "balanceAsOf": "2004-04-16",
+      "contributions": [
+        {
+          "amount": 2.28,
+          "growth": {
+            "amount": 339.72,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a2r1",
+          "salaryBasis": "annual",
+          "startDate": "2004-10-31",
+          "timing": {
+            "frequency": "annual",
+            "month": 3,
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 9.61,
+          "id": "a2r2",
+          "salaryBasis": "annual",
+          "timing": {
+            "day": 27,
+            "frequency": "annual",
+            "month": 1
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 2.88,
+          "enabled": true,
+          "id": "a2r3",
+          "salaryBasis": "monthly",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 9.44,
+          "id": "a2r4",
+          "timing": {
+            "day": 29,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a2",
+      "included": true,
+      "kind": "other",
+      "name": "Account 2"
+    },
+    {
+      "annualRate": 0.1064,
+      "balance": 157019626659.34,
+      "balanceAsOf": "2001-08-25",
+      "contributions": [
+        {
+          "amount": 4185.38,
+          "enabled": false,
+          "endDate": "2002-01-27",
+          "id": "a3r1",
+          "timing": {
+            "frequency": "annual",
+            "month": 9
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 12.59,
+          "enabled": true,
+          "id": "a3r2",
+          "salaryBasis": "biweekly",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2005-11-10"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a3",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 3"
+    },
+    {
+      "balance": 21515.63,
+      "balanceAsOf": "2006-08-14",
+      "contributions": [
+        {
+          "amount": 0,
+          "id": "a4r1",
+          "name": "Rule a4r1",
+          "timing": {
+            "day": 30,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 10.27,
+          "id": "a4r2",
+          "name": "Rule a4r2",
+          "startDate": "2006-09-16",
+          "timing": {
+            "day": 6,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 4194.15,
+          "enabled": false,
+          "growth": {
+            "amount": 4.33,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a4r3",
+          "startDate": "1998-11-29",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 3796.9,
+          "enabled": true,
+          "id": "a4r4",
+          "timing": {
+            "frequency": "annual",
+            "month": 6,
+            "placement": "start"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a4",
+      "included": false,
+      "kind": "other",
+      "name": "Account 4"
+    }
+  ],
+  "endDate": "2006-09-18",
+  "interest": {
+    "annualRate": 0.1143,
+    "compounding": "daily",
+    "variance": 0
+  },
+  "salary": {
+    "annualBase": 235179.63,
+    "annualRaiseRate": -0.9251,
+    "asOf": "2006-09-08"
+  },
+  "version": 1
+}

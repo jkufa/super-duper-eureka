@@ -12,7 +12,8 @@ export default defineConfig({
         command: 'bun packages/calculator/scripts/write-corpus.ts',
         cache: false
       },
-      parity: { command: 'bun packages/calculator/scripts/parity.ts', cache: false }
+      parity: { command: 'bun packages/calculator/scripts/parity.ts', cache: false },
+      'golden-capture': { command: 'bun packages/calculator/scripts/golden.ts', cache: false }
     }
   },
   test: {
@@ -31,7 +32,9 @@ export default defineConfig({
       // Generated research pages.
       'implementation/**/*.html',
       // Parity cases, printed by the corpus's stableJson.
-      'parity/**'
+      'parity/**',
+      // Golden cases, printed by the two CLIs.
+      'crates/core/tests/golden/**'
     ]
   },
   lint: {

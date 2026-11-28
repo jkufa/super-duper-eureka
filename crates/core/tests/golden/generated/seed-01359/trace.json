@@ -1,0 +1,28 @@
+[
+  {
+    "from": "2053-11-01",
+    "to": "2053-11-18",
+    "days": 17,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 63611429434.03,
+    "balanceEnd": 63807479118.221794,
+    "contributions": 5157.99,
+    "interest": 196044526.20178872,
+    "annualRate": 0.0683,
+    "deposits": [
+      {
+        "ruleId": "a1r1",
+        "date": "2053-11-01",
+        "amount": 4078.35,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "a1r2",
+        "date": "2053-11-01",
+        "amount": 1079.64,
+        "bucket": 1
+      }
+    ]
+  }
+]

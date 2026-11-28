@@ -1,0 +1,15 @@
+[
+  {
+    "from": "2054-10-21",
+    "to": "2054-10-24",
+    "days": 3,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 454140.24,
+    "balanceEnd": 454438.67854888126,
+    "contributions": 0.0,
+    "interest": 298.4385488812731,
+    "annualRate": 0.0846,
+    "deposits": []
+  }
+]

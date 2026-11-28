@@ -1,0 +1,68 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.0705,
+      "balance": 490664.82,
+      "balanceAsOf": "2040-02-25",
+      "contributions": [
+        {
+          "amount": 4813.42,
+          "growth": {
+            "amount": 4.11,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "startDate": "2040-02-29",
+          "timing": {
+            "day": 7,
+            "frequency": "annual",
+            "month": 6
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 783.94,
+          "enabled": true,
+          "id": "a1r2",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2039-02-24"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 80.64,
+          "growth": {
+            "amount": 0.14,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a1g",
+          "startDate": "1953-11-27",
+          "timing": {
+            "day": 31,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2040-03-01",
+  "interest": {
+    "annualRate": 0.1481,
+    "variance": 0.0085
+  },
+  "salary": {
+    "annualBase": 17972.82,
+    "annualRaiseRate": 0.076,
+    "asOf": "2033-12-29"
+  },
+  "version": 1
+}

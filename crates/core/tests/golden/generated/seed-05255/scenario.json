@@ -1,0 +1,45 @@
+{
+  "accounts": [
+    {
+      "balance": 78784.37,
+      "balanceAsOf": "2040-02-29",
+      "contributions": [
+        {
+          "amount": 3867.13,
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2040-03-01"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1933,
+          "id": "a1r2",
+          "timing": {
+            "frequency": "annual",
+            "month": 9
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": false,
+      "kind": "other",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2040-03-02",
+  "interest": {
+    "annualRate": 0.0532,
+    "compounding": "daily",
+    "variance": 0
+  },
+  "salary": {
+    "annualBase": 265083.99,
+    "annualRaiseRate": -0.0519,
+    "asOf": "2040-02-29"
+  },
+  "version": 1
+}

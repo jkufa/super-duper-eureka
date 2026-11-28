@@ -1,0 +1,112 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.1257,
+      "balance": 0.74,
+      "balanceAsOf": "2019-04-16",
+      "contributions": [],
+      "id": "a1",
+      "included": true,
+      "kind": "other",
+      "name": "Account 1"
+    },
+    {
+      "annualRate": 0.054,
+      "balance": 191841.81,
+      "balanceAsOf": "2019-03-31",
+      "contributions": [
+        {
+          "amount": 1188.77,
+          "id": "a2r1",
+          "name": "Rule a2r1",
+          "timing": {
+            "frequency": "annual",
+            "month": 8
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 437.27,
+          "growth": {
+            "amount": 0.11,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a2r2",
+          "startDate": "2019-04-06",
+          "timing": {
+            "frequency": "annual",
+            "month": 9,
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 9.3,
+          "id": "a2r3",
+          "timing": {
+            "frequency": "annual",
+            "month": 7
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a2",
+      "included": true,
+      "kind": "other",
+      "name": "Account 2"
+    },
+    {
+      "annualRate": 0.0578,
+      "balance": 0.82,
+      "balanceAsOf": "2019-04-16",
+      "contributions": [
+        {
+          "amount": 1142.57,
+          "enabled": false,
+          "id": "a3r1",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2019-04-20"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 5.91,
+          "id": "a3r2",
+          "salaryBasis": "monthly",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 3743.27,
+          "enabled": true,
+          "id": "a3r3",
+          "name": "Rule a3r3",
+          "startDate": "2019-04-18",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a3",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 3"
+    }
+  ],
+  "endDate": "2019-04-21",
+  "interest": {
+    "annualRate": 0.0324,
+    "variance": 0
+  },
+  "salary": {
+    "annualBase": 191049.44,
+    "annualRaiseRate": 0.0048,
+    "asOf": "2023-08-30"
+  },
+  "version": 1
+}

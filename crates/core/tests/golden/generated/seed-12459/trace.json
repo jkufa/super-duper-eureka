@@ -1,0 +1,28 @@
+[
+  {
+    "from": "2040-10-01",
+    "to": "2040-10-14",
+    "days": 13,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 0.0,
+    "balanceEnd": 0.0,
+    "contributions": 0.0,
+    "interest": 0.0,
+    "annualRate": 0.1369,
+    "deposits": []
+  },
+  {
+    "from": "2040-10-14",
+    "to": "2040-10-21",
+    "days": 7,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 0.0,
+    "balanceEnd": 0.0,
+    "contributions": 0.0,
+    "interest": 0.0,
+    "annualRate": 0.1369,
+    "deposits": []
+  }
+]

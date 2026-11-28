@@ -1,0 +1,15 @@
+[
+  {
+    "from": "2027-06-01",
+    "to": "2027-06-08",
+    "days": 7,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 386326.93,
+    "balanceEnd": 386623.48376266425,
+    "contributions": 0.0,
+    "interest": 296.5537626642882,
+    "annualRate": 0.0402,
+    "deposits": []
+  }
+]

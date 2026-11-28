@@ -1,0 +1,15 @@
+[
+  {
+    "from": "1999-02-01",
+    "to": "1999-02-03",
+    "days": 2,
+    "daysInMonth": 28,
+    "daysInYear": 365,
+    "balanceStart": 379571.01,
+    "balanceEnd": 379594.39598803094,
+    "contributions": 0.0,
+    "interest": 23.385988030940737,
+    "annualRate": 0.0104,
+    "deposits": []
+  }
+]

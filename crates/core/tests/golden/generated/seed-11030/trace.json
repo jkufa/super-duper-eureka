@@ -1,0 +1,15 @@
+[
+  {
+    "from": "2016-02-29",
+    "to": "2016-03-01",
+    "days": 1,
+    "daysInMonth": 29,
+    "daysInYear": 366,
+    "balanceStart": 0.0,
+    "balanceEnd": 0.0,
+    "contributions": 0.0,
+    "interest": 0.0,
+    "annualRate": 0.0539,
+    "deposits": []
+  }
+]

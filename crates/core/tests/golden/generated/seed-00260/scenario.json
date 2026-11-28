@@ -1,0 +1,159 @@
+{
+  "accounts": [
+    {
+      "annualRate": -0.0168,
+      "balance": 450898.5,
+      "balanceAsOf": "2036-02-29",
+      "contributions": [
+        {
+          "amount": 100,
+          "endDate": "2036-08-31",
+          "id": "a1x",
+          "startDate": "2036-09-01",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 1"
+    },
+    {
+      "annualRate": -0.0003,
+      "balance": 101942.68,
+      "balanceAsOf": "2036-09-01",
+      "contributions": [],
+      "id": "a2",
+      "included": false,
+      "kind": "taxable",
+      "name": "Account 2"
+    },
+    {
+      "annualRate": 0.1257,
+      "balance": 435092.5,
+      "balanceAsOf": "2036-09-01",
+      "contributions": [
+        {
+          "amount": 4564.99,
+          "growth": {
+            "amount": 426.35,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a3r1",
+          "name": "Rule a3r1",
+          "startDate": "2040-11-22",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a3",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 3"
+    },
+    {
+      "annualRate": -0.0249,
+      "balance": 311735.57,
+      "balanceAsOf": "2036-09-01",
+      "contributions": [
+        {
+          "amount": 2475.67,
+          "id": "a4r1",
+          "timing": {
+            "day": 1,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2573.96,
+          "id": "a4r2",
+          "name": "Rule a4r2",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2043-12-01"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a4",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 4"
+    },
+    {
+      "balance": 0.7,
+      "balanceAsOf": "2036-02-29",
+      "contributions": [
+        {
+          "amount": 1257.75,
+          "id": "a5r1",
+          "name": "Rule a5r1",
+          "timing": {
+            "frequency": "annual",
+            "month": 9,
+            "placement": "start"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a5",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 5"
+    },
+    {
+      "annualRate": 0.1367,
+      "balance": 0.54,
+      "balanceAsOf": "2036-09-01",
+      "contributions": [
+        {
+          "amount": 0,
+          "id": "a6r1",
+          "name": "Rule a6r1",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2036-09-01"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 476.54,
+          "enabled": true,
+          "endDate": "2057-04-21",
+          "growth": {
+            "amount": 36.97,
+            "cadence": "monthly",
+            "type": "flat"
+          },
+          "id": "a6r2",
+          "startDate": "2044-09-12",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a6",
+      "included": true,
+      "kind": "other",
+      "name": "Account 6"
+    }
+  ],
+  "endDate": "2043-12-02",
+  "interest": {
+    "annualRate": -0.0168
+  },
+  "salary": {
+    "annualBase": 0,
+    "asOf": "2031-03-13"
+  },
+  "version": 1
+}

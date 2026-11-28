@@ -1,0 +1,28 @@
+[
+  {
+    "from": "2020-01-16",
+    "to": "2020-02-01",
+    "days": 16,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 0.31,
+    "balanceEnd": 0.3098542474525452,
+    "contributions": 0.0,
+    "interest": -0.0001457525474549981,
+    "annualRate": -0.0107,
+    "deposits": []
+  },
+  {
+    "from": "2020-02-01",
+    "to": "2020-02-21",
+    "days": 20,
+    "daysInMonth": 29,
+    "daysInYear": 366,
+    "balanceStart": 0.3098542474525452,
+    "balanceEnd": 0.3096721531325179,
+    "contributions": 0.0,
+    "interest": -0.00018209432002741507,
+    "annualRate": -0.0107,
+    "deposits": []
+  }
+]

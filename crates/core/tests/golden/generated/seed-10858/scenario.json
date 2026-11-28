@@ -1,0 +1,101 @@
+{
+  "accounts": [
+    {
+      "annualRate": -0.0121,
+      "balance": 284327.83,
+      "balanceAsOf": "2000-02-29",
+      "contributions": [
+        {
+          "amount": 347.81,
+          "growth": {
+            "amount": 0.21,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a1g",
+          "startDate": "1910-02-18",
+          "timing": {
+            "day": 31,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 1"
+    },
+    {
+      "annualRate": -0.0121,
+      "balance": 327338.11,
+      "balanceAsOf": "1998-11-28",
+      "contributions": [
+        {
+          "amount": 2854.69,
+          "endDate": "2000-03-28",
+          "id": "a2r1",
+          "name": "Rule a2r1",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 15.93,
+          "id": "a2r2",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "1997-02-28"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 8.11,
+          "endDate": "2004-06-14",
+          "id": "a2r3",
+          "startDate": "1991-09-01",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a2",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 2"
+    },
+    {
+      "balance": 414659.82,
+      "balanceAsOf": "2000-02-29",
+      "contributions": [],
+      "id": "a3",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 3"
+    },
+    {
+      "annualRate": -0.0121,
+      "balance": 285148.33,
+      "balanceAsOf": "2000-07-03",
+      "contributions": [],
+      "id": "a4",
+      "included": false,
+      "kind": "other",
+      "name": "Account 4"
+    }
+  ],
+  "endDate": "2000-07-31",
+  "interest": {
+    "annualRate": -0.0121,
+    "compounding": "monthly",
+    "variance": 0.0249
+  },
+  "salary": {
+    "annualBase": 94741.22,
+    "annualRaiseRate": 0.0532,
+    "asOf": "2005-03-09"
+  },
+  "version": 1
+}

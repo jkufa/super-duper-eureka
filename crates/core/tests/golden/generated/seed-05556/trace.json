@@ -1,0 +1,22 @@
+[
+  {
+    "from": "2005-12-31",
+    "to": "2006-01-01",
+    "days": 1,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 0.0,
+    "balanceEnd": 529.1168149730036,
+    "contributions": 529.1296283784687,
+    "interest": -0.012813405465174043,
+    "annualRate": -0.0088,
+    "deposits": [
+      {
+        "ruleId": "a1r4",
+        "date": "2005-12-31",
+        "amount": 529.1296283784687,
+        "bucket": 31
+      }
+    ]
+  }
+]

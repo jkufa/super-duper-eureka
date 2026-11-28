@@ -1,0 +1,22 @@
+[
+  {
+    "from": "2002-03-15",
+    "to": "2002-03-16",
+    "days": 1,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 7627.91,
+    "balanceEnd": 18896.999323495635,
+    "contributions": 11264.894306999999,
+    "interest": 4.195016495636516,
+    "annualRate": 0.0858,
+    "deposits": [
+      {
+        "ruleId": "a1r1",
+        "date": "2002-03-15",
+        "amount": 11264.894306999999,
+        "bucket": "start"
+      }
+    ]
+  }
+]

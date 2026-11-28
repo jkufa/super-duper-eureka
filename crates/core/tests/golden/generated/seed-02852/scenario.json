@@ -1,0 +1,128 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.1088,
+      "balance": 420119.88,
+      "balanceAsOf": "2040-04-30",
+      "contributions": [
+        {
+          "amount": 12.24,
+          "growth": {
+            "amount": 8.33,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a1r1",
+          "salaryBasis": "daily",
+          "startDate": "2039-02-23",
+          "timing": {
+            "frequency": "annual",
+            "month": 5
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 19.57,
+          "endDate": "2040-04-30",
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "salaryBasis": "monthly",
+          "timing": {
+            "day": 30,
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 3.61,
+          "growth": {
+            "amount": 461.56,
+            "cadence": "monthly",
+            "type": "flat"
+          },
+          "id": "a1r3",
+          "name": "Rule a1r3",
+          "salaryBasis": "biweekly",
+          "startDate": "2040-04-30",
+          "timing": {
+            "frequency": "annual",
+            "month": 9
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 0.63,
+          "enabled": false,
+          "endDate": "2040-04-30",
+          "id": "a1r4",
+          "salaryBasis": "biweekly",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 2.23,
+          "enabled": true,
+          "id": "a1r5",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2040-04-30"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a1",
+      "included": false,
+      "kind": "other",
+      "name": "Account 1"
+    },
+    {
+      "balance": 128225.12,
+      "balanceAsOf": "2040-02-29",
+      "contributions": [
+        {
+          "amount": 15.28,
+          "id": "a2r1",
+          "timing": {
+            "day": 31,
+            "frequency": "annual",
+            "month": 12,
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 711.29,
+          "growth": {
+            "amount": 0.28,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a2g",
+          "startDate": "1947-11-01",
+          "timing": {
+            "day": 18,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a2",
+      "included": false,
+      "kind": "taxable",
+      "name": "Account 2"
+    }
+  ],
+  "endDate": "2040-05-01",
+  "interest": {
+    "annualRate": 0.1088,
+    "compounding": "monthly",
+    "variance": 0.0359
+  },
+  "salary": {
+    "annualBase": 38040.11,
+    "asOf": "2040-04-30"
+  },
+  "version": 1
+}

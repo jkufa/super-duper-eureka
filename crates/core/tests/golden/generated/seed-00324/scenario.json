@@ -1,0 +1,61 @@
+{
+  "accounts": [
+    {
+      "annualRate": -0.0055,
+      "balance": 200663847428.05,
+      "balanceAsOf": "1996-02-18",
+      "contributions": [
+        {
+          "amount": 1620.97,
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "timing": {
+            "day": 31,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 10000000000000000,
+          "id": "a1s1",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1,
+          "id": "a1s2",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1,
+          "id": "a1s3",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "other",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "1996-03-09",
+  "interest": {
+    "annualRate": -0.0055,
+    "variance": 0.0044
+  },
+  "salary": {
+    "annualBase": 0,
+    "annualRaiseRate": 0.0164,
+    "asOf": "1992-04-22"
+  },
+  "version": 1
+}

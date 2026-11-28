@@ -1,0 +1,43 @@
+{
+  "accounts": [
+    {
+      "balance": 702024039598.88,
+      "balanceAsOf": "2038-11-18",
+      "contributions": [],
+      "id": "a1",
+      "included": false,
+      "kind": "taxable",
+      "name": "Account 1"
+    },
+    {
+      "balance": 104468577378.66,
+      "balanceAsOf": "2038-10-29",
+      "contributions": [
+        {
+          "amount": 1,
+          "id": "a2x",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a2",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 2"
+    }
+  ],
+  "endDate": "2039-04-17",
+  "interest": {
+    "annualRate": 0.0268,
+    "compounding": "monthly",
+    "variance": 0.0231
+  },
+  "salary": {
+    "annualBase": 1e+308,
+    "annualRaiseRate": 1,
+    "asOf": "2038-11-19"
+  },
+  "version": 1
+}

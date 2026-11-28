@@ -1,0 +1,386 @@
+[
+  {
+    "from": "2026-01-01",
+    "to": "2026-02-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 0.0,
+    "balanceEnd": 1.0040741237836484e+16,
+    "contributions": 1e+16,
+    "interest": 40741237836483.53,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "huge",
+        "date": "2026-01-01",
+        "amount": 1e+16,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "one-a",
+        "date": "2026-01-01",
+        "amount": 1.0,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "one-b",
+        "date": "2026-01-01",
+        "amount": 1.0,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-02-01",
+    "to": "2026-03-01",
+    "days": 28,
+    "daysInMonth": 28,
+    "daysInYear": 365,
+    "balanceStart": 1.0040741237836484e+16,
+    "balanceEnd": 2.0122389698355496e+16,
+    "contributions": 1e+16,
+    "interest": 81648460519011.97,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "huge",
+        "date": "2026-02-01",
+        "amount": 1e+16,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "one-a",
+        "date": "2026-02-01",
+        "amount": 1.0,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "one-b",
+        "date": "2026-02-01",
+        "amount": 1.0,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-03-01",
+    "to": "2026-04-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 2.0122389698355496e+16,
+    "balanceEnd": 3.0245112042645892e+16,
+    "contributions": 1e+16,
+    "interest": 122722344290394.28,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "huge",
+        "date": "2026-03-01",
+        "amount": 1e+16,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "one-a",
+        "date": "2026-03-01",
+        "amount": 1.0,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "one-b",
+        "date": "2026-03-01",
+        "amount": 1.0,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-04-01",
+    "to": "2026-05-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 3.0245112042645892e+16,
+    "balanceEnd": 4.0409075610794424e+16,
+    "contributions": 1e+16,
+    "interest": 163963568148536.38,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "huge",
+        "date": "2026-04-01",
+        "amount": 1e+16,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "one-a",
+        "date": "2026-04-01",
+        "amount": 1.0,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "one-b",
+        "date": "2026-04-01",
+        "amount": 1.0,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-05-01",
+    "to": "2026-06-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 4.0409075610794424e+16,
+    "balanceEnd": 5.061444842465209e+16,
+    "contributions": 1e+16,
+    "interest": 205372813857665.72,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "huge",
+        "date": "2026-05-01",
+        "amount": 1e+16,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "one-a",
+        "date": "2026-05-01",
+        "amount": 1.0,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "one-b",
+        "date": "2026-05-01",
+        "amount": 1.0,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-06-01",
+    "to": "2026-07-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 5.061444842465209e+16,
+    "balanceEnd": 6.086139919061169e+16,
+    "contributions": 1e+16,
+    "interest": 246950765959601.53,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "huge",
+        "date": "2026-06-01",
+        "amount": 1e+16,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "one-a",
+        "date": "2026-06-01",
+        "amount": 1.0,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "one-b",
+        "date": "2026-06-01",
+        "amount": 1.0,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-07-01",
+    "to": "2026-08-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 6.086139919061169e+16,
+    "balanceEnd": 7.115009730239676e+16,
+    "contributions": 1e+16,
+    "interest": 288698111785071.25,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "huge",
+        "date": "2026-07-01",
+        "amount": 1e+16,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "one-a",
+        "date": "2026-07-01",
+        "amount": 1.0,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "one-b",
+        "date": "2026-07-01",
+        "amount": 1.0,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-08-01",
+    "to": "2026-09-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 7.115009730239676e+16,
+    "balanceEnd": 8.148071284386184e+16,
+    "contributions": 1e+16,
+    "interest": 330615541465072.75,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "huge",
+        "date": "2026-08-01",
+        "amount": 1e+16,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "one-a",
+        "date": "2026-08-01",
+        "amount": 1.0,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "one-b",
+        "date": "2026-08-01",
+        "amount": 1.0,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-09-01",
+    "to": "2026-10-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 8.148071284386184e+16,
+    "balanceEnd": 9.185341659180413e+16,
+    "contributions": 1e+16,
+    "interest": 372703747942282.94,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "huge",
+        "date": "2026-09-01",
+        "amount": 1e+16,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "one-a",
+        "date": "2026-09-01",
+        "amount": 1.0,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "one-b",
+        "date": "2026-09-01",
+        "amount": 1.0,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-10-01",
+    "to": "2026-11-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 9.185341659180413e+16,
+    "balanceEnd": 1.0226838001878664e+17,
+    "contributions": 1e+16,
+    "interest": 414963426982513.0,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "huge",
+        "date": "2026-10-01",
+        "amount": 1e+16,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "one-a",
+        "date": "2026-10-01",
+        "amount": 1.0,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "one-b",
+        "date": "2026-10-01",
+        "amount": 1.0,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-11-01",
+    "to": "2026-12-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 1.0226838001878664e+17,
+    "balanceEnd": 1.1272577529597285e+17,
+    "contributions": 1e+16,
+    "interest": 457395277186210.25,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "huge",
+        "date": "2026-11-01",
+        "amount": 1e+16,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "one-a",
+        "date": "2026-11-01",
+        "amount": 1.0,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "one-b",
+        "date": "2026-11-01",
+        "amount": 1.0,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-12-01",
+    "to": "2027-01-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 1.1272577529597285e+17,
+    "balanceEnd": 1.2322577529597285e+17,
+    "contributions": 1e+16,
+    "interest": 500000000000006.5,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "huge",
+        "date": "2026-12-01",
+        "amount": 1e+16,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "one-a",
+        "date": "2026-12-01",
+        "amount": 1.0,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "one-b",
+        "date": "2026-12-01",
+        "amount": 1.0,
+        "bucket": "start"
+      }
+    ]
+  }
+]

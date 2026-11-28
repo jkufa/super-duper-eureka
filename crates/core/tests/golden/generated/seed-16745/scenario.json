@@ -1,0 +1,48 @@
+{
+  "accounts": [
+    {
+      "balance": 0.51,
+      "balanceAsOf": "2012-02-29",
+      "contributions": [
+        {
+          "amount": 2499.43,
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2007-07-11"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0.27,
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "timing": {
+            "day": 29,
+            "frequency": "annual",
+            "month": 2,
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a1",
+      "included": false,
+      "kind": "pretax",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2012-04-11",
+  "interest": {
+    "annualRate": 0.1235,
+    "compounding": "daily",
+    "variance": 0
+  },
+  "salary": {
+    "annualBase": 0,
+    "annualRaiseRate": 0,
+    "asOf": "2003-06-10"
+  },
+  "version": 1
+}

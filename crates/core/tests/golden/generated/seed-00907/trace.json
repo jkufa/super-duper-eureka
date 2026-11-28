@@ -1,0 +1,15 @@
+[
+  {
+    "from": "2031-11-17",
+    "to": "2031-11-19",
+    "days": 2,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 67274.25,
+    "balanceEnd": 67304.04560385842,
+    "contributions": 0.0,
+    "interest": 29.7956038584295,
+    "annualRate": 0.0827,
+    "deposits": []
+  }
+]

@@ -1,0 +1,71 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.1475,
+      "balance": 75243.49,
+      "balanceAsOf": "2038-10-31",
+      "contributions": [
+        {
+          "amount": 4496.76,
+          "enabled": false,
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "salaryBasis": "monthly",
+          "timing": {
+            "frequency": "annual",
+            "month": 3,
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 16.24,
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "salaryBasis": "perContribution",
+          "timing": {
+            "day": 1,
+            "frequency": "annual",
+            "month": 4
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 1311.85,
+          "enabled": true,
+          "id": "a1r3",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2038-10-31"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 793.73,
+          "id": "a1r4",
+          "timing": {
+            "day": 31,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "other",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2038-11-01",
+  "interest": {
+    "annualRate": 0.1475,
+    "compounding": "daily",
+    "variance": 0.059
+  },
+  "salary": {
+    "annualBase": 138216.28,
+    "annualRaiseRate": 0.0342,
+    "asOf": "2036-02-29"
+  },
+  "version": 1
+}

@@ -1,0 +1,4802 @@
+[
+  {
+    "from": "2026-01-01",
+    "to": "2026-02-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 60000.0,
+    "balanceEnd": 60796.68819509991,
+    "contributions": 550.0,
+    "interest": 246.6881950999078,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2026-01-01",
+        "amount": 550.0,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-02-01",
+    "to": "2026-03-01",
+    "days": 28,
+    "daysInMonth": 28,
+    "daysInYear": 365,
+    "balanceStart": 60796.68819509991,
+    "balanceEnd": 61596.622196523625,
+    "contributions": 550.0,
+    "interest": 249.9340014237162,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2026-02-01",
+        "amount": 550.0,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-03-01",
+    "to": "2026-04-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 61596.622196523625,
+    "balanceEnd": 62399.81522808789,
+    "contributions": 550.0,
+    "interest": 253.19303156426557,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2026-03-01",
+        "amount": 550.0,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-04-01",
+    "to": "2026-05-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 62399.81522808789,
+    "balanceEnd": 63206.280567484915,
+    "contributions": 550.0,
+    "interest": 256.4653393970222,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2026-04-01",
+        "amount": 550.0,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-05-01",
+    "to": "2026-06-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 63206.280567484915,
+    "balanceEnd": 64016.031546501865,
+    "contributions": 550.0,
+    "interest": 259.7509790169476,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2026-05-01",
+        "amount": 550.0,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-06-01",
+    "to": "2026-07-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 64016.031546501865,
+    "balanceEnd": 64829.08155124126,
+    "contributions": 550.0,
+    "interest": 263.0500047393931,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2026-06-01",
+        "amount": 550.0,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-07-01",
+    "to": "2026-08-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 64829.08155124126,
+    "balanceEnd": 65645.44402234226,
+    "contributions": 550.0,
+    "interest": 266.3624711009973,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2026-07-01",
+        "amount": 550.0,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-08-01",
+    "to": "2026-09-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 65645.44402234226,
+    "balanceEnd": 66465.13245520284,
+    "contributions": 550.0,
+    "interest": 269.6884328605878,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2026-08-01",
+        "amount": 550.0,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-09-01",
+    "to": "2026-10-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 66465.13245520284,
+    "balanceEnd": 67288.16040020292,
+    "contributions": 550.0,
+    "interest": 273.02794500008656,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2026-09-01",
+        "amount": 550.0,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-10-01",
+    "to": "2026-11-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 67288.16040020292,
+    "balanceEnd": 68114.54146292833,
+    "contributions": 550.0,
+    "interest": 276.38106272541864,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2026-10-01",
+        "amount": 550.0,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-11-01",
+    "to": "2026-12-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 68114.54146292833,
+    "balanceEnd": 68944.28930439576,
+    "contributions": 550.0,
+    "interest": 279.74784146742485,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2026-11-01",
+        "amount": 550.0,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2026-12-01",
+    "to": "2027-01-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 68944.28930439576,
+    "balanceEnd": 69777.41764127853,
+    "contributions": 550.0,
+    "interest": 283.12833688277817,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2026-12-01",
+        "amount": 550.0,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2027-01-01",
+    "to": "2027-02-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 69777.41764127853,
+    "balanceEnd": 70630.50746917586,
+    "contributions": 566.4999999999999,
+    "interest": 286.58982789733386,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2027-01-01",
+        "amount": 566.4999999999999,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2027-02-01",
+    "to": "2027-03-01",
+    "days": 28,
+    "daysInMonth": 28,
+    "daysInYear": 365,
+    "balanceStart": 70630.50746917586,
+    "balanceEnd": 71487.07289063062,
+    "contributions": 566.4999999999999,
+    "interest": 290.06542145475885,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2027-02-01",
+        "amount": 566.4999999999999,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2027-03-01",
+    "to": "2027-04-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 71487.07289063062,
+    "balanceEnd": 72347.12806564117,
+    "contributions": 566.4999999999999,
+    "interest": 293.55517501055846,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2027-03-01",
+        "amount": 566.4999999999999,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2027-04-01",
+    "to": "2027-05-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 72347.12806564117,
+    "balanceEnd": 73210.68721189549,
+    "contributions": 566.4999999999999,
+    "interest": 297.05914625431876,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2027-04-01",
+        "amount": 566.4999999999999,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2027-05-01",
+    "to": "2027-06-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 73210.68721189549,
+    "balanceEnd": 74077.76460500616,
+    "contributions": 566.4999999999999,
+    "interest": 300.5773931106606,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2027-05-01",
+        "amount": 566.4999999999999,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2027-06-01",
+    "to": "2027-07-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 74077.76460500616,
+    "balanceEnd": 74948.37457874636,
+    "contributions": 566.4999999999999,
+    "interest": 304.10997374019655,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2027-06-01",
+        "amount": 566.4999999999999,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2027-07-01",
+    "to": "2027-08-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 74948.37457874636,
+    "balanceEnd": 75822.53152528685,
+    "contributions": 566.4999999999999,
+    "interest": 307.656946540493,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2027-07-01",
+        "amount": 566.4999999999999,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2027-08-01",
+    "to": "2027-09-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 75822.53152528685,
+    "balanceEnd": 76700.24989543388,
+    "contributions": 566.4999999999999,
+    "interest": 311.218370147035,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2027-08-01",
+        "amount": 566.4999999999999,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2027-09-01",
+    "to": "2027-10-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 76700.24989543388,
+    "balanceEnd": 77581.54419886808,
+    "contributions": 566.4999999999999,
+    "interest": 314.7943034341961,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2027-09-01",
+        "amount": 566.4999999999999,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2027-10-01",
+    "to": "2027-11-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 77581.54419886808,
+    "balanceEnd": 78466.42900438429,
+    "contributions": 566.4999999999999,
+    "interest": 318.3848055162112,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2027-10-01",
+        "amount": 566.4999999999999,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2027-11-01",
+    "to": "2027-12-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 78466.42900438429,
+    "balanceEnd": 79354.91894013244,
+    "contributions": 566.4999999999999,
+    "interest": 321.9899357481538,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2027-11-01",
+        "amount": 566.4999999999999,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2027-12-01",
+    "to": "2028-01-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 79354.91894013244,
+    "balanceEnd": 80247.02869385936,
+    "contributions": 566.4999999999999,
+    "interest": 325.6097537269176,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2027-12-01",
+        "amount": 566.4999999999999,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2028-01-01",
+    "to": "2028-02-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 80247.02869385936,
+    "balanceEnd": 81159.83725288526,
+    "contributions": 583.4949999999999,
+    "interest": 329.31355902590417,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2028-01-01",
+        "amount": 583.4949999999999,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2028-02-01",
+    "to": "2028-03-01",
+    "days": 29,
+    "daysInMonth": 29,
+    "daysInYear": 366,
+    "balanceStart": 81159.83725288526,
+    "balanceEnd": 82076.3647069714,
+    "contributions": 583.4949999999999,
+    "interest": 333.03245408614936,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2028-02-01",
+        "amount": 583.4949999999999,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2028-03-01",
+    "to": "2028-04-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 82076.3647069714,
+    "balanceEnd": 82996.6262073566,
+    "contributions": 583.4949999999999,
+    "interest": 336.7665003852084,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2028-03-01",
+        "amount": 583.4949999999999,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2028-04-01",
+    "to": "2028-05-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 82996.6262073566,
+    "balanceEnd": 83920.6369670077,
+    "contributions": 583.4949999999999,
+    "interest": 340.5157596511037,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2028-04-01",
+        "amount": 583.4949999999999,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2028-05-01",
+    "to": "2028-06-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 83920.6369670077,
+    "balanceEnd": 84848.41226087103,
+    "contributions": 583.4949999999999,
+    "interest": 344.28029386334515,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2028-05-01",
+        "amount": 583.4949999999999,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2028-06-01",
+    "to": "2028-07-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 84848.41226087103,
+    "balanceEnd": 85779.96742612497,
+    "contributions": 583.4949999999999,
+    "interest": 348.0601652539551,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2028-06-01",
+        "amount": 583.4949999999999,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2028-07-01",
+    "to": "2028-08-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 85779.96742612497,
+    "balanceEnd": 86715.31786243347,
+    "contributions": 583.4949999999999,
+    "interest": 351.8554363084967,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2028-07-01",
+        "amount": 583.4949999999999,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2028-08-01",
+    "to": "2028-09-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 86715.31786243347,
+    "balanceEnd": 87654.47903220057,
+    "contributions": 583.4949999999999,
+    "interest": 355.66616976710696,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2028-08-01",
+        "amount": 583.4949999999999,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2028-09-01",
+    "to": "2028-10-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 87654.47903220057,
+    "balanceEnd": 88597.46646082611,
+    "contributions": 583.4949999999999,
+    "interest": 359.49242862553416,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2028-09-01",
+        "amount": 583.4949999999999,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2028-10-01",
+    "to": "2028-11-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 88597.46646082611,
+    "balanceEnd": 89544.29573696229,
+    "contributions": 583.4949999999999,
+    "interest": 363.33427613617886,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2028-10-01",
+        "amount": 583.4949999999999,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2028-11-01",
+    "to": "2028-12-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 89544.29573696229,
+    "balanceEnd": 90494.98251277143,
+    "contributions": 583.4949999999999,
+    "interest": 367.1917758091398,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2028-11-01",
+        "amount": 583.4949999999999,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2028-12-01",
+    "to": "2029-01-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 90494.98251277143,
+    "balanceEnd": 91449.54250418469,
+    "contributions": 583.4949999999999,
+    "interest": 371.0649914132638,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2028-12-01",
+        "amount": 583.4949999999999,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2029-01-01",
+    "to": "2029-02-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 91449.54250418469,
+    "balanceEnd": 92425.5676580876,
+    "contributions": 600.99985,
+    "interest": 375.0253039029139,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2029-01-01",
+        "amount": 600.99985,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2029-02-01",
+    "to": "2029-03-01",
+    "days": 28,
+    "daysInMonth": 28,
+    "daysInYear": 365,
+    "balanceStart": 92425.5676580876,
+    "balanceEnd": 93405.56925928347,
+    "contributions": 600.99985,
+    "interest": 379.0017511958688,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2029-02-01",
+        "amount": 600.99985,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2029-03-01",
+    "to": "2029-04-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 93405.56925928347,
+    "balanceEnd": 94389.56350831078,
+    "contributions": 600.99985,
+    "interest": 382.9943990273144,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2029-03-01",
+        "amount": 600.99985,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2029-04-01",
+    "to": "2029-05-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 94389.56350831078,
+    "balanceEnd": 95377.56667171101,
+    "contributions": 600.99985,
+    "interest": 387.00331340024974,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2029-04-01",
+        "amount": 600.99985,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2029-05-01",
+    "to": "2029-06-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 95377.56667171101,
+    "balanceEnd": 96369.59508229759,
+    "contributions": 600.99985,
+    "interest": 391.02856058657846,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2029-05-01",
+        "amount": 600.99985,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2029-06-01",
+    "to": "2029-07-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 96369.59508229759,
+    "balanceEnd": 97365.66513942578,
+    "contributions": 600.99985,
+    "interest": 395.07020712820406,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2029-06-01",
+        "amount": 600.99985,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2029-07-01",
+    "to": "2029-08-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 97365.66513942578,
+    "balanceEnd": 98365.7933092639,
+    "contributions": 600.99985,
+    "interest": 399.12831983813,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2029-07-01",
+        "amount": 600.99985,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2029-08-01",
+    "to": "2029-09-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 98365.7933092639,
+    "balanceEnd": 99369.99612506546,
+    "contributions": 600.99985,
+    "interest": 403.2029658015642,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2029-08-01",
+        "amount": 600.99985,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2029-09-01",
+    "to": "2029-10-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 99369.99612506546,
+    "balanceEnd": 100378.29018744249,
+    "contributions": 600.99985,
+    "interest": 407.294212377028,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2029-09-01",
+        "amount": 600.99985,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2029-10-01",
+    "to": "2029-11-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 100378.29018744249,
+    "balanceEnd": 101390.69216463994,
+    "contributions": 600.99985,
+    "interest": 411.4021271974696,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2029-10-01",
+        "amount": 600.99985,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2029-11-01",
+    "to": "2029-12-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 101390.69216463994,
+    "balanceEnd": 102407.21879281131,
+    "contributions": 600.99985,
+    "interest": 415.52677817138243,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2029-11-01",
+        "amount": 600.99985,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2029-12-01",
+    "to": "2030-01-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 102407.21879281131,
+    "balanceEnd": 103427.88687629523,
+    "contributions": 600.99985,
+    "interest": 419.6682334839273,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2029-12-01",
+        "amount": 600.99985,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2030-01-01",
+    "to": "2030-02-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 103427.88687629523,
+    "balanceEnd": 104470.81673982678,
+    "contributions": 619.0298455,
+    "interest": 423.9000180315455,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2030-01-01",
+        "amount": 619.0298455,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2030-02-01",
+    "to": "2030-03-01",
+    "days": 28,
+    "daysInMonth": 28,
+    "daysInYear": 365,
+    "balanceStart": 104470.81673982678,
+    "balanceEnd": 105517.99562872002,
+    "contributions": 619.0298455,
+    "interest": 428.1490433932366,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2030-02-01",
+        "amount": 619.0298455,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2030-03-01",
+    "to": "2030-04-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 105517.99562872002,
+    "balanceEnd": 106569.44085403022,
+    "contributions": 619.0298455,
+    "interest": 432.41537981021094,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2030-03-01",
+        "amount": 619.0298455,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2030-04-01",
+    "to": "2030-05-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 106569.44085403022,
+    "balanceEnd": 107625.16979734007,
+    "contributions": 619.0298455,
+    "interest": 436.69909780985074,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2030-04-01",
+        "amount": 619.0298455,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2030-05-01",
+    "to": "2030-06-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 107625.16979734007,
+    "balanceEnd": 108685.19991104695,
+    "contributions": 619.0298455,
+    "interest": 441.0002682068754,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2030-05-01",
+        "amount": 619.0298455,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2030-06-01",
+    "to": "2030-07-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 108685.19991104695,
+    "balanceEnd": 109749.54871865147,
+    "contributions": 619.0298455,
+    "interest": 445.318962104512,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2030-06-01",
+        "amount": 619.0298455,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2030-07-01",
+    "to": "2030-08-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 109749.54871865147,
+    "balanceEnd": 110818.23381504713,
+    "contributions": 619.0298455,
+    "interest": 449.6552508956713,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2030-07-01",
+        "amount": 619.0298455,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2030-08-01",
+    "to": "2030-09-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 110818.23381504713,
+    "balanceEnd": 111891.27286681127,
+    "contributions": 619.0298455,
+    "interest": 454.00920626412744,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2030-08-01",
+        "amount": 619.0298455,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2030-09-01",
+    "to": "2030-10-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 111891.27286681127,
+    "balanceEnd": 112968.68361249697,
+    "contributions": 619.0298455,
+    "interest": 458.3809001857032,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2030-09-01",
+        "amount": 619.0298455,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2030-10-01",
+    "to": "2030-11-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 112968.68361249697,
+    "balanceEnd": 114050.48386292643,
+    "contributions": 619.0298455,
+    "interest": 462.77040492945963,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2030-10-01",
+        "amount": 619.0298455,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2030-11-01",
+    "to": "2030-12-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 114050.48386292643,
+    "balanceEnd": 115136.69150148531,
+    "contributions": 619.0298455,
+    "interest": 467.17779305889104,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2030-11-01",
+        "amount": 619.0298455,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2030-12-01",
+    "to": "2031-01-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 115136.69150148531,
+    "balanceEnd": 116227.32448441844,
+    "contributions": 619.0298455,
+    "interest": 471.6031374331243,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2030-12-01",
+        "amount": 619.0298455,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2031-01-01",
+    "to": "2031-02-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 116227.32448441844,
+    "balanceEnd": 117341.04739661806,
+    "contributions": 637.6007408649998,
+    "interest": 476.12217133461365,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2031-01-01",
+        "amount": 637.6007408649998,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2031-02-01",
+    "to": "2031-03-01",
+    "days": 28,
+    "daysInMonth": 28,
+    "daysInYear": 365,
+    "balanceStart": 117341.04739661806,
+    "balanceEnd": 118459.30775382266,
+    "contributions": 637.6007408649998,
+    "interest": 480.6596163396003,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2031-02-01",
+        "amount": 637.6007408649998,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2031-03-01",
+    "to": "2031-04-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 118459.30775382266,
+    "balanceEnd": 119582.12404214486,
+    "contributions": 637.6007408649998,
+    "interest": 485.2155474571987,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2031-03-01",
+        "amount": 637.6007408649998,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2031-04-01",
+    "to": "2031-05-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 119582.12404214486,
+    "balanceEnd": 120709.51482301198,
+    "contributions": 637.6007408649998,
+    "interest": 489.7900400021199,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2031-04-01",
+        "amount": 637.6007408649998,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2031-05-01",
+    "to": "2031-06-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 120709.51482301198,
+    "balanceEnd": 121841.49873347291,
+    "contributions": 637.6007408649998,
+    "interest": 494.3831695959165,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2031-05-01",
+        "amount": 637.6007408649998,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2031-06-01",
+    "to": "2031-07-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 121841.49873347291,
+    "balanceEnd": 122978.09448650615,
+    "contributions": 637.6007408649998,
+    "interest": 498.9950121682326,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2031-06-01",
+        "amount": 637.6007408649998,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2031-07-01",
+    "to": "2031-08-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 122978.09448650615,
+    "balanceEnd": 124119.32087132921,
+    "contributions": 637.6007408649998,
+    "interest": 503.6256439580591,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2031-07-01",
+        "amount": 637.6007408649998,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2031-08-01",
+    "to": "2031-09-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 124119.32087132921,
+    "balanceEnd": 125265.19675370921,
+    "contributions": 637.6007408649998,
+    "interest": 508.2751415149937,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2031-08-01",
+        "amount": 637.6007408649998,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2031-09-01",
+    "to": "2031-10-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 125265.19675370921,
+    "balanceEnd": 126415.74107627473,
+    "contributions": 637.6007408649998,
+    "interest": 512.9435817005071,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2031-09-01",
+        "amount": 637.6007408649998,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2031-10-01",
+    "to": "2031-11-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 126415.74107627473,
+    "balanceEnd": 127570.97285882894,
+    "contributions": 637.6007408649998,
+    "interest": 517.6310416892129,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2031-10-01",
+        "amount": 637.6007408649998,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2031-11-01",
+    "to": "2031-12-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 127570.97285882894,
+    "balanceEnd": 128730.9111986641,
+    "contributions": 637.6007408649998,
+    "interest": 522.3375989701435,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2031-11-01",
+        "amount": 637.6007408649998,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2031-12-01",
+    "to": "2032-01-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 128730.9111986641,
+    "balanceEnd": 129895.57527087713,
+    "contributions": 637.6007408649998,
+    "interest": 527.0633313480315,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2031-12-01",
+        "amount": 637.6007408649998,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2032-01-01",
+    "to": "2032-02-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 129895.57527087713,
+    "balanceEnd": 131084.19028084297,
+    "contributions": 656.72876309095,
+    "interest": 531.8862468748803,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2032-01-01",
+        "amount": 656.72876309095,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2032-02-01",
+    "to": "2032-03-01",
+    "days": 29,
+    "daysInMonth": 29,
+    "daysInYear": 366,
+    "balanceStart": 131084.19028084297,
+    "balanceEnd": 132277.6478554905,
+    "contributions": 656.72876309095,
+    "interest": 536.7288115565834,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2032-02-01",
+        "amount": 656.72876309095,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2032-03-01",
+    "to": "2032-04-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 132277.6478554905,
+    "balanceEnd": 133475.96772402767,
+    "contributions": 656.72876309095,
+    "interest": 541.5911054462302,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2032-03-01",
+        "amount": 656.72876309095,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2032-04-01",
+    "to": "2032-05-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 133475.96772402767,
+    "balanceEnd": 134679.16969604167,
+    "contributions": 656.72876309095,
+    "interest": 546.4732089230558,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2032-04-01",
+        "amount": 656.72876309095,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2032-05-01",
+    "to": "2032-06-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 134679.16969604167,
+    "balanceEnd": 135887.2736618264,
+    "contributions": 656.72876309095,
+    "interest": 551.3752026937707,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2032-05-01",
+        "amount": 656.72876309095,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2032-06-01",
+    "to": "2032-07-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 135887.2736618264,
+    "balanceEnd": 137100.29959271124,
+    "contributions": 656.72876309095,
+    "interest": 556.2971677938941,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2032-06-01",
+        "amount": 656.72876309095,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2032-07-01",
+    "to": "2032-08-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 137100.29959271124,
+    "balanceEnd": 138318.26754139128,
+    "contributions": 656.72876309095,
+    "interest": 561.2391855890943,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2032-07-01",
+        "amount": 656.72876309095,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2032-08-01",
+    "to": "2032-09-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 138318.26754139128,
+    "balanceEnd": 139541.19764225875,
+    "contributions": 656.72876309095,
+    "interest": 566.201337776533,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2032-08-01",
+        "amount": 656.72876309095,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2032-09-01",
+    "to": "2032-10-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 139541.19764225875,
+    "balanceEnd": 140769.1101117359,
+    "contributions": 656.72876309095,
+    "interest": 571.1837063862167,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2032-09-01",
+        "amount": 656.72876309095,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2032-10-01",
+    "to": "2032-11-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 140769.1101117359,
+    "balanceEnd": 142002.0252486092,
+    "contributions": 656.72876309095,
+    "interest": 576.186373782352,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2032-10-01",
+        "amount": 656.72876309095,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2032-11-01",
+    "to": "2032-12-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 142002.0252486092,
+    "balanceEnd": 143239.96343436485,
+    "contributions": 656.72876309095,
+    "interest": 581.2094226647075,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2032-11-01",
+        "amount": 656.72876309095,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2032-12-01",
+    "to": "2033-01-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 143239.96343436485,
+    "balanceEnd": 144482.94513352576,
+    "contributions": 656.72876309095,
+    "interest": 586.252936069981,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2032-12-01",
+        "amount": 656.72876309095,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2033-01-01",
+    "to": "2033-02-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 144482.94513352576,
+    "balanceEnd": 145750.77302471083,
+    "contributions": 676.4306259836784,
+    "interest": 591.3972652013657,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2033-01-01",
+        "amount": 676.4306259836784,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2033-02-01",
+    "to": "2033-03-01",
+    "days": 28,
+    "daysInMonth": 28,
+    "daysInYear": 365,
+    "balanceStart": 145750.77302471083,
+    "balanceEnd": 147023.76620366093,
+    "contributions": 676.4306259836784,
+    "interest": 596.5625529664155,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2033-02-01",
+        "amount": 676.4306259836784,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2033-03-01",
+    "to": "2033-04-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 147023.76620366093,
+    "balanceEnd": 148301.94571439782,
+    "contributions": 676.4306259836784,
+    "interest": 601.7488847531982,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2033-03-01",
+        "amount": 676.4306259836784,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2033-04-01",
+    "to": "2033-05-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 148301.94571439782,
+    "balanceEnd": 149585.33268667918,
+    "contributions": 676.4306259836784,
+    "interest": 606.9563462976635,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2033-04-01",
+        "amount": 676.4306259836784,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2033-05-01",
+    "to": "2033-06-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 149585.33268667918,
+    "balanceEnd": 150873.94833634794,
+    "contributions": 676.4306259836784,
+    "interest": 612.1850236850594,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2033-05-01",
+        "amount": 676.4306259836784,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2033-06-01",
+    "to": "2033-07-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 150873.94833634794,
+    "balanceEnd": 152167.813965683,
+    "contributions": 676.4306259836784,
+    "interest": 617.4350033513564,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2033-06-01",
+        "amount": 676.4306259836784,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2033-07-01",
+    "to": "2033-08-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 152167.813965683,
+    "balanceEnd": 153466.95096375135,
+    "contributions": 676.4306259836784,
+    "interest": 622.7063720846754,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2033-07-01",
+        "amount": 676.4306259836784,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2033-08-01",
+    "to": "2033-09-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 153466.95096375135,
+    "balanceEnd": 154771.38080676176,
+    "contributions": 676.4306259836784,
+    "interest": 627.9992170267233,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2033-08-01",
+        "amount": 676.4306259836784,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2033-09-01",
+    "to": "2033-10-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 154771.38080676176,
+    "balanceEnd": 156081.12505841968,
+    "contributions": 676.4306259836784,
+    "interest": 633.3136256742326,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2033-09-01",
+        "amount": 676.4306259836784,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2033-10-01",
+    "to": "2033-11-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 156081.12505841968,
+    "balanceEnd": 157396.20537028377,
+    "contributions": 676.4306259836784,
+    "interest": 638.6496858804089,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2033-10-01",
+        "amount": 676.4306259836784,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2033-11-01",
+    "to": "2033-12-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 157396.20537028377,
+    "balanceEnd": 158716.64348212385,
+    "contributions": 676.4306259836784,
+    "interest": 644.0074858563821,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2033-11-01",
+        "amount": 676.4306259836784,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2033-12-01",
+    "to": "2034-01-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 158716.64348212385,
+    "balanceEnd": 160042.4612222802,
+    "contributions": 676.4306259836784,
+    "interest": 649.3871141726655,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2033-12-01",
+        "amount": 676.4306259836784,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2034-01-01",
+    "to": "2034-02-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 160042.4612222802,
+    "balanceEnd": 161394.05610266706,
+    "contributions": 696.7235447631887,
+    "interest": 654.8713356236586,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2034-01-01",
+        "amount": 696.7235447631887,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2034-02-01",
+    "to": "2034-03-01",
+    "days": 28,
+    "daysInMonth": 28,
+    "daysInYear": 365,
+    "balanceStart": 161394.05610266706,
+    "balanceEnd": 162751.15754790197,
+    "contributions": 696.7235447631887,
+    "interest": 660.3779004717001,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2034-02-01",
+        "amount": 696.7235447631887,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2034-03-01",
+    "to": "2034-04-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 162751.15754790197,
+    "balanceEnd": 164113.78799241173,
+    "contributions": 696.7235447631887,
+    "interest": 665.9068997465552,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2034-03-01",
+        "amount": 696.7235447631887,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2034-04-01",
+    "to": "2034-05-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 164113.78799241173,
+    "balanceEnd": 165481.96996202378,
+    "contributions": 696.7235447631887,
+    "interest": 671.4584248488558,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2034-04-01",
+        "amount": 696.7235447631887,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2034-05-01",
+    "to": "2034-06-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 165481.96996202378,
+    "balanceEnd": 166855.7260743386,
+    "contributions": 696.7235447631887,
+    "interest": 677.032567551611,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2034-05-01",
+        "amount": 696.7235447631887,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2034-06-01",
+    "to": "2034-07-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 166855.7260743386,
+    "balanceEnd": 168235.07903910353,
+    "contributions": 696.7235447631887,
+    "interest": 682.6294200017252,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2034-06-01",
+        "amount": 696.7235447631887,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2034-07-01",
+    "to": "2034-08-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 168235.07903910353,
+    "balanceEnd": 169620.05165858826,
+    "contributions": 696.7235447631887,
+    "interest": 688.2490747215198,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2034-07-01",
+        "amount": 696.7235447631887,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2034-08-01",
+    "to": "2034-09-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 169620.05165858826,
+    "balanceEnd": 171010.66682796172,
+    "contributions": 696.7235447631887,
+    "interest": 693.8916246102643,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2034-08-01",
+        "amount": 696.7235447631887,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2034-09-01",
+    "to": "2034-10-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 171010.66682796172,
+    "balanceEnd": 172406.94753567062,
+    "contributions": 696.7235447631887,
+    "interest": 699.5571629457108,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2034-09-01",
+        "amount": 696.7235447631887,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2034-10-01",
+    "to": "2034-11-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 172406.94753567062,
+    "balanceEnd": 173808.91686381947,
+    "contributions": 696.7235447631887,
+    "interest": 705.2457833856371,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2034-10-01",
+        "amount": 696.7235447631887,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2034-11-01",
+    "to": "2034-12-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 173808.91686381947,
+    "balanceEnd": 175216.59798855206,
+    "contributions": 696.7235447631887,
+    "interest": 710.9575799693938,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2034-11-01",
+        "amount": 696.7235447631887,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2034-12-01",
+    "to": "2035-01-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 175216.59798855206,
+    "balanceEnd": 176630.01418043472,
+    "contributions": 696.7235447631887,
+    "interest": 716.6926471194597,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2034-12-01",
+        "amount": 696.7235447631887,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2035-01-01",
+    "to": "2035-02-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 176630.01418043472,
+    "balanceEnd": 178070.17566732274,
+    "contributions": 717.6252511060844,
+    "interest": 722.5362357819329,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2035-01-01",
+        "amount": 717.6252511060844,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2035-02-01",
+    "to": "2035-03-01",
+    "days": 28,
+    "daysInMonth": 28,
+    "daysInYear": 365,
+    "balanceStart": 178070.17566732274,
+    "balanceEnd": 179516.20455037677,
+    "contributions": 717.6252511060844,
+    "interest": 728.4036319479577,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2035-02-01",
+        "amount": 717.6252511060844,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2035-03-01",
+    "to": "2035-04-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 179516.20455037677,
+    "balanceEnd": 180968.1247340951,
+    "contributions": 717.6252511060844,
+    "interest": 734.2949326122507,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2035-03-01",
+        "amount": 717.6252511060844,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2035-04-01",
+    "to": "2035-05-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 180968.1247340951,
+    "balanceEnd": 182425.96022036587,
+    "contributions": 717.6252511060844,
+    "interest": 740.2102351646965,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2035-04-01",
+        "amount": 717.6252511060844,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2035-05-01",
+    "to": "2035-06-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 182425.96022036587,
+    "balanceEnd": 183889.7351088639,
+    "contributions": 717.6252511060844,
+    "interest": 746.1496373919589,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2035-05-01",
+        "amount": 717.6252511060844,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2035-06-01",
+    "to": "2035-07-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 183889.7351088639,
+    "balanceEnd": 185359.47359744908,
+    "contributions": 717.6252511060844,
+    "interest": 752.113237479096,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2035-06-01",
+        "amount": 717.6252511060844,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2035-07-01",
+    "to": "2035-08-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 185359.47359744908,
+    "balanceEnd": 186835.19998256632,
+    "contributions": 717.6252511060844,
+    "interest": 758.1011340111842,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2035-07-01",
+        "amount": 717.6252511060844,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2035-08-01",
+    "to": "2035-09-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 186835.19998256632,
+    "balanceEnd": 188316.93865964733,
+    "contributions": 717.6252511060844,
+    "interest": 764.1134259749477,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2035-08-01",
+        "amount": 717.6252511060844,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2035-09-01",
+    "to": "2035-10-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 188316.93865964733,
+    "balanceEnd": 189804.7141235138,
+    "contributions": 717.6252511060844,
+    "interest": 770.1502127603952,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2035-09-01",
+        "amount": 717.6252511060844,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2035-10-01",
+    "to": "2035-11-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 189804.7141235138,
+    "balanceEnd": 191298.55096878234,
+    "contributions": 717.6252511060844,
+    "interest": 776.211594162462,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2035-10-01",
+        "amount": 717.6252511060844,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2035-11-01",
+    "to": "2035-12-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 191298.55096878234,
+    "balanceEnd": 192798.47389027107,
+    "contributions": 717.6252511060844,
+    "interest": 782.2976703826607,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2035-11-01",
+        "amount": 717.6252511060844,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2035-12-01",
+    "to": "2036-01-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 192798.47389027107,
+    "balanceEnd": 194304.50768340786,
+    "contributions": 717.6252511060844,
+    "interest": 788.4085420307373,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2035-12-01",
+        "amount": 717.6252511060844,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2036-01-01",
+    "to": "2036-02-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 194304.50768340786,
+    "balanceEnd": 195838.2937129966,
+    "contributions": 739.154008639267,
+    "interest": 794.6320209494326,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2036-01-01",
+        "amount": 739.154008639267,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2036-02-01",
+    "to": "2036-03-01",
+    "days": 29,
+    "daysInMonth": 29,
+    "daysInYear": 366,
+    "balanceStart": 195838.2937129966,
+    "balanceEnd": 197378.32857672748,
+    "contributions": 739.154008639267,
+    "interest": 800.8808550916075,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2036-02-01",
+        "amount": 739.154008639267,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2036-03-01",
+    "to": "2036-04-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 197378.32857672748,
+    "balanceEnd": 198924.63773312434,
+    "contributions": 739.154008639267,
+    "interest": 807.1551477575812,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2036-03-01",
+        "amount": 739.154008639267,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2036-04-01",
+    "to": "2036-05-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 198924.63773312434,
+    "balanceEnd": 200477.24674443214,
+    "contributions": 739.154008639267,
+    "interest": 813.4550026685308,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2036-04-01",
+        "amount": 739.154008639267,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2036-05-01",
+    "to": "2036-06-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 200477.24674443214,
+    "balanceEnd": 202036.18127703964,
+    "contributions": 739.154008639267,
+    "interest": 819.7805239682067,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2036-05-01",
+        "amount": 739.154008639267,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2036-06-01",
+    "to": "2036-07-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 202036.18127703964,
+    "balanceEnd": 203601.46710190357,
+    "contributions": 739.154008639267,
+    "interest": 826.1318162246537,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2036-06-01",
+        "amount": 739.154008639267,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2036-07-01",
+    "to": "2036-08-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 203601.46710190357,
+    "balanceEnd": 205173.1300949748,
+    "contributions": 739.154008639267,
+    "interest": 832.5089844319394,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2036-07-01",
+        "amount": 739.154008639267,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2036-08-01",
+    "to": "2036-09-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 205173.1300949748,
+    "balanceEnd": 206751.19623762596,
+    "contributions": 739.154008639267,
+    "interest": 838.9121340118909,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2036-08-01",
+        "amount": 739.154008639267,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2036-09-01",
+    "to": "2036-10-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 206751.19623762596,
+    "balanceEnd": 208335.6916170811,
+    "contributions": 739.154008639267,
+    "interest": 845.3413708158362,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2036-09-01",
+        "amount": 739.154008639267,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2036-10-01",
+    "to": "2036-11-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 208335.6916170811,
+    "balanceEnd": 209926.64242684672,
+    "contributions": 739.154008639267,
+    "interest": 851.7968011263553,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2036-10-01",
+        "amount": 739.154008639267,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2036-11-01",
+    "to": "2036-12-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 209926.64242684672,
+    "balanceEnd": 211524.07496714505,
+    "contributions": 739.154008639267,
+    "interest": 858.278531659036,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2036-11-01",
+        "amount": 739.154008639267,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2036-12-01",
+    "to": "2037-01-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 211524.07496714505,
+    "balanceEnd": 213128.01564534855,
+    "contributions": 739.154008639267,
+    "interest": 864.7866695642392,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2036-12-01",
+        "amount": 739.154008639267,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2037-01-01",
+    "to": "2037-02-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 213128.01564534855,
+    "balanceEnd": 214760.75593882366,
+    "contributions": 761.328628898445,
+    "interest": 871.4116645766605,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2037-01-01",
+        "amount": 761.328628898445,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2037-02-01",
+    "to": "2037-03-01",
+    "days": 28,
+    "daysInMonth": 28,
+    "daysInYear": 365,
+    "balanceStart": 214760.75593882366,
+    "balanceEnd": 216400.14821836093,
+    "contributions": 761.328628898445,
+    "interest": 878.0636506388284,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2037-02-01",
+        "amount": 761.328628898445,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2037-03-01",
+    "to": "2037-04-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 216400.14821836093,
+    "balanceEnd": 218046.219584975,
+    "contributions": 761.328628898445,
+    "interest": 884.7427377156207,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2037-03-01",
+        "amount": 761.328628898445,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2037-04-01",
+    "to": "2037-05-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 218046.219584975,
+    "balanceEnd": 219698.99725009338,
+    "contributions": 761.328628898445,
+    "interest": 891.4490362199257,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2037-04-01",
+        "amount": 761.328628898445,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2037-05-01",
+    "to": "2037-06-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 219698.99725009338,
+    "balanceEnd": 221358.5085360063,
+    "contributions": 761.328628898445,
+    "interest": 898.1826570144673,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2037-05-01",
+        "amount": 761.328628898445,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2037-06-01",
+    "to": "2037-07-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 221358.5085360063,
+    "balanceEnd": 223024.78087631837,
+    "contributions": 761.328628898445,
+    "interest": 904.9437114136379,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2037-06-01",
+        "amount": 761.328628898445,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2037-07-01",
+    "to": "2037-08-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 223024.78087631837,
+    "balanceEnd": 224697.84181640216,
+    "contributions": 761.328628898445,
+    "interest": 911.7323111853387,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2037-07-01",
+        "amount": 761.328628898445,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2037-08-01",
+    "to": "2037-09-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 224697.84181640216,
+    "balanceEnd": 226377.71901385344,
+    "contributions": 761.328628898445,
+    "interest": 918.5485685528272,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2037-08-01",
+        "amount": 761.328628898445,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2037-09-01",
+    "to": "2037-10-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 226377.71901385344,
+    "balanceEnd": 228064.44023894845,
+    "contributions": 761.328628898445,
+    "interest": 925.392596196572,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2037-09-01",
+        "amount": 761.328628898445,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2037-10-01",
+    "to": "2037-11-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 228064.44023894845,
+    "balanceEnd": 229758.03337510303,
+    "contributions": 761.328628898445,
+    "interest": 932.264507256116,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2037-10-01",
+        "amount": 761.328628898445,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2037-11-01",
+    "to": "2037-12-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 229758.03337510303,
+    "balanceEnd": 231458.52641933342,
+    "contributions": 761.328628898445,
+    "interest": 939.164415331947,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2037-11-01",
+        "amount": 761.328628898445,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2037-12-01",
+    "to": "2038-01-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 231458.52641933342,
+    "balanceEnd": 233165.94748271923,
+    "contributions": 761.328628898445,
+    "interest": 946.0924344873746,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2037-12-01",
+        "amount": 761.328628898445,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2038-01-01",
+    "to": "2038-02-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 233165.94748271923,
+    "balanceEnd": 234903.25770214727,
+    "contributions": 784.1684877653983,
+    "interest": 953.1417316626419,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2038-01-01",
+        "amount": 784.1684877653983,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2038-02-01",
+    "to": "2038-03-01",
+    "days": 28,
+    "daysInMonth": 28,
+    "daysInYear": 365,
+    "balanceStart": 234903.25770214727,
+    "balanceEnd": 236647.64593845984,
+    "contributions": 784.1684877653983,
+    "interest": 960.2197485471889,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2038-02-01",
+        "amount": 784.1684877653983,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2038-03-01",
+    "to": "2038-04-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 236647.64593845984,
+    "balanceEnd": 238399.1410283739,
+    "contributions": 784.1684877653983,
+    "interest": 967.3266021486664,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2038-03-01",
+        "amount": 784.1684877653983,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2038-04-01",
+    "to": "2038-05-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 238399.1410283739,
+    "balanceEnd": 240157.77192609073,
+    "contributions": 784.1684877653983,
+    "interest": 974.4624099514286,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2038-04-01",
+        "amount": 784.1684877653983,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2038-05-01",
+    "to": "2038-06-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 240157.77192609073,
+    "balanceEnd": 241923.5677037746,
+    "contributions": 784.1684877653983,
+    "interest": 981.6272899184756,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2038-05-01",
+        "amount": 784.1684877653983,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2038-06-01",
+    "to": "2038-07-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 241923.5677037746,
+    "balanceEnd": 243696.5575520334,
+    "contributions": 784.1684877653983,
+    "interest": 988.8213604934033,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2038-06-01",
+        "amount": 784.1684877653983,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2038-07-01",
+    "to": "2038-08-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 243696.5575520334,
+    "balanceEnd": 245476.77078040116,
+    "contributions": 784.1684877653983,
+    "interest": 996.0447406023616,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2038-07-01",
+        "amount": 784.1684877653983,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2038-08-01",
+    "to": "2038-09-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 245476.77078040116,
+    "balanceEnd": 247264.23681782256,
+    "contributions": 784.1684877653983,
+    "interest": 1003.2975496560201,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2038-08-01",
+        "amount": 784.1684877653983,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2038-09-01",
+    "to": "2038-10-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 247264.23681782256,
+    "balanceEnd": 249058.9852131395,
+    "contributions": 784.1684877653983,
+    "interest": 1010.5799075515423,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2038-09-01",
+        "amount": 784.1684877653983,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2038-10-01",
+    "to": "2038-11-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 249058.9852131395,
+    "balanceEnd": 250861.04563557944,
+    "contributions": 784.1684877653983,
+    "interest": 1017.8919346745678,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2038-10-01",
+        "amount": 784.1684877653983,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2038-11-01",
+    "to": "2038-12-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 250861.04563557944,
+    "balanceEnd": 252670.44787524603,
+    "contributions": 784.1684877653983,
+    "interest": 1025.2337519012017,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2038-11-01",
+        "amount": 784.1684877653983,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2038-12-01",
+    "to": "2039-01-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 252670.44787524603,
+    "balanceEnd": 254487.22184361142,
+    "contributions": 784.1684877653983,
+    "interest": 1032.605480600014,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2038-12-01",
+        "amount": 784.1684877653983,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2039-01-01",
+    "to": "2039-02-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 254487.22184361142,
+    "balanceEnd": 256335.01847262844,
+    "contributions": 807.6935423983601,
+    "interest": 1040.1030866186366,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2039-01-01",
+        "amount": 807.6935423983601,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2039-02-01",
+    "to": "2039-03-01",
+    "days": 28,
+    "daysInMonth": 28,
+    "daysInYear": 365,
+    "balanceStart": 256335.01847262844,
+    "balanceEnd": 258190.34325383906,
+    "contributions": 807.6935423983601,
+    "interest": 1047.6312388122599,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2039-02-01",
+        "amount": 807.6935423983601,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2039-03-01",
+    "to": "2039-04-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 258190.34325383906,
+    "balanceEnd": 260053.2268578672,
+    "contributions": 807.6935423983601,
+    "interest": 1055.1900616297823,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2039-03-01",
+        "amount": 807.6935423983601,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2039-04-01",
+    "to": "2039-05-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 260053.2268578672,
+    "balanceEnd": 261923.7000802927,
+    "contributions": 807.6935423983601,
+    "interest": 1062.779680027122,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2039-04-01",
+        "amount": 807.6935423983601,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2039-05-01",
+    "to": "2039-06-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 261923.7000802927,
+    "balanceEnd": 263801.7938421603,
+    "contributions": 807.6935423983601,
+    "interest": 1070.400219469283,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2039-05-01",
+        "amount": 807.6935423983601,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2039-06-01",
+    "to": "2039-07-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 263801.7938421603,
+    "balanceEnd": 265687.5391904911,
+    "contributions": 807.6935423983601,
+    "interest": 1078.0518059324293,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2039-06-01",
+        "amount": 807.6935423983601,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2039-07-01",
+    "to": "2039-08-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 265687.5391904911,
+    "balanceEnd": 267580.9672987954,
+    "contributions": 807.6935423983601,
+    "interest": 1085.7345659059679,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2039-07-01",
+        "amount": 807.6935423983601,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2039-08-01",
+    "to": "2039-09-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 267580.9672987954,
+    "balanceEnd": 269482.10946758837,
+    "contributions": 807.6935423983601,
+    "interest": 1093.448626394639,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2039-08-01",
+        "amount": 807.6935423983601,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2039-09-01",
+    "to": "2039-10-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 269482.10946758837,
+    "balanceEnd": 271390.9971249073,
+    "contributions": 807.6935423983601,
+    "interest": 1101.1941149206152,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2039-09-01",
+        "amount": 807.6935423983601,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2039-10-01",
+    "to": "2039-11-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 271390.9971249073,
+    "balanceEnd": 273307.6618268313,
+    "contributions": 807.6935423983601,
+    "interest": 1108.971159525611,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2039-10-01",
+        "amount": 807.6935423983601,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2039-11-01",
+    "to": "2039-12-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 273307.6618268313,
+    "balanceEnd": 275232.1352580026,
+    "contributions": 807.6935423983601,
+    "interest": 1116.779888772999,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2039-11-01",
+        "amount": 807.6935423983601,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2039-12-01",
+    "to": "2040-01-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 275232.1352580026,
+    "balanceEnd": 277164.44923215086,
+    "contributions": 807.6935423983601,
+    "interest": 1124.6204317499332,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2039-12-01",
+        "amount": 807.6935423983601,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2040-01-01",
+    "to": "2040-02-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 277164.44923215086,
+    "balanceEnd": 279128.96521819476,
+    "contributions": 831.9243486703109,
+    "interest": 1132.5916373736163,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2040-01-01",
+        "amount": 831.9243486703109,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2040-02-01",
+    "to": "2040-03-01",
+    "days": 29,
+    "daysInMonth": 29,
+    "daysInYear": 366,
+    "balanceStart": 279128.96521819476,
+    "balanceEnd": 281101.4848855408,
+    "contributions": 831.9243486703109,
+    "interest": 1140.5953186757151,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2040-02-01",
+        "amount": 831.9243486703109,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2040-03-01",
+    "to": "2040-04-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 281101.4848855408,
+    "balanceEnd": 283082.04084217723,
+    "contributions": 831.9243486703109,
+    "interest": 1148.6316079661638,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2040-03-01",
+        "amount": 831.9243486703109,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2040-04-01",
+    "to": "2040-05-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 283082.04084217723,
+    "balanceEnd": 285070.66582894145,
+    "contributions": 831.9243486703109,
+    "interest": 1156.7006380939426,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2040-04-01",
+        "amount": 831.9243486703109,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2040-05-01",
+    "to": "2040-06-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 285070.66582894145,
+    "balanceEnd": 287067.392720061,
+    "contributions": 831.9243486703109,
+    "interest": 1164.8025424492762,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2040-05-01",
+        "amount": 831.9243486703109,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2040-06-01",
+    "to": "2040-07-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 287067.392720061,
+    "balanceEnd": 289072.25452369713,
+    "contributions": 831.9243486703109,
+    "interest": 1172.9374549658367,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2040-06-01",
+        "amount": 831.9243486703109,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2040-07-01",
+    "to": "2040-08-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 289072.25452369713,
+    "balanceEnd": 291085.2843824904,
+    "contributions": 831.9243486703109,
+    "interest": 1181.1055101229585,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2040-07-01",
+        "amount": 831.9243486703109,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2040-08-01",
+    "to": "2040-09-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 291085.2843824904,
+    "balanceEnd": 293106.5155741085,
+    "contributions": 831.9243486703109,
+    "interest": 1189.3068429478626,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2040-08-01",
+        "amount": 831.9243486703109,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2040-09-01",
+    "to": "2040-10-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 293106.5155741085,
+    "balanceEnd": 295135.9815117967,
+    "contributions": 831.9243486703109,
+    "interest": 1197.5415890178858,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2040-09-01",
+        "amount": 831.9243486703109,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2040-10-01",
+    "to": "2040-11-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 295135.9815117967,
+    "balanceEnd": 297173.71574492974,
+    "contributions": 831.9243486703109,
+    "interest": 1205.8098844627254,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2040-10-01",
+        "amount": 831.9243486703109,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2040-11-01",
+    "to": "2040-12-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 297173.71574492974,
+    "balanceEnd": 299219.7519595667,
+    "contributions": 831.9243486703109,
+    "interest": 1214.1118659666872,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2040-11-01",
+        "amount": 831.9243486703109,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2040-12-01",
+    "to": "2041-01-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 299219.7519595667,
+    "balanceEnd": 301274.12397900794,
+    "contributions": 831.9243486703109,
+    "interest": 1222.4476707709457,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2040-12-01",
+        "amount": 831.9243486703109,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2041-01-01",
+    "to": "2041-02-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 301274.12397900794,
+    "balanceEnd": 303361.9251756974,
+    "contributions": 856.8820791304204,
+    "interest": 1230.9191175590663,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2041-01-01",
+        "amount": 856.8820791304204,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2041-02-01",
+    "to": "2041-03-01",
+    "days": 28,
+    "daysInMonth": 28,
+    "daysInYear": 365,
+    "balanceStart": 303361.9251756974,
+    "balanceEnd": 305458.2323328979,
+    "contributions": 856.8820791304204,
+    "interest": 1239.4250780700286,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2041-02-01",
+        "amount": 856.8820791304204,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2041-03-01",
+    "to": "2041-04-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 305458.2323328979,
+    "balanceEnd": 307563.08010494534,
+    "contributions": 856.8820791304204,
+    "interest": 1247.9656929170112,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2041-03-01",
+        "amount": 856.8820791304204,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2041-04-01",
+    "to": "2041-05-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 307563.08010494534,
+    "balanceEnd": 309676.5032873619,
+    "contributions": 856.8820791304204,
+    "interest": 1256.5411032860688,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2041-04-01",
+        "amount": 856.8820791304204,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2041-05-01",
+    "to": "2041-06-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 309676.5032873619,
+    "balanceEnd": 311798.5368174308,
+    "contributions": 856.8820791304204,
+    "interest": 1265.151450938466,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2041-05-01",
+        "amount": 856.8820791304204,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2041-06-01",
+    "to": "2041-07-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 311798.5368174308,
+    "balanceEnd": 313929.21577477426,
+    "contributions": 856.8820791304204,
+    "interest": 1273.796878213019,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2041-06-01",
+        "amount": 856.8820791304204,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2041-07-01",
+    "to": "2041-08-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 313929.21577477426,
+    "balanceEnd": 316068.57538193313,
+    "contributions": 856.8820791304204,
+    "interest": 1282.4775280284512,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2041-07-01",
+        "amount": 856.8820791304204,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2041-08-01",
+    "to": "2041-09-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 316068.57538193313,
+    "balanceEnd": 318216.65100494935,
+    "contributions": 856.8820791304204,
+    "interest": 1291.1935438857536,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2041-08-01",
+        "amount": 856.8820791304204,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2041-09-01",
+    "to": "2041-10-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 318216.65100494935,
+    "balanceEnd": 320373.47815395036,
+    "contributions": 856.8820791304204,
+    "interest": 1299.9450698705593,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2041-09-01",
+        "amount": 856.8820791304204,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2041-10-01",
+    "to": "2041-11-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 320373.47815395036,
+    "balanceEnd": 322539.09248373634,
+    "contributions": 856.8820791304204,
+    "interest": 1308.7322506555226,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2041-10-01",
+        "amount": 856.8820791304204,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2041-11-01",
+    "to": "2041-12-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 322539.09248373634,
+    "balanceEnd": 324713.5297943695,
+    "contributions": 856.8820791304204,
+    "interest": 1317.5552315027135,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2041-11-01",
+        "amount": 856.8820791304204,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2041-12-01",
+    "to": "2042-01-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 324713.5297943695,
+    "balanceEnd": 326896.82603176596,
+    "contributions": 856.8820791304204,
+    "interest": 1326.4141582660163,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2041-12-01",
+        "amount": 856.8820791304204,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2042-01-01",
+    "to": "2042-02-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 326896.82603176596,
+    "balanceEnd": 329114.8284819736,
+    "contributions": 882.5885415043329,
+    "interest": 1335.4139087032943,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2042-01-01",
+        "amount": 882.5885415043329,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2042-02-01",
+    "to": "2042-03-01",
+    "days": 28,
+    "daysInMonth": 28,
+    "daysInYear": 365,
+    "balanceStart": 329114.8284819736,
+    "balanceEnd": 331341.86734871584,
+    "contributions": 882.5885415043329,
+    "interest": 1344.4503252378756,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2042-02-01",
+        "amount": 882.5885415043329,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2042-03-01",
+    "to": "2042-04-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 331341.86734871584,
+    "balanceEnd": 333577.97944747214,
+    "contributions": 882.5885415043329,
+    "interest": 1353.5235572519794,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2042-03-01",
+        "amount": 882.5885415043329,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2042-04-01",
+    "to": "2042-05-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 333577.97944747214,
+    "balanceEnd": 335823.20174371294,
+    "contributions": 882.5885415043329,
+    "interest": 1362.6337547364262,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2042-04-01",
+        "amount": 882.5885415043329,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2042-05-01",
+    "to": "2042-06-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 335823.20174371294,
+    "balanceEnd": 338077.57135351043,
+    "contributions": 882.5885415043329,
+    "interest": 1371.7810682931186,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2042-05-01",
+        "amount": 882.5885415043329,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2042-06-01",
+    "to": "2042-07-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 338077.57135351043,
+    "balanceEnd": 340341.1255441523,
+    "contributions": 882.5885415043329,
+    "interest": 1380.9656491375285,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2042-06-01",
+        "amount": 882.5885415043329,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2042-07-01",
+    "to": "2042-08-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 340341.1255441523,
+    "balanceEnd": 342613.9017347578,
+    "contributions": 882.5885415043329,
+    "interest": 1390.1876491011994,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2042-07-01",
+        "amount": 882.5885415043329,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2042-08-01",
+    "to": "2042-09-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 342613.9017347578,
+    "balanceEnd": 344895.9374968964,
+    "contributions": 882.5885415043329,
+    "interest": 1399.447220634255,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2042-08-01",
+        "amount": 882.5885415043329,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2042-09-01",
+    "to": "2042-10-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 344895.9374968964,
+    "balanceEnd": 347187.27055520867,
+    "contributions": 882.5885415043329,
+    "interest": 1408.74451680792,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2042-09-01",
+        "amount": 882.5885415043329,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2042-10-01",
+    "to": "2042-11-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 347187.27055520867,
+    "balanceEnd": 349487.93878803006,
+    "contributions": 882.5885415043329,
+    "interest": 1418.0796913170498,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2042-10-01",
+        "amount": 882.5885415043329,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2042-11-01",
+    "to": "2042-12-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 349487.93878803006,
+    "balanceEnd": 351797.9802280171,
+    "contributions": 882.5885415043329,
+    "interest": 1427.4528984826716,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2042-11-01",
+        "amount": 882.5885415043329,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2042-12-01",
+    "to": "2043-01-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 351797.9802280171,
+    "balanceEnd": 354117.433062776,
+    "contributions": 882.5885415043329,
+    "interest": 1436.864293254536,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2042-12-01",
+        "amount": 882.5885415043329,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2043-01-01",
+    "to": "2043-02-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 354117.433062776,
+    "balanceEnd": 356472.9211649882,
+    "contributions": 909.0661977494628,
+    "interest": 1446.4219044627214,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2043-01-01",
+        "amount": 909.0661977494628,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2043-02-01",
+    "to": "2043-03-01",
+    "days": 28,
+    "daysInMonth": 28,
+    "daysInYear": 365,
+    "balanceStart": 356472.9211649882,
+    "balanceEnd": 358838.0058172997,
+    "contributions": 909.0661977494628,
+    "interest": 1456.0184545620448,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2043-02-01",
+        "amount": 909.0661977494628,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2043-03-01",
+    "to": "2043-04-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 358838.0058172997,
+    "balanceEnd": 361212.7261172435,
+    "contributions": 909.0661977494628,
+    "interest": 1465.6541021943688,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2043-03-01",
+        "amount": 909.0661977494628,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2043-04-01",
+    "to": "2043-05-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 361212.7261172435,
+    "balanceEnd": 363597.12132164085,
+    "contributions": 909.0661977494628,
+    "interest": 1475.3290066478826,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2043-04-01",
+        "amount": 909.0661977494628,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2043-05-01",
+    "to": "2043-06-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 363597.12132164085,
+    "balanceEnd": 365991.23084725003,
+    "contributions": 909.0661977494628,
+    "interest": 1485.0433278597347,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2043-05-01",
+        "amount": 909.0661977494628,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2043-06-01",
+    "to": "2043-07-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 365991.23084725003,
+    "balanceEnd": 368395.0942714182,
+    "contributions": 909.0661977494628,
+    "interest": 1494.797226418678,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2043-06-01",
+        "amount": 909.0661977494628,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2043-07-01",
+    "to": "2043-08-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 368395.0942714182,
+    "balanceEnd": 370808.75133273535,
+    "contributions": 909.0661977494628,
+    "interest": 1504.590863567724,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2043-07-01",
+        "amount": 909.0661977494628,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2043-08-01",
+    "to": "2043-09-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 370808.75133273535,
+    "balanceEnd": 373232.2419316916,
+    "contributions": 909.0661977494628,
+    "interest": 1514.424401206807,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2043-08-01",
+        "amount": 909.0661977494628,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2043-09-01",
+    "to": "2043-10-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 373232.2419316916,
+    "balanceEnd": 375665.60613133654,
+    "contributions": 909.0661977494628,
+    "interest": 1524.298001895463,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2043-09-01",
+        "amount": 909.0661977494628,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2043-10-01",
+    "to": "2043-11-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 375665.60613133654,
+    "balanceEnd": 378108.8841579415,
+    "contributions": 909.0661977494628,
+    "interest": 1534.2118288555148,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2043-10-01",
+        "amount": 909.0661977494628,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2043-11-01",
+    "to": "2043-12-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 378108.8841579415,
+    "balanceEnd": 380562.11640166474,
+    "contributions": 909.0661977494628,
+    "interest": 1544.1660459737714,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2043-11-01",
+        "amount": 909.0661977494628,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2043-12-01",
+    "to": "2044-01-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 380562.11640166474,
+    "balanceEnd": 383025.34341721894,
+    "contributions": 909.0661977494628,
+    "interest": 1554.1608178047372,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2043-12-01",
+        "amount": 909.0661977494628,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2044-01-01",
+    "to": "2044-02-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 383025.34341721894,
+    "balanceEnd": 385525.98901992076,
+    "contributions": 936.3381836819467,
+    "interest": 1564.3074190198467,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2044-01-01",
+        "amount": 936.3381836819467,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2044-02-01",
+    "to": "2044-03-01",
+    "days": 29,
+    "daysInMonth": 29,
+    "daysInYear": 366,
+    "balanceStart": 385525.98901992076,
+    "balanceEnd": 388036.822562347,
+    "contributions": 936.3381836819467,
+    "interest": 1574.49535874429,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2044-02-01",
+        "amount": 936.3381836819467,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2044-03-01",
+    "to": "2044-04-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 388036.822562347,
+    "balanceEnd": 390557.8855514252,
+    "contributions": 936.3381836819467,
+    "interest": 1584.7248053962705,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2044-03-01",
+        "amount": 936.3381836819467,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2044-04-01",
+    "to": "2044-05-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 390557.8855514252,
+    "balanceEnd": 393089.21966318734,
+    "contributions": 936.3381836819467,
+    "interest": 1594.99592808015,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2044-04-01",
+        "amount": 936.3381836819467,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2044-05-01",
+    "to": "2044-06-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 393089.21966318734,
+    "balanceEnd": 395630.86674345855,
+    "contributions": 936.3381836819467,
+    "interest": 1605.3088965892402,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2044-05-01",
+        "amount": 936.3381836819467,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2044-06-01",
+    "to": "2044-07-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 395630.86674345855,
+    "balanceEnd": 398182.86880854913,
+    "contributions": 936.3381836819467,
+    "interest": 1615.6638814086136,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2044-06-01",
+        "amount": 936.3381836819467,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2044-07-01",
+    "to": "2044-08-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 398182.86880854913,
+    "balanceEnd": 400745.268045949,
+    "contributions": 936.3381836819467,
+    "interest": 1626.0610537179189,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2044-07-01",
+        "amount": 936.3381836819467,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2044-08-01",
+    "to": "2044-09-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 400745.268045949,
+    "balanceEnd": 403318.10681502515,
+    "contributions": 936.3381836819467,
+    "interest": 1636.500585394212,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2044-08-01",
+        "amount": 936.3381836819467,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2044-09-01",
+    "to": "2044-10-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 403318.10681502515,
+    "balanceEnd": 405901.4276477219,
+    "contributions": 936.3381836819467,
+    "interest": 1646.9826490147977,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2044-09-01",
+        "amount": 936.3381836819467,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2044-10-01",
+    "to": "2044-11-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 405901.4276477219,
+    "balanceEnd": 408495.27324926393,
+    "contributions": 936.3381836819467,
+    "interest": 1657.507417860082,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2044-10-01",
+        "amount": 936.3381836819467,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2044-11-01",
+    "to": "2044-12-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 408495.27324926393,
+    "balanceEnd": 411099.68649886234,
+    "contributions": 936.3381836819467,
+    "interest": 1668.075065916436,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2044-11-01",
+        "amount": 936.3381836819467,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2044-12-01",
+    "to": "2045-01-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 411099.68649886234,
+    "balanceEnd": 413714.71045042336,
+    "contributions": 936.3381836819467,
+    "interest": 1678.6857678790736,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2044-12-01",
+        "amount": 936.3381836819467,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2045-01-01",
+    "to": "2045-02-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 413714.71045042336,
+    "balanceEnd": 416368.5929215006,
+    "contributions": 964.4283291924052,
+    "interest": 1689.4541418848487,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2045-01-01",
+        "amount": 964.4283291924052,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2045-02-01",
+    "to": "2045-03-01",
+    "days": 28,
+    "daysInMonth": 28,
+    "daysInYear": 365,
+    "balanceStart": 416368.5929215006,
+    "balanceEnd": 419033.2876382723,
+    "contributions": 964.4283291924052,
+    "interest": 1700.266387579272,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2045-02-01",
+        "amount": 964.4283291924052,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2045-03-01",
+    "to": "2045-04-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 419033.2876382723,
+    "balanceEnd": 421708.8386511657,
+    "contributions": 964.4283291924052,
+    "interest": 1711.1226837010336,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2045-03-01",
+        "amount": 964.4283291924052,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2045-04-01",
+    "to": "2045-05-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 421708.8386511657,
+    "balanceEnd": 424395.2901900751,
+    "contributions": 964.4283291924052,
+    "interest": 1722.0232097170272,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2045-04-01",
+        "amount": 964.4283291924052,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2045-05-01",
+    "to": "2045-06-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 424395.2901900751,
+    "balanceEnd": 427092.6866650928,
+    "contributions": 964.4283291924052,
+    "interest": 1732.9681458253167,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2045-05-01",
+        "amount": 964.4283291924052,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2045-06-01",
+    "to": "2045-07-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 427092.6866650928,
+    "balanceEnd": 429801.0726672433,
+    "contributions": 964.4283291924052,
+    "interest": 1743.9576729581156,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2045-06-01",
+        "amount": 964.4283291924052,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2045-07-01",
+    "to": "2045-08-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 429801.0726672433,
+    "balanceEnd": 432520.4929692205,
+    "contributions": 964.4283291924052,
+    "interest": 1754.991972784777,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2045-07-01",
+        "amount": 964.4283291924052,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2045-08-01",
+    "to": "2045-09-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 432520.4929692205,
+    "balanceEnd": 435250.9925261277,
+    "contributions": 964.4283291924052,
+    "interest": 1766.0712277147986,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2045-08-01",
+        "amount": 964.4283291924052,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2045-09-01",
+    "to": "2045-10-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 435250.9925261277,
+    "balanceEnd": 437992.61647622095,
+    "contributions": 964.4283291924052,
+    "interest": 1777.1956209008356,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2045-09-01",
+        "amount": 964.4283291924052,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2045-10-01",
+    "to": "2045-11-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 437992.61647622095,
+    "balanceEnd": 440745.41014165507,
+    "contributions": 964.4283291924052,
+    "interest": 1788.3653362417303,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2045-10-01",
+        "amount": 964.4283291924052,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2045-11-01",
+    "to": "2045-12-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 440745.41014165507,
+    "balanceEnd": 443509.419029233,
+    "contributions": 964.4283291924052,
+    "interest": 1799.5805583855522,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2045-11-01",
+        "amount": 964.4283291924052,
+        "bucket": "start"
+      }
+    ]
+  },
+  {
+    "from": "2045-12-01",
+    "to": "2046-01-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 443509.419029233,
+    "balanceEnd": 446284.68883115804,
+    "contributions": 964.4283291924052,
+    "interest": 1810.8414727326488,
+    "annualRate": 0.05,
+    "deposits": [
+      {
+        "ruleId": "401k-salary",
+        "date": "2045-12-01",
+        "amount": 964.4283291924052,
+        "bucket": "start"
+      }
+    ]
+  }
+]

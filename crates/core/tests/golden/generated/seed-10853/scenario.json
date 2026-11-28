@@ -1,0 +1,98 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.0852,
+      "balance": 56022.97,
+      "balanceAsOf": "2001-06-27",
+      "contributions": [
+        {
+          "amount": 3963.99,
+          "growth": {
+            "amount": 7.25,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a1r1",
+          "startDate": "2001-07-02",
+          "timing": {
+            "day": 30,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0,
+          "id": "a1r2",
+          "salaryBasis": "weekly",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2001-07-03"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 4154.55,
+          "endDate": "2000-01-04",
+          "growth": {
+            "amount": 260.53,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a1r3",
+          "name": "Rule a1r3",
+          "startDate": "2000-01-04",
+          "timing": {
+            "day": 30,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 14.35,
+          "id": "a1r4",
+          "salaryBasis": "daily",
+          "startDate": "1993-08-04",
+          "timing": {
+            "day": 30,
+            "frequency": "annual",
+            "month": 4,
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 983.8,
+          "growth": {
+            "amount": 0.18,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a1g",
+          "startDate": "1911-11-16",
+          "timing": {
+            "day": 31,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": false,
+      "kind": "roth",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2001-07-03",
+  "interest": {
+    "annualRate": 0.0648,
+    "compounding": "daily",
+    "variance": 0.0521
+  },
+  "salary": {
+    "annualBase": 20204.55,
+    "annualRaiseRate": 0,
+    "asOf": "2000-08-29"
+  },
+  "version": 1
+}

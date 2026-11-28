@@ -1,0 +1,28 @@
+[
+  {
+    "from": "2040-02-29",
+    "to": "2040-03-01",
+    "days": 1,
+    "daysInMonth": 29,
+    "daysInYear": 366,
+    "balanceStart": 240913.6,
+    "balanceEnd": 240962.1877772084,
+    "contributions": 0.0,
+    "interest": 48.587777208403644,
+    "annualRate": 0.0766,
+    "deposits": []
+  },
+  {
+    "from": "2040-03-01",
+    "to": "2040-03-05",
+    "days": 4,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 240962.1877772084,
+    "balanceEnd": 241156.63689828647,
+    "contributions": 0.0,
+    "interest": 194.4491210780766,
+    "annualRate": 0.0766,
+    "deposits": []
+  }
+]

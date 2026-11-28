@@ -1,0 +1,77 @@
+{
+  "accounts": [
+    {
+      "balance": 0.53,
+      "balanceAsOf": "2007-05-01",
+      "contributions": [
+        {
+          "amount": 1304.34,
+          "id": "a1r1",
+          "timing": {
+            "day": 29,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0.96,
+          "endDate": "2010-08-05",
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "salaryBasis": "perContribution",
+          "startDate": "2000-08-28",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 3138.75,
+          "enabled": true,
+          "id": "a1r3",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2004-05-15"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0,
+          "id": "a1r4",
+          "startDate": "2007-09-19",
+          "timing": {
+            "day": 30,
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 3213.5,
+          "id": "a1r5",
+          "name": "Rule a1r5",
+          "startDate": "2006-09-29",
+          "timing": {
+            "frequency": "annual",
+            "month": 5,
+            "placement": "end"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2007-05-16",
+  "interest": {
+    "annualRate": 0.1134,
+    "variance": 0
+  },
+  "salary": {
+    "annualBase": 0,
+    "asOf": "1999-03-31"
+  },
+  "version": 1
+}

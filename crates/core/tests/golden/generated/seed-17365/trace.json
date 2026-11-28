@@ -1,0 +1,22 @@
+[
+  {
+    "from": "2052-11-01",
+    "to": "2052-11-02",
+    "days": 1,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 72742.15,
+    "balanceEnd": 73500.45870984436,
+    "contributions": 752.8218251371491,
+    "interest": 5.486884707216489,
+    "annualRate": 0.0277,
+    "deposits": [
+      {
+        "ruleId": "a1r5",
+        "date": "2052-11-01",
+        "amount": 752.8218251371491,
+        "bucket": "start"
+      }
+    ]
+  }
+]

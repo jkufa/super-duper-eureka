@@ -1,0 +1,722 @@
+[
+  {
+    "from": "2026-02-01",
+    "to": "2026-03-01",
+    "days": 28,
+    "daysInMonth": 28,
+    "daysInYear": 365,
+    "balanceStart": 20000.0,
+    "balanceEnd": 20260.565956832597,
+    "contributions": 200.0,
+    "interest": 60.56595683259301,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2026-02-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2026-03-01",
+    "to": "2026-04-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 20260.565956832597,
+    "balanceEnd": 20528.533615365373,
+    "contributions": 200.0,
+    "interest": 67.96765853277444,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2026-03-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2026-04-01",
+    "to": "2026-05-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 20528.533615365373,
+    "balanceEnd": 20795.16073897403,
+    "contributions": 200.0,
+    "interest": 66.6271236086532,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2026-04-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2026-05-01",
+    "to": "2026-06-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 20795.16073897403,
+    "balanceEnd": 21064.912141672077,
+    "contributions": 200.0,
+    "interest": 69.7514026980401,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2026-05-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2026-06-01",
+    "to": "2026-07-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 21064.912141672077,
+    "balanceEnd": 21333.271135911586,
+    "contributions": 200.0,
+    "interest": 68.35899423950622,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2026-06-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2026-07-01",
+    "to": "2026-08-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 21333.271135911586,
+    "balanceEnd": 21604.818013075277,
+    "contributions": 200.0,
+    "interest": 71.54687716369281,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2026-07-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2026-08-01",
+    "to": "2026-09-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 21604.818013075277,
+    "balanceEnd": 21877.270941277846,
+    "contributions": 200.0,
+    "interest": 72.45292820256863,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2026-08-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2026-09-01",
+    "to": "2026-10-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 21877.270941277846,
+    "balanceEnd": 22148.252897246337,
+    "contributions": 200.0,
+    "interest": 70.9819559684919,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2026-09-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2026-10-01",
+    "to": "2026-11-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 22148.252897246337,
+    "balanceEnd": 22422.519065750206,
+    "contributions": 200.0,
+    "interest": 74.26616850386563,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2026-10-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2026-11-01",
+    "to": "2026-12-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 22422.519065750206,
+    "balanceEnd": 22695.261530700674,
+    "contributions": 200.0,
+    "interest": 72.74246495046673,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2026-11-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2026-12-01",
+    "to": "2027-01-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 22695.261530700674,
+    "balanceEnd": 22971.352863779408,
+    "contributions": 200.0,
+    "interest": 76.09133307873411,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2026-12-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2027-01-01",
+    "to": "2027-02-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 22971.352863779408,
+    "balanceEnd": 23248.36541105796,
+    "contributions": 200.0,
+    "interest": 77.0125472785564,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2027-01-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2027-02-01",
+    "to": "2027-03-01",
+    "days": 28,
+    "daysInMonth": 28,
+    "daysInYear": 365,
+    "balanceStart": 23248.36541105796,
+    "balanceEnd": 23518.719482094686,
+    "contributions": 200.0,
+    "interest": 70.35407103672046,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2027-02-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2027-03-01",
+    "to": "2027-04-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 23518.719482094686,
+    "balanceEnd": 23797.558388410587,
+    "contributions": 200.0,
+    "interest": 78.8389063159006,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2027-03-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2027-04-01",
+    "to": "2027-05-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 23797.558388410587,
+    "balanceEnd": 24074.740610179022,
+    "contributions": 200.0,
+    "interest": 77.18222176843787,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2027-04-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2027-05-01",
+    "to": "2027-06-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 24074.740610179022,
+    "balanceEnd": 24355.434752415887,
+    "contributions": 200.0,
+    "interest": 80.69414223685737,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2027-05-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2027-06-01",
+    "to": "2027-07-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 24355.434752415887,
+    "balanceEnd": 24634.41825750027,
+    "contributions": 200.0,
+    "interest": 78.98350508438365,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2027-06-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2027-07-01",
+    "to": "2027-08-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 24634.41825750027,
+    "balanceEnd": 24916.979836104238,
+    "contributions": 200.0,
+    "interest": 82.56157860396868,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2027-07-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2027-08-01",
+    "to": "2027-09-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 24916.979836104238,
+    "balanceEnd": 25200.484217713405,
+    "contributions": 200.0,
+    "interest": 83.504381609161,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2027-08-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2027-09-01",
+    "to": "2027-10-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 25200.484217713405,
+    "balanceEnd": 25482.196236857893,
+    "contributions": 200.0,
+    "interest": 81.71201914448969,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2027-09-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2027-10-01",
+    "to": "2027-11-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 25482.196236857893,
+    "balanceEnd": 25767.586535596514,
+    "contributions": 200.0,
+    "interest": 85.39029873861405,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2027-10-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2027-11-01",
+    "to": "2027-12-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 25767.586535596514,
+    "balanceEnd": 26051.12962701713,
+    "contributions": 200.0,
+    "interest": 83.54309142061736,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2027-11-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2027-12-01",
+    "to": "2028-01-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 26051.12962701713,
+    "balanceEnd": 26338.418245097837,
+    "contributions": 200.0,
+    "interest": 87.28861808070755,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2027-12-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2028-01-01",
+    "to": "2028-02-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 26338.418245097837,
+    "balanceEnd": 26626.423926051997,
+    "contributions": 200.0,
+    "interest": 88.00568095416433,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2028-01-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2028-02-01",
+    "to": "2028-03-01",
+    "days": 29,
+    "daysInMonth": 29,
+    "daysInYear": 366,
+    "balanceStart": 26626.423926051997,
+    "balanceEnd": 26909.620034643034,
+    "contributions": 200.0,
+    "interest": 83.19610859104384,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2028-02-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2028-03-01",
+    "to": "2028-04-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 26909.620034643034,
+    "balanceEnd": 27199.526387746464,
+    "contributions": 200.0,
+    "interest": 89.90635310343767,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2028-03-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2028-04-01",
+    "to": "2028-05-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 27199.526387746464,
+    "balanceEnd": 27487.451678669746,
+    "contributions": 200.0,
+    "interest": 87.92529092328571,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2028-04-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2028-05-01",
+    "to": "2028-06-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 27487.451678669746,
+    "balanceEnd": 27779.28076474228,
+    "contributions": 200.0,
+    "interest": 91.82908607254285,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2028-05-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2028-06-01",
+    "to": "2028-07-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 27779.28076474228,
+    "balanceEnd": 28069.072856414165,
+    "contributions": 200.0,
+    "interest": 89.79209167188033,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2028-06-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2028-07-01",
+    "to": "2028-08-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 28069.072856414165,
+    "balanceEnd": 28362.837285117268,
+    "contributions": 200.0,
+    "interest": 93.76442870311585,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2028-07-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2028-08-01",
+    "to": "2028-09-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 28362.837285117268,
+    "balanceEnd": 28657.579214028374,
+    "contributions": 200.0,
+    "interest": 94.74192891110326,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2028-08-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2028-09-01",
+    "to": "2028-10-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 28657.579214028374,
+    "balanceEnd": 28950.1994140642,
+    "contributions": 200.0,
+    "interest": 92.62020003582732,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2028-09-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2028-10-01",
+    "to": "2028-11-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 28950.1994140642,
+    "balanceEnd": 29246.89578860286,
+    "contributions": 200.0,
+    "interest": 96.69637453865674,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2028-10-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2028-11-01",
+    "to": "2028-12-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 29246.89578860286,
+    "balanceEnd": 29541.413579525844,
+    "contributions": 200.0,
+    "interest": 94.51779092298123,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2028-11-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2028-12-01",
+    "to": "2029-01-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 29541.413579525844,
+    "balanceEnd": 29840.07721733138,
+    "contributions": 200.0,
+    "interest": 98.66363780553758,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2028-12-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  },
+  {
+    "from": "2029-01-01",
+    "to": "2029-02-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 29840.07721733138,
+    "balanceEnd": 30140.008145779673,
+    "contributions": 200.0,
+    "interest": 99.93092844828652,
+    "annualRate": 0.04,
+    "deposits": [
+      {
+        "ruleId": "auto-invest",
+        "date": "2029-01-15",
+        "amount": 200.0,
+        "bucket": 15
+      }
+    ]
+  }
+]

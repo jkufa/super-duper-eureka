@@ -1,0 +1,22 @@
+[
+  {
+    "from": "2054-10-03",
+    "to": "2054-10-09",
+    "days": 6,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 0.0,
+    "balanceEnd": 1106.9956097169127,
+    "contributions": 1105.84,
+    "interest": 1.1556097169129158,
+    "annualRate": 0.0656,
+    "deposits": [
+      {
+        "ruleId": "a1r3",
+        "date": "2054-10-03",
+        "amount": 1105.84,
+        "bucket": 3
+      }
+    ]
+  }
+]

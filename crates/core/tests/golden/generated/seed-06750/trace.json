@@ -1,0 +1,15 @@
+[
+  {
+    "from": "2040-09-26",
+    "to": "2040-09-29",
+    "days": 3,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 123476.28,
+    "balanceEnd": 123570.01501080355,
+    "contributions": 0.0,
+    "interest": 93.73501080355675,
+    "annualRate": 0.097,
+    "deposits": []
+  }
+]

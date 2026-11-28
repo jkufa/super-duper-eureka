@@ -1,0 +1,60 @@
+[
+  {
+    "from": "2012-02-29",
+    "to": "2012-03-01",
+    "days": 1,
+    "daysInMonth": 29,
+    "daysInYear": 366,
+    "balanceStart": 49951.98,
+    "balanceEnd": 50912.259201346875,
+    "contributions": 940.29,
+    "interest": 19.989201346869258,
+    "annualRate": 0.1485,
+    "deposits": [
+      {
+        "ruleId": "a1r1",
+        "date": "2012-02-29",
+        "amount": 940.29,
+        "bucket": "end"
+      }
+    ]
+  },
+  {
+    "from": "2012-03-01",
+    "to": "2012-03-07",
+    "days": 6,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 50912.259201346875,
+    "balanceEnd": 55602.287961385446,
+    "contributions": 4565.420000000001,
+    "interest": 124.6087600385716,
+    "annualRate": 0.1485,
+    "deposits": [
+      {
+        "ruleId": "a1r2",
+        "date": "2012-03-04",
+        "amount": 4564.42,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "a1s1",
+        "date": "2012-03-01",
+        "amount": 0.3,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "a1s2",
+        "date": "2012-03-01",
+        "amount": 0.6,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "a1s3",
+        "date": "2012-03-01",
+        "amount": 0.1,
+        "bucket": "start"
+      }
+    ]
+  }
+]

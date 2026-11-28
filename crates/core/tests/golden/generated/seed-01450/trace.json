@@ -1,0 +1,93 @@
+[
+  {
+    "from": "2038-11-18",
+    "to": "2038-11-19",
+    "days": 1,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 702024039598.88,
+    "balanceEnd": 702075670220.7236,
+    "contributions": 0.0,
+    "interest": 51630621.84364172,
+    "annualRate": 0.0268,
+    "deposits": []
+  },
+  {
+    "from": "2038-11-19",
+    "to": "2038-12-01",
+    "days": 12,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 702075670220.7236,
+    "balanceEnd": 702695283249.1692,
+    "contributions": 0.0,
+    "interest": 619613028.4455631,
+    "annualRate": 0.0268,
+    "deposits": []
+  },
+  {
+    "from": "2038-12-01",
+    "to": "2039-01-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 702695283249.1692,
+    "balanceEnd": 704245682910.4747,
+    "contributions": 0.0,
+    "interest": 1550399661.305549,
+    "annualRate": 0.0268,
+    "deposits": []
+  },
+  {
+    "from": "2039-01-01",
+    "to": "2039-02-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 704245682910.4747,
+    "balanceEnd": 705799503313.5542,
+    "contributions": 0.0,
+    "interest": 1553820403.0795107,
+    "annualRate": 0.0268,
+    "deposits": []
+  },
+  {
+    "from": "2039-02-01",
+    "to": "2039-03-01",
+    "days": 28,
+    "daysInMonth": 28,
+    "daysInYear": 365,
+    "balanceStart": 705799503313.5542,
+    "balanceEnd": 707356752005.7998,
+    "contributions": 0.0,
+    "interest": 1557248692.2456553,
+    "annualRate": 0.0268,
+    "deposits": []
+  },
+  {
+    "from": "2039-03-01",
+    "to": "2039-04-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 707356752005.7998,
+    "balanceEnd": 708917436551.2561,
+    "contributions": 0.0,
+    "interest": 1560684545.4562566,
+    "annualRate": 0.0268,
+    "deposits": []
+  },
+  {
+    "from": "2039-04-01",
+    "to": "2039-04-17",
+    "days": 16,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 708917436551.2561,
+    "balanceEnd": 709751638140.2697,
+    "contributions": 0.0,
+    "interest": 834201589.0135092,
+    "annualRate": 0.0268,
+    "deposits": []
+  }
+]

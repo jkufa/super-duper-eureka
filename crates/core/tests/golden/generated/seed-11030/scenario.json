@@ -1,0 +1,208 @@
+{
+  "accounts": [
+    {
+      "balance": 0,
+      "balanceAsOf": "2016-02-29",
+      "contributions": [],
+      "id": "a1",
+      "included": true,
+      "kind": "other",
+      "name": "Account 1"
+    },
+    {
+      "annualRate": 0.0797,
+      "balance": 126035.76,
+      "balanceAsOf": "2008-09-08",
+      "contributions": [
+        {
+          "amount": 106.02,
+          "id": "a2r1",
+          "name": "Rule a2r1",
+          "timing": {
+            "day": 1,
+            "frequency": "annual",
+            "month": 4
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1243.23,
+          "enabled": false,
+          "id": "a2r2",
+          "name": "Rule a2r2",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a2",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 2"
+    },
+    {
+      "annualRate": 0.002,
+      "balance": 477718.67,
+      "balanceAsOf": "2015-12-18",
+      "contributions": [
+        {
+          "amount": 671.87,
+          "endDate": "2008-05-16",
+          "id": "a3r1",
+          "name": "Rule a3r1",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2602.85,
+          "endDate": "2016-11-10",
+          "growth": {
+            "amount": 3.75,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a3r2",
+          "startDate": "2016-11-10",
+          "timing": {
+            "day": 29,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2228.62,
+          "endDate": "2024-01-16",
+          "growth": {
+            "amount": 6.23,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a3r3",
+          "startDate": "2016-06-09",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 911.25,
+          "growth": {
+            "amount": 0.02,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a3g",
+          "startDate": "1929-03-13",
+          "timing": {
+            "day": 31,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a3",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 3"
+    },
+    {
+      "annualRate": 0.0539,
+      "balance": 122494.89,
+      "balanceAsOf": "2016-02-29",
+      "contributions": [],
+      "id": "a4",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 4"
+    },
+    {
+      "annualRate": 0.1392,
+      "balance": 199514.86,
+      "balanceAsOf": "2013-07-21",
+      "contributions": [
+        {
+          "amount": 0,
+          "endDate": "2018-12-21",
+          "id": "a5r1",
+          "name": "Rule a5r1",
+          "salaryBasis": "weekly",
+          "startDate": "2009-08-02",
+          "timing": {
+            "day": 13,
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 1587.03,
+          "id": "a5r2",
+          "name": "Rule a5r2",
+          "timing": {
+            "day": 1,
+            "frequency": "annual",
+            "month": 7,
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2390.41,
+          "growth": {
+            "amount": 2.5,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a5r3",
+          "name": "Rule a5r3",
+          "startDate": "2013-04-10",
+          "timing": {
+            "day": 25,
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 752.16,
+          "enabled": false,
+          "id": "a5r4",
+          "name": "Rule a5r4",
+          "timing": {
+            "frequency": "annual",
+            "month": 7,
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2293.53,
+          "enabled": true,
+          "id": "a5r5",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a5",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 5"
+    }
+  ],
+  "endDate": "2016-03-01",
+  "interest": {
+    "annualRate": 0.0539,
+    "compounding": "daily"
+  },
+  "salary": {
+    "annualBase": 42441.96,
+    "annualRaiseRate": 0,
+    "asOf": "2016-02-29"
+  },
+  "version": 1
+}

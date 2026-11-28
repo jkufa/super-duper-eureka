@@ -1,0 +1,7 @@
+{
+  "error": {
+    "code": "rule_end_before_start",
+    "accountId": "a1",
+    "ruleId": "a1x"
+  }
+}

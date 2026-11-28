@@ -1,0 +1,34 @@
+[
+  {
+    "from": "1995-02-01",
+    "to": "1995-02-21",
+    "days": 20,
+    "daysInMonth": 28,
+    "daysInYear": 365,
+    "balanceStart": 23754.47,
+    "balanceEnd": 23934.849074063066,
+    "contributions": 0.9999999999999999,
+    "interest": 179.37907406306638,
+    "annualRate": 0.1345,
+    "deposits": [
+      {
+        "ruleId": "a1s1",
+        "date": "1995-02-01",
+        "amount": 0.7,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "a1s2",
+        "date": "1995-02-01",
+        "amount": 0.2,
+        "bucket": "start"
+      },
+      {
+        "ruleId": "a1s3",
+        "date": "1995-02-01",
+        "amount": 0.1,
+        "bucket": "start"
+      }
+    ]
+  }
+]

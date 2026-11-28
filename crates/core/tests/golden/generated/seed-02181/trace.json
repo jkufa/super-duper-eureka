@@ -1,0 +1,15 @@
+[
+  {
+    "from": "2019-05-01",
+    "to": "2019-05-08",
+    "days": 7,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 0.65,
+    "balanceEnd": 0.6496716854428518,
+    "contributions": 0.0,
+    "interest": -0.0003283145571482403,
+    "annualRate": -0.026,
+    "deposits": []
+  }
+]

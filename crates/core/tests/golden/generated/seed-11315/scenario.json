@@ -1,0 +1,70 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.0355,
+      "balance": 33361.83,
+      "balanceAsOf": "1996-12-01",
+      "contributions": [
+        {
+          "amount": 994.4,
+          "enabled": true,
+          "endDate": "1997-08-07",
+          "growth": {
+            "amount": 2.26,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "startDate": "1997-08-07",
+          "timing": {
+            "day": 29,
+            "frequency": "annual",
+            "month": 2,
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0,
+          "id": "a1r2",
+          "salaryBasis": "monthly",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "1996-12-04"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 7.53,
+          "endDate": "1996-02-21",
+          "id": "a1r3",
+          "name": "Rule a1r3",
+          "salaryBasis": "daily",
+          "timing": {
+            "day": 29,
+            "frequency": "annual",
+            "month": 6
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "1996-12-08",
+  "interest": {
+    "annualRate": 0.0969,
+    "compounding": "daily",
+    "variance": 0.045
+  },
+  "salary": {
+    "annualBase": 75970.96,
+    "annualRaiseRate": 0,
+    "asOf": "1994-08-06"
+  },
+  "version": 1
+}

@@ -1,0 +1,90 @@
+{
+  "accounts": [
+    {
+      "balance": 464554.24,
+      "balanceAsOf": "2050-06-01",
+      "contributions": [
+        {
+          "amount": 3803.93,
+          "growth": {
+            "amount": 78.18,
+            "cadence": "monthly",
+            "type": "flat"
+          },
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "startDate": "2042-05-29",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 4899.09,
+          "growth": {
+            "amount": 5.86,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "startDate": "2048-08-17",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1076.51,
+          "id": "a1r3",
+          "name": "Rule a1r3",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2050-06-05"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 15.92,
+          "endDate": "2043-11-13",
+          "id": "a1r4",
+          "salaryBasis": "monthly",
+          "timing": {
+            "frequency": "annual",
+            "month": 4
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 18.02,
+          "id": "a1r5",
+          "name": "Rule a1r5",
+          "salaryBasis": "daily",
+          "startDate": "2044-03-04",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2050-06-06",
+  "interest": {
+    "annualRate": 0.1074,
+    "compounding": "monthly",
+    "variance": 0.0055
+  },
+  "salary": {
+    "annualBase": 205038.85,
+    "annualRaiseRate": 0.0371,
+    "asOf": "2050-06-01"
+  },
+  "version": 1
+}

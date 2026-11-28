@@ -1,0 +1,40 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.0297,
+      "balance": 0,
+      "balanceAsOf": "2052-08-25",
+      "contributions": [
+        {
+          "amount": 2164.26,
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "salaryBasis": "biweekly",
+          "timing": {
+            "day": 1,
+            "frequency": "annual",
+            "month": 6,
+            "placement": "end"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "other",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "0000-02-12",
+  "interest": {
+    "annualRate": 0.0297,
+    "compounding": "daily",
+    "variance": 0
+  },
+  "salary": {
+    "annualBase": 13410.45,
+    "annualRaiseRate": -0.2832,
+    "asOf": "2054-06-01"
+  },
+  "version": 1
+}

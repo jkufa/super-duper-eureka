@@ -1,0 +1,41 @@
+[
+  {
+    "from": "2007-09-26",
+    "to": "2007-10-01",
+    "days": 5,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 41287758500.08,
+    "balanceEnd": 41305733423.03023,
+    "contributions": 0.0,
+    "interest": 17974922.95022945,
+    "annualRate": 0.0318,
+    "deposits": []
+  },
+  {
+    "from": "2007-10-01",
+    "to": "2007-10-12",
+    "days": 11,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 41305733423.03023,
+    "balanceEnd": 41344019274.59525,
+    "contributions": 0.0,
+    "interest": 38285851.5650287,
+    "annualRate": 0.0318,
+    "deposits": []
+  },
+  {
+    "from": "2007-10-12",
+    "to": "2007-10-27",
+    "days": 15,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 41344019274.59525,
+    "balanceEnd": 41396275645.03126,
+    "contributions": 0.0,
+    "interest": 52256370.43600597,
+    "annualRate": 0.0318,
+    "deposits": []
+  }
+]

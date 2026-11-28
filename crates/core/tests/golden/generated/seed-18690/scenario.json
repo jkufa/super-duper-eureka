@@ -1,0 +1,179 @@
+{
+  "accounts": [
+    {
+      "balance": 0,
+      "balanceAsOf": "2001-09-01",
+      "contributions": [
+        {
+          "amount": 0,
+          "id": "a1r1",
+          "startDate": "2001-09-29",
+          "timing": {
+            "frequency": "annual",
+            "month": 7,
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0,
+          "enabled": true,
+          "id": "a1r2",
+          "timing": {
+            "frequency": "annual",
+            "month": 5,
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0,
+          "id": "a1r3",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2001-09-03"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": false,
+      "kind": "other",
+      "name": "Account 1"
+    },
+    {
+      "balance": 597048141400.33,
+      "balanceAsOf": "2001-09-01",
+      "contributions": [
+        {
+          "amount": 4083.1,
+          "id": "a2r1",
+          "name": "Rule a2r1",
+          "startDate": "2001-09-01",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1081.89,
+          "id": "a2r2",
+          "timing": {
+            "day": 8,
+            "frequency": "annual",
+            "month": 2,
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 4406.42,
+          "enabled": true,
+          "id": "a2r3",
+          "name": "Rule a2r3",
+          "startDate": "2000-09-01",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 817.64,
+          "endDate": "2002-01-30",
+          "id": "a2r4",
+          "timing": {
+            "day": 27,
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 10000000000000000,
+          "id": "a2s1",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1,
+          "id": "a2s2",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1,
+          "id": "a2s3",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a2",
+      "included": true,
+      "kind": "other",
+      "name": "Account 2"
+    },
+    {
+      "annualRate": -0.0234,
+      "balance": 0,
+      "balanceAsOf": "2001-08-17",
+      "contributions": [
+        {
+          "amount": 13.9,
+          "enabled": false,
+          "endDate": "2000-05-18",
+          "id": "a3r1",
+          "salaryBasis": "annual",
+          "timing": {
+            "day": 31,
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 3981.02,
+          "id": "a3r2",
+          "startDate": "1997-03-30",
+          "timing": {
+            "day": 24,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 3217.93,
+          "id": "a3r3",
+          "timing": {
+            "day": 29,
+            "frequency": "annual",
+            "month": 2
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a3",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 3"
+    }
+  ],
+  "endDate": "2001-09-06",
+  "interest": {
+    "annualRate": 0.0956,
+    "variance": 0.0202
+  },
+  "salary": {
+    "annualBase": 275521.97,
+    "annualRaiseRate": 0.0486,
+    "asOf": "2005-04-01"
+  },
+  "version": 1
+}

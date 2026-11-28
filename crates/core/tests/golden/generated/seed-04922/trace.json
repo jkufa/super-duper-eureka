@@ -1,0 +1,42 @@
+[
+  {
+    "from": "2024-02-03",
+    "to": "2024-02-29",
+    "days": 26,
+    "daysInMonth": 29,
+    "daysInYear": 366,
+    "balanceStart": 96962.4,
+    "balanceEnd": 99777.41201857348,
+    "contributions": 2672.86,
+    "interest": 142.15201857349038,
+    "annualRate": 0.0198,
+    "deposits": [
+      {
+        "ruleId": "a1r5",
+        "date": "2024-02-16",
+        "amount": 2672.86,
+        "bucket": "end"
+      }
+    ]
+  },
+  {
+    "from": "2024-02-29",
+    "to": "2024-03-01",
+    "days": 1,
+    "daysInMonth": 29,
+    "daysInYear": 366,
+    "balanceStart": 99777.41201857348,
+    "balanceEnd": 101446.38095174328,
+    "contributions": 1663.342818730481,
+    "interest": 5.626114439315993,
+    "annualRate": 0.0198,
+    "deposits": [
+      {
+        "ruleId": "a1r1",
+        "date": "2024-02-29",
+        "amount": 1663.342818730481,
+        "bucket": "end"
+      }
+    ]
+  }
+]

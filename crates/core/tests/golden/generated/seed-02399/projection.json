@@ -1,0 +1,681 @@
+{
+  "today": "2002-01-06",
+  "endDate": "2002-01-07",
+  "effectiveRate": 0.08172304249038154,
+  "staleAccounts": [
+    {
+      "accountId": "a4",
+      "balanceAsOf": "2000-02-29"
+    },
+    {
+      "accountId": "a5",
+      "balanceAsOf": "2001-12-12"
+    }
+  ],
+  "salaryByYear": [
+    {
+      "year": 2002,
+      "salary": 251049.69
+    }
+  ],
+  "bands": {
+    "baseline": {
+      "total": {
+        "startBalance": 324314.1900277388,
+        "finalBalance": 324382.90005418006,
+        "totalContributions": 0.0,
+        "totalInterest": 68.71002644122703,
+        "monthly": [
+          {
+            "year": 2002,
+            "month": 1,
+            "balance": 324382.90005418006,
+            "contributions": 0.0,
+            "interest": 68.71002644122703
+          }
+        ],
+        "yearly": [
+          {
+            "year": 2002,
+            "balance": 324382.90005418006,
+            "contributions": 0.0,
+            "interest": 68.71002644122703,
+            "weightedRate": 0.08231425217818056
+          }
+        ]
+      },
+      "accounts": [
+        {
+          "accountId": "a1",
+          "included": true,
+          "annualRate": 0.0387,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 136234.43,
+            "finalBalance": 136248.35743114087,
+            "totalContributions": 0.0,
+            "totalInterest": 13.927431140868766,
+            "monthly": [
+              {
+                "year": 2002,
+                "month": 1,
+                "balance": 136248.35743114087,
+                "contributions": 0.0,
+                "interest": 13.927431140868766
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2002,
+                "balance": 136248.35743114087,
+                "contributions": 0.0,
+                "interest": 13.927431140868766
+              }
+            ]
+          }
+        },
+        {
+          "accountId": "a2",
+          "included": false,
+          "annualRate": 0.0715,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 69548.19,
+            "finalBalance": 69561.13842128361,
+            "totalContributions": 0.0,
+            "totalInterest": 12.948421283613106,
+            "monthly": [
+              {
+                "year": 2002,
+                "month": 1,
+                "balance": 69561.13842128361,
+                "contributions": 0.0,
+                "interest": 12.948421283613106
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2002,
+                "balance": 69561.13842128361,
+                "contributions": 0.0,
+                "interest": 12.948421283613106
+              }
+            ]
+          }
+        },
+        {
+          "accountId": "a3",
+          "included": false,
+          "annualRate": 0.1139,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 0.0,
+            "finalBalance": 0.0,
+            "totalContributions": 0.0,
+            "totalInterest": 0.0,
+            "monthly": [
+              {
+                "year": 2002,
+                "month": 1,
+                "balance": 0.0,
+                "contributions": 0.0,
+                "interest": 0.0
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2002,
+                "balance": 0.0,
+                "contributions": 0.0,
+                "interest": 0.0
+              }
+            ]
+          }
+        },
+        {
+          "accountId": "a4",
+          "included": true,
+          "annualRate": 0.1139,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.024290294219013332
+          },
+          "series": {
+            "startBalance": 0.13429029421901328,
+            "finalBalance": 0.13432940938398308,
+            "totalContributions": 0.0,
+            "totalInterest": 0.000039115164969804494,
+            "monthly": [
+              {
+                "year": 2002,
+                "month": 1,
+                "balance": 0.13432940938398308,
+                "contributions": 0.0,
+                "interest": 0.000039115164969804494
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2002,
+                "balance": 0.13432940938398308,
+                "contributions": 0.0,
+                "interest": 0.000039115164969804494
+              }
+            ]
+          }
+        },
+        {
+          "accountId": "a5",
+          "included": true,
+          "annualRate": 0.1139,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 1361.2357374446105
+          },
+          "series": {
+            "startBalance": 188079.6257374446,
+            "finalBalance": 188134.40829362982,
+            "totalContributions": 0.0,
+            "totalInterest": 54.782556185193286,
+            "monthly": [
+              {
+                "year": 2002,
+                "month": 1,
+                "balance": 188134.40829362982,
+                "contributions": 0.0,
+                "interest": 54.782556185193286
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2002,
+                "balance": 188134.40829362982,
+                "contributions": 0.0,
+                "interest": 54.782556185193286
+              }
+            ]
+          }
+        },
+        {
+          "accountId": "a6",
+          "included": false,
+          "annualRate": 0.1139,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 346673.49,
+            "finalBalance": 346774.46669999807,
+            "totalContributions": 0.0,
+            "totalInterest": 100.97669999808495,
+            "monthly": [
+              {
+                "year": 2002,
+                "month": 1,
+                "balance": 346774.46669999807,
+                "contributions": 0.0,
+                "interest": 100.97669999808495
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2002,
+                "balance": 346774.46669999807,
+                "contributions": 0.0,
+                "interest": 100.97669999808495
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "positive": {
+      "total": {
+        "startBalance": 324356.2838317719,
+        "finalBalance": 324428.005026248,
+        "totalContributions": 0.0,
+        "totalInterest": 71.72119447608128,
+        "monthly": [
+          {
+            "year": 2002,
+            "month": 1,
+            "balance": 324428.005026248,
+            "contributions": 0.0,
+            "interest": 71.72119447608128
+          }
+        ],
+        "yearly": [
+          {
+            "year": 2002,
+            "balance": 324428.005026248,
+            "contributions": 0.0,
+            "interest": 71.72119447608128
+          }
+        ]
+      },
+      "accounts": [
+        {
+          "accountId": "a1",
+          "included": true,
+          "annualRate": 0.0424,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 136234.43,
+            "finalBalance": 136249.6639680747,
+            "totalContributions": 0.0,
+            "totalInterest": 15.233968074702286,
+            "monthly": [
+              {
+                "year": 2002,
+                "month": 1,
+                "balance": 136249.6639680747,
+                "contributions": 0.0,
+                "interest": 15.233968074702286
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2002,
+                "balance": 136249.6639680747,
+                "contributions": 0.0,
+                "interest": 15.233968074702286
+              }
+            ]
+          }
+        },
+        {
+          "accountId": "a2",
+          "included": false,
+          "annualRate": 0.07519999999999999,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 69548.19,
+            "finalBalance": 69561.78670544812,
+            "totalContributions": 0.0,
+            "totalInterest": 13.596705448110455,
+            "monthly": [
+              {
+                "year": 2002,
+                "month": 1,
+                "balance": 69561.78670544812,
+                "contributions": 0.0,
+                "interest": 13.596705448110455
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2002,
+                "balance": 69561.78670544812,
+                "contributions": 0.0,
+                "interest": 13.596705448110455
+              }
+            ]
+          }
+        },
+        {
+          "accountId": "a3",
+          "included": false,
+          "annualRate": 0.1176,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 0.0,
+            "finalBalance": 0.0,
+            "totalContributions": 0.0,
+            "totalInterest": 0.0,
+            "monthly": [
+              {
+                "year": 2002,
+                "month": 1,
+                "balance": 0.0,
+                "contributions": 0.0,
+                "interest": 0.0
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2002,
+                "balance": 0.0,
+                "contributions": 0.0,
+                "interest": 0.0
+              }
+            ]
+          }
+        },
+        {
+          "accountId": "a4",
+          "included": true,
+          "annualRate": 0.1176,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.025116582855245408
+          },
+          "series": {
+            "startBalance": 0.1351165828552454,
+            "finalBalance": 0.13515715422348817,
+            "totalContributions": 0.0,
+            "totalInterest": 0.00004057136824278891,
+            "monthly": [
+              {
+                "year": 2002,
+                "month": 1,
+                "balance": 0.13515715422348817,
+                "contributions": 0.0,
+                "interest": 0.00004057136824278891
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2002,
+                "balance": 0.13515715422348817,
+                "contributions": 0.0,
+                "interest": 0.00004057136824278891
+              }
+            ]
+          }
+        },
+        {
+          "accountId": "a5",
+          "included": true,
+          "annualRate": 0.1176,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 1403.328715189029
+          },
+          "series": {
+            "startBalance": 188121.71871518905,
+            "finalBalance": 188178.20590101907,
+            "totalContributions": 0.0,
+            "totalInterest": 56.487185830010745,
+            "monthly": [
+              {
+                "year": 2002,
+                "month": 1,
+                "balance": 188178.20590101907,
+                "contributions": 0.0,
+                "interest": 56.487185830010745
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2002,
+                "balance": 188178.20590101907,
+                "contributions": 0.0,
+                "interest": 56.487185830010745
+              }
+            ]
+          }
+        },
+        {
+          "accountId": "a6",
+          "included": false,
+          "annualRate": 0.1176,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 346673.49,
+            "finalBalance": 346777.5854228236,
+            "totalContributions": 0.0,
+            "totalInterest": 104.09542282364477,
+            "monthly": [
+              {
+                "year": 2002,
+                "month": 1,
+                "balance": 346777.5854228236,
+                "contributions": 0.0,
+                "interest": 104.09542282364477
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2002,
+                "balance": 346777.5854228236,
+                "contributions": 0.0,
+                "interest": 104.09542282364477
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "negative": {
+      "total": {
+        "startBalance": 324271.9708993349,
+        "finalBalance": 324337.6610479277,
+        "totalContributions": 0.0,
+        "totalInterest": 65.69014859285748,
+        "monthly": [
+          {
+            "year": 2002,
+            "month": 1,
+            "balance": 324337.6610479277,
+            "contributions": 0.0,
+            "interest": 65.69014859285748
+          }
+        ],
+        "yearly": [
+          {
+            "year": 2002,
+            "balance": 324337.6610479277,
+            "contributions": 0.0,
+            "interest": 65.69014859285748
+          }
+        ]
+      },
+      "accounts": [
+        {
+          "accountId": "a1",
+          "included": true,
+          "annualRate": 0.034999999999999996,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 136234.43,
+            "finalBalance": 136247.04662098648,
+            "totalContributions": 0.0,
+            "totalInterest": 12.616620986488273,
+            "monthly": [
+              {
+                "year": 2002,
+                "month": 1,
+                "balance": 136247.04662098648,
+                "contributions": 0.0,
+                "interest": 12.616620986488273
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2002,
+                "balance": 136247.04662098648,
+                "contributions": 0.0,
+                "interest": 12.616620986488273
+              }
+            ]
+          }
+        },
+        {
+          "accountId": "a2",
+          "included": false,
+          "annualRate": 0.0678,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 69548.19,
+            "finalBalance": 69560.48808181928,
+            "totalContributions": 0.0,
+            "totalInterest": 12.298081819273747,
+            "monthly": [
+              {
+                "year": 2002,
+                "month": 1,
+                "balance": 69560.48808181928,
+                "contributions": 0.0,
+                "interest": 12.298081819273747
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2002,
+                "balance": 69560.48808181928,
+                "contributions": 0.0,
+                "interest": 12.298081819273747
+              }
+            ]
+          }
+        },
+        {
+          "accountId": "a3",
+          "included": false,
+          "annualRate": 0.1102,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 0.0,
+            "finalBalance": 0.0,
+            "totalContributions": 0.0,
+            "totalInterest": 0.0,
+            "monthly": [
+              {
+                "year": 2002,
+                "month": 1,
+                "balance": 0.0,
+                "contributions": 0.0,
+                "interest": 0.0
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2002,
+                "balance": 0.0,
+                "contributions": 0.0,
+                "interest": 0.0
+              }
+            ]
+          }
+        },
+        {
+          "accountId": "a4",
+          "included": true,
+          "annualRate": 0.1102,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.02346633637521368
+          },
+          "series": {
+            "startBalance": 0.13346633637521368,
+            "finalBalance": 0.1335040072001684,
+            "totalContributions": 0.0,
+            "totalInterest": 0.000037670824954698815,
+            "monthly": [
+              {
+                "year": 2002,
+                "month": 1,
+                "balance": 0.1335040072001684,
+                "contributions": 0.0,
+                "interest": 0.000037670824954698815
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2002,
+                "balance": 0.1335040072001684,
+                "contributions": 0.0,
+                "interest": 0.000037670824954698815
+              }
+            ]
+          }
+        },
+        {
+          "accountId": "a5",
+          "included": true,
+          "annualRate": 0.1102,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 1319.0174329984527
+          },
+          "series": {
+            "startBalance": 188037.40743299847,
+            "finalBalance": 188090.48092293402,
+            "totalContributions": 0.0,
+            "totalInterest": 53.07348993554425,
+            "monthly": [
+              {
+                "year": 2002,
+                "month": 1,
+                "balance": 188090.48092293402,
+                "contributions": 0.0,
+                "interest": 53.07348993554425
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2002,
+                "balance": 188090.48092293402,
+                "contributions": 0.0,
+                "interest": 53.07348993554425
+              }
+            ]
+          }
+        },
+        {
+          "accountId": "a6",
+          "included": false,
+          "annualRate": 0.1102,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 346673.49,
+            "finalBalance": 346771.3384666089,
+            "totalContributions": 0.0,
+            "totalInterest": 97.84846660891662,
+            "monthly": [
+              {
+                "year": 2002,
+                "month": 1,
+                "balance": 346771.3384666089,
+                "contributions": 0.0,
+                "interest": 97.84846660891662
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2002,
+                "balance": 346771.3384666089,
+                "contributions": 0.0,
+                "interest": 97.84846660891662
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

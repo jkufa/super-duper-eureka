@@ -1,0 +1,28 @@
+[
+  {
+    "from": "2045-11-17",
+    "to": "2045-11-21",
+    "days": 4,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 361592.37,
+    "balanceEnd": 361726.4983182057,
+    "contributions": 0.0,
+    "interest": 134.12831820571714,
+    "annualRate": 0.0339,
+    "deposits": []
+  },
+  {
+    "from": "2045-11-21",
+    "to": "2045-11-28",
+    "days": 7,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 361726.4983182057,
+    "balanceEnd": 361961.3099433024,
+    "contributions": 0.0,
+    "interest": 234.81162509668602,
+    "annualRate": 0.0339,
+    "deposits": []
+  }
+]

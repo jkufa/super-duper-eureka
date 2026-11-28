@@ -1,0 +1,28 @@
+[
+  {
+    "from": "2015-03-13",
+    "to": "2015-03-19",
+    "days": 6,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 452013.64,
+    "balanceEnd": 452701.2425304729,
+    "contributions": 0.0,
+    "interest": 687.6025304729048,
+    "annualRate": 0.0985,
+    "deposits": []
+  },
+  {
+    "from": "2015-03-19",
+    "to": "2015-03-25",
+    "days": 6,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 452701.2425304729,
+    "balanceEnd": 453389.891040974,
+    "contributions": 0.0,
+    "interest": 688.6485105011021,
+    "annualRate": 0.0985,
+    "deposits": []
+  }
+]

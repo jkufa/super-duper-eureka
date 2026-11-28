@@ -1,0 +1,95 @@
+{
+  "accounts": [
+    {
+      "balance": 20760.13,
+      "balanceAsOf": "2010-08-11",
+      "contributions": [
+        {
+          "amount": 2.27,
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "salaryBasis": "biweekly",
+          "timing": {
+            "day": 9,
+            "frequency": "annual",
+            "month": 12,
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 4733.97,
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 3969.81,
+          "growth": {
+            "amount": 271.85,
+            "cadence": "monthly",
+            "type": "flat"
+          },
+          "id": "a1r3",
+          "startDate": "2006-05-16",
+          "timing": {
+            "day": 1,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 15.81,
+          "endDate": "2010-08-31",
+          "growth": {
+            "amount": 328.07,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a1r4",
+          "startDate": "2010-08-31",
+          "timing": {
+            "day": 29,
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 3176.46,
+          "growth": {
+            "amount": 223.08,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a1r5",
+          "startDate": "2010-08-11",
+          "timing": {
+            "day": 28,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "other",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2010-08-14",
+  "interest": {
+    "annualRate": 0.0408,
+    "compounding": "daily",
+    "variance": 0.0497
+  },
+  "salary": {
+    "annualBase": 120943.77,
+    "annualRaiseRate": 0,
+    "asOf": "1999-10-01"
+  },
+  "version": 1
+}

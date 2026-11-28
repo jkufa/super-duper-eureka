@@ -1,0 +1,66 @@
+{
+  "accounts": [
+    {
+      "annualRate": -0.0163,
+      "balance": 233309.44,
+      "balanceAsOf": "2003-06-01",
+      "contributions": [
+        {
+          "amount": 2263.29,
+          "growth": {
+            "amount": 0.54,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "startDate": "2004-05-29",
+          "timing": {
+            "day": 6,
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 3833.32,
+          "id": "a1r2",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2003-06-01"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1479.26,
+          "enabled": false,
+          "endDate": "2003-06-01",
+          "id": "a1r3",
+          "name": "Rule a1r3",
+          "timing": {
+            "day": 13,
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": false,
+      "kind": "pretax",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2003-06-02",
+  "interest": {
+    "annualRate": -0.0163,
+    "compounding": "monthly",
+    "variance": 0.0499
+  },
+  "salary": {
+    "annualBase": 112439.18,
+    "annualRaiseRate": -0.0679,
+    "asOf": "2003-06-01"
+  },
+  "version": 1
+}

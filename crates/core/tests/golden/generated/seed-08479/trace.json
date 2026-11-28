@@ -1,0 +1,15 @@
+[
+  {
+    "from": "2028-11-01",
+    "to": "2028-11-08",
+    "days": 7,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 559336849569.34,
+    "balanceEnd": 559830444434.5793,
+    "contributions": 0.0,
+    "interest": 493594865.2393824,
+    "annualRate": 0.0472,
+    "deposits": []
+  }
+]

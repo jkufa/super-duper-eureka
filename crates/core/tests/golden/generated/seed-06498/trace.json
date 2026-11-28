@@ -1,0 +1,28 @@
+[
+  {
+    "from": "2043-12-16",
+    "to": "2043-12-31",
+    "days": 15,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 285938.43,
+    "balanceEnd": 286170.0702527913,
+    "contributions": 0.0,
+    "interest": 231.6402527912827,
+    "annualRate": 0.0199,
+    "deposits": []
+  },
+  {
+    "from": "2043-12-31",
+    "to": "2044-01-01",
+    "days": 1,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 286170.0702527913,
+    "balanceEnd": 286185.5196067367,
+    "contributions": 0.0,
+    "interest": 15.449353945465896,
+    "annualRate": 0.0199,
+    "deposits": []
+  }
+]

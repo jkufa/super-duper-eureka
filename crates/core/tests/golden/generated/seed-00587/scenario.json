@@ -1,0 +1,254 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.0039,
+      "balance": 292042210291.37,
+      "balanceAsOf": "2014-01-06",
+      "contributions": [
+        {
+          "amount": 10.72,
+          "id": "a1r1",
+          "timing": {
+            "frequency": "annual",
+            "month": 9,
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 1"
+    },
+    {
+      "annualRate": 0.0714,
+      "balance": 431467.21,
+      "balanceAsOf": "2013-12-17",
+      "contributions": [
+        {
+          "amount": 2143.21,
+          "id": "a2r1",
+          "timing": {
+            "day": 7,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2471.68,
+          "endDate": "2013-12-18",
+          "id": "a2r2",
+          "timing": {
+            "day": 28,
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 3758.98,
+          "id": "a2r3",
+          "name": "Rule a2r3",
+          "startDate": "2014-01-29",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2.93,
+          "id": "a2r4",
+          "timing": {
+            "day": 25,
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 0,
+          "endDate": "2019-07-19",
+          "growth": {
+            "amount": 0,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a2r5",
+          "startDate": "2013-12-18",
+          "timing": {
+            "frequency": "annual",
+            "month": 3,
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 10000000000000000,
+          "id": "a2s1",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1,
+          "id": "a2s2",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1,
+          "id": "a2s3",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a2",
+      "included": false,
+      "kind": "roth",
+      "name": "Account 2"
+    },
+    {
+      "annualRate": 0.0448,
+      "balance": 0,
+      "balanceAsOf": "2014-01-06",
+      "contributions": [
+        {
+          "amount": 4980.11,
+          "id": "a3r1",
+          "name": "Rule a3r1",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 3907.49,
+          "growth": {
+            "amount": 171.33,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a3r2",
+          "name": "Rule a3r2",
+          "startDate": "2011-07-22",
+          "timing": {
+            "day": 1,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1721.39,
+          "id": "a3r3",
+          "name": "Rule a3r3",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2655.09,
+          "id": "a3r4",
+          "name": "Rule a3r4",
+          "startDate": "2006-05-13",
+          "timing": {
+            "day": 28,
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a3",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 3"
+    },
+    {
+      "balance": 20928.77,
+      "balanceAsOf": "2004-03-07",
+      "contributions": [],
+      "id": "a4",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 4"
+    },
+    {
+      "annualRate": 0.0364,
+      "balance": 958960308593.94,
+      "balanceAsOf": "2012-11-08",
+      "contributions": [],
+      "id": "a5",
+      "included": true,
+      "kind": "other",
+      "name": "Account 5"
+    },
+    {
+      "annualRate": 0.0885,
+      "balance": 0,
+      "balanceAsOf": "2013-12-30",
+      "contributions": [
+        {
+          "amount": 2.13,
+          "enabled": true,
+          "id": "a6r1",
+          "name": "Rule a6r1",
+          "salaryBasis": "daily",
+          "timing": {
+            "frequency": "annual",
+            "month": 8,
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 0,
+          "growth": {
+            "amount": 418.91,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a6r2",
+          "name": "Rule a6r2",
+          "salaryBasis": "daily",
+          "startDate": "2014-12-22",
+          "timing": {
+            "frequency": "annual",
+            "month": 9,
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a6",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 6"
+    }
+  ],
+  "endDate": "2014-01-12",
+  "interest": {
+    "annualRate": 0.1278,
+    "compounding": "monthly",
+    "variance": 0.0701
+  },
+  "salary": {
+    "annualBase": 46847.38,
+    "annualRaiseRate": 0.0361,
+    "asOf": "2006-07-13"
+  },
+  "version": 1
+}

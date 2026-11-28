@@ -1,0 +1,51 @@
+{
+  "accounts": [
+    {
+      "balance": 79162.71,
+      "balanceAsOf": "2008-02-29",
+      "contributions": [
+        {
+          "amount": 1598.39,
+          "enabled": false,
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "timing": {
+            "day": 14,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 18.69,
+          "endDate": "2004-07-12",
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "salaryBasis": "monthly",
+          "timing": {
+            "day": 28,
+            "frequency": "annual",
+            "month": 12
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2008-03-01",
+  "interest": {
+    "annualRate": -0.0136,
+    "compounding": "daily",
+    "variance": 0.0023
+  },
+  "salary": {
+    "annualBase": 48612.8,
+    "annualRaiseRate": 0,
+    "asOf": "2007-11-18"
+  },
+  "version": 1
+}

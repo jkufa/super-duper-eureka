@@ -1,0 +1,22 @@
+[
+  {
+    "from": "2034-05-14",
+    "to": "2034-05-19",
+    "days": 5,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 213546.74,
+    "balanceEnd": 216564.21790091673,
+    "contributions": 3046.96,
+    "interest": -29.482099083278765,
+    "annualRate": -0.01,
+    "deposits": [
+      {
+        "ruleId": "a1r3",
+        "date": "2034-05-18",
+        "amount": 3046.96,
+        "bucket": 18
+      }
+    ]
+  }
+]

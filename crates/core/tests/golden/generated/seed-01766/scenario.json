@@ -1,0 +1,101 @@
+{
+  "accounts": [
+    {
+      "annualRate": -0.0107,
+      "balance": 0.31,
+      "balanceAsOf": "2020-01-16",
+      "contributions": [],
+      "id": "a1",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 1"
+    },
+    {
+      "annualRate": 0.0247,
+      "balance": 78994.31,
+      "balanceAsOf": "2020-01-08",
+      "contributions": [
+        {
+          "amount": 0,
+          "endDate": "2027-07-07",
+          "growth": {
+            "amount": 4.09,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a2r1",
+          "name": "Rule a2r1",
+          "startDate": "2020-01-29",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0,
+          "enabled": true,
+          "id": "a2r2",
+          "name": "Rule a2r2",
+          "timing": {
+            "day": 1,
+            "frequency": "annual",
+            "month": 11,
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 19.7,
+          "id": "a2r3",
+          "timing": {
+            "frequency": "annual",
+            "month": 3
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 0,
+          "enabled": false,
+          "id": "a2r4",
+          "name": "Rule a2r4",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2020-01-13"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 266.75,
+          "growth": {
+            "amount": 0.03,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a2g",
+          "startDate": "1934-06-16",
+          "timing": {
+            "day": 31,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a2",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 2"
+    }
+  ],
+  "endDate": "2020-02-21",
+  "interest": {
+    "annualRate": 0.0677,
+    "compounding": "daily",
+    "variance": 0.0531
+  },
+  "salary": {
+    "annualBase": 193700.17,
+    "asOf": "2014-08-20"
+  },
+  "version": 1
+}

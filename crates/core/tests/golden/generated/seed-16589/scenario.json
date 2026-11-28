@@ -1,0 +1,117 @@
+{
+  "accounts": [
+    {
+      "balance": 669562425747.05,
+      "balanceAsOf": "2037-08-27",
+      "contributions": [
+        {
+          "amount": 1722.54,
+          "enabled": true,
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2038-06-01"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 868.15,
+          "enabled": false,
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2037-09-19"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 256.72,
+          "id": "a1r3",
+          "timing": {
+            "day": 29,
+            "frequency": "annual",
+            "month": 2,
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 23.12,
+          "enabled": false,
+          "growth": {
+            "amount": 109.33,
+            "cadence": "monthly",
+            "type": "flat"
+          },
+          "id": "a1r4",
+          "startDate": "2037-09-04",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 630.93,
+          "enabled": true,
+          "growth": {
+            "amount": 349.5,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a1r5",
+          "startDate": "2036-05-05",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0.1,
+          "id": "a1s1",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0.2,
+          "id": "a1s2",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0.3,
+          "id": "a1s3",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "other",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2037-09-20",
+  "interest": {
+    "annualRate": -0.0193,
+    "compounding": "daily",
+    "variance": 0.027
+  },
+  "salary": {
+    "annualBase": 64202.22,
+    "annualRaiseRate": 0.0656,
+    "asOf": "2036-02-29"
+  },
+  "version": 1
+}

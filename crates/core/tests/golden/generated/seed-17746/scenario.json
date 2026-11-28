@@ -1,0 +1,109 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.003,
+      "balance": 130665.26,
+      "balanceAsOf": "2032-12-31",
+      "contributions": [
+        {
+          "amount": 17.26,
+          "endDate": "2041-03-24",
+          "id": "a1r1",
+          "startDate": "2028-07-05",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 1212.46,
+          "enabled": true,
+          "endDate": "2033-12-13",
+          "growth": {
+            "amount": 8.46,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "startDate": "2029-01-28",
+          "timing": {
+            "day": 6,
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2738.67,
+          "growth": {
+            "amount": 7.08,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a1r3",
+          "name": "Rule a1r3",
+          "startDate": "2033-09-03",
+          "timing": {
+            "day": 21,
+            "frequency": "annual",
+            "month": 10,
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2180.93,
+          "id": "a1r4",
+          "name": "Rule a1r4",
+          "timing": {
+            "frequency": "annual",
+            "month": 7
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0.7,
+          "id": "a1s1",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0.2,
+          "id": "a1s2",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0.1,
+          "id": "a1s3",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "other",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2033-01-01",
+  "interest": {
+    "annualRate": 0.003,
+    "compounding": "monthly",
+    "variance": 0.0665
+  },
+  "salary": {
+    "annualBase": 65877.62,
+    "annualRaiseRate": -0.1921,
+    "asOf": "2032-12-31"
+  },
+  "version": 1
+}

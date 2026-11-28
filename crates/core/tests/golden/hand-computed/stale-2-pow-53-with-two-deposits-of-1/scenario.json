@@ -1,0 +1,34 @@
+{
+  "accounts": [
+    {
+      "balance": 9007199254740992,
+      "balanceAsOf": "2026-09-01",
+      "contributions": [
+        {
+          "amount": 1,
+          "id": "one",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "big",
+      "included": true,
+      "kind": "other",
+      "name": "Account"
+    }
+  ],
+  "endDate": "2026-12-01",
+  "interest": {
+    "annualRate": 0,
+    "compounding": "monthly",
+    "variance": 0
+  },
+  "salary": {
+    "annualBase": 0,
+    "asOf": "2026-11-01"
+  },
+  "version": 1
+}

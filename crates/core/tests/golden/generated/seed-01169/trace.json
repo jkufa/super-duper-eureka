@@ -1,0 +1,22 @@
+[
+  {
+    "from": "2030-01-11",
+    "to": "2030-01-18",
+    "days": 7,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 5398.48,
+    "balanceEnd": 5698.875555516213,
+    "contributions": 295.66,
+    "interest": 4.73555551621422,
+    "annualRate": 0.0443,
+    "deposits": [
+      {
+        "ruleId": "a1r2",
+        "date": "2030-01-11",
+        "amount": 295.66,
+        "bucket": 11
+      }
+    ]
+  }
+]

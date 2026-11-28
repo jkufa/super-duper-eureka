@@ -1,0 +1,44 @@
+{
+  "accounts": [
+    {
+      "balance": 240913.6,
+      "balanceAsOf": "2040-02-29",
+      "contributions": [
+        {
+          "amount": 1.21,
+          "growth": {
+            "amount": 0.93,
+            "cadence": "monthly",
+            "type": "flat"
+          },
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "salaryBasis": "perContribution",
+          "startDate": "2032-02-29",
+          "timing": {
+            "day": 2,
+            "frequency": "annual",
+            "month": 10
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2040-03-05",
+  "interest": {
+    "annualRate": 0.0766,
+    "compounding": "daily",
+    "variance": 0.055
+  },
+  "salary": {
+    "annualBase": 215782.69,
+    "annualRaiseRate": 0.0732,
+    "asOf": "2034-10-05"
+  },
+  "version": 1
+}

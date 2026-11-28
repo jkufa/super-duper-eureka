@@ -1,0 +1,128 @@
+[
+  {
+    "from": "2000-02-29",
+    "to": "2000-03-01",
+    "days": 1,
+    "daysInMonth": 29,
+    "daysInYear": 366,
+    "balanceStart": 284327.83,
+    "balanceEnd": 287669.77406753687,
+    "contributions": 3351.885433209439,
+    "interest": -9.941365672576866,
+    "annualRate": -0.0121,
+    "deposits": [
+      {
+        "ruleId": "a1g",
+        "date": "2000-02-29",
+        "amount": 3351.885433209439,
+        "bucket": "end"
+      }
+    ]
+  },
+  {
+    "from": "2000-03-01",
+    "to": "2000-04-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 287669.77406753687,
+    "balanceEnd": 290737.0102279783,
+    "contributions": 3358.9243926191784,
+    "interest": -291.6882321777494,
+    "annualRate": -0.0121,
+    "deposits": [
+      {
+        "ruleId": "a1g",
+        "date": "2000-03-31",
+        "amount": 3358.9243926191784,
+        "bucket": "end"
+      }
+    ]
+  },
+  {
+    "from": "2000-04-01",
+    "to": "2000-05-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 290737.0102279783,
+    "balanceEnd": 293808.19004727213,
+    "contributions": 3365.9781338436783,
+    "interest": -294.7983145498403,
+    "annualRate": -0.0121,
+    "deposits": [
+      {
+        "ruleId": "a1g",
+        "date": "2000-04-30",
+        "amount": 3365.9781338436783,
+        "bucket": "end"
+      }
+    ]
+  },
+  {
+    "from": "2000-05-01",
+    "to": "2000-06-01",
+    "days": 31,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 293808.19004727213,
+    "balanceEnd": 296883.3243395272,
+    "contributions": 3373.04668792475,
+    "interest": -297.91239566974093,
+    "annualRate": -0.0121,
+    "deposits": [
+      {
+        "ruleId": "a1g",
+        "date": "2000-05-31",
+        "amount": 3373.04668792475,
+        "bucket": "end"
+      }
+    ]
+  },
+  {
+    "from": "2000-06-01",
+    "to": "2000-07-01",
+    "days": 30,
+    "daysInMonth": 30,
+    "daysInYear": 366,
+    "balanceStart": 296883.3243395272,
+    "balanceEnd": 299962.42393899395,
+    "contributions": 3380.130085969392,
+    "interest": -301.03048650262235,
+    "annualRate": -0.0121,
+    "deposits": [
+      {
+        "ruleId": "a1g",
+        "date": "2000-06-30",
+        "amount": 3380.130085969392,
+        "bucket": "end"
+      }
+    ]
+  },
+  {
+    "from": "2000-07-01",
+    "to": "2000-07-03",
+    "days": 2,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 299962.42393899395,
+    "balanceEnd": 299942.8011907337,
+    "contributions": 0.0,
+    "interest": -19.622748260263137,
+    "annualRate": -0.0121,
+    "deposits": []
+  },
+  {
+    "from": "2000-07-03",
+    "to": "2000-07-31",
+    "days": 28,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 299942.8011907337,
+    "balanceEnd": 299668.10068644595,
+    "contributions": 0.0,
+    "interest": -274.70050428774135,
+    "annualRate": -0.0121,
+    "deposits": []
+  }
+]

@@ -1,0 +1,77 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.0772,
+      "balance": 0,
+      "balanceAsOf": "2057-02-05",
+      "contributions": [
+        {
+          "amount": 4434.88,
+          "id": "a1r1",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2057-02-13"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 278.89,
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2057-02-12"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0,
+          "id": "a1r3",
+          "name": "Rule a1r3",
+          "timing": {
+            "day": 7,
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 2228.7,
+          "id": "a1r4",
+          "name": "Rule a1r4",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2057-02-12"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 17.49,
+          "id": "a1r5",
+          "name": "Rule a1r5",
+          "salaryBasis": "daily",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2053-11-15"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a1",
+      "included": false,
+      "kind": "roth",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2057-02-13",
+  "interest": {
+    "annualRate": 0.1281,
+    "compounding": "daily",
+    "variance": 0.0137
+  },
+  "salary": {
+    "annualBase": 281254.29,
+    "annualRaiseRate": -0.2261,
+    "asOf": "2057-02-08"
+  },
+  "version": 1
+}

@@ -1,0 +1,97 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.1193,
+      "balance": 202704.59,
+      "balanceAsOf": "2040-03-20",
+      "contributions": [
+        {
+          "amount": 725.22,
+          "endDate": "2041-05-18",
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "timing": {
+            "day": 31,
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 17.91,
+          "endDate": "2036-01-07",
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "salaryBasis": "annual",
+          "timing": {
+            "day": 5,
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 2570.94,
+          "enabled": false,
+          "endDate": "2040-03-21",
+          "id": "a1r3",
+          "name": "Rule a1r3",
+          "timing": {
+            "day": 29,
+            "frequency": "annual",
+            "month": 3
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 4322.96,
+          "enabled": false,
+          "endDate": "2044-06-07",
+          "growth": {
+            "amount": 8.28,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a1r4",
+          "name": "Rule a1r4",
+          "startDate": "2040-03-21",
+          "timing": {
+            "day": 30,
+            "frequency": "annual",
+            "month": 9,
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2.33,
+          "id": "a1r5",
+          "name": "Rule a1r5",
+          "salaryBasis": "biweekly",
+          "timing": {
+            "day": 26,
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a1",
+      "included": false,
+      "kind": "other",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2040-03-23",
+  "interest": {
+    "annualRate": 0.1193,
+    "compounding": "daily",
+    "variance": 0.0069
+  },
+  "salary": {
+    "annualBase": 222176.24,
+    "annualRaiseRate": -0.0265,
+    "asOf": "2040-03-20"
+  },
+  "version": 1
+}

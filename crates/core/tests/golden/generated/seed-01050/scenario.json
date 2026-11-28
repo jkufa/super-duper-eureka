@@ -1,0 +1,53 @@
+{
+  "accounts": [
+    {
+      "annualRate": 1e+300,
+      "balance": 1e+308,
+      "balanceAsOf": "2042-06-01",
+      "contributions": [
+        {
+          "amount": 0,
+          "endDate": "2056-03-29",
+          "growth": {
+            "amount": 418.3,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a1r1",
+          "startDate": "2042-06-01",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0,
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "timing": {
+            "day": 28,
+            "frequency": "annual",
+            "month": 11
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2042-06-03",
+  "interest": {
+    "annualRate": 0.1203,
+    "compounding": "daily",
+    "variance": 0.0338
+  },
+  "salary": {
+    "annualBase": 64777.03,
+    "annualRaiseRate": 0.0434,
+    "asOf": "2042-06-01"
+  },
+  "version": 1
+}

@@ -1,0 +1,36 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0,
+      "balance": 1e+308,
+      "balanceAsOf": "2026-07-28",
+      "contributions": [],
+      "id": "a1",
+      "included": true,
+      "kind": "other",
+      "name": "Account 1"
+    },
+    {
+      "annualRate": 0,
+      "balance": 1e+308,
+      "balanceAsOf": "2026-07-28",
+      "contributions": [],
+      "id": "extra",
+      "included": true,
+      "kind": "other",
+      "name": "Extra"
+    }
+  ],
+  "endDate": "2026-07-31",
+  "interest": {
+    "annualRate": 0.1408,
+    "compounding": "daily",
+    "variance": 0.036
+  },
+  "salary": {
+    "annualBase": 13596.25,
+    "annualRaiseRate": 0.0722,
+    "asOf": "2016-10-18"
+  },
+  "version": 1
+}

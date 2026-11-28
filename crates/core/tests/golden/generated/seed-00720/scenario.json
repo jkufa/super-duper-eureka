@@ -1,0 +1,77 @@
+{
+  "accounts": [
+    {
+      "balance": 482627.19,
+      "balanceAsOf": "2002-11-30",
+      "contributions": [],
+      "id": "a1",
+      "included": false,
+      "kind": "other",
+      "name": "Account 1"
+    },
+    {
+      "balance": 375104.89,
+      "balanceAsOf": "2002-11-30",
+      "contributions": [],
+      "id": "a2",
+      "included": false,
+      "kind": "other",
+      "name": "Account 2"
+    },
+    {
+      "annualRate": -0.0141,
+      "balance": 329758.41,
+      "balanceAsOf": "2000-02-29",
+      "contributions": [
+        {
+          "amount": 4962.28,
+          "endDate": "2001-03-06",
+          "growth": {
+            "amount": 271.63,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a3r1",
+          "name": "Rule a3r1",
+          "startDate": "2001-03-06",
+          "timing": {
+            "day": 28,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 3922.34,
+          "enabled": false,
+          "growth": {
+            "amount": 1.65,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a3r2",
+          "startDate": "2001-12-30",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a3",
+      "included": false,
+      "kind": "taxable",
+      "name": "Account 3"
+    }
+  ],
+  "endDate": "2002-12-02",
+  "interest": {
+    "annualRate": -0.0253,
+    "variance": 0.0367
+  },
+  "salary": {
+    "annualBase": -68562.47,
+    "asOf": "1997-09-22"
+  },
+  "version": 1
+}

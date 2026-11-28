@@ -1,0 +1,15 @@
+[
+  {
+    "from": "1997-04-01",
+    "to": "1997-04-05",
+    "days": 4,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 102870.02,
+    "balanceEnd": 102939.66080159342,
+    "contributions": 0.0,
+    "interest": 69.64080159342049,
+    "annualRate": 0.0637,
+    "deposits": []
+  }
+]

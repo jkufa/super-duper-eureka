@@ -1,0 +1,92 @@
+{
+  "accounts": [
+    {
+      "balance": 361592.37,
+      "balanceAsOf": "2045-11-17",
+      "contributions": [
+        {
+          "amount": 2074.03,
+          "enabled": false,
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 852.36,
+          "id": "a1r2",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2045-11-28"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 3969.79,
+          "id": "a1r3",
+          "timing": {
+            "day": 29,
+            "frequency": "annual",
+            "month": 2
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 4447.26,
+          "id": "a1r4",
+          "startDate": "2045-09-03",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 19.27,
+          "id": "a1r5",
+          "salaryBasis": "monthly",
+          "startDate": "2045-11-20",
+          "timing": {
+            "day": 29,
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 464.09,
+          "growth": {
+            "amount": 0.32,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a1g",
+          "startDate": "1953-12-25",
+          "timing": {
+            "day": 1,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2045-11-28",
+  "interest": {
+    "annualRate": 0.0339,
+    "compounding": "monthly",
+    "variance": 0.06
+  },
+  "salary": {
+    "annualBase": 59243.38,
+    "annualRaiseRate": 0,
+    "asOf": "2045-02-18"
+  },
+  "version": 1
+}

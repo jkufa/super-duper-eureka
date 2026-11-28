@@ -1,0 +1,6 @@
+{
+  "error": {
+    "code": "negative_balance",
+    "accountId": "a1"
+  }
+}

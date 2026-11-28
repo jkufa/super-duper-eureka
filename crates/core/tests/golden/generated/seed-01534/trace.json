@@ -1,0 +1,22 @@
+[
+  {
+    "from": "1999-06-01",
+    "to": "1999-06-05",
+    "days": 4,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 0.0,
+    "balanceEnd": 4045.1985270011364,
+    "contributions": 4045.23,
+    "interest": -0.03147299886378354,
+    "annualRate": -0.0007,
+    "deposits": [
+      {
+        "ruleId": "a1r4",
+        "date": "1999-06-01",
+        "amount": 4045.23,
+        "bucket": "start"
+      }
+    ]
+  }
+]

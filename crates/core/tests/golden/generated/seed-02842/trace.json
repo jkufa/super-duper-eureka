@@ -1,0 +1,15 @@
+[
+  {
+    "from": "2004-03-25",
+    "to": "2004-03-29",
+    "days": 4,
+    "daysInMonth": 31,
+    "daysInYear": 366,
+    "balanceStart": 345104.63,
+    "balanceEnd": 345025.74678493483,
+    "contributions": 0.0,
+    "interest": -78.88321506516792,
+    "annualRate": -0.0207,
+    "deposits": []
+  }
+]

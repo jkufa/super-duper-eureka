@@ -1,0 +1,28 @@
+[
+  {
+    "from": "2049-12-07",
+    "to": "2049-12-31",
+    "days": 24,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 0.0,
+    "balanceEnd": 0.0,
+    "contributions": 0.0,
+    "interest": 0.0,
+    "annualRate": 0.0293,
+    "deposits": []
+  },
+  {
+    "from": "2049-12-31",
+    "to": "2050-01-01",
+    "days": 1,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 0.0,
+    "balanceEnd": 0.0,
+    "contributions": 0.0,
+    "interest": 0.0,
+    "annualRate": 0.0293,
+    "deposits": []
+  }
+]

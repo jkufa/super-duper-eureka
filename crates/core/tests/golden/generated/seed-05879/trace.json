@@ -1,0 +1,28 @@
+[
+  {
+    "from": "2038-10-31",
+    "to": "2038-11-01",
+    "days": 1,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 75243.49,
+    "balanceEnd": 77378.23199749332,
+    "contributions": 2105.58,
+    "interest": 29.161997493316516,
+    "annualRate": 0.1475,
+    "deposits": [
+      {
+        "ruleId": "a1r3",
+        "date": "2038-10-31",
+        "amount": 1311.85,
+        "bucket": 31
+      },
+      {
+        "ruleId": "a1r4",
+        "date": "2038-10-31",
+        "amount": 793.73,
+        "bucket": 31
+      }
+    ]
+  }
+]

@@ -1,0 +1,178 @@
+{
+  "accounts": [
+    {
+      "balance": 559336849569.34,
+      "balanceAsOf": "2028-11-01",
+      "contributions": [
+        {
+          "amount": 3739.5,
+          "endDate": "2028-12-31",
+          "id": "a1r1",
+          "startDate": "2028-12-31",
+          "timing": {
+            "day": 20,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2014.3,
+          "id": "a1r2",
+          "startDate": "2028-11-04",
+          "timing": {
+            "day": 30,
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1809.42,
+          "id": "a1r3",
+          "name": "Rule a1r3",
+          "startDate": "2029-08-02",
+          "timing": {
+            "frequency": "annual",
+            "month": 2
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 819.26,
+          "enabled": true,
+          "id": "a1r4",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2026-11-07"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 1"
+    },
+    {
+      "annualRate": 0.0472,
+      "balance": 654748160552.47,
+      "balanceAsOf": "2028-11-01",
+      "contributions": [
+        {
+          "amount": 19.7,
+          "enabled": true,
+          "id": "a2r1",
+          "name": "Rule a2r1",
+          "salaryBasis": "annual",
+          "timing": {
+            "day": 28,
+            "frequency": "annual",
+            "month": 1,
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 3904.37,
+          "id": "a2r2",
+          "name": "Rule a2r2",
+          "timing": {
+            "day": 29,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0,
+          "id": "a2r3",
+          "name": "Rule a2r3",
+          "startDate": "2028-12-01",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 12.91,
+          "endDate": "2024-03-13",
+          "id": "a2r4",
+          "salaryBasis": "daily",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a2",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 2"
+    },
+    {
+      "balance": 496737.07,
+      "balanceAsOf": "2022-08-11",
+      "contributions": [
+        {
+          "amount": 4109.44,
+          "growth": {
+            "amount": 0.61,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a3r1",
+          "startDate": "2017-11-14",
+          "timing": {
+            "day": 13,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 19.58,
+          "id": "a3r2",
+          "name": "Rule a3r2",
+          "salaryBasis": "biweekly",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 18.88,
+          "id": "a3r3",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2024-02-08"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 8.43,
+          "id": "a3r4",
+          "salaryBasis": "monthly",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a3",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 3"
+    }
+  ],
+  "endDate": "2028-11-08",
+  "interest": {
+    "annualRate": 0.0472,
+    "compounding": "daily",
+    "variance": 0.0061
+  },
+  "salary": {
+    "annualBase": 0,
+    "annualRaiseRate": -0.9237,
+    "asOf": "2028-02-29"
+  },
+  "version": 1
+}

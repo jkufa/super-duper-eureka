@@ -1,0 +1,15 @@
+[
+  {
+    "from": "2006-09-01",
+    "to": "2006-09-18",
+    "days": 17,
+    "daysInMonth": 30,
+    "daysInYear": 365,
+    "balanceStart": 297080.24,
+    "balanceEnd": 298581.50750990346,
+    "contributions": 0.0,
+    "interest": 1501.2675099034616,
+    "annualRate": 0.1143,
+    "deposits": []
+  }
+]

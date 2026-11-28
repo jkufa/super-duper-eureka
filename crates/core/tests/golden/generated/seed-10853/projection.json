@@ -1,0 +1,234 @@
+{
+  "today": "2001-06-27",
+  "endDate": "2001-07-03",
+  "effectiveRate": 0.0648,
+  "staleAccounts": [],
+  "salaryByYear": [
+    {
+      "year": 2001,
+      "salary": 20204.55
+    }
+  ],
+  "bands": {
+    "baseline": {
+      "total": {
+        "startBalance": 0.0,
+        "finalBalance": 0.0,
+        "totalContributions": 0.0,
+        "totalInterest": 0.0,
+        "monthly": [
+          {
+            "year": 2001,
+            "month": 6,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2001,
+            "month": 7,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          }
+        ],
+        "yearly": [
+          {
+            "year": 2001,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0,
+            "weightedRate": null
+          }
+        ]
+      },
+      "accounts": [
+        {
+          "accountId": "a1",
+          "included": false,
+          "annualRate": 0.0852,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 56022.97,
+            "finalBalance": 62902.9270374383,
+            "totalContributions": 6800.036177319509,
+            "totalInterest": 79.92086011877828,
+            "monthly": [
+              {
+                "year": 2001,
+                "month": 6,
+                "balance": 62874.75135556394,
+                "contributions": 6800.036177319509,
+                "interest": 51.745178244421794
+              },
+              {
+                "year": 2001,
+                "month": 7,
+                "balance": 62902.9270374383,
+                "contributions": 6800.036177319509,
+                "interest": 79.92086011877828
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2001,
+                "balance": 62902.9270374383,
+                "contributions": 6800.036177319509,
+                "interest": 79.92086011877828
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "positive": {
+      "total": {
+        "startBalance": 0.0,
+        "finalBalance": 0.0,
+        "totalContributions": 0.0,
+        "totalInterest": 0.0,
+        "monthly": [
+          {
+            "year": 2001,
+            "month": 6,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2001,
+            "month": 7,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          }
+        ],
+        "yearly": [
+          {
+            "year": 2001,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          }
+        ]
+      },
+      "accounts": [
+        {
+          "accountId": "a1",
+          "included": false,
+          "annualRate": 0.1373,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 56022.97,
+            "finalBalance": 62948.80963877648,
+            "totalContributions": 6800.036177319509,
+            "totalInterest": 125.80346145697948,
+            "monthly": [
+              {
+                "year": 2001,
+                "month": 6,
+                "balance": 62904.448252520466,
+                "contributions": 6800.036177319509,
+                "interest": 81.44207520095966
+              },
+              {
+                "year": 2001,
+                "month": 7,
+                "balance": 62948.80963877648,
+                "contributions": 6800.036177319509,
+                "interest": 125.80346145697948
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2001,
+                "balance": 62948.80963877648,
+                "contributions": 6800.036177319509,
+                "interest": 125.80346145697948
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "negative": {
+      "total": {
+        "startBalance": 0.0,
+        "finalBalance": 0.0,
+        "totalContributions": 0.0,
+        "totalInterest": 0.0,
+        "monthly": [
+          {
+            "year": 2001,
+            "month": 6,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          {
+            "year": 2001,
+            "month": 7,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          }
+        ],
+        "yearly": [
+          {
+            "year": 2001,
+            "balance": 0.0,
+            "contributions": 0.0,
+            "interest": 0.0
+          }
+        ]
+      },
+      "accounts": [
+        {
+          "accountId": "a1",
+          "included": false,
+          "annualRate": 0.0331,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 56022.97,
+            "finalBalance": 62854.82348408097,
+            "totalContributions": 6800.036177319509,
+            "totalInterest": 31.817306761459403,
+            "monthly": [
+              {
+                "year": 2001,
+                "month": 6,
+                "balance": 62843.609120789835,
+                "contributions": 6800.036177319509,
+                "interest": 20.602943470324973
+              },
+              {
+                "year": 2001,
+                "month": 7,
+                "balance": 62854.82348408097,
+                "contributions": 6800.036177319509,
+                "interest": 31.817306761459403
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2001,
+                "balance": 62854.82348408097,
+                "contributions": 6800.036177319509,
+                "interest": 31.817306761459403
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

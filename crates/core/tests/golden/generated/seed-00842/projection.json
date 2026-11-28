@@ -1,0 +1,293 @@
+{
+  "today": "2018-12-24",
+  "endDate": "2018-12-29",
+  "effectiveRate": 0.05510007705727238,
+  "staleAccounts": [
+    {
+      "accountId": "a2",
+      "balanceAsOf": "2014-07-07"
+    }
+  ],
+  "salaryByYear": [
+    {
+      "year": 2018,
+      "salary": 0.0
+    }
+  ],
+  "bands": {
+    "baseline": {
+      "total": {
+        "startBalance": 697661233016.211,
+        "finalBalance": 698165308887.0806,
+        "totalContributions": 0.0,
+        "totalInterest": 504075870.8693941,
+        "monthly": [
+          {
+            "year": 2018,
+            "month": 12,
+            "balance": 698165308887.0806,
+            "contributions": 0.0,
+            "interest": 504075870.8693941
+          }
+        ],
+        "yearly": [
+          {
+            "year": 2018,
+            "balance": 698165308887.0806,
+            "contributions": 0.0,
+            "interest": 504075870.8693941,
+            "weightedRate": 0.055100080237880864
+          }
+        ]
+      },
+      "accounts": [
+        {
+          "accountId": "a1",
+          "included": true,
+          "annualRate": 0.0551,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 697660636277.17,
+            "finalBalance": 698164711028.971,
+            "totalContributions": 0.0,
+            "totalInterest": 504074751.8008583,
+            "monthly": [
+              {
+                "year": 2018,
+                "month": 12,
+                "balance": 698164711028.971,
+                "contributions": 0.0,
+                "interest": 504074751.8008583
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2018,
+                "balance": 698164711028.971,
+                "contributions": 0.0,
+                "interest": 504074751.8008583
+              }
+            ]
+          }
+        },
+        {
+          "accountId": "a2",
+          "included": true,
+          "annualRate": 0.1488,
+          "rolledForward": {
+            "contributions": 140259.4886281936,
+            "interest": 233746.82244359478
+          },
+          "series": {
+            "startBalance": 596739.0410717883,
+            "finalBalance": 597858.1096075672,
+            "totalContributions": 0.0,
+            "totalInterest": 1119.0685357789193,
+            "monthly": [
+              {
+                "year": 2018,
+                "month": 12,
+                "balance": 597858.1096075672,
+                "contributions": 0.0,
+                "interest": 1119.0685357789193
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2018,
+                "balance": 597858.1096075672,
+                "contributions": 0.0,
+                "interest": 1119.0685357789193
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "positive": {
+      "total": {
+        "startBalance": 697661303563.7766,
+        "finalBalance": 698472315695.1774,
+        "totalContributions": 0.0,
+        "totalInterest": 811012131.4007175,
+        "monthly": [
+          {
+            "year": 2018,
+            "month": 12,
+            "balance": 698472315695.1774,
+            "contributions": 0.0,
+            "interest": 811012131.4007175
+          }
+        ],
+        "yearly": [
+          {
+            "year": 2018,
+            "balance": 698472315695.1774,
+            "contributions": 0.0,
+            "interest": 811012131.4007175
+          }
+        ]
+      },
+      "accounts": [
+        {
+          "accountId": "a1",
+          "included": true,
+          "annualRate": 0.09,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 697660636277.17,
+            "finalBalance": 698471646885.33,
+            "totalContributions": 0.0,
+            "totalInterest": 811010608.1598749,
+            "monthly": [
+              {
+                "year": 2018,
+                "month": 12,
+                "balance": 698471646885.33,
+                "contributions": 0.0,
+                "interest": 811010608.1598749
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2018,
+                "balance": 698471646885.33,
+                "contributions": 0.0,
+                "interest": 811010608.1598749
+              }
+            ]
+          }
+        },
+        {
+          "accountId": "a2",
+          "included": true,
+          "annualRate": 0.18369999999999997,
+          "rolledForward": {
+            "contributions": 140259.4886281936,
+            "interest": 304294.3879133786
+          },
+          "series": {
+            "startBalance": 667286.6065415718,
+            "finalBalance": 668809.8473841746,
+            "totalContributions": 0.0,
+            "totalInterest": 1523.2408426027516,
+            "monthly": [
+              {
+                "year": 2018,
+                "month": 12,
+                "balance": 668809.8473841746,
+                "contributions": 0.0,
+                "interest": 1523.2408426027516
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2018,
+                "balance": 668809.8473841746,
+                "contributions": 0.0,
+                "interest": 1523.2408426027516
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "negative": {
+      "total": {
+        "startBalance": 697661168921.291,
+        "finalBalance": 697848856914.2771,
+        "totalContributions": 0.0,
+        "totalInterest": 187687992.98608643,
+        "monthly": [
+          {
+            "year": 2018,
+            "month": 12,
+            "balance": 697848856914.2771,
+            "contributions": 0.0,
+            "interest": 187687992.98608643
+          }
+        ],
+        "yearly": [
+          {
+            "year": 2018,
+            "balance": 697848856914.2771,
+            "contributions": 0.0,
+            "interest": 187687992.98608643
+          }
+        ]
+      },
+      "accounts": [
+        {
+          "accountId": "a1",
+          "included": true,
+          "annualRate": 0.020200000000000003,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 697660636277.17,
+            "finalBalance": 697848323494.4313,
+            "totalContributions": 0.0,
+            "totalInterest": 187687217.26127383,
+            "monthly": [
+              {
+                "year": 2018,
+                "month": 12,
+                "balance": 697848323494.4313,
+                "contributions": 0.0,
+                "interest": 187687217.26127383
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2018,
+                "balance": 697848323494.4313,
+                "contributions": 0.0,
+                "interest": 187687217.26127383
+              }
+            ]
+          }
+        },
+        {
+          "accountId": "a2",
+          "included": true,
+          "annualRate": 0.11389999999999999,
+          "rolledForward": {
+            "contributions": 140259.4886281936,
+            "interest": 169651.9023818784
+          },
+          "series": {
+            "startBalance": 532644.1210100726,
+            "finalBalance": 533419.8458226762,
+            "totalContributions": 0.0,
+            "totalInterest": 775.7248126036081,
+            "monthly": [
+              {
+                "year": 2018,
+                "month": 12,
+                "balance": 533419.8458226762,
+                "contributions": 0.0,
+                "interest": 775.7248126036081
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2018,
+                "balance": 533419.8458226762,
+                "contributions": 0.0,
+                "interest": 775.7248126036081
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

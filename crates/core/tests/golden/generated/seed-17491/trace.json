@@ -1,0 +1,22 @@
+[
+  {
+    "from": "2019-02-01",
+    "to": "2019-02-08",
+    "days": 7,
+    "daysInMonth": 28,
+    "daysInYear": 365,
+    "balanceStart": 281018.87,
+    "balanceEnd": 284495.76341180754,
+    "contributions": 2699.74,
+    "interest": 777.1534118075458,
+    "annualRate": 0.1397,
+    "deposits": [
+      {
+        "ruleId": "a1r3",
+        "date": "2019-02-01",
+        "amount": 2699.74,
+        "bucket": "start"
+      }
+    ]
+  }
+]

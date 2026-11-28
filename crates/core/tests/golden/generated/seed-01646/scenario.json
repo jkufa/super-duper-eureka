@@ -1,0 +1,55 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.0135,
+      "balance": 403397.93,
+      "balanceAsOf": "1996-02-29",
+      "contributions": [
+        {
+          "amount": 3838.55,
+          "growth": {
+            "amount": 439.02,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a1r1",
+          "salaryBasis": "weekly",
+          "startDate": "1996-03-30",
+          "timing": {
+            "day": 31,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 19.33,
+          "enabled": true,
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "salaryBasis": "biweekly",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "1996-03-01"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a1",
+      "included": false,
+      "kind": "pretax",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "1996-03-01",
+  "interest": {
+    "annualRate": 0.0167,
+    "compounding": "daily",
+    "variance": 0.0212
+  },
+  "salary": {
+    "annualBase": 258644.57,
+    "annualRaiseRate": 0.0022,
+    "asOf": "1994-09-30"
+  },
+  "version": 1
+}

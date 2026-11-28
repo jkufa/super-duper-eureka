@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "endDate": "2036-01-01",
+  "interest": {
+    "annualRate": 0.06,
+    "variance": 0.01,
+    "compounding": "monthly"
+  },
+  "salary": {
+    "annualBase": 100000,
+    "annualRaiseRate": 0.03,
+    "asOf": "2026-01-01"
+  },
+  "accounts": [
+    {
+      "id": "401k",
+      "name": "401k",
+      "kind": "pretax",
+      "included": true,
+      "balance": 90000,
+      "balanceAsOf": "2026-03-31",
+      "contributions": [
+        {
+          "id": "401k-monthly",
+          "name": "401k",
+          "type": "flat",
+          "amount": 1000,
+          "timing": {
+            "frequency": "monthly",
+            "placement": "start"
+          }
+        }
+      ]
+    },
+    {
+      "id": "hsa",
+      "name": "HSA",
+      "kind": "other",
+      "included": true,
+      "balance": 8000,
+      "balanceAsOf": "2026-06-15",
+      "annualRate": 0.04,
+      "contributions": [
+        {
+          "id": "hsa-monthly",
+          "name": "HSA",
+          "type": "flat",
+          "amount": 300,
+          "timing": {
+            "frequency": "monthly",
+            "day": 20
+          }
+        }
+      ]
+    },
+    {
+      "id": "old-ira",
+      "name": "Old IRA",
+      "kind": "pretax",
+      "included": false,
+      "balance": 25000,
+      "balanceAsOf": "2025-12-31",
+      "contributions": []
+    }
+  ]
+}

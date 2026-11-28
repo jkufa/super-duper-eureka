@@ -1,0 +1,15 @@
+[
+  {
+    "from": "2001-07-01",
+    "to": "2001-07-30",
+    "days": 29,
+    "daysInMonth": 31,
+    "daysInYear": 365,
+    "balanceStart": 0.0,
+    "balanceEnd": 0.0,
+    "contributions": 0.0,
+    "interest": 0.0,
+    "annualRate": 0.0324,
+    "deposits": []
+  }
+]

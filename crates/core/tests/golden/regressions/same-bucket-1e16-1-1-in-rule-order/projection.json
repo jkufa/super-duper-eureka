@@ -1,0 +1,654 @@
+{
+  "today": "2026-01-01",
+  "endDate": "2027-01-01",
+  "effectiveRate": 0.05,
+  "staleAccounts": [],
+  "salaryByYear": [
+    {
+      "year": 2026,
+      "salary": 0.0
+    }
+  ],
+  "bands": {
+    "baseline": {
+      "total": {
+        "startBalance": 0.0,
+        "finalBalance": 1.2322577529597285e+17,
+        "totalContributions": 1.2e+17,
+        "totalInterest": 3225775295972849.5,
+        "monthly": [
+          {
+            "year": 2026,
+            "month": 1,
+            "balance": 1.0040741237836484e+16,
+            "contributions": 1e+16,
+            "interest": 40741237836483.53
+          },
+          {
+            "year": 2026,
+            "month": 2,
+            "balance": 2.0122389698355496e+16,
+            "contributions": 2e+16,
+            "interest": 122389698355495.5
+          },
+          {
+            "year": 2026,
+            "month": 3,
+            "balance": 3.0245112042645892e+16,
+            "contributions": 3e+16,
+            "interest": 245112042645889.78
+          },
+          {
+            "year": 2026,
+            "month": 4,
+            "balance": 4.0409075610794424e+16,
+            "contributions": 4e+16,
+            "interest": 409075610794426.1
+          },
+          {
+            "year": 2026,
+            "month": 5,
+            "balance": 5.061444842465209e+16,
+            "contributions": 5e+16,
+            "interest": 614448424652091.9
+          },
+          {
+            "year": 2026,
+            "month": 6,
+            "balance": 6.086139919061169e+16,
+            "contributions": 6e+16,
+            "interest": 861399190611693.4
+          },
+          {
+            "year": 2026,
+            "month": 7,
+            "balance": 7.115009730239676e+16,
+            "contributions": 7e+16,
+            "interest": 1150097302396764.5
+          },
+          {
+            "year": 2026,
+            "month": 8,
+            "balance": 8.148071284386184e+16,
+            "contributions": 8e+16,
+            "interest": 1480712843861837.2
+          },
+          {
+            "year": 2026,
+            "month": 9,
+            "balance": 9.185341659180413e+16,
+            "contributions": 9e+16,
+            "interest": 1853416591804120.2
+          },
+          {
+            "year": 2026,
+            "month": 10,
+            "balance": 1.0226838001878664e+17,
+            "contributions": 1e+17,
+            "interest": 2268380018786633.0
+          },
+          {
+            "year": 2026,
+            "month": 11,
+            "balance": 1.1272577529597285e+17,
+            "contributions": 1.1e+17,
+            "interest": 2725775295972843.0
+          },
+          {
+            "year": 2026,
+            "month": 12,
+            "balance": 1.2322577529597285e+17,
+            "contributions": 1.2e+17,
+            "interest": 3225775295972849.5
+          }
+        ],
+        "yearly": [
+          {
+            "year": 2026,
+            "balance": 1.2322577529597285e+17,
+            "contributions": 1.2e+17,
+            "interest": 3225775295972849.5,
+            "weightedRate": 0.05
+          }
+        ]
+      },
+      "accounts": [
+        {
+          "accountId": "big",
+          "included": true,
+          "annualRate": 0.05,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 0.0,
+            "finalBalance": 1.2322577529597285e+17,
+            "totalContributions": 1.2e+17,
+            "totalInterest": 3225775295972849.5,
+            "monthly": [
+              {
+                "year": 2026,
+                "month": 1,
+                "balance": 1.0040741237836484e+16,
+                "contributions": 1e+16,
+                "interest": 40741237836483.53
+              },
+              {
+                "year": 2026,
+                "month": 2,
+                "balance": 2.0122389698355496e+16,
+                "contributions": 2e+16,
+                "interest": 122389698355495.5
+              },
+              {
+                "year": 2026,
+                "month": 3,
+                "balance": 3.0245112042645892e+16,
+                "contributions": 3e+16,
+                "interest": 245112042645889.78
+              },
+              {
+                "year": 2026,
+                "month": 4,
+                "balance": 4.0409075610794424e+16,
+                "contributions": 4e+16,
+                "interest": 409075610794426.1
+              },
+              {
+                "year": 2026,
+                "month": 5,
+                "balance": 5.061444842465209e+16,
+                "contributions": 5e+16,
+                "interest": 614448424652091.9
+              },
+              {
+                "year": 2026,
+                "month": 6,
+                "balance": 6.086139919061169e+16,
+                "contributions": 6e+16,
+                "interest": 861399190611693.4
+              },
+              {
+                "year": 2026,
+                "month": 7,
+                "balance": 7.115009730239676e+16,
+                "contributions": 7e+16,
+                "interest": 1150097302396764.5
+              },
+              {
+                "year": 2026,
+                "month": 8,
+                "balance": 8.148071284386184e+16,
+                "contributions": 8e+16,
+                "interest": 1480712843861837.2
+              },
+              {
+                "year": 2026,
+                "month": 9,
+                "balance": 9.185341659180413e+16,
+                "contributions": 9e+16,
+                "interest": 1853416591804120.2
+              },
+              {
+                "year": 2026,
+                "month": 10,
+                "balance": 1.0226838001878664e+17,
+                "contributions": 1e+17,
+                "interest": 2268380018786633.0
+              },
+              {
+                "year": 2026,
+                "month": 11,
+                "balance": 1.1272577529597285e+17,
+                "contributions": 1.1e+17,
+                "interest": 2725775295972843.0
+              },
+              {
+                "year": 2026,
+                "month": 12,
+                "balance": 1.2322577529597285e+17,
+                "contributions": 1.2e+17,
+                "interest": 3225775295972849.5
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2026,
+                "balance": 1.2322577529597285e+17,
+                "contributions": 1.2e+17,
+                "interest": 3225775295972849.5
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "positive": {
+      "total": {
+        "startBalance": 0.0,
+        "finalBalance": 1.2322577529597285e+17,
+        "totalContributions": 1.2e+17,
+        "totalInterest": 3225775295972849.5,
+        "monthly": [
+          {
+            "year": 2026,
+            "month": 1,
+            "balance": 1.0040741237836484e+16,
+            "contributions": 1e+16,
+            "interest": 40741237836483.53
+          },
+          {
+            "year": 2026,
+            "month": 2,
+            "balance": 2.0122389698355496e+16,
+            "contributions": 2e+16,
+            "interest": 122389698355495.5
+          },
+          {
+            "year": 2026,
+            "month": 3,
+            "balance": 3.0245112042645892e+16,
+            "contributions": 3e+16,
+            "interest": 245112042645889.78
+          },
+          {
+            "year": 2026,
+            "month": 4,
+            "balance": 4.0409075610794424e+16,
+            "contributions": 4e+16,
+            "interest": 409075610794426.1
+          },
+          {
+            "year": 2026,
+            "month": 5,
+            "balance": 5.061444842465209e+16,
+            "contributions": 5e+16,
+            "interest": 614448424652091.9
+          },
+          {
+            "year": 2026,
+            "month": 6,
+            "balance": 6.086139919061169e+16,
+            "contributions": 6e+16,
+            "interest": 861399190611693.4
+          },
+          {
+            "year": 2026,
+            "month": 7,
+            "balance": 7.115009730239676e+16,
+            "contributions": 7e+16,
+            "interest": 1150097302396764.5
+          },
+          {
+            "year": 2026,
+            "month": 8,
+            "balance": 8.148071284386184e+16,
+            "contributions": 8e+16,
+            "interest": 1480712843861837.2
+          },
+          {
+            "year": 2026,
+            "month": 9,
+            "balance": 9.185341659180413e+16,
+            "contributions": 9e+16,
+            "interest": 1853416591804120.2
+          },
+          {
+            "year": 2026,
+            "month": 10,
+            "balance": 1.0226838001878664e+17,
+            "contributions": 1e+17,
+            "interest": 2268380018786633.0
+          },
+          {
+            "year": 2026,
+            "month": 11,
+            "balance": 1.1272577529597285e+17,
+            "contributions": 1.1e+17,
+            "interest": 2725775295972843.0
+          },
+          {
+            "year": 2026,
+            "month": 12,
+            "balance": 1.2322577529597285e+17,
+            "contributions": 1.2e+17,
+            "interest": 3225775295972849.5
+          }
+        ],
+        "yearly": [
+          {
+            "year": 2026,
+            "balance": 1.2322577529597285e+17,
+            "contributions": 1.2e+17,
+            "interest": 3225775295972849.5
+          }
+        ]
+      },
+      "accounts": [
+        {
+          "accountId": "big",
+          "included": true,
+          "annualRate": 0.05,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 0.0,
+            "finalBalance": 1.2322577529597285e+17,
+            "totalContributions": 1.2e+17,
+            "totalInterest": 3225775295972849.5,
+            "monthly": [
+              {
+                "year": 2026,
+                "month": 1,
+                "balance": 1.0040741237836484e+16,
+                "contributions": 1e+16,
+                "interest": 40741237836483.53
+              },
+              {
+                "year": 2026,
+                "month": 2,
+                "balance": 2.0122389698355496e+16,
+                "contributions": 2e+16,
+                "interest": 122389698355495.5
+              },
+              {
+                "year": 2026,
+                "month": 3,
+                "balance": 3.0245112042645892e+16,
+                "contributions": 3e+16,
+                "interest": 245112042645889.78
+              },
+              {
+                "year": 2026,
+                "month": 4,
+                "balance": 4.0409075610794424e+16,
+                "contributions": 4e+16,
+                "interest": 409075610794426.1
+              },
+              {
+                "year": 2026,
+                "month": 5,
+                "balance": 5.061444842465209e+16,
+                "contributions": 5e+16,
+                "interest": 614448424652091.9
+              },
+              {
+                "year": 2026,
+                "month": 6,
+                "balance": 6.086139919061169e+16,
+                "contributions": 6e+16,
+                "interest": 861399190611693.4
+              },
+              {
+                "year": 2026,
+                "month": 7,
+                "balance": 7.115009730239676e+16,
+                "contributions": 7e+16,
+                "interest": 1150097302396764.5
+              },
+              {
+                "year": 2026,
+                "month": 8,
+                "balance": 8.148071284386184e+16,
+                "contributions": 8e+16,
+                "interest": 1480712843861837.2
+              },
+              {
+                "year": 2026,
+                "month": 9,
+                "balance": 9.185341659180413e+16,
+                "contributions": 9e+16,
+                "interest": 1853416591804120.2
+              },
+              {
+                "year": 2026,
+                "month": 10,
+                "balance": 1.0226838001878664e+17,
+                "contributions": 1e+17,
+                "interest": 2268380018786633.0
+              },
+              {
+                "year": 2026,
+                "month": 11,
+                "balance": 1.1272577529597285e+17,
+                "contributions": 1.1e+17,
+                "interest": 2725775295972843.0
+              },
+              {
+                "year": 2026,
+                "month": 12,
+                "balance": 1.2322577529597285e+17,
+                "contributions": 1.2e+17,
+                "interest": 3225775295972849.5
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2026,
+                "balance": 1.2322577529597285e+17,
+                "contributions": 1.2e+17,
+                "interest": 3225775295972849.5
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "negative": {
+      "total": {
+        "startBalance": 0.0,
+        "finalBalance": 1.2322577529597285e+17,
+        "totalContributions": 1.2e+17,
+        "totalInterest": 3225775295972849.5,
+        "monthly": [
+          {
+            "year": 2026,
+            "month": 1,
+            "balance": 1.0040741237836484e+16,
+            "contributions": 1e+16,
+            "interest": 40741237836483.53
+          },
+          {
+            "year": 2026,
+            "month": 2,
+            "balance": 2.0122389698355496e+16,
+            "contributions": 2e+16,
+            "interest": 122389698355495.5
+          },
+          {
+            "year": 2026,
+            "month": 3,
+            "balance": 3.0245112042645892e+16,
+            "contributions": 3e+16,
+            "interest": 245112042645889.78
+          },
+          {
+            "year": 2026,
+            "month": 4,
+            "balance": 4.0409075610794424e+16,
+            "contributions": 4e+16,
+            "interest": 409075610794426.1
+          },
+          {
+            "year": 2026,
+            "month": 5,
+            "balance": 5.061444842465209e+16,
+            "contributions": 5e+16,
+            "interest": 614448424652091.9
+          },
+          {
+            "year": 2026,
+            "month": 6,
+            "balance": 6.086139919061169e+16,
+            "contributions": 6e+16,
+            "interest": 861399190611693.4
+          },
+          {
+            "year": 2026,
+            "month": 7,
+            "balance": 7.115009730239676e+16,
+            "contributions": 7e+16,
+            "interest": 1150097302396764.5
+          },
+          {
+            "year": 2026,
+            "month": 8,
+            "balance": 8.148071284386184e+16,
+            "contributions": 8e+16,
+            "interest": 1480712843861837.2
+          },
+          {
+            "year": 2026,
+            "month": 9,
+            "balance": 9.185341659180413e+16,
+            "contributions": 9e+16,
+            "interest": 1853416591804120.2
+          },
+          {
+            "year": 2026,
+            "month": 10,
+            "balance": 1.0226838001878664e+17,
+            "contributions": 1e+17,
+            "interest": 2268380018786633.0
+          },
+          {
+            "year": 2026,
+            "month": 11,
+            "balance": 1.1272577529597285e+17,
+            "contributions": 1.1e+17,
+            "interest": 2725775295972843.0
+          },
+          {
+            "year": 2026,
+            "month": 12,
+            "balance": 1.2322577529597285e+17,
+            "contributions": 1.2e+17,
+            "interest": 3225775295972849.5
+          }
+        ],
+        "yearly": [
+          {
+            "year": 2026,
+            "balance": 1.2322577529597285e+17,
+            "contributions": 1.2e+17,
+            "interest": 3225775295972849.5
+          }
+        ]
+      },
+      "accounts": [
+        {
+          "accountId": "big",
+          "included": true,
+          "annualRate": 0.05,
+          "rolledForward": {
+            "contributions": 0.0,
+            "interest": 0.0
+          },
+          "series": {
+            "startBalance": 0.0,
+            "finalBalance": 1.2322577529597285e+17,
+            "totalContributions": 1.2e+17,
+            "totalInterest": 3225775295972849.5,
+            "monthly": [
+              {
+                "year": 2026,
+                "month": 1,
+                "balance": 1.0040741237836484e+16,
+                "contributions": 1e+16,
+                "interest": 40741237836483.53
+              },
+              {
+                "year": 2026,
+                "month": 2,
+                "balance": 2.0122389698355496e+16,
+                "contributions": 2e+16,
+                "interest": 122389698355495.5
+              },
+              {
+                "year": 2026,
+                "month": 3,
+                "balance": 3.0245112042645892e+16,
+                "contributions": 3e+16,
+                "interest": 245112042645889.78
+              },
+              {
+                "year": 2026,
+                "month": 4,
+                "balance": 4.0409075610794424e+16,
+                "contributions": 4e+16,
+                "interest": 409075610794426.1
+              },
+              {
+                "year": 2026,
+                "month": 5,
+                "balance": 5.061444842465209e+16,
+                "contributions": 5e+16,
+                "interest": 614448424652091.9
+              },
+              {
+                "year": 2026,
+                "month": 6,
+                "balance": 6.086139919061169e+16,
+                "contributions": 6e+16,
+                "interest": 861399190611693.4
+              },
+              {
+                "year": 2026,
+                "month": 7,
+                "balance": 7.115009730239676e+16,
+                "contributions": 7e+16,
+                "interest": 1150097302396764.5
+              },
+              {
+                "year": 2026,
+                "month": 8,
+                "balance": 8.148071284386184e+16,
+                "contributions": 8e+16,
+                "interest": 1480712843861837.2
+              },
+              {
+                "year": 2026,
+                "month": 9,
+                "balance": 9.185341659180413e+16,
+                "contributions": 9e+16,
+                "interest": 1853416591804120.2
+              },
+              {
+                "year": 2026,
+                "month": 10,
+                "balance": 1.0226838001878664e+17,
+                "contributions": 1e+17,
+                "interest": 2268380018786633.0
+              },
+              {
+                "year": 2026,
+                "month": 11,
+                "balance": 1.1272577529597285e+17,
+                "contributions": 1.1e+17,
+                "interest": 2725775295972843.0
+              },
+              {
+                "year": 2026,
+                "month": 12,
+                "balance": 1.2322577529597285e+17,
+                "contributions": 1.2e+17,
+                "interest": 3225775295972849.5
+              }
+            ],
+            "yearly": [
+              {
+                "year": 2026,
+                "balance": 1.2322577529597285e+17,
+                "contributions": 1.2e+17,
+                "interest": 3225775295972849.5
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

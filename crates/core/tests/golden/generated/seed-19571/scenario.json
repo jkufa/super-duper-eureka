@@ -1,0 +1,156 @@
+{
+  "accounts": [
+    {
+      "balance": 220664.62,
+      "balanceAsOf": "2058-05-01",
+      "contributions": [
+        {
+          "amount": 1069.46,
+          "id": "a1r1",
+          "startDate": "2059-01-29",
+          "timing": {
+            "frequency": "annual",
+            "month": 8
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 1"
+    },
+    {
+      "annualRate": 0.0214,
+      "balance": 110878.81,
+      "balanceAsOf": "2058-05-01",
+      "contributions": [],
+      "id": "a2",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 2"
+    },
+    {
+      "annualRate": 0.0399,
+      "balance": 0.99,
+      "balanceAsOf": "2056-02-29",
+      "contributions": [
+        {
+          "amount": 2702.93,
+          "growth": {
+            "amount": 9.62,
+            "cadence": "annual",
+            "type": "percent"
+          },
+          "id": "a3r1",
+          "startDate": "2057-06-06",
+          "timing": {
+            "day": 31,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 19.47,
+          "id": "a3r2",
+          "name": "Rule a3r2",
+          "salaryBasis": "weekly",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2057-08-17"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 3673.4,
+          "id": "a3r3",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2058-05-01"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 617.2,
+          "growth": {
+            "amount": 0.14,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a3g",
+          "startDate": "1969-02-15",
+          "timing": {
+            "day": 30,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a3",
+      "included": true,
+      "kind": "other",
+      "name": "Account 3"
+    },
+    {
+      "annualRate": 0.0702,
+      "balance": 96066.35,
+      "balanceAsOf": "2058-05-01",
+      "contributions": [
+        {
+          "amount": 287.03,
+          "id": "a4r1",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2058-05-07"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0,
+          "enabled": true,
+          "id": "a4r2",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2058-09-23"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 4134.21,
+          "id": "a4r3",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2058-05-01"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a4",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 4"
+    },
+    {
+      "annualRate": 0.0663,
+      "balance": 14812.05,
+      "balanceAsOf": "2058-05-01",
+      "contributions": [],
+      "id": "a5",
+      "included": true,
+      "kind": "other",
+      "name": "Account 5"
+    }
+  ],
+  "endDate": "2058-05-08",
+  "interest": {
+    "annualRate": 0.0664,
+    "compounding": "daily",
+    "variance": 0
+  },
+  "salary": {
+    "annualBase": 206439.42,
+    "annualRaiseRate": -0.2726,
+    "asOf": "2054-08-09"
+  },
+  "version": 1
+}

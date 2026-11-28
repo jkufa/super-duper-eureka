@@ -1,0 +1,22 @@
+[
+  {
+    "from": "2036-02-29",
+    "to": "2036-03-01",
+    "days": 1,
+    "daysInMonth": 29,
+    "daysInYear": 366,
+    "balanceStart": 76664.02,
+    "balanceEnd": 80442.28818301276,
+    "contributions": 3770.75,
+    "interest": 7.51818301275932,
+    "annualRate": 0.0348,
+    "deposits": [
+      {
+        "ruleId": "a1r1",
+        "date": "2036-02-29",
+        "amount": 3770.75,
+        "bucket": "end"
+      }
+    ]
+  }
+]

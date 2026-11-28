@@ -1,0 +1,221 @@
+{
+  "accounts": [
+    {
+      "annualRate": -0.0005,
+      "balance": 356364.39,
+      "balanceAsOf": "1995-03-15",
+      "contributions": [
+        {
+          "amount": 3139.09,
+          "id": "a1r1",
+          "timing": {
+            "day": 30,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0,
+          "enabled": false,
+          "id": "a1r2",
+          "timing": {
+            "frequency": "annual",
+            "month": 2,
+            "placement": "start"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 397.78,
+          "enabled": false,
+          "id": "a1r3",
+          "timing": {
+            "frequency": "annual",
+            "month": 9,
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 4868.72,
+          "enabled": true,
+          "endDate": "1995-03-21",
+          "id": "a1r4",
+          "timing": {
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 12.87,
+          "id": "a1r5",
+          "name": "Rule a1r5",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 86.44,
+          "growth": {
+            "amount": 0.32,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a1g",
+          "startDate": "1908-12-25",
+          "timing": {
+            "day": 28,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "roth",
+      "name": "Account 1"
+    },
+    {
+      "balance": 0,
+      "balanceAsOf": "1995-03-20",
+      "contributions": [],
+      "id": "a2",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 2"
+    },
+    {
+      "balance": 422685.05,
+      "balanceAsOf": "1992-05-24",
+      "contributions": [
+        {
+          "amount": 13.28,
+          "enabled": false,
+          "id": "a3r1",
+          "name": "Rule a3r1",
+          "salaryBasis": "biweekly",
+          "timing": {
+            "day": 31,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 277.23,
+          "id": "a3r2",
+          "startDate": "1989-07-29",
+          "timing": {
+            "day": 28,
+            "frequency": "annual",
+            "month": 12
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a3",
+      "included": false,
+      "kind": "roth",
+      "name": "Account 3"
+    },
+    {
+      "balance": 74017.79,
+      "balanceAsOf": "1995-03-23",
+      "contributions": [
+        {
+          "amount": 8.8,
+          "enabled": true,
+          "id": "a4r1",
+          "salaryBasis": "weekly",
+          "timing": {
+            "frequency": "annual",
+            "month": 9,
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 4568.67,
+          "enabled": false,
+          "endDate": "1995-04-05",
+          "id": "a4r2",
+          "timing": {
+            "day": 12,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 7.98,
+          "growth": {
+            "amount": 21.52,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a4r3",
+          "startDate": "1995-04-04",
+          "timing": {
+            "frequency": "annual",
+            "month": 4,
+            "placement": "start"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 2184.94,
+          "enabled": false,
+          "id": "a4r4",
+          "name": "Rule a4r4",
+          "startDate": "1995-09-29",
+          "timing": {
+            "day": 20,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 14.11,
+          "enabled": false,
+          "endDate": "1995-04-15",
+          "id": "a4r5",
+          "name": "Rule a4r5",
+          "salaryBasis": "biweekly",
+          "timing": {
+            "day": 1,
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a4",
+      "included": true,
+      "kind": "other",
+      "name": "Account 4"
+    },
+    {
+      "annualRate": -0.0005,
+      "balance": 408686.62,
+      "balanceAsOf": "1993-03-10",
+      "contributions": [],
+      "id": "a5",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 5"
+    }
+  ],
+  "endDate": "1995-04-06",
+  "interest": {
+    "annualRate": -0.0005,
+    "compounding": "monthly",
+    "variance": 0.0356
+  },
+  "salary": {
+    "annualBase": 239184.35,
+    "annualRaiseRate": -0.2324,
+    "asOf": "1991-05-18"
+  },
+  "version": 1
+}

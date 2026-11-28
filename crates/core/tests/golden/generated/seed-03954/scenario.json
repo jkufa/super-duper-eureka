@@ -1,0 +1,147 @@
+{
+  "accounts": [
+    {
+      "balance": 452013.64,
+      "balanceAsOf": "2015-03-13",
+      "contributions": [
+        {
+          "amount": 1757.98,
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "timing": {
+            "day": 2,
+            "frequency": "annual",
+            "month": 8
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 528.57,
+          "id": "a1r2",
+          "name": "Rule a1r2",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 4.9,
+          "id": "a1r3",
+          "salaryBasis": "annual",
+          "timing": {
+            "day": 31,
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 118.65,
+          "growth": {
+            "amount": 94.94,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a1r4",
+          "name": "Rule a1r4",
+          "startDate": "2016-01-14",
+          "timing": {
+            "day": 1,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 4715.83,
+          "enabled": true,
+          "endDate": "2015-03-17",
+          "id": "a1r5",
+          "name": "Rule a1r5",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": false,
+      "kind": "taxable",
+      "name": "Account 1"
+    },
+    {
+      "annualRate": 0.0716,
+      "balance": 0,
+      "balanceAsOf": "2012-02-29",
+      "contributions": [
+        {
+          "amount": 1949.85,
+          "endDate": "2016-01-25",
+          "id": "a2r1",
+          "salaryBasis": "daily",
+          "timing": {
+            "day": 28,
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 4038.66,
+          "endDate": "2012-10-07",
+          "id": "a2r2",
+          "name": "Rule a2r2",
+          "startDate": "2012-10-07",
+          "timing": {
+            "day": 22,
+            "frequency": "monthly"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0,
+          "endDate": "2018-03-01",
+          "growth": {
+            "amount": 401.07,
+            "cadence": "monthly",
+            "type": "flat"
+          },
+          "id": "a2r3",
+          "salaryBasis": "annual",
+          "startDate": "2005-05-29",
+          "timing": {
+            "day": 28,
+            "frequency": "monthly"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 2553.82,
+          "endDate": "2015-11-29",
+          "id": "a2r4",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "start"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a2",
+      "included": true,
+      "kind": "taxable",
+      "name": "Account 2"
+    }
+  ],
+  "endDate": "2015-03-25",
+  "interest": {
+    "annualRate": 0.0985,
+    "compounding": "monthly",
+    "variance": 0.0606
+  },
+  "salary": {
+    "annualBase": 0,
+    "annualRaiseRate": 0,
+    "asOf": "2015-03-19"
+  },
+  "version": 1
+}

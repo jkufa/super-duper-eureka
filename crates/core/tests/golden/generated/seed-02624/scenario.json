@@ -1,0 +1,25 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.0249,
+      "balance": 32073.49,
+      "balanceAsOf": "2036-02-29",
+      "contributions": [],
+      "id": "a1",
+      "included": true,
+      "kind": "other",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2036-03-03",
+  "interest": {
+    "annualRate": -0.0298,
+    "variance": 0.0543
+  },
+  "salary": {
+    "annualBase": 257308.22,
+    "annualRaiseRate": 0.0322,
+    "asOf": "2036-02-29"
+  },
+  "version": 1
+}

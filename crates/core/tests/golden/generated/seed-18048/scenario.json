@@ -1,0 +1,65 @@
+{
+  "accounts": [
+    {
+      "balance": 196566.8,
+      "balanceAsOf": "2056-02-29",
+      "contributions": [
+        {
+          "amount": 4.07,
+          "enabled": true,
+          "id": "a1r1",
+          "startDate": "2051-10-21",
+          "timing": {
+            "day": 27,
+            "frequency": "annual",
+            "month": 10
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 0.1,
+          "id": "a1s1",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0.2,
+          "id": "a1s2",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 0.3,
+          "id": "a1s3",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "pretax",
+      "name": "Account 1"
+    }
+  ],
+  "endDate": "2056-03-02",
+  "interest": {
+    "annualRate": 0.0544,
+    "compounding": "monthly",
+    "variance": 0.0207
+  },
+  "salary": {
+    "annualBase": 0,
+    "annualRaiseRate": 0.033,
+    "asOf": "2056-02-29"
+  },
+  "version": 1
+}

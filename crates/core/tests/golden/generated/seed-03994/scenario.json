@@ -1,0 +1,181 @@
+{
+  "accounts": [
+    {
+      "annualRate": 0.0331,
+      "balance": 0,
+      "balanceAsOf": "2017-08-01",
+      "contributions": [
+        {
+          "amount": 4800.23,
+          "enabled": true,
+          "id": "a1r1",
+          "name": "Rule a1r1",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2017-08-01"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 298.02,
+          "id": "a1r2",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 9.49,
+          "id": "a1r3",
+          "name": "Rule a1r3",
+          "salaryBasis": "biweekly",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2015-07-14"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a1",
+      "included": true,
+      "kind": "other",
+      "name": "Account 1"
+    },
+    {
+      "annualRate": 0.1143,
+      "balance": 69068.93,
+      "balanceAsOf": "2017-08-01",
+      "contributions": [
+        {
+          "amount": 1467.86,
+          "id": "a2r1",
+          "name": "Rule a2r1",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2017-08-01"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 997.27,
+          "id": "a2r2",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2017-08-01"
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 1650.14,
+          "id": "a2r3",
+          "name": "Rule a2r3",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2017-08-01"
+          },
+          "type": "flat"
+        }
+      ],
+      "id": "a2",
+      "included": true,
+      "kind": "other",
+      "name": "Account 2"
+    },
+    {
+      "annualRate": 0.1473,
+      "balance": 474891.08,
+      "balanceAsOf": "2016-02-29",
+      "contributions": [
+        {
+          "amount": 18.7,
+          "enabled": true,
+          "growth": {
+            "amount": 0,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a3r1",
+          "name": "Rule a3r1",
+          "salaryBasis": "biweekly",
+          "startDate": "2012-08-30",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 16.3,
+          "id": "a3r2",
+          "salaryBasis": "annual",
+          "timing": {
+            "frequency": "oneTime",
+            "on": "2018-02-02"
+          },
+          "type": "salaryPercent"
+        },
+        {
+          "amount": 3485.62,
+          "enabled": true,
+          "endDate": "2022-11-13",
+          "growth": {
+            "amount": 1.2,
+            "cadence": "monthly",
+            "type": "percent"
+          },
+          "id": "a3r3",
+          "name": "Rule a3r3",
+          "startDate": "2016-03-31",
+          "timing": {
+            "day": 31,
+            "frequency": "annual",
+            "month": 12
+          },
+          "type": "flat"
+        },
+        {
+          "amount": 2.17,
+          "growth": {
+            "amount": 407.36,
+            "cadence": "annual",
+            "type": "flat"
+          },
+          "id": "a3r4",
+          "salaryBasis": "perContribution",
+          "startDate": "2014-08-31",
+          "timing": {
+            "frequency": "monthly",
+            "placement": "end"
+          },
+          "type": "salaryPercent"
+        }
+      ],
+      "id": "a3",
+      "included": false,
+      "kind": "taxable",
+      "name": "Account 3"
+    },
+    {
+      "balance": 41469.67,
+      "balanceAsOf": "2016-11-12",
+      "contributions": [],
+      "id": "a4",
+      "included": true,
+      "kind": "other",
+      "name": "Account 4"
+    }
+  ],
+  "endDate": "2017-08-27",
+  "interest": {
+    "annualRate": 0.1143,
+    "compounding": "daily",
+    "variance": 0.0733
+  },
+  "salary": {
+    "annualBase": 0,
+    "annualRaiseRate": 0.0185,
+    "asOf": "2012-10-17"
+  },
+  "version": 1
+}
