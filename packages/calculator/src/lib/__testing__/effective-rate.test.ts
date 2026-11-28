@@ -187,6 +187,79 @@ describe('effectiveRate: short cuts', () => {
   });
 });
 
+describe('effectiveRate: a pool the rate cannot move', () => {
+  const lowAccount: AccountSetup = {
+    id: 'low',
+    annualRate: 0.04,
+    contributions: [monthly('fifty', 50, 'end')]
+  };
+  const highAccount: AccountSetup = {
+    id: 'high',
+    annualRate: 0.1,
+    contributions: [monthly('ten', 10.01, 'end'), monthly('one', 1.23, 'end')]
+  };
+
+  it.each([
+    ['low first', [lowAccount, highAccount]],
+    ['high first', [highAccount, lowAccount]]
+  ])('returns the lowest rate when no money earns interest, %s', (_, accounts) => {
+    // Every deposit lands in the end bucket of the only month: 50 + 10.01 + 1.23 = 61.24 at any rate.
+    const projection = project({ today: '2026-01-01', endDate: '2026-02-01', accounts });
+
+    expect(projection.bands.baseline.total.finalBalance).toBe(61.24);
+    expect(projection.bands.baseline.total.totalInterest).toBe(0);
+    expect(projection.effectiveRate).toBe(0.04);
+  });
+
+  function threshold(endDeposit: number): Setup {
+    // At 0% the pool ends on 1 + endDeposit. At 4095% the 1 doubles, so it ends on 2 + endDeposit.
+    // The two differ by 1, and the threshold is 1e-9 times the pool at 4095%.
+    return {
+      today: '2026-12-01',
+      endDate: '2027-01-01',
+      accounts: [
+        { id: 'end', contributions: [monthly('end', endDeposit, 'end')] },
+        { id: 'fast', balance: 1, annualRate: DOUBLING_MONTHLY_RATE }
+      ]
+    };
+  }
+
+  it('returns the lowest rate when the bracket ends differ by exactly 1e-9 of the pool at hi', () => {
+    // 1 <= 1e-9 * (2 + 999,999,998) = 1.
+    expect(project(threshold(999_999_998)).effectiveRate).toBe(0);
+  });
+
+  it('bisects when the bracket ends differ by just more than 1e-9 of the pool at hi', () => {
+    // 1 > 1e-9 * (2 + 999,999,997) = 0.999999999.
+    const setup = threshold(999_999_997);
+    const projection = project(setup);
+    const pooled = poolFinalBalance(includedPool(setup), 'monthly', projection.effectiveRate);
+
+    expect(projection.effectiveRate).toBeGreaterThan(0);
+    expect(relativeError(pooled, projection.bands.baseline.total.finalBalance)).toBeLessThan(1e-9);
+  });
+
+  it('returns the lowest rate, as step 5 is written, when the pool overflows at hi', () => {
+    // At 4095% for 30 years the pool grows by 2^360 = 2.3e108, so 1e201 overflows while the total
+    // is 1e201 + 1e196 * 2^360 = 2.3e304. Bisection would return 2789.571384675445.
+    const setup: Setup = {
+      today: '2026-01-01',
+      endDate: '2056-01-01',
+      accounts: [
+        { id: 'slow', balance: 1e201 },
+        { id: 'fast', balance: 1e196, annualRate: DOUBLING_MONTHLY_RATE }
+      ]
+    };
+    const projection = project(setup);
+
+    expect(poolFinalBalance(includedPool(setup), 'monthly', DOUBLING_MONTHLY_RATE)).toBe(
+      Number.POSITIVE_INFINITY
+    );
+    expect(Number.isFinite(projection.bands.baseline.total.finalBalance)).toBe(true);
+    expect(projection.effectiveRate).toBe(0);
+  });
+});
+
 describe('effectiveRate: the solve', () => {
   it('matches the README example: 6.66% effective, 7.0% weighted in the last year', () => {
     // 180,000 * 1.06^30 + 20,000 * 1.1^30 = 1,033,828.4 + 348,988.0 = 1,382,816.5.
@@ -294,7 +367,7 @@ describe('effectiveRate: the solve', () => {
 });
 
 describe('bisectRate', () => {
-  it('compounds exactly 60 times at midpoints written lo + (hi - lo) / 2', () => {
+  it('makes exactly 60 passes at midpoints lo + (hi - lo) / 2, not counting the passes effectiveRate makes at lo and hi', () => {
     const calls: Array<number> = [];
     const rate = bisectRate(0, 1, 0.3, (midpoint) => {
       calls.push(midpoint);
