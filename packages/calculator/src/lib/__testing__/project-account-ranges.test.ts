@@ -292,6 +292,15 @@ describe('projectAccount over part of a month', () => {
     }
   );
 
+  it('multiplies monthly segment interest by the day fraction last: 1000 × 1 × (11/30) = 366.66666666666663, not 1000 × 11 / 30', () => {
+    expect(1000 * 1 * (11 / 30)).toBe(366.66666666666663);
+    expect((1000 * 11) / 30).toBe(366.6666666666667);
+    expect(
+      project({ compounding: 'monthly', from: '2026-11-01', to: '2026-11-12', opening: 1000 })
+        .totalInterest
+    ).toBe(366.66666666666663);
+  });
+
   it('keeps a one-time deposit on the 28th in the start bucket of a monthly segment from the 27th: (2500 + 500) × 4/30 = 400', () => {
     const run: Run = {
       compounding: 'monthly',
