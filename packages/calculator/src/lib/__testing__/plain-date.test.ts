@@ -61,6 +61,27 @@ describe('plain dates', () => {
     expect(formatPlainDate(addMonths(date, months))).toBe(expected);
   });
 
+  it.each([
+    [{ year: 9999, month: 12, day: 31 }, 1],
+    [{ year: 1, month: 1, day: 1 }, -1],
+    [{ year: 2026, month: 1, day: 1 }, 12 * 8000]
+  ])('throws a RangeError when adding months to %o leaves years 0001 to 9999', (date, months) => {
+    expect(() => addMonths(date, months)).toThrow(RangeError);
+  });
+
+  it('reaches both ends of the year range', () => {
+    expect(addMonths({ year: 9999, month: 11, day: 30 }, 1)).toStrictEqual({
+      year: 9999,
+      month: 12,
+      day: 30
+    });
+    expect(addMonths({ year: 1, month: 2, day: 28 }, -1)).toStrictEqual({
+      year: 1,
+      month: 1,
+      day: 28
+    });
+  });
+
   it.each(['2026-01-01', '2024-02-29', '0001-01-01', '9999-12-31', '2026-12-31'])(
     'parses and formats %s unchanged',
     (text) => {
@@ -86,8 +107,27 @@ describe('plain dates', () => {
     '2026-01-01T00:00:00.000Z',
     ' 2026-01-01',
     '2026/01/01',
+    '0000-01-01',
+    '0000-12-31',
+    '2026-01-01\n',
+    '2026-01-01 ',
+    '\t2026-01-01',
+    '2026-01-01T00:00',
+    '2026-01-01Z',
+    '＋2026-01-01',
+    '२०२६-01-01',
     ''
   ])('rejects %j', (text) => {
     expect(parsePlainDate(text)).toBeUndefined();
+  });
+
+  it.each([
+    ['an array holding a date', ['2026-01-01']],
+    ['a symbol', Symbol('2026-01-01')],
+    ['a number', 20_260_101],
+    ['null', null],
+    ['an object with a matching string form', { toString: () => '2026-01-01' }]
+  ])('rejects %s without coercing it', (_, value) => {
+    expect(parsePlainDate(value)).toBeUndefined();
   });
 });
