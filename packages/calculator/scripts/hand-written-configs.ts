@@ -609,5 +609,121 @@ export const handWrittenConfigs = {
         yearRange: { start: 10, end: 25 }
       }
     ]
-  })
+  }),
+  'raw-defaults-monthly': {
+    currentBalance: 38_000,
+    timeHorizonYears: 9,
+    startDate: firstOf(5),
+    interest: { annualRate: 0.055 },
+    salary: { annualBase: 87_000 },
+    contributions: [
+      {
+        id: 'payroll',
+        type: 'salaryPercent',
+        amount: 6,
+        timing: { frequency: 'monthly' }
+      },
+      {
+        id: 'year-start-bonus',
+        type: 'salaryPercent',
+        amount: 5,
+        timing: { frequency: 'annual', month: 1 }
+      },
+      {
+        id: 'late-saver',
+        type: 'flat',
+        amount: 450,
+        timing: { frequency: 'monthly' },
+        yearRange: { start: 3 }
+      }
+    ]
+  },
+  'raw-defaults-daily': {
+    currentBalance: 61_000,
+    timeHorizonYears: 7,
+    startDate: firstOf(11),
+    interest: { annualRate: 0.045, compounding: 'daily' },
+    salary: { annualBase: 102_000 },
+    contributions: [
+      {
+        id: 'payroll',
+        type: 'salaryPercent',
+        amount: 4,
+        timing: { frequency: 'annual', month: 8 }
+      },
+      {
+        id: 'auto-invest',
+        type: 'flat',
+        amount: 275,
+        timing: { frequency: 'monthly' },
+        yearRange: { start: 2 }
+      }
+    ]
+  },
+  'raw-first-month-days-monthly': {
+    currentBalance: 44_000,
+    timeHorizonYears: 4,
+    startDate: firstOf(3),
+    interest: { annualRate: 0.06, variance: 0.02, compounding: 'monthly' },
+    salary: { annualBase: 94_000, annualRaiseRate: 0.03 },
+    contributions: [
+      {
+        id: 'annual-early',
+        type: 'flat',
+        amount: 1000,
+        timing: { frequency: 'annual', month: 2, day: 10 }
+      },
+      {
+        id: 'annual-late',
+        type: 'flat',
+        amount: 1500,
+        timing: { frequency: 'annual', month: 2, day: 25 }
+      },
+      {
+        id: 'one-time-early',
+        type: 'flat',
+        amount: 3000,
+        timing: { frequency: 'oneTime', on: { year: 0, month: 2, day: 5 } }
+      },
+      {
+        id: 'one-time-late',
+        type: 'flat',
+        amount: 6000,
+        timing: { frequency: 'oneTime', on: { year: 0, month: 2, day: 28 } }
+      }
+    ]
+  },
+  'raw-first-month-days-daily': {
+    currentBalance: 44_000,
+    timeHorizonYears: 4,
+    startDate: firstOf(3),
+    interest: { annualRate: 0.06, variance: 0.02, compounding: 'daily' },
+    salary: { annualBase: 94_000, annualRaiseRate: 0.03 },
+    contributions: [
+      {
+        id: 'annual-early',
+        type: 'flat',
+        amount: 1000,
+        timing: { frequency: 'annual', month: 2, day: 10 }
+      },
+      {
+        id: 'annual-late',
+        type: 'flat',
+        amount: 1500,
+        timing: { frequency: 'annual', month: 2, day: 25 }
+      },
+      {
+        id: 'one-time-early',
+        type: 'flat',
+        amount: 3000,
+        timing: { frequency: 'oneTime', on: { year: 0, month: 2, day: 5 } }
+      },
+      {
+        id: 'one-time-late',
+        type: 'flat',
+        amount: 6000,
+        timing: { frequency: 'oneTime', on: { year: 0, month: 2, day: 28 } }
+      }
+    ]
+  }
 } satisfies Record<string, RetirementConfig>;
