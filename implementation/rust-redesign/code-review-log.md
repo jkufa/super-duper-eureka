@@ -168,3 +168,67 @@ For PR review agents only. Orchestration and implementation agents do not read t
 - Better: When deleting a dependency's last caller, check source lookup configuration and examples as well as package manifests.
 - Seen before: no
 - Promoted: no
+
+### 2026-11-27, spec 2 part A, shared digest omits outputs under contract
+
+- Where: `packages/calculator/src/lib/__testing__/baseline.ts` and `number-streams.ts`, PR #9
+- What: The comparison omits monthly salary and date fields, projection and trace summaries, and the numeric metadata and deposit details of each step. The trace call disables contribution details. Adding one dollar to the reported start bucket leaves all 507 tests passing. The four full reference files are also outside the comparison.
+- Better: Compare or hash all output fields that the rebuild promises to preserve, with record boundaries. Keep the trace details enabled for the comparison and state how replaced fields map to the new contract.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-27, spec 2 part A, numeric encoding loses signed zero
+
+- Where: `packages/calculator/src/lib/__testing__/number-streams.ts` and `implementation/rust-redesign/02-ts-engine-rebuild-spec.md`, PR #9
+- What: String conversion produces the same token for 0 and -0. The writer rejects -0 during capture, but changing zero step interest to -0 on replay leaves all 507 tests passing.
+- Better: Encode signed zero explicitly or enforce the same canonical-number check during replay.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-27, spec 2 part A, digest cannot enforce a numeric tolerance
+
+- Where: `implementation/rust-redesign/02-ts-engine-rebuild-spec.md`, parts A and B, PR #9
+- What: The spec allows a relative tolerance, but the saved monthly and step values are only hashes for 227 inputs. A mismatched hash gives no expected value to use in that comparison.
+- Better: Keep exact comparison mandatory or arrange to replay a frozen legacy oracle for any explicitly approved tolerance.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-27, spec 2 part A, adapter maps legacy offsets to invalid dates
+
+- Where: `implementation/rust-redesign/02-ts-engine-rebuild-spec.md`, part C, and `packages/calculator/scripts/hand-written-configs.ts`, PR #9
+- What: The adapter says to substitute day 1 for a missing one-time day but has no rule for impossible explicit dates. A fixture specifies April 31, which is accepted by the legacy engine and would fail civil-date validation when copied literally.
+- Better: Clamp the legacy day in the target year and month before formatting the adapter's one-time date.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-27, spec 2 part A, exact parity depends on unstated rounding and evaluation order
+
+- Where: `implementation/rust-redesign/02-ts-engine-rebuild-spec.md`, parts C and D, PR #9
+- What: The recurring monthly bucket description leaves odd-month midpoint rounding implicit. The partial-month formula also reads as multiply by days then divide, which changes stored full-month interest in the last digit.
+- Better: Specify the ceiling midpoint and compute the day fraction before multiplying. Keep the legacy grouping and addition order when moving deposits into the schedule.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-27, spec 2 part A, fixture writer removes the oracle before validating replacements
+
+- Where: `packages/calculator/scripts/write-baseline.ts`, PR #9
+- What: The writer deletes both live directories before validating the first input. Readers can see a partial corpus during regeneration, and a validation failure can leave that corpus in place.
+- Better: Validate and serialize the replacement corpus before touching the existing files. Stage regeneration if concurrent readers need a complete view.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-27, spec 2 part A, type predicates promise unvalidated fixture fields
+
+- Where: `packages/calculator/src/lib/__testing__/baseline.ts`, PR #9
+- What: The guards narrow arbitrary JSON to RetirementConfig and BaselineCase while leaving array elements and optional fields unchecked.
+- Better: Validate the shapes the predicates claim, or make the trusted fixture deserialization boundary explicit.
+- Seen before: no
+- Promoted: no
+
+### 2026-11-27, spec 2 part A, fixtures normalize away defaults before testing
+
+- Where: `packages/calculator/scripts/hand-written-configs.ts` and the saved corpus, PR #9
+- What: All 231 inputs supply compounding and a salary raise, and every enabled salary-percentage rule supplies its salary basis. Every enabled recurring rule supplies a day or placement. The baseline will pass if a rebuild mishandles these defaults.
+- Better: Save a small raw config with optional fields omitted so the engine and legacy adapter resolve the defaults during the test.
+- Seen before: no
+- Promoted: no
