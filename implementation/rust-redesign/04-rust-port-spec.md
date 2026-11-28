@@ -78,8 +78,8 @@ Port `traceAccount`. Same records, same field names.
 
 A script that proves the two engines agree.
 
-1. Generate cases with spec 2's generator, seeds 1 to N.
-2. Run each case through the TypeScript CLI on Bun and the Rust CLI, with `--today` set from the case. Bun is the reference runtime. Node computes whole-number powers differently in the last digit. On 200,000 samples it matched `powf` on all but 5 and disagreed with `powi` on 163,875.
+1. Generate cases with spec 2's generator, seeds 1 to N: `vp run parity-corpus <dir> 1 N`.
+2. Run each case through the TypeScript CLI on Bun and the Rust CLI, as `--scenario <seed>.scenario.json --today <today>`, with `today` read from `<seed>.json`. Bun is the reference runtime. Node computes whole-number powers differently in the last digit. On 200,000 samples it matched `powf` on all but 5 and disagreed with `powi` on 163,875.
 3. Compare the two JSON documents.
 
 The comparison:
@@ -88,6 +88,12 @@ The comparison:
 - Two numbers `a` and `b` agree when `|a - b| <= 1e-9 * max(1, |a|, |b|)`.
 - An invalid case must fail in both with the same error `code` and the same account or rule id. For `not_finite`, compare the id only when both report one, since the two may meet different overflowing figures first. For `invalid_field` compare the code alone. Rust's deserialiser reports a shape error without knowing which account it was in.
 - For every valid case also compare the trace of its first account in the baseline band.
+
+Use the traits in `<seed>.json`:
+
+- A failing case names its expected code and ids. Both CLIs must report them, and the harness checks each against the traits as well as against the other.
+- Report results grouped by trait, so a difference that only shows with one edge is visible as such.
+- Cases with `negative_salary_power` or `growth_periods_over_1000` are where the two languages are known to differ in the last bit. Report the largest relative difference inside those cases and outside them separately. Outside them the expectation is zero.
 
 Rules for the run:
 
