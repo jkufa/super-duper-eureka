@@ -29,7 +29,10 @@ export interface ScheduledMonth {
 
 export function salaryInYear(scenario: Scenario, year: number): number {
   const { annualBase, annualRaiseRate, asOf } = scenario.salary;
-  return annualBase * (1 + annualRaiseRate) ** (year - asOf.year);
+  const n = year - asOf.year;
+  return n >= 0
+    ? annualBase * (1 + annualRaiseRate) ** n
+    : annualBase / (1 + annualRaiseRate) ** -n;
 }
 
 export function buildAccountSchedule(

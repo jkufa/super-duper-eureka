@@ -17,12 +17,12 @@ const ONE_IN_TEN = SEEDS / 10;
 const CORPUS_TIMEOUT_MS = 120_000;
 
 const PINNED_SHA256 = new Map([
-  [1, '26f11b94d4ad77fb91c9b1d02a5597a3f7bab4a4759c601cfb58f7b24fdfad40'],
-  [2, '72575ec6ad8f116820be2de476f8f9d4136be33f82da0e19fb6f798916b43139'],
-  [20, '4c6794a2a745498d9b62f60569a4225e4244e726d21c3215cf2878936044680b'],
-  [50, '95fa540bc8f496c81c4b35a8fc56be5e0c728069cdea9a19651267436a3cac72'],
-  [777, '5a9a8a23462d336a4ae3e9d17d931fbd930156100bacd14ae7711c2f3bb2a600'],
-  [1999, 'aac1ce7be584433fd9d736139577111213c8a52f3234866821c08403f2fef4cd']
+  [1, 'b76731468c4e5ff45886d631b8d8cca9770b1b8384351a6ec1fe9190a2225b45'],
+  [2, 'e0241eb59a79a7c94c9c8513edbee68fe13404d4a975301bf06465fef89a053d'],
+  [20, 'dfc9df614336652d8af0fcfcfde2f205e345214d9e660e4ed3267c40b2e6b953'],
+  [50, '7d080c534a6a46ccca270dec33589a357c484d099b76f8f7c25987c898784754'],
+  [777, 'dc34e5ff065123caa0b3ad638c9c47ce7a287ab83885119c45fd407d2a8fd7bb'],
+  [1999, '450ac616fc63912eb66f82c3cc2970c5edf3510db4bed8404278fbc790d82c62']
 ]);
 
 interface ExpectedError {
@@ -178,7 +178,7 @@ const EXTRA_MINIMUMS: ReadonlyArray<[string, number]> = [
   ['large_balance', 200],
   ['tiny_balance', 200],
   ['stale_excluded', 200],
-  ['negative_salary_power', 20],
+  ['salary_before_as_of', 200],
   ['growth_periods_over_1000', 20]
 ];
 
