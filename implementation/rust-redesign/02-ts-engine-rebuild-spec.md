@@ -33,9 +33,18 @@ Before any engine change, save today's outputs.
 - The generator sets `startDate` to 1 January of the year it runs in. Overwrite it with a fixed date so the files never change: the 1st of a month in 2026, cycling through the twelve months by seed. Parts C and D reproduce today's numbers only for starts on the 1st.
 - The generator never emits `growth`, `yearRange` or a one-time rule. Add at least 20 hand-written configs that cover them: both growth types on both cadences, a `yearRange` with a late start and an early end, one-time rules with and without a day, every `salaryBasis`, and both compounding modes.
 - Do not write a rule with both `growth` and a `yearRange.start` above 0. The new contract cannot express that pair. See "Amounts" in part C.
-- For each input save the full `calculateRetirement` result, and the `calculateProjectionWithSteps` result at the baseline rate.
-- Store inputs and outputs as JSON under `packages/calculator/src/lib/__testing__/baseline/`.
-- Add a test that reruns today's engine and compares with `===` on every number. It passes trivially now. It is the check for part B.
+- Store every input as JSON with its fixed `startDate`, so no test depends on the generator or the clock.
+- Keep the outputs small. Full outputs for every input would run to tens of megabytes. For each input save:
+  - the yearly rows of all three bands;
+  - `monthlyDigest`, the SHA-256 of the monthly number stream;
+  - `stepsDigest`, the SHA-256 of the step number stream at the baseline rate.
+- A number stream is a fixed order of numbers, each written with `String(n)` and joined with commas. `String` prints the shortest text that reads back as the same float, so two streams match only when every number is identical.
+  - Monthly stream: for each band in the order baseline, positive, negative, and for each monthly row, the balance, the contributions and the interest.
+  - Step stream: for each step, `balanceStart`, `contributionsThisStep`, `interestEarned` and `balanceEnd`.
+- Put the two stream builders in one test helper. Parts B to E call the same helper on the new output.
+- For the four example files also save the full `calculateRetirement` result and the full step result. They are the readable reference when a digest fails.
+- Everything goes under `packages/calculator/src/lib/__testing__/baseline/`. Keep the folder under 5 MB and report its size.
+- Add a test that reruns today's engine on every stored input. The yearly numbers must be identical and both digests must match. It passes trivially now. It is the check for part B.
 
 ## Part B: split the engine into two phases
 
@@ -46,12 +55,12 @@ Same public contract as today. Only the inside changes.
 
 - `calculateRetirement` builds the schedule once and compounds it three times.
 - Step detail comes from a separate function that takes the same schedule. A normal run builds no step records.
-- Keep the order of arithmetic. The baseline test still compares with `===`. If an exact match proves impossible, compare within one part in 10^12 and explain why in the PR.
+- Keep the order of arithmetic. The baseline test still passes unchanged. If an exact match proves impossible, compare within one part in 10^12 and explain why in the PR.
 - Add a benchmark script with the reference case from the README: 30 years, five rules. Record the time for 60 `compound` passes in both modes.
 
 ## Part C: calendar contract
 
-The engine switches to the new input types, still with one account's worth of maths. Add a test-only adapter, `legacyToScenario`, that maps a baseline config to a new scenario with one account. The baseline test runs through it and still passes with `===`.
+The engine switches to the new input types, still with one account's worth of maths. Add a test-only adapter, `legacyToScenario`, that maps a baseline config to a new scenario with one account. The baseline test runs through it and still passes exactly.
 
 ### Types
 
@@ -170,7 +179,7 @@ Part C implements these types but reads only `accounts[0]`. Part E adds the rest
 - Daily mode. For each day in the segment, add that day's deposits, then add the day's interest. The daily rate is unchanged: `(1 + r)^(1 / daysInYear) - 1`.
 - Monthly mode. Interest for a segment is the balance plus the `start` deposits, times the monthly rate, times the segment's days divided by the days in the month. Then add the `end` deposits. A full month multiplies by exactly 1, so full months match today.
 
-The baseline test still passes with `===`, because every baseline range starts on the 1st and ends on a 1st.
+The baseline test still passes exactly, because every baseline range starts on the 1st and ends on a 1st.
 
 New tests, each with a hand-computed expected value:
 
@@ -308,7 +317,7 @@ Replace `random.ts` with a seeded generator of new-contract cases. Each case is 
 ## Acceptance criteria
 
 - `vp check` and `vp test` pass.
-- The baseline test passes through `projectScenario` and the adapter with `===`, or within the tolerance a PR justified in part B.
+- The baseline test passes exactly through `projectScenario` and the adapter, or within the tolerance a PR justified in part B.
 - Every test listed under parts D, E and F exists and passes.
 - No file in `packages/calculator/src` outside tests contains `new Date`, `Date.now` or `Math.random`. A test enforces it.
 - The CLI runs every example file and prints valid JSON.
